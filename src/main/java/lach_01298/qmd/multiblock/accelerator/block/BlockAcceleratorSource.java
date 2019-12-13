@@ -16,10 +16,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorBeam extends BlockAcceleratorPartBase
+public class BlockAcceleratorSource extends BlockAcceleratorPartBase
 {
 
-	public BlockAcceleratorBeam()
+	public BlockAcceleratorSource()
 	{
 		super();
 		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE,Boolean.valueOf(false)));
@@ -110,7 +110,7 @@ public class BlockAcceleratorBeam extends BlockAcceleratorPartBase
 		World world = tile.getWorld();
 		BlockPos pos = tile.getPos();
 		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() == QMDBlocks.acceleratorBeam)
+		if (!world.isRemote && state.getBlock() == QMDBlocks.acceleratorSource)
 		{
 			if (isActive != state.getValue(ACTIVE))
 			{

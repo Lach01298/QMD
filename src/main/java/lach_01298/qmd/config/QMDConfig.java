@@ -96,7 +96,7 @@ public class QMDConfig {
 		if (loadFromFile) config.load();
 
 		
-		Property propertyAcceleratorMinLength = config.get(CATEGORY_ACCELERATOR, "accelerator_min_length", 5, Lang.localise("gui.config.accelerator.accelerator_min_length.comment"), 1, 255);
+		Property propertyAcceleratorMinLength = config.get(CATEGORY_ACCELERATOR, "accelerator_min_length", 3, Lang.localise("gui.config.accelerator.accelerator_min_length.comment"), 1, 255);
 		propertyAcceleratorMinLength.setLanguageKey("gui.config.accelerator.accelerator_min_length");
 		Property propertyAcceleratorMaxLength = config.get(CATEGORY_ACCELERATOR, "accelerator_max_length", 50, Lang.localise("gui.config.accelerator.accelerator_max_length.comment"), 1, 255);
 		propertyAcceleratorMaxLength.setLanguageKey("gui.config.accelerator.accelerator_max_length");

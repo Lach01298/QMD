@@ -7,12 +7,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileAcceleratorPort extends TileAcceleratorPartBase
+public class TileAcceleratorGlass extends TileAcceleratorPartBase
 {
 
-	public TileAcceleratorPort()
+	public TileAcceleratorGlass()
 	{
-		super(CuboidalPartPositionType.WALL);
+		super(CuboidalPartPositionType.EXTERIOR);
 	}
 
 	@Override

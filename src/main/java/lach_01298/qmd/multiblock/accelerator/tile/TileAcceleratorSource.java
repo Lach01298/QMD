@@ -12,7 +12,7 @@ public class TileAcceleratorSource extends TileAcceleratorPartBase
 
 	public TileAcceleratorSource()
 	{
-		super(CuboidalPartPositionType.EXTERIOR);
+		super(CuboidalPartPositionType.WALL);
 	}
 
 	@Override
@@ -40,6 +40,12 @@ public class TileAcceleratorSource extends TileAcceleratorPartBase
 			getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockProperties.FRAME, false), 2);
 		}
 		super.onMachineBroken();
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

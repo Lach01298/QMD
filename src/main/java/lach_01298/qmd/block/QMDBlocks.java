@@ -4,10 +4,16 @@ import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDInfo;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeam;
+import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeamPort;
+import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorCasing;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorCooler1;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorCooler2;
+import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorGlass;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorMagnet;
+import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorPort;
+import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorSource;
+import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorYoke;
 import lach_01298.qmd.multiblock.accelerator.block.BlockRFCavity;
 import nc.Global;
 import nc.NCInfo;
@@ -32,23 +38,35 @@ public class QMDBlocks
 	
 	public static Block acceleratorCotroller;
 	public static Block acceleratorBeam;
+	public static Block acceleratorCasing;
+	public static Block acceleratorGlass;
+	public static Block acceleratorPort;
+	public static Block acceleratorBeamPort;
 	public static Block RFCavity;
 	public static Block acceleratorMagnet;
+	public static Block acceleratorYoke;
 	public static Block acceleratorCooler1;
 	public static Block acceleratorCooler2;
+	public static Block acceleratorSource;
 
 	
 	public static void init() 
 	{
-		//beamline = withName(new BlockBeamLine(), "beamline");
+//		beamline = withName(new BlockBeamLine(), "beamline");
 		
 		
 		acceleratorCotroller = withName(new BlockAcceleratorController(), "accelerator_controller");
 		acceleratorBeam = withName(new BlockAcceleratorBeam(), "accelerator_beam");
-		RFCavity = withName(new BlockRFCavity(), "accelerator_rf_cavity");
+		acceleratorCasing = withName(new BlockAcceleratorCasing(), "accelerator_casing");
+		acceleratorGlass = withName(new BlockAcceleratorGlass(), "accelerator_glass");
+		acceleratorPort = withName(new BlockAcceleratorPort(), "accelerator_port");
+		acceleratorBeamPort = withName(new BlockAcceleratorBeamPort(), "accelerator_beam_port");
+		RFCavity = withName(new BlockRFCavity(), "accelerator_cavity");
 		acceleratorMagnet = withName(new BlockAcceleratorMagnet(), "accelerator_magnet");
+		acceleratorYoke = withName(new BlockAcceleratorYoke(), "accelerator_yoke");
 		acceleratorCooler1 = withName(new BlockAcceleratorCooler1(), "accelerator_cooler1");
 		acceleratorCooler2 = withName(new BlockAcceleratorCooler2(), "accelerator_cooler2");
+		acceleratorSource =  withName(new BlockAcceleratorSource(), "accelerator_source");
 	}
 	
 	public static void register() 
@@ -58,11 +76,19 @@ public class QMDBlocks
 		
 		registerBlock(acceleratorCotroller);
 		registerBlock(acceleratorBeam);
+		registerBlock(acceleratorCasing);
+		registerBlock(acceleratorGlass);
+		registerBlock(acceleratorPort);
+		registerBlock(acceleratorBeamPort);
 		registerBlock(RFCavity, new ItemBlockMeta(RFCavity, EnumTypes.RFCavityType.class, QMDInfo.RFCavityInfo()));
 		registerBlock(acceleratorMagnet, new ItemBlockMeta(acceleratorMagnet, EnumTypes.MagnetType.class , QMDInfo.MagnetInfo()));
+		registerBlock(acceleratorYoke);
 		registerBlock(acceleratorCooler1, new ItemBlockMeta(acceleratorCooler1, EnumTypes.CoolerType1.class, QMDInfo.CoolerInfo()));
 		registerBlock(acceleratorCooler2, new ItemBlockMeta(acceleratorCooler2, EnumTypes.CoolerType2.class, QMDInfo.CoolerInfo()));
-		
+		registerBlock(acceleratorSource);
+				
+				
+				
 	}
 
 	public static void registerRenders() 
@@ -72,8 +98,20 @@ public class QMDBlocks
 		
 		registerRender(acceleratorCotroller);
 		registerRender(acceleratorBeam);
-		registerRender(RFCavity);
-		registerRender(acceleratorMagnet);
+		registerRender(acceleratorCasing);
+		registerRender(acceleratorGlass);
+		registerRender(acceleratorPort);
+		registerRender(acceleratorBeamPort);
+		
+		for (int i=0; i < EnumTypes.RFCavityType.values().length; i++)
+		{
+			registerRender(RFCavity, i, EnumTypes.RFCavityType.values()[i].getName());
+		}
+		for (int i=0; i < EnumTypes.MagnetType.values().length; i++)
+		{
+			registerRender(acceleratorMagnet, i, EnumTypes.MagnetType.values()[i].getName());
+		}
+		registerRender(acceleratorYoke);
 		
 		for (int i=0; i < EnumTypes.CoolerType1.values().length; i++)
 		{
@@ -83,6 +121,7 @@ public class QMDBlocks
 		{
 			registerRender(acceleratorCooler2, i, EnumTypes.CoolerType2.values()[i].getName());
 		}
+		registerRender(acceleratorSource);
 	}
 
 
@@ -96,11 +135,11 @@ public class QMDBlocks
 	
 	
 	public static Block withName(Block block, String name) {
-		return block.setUnlocalizedName(Global.MOD_ID + "." + name).setRegistryName(new ResourceLocation(Global.MOD_ID, name));
+		return block.setUnlocalizedName(QMD.MOD_ID + "." + name).setRegistryName(new ResourceLocation(QMD.MOD_ID, name));
 	}
 	
 	public static <T extends Block & ITileType> Block withName(T block) {
-		return block.setUnlocalizedName(Global.MOD_ID + "." + block.getTileName()).setRegistryName(new ResourceLocation(Global.MOD_ID, block.getTileName()));
+		return block.setUnlocalizedName(QMD.MOD_ID + "." + block.getTileName()).setRegistryName(new ResourceLocation(QMD.MOD_ID, block.getTileName()));
 	}
 	
 	public static String fixedLine(String name) {

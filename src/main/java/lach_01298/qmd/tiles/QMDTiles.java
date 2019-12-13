@@ -4,27 +4,52 @@ import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorGlass;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorPort;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorController;
 
 public class QMDTiles
 {
-	private static ResourceLocation coolerPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cooler");
 	private static ResourceLocation acceleratorPath = new ResourceLocation(QMD.MOD_ID,"accelerator_");
+	private static ResourceLocation magnetPath = new ResourceLocation(QMD.MOD_ID,"accelerator_magnet");
+	private static ResourceLocation cavityPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cavity");
+	private static ResourceLocation coolerPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cooler");
+
 	
 	public static void register() 
 	{
 		
 		//Accelerator parts
-		GameRegistry.registerTileEntity(TileAcceleratorController.class,Util.appendPath(acceleratorPath, "controlller"));
+		GameRegistry.registerTileEntity(TileAcceleratorController.class,Util.appendPath(acceleratorPath, "controller"));
 		GameRegistry.registerTileEntity(TileAcceleratorBeam.class,Util.appendPath(acceleratorPath, "beam"));
 		GameRegistry.registerTileEntity(TileAcceleratorCasing.class,Util.appendPath(acceleratorPath, "casing"));
+		GameRegistry.registerTileEntity(TileAcceleratorGlass.class,Util.appendPath(acceleratorPath, "glass"));
 		GameRegistry.registerTileEntity(TileAcceleratorPort.class,Util.appendPath(acceleratorPath, "port"));
-		GameRegistry.registerTileEntity(TileAcceleratorController.class,Util.appendPath(acceleratorPath, "controlller"));
+		GameRegistry.registerTileEntity(TileAcceleratorBeamPort.class,Util.appendPath(acceleratorPath, "beam_port"));
+		GameRegistry.registerTileEntity(TileAcceleratorSource.class,Util.appendPath(acceleratorPath, "source"));
+		GameRegistry.registerTileEntity(TileAcceleratorYoke.class,Util.appendPath(acceleratorPath, "yoke"));
+		
+		//magnets
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Copper.class, Util.appendPath(magnetPath, EnumTypes.MagnetType.COPPER.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.MagnesiumDiboride.class, Util.appendPath(magnetPath, EnumTypes.MagnetType.MAGNESIUM_DIBORIDE.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.NiobiumTin.class, Util.appendPath(magnetPath, EnumTypes.MagnetType.NIOBIUM_TIN.getName()));
+		
+		//RF Cavities
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.Copper.class, Util.appendPath(cavityPath, EnumTypes.RFCavityType.COPPER.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.MagnesiumDiboride.class, Util.appendPath(cavityPath, EnumTypes.RFCavityType.MAGNESIUM_DIBORIDE.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.NiobiumTin.class, Util.appendPath(cavityPath, EnumTypes.RFCavityType.NIOBIUM_TIN.getName()));
+
+	
+		
 		//coolers
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Water.class, Util.appendPath(coolerPath, EnumTypes.CoolerType1.WATER.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Iron.class, Util.appendPath(coolerPath, EnumTypes.CoolerType1.IRON.getName()));

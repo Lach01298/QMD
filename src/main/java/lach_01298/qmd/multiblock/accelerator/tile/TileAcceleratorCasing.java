@@ -42,4 +42,10 @@ public class TileAcceleratorCasing extends TileAcceleratorPartBase
 		super.onMachineBroken();
 	}
 
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

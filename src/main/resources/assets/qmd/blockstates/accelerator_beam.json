@@ -1,0 +1,32 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:machine",
+		"textures": {
+			"top": "qmd:blocks/accelerator/accelerator_beam_side",
+			"bottom": "qmd:blocks/accelerator/accelerator_beam_side",
+			"front": "qmd:blocks/accelerator/accelerator_beam_front",
+			"side": "qmd:blocks/accelerator/accelerator_beam_side",
+			"back": "qmd:blocks/accelerator/accelerator_beam_front"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"front": "qmd:blocks/accelerator/accelerator_beam_front"
+				}
+			}
+		},
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		}
+	}
+}
