@@ -1,0 +1,90 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"tin": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/tin"
+				}
+			},
+			"lead": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/lead"
+				}
+			},
+			"boron": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/boron"
+				}
+			},
+			"lithium": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/lithium"
+				}
+			},
+			"magnesium": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/magnesium"
+				}
+			},
+			"manganese": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/manganese"
+				}
+			},
+			"aluminum": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/aluminum"
+				}
+			},
+			"silver": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/silver"
+				}
+			},
+			"fluorite": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/fluorite"
+				}
+			},
+			"villiaumite": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/villiaumite"
+				}
+			},
+			"carobbiite": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/carobbiite"
+				}
+			},
+			"arsenic": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/arsenic"
+				}
+			},
+			"liquid_nitrogen": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/liquid_nitrogen"
+				}
+			},
+			"liquid_helium": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/liquid_helium"
+				}
+			},
+			"enderium": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/enderium"
+				}
+			},
+			"cryotheum": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/cryotheum"
+				}
+			}
+		}
+	}
+}

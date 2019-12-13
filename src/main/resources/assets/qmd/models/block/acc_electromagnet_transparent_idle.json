@@ -1,0 +1,21 @@
+{
+    "parent":
+    "block/cube",
+    "textures":
+    {
+        "particle":
+        "nuclearcraft:blocks/accelerator_electromagnet_top_off",
+        "down":
+        "nuclearcraft:blocks/accelerator_electromagnet_top_off",
+        "up":
+        "nuclearcraft:blocks/accelerator_electromagnet_top_off",
+        "north":
+        "nuclearcraft:blocks/fusion_electromagnet_transparent_side_off",
+        "east":
+        "nuclearcraft:blocks/fusion_electromagnet_transparent_side_off",
+        "south":
+        "nuclearcraft:blocks/fusion_electromagnet_transparent_side_off",
+        "west":
+        "nuclearcraft:blocks/fusion_electromagnet_transparent_side_off"
+    }
+}

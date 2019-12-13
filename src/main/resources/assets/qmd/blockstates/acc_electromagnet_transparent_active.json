@@ -1,0 +1,17 @@
+{
+    "forge_marker":
+    1,
+    "defaults":
+    {
+        "model":
+        "qmd:acc_electromagnet_transparent_active"   
+    },
+    "variants":
+    {
+        "normal":
+        [{}],
+        "inventory":
+        [{}]
+        
+    }
+}

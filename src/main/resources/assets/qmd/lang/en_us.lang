@@ -1,0 +1,17 @@
+
+
+// blocks
+tile.qmd.ion_emitter.name=Ion Emitter
+tile.qmd.worktable.name=Precision Work Table
+
+// commands
+commands.qmd.listresearch=-%s
+commands.qmd.research.invalid=%s is not a valid research
+commands.qmd.removeresearch.invalid=Player does not have research %s
+commands.qmd.research.none=Player does not have any researches
+
+// gui
+gui.qmd.energyDisplay.name=%.2f RF
+gui.qmd.speed.name=Speed: %.2fx 
+gui.qmd.runningEnergy.name=%.2f RF/t
+gui.qmd.fluidDisplay.name=%.2f mB

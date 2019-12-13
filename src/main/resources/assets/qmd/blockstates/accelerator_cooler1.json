@@ -1,0 +1,90 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"water": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/water"
+				}
+			},
+			"iron": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/iron"
+				}
+			},
+			"redstone": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/redstone"
+				}
+			},
+			"quartz": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/quartz"
+				}
+			},
+			"obsidian": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/obsidian"
+				}
+			},
+			"nether_brick": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/nether_brick"
+				}
+			},
+			"glowstone": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/glowstone"
+				}
+			},
+			"lapis": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/lapis"
+				}
+			},
+			"gold": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/gold"
+				}
+			},
+			"prismarine": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/prismarine"
+				}
+			},
+			"slime": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/slime"
+				}
+			},
+			"end_stone": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/end_stone"
+				}
+			},
+			"purpur": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/purpur"
+				}
+			},
+			"diamond": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/diamond"
+				}
+			},
+			"emerald": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/emerald"
+				}
+			},
+			"copper": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cooler/copper"
+				}
+			}
+		}
+	}
+}

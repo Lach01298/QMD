@@ -1,0 +1,16 @@
+[
+{
+  "modid": "nuclear_Engineering",
+  "name": "Nuclear Engineering",
+  "description": "A Addon to Nuclearcraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["lach_01298"],
+  "credits": "tomdodd4598 For making NuclearCraft",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
