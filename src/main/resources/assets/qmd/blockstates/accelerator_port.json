@@ -3,18 +3,22 @@
 	"defaults": {
 		"model": "cube_all",
 		"textures": {
-			"all": "qmd:blocks/accelerator/accelerator_port"
+			"all": "qmd:blocks/accelerator/accelerator_port_input"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
-		"frame": {
-			"false": {},
-			"true": {
-				"textures": {
-					"all": "qmd:blocks/accelerator/accelerator_port"
-				}
-			}
-		}
+		"io_simple": {
+    		"input":{
+    			"textures": {
+    				"all": "qmd:blocks/accelerator/accelerator_port_input"
+    			}
+    		},
+    			"output":{
+    			"textures": {
+    				"all": "qmd:blocks/accelerator/accelerator_port_output"
+    			}
+    		}
+        }
 	}
 }

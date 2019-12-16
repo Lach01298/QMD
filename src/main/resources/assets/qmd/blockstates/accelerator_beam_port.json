@@ -1,13 +1,35 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model":"cube_all",
+		"model": "cube_all",
 		"textures": {
-			"all": "qmd:blocks/accelerator/accelerator_beam_port"
+			"all": "qmd:blocks/accelerator/beam_port/default"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
-		"normal": [{}]
+		"io": {
+			"default": {
+				"textures": {
+						"all": "qmd:blocks/accelerator/beam_port/default"
+					}
+			},
+			"input": {
+				"textures": {
+						"all": "qmd:blocks/accelerator/beam_port/input"
+					}
+			},
+			"output": {
+				"textures": {
+						"all": "qmd:blocks/accelerator/beam_port/output"
+					}
+			},
+			"disabled": {
+				"textures": {
+						"all": "qmd:blocks/accelerator/beam_port/disabled"
+					}
+			}
+		}
+		
 	}
 }

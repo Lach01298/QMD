@@ -1,18 +1,19 @@
 package lach_01298.qmd.multiblock.accelerator.tile;
 
+import lach_01298.qmd.multiblock.TileCuboidalOrToroidalMultiblockPartBase;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.cuboidal.TileCuboidalMultiblockPartBase;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileAcceleratorPartBase extends TileCuboidalMultiblockPartBase<Accelerator>
+public abstract class TileAcceleratorPartBase extends TileCuboidalOrToroidalMultiblockPartBase<Accelerator>
 {
 
 	public boolean isAcceleratorOn;
 
 	public TileAcceleratorPartBase(CuboidalPartPositionType positionType)
 	{
-		super(Accelerator.class, positionType);
+		super(Accelerator.class, positionType,5);
 	}
 
 	@Override

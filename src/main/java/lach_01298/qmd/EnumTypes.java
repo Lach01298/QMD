@@ -369,12 +369,102 @@ public class EnumTypes
 			return 0;
 		}
 	}
+	
+	
+	
+	public enum IOType implements IStringSerializable
+	{
+		DEFAULT("default", 0),
+		INPUT("input", 1),
+		OUTPUT("output", 2),
+		DISABLED("disabled", 3);
+		
+
+		private String name;
+		private int id;
 
 
+		private IOType(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
 
+		}
+		
+		public IOType getNextIO()
+		{
+			if(this.getID() >= IOType.values().length-1)
+			{
+				return getTypeFromID(0);
+				
+			}
+			return getTypeFromID(this.getID()+1);
+		}
+		
+		
+		public static IOType getTypeFromID(int id)
+		{
+			return IOType.values()[id];
+		}
+		
+		public IOType getNextSimpleIO()
+		{
+			if(this == INPUT)
+			{
+				return OUTPUT;
+			}
+				return INPUT;
+		}
+		
+		public static IOType getSimpleTypeFromID(int id)
+		{
+			switch (id)
+			{
+			case 0:
+				return IOType.INPUT;
+			case 1:
+				return IOType.OUTPUT;
+			default:
+				return IOType.INPUT;
+			}
+			
+				
+		}
 
+		@Override
+		public String getName()
+		{
+			return name;
+		}
 
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
 
+		public int getID()
+		{
+			return id;
+		}
+		
+		public int getSimpleID()
+		{
+			switch (this)
+			{
+			case INPUT:
+				return 0;
+			case OUTPUT:
+				return 1;
+			default:
+				return 0;
+			}
+		}
+				
+	
+	}
+
+	
 }
 
 

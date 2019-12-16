@@ -35,10 +35,7 @@ public class TileAcceleratorYoke extends TileAcceleratorPartBase
 	@Override
 	public void onMachineBroken()
 	{
-		if (!getWorld().isRemote && getPartPosition().isFrame())
-		{
-			getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockProperties.FRAME, false), 2);
-		}
+
 		super.onMachineBroken();
 	}
 

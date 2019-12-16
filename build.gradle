@@ -8,7 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
 
 repositories {
   maven {
@@ -24,7 +24,7 @@ repositories {
 }
 
 version = "${mod_version}--${mc_version}"
-group = "lach_01298" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "lach_01298" 
 archivesBaseName = "QMD"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -36,7 +36,7 @@ minecraft {
     version = "${mc_version}-${forge_version}"
     runDir = "run"
     replace "@VERSION@", "${mod_version}"
-    mappings = "snapshot_20171003"
+    mappings = "${mapping_version}"
     makeObfSourceJar = true
 }
 

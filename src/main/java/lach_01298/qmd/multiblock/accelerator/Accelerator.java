@@ -14,6 +14,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.multiblock.CuboidalOrToroidalMultiblockBase;
 import lach_01298.qmd.multiblock.accelerator.container.ContainerAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorController;
@@ -47,6 +48,7 @@ import nc.multiblock.fission.tile.TileFissionPort;
 import nc.multiblock.fission.tile.TileFissionVent;
 import nc.multiblock.turbine.tile.TileTurbineDynamoCoil;
 import nc.multiblock.turbine.tile.TileTurbineOutlet;
+import nc.multiblock.turbine.tile.TileTurbineRotorShaft;
 import nc.multiblock.validation.IMultiblockValidator;
 import nc.network.PacketHandler;
 import nc.recipe.NCRecipes;
@@ -81,7 +83,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
+public class Accelerator extends CuboidalOrToroidalMultiblockBase<AcceleratorUpdatePacket>
 {
 	
 	
@@ -95,6 +97,10 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 	protected final Long2ObjectMap<TileAcceleratorBeam> beamMap = new Long2ObjectOpenHashMap<>();
 	protected final Long2ObjectMap<TileAcceleratorYoke> yokeMap = new Long2ObjectOpenHashMap<>();
 	protected final Long2ObjectMap<TileAcceleratorCooler> coolerMap = new Long2ObjectOpenHashMap<>();
+	
+	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
+	protected final Long2ObjectMap<QuadrupoleMagnet> quadrupoleMap = new Long2ObjectOpenHashMap<>();
+	protected final Long2ObjectMap<RFCavity> cavityMap = new Long2ObjectOpenHashMap<>();
 	
 	protected TileAcceleratorController controller;
 	//TODO liquid helium
@@ -114,26 +120,29 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 	 
 	public EnumFacing flowDir = null;
 
-	public long cooling =0L;
-	public long heating =0L;
-	public long netHeating =0L;
+	public long cooling =0;
+	public long heating =0;
+	public long netHeating =0;
 	public int requiredEnergy = 0;
 	public int requiredCoolant = 0;
 	
-	public double totalEfficiency = 0D;
+	public double totalEfficiency = 0;
 	
-	public int quadrapoleNumber =0;
+	public int quadrupoleNumber =0;
+	public double quadrupoleStrength =0;
 	public double luminosity = 0D;
 	
 	public int dipoleNumber =0;
+	public double dipoleStrength =0;
 	
 	public int RFCavityNumber =0;
+	public int RFCavityVoltage = 0;
 	public int maxParticleEnergy = 0; //in keV
 	
 	
 	public Accelerator(World world)
 	{
-		super(world);
+		super(world, 5);
 	}
 
 	// Multiblock Part Getters
@@ -276,7 +285,7 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 			{
 				for (EnumFacing side : EnumFacing.VALUES)
 				{
-					// port.setTankSorption(side, 0, side == flowDir ? TankSorption.OUT : TankSorption.NON);
+					port.setTankSorption(side, 0, side == flowDir ? TankSorption.OUT : TankSorption.NON);
 				}
 			}
 			
@@ -284,17 +293,46 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 			
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}
 
+	
+	
+	
+	protected void refreshQuadrupoleMagnets() 
+	{
+		if (quadrupoleMap.isEmpty()) 
+		{
+			quadrupoleNumber = 0;
+			quadrupoleStrength = 0;
+			return;
+		}
+	}
+	
+	
+	protected void refreshDipoleMagnets() 
+	{
+		if (dipoleMap.isEmpty()) 
+		{
+			dipoleNumber = 0;
+			dipoleStrength =0;
+			return;
+		}
+	}
+	
+	protected void refreshRFCavities() 
+	{
+		if (dipoleMap.isEmpty()) 
+		{
+			RFCavityNumber = 0;
+			RFCavityVoltage =0;
+			return;
+		}
+	}
+	
+	
+	
+	
 	
 	@Override
 	protected void onMachinePaused() 
@@ -331,6 +369,25 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 		}
 		
 		
+		
+		
+		// are there ports
+		
+		if (ports.size() < 2) 
+		{
+			validatorCallback.setLastError(Global.MOD_ID + ".multiblock_validation.turbine.valve_wrong_wall", null);
+			return false;
+		}
+		
+		
+		//beam
+
+		
+		
+		
+		
+		
+		
 		return super.isMachineWhole(validatorCallback);
 	}
 	
@@ -353,24 +410,24 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 	
 	
 	// Server
-	
 	@Override
-	protected boolean updateServer() {
-
-
-		if (heatBuffer.isFull() && NCConfig.fission_overheat) {
+	protected boolean updateServer()
+	{
+		updateAccelerator();
+		if (heatBuffer.isFull() && NCConfig.fission_overheat)
+		{
 			heatBuffer.setHeatStored(0);
 			doMeltdown();
 			return true;
 		}
-		
-		if (!isAcceleratorOn) {
+
+		if (!isAcceleratorOn)
+		{
 			heatBuffer.changeHeatStored(-getHeatDissipation());
 		}
-		
+
 		sendUpdateToListeningPlayers();
-		
-		
+
 		return true;
 	}
 	
@@ -514,7 +571,7 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 		
 		data.setDouble("totalEfficiency",totalEfficiency);
 		
-		data.setInteger("quadrapoleNumber", quadrapoleNumber);
+		data.setInteger("quadrapoleNumber", quadrupoleNumber);
 		data.setDouble("luminosity", luminosity);
 		
 		data.setInteger("dipoleNumber", dipoleNumber);
@@ -544,7 +601,7 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 		
 		totalEfficiency = data.getDouble("totalEfficiency");
 		
-		quadrapoleNumber = data.getInteger("quadrapoleNumber");
+		quadrupoleNumber = data.getInteger("quadrapoleNumber");
 		luminosity = data.getDouble("luminosity");
 		
 		dipoleNumber = data.getInteger("dipoleNumber");
@@ -588,7 +645,7 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 	@Override
 	protected AcceleratorUpdatePacket getUpdatePacket()
 	{
-		return new AcceleratorUpdatePacket(controller.getTilePos(), isAcceleratorOn, cooling, heating, requiredEnergy, requiredCoolant, totalEfficiency, quadrapoleNumber, luminosity, dipoleNumber, RFCavityNumber,
+		return new AcceleratorUpdatePacket(controller.getTilePos(), isAcceleratorOn, cooling, heating, requiredEnergy, requiredCoolant, totalEfficiency, quadrupoleNumber, luminosity, dipoleNumber, RFCavityNumber,
 				maxParticleEnergy, heatBuffer.getHeatCapacity(), heatBuffer.getHeatStored(), energyStorage.getMaxEnergyStored(), energyStorage.getEnergyStored());
 	}
 
@@ -600,7 +657,7 @@ public class Accelerator extends CuboidalMultiblockBase<AcceleratorUpdatePacket>
 		requiredEnergy = message.requiredEnergy;
 		requiredCoolant = message.requiredCoolant;
 		totalEfficiency = message.totalEfficiency;
-		quadrapoleNumber = message.quadrapoleNumber;
+		quadrupoleNumber = message.quadrapoleNumber;
 		luminosity = message.luminosity;
 		dipoleNumber = message.dipoleNumber;
 		RFCavityNumber = message.RFCavityNumber;

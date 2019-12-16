@@ -1,32 +1,107 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "nuclearcraft:machine",
 		"textures": {
-			"top": "qmd:blocks/accelerator/accelerator_beam_side",
-			"bottom": "qmd:blocks/accelerator/accelerator_beam_side",
-			"front": "qmd:blocks/accelerator/accelerator_beam_front",
-			"side": "qmd:blocks/accelerator/accelerator_beam_side",
-			"back": "qmd:blocks/accelerator/accelerator_beam_front"
-		}
+			"particle":"qmd:blocks/accelerator/beam/beam_disabled",
+			"north":"qmd:blocks/accelerator/beam/beam_disabled",
+			"east":"qmd:blocks/accelerator/beam/beam_disabled",
+			"south":"qmd:blocks/accelerator/beam/beam_disabled",
+			"west":"qmd:blocks/accelerator/beam/beam_disabled",
+			"up":"qmd:blocks/accelerator/beam/beam_disabled",
+			"down":"qmd:blocks/accelerator/beam/beam_disabled"
+		},
+		"model":"cube",
+		"transform":"forge:default-block"
 	},
 	"variants": {
 		"inventory": [{}],
-		"active": {
-			"false": {},
-			"true": {
-				"textures": {
-					"front": "qmd:blocks/accelerator/accelerator_beam_front"
+		"north": {
+			"default": {
+			   "textures": {
+					"north":"qmd:blocks/accelerator/beam/beam_default"
+				}
+			},
+			"input": {
+			   "textures": {
+					"north":"qmd:blocks/accelerator/beam/beam_input"
+				}
+			},
+			"output": {
+				 "textures": {
+					"north":"qmd:blocks/accelerator/beam/beam_output"
+				}
+			},
+			"disabled": {
+				 "textures": {
+					"north":"qmd:blocks/accelerator/beam/beam_disabled"
 				}
 			}
 		},
-		"facing": {
-			"down": {"x": 90},
-			"up": {"x": 270},
-			"north": {},
-			"east": {"y": 90},
-			"south": {"y": 180},
-			"west": {"y": 270}
+		"east": {
+			"default": {
+			   "textures": {
+					"east":"qmd:blocks/accelerator/beam/beam_default"
+				}
+			},
+			"input": {
+			   "textures": {
+					"east":"qmd:blocks/accelerator/beam/beam_input"
+				}
+			},
+			"output": {
+				 "textures": {
+					"east":"qmd:blocks/accelerator/beam/beam_output"
+				}
+			},
+			"disabled": {
+				 "textures": {
+					"east":"qmd:blocks/accelerator/beam/beam_disabled"
+				}
+			}
+		},
+		"south": {
+			"default": {
+			   "textures": {
+					"south":"qmd:blocks/accelerator/beam/beam_default"
+				}
+			},
+			"input": {
+			   "textures": {
+					"south":"qmd:blocks/accelerator/beam/beam_input"
+				}
+			},
+			"output": {
+				 "textures": {
+					"south":"qmd:blocks/accelerator/beam/beam_output"
+				}
+			},
+			"disabled": {
+				 "textures": {
+					"south":"qmd:blocks/accelerator/beam/beam_disabled"
+				}
+			}
+		},
+		"west": {
+			"default": {
+			   "textures": {
+					"west":"qmd:blocks/accelerator/beam/beam_default"
+				}
+			},
+			"input": {
+			   "textures": {
+					"west":"qmd:blocks/accelerator/beam/beam_input"
+				}
+			},
+			"output": {
+				 "textures": {
+					"west":"qmd:blocks/accelerator/beam/beam_output"
+				}
+			},
+			"disabled": {
+				 "textures": {
+					"west":"qmd:blocks/accelerator/beam/beam_disabled"
+				}
+			}
 		}
-	}
+    }
 }
