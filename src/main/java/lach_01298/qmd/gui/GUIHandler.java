@@ -1,11 +1,15 @@
 package lach_01298.qmd.gui;
 
-import lach_01298.qmd.container.ContainerIonEmitter;
-import lach_01298.qmd.container.ContainerLinearAccelerator;
-import lach_01298.qmd.container.ContainerWorkTable;
-import lach_01298.qmd.tile.TileIonEmitter;
-import lach_01298.qmd.tile.TileLinearAcceleratorController;
-import lach_01298.qmd.tile.TileWorkTable;
+
+import lach_01298.qmd.multiblock.accelerator.linear.tile.TileLinearAcceleratorController;
+import lach_01298.qmd.multiblock.accelerator.ring.tile.TileRingAcceleratorController;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
+import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
+import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
+import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
+import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
+import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
@@ -25,17 +29,19 @@ public class GUIHandler implements IGuiHandler
 		{
 			switch (ID)
 			{
-			case GUI_ID.linAcc:
+			case GUI_ID.LINEAR_ACCELERATOR:
 				if (tile instanceof TileLinearAcceleratorController)
-					return new ContainerLinearAccelerator(player, (IInventory) tile);
-				
-			case GUI_ID.IonEmitter:
-				if (tile instanceof TileIonEmitter)
-					return new ContainerIonEmitter(player, (IInventory) tile);
+					return new ContainerLinearAcceleratorController(player,  (TileLinearAcceleratorController) tile);
 			
-			case GUI_ID.WORKTABLE:
-				if (tile instanceof TileWorkTable)
-					return new ContainerWorkTable(player, (TileWorkTable) tile);
+			case GUI_ID.RING_ACCELERATOR:
+				if (tile instanceof TileRingAcceleratorController)
+					return new ContainerRingAcceleratorController(player,  (TileRingAcceleratorController) tile);
+			
+			case GUI_ID.ACCELERATOR_SOURCE:
+				if (tile instanceof TileAcceleratorSource)
+					return new ContainerAcceleratorSource(player,  (TileAcceleratorSource)tile);
+			
+		
 			
 			}
 		}
@@ -53,17 +59,19 @@ public class GUIHandler implements IGuiHandler
 		{
 			switch (ID)
 			{
-			case GUI_ID.linAcc:
+			case GUI_ID.LINEAR_ACCELERATOR:
 				if (tile instanceof TileLinearAcceleratorController)
-					return new GUILinearAccelerator(player, (TileLinearAcceleratorController) tile);
+					return new GuiLinearAcceleratorController(((TileLinearAcceleratorController) tile).getMultiblock(), tile.getPos(), ((TileLinearAcceleratorController) tile).getMultiblock().getContainer(player));
 				
-			case GUI_ID.IonEmitter:
-				if (tile instanceof TileIonEmitter)
-					return new GUIIonEmitter(player, (TileIonEmitter) tile);
+			case GUI_ID.RING_ACCELERATOR:
+				if (tile instanceof TileRingAcceleratorController)
+					return new GuiRingAcceleratorController(((TileRingAcceleratorController) tile).getMultiblock(), tile.getPos(), ((TileRingAcceleratorController) tile).getMultiblock().getContainer(player));
+				
+			case GUI_ID.ACCELERATOR_SOURCE:
+				//if (tile instanceof TileAcceleratorSource)
+					//return new GUIAcceleratorSource(player, (TileAcceleratorSource) tile);
 			
-			case GUI_ID.WORKTABLE:
-				if (tile instanceof TileWorkTable)
-					return new GUIWorkTable(player, (TileWorkTable) tile);
+		
 			}
 		}
 

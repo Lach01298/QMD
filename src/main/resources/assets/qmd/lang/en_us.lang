@@ -1,17 +1,85 @@
 
 
-// blocks
-tile.qmd.ion_emitter.name=Ion Emitter
-tile.qmd.worktable.name=Precision Work Table
+//items
+item.qmd.dust.tungsten.name=Tungsten Dust
+item.qmd.dust.niobium.name=Niobium Dust
+item.qmd.ingot.tungsten.name=Tungsten Ingot
+item.qmd.ingot.niobium.name=Niobium Ingot
+item.qmd.ingot_alloy.tungsten_carbide.name=Tungsten Carbide Ingot
+item.qmd.ingot_alloy.niobium_tin.name=Niobium-Tin Ingot
 
-// commands
-commands.qmd.listresearch=-%s
-commands.qmd.research.invalid=%s is not a valid research
-commands.qmd.removeresearch.invalid=Player does not have research %s
-commands.qmd.research.none=Player does not have any researches
 
-// gui
-gui.qmd.energyDisplay.name=%.2f RF
-gui.qmd.speed.name=Speed: %.2fx 
-gui.qmd.runningEnergy.name=%.2f RF/t
-gui.qmd.fluidDisplay.name=%.2f mB
+
+
+//blocks
+tile.qmd.linear_accelerator_controller.name=Linear Accelerator Controller
+tile.qmd.ring_accelerator_controller.name=Synchrotron Accelerator Controller
+tile.qmd.accelerator_beam.name=Accelerator Beam
+tile.qmd.accelerator_casing.name=Accelerator Casing
+tile.qmd.accelerator_glass.name=Accelerator Glass
+tile.qmd.accelerator_port.name=Accelerator Coolant Port
+tile.qmd.accelerator_beam_port.name=Accelerator Beam Port
+tile.qmd.accelerator_energy_port.name=Accelerator Energy Port
+tile.qmd.accelerator_source.name=Accelerator Ion Source
+tile.qmd.accelerator_cavity.copper.name=Copper RF Cavity
+tile.qmd.accelerator_cavity.magnesium_diboride.name=Magnisum Diboride RF Cavity
+tile.qmd.accelerator_cavity.niobium_tin.name=Niobium-Tin RF Cavity
+tile.qmd.accelerator_magnet.copper.name=Copper Accelerator Electromagnet
+tile.qmd.accelerator_magnet.magnesium_diboride.name=Magnisum Diboride Accelerator Electromagnet
+tile.qmd.accelerator_magnet.niobium_tin.name=Niobium-Tin Accelerator Electromagnet
+tile.qmd.accelerator_yoke.name=Accelerator Electromagnet Yoke
+tile.qmd.accelerator_cooler1.water.name=Water Accelerator Cooler
+tile.qmd.accelerator_cooler1.iron.name=Iron Accelerator Cooler
+tile.qmd.accelerator_cooler1.redstone.name=Redstone Accelerator Cooler
+tile.qmd.accelerator_cooler1.quartz.name=Quartz Accelerator Cooler
+tile.qmd.accelerator_cooler1.obsidian.name=Obsidian Accelerator Cooler
+tile.qmd.accelerator_cooler1.nether_brick.name=Nether Brick Accelerator Cooler
+tile.qmd.accelerator_cooler1.glowstone.name=Glowstone Accelerator Cooler
+tile.qmd.accelerator_cooler1.lapis.name=Lapis Accelerator Cooler
+tile.qmd.accelerator_cooler1.gold.name=Gold Accelerator Cooler
+tile.qmd.accelerator_cooler1.prismarine.name=Prismarine Accelerator Cooler
+tile.qmd.accelerator_cooler1.slime.name=Slime Accelerator Cooler
+tile.qmd.accelerator_cooler1.end_stone.name=End Stone Accelerator Cooler
+tile.qmd.accelerator_cooler1.purpur.name=Purpur Accelerator Cooler
+tile.qmd.accelerator_cooler1.diamond.name=Diamond Accelerator Cooler
+tile.qmd.accelerator_cooler1.emerald.name=Emerald Accelerator Cooler
+tile.qmd.accelerator_cooler1.copper.name=Copper Accelerator Cooler
+tile.qmd.accelerator_cooler2.tin.name=Tin Accelerator Cooler
+tile.qmd.accelerator_cooler2.lead.name=Lead Accelerator Cooler
+tile.qmd.accelerator_cooler2.boron.name=Boron Accelerator Cooler
+tile.qmd.accelerator_cooler2.lithium.name=Lithium Accelerator Cooler
+tile.qmd.accelerator_cooler2.magnesium.name=Magnesium Accelerator Cooler
+tile.qmd.accelerator_cooler2.manganese.name=Manganese Accelerator Cooler
+tile.qmd.accelerator_cooler2.aluminum.name=Aluminum Accelerator Cooler
+tile.qmd.accelerator_cooler2.silver.name=Silver Accelerator Cooler
+tile.qmd.accelerator_cooler2.fluorite.name=Fluorite Accelerator Cooler
+tile.qmd.accelerator_cooler2.villiaumite.name=Villiaumite Accelerator Cooler
+tile.qmd.accelerator_cooler2.carobbiite.name=Carobbiite Accelerator Cooler
+tile.qmd.accelerator_cooler2.arsenic.name=Arsenic Accelerator Cooler
+tile.qmd.accelerator_cooler2.liquid_nitrogen.name=Liquid Nitrogen Accelerator Cooler
+tile.qmd.accelerator_cooler2.liquid_helium.name=Liquid Helium Accelerator Cooler
+tile.qmd.accelerator_cooler2.enderium.name=Enderium Accelerator Cooler
+tile.qmd.accelerator_cooler2.cryotheum.name=Cryotheum Accelerator Cooler
+
+
+//multiblock validation
+
+qmd.multiblock_validation.accelerator.not_enough_ports= There must be at least 1 coolant in and 1 coolant out port.
+qmd.multiblock_validation.accelerator.need_energy_ports= There must be at least 1 Energy Port
+qmd.multiblock_validation.accelerator.wrong_height= Accelerators must be 5 blocks tall.
+qmd.multiblock_validation.accelerator.linear.to_short= Linear Accelerator is not long enough.
+qmd.multiblock_validation.accelerator.linear.must_be_beam= There must be a straight line of Accelerator Beam blocks down the middle of the Linear Accelerator.
+qmd.multiblock_validation.accelerator.ring.must_be_beam= There must be a square ring of Accelerator Beam blocks down the middle of the Accelerator.
+qmd.multiblock_validation.accelerator.ring.invalid_diopole= There must be a dipole in every conner Accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then suronding the it with Accelerator Electromagnet Yokes.
+
+
+
+
+
+
+
+
+
+
+
+

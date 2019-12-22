@@ -6,14 +6,11 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.fission.FissionCluster;
-import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.tile.IFissionCoolingComponent;
-import nc.multiblock.fission.tile.TileFissionPartBase;
 import nc.util.BlockPosHelper;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileAcceleratorMagnet extends TileAcceleratorPartBase implements IAcceleratorComponent
+public abstract class TileAcceleratorMagnet extends TileAcceleratorPart implements IAcceleratorComponent
 {
 
 	public final double strength;
@@ -22,7 +19,7 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPartBase impl
 	public final int basePower;
 	public final String name;
 
-	public boolean isInValidPosition = false;
+	public boolean isFunctional = false;
 
 	public TileAcceleratorMagnet(double strength,double efficiency, int heat, int basePower, String name)
 	{
@@ -43,13 +40,6 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPartBase impl
 		{
 			super(QMDConfig.magnet_strength[0], QMDConfig.magnet_efficiency[0], QMDConfig.magnet_heat_generated[0], QMDConfig.magnet_base_power[0], "copper");
 		}
-
-		@Override
-		public boolean isMagnetValid()
-		{
-			//TODO
-			return true;
-		}
 	}
 
 	public static class MagnesiumDiboride extends TileAcceleratorMagnet
@@ -58,13 +48,6 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPartBase impl
 		public MagnesiumDiboride()
 		{
 			super(QMDConfig.magnet_strength[1], QMDConfig.magnet_efficiency[1], QMDConfig.magnet_heat_generated[1], QMDConfig.magnet_base_power[1], "magnesium_diboride");
-		}
-
-		@Override
-		public boolean isMagnetValid()
-		{
-			//TODO
-			return true;
 		}
 	}
 
@@ -75,13 +58,6 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPartBase impl
 		{
 			super(QMDConfig.magnet_strength[2], QMDConfig.magnet_efficiency[2], QMDConfig.magnet_heat_generated[2], QMDConfig.magnet_base_power[2], "niobium_tin");
 		}
-
-		@Override
-		public boolean isMagnetValid()
-		{
-			//TODO
-			return true;
-		}
 	}
 
 	
@@ -90,49 +66,56 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPartBase impl
 	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
-		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
+		
 	}
 
 	@Override
 	public void onMachineBroken()
 	{
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		
 	}
 
 
 	@Override
 	public void update()
 	{
-		if (!isAdded)
-		{
-			onAdded();
-			isAdded = true;
-		}
-		if (isMarkedDirty)
-		{
-			markDirty();
-			isMarkedDirty = false;
-		}
 	}
 
 
 	@Override
 	public boolean isFunctional()
 	{
-		return isInValidPosition;
+		return isFunctional;
 	}
-
-	public abstract boolean isMagnetValid();
 
 	@Override
-	public void resetStats()
+	public void setFunctional(boolean func)
 	{
-		isInValidPosition = false;
+		isFunctional = func;
 	}
 
 
+	
+	// NBT
+		@Override
+		public NBTTagCompound writeAll(NBTTagCompound nbt)
+		{
+			super.writeAll(nbt);
+			nbt.setBoolean("isFunctional", isFunctional);
+			return nbt;
+		}
+
+		@Override
+		public void readAll(NBTTagCompound nbt)
+		{
+			super.readAll(nbt);
+			isFunctional = nbt.getBoolean("isFunctional");
+		}
+	
+	
+	
+	
+	
 }

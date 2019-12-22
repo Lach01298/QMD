@@ -34,8 +34,10 @@ public class QMDConfig {
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_OTHER = "other";
 	
-	public static int accelerator_min_length;
-	public static int accelerator_max_length;
+	public static int accelerator_linear_min_size;
+	public static int accelerator_linear_max_size;
+	public static int accelerator_ring_min_size;
+	public static int accelerator_ring_max_size;
 	
 	public static int[] RF_cavity_voltage; //in keV
 	public static double[] RF_cavity_efficiency;
@@ -96,10 +98,16 @@ public class QMDConfig {
 		if (loadFromFile) config.load();
 
 		
-		Property propertyAcceleratorMinLength = config.get(CATEGORY_ACCELERATOR, "accelerator_min_length", 3, Lang.localise("gui.config.accelerator.accelerator_min_length.comment"), 1, 255);
-		propertyAcceleratorMinLength.setLanguageKey("gui.config.accelerator.accelerator_min_length");
-		Property propertyAcceleratorMaxLength = config.get(CATEGORY_ACCELERATOR, "accelerator_max_length", 50, Lang.localise("gui.config.accelerator.accelerator_max_length.comment"), 1, 255);
-		propertyAcceleratorMaxLength.setLanguageKey("gui.config.accelerator.accelerator_max_length");
+		Property propertyAcceleratorLinearMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_min_size", 6, Lang.localise("gui.config.accelerator.accelerator_linear_min_size.comment"), 6, 255);
+		propertyAcceleratorLinearMinSize.setLanguageKey("gui.config.accelerator.accelerator_linear_min_size");
+		Property propertyAcceleratorLinearMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_max_size", 100, Lang.localise("gui.config.accelerator.accelerator_linear_max_size.comment"), 6, 255);
+		propertyAcceleratorLinearMaxSize.setLanguageKey("gui.config.accelerator.accelerator_linear_max_size");
+		
+		Property propertyAcceleratorRingMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_min_size", 11, Lang.localise("gui.config.accelerator.accelerator_ring_min_size.comment"), 11, 255);
+		propertyAcceleratorRingMinSize.setLanguageKey("gui.config.accelerator.accelerator_ring_min_size");
+		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 50, Lang.localise("gui.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
+		propertyAcceleratorRingMaxSize.setLanguageKey("gui.config.accelerator.accelerator_ring_max_size");
+		
 		
 		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {500, 1000, 2000}, Lang.localise("gui.config.accelerator.RF_cavity_voltage.comment"), 0, 2147483647);
 		propertyRFCavityVoltage.setLanguageKey("gui.config.accelerator.RF_cavity_voltage");
@@ -126,8 +134,10 @@ public class QMDConfig {
 
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
-		propertyOrderAccelerator.add(propertyAcceleratorMinLength.getName());
-		propertyOrderAccelerator.add(propertyAcceleratorMaxLength.getName());
+		propertyOrderAccelerator.add(propertyAcceleratorLinearMinSize.getName());
+		propertyOrderAccelerator.add(propertyAcceleratorLinearMaxSize.getName());
+		propertyOrderAccelerator.add(propertyAcceleratorRingMinSize.getName());
+		propertyOrderAccelerator.add(propertyAcceleratorRingMaxSize.getName());
 		
 		propertyOrderAccelerator.add(propertyRFCavityVoltage.getName());
 		propertyOrderAccelerator.add(propertyRFCavityEfficiency.getName());
@@ -147,8 +157,10 @@ public class QMDConfig {
 		
 		if (setFromConfig) 
 		{
-			accelerator_min_length = propertyAcceleratorMinLength.getInt();
-			accelerator_max_length = propertyAcceleratorMaxLength.getInt();
+			accelerator_linear_min_size = propertyAcceleratorLinearMinSize.getInt();
+			accelerator_linear_max_size = propertyAcceleratorLinearMaxSize.getInt();
+			accelerator_ring_min_size = propertyAcceleratorRingMinSize.getInt();
+			accelerator_ring_max_size = propertyAcceleratorRingMaxSize.getInt();
 			
 			RF_cavity_voltage = readIntegerArrayFromConfig(propertyRFCavityVoltage);
 			RF_cavity_efficiency = readDoubleArrayFromConfig(propertyRFCavityEfficiency);
@@ -165,8 +177,10 @@ public class QMDConfig {
 			
 		}
 		
-		propertyAcceleratorMinLength.set(accelerator_min_length);
-		propertyAcceleratorMaxLength.set(accelerator_max_length);
+		propertyAcceleratorLinearMinSize.set(accelerator_linear_min_size);
+		propertyAcceleratorLinearMaxSize.set(accelerator_linear_max_size);
+		propertyAcceleratorRingMinSize.set(accelerator_ring_min_size);
+		propertyAcceleratorRingMaxSize.set(accelerator_ring_max_size);
 		
 		propertyRFCavityVoltage.set(RF_cavity_voltage);
 		propertyRFCavityEfficiency.set(RF_cavity_efficiency);

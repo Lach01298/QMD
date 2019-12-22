@@ -13,7 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorCooler1 extends BlockMetaAcceleratorBase<EnumTypes.CoolerType1>
+public class BlockAcceleratorCooler1 extends BlockMetaAcceleratorPart<EnumTypes.CoolerType1>
 {
 
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", EnumTypes.CoolerType1.class);

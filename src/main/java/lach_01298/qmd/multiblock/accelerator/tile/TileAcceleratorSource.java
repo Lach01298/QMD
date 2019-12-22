@@ -7,7 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileAcceleratorSource extends TileAcceleratorPartBase
+public class TileAcceleratorSource extends TileAcceleratorPart
 {
 
 	public TileAcceleratorSource()
@@ -24,16 +24,15 @@ public class TileAcceleratorSource extends TileAcceleratorPartBase
 	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
-		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-
+		
 	}
 
 	@Override
 	public void onMachineBroken()
 	{
-
 		super.onMachineBroken();
+		
 	}
 
 	@Override

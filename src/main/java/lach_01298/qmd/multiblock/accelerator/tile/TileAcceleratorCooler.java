@@ -6,14 +6,10 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.fission.FissionCluster;
-import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.tile.IFissionCoolingComponent;
-import nc.multiblock.fission.tile.TileFissionPartBase;
 import nc.util.BlockPosHelper;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileAcceleratorCooler extends TileAcceleratorPartBase implements IAcceleratorComponent
+public abstract class TileAcceleratorCooler extends TileAcceleratorPart implements IAcceleratorComponent
 {
 
 	public final int coolingRate;
@@ -794,17 +790,15 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPartBase impl
 	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
-		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		// if (getWorld().isRemote) return;
+		
 	}
 
 	@Override
 	public void onMachineBroken()
 	{
 		super.onMachineBroken();
-		// if (getWorld().isRemote) return;
-		// getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()), 2);
+		
 	}
 
 
@@ -833,9 +827,8 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPartBase impl
 	public abstract boolean isCoolerValid();
 
 	@Override
-	public void resetStats()
+	public void setFunctional(boolean func)
 	{
-		isInValidPosition = false;
 	}
 
 

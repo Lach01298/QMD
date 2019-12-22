@@ -1,50 +1,50 @@
 package lach_01298.qmd.multiblock.network;
 
 import io.netty.buffer.ByteBuf;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorController;
-import lach_01298.qmd.multiblock.accelerator.Accelerator;
+import lach_01298.qmd.particle.ParticleBeam;
 import nc.multiblock.network.MultiblockUpdatePacket;
-import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.tile.TileTurbineController;
+import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.heat.HeatBuffer;
+import lach_01298.qmd.ByteUtil;
 import net.minecraft.util.math.BlockPos;
 
-public class AcceleratorUpdatePacket extends MultiblockUpdatePacket
+public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 {
 
 	public boolean isAcceleratorOn;
-	public long cooling,heating;
-	public int requiredEnergy, requiredCoolant;
-	public double totalEfficiency;
-	public int quadrapoleNumber;
-	public double luminosity;
-	public int dipoleNumber, RFCavityNumber, maxParticleEnergy;
-	public long heatCapacity,heat;
-	public int energy, maxEnergy;
+	public long cooling,rawHeating;
+	public int requiredEnergy;
+	public double efficiency, quadrupoleStrength;
+	public int quadrupoleNumber, RFCavityNumber, acceleratingVoltage;
+	public HeatBuffer heatBuffer;
+	public EnergyStorage energyStorage;
+	public ParticleBeam beam;
+	
+
 	
 	public AcceleratorUpdatePacket()
 	{
 		messageValid = false;
 	}
 
-	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long heating, int requiredEnergy, int requiredCoolant, double totalEfficiency, int quadrapoleNumber, double luminosity,
-			int dipoleNumber, int RFCavityNumber, int maxParticleEnergy, long heatCapacity, long heat, int maxEnergy, int energy)
+	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating, int requiredEnergy, double efficiency, int acceleratingVoltage,
+int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, HeatBuffer heatBuffer, EnergyStorage energyStorage, ParticleBeam beam)
 	{
 		this.pos = pos;
 		this.isAcceleratorOn = isAcceleratorOn;
 		this.cooling = cooling;
-		this.heating = heating;
+		this.rawHeating = rawHeating;
 		this.requiredEnergy = requiredEnergy;
-		this.requiredCoolant = requiredCoolant;
-		this.totalEfficiency = totalEfficiency;
-		this.quadrapoleNumber = quadrapoleNumber;
-		this.luminosity = luminosity;
-		this.dipoleNumber = dipoleNumber;
+		this.efficiency = efficiency;
+		this.acceleratingVoltage = acceleratingVoltage;
 		this.RFCavityNumber = RFCavityNumber;
-		this.maxParticleEnergy = maxParticleEnergy;
-		this.heatCapacity = heatCapacity;
-		this.heat = heat;
-		this.maxEnergy = maxEnergy;
-		this.energy = energy;
+		this.quadrupoleNumber = quadrupoleNumber;
+		this.quadrupoleStrength = quadrupoleStrength;
+		
+		this.heatBuffer = heatBuffer;
+		this.energyStorage = energyStorage;
+		this.beam = beam;
+		
 		
 		
 		messageValid = true;
@@ -57,19 +57,19 @@ public class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isAcceleratorOn = buf.readBoolean();
 		cooling = buf.readLong();
-		heating = buf.readLong();
+		rawHeating = buf.readLong();
 		requiredEnergy = buf.readInt();
-		requiredCoolant = buf.readInt();
-		totalEfficiency = buf.readDouble();
-		quadrapoleNumber = buf.readInt();
-		luminosity = buf.readDouble();
-		dipoleNumber = buf.readInt();
+		efficiency = buf.readDouble();
+		acceleratingVoltage = buf.readInt();
 		RFCavityNumber = buf.readInt();
-		maxParticleEnergy = buf.readInt();
-		heatCapacity = buf.readLong();
-		heat = buf.readLong();
-		maxEnergy = buf.readInt();
-		energy = buf.readInt();
+		quadrupoleNumber = buf.readInt();
+		quadrupoleStrength = buf.readDouble();
+		
+		heatBuffer = ByteUtil.readBufHeat(buf);
+		energyStorage = ByteUtil.readBufEnergy(buf);
+		beam = ParticleBeam.readBuf(buf);
+
+		
 	}
 
 	@Override
@@ -80,20 +80,22 @@ public class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 		buf.writeInt(pos.getZ());
 		buf.writeBoolean(isAcceleratorOn);
 		buf.writeLong(cooling);
-		buf.writeLong(heating);
+		buf.writeLong(rawHeating);
 		buf.writeInt(requiredEnergy);
-		buf.writeInt(requiredCoolant);
-		buf.writeDouble(totalEfficiency);
-		buf.writeInt(quadrapoleNumber);
-		buf.writeDouble(luminosity);
+		buf.writeDouble(efficiency);
+		buf.writeInt(acceleratingVoltage);
 		buf.writeInt(RFCavityNumber);
-		buf.writeInt(maxParticleEnergy);
-		buf.writeLong(heatCapacity);
-		buf.writeLong(heat);
-		buf.writeInt(maxEnergy);
-		buf.writeInt(energy);
+		buf.writeInt(quadrupoleNumber);
+		buf.writeDouble(quadrupoleStrength);
+
+		ByteUtil.writeBufHeat(heatBuffer, buf);
+		ByteUtil.writeBufEnergy(energyStorage, buf);
+		beam.writeBuf(buf);
+
 	
 	}
 
+	
+	
 
 }

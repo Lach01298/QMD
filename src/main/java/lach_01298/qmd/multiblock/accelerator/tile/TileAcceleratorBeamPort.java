@@ -6,6 +6,7 @@ import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.EnumTypes.IOType;
 import lach_01298.qmd.EnumTypes.IOType;
 import lach_01298.qmd.io.IIOType;
+import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileAcceleratorBeamPort extends TileAcceleratorPartBase implements IIOType
+public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOType
 {
 
 	private EnumTypes.IOType type;
@@ -77,6 +78,20 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPartBase implements 
 	{
 		super.readAll(nbt);
 		type =EnumTypes.IOType.getTypeFromID(nbt.getInteger("setting"));
+	}
+
+	@Override
+	public void onMachineAssembled(Accelerator controller)
+	{
+		super.onMachineAssembled(controller);
+		
+	}
+
+	@Override
+	public void onMachineBroken()
+	{
+		super.onMachineBroken();
+		
 	}
 		
 		

@@ -23,7 +23,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorBeamPort extends BlockAcceleratorPartBase
+public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 {
 
 	public BlockAcceleratorBeamPort()

@@ -13,7 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockRFCavity extends BlockMetaAcceleratorBase<EnumTypes.RFCavityType>
+public class BlockRFCavity extends BlockMetaAcceleratorPart<EnumTypes.RFCavityType>
 {
 
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", EnumTypes.RFCavityType.class);

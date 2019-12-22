@@ -5,6 +5,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -16,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorSource extends BlockAcceleratorPartBase
+public class BlockAcceleratorSource extends BlockAcceleratorPart
 {
 
 	public BlockAcceleratorSource()
@@ -28,13 +29,13 @@ public class BlockAcceleratorSource extends BlockAcceleratorPartBase
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata)
 	{
-		return new TileAcceleratorBeam();
+		return new TileAcceleratorSource();
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
-		EnumFacing enumfacing = EnumFacing.getFront(meta & 7);
+		EnumFacing enumfacing = EnumFacing.byIndex(meta & 7);
 		return getDefaultState().withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE,Boolean.valueOf((meta & 8) > 0));
 	}
 

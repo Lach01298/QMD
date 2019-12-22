@@ -17,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorMagnet extends BlockMetaAcceleratorBase<EnumTypes.MagnetType>
+public class BlockAcceleratorMagnet extends BlockMetaAcceleratorPart<EnumTypes.MagnetType>
 {
 
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", EnumTypes.MagnetType.class);

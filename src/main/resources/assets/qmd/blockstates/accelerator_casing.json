@@ -1,20 +1,13 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"model": "cube_all",
-		"textures": {
-			"all": "qmd:blocks/accelerator/accelerator_casing"
-		}
-	},
-	"variants": {
-		"inventory": [{}],
-		"frame": {
-			"false": {},
-			"true": {
-				"textures": {
-					"all": "qmd:blocks/accelerator/accelerator_casing"
-				}
-			}
-		}
-	}
+    "forge_marker": 1,
+    "defaults": {
+        "model":"cube_all",
+        "textures": {
+            "all": "qmd:blocks/accelerator/accelerator_casing"
+        }
+    },
+    "variants": {
+        "inventory": [{}],
+        "normal": [{}]
+    }
 }

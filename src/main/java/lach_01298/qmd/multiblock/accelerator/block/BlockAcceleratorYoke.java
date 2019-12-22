@@ -1,7 +1,7 @@
 package lach_01298.qmd.multiblock.accelerator.block;
 
 
-import static nc.block.property.BlockProperties.FRAME;
+
 
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
@@ -15,13 +15,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorYoke extends BlockAcceleratorPartBase
+public class BlockAcceleratorYoke extends BlockAcceleratorPart
 {
 
 	public BlockAcceleratorYoke()
 	{
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(FRAME, false));
+		
 	}
 
 
@@ -31,23 +31,7 @@ public class BlockAcceleratorYoke extends BlockAcceleratorPartBase
 		return new TileAcceleratorYoke();
 	}
 	
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] { FRAME });
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FRAME, meta == 1);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(FRAME) ? 1 : 0;
-	}
+	
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)

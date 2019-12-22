@@ -16,7 +16,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorCooler2 extends BlockMetaAcceleratorBase<EnumTypes.CoolerType2>
+public class BlockAcceleratorCooler2 extends BlockMetaAcceleratorPart<EnumTypes.CoolerType2>
 {
 
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", EnumTypes.CoolerType2.class);

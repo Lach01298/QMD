@@ -1,0 +1,21 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "tungsten_carbide": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot_tungsten_carbide"
+                }
+            },
+            "niobium_tin": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot_niobium_tin"
+                }
+            }
+        }
+    }
+}

@@ -1,107 +1,13 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"textures": {
-			"particle":"qmd:blocks/accelerator/beam/beam_disabled",
-			"north":"qmd:blocks/accelerator/beam/beam_disabled",
-			"east":"qmd:blocks/accelerator/beam/beam_disabled",
-			"south":"qmd:blocks/accelerator/beam/beam_disabled",
-			"west":"qmd:blocks/accelerator/beam/beam_disabled",
-			"up":"qmd:blocks/accelerator/beam/beam_disabled",
-			"down":"qmd:blocks/accelerator/beam/beam_disabled"
-		},
-		"model":"cube",
-		"transform":"forge:default-block"
-	},
-	"variants": {
-		"inventory": [{}],
-		"north": {
-			"default": {
-			   "textures": {
-					"north":"qmd:blocks/accelerator/beam/beam_default"
-				}
-			},
-			"input": {
-			   "textures": {
-					"north":"qmd:blocks/accelerator/beam/beam_input"
-				}
-			},
-			"output": {
-				 "textures": {
-					"north":"qmd:blocks/accelerator/beam/beam_output"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"north":"qmd:blocks/accelerator/beam/beam_disabled"
-				}
-			}
-		},
-		"east": {
-			"default": {
-			   "textures": {
-					"east":"qmd:blocks/accelerator/beam/beam_default"
-				}
-			},
-			"input": {
-			   "textures": {
-					"east":"qmd:blocks/accelerator/beam/beam_input"
-				}
-			},
-			"output": {
-				 "textures": {
-					"east":"qmd:blocks/accelerator/beam/beam_output"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"east":"qmd:blocks/accelerator/beam/beam_disabled"
-				}
-			}
-		},
-		"south": {
-			"default": {
-			   "textures": {
-					"south":"qmd:blocks/accelerator/beam/beam_default"
-				}
-			},
-			"input": {
-			   "textures": {
-					"south":"qmd:blocks/accelerator/beam/beam_input"
-				}
-			},
-			"output": {
-				 "textures": {
-					"south":"qmd:blocks/accelerator/beam/beam_output"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"south":"qmd:blocks/accelerator/beam/beam_disabled"
-				}
-			}
-		},
-		"west": {
-			"default": {
-			   "textures": {
-					"west":"qmd:blocks/accelerator/beam/beam_default"
-				}
-			},
-			"input": {
-			   "textures": {
-					"west":"qmd:blocks/accelerator/beam/beam_input"
-				}
-			},
-			"output": {
-				 "textures": {
-					"west":"qmd:blocks/accelerator/beam/beam_output"
-				}
-			},
-			"disabled": {
-				 "textures": {
-					"west":"qmd:blocks/accelerator/beam/beam_disabled"
-				}
-			}
-		}
+    "forge_marker": 1,
+    "defaults": {
+        "model":"cube_all",
+        "textures": {
+            "all": "qmd:blocks/accelerator/beam/beam_disabled"
+        }
+    },
+    "variants": {
+        "inventory": [{}],
+        "normal": [{}]
     }
 }

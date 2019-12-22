@@ -7,9 +7,11 @@ import lach_01298.qmd.commands.CommandQMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUIHandler;
 import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.proxy.CommonProxy;
 import lach_01298.qmd.research.Researches;
-import lach_01298.qmd.tiles.QMDTiles;
+import lach_01298.qmd.tile.QMDTiles;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -41,20 +43,16 @@ public class QMD
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		
+		Util.getLogger().info("PreInitialization");
 		QMDConfig.preInit();
-		QMDBlocks.init();
-		QMDItems.init();
-		QMDBlocks.register();
-		QMDBlocks.registerRenders();
-		QMDItems.register();
-		QMDTiles.register();
-		
+		proxy.preInit(event);	
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
+		Util.getLogger().info("Initialization");
+		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GUIHandler());
 		//MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
 	    //MinecraftForge.EVENT_BUS.register(new EventHandler());
@@ -63,7 +61,8 @@ public class QMD
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		
+		Util.getLogger().info("PostInitialization");
+		proxy.postInit(event);
 	}
 	
 	
@@ -71,6 +70,7 @@ public class QMD
 	@EventHandler
 	public void serverLoad(FMLServerStartingEvent event)
 	{
+		Util.getLogger().info("Server Load");
 		event.registerServerCommand(new CommandQMD());
 	}
 

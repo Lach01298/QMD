@@ -6,15 +6,17 @@ import lach_01298.qmd.QMDInfo;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorCasing;
-import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorCooler1;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorCooler2;
+import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorGlass;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorPort;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorYoke;
 import lach_01298.qmd.multiblock.accelerator.block.BlockRFCavity;
+import lach_01298.qmd.multiblock.accelerator.linear.block.BlockLinearAcceleratorController;
+import lach_01298.qmd.multiblock.accelerator.ring.block.BlockRingAcceleratorController;
 import nc.Global;
 import nc.NCInfo;
 import nc.block.item.ItemBlockMeta;
@@ -36,7 +38,8 @@ public class QMDBlocks
 
 	public static Block beamline;
 	
-	public static Block acceleratorCotroller;
+	public static Block linearAcceleratorCotroller;
+	public static Block ringAcceleratorCotroller;
 	public static Block acceleratorBeam;
 	public static Block acceleratorCasing;
 	public static Block acceleratorGlass;
@@ -48,6 +51,9 @@ public class QMDBlocks
 	public static Block acceleratorCooler1;
 	public static Block acceleratorCooler2;
 	public static Block acceleratorSource;
+	public static Block acceleratorEnergyPort;
+	
+	public static Block oreLeacher;
 
 	
 	public static void init() 
@@ -55,7 +61,8 @@ public class QMDBlocks
 //		beamline = withName(new BlockBeamLine(), "beamline");
 		
 		
-		acceleratorCotroller = withName(new BlockAcceleratorController(), "accelerator_controller");
+		linearAcceleratorCotroller = withName(new BlockLinearAcceleratorController(), "linear_accelerator_controller");
+		ringAcceleratorCotroller = withName(new BlockRingAcceleratorController(), "ring_accelerator_controller");
 		acceleratorBeam = withName(new BlockAcceleratorBeam(), "accelerator_beam");
 		acceleratorCasing = withName(new BlockAcceleratorCasing(), "accelerator_casing");
 		acceleratorGlass = withName(new BlockAcceleratorGlass(), "accelerator_glass");
@@ -67,6 +74,7 @@ public class QMDBlocks
 		acceleratorCooler1 = withName(new BlockAcceleratorCooler1(), "accelerator_cooler1");
 		acceleratorCooler2 = withName(new BlockAcceleratorCooler2(), "accelerator_cooler2");
 		acceleratorSource =  withName(new BlockAcceleratorSource(), "accelerator_source");
+		acceleratorEnergyPort = withName(new BlockAcceleratorEnergyPort(), "accelerator_energy_port");
 	}
 	
 	public static void register() 
@@ -74,7 +82,8 @@ public class QMDBlocks
 		//registerBlock(beamline);
 		
 		
-		registerBlock(acceleratorCotroller);
+		registerBlock(linearAcceleratorCotroller);
+		registerBlock(ringAcceleratorCotroller);
 		registerBlock(acceleratorBeam);
 		registerBlock(acceleratorCasing);
 		registerBlock(acceleratorGlass);
@@ -86,6 +95,7 @@ public class QMDBlocks
 		registerBlock(acceleratorCooler1, new ItemBlockMeta(acceleratorCooler1, EnumTypes.CoolerType1.class, QMDInfo.CoolerInfo()));
 		registerBlock(acceleratorCooler2, new ItemBlockMeta(acceleratorCooler2, EnumTypes.CoolerType2.class, QMDInfo.CoolerInfo()));
 		registerBlock(acceleratorSource);
+		registerBlock(acceleratorEnergyPort);
 				
 				
 				
@@ -96,7 +106,8 @@ public class QMDBlocks
 		//registerRender(beamline);
 		
 		
-		registerRender(acceleratorCotroller);
+		registerRender(linearAcceleratorCotroller);
+		registerRender(ringAcceleratorCotroller);
 		registerRender(acceleratorBeam);
 		registerRender(acceleratorCasing);
 		registerRender(acceleratorGlass);
@@ -122,6 +133,7 @@ public class QMDBlocks
 			registerRender(acceleratorCooler2, i, EnumTypes.CoolerType2.values()[i].getName());
 		}
 		registerRender(acceleratorSource);
+		registerRender(acceleratorEnergyPort);
 	}
 
 
@@ -135,11 +147,11 @@ public class QMDBlocks
 	
 	
 	public static Block withName(Block block, String name) {
-		return block.setUnlocalizedName(QMD.MOD_ID + "." + name).setRegistryName(new ResourceLocation(QMD.MOD_ID, name));
+		return block.setTranslationKey(QMD.MOD_ID + "." + name).setRegistryName(new ResourceLocation(QMD.MOD_ID, name));
 	}
 	
 	public static <T extends Block & ITileType> Block withName(T block) {
-		return block.setUnlocalizedName(QMD.MOD_ID + "." + block.getTileName()).setRegistryName(new ResourceLocation(QMD.MOD_ID, block.getTileName()));
+		return block.setTranslationKey(QMD.MOD_ID + "." + block.getTileName()).setRegistryName(new ResourceLocation(QMD.MOD_ID, block.getTileName()));
 	}
 	
 	public static String fixedLine(String name) {
@@ -174,7 +186,7 @@ public class QMDBlocks
 	}
 	
 	public static void registerRender(Block block, int meta, String type) {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(new ResourceLocation(QMD.MOD_ID, block.getRegistryName().getResourcePath()), "type=" + type));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(new ResourceLocation(QMD.MOD_ID, block.getRegistryName().getPath()), "type=" + type));
 	}
 
 

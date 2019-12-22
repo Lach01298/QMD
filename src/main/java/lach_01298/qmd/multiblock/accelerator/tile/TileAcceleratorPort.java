@@ -18,9 +18,6 @@ import nc.ModCheck;
 import nc.block.property.BlockProperties;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.turbine.Turbine;
-import nc.multiblock.turbine.tile.TileTurbineOutlet;
-import nc.multiblock.turbine.tile.TileTurbinePartBase;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.FluidConnection;
 import nc.tile.internal.fluid.FluidTileWrapper;
@@ -40,7 +37,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileAcceleratorPort extends TileAcceleratorPartBase implements ITileFluid, IIOType
+public class TileAcceleratorPort extends TileAcceleratorPart implements ITileFluid, IIOType
 {
 
 	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<String>()),new Tank(1, new ArrayList<String>()));
@@ -69,15 +66,15 @@ public class TileAcceleratorPort extends TileAcceleratorPartBase implements ITil
 	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
-		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-
+		
 	}
 
 	@Override
 	public void onMachineBroken()
 	{
 		super.onMachineBroken();
+		
 	}
 
 	@Override

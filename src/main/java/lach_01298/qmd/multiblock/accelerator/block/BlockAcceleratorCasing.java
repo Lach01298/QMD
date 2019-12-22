@@ -1,6 +1,6 @@
 package lach_01298.qmd.multiblock.accelerator.block;
 
-import static nc.block.property.BlockProperties.FRAME;
+
 
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
 import net.minecraft.block.properties.IProperty;
@@ -13,32 +13,15 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorCasing extends BlockAcceleratorPartBase
+public class BlockAcceleratorCasing extends BlockAcceleratorPart
 {
 
 	public BlockAcceleratorCasing()
 	{
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(FRAME, false));
+
 	}
 
-	@Override
-	protected BlockStateContainer createBlockState()
-	{
-		return new BlockStateContainer(this, new IProperty[] { FRAME });
-	}
-
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return getDefaultState().withProperty(FRAME, meta == 1);
-	}
-
-	@Override
-	public int getMetaFromState(IBlockState state)
-	{
-		return state.getValue(FRAME) ? 1 : 0;
-	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata)

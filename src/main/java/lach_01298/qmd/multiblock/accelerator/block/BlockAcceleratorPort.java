@@ -21,7 +21,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorPort extends BlockAcceleratorPartBase
+public class BlockAcceleratorPort extends BlockAcceleratorPart
 {
 
 	public BlockAcceleratorPort()
