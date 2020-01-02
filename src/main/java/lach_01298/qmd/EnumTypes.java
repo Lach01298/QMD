@@ -7,7 +7,7 @@ import net.minecraft.util.IStringSerializable;
 
 public class EnumTypes
 {
-	public enum CoolerType1 implements IStringSerializable, IBlockMetaEnum 
+	public enum CoolerType1 implements IStringSerializable, IBlockMetaEnum, ICoolerEnum 
 	{
 		WATER("water", 0, QMDConfig.cooler_heat_removed[0]),
 		IRON("iron", 1, QMDConfig.cooler_heat_removed[1]),
@@ -58,7 +58,7 @@ public class EnumTypes
 		}
 
 
-
+		@Override
 		public int getHeatRemoved()
 		{
 			return heat;
@@ -98,7 +98,7 @@ public class EnumTypes
 
 
 
-	public enum CoolerType2 implements IStringSerializable, IBlockMetaEnum
+	public enum CoolerType2 implements IStringSerializable, IBlockMetaEnum, ICoolerEnum 
 	{
 		TIN("tin", 0, QMDConfig.cooler_heat_removed[16]),
 		LEAD("lead", 1, QMDConfig.cooler_heat_removed[17]),
@@ -149,7 +149,7 @@ public class EnumTypes
 		}
 
 
-
+		@Override
 		public int getHeatRemoved()
 		{
 			return heat;

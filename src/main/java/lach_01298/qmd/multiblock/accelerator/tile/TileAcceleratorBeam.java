@@ -73,5 +73,11 @@ public class TileAcceleratorBeam extends TileAcceleratorPart implements IAcceler
 		super.readAll(nbt);
 		isFunctional = nbt.getBoolean("isFunctional");
 	}
+
+	@Override
+	public void resetStats()
+	{
+		isFunctional = false;
+	}
 	
 }

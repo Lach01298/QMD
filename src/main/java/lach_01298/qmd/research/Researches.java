@@ -47,7 +47,7 @@ public class Researches
 		}
 		else
 		{
-			Log.log(Level.ERROR,"could not register %s as a research since it is already taken", name);
+			
 		}
 	}
 	

@@ -2,6 +2,7 @@ package lach_01298.qmd.item;
 
 import lach_01298.qmd.MaterialEnums;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.particle.Particles;
 import nc.Global;
 import nc.NCInfo;
 import nc.enumm.MetaEnums;
@@ -21,8 +22,11 @@ public class QMDItems
 	public static Item dust;
 	public static Item ingot;
 	public static Item ingotAlloy;
-	
-	
+	public static Item tungsten_filament;
+	public static Item canister_Hydrogen;
+	public static Item canister_Deuterium;
+	public static Item canister_Helium;
+	public static Item sodium_22_source;
 	
 	
 	
@@ -35,7 +39,11 @@ public class QMDItems
 		dust = withName(new NCItemMeta(MaterialEnums.DustType.class), "dust");
 		ingot = withName(new NCItemMeta(MaterialEnums.IngotType.class), "ingot");
 		ingotAlloy = withName(new NCItemMeta(MaterialEnums.IngotAlloyType.class), "ingot_alloy");
-		
+		tungsten_filament = withName(new ItemBrakeable(100),"tungsten_filament");
+		canister_Hydrogen = withName(new ItemBrakeable(100),"canister_Hydrogen");
+		canister_Deuterium = withName(new ItemBrakeable(100),"canister_Deuterium");
+		canister_Helium = withName(new ItemBrakeable(100),"canister_Helium");
+		sodium_22_source = withName(new ItemBrakeable(100),"sodium_22_source");
 		
 		
 		
@@ -46,6 +54,13 @@ public class QMDItems
 		registerItem(dust, NCTabs.MATERIAL);
 		registerItem(ingot, NCTabs.MATERIAL);
 		registerItem(ingotAlloy, NCTabs.MATERIAL);
+		
+		registerItem(tungsten_filament, NCTabs.MISC);
+		registerItem(canister_Hydrogen, NCTabs.MISC);
+		registerItem(canister_Deuterium, NCTabs.MISC);
+		registerItem(canister_Helium, NCTabs.MISC);
+		registerItem(sodium_22_source, NCTabs.MISC);
+	
 		
 		
 	}
@@ -67,7 +82,11 @@ public class QMDItems
 			registerRender(ingotAlloy, i, MaterialEnums.IngotAlloyType.values()[i].getName());
 		}
 		
-		
+		registerRender(tungsten_filament);
+		registerRender(canister_Hydrogen);
+		registerRender(canister_Deuterium);
+		registerRender(canister_Helium);
+		registerRender(sodium_22_source);
 	}
 	
 	

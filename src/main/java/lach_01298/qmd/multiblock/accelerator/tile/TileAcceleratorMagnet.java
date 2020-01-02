@@ -116,6 +116,10 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPart implemen
 	
 	
 	
-	
+		@Override
+		public void resetStats() 
+		{
+			isFunctional = false;
+		}
 	
 }

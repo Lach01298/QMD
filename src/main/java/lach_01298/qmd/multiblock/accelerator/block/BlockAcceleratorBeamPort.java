@@ -6,7 +6,7 @@ import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
 import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorPort;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.multiblock.heatExchanger.tile.TileCondenserTube;
 import nc.util.Lang;

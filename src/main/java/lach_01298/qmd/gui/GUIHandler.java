@@ -1,8 +1,8 @@
 package lach_01298.qmd.gui;
 
 
-import lach_01298.qmd.multiblock.accelerator.linear.tile.TileLinearAcceleratorController;
-import lach_01298.qmd.multiblock.accelerator.ring.tile.TileRingAcceleratorController;
+import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
+import lach_01298.qmd.multiblock.accelerator.tile.TileRingAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
@@ -68,8 +68,8 @@ public class GUIHandler implements IGuiHandler
 					return new GuiRingAcceleratorController(((TileRingAcceleratorController) tile).getMultiblock(), tile.getPos(), ((TileRingAcceleratorController) tile).getMultiblock().getContainer(player));
 				
 			case GUI_ID.ACCELERATOR_SOURCE:
-				//if (tile instanceof TileAcceleratorSource)
-					//return new GUIAcceleratorSource(player, (TileAcceleratorSource) tile);
+				if (tile instanceof TileAcceleratorSource)
+					return new GUIAcceleratorSource(player, (TileAcceleratorSource) tile);
 			
 		
 			}

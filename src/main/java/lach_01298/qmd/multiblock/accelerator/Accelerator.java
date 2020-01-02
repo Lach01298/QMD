@@ -21,13 +21,15 @@ import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorPort;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleBeam;
+import lach_01298.qmd.recipe.QMDRecipes;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.ILogicMultiblock;
@@ -40,6 +42,8 @@ import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.network.FissionUpdatePacket;
 import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -69,7 +73,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 
 	
-	protected final ObjectSet<TileAcceleratorPort> ports = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileAcceleratorOutlet> outlets = new ObjectOpenHashSet<>();
+	protected final ObjectSet<TileAcceleratorInlet> inlets = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileAcceleratorBeamPort> beamPorts = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileAcceleratorEnergyPort> energyPorts = new ObjectOpenHashSet<>();
 	
@@ -80,25 +85,33 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 
 	
 	
-	public static final int BASE_MAX_HEAT = 25000, MAX_TEMP = 2400;  
-	public static final int	BASE_MAX_ENERGY = 100000;
-	public static final int BASE_TANK_CAPACITY = 4000, BASE_MAX_INPUT = 4000, BASE_MAX_OUTPUT = 16000;
+	public static final int BASE_MAX_HEAT = 25000, MAX_OPERATING_TEMP = 10;
+	public static final int	BASE_MAX_ENERGY = 40000;
+	public static final int BASE_MAX_INPUT = 100, BASE_MAX_OUTPUT = 32000;
+	public static final double THERMAL_CONDUCTIVITY = 0.001;
+	
 	
 	public final HeatBuffer heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	public final ParticleBeam beam = new ParticleBeam();
-	public final List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, NCRecipes.turbine_valid_fluids.get(0)), new Tank(BASE_MAX_OUTPUT, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(Accelerator.BASE_MAX_OUTPUT, null));
 	
-	public boolean logicInit = false, refreshFlag = true, isAcceleratorOn = false;
+	public boolean logicInit = false, refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
 	public int ambientTemp = 290;
 	public long cooling = 0L, rawHeating = 0L;
+	public double maxCoolantIn =0, maxCoolantOut=0;
 	public double efficiency = 0D;
 	public int requiredEnergy = 0, acceleratingVoltage =0;
 	public int RFCavityNumber =0, quadrupoleNumber =0;
 	public double quadrupoleStrength =0;
 	
 	private static final int thickness = 5;
+	
+	
+	public RecipeInfo<ProcessorRecipe> coolingRecipeInfo;
+	
+	
 	
 	
 	public Accelerator(World world)
@@ -144,10 +157,14 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		return dipoleMap;
 	}
 	
-
-	public ObjectSet<TileAcceleratorPort> getPorts()
+	public ObjectSet<TileAcceleratorInlet> getIntlets()
 	{
-		return ports;
+		return inlets;
+	}
+	
+	public ObjectSet<TileAcceleratorOutlet> getOutlets()
+	{
+		return outlets;
 	}
 	
 	public ObjectSet<TileAcceleratorBeamPort> getBeamPorts()
@@ -169,10 +186,11 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		cooling = rawHeating  = 0L;
 		quadrupoleStrength = efficiency = 0D;
 		RFCavityNumber = quadrupoleNumber = acceleratingVoltage = requiredEnergy = 0;
+		coolingRecipeInfo = null;
+		maxCoolantIn = maxCoolantOut =0;
 	}
 
 	
-
 	
 	
 	public boolean isValidRFCavity(BlockPos center, Axis axis)
@@ -438,7 +456,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	@Override
 	protected boolean updateServer()
 	{
-		if (refreshFlag) {
+		if (refreshFlag) 
+		{
 			logic.refreshAccelerator();
 		}
 		updateActivity();
@@ -448,7 +467,6 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 			return true;
 		}
 		
-		logic.updateRedstone();
 		sendUpdateToListeningPlayers();
 		
 		return true;
@@ -457,6 +475,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 	public void updateActivity()
 	{
+		
 		boolean wasAcceleratorOn = isAcceleratorOn;
 		isAcceleratorOn = isAssembled() && logic.isAcceleratorOn();
 		if (isAcceleratorOn != wasAcceleratorOn)
@@ -471,7 +490,17 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 	public int getTemperature() 
 	{
-		return Math.round(ambientTemp + (MAX_TEMP - ambientTemp)*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
+		return Math.round(ambientTemp*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
+	}
+	
+	public long getExternalHeating() 
+	{
+		return (long) ((ambientTemp - getTemperature())*THERMAL_CONDUCTIVITY*this.getExteriorSurfaceArea());
+	}
+	
+	public long getMaxExternalHeating() 
+	{
+		return (long) (ambientTemp*THERMAL_CONDUCTIVITY*this.getExteriorSurfaceArea());
 	}
 
 	// Client
@@ -495,6 +524,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		data.setBoolean("isAcceleratorOn", isAcceleratorOn);
 		data.setLong("cooling", cooling);
 		data.setLong("rawHeating", rawHeating);
+		data.setDouble("coolantIn", maxCoolantIn);
+		data.setDouble("coolantOut", maxCoolantOut);
 		data.setLong("requiredEnergy", requiredEnergy);
 		data.setDouble("efficiency",efficiency);
 		data.setInteger("acceleratingVoltage", acceleratingVoltage);
@@ -502,7 +533,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		data.setInteger("quadrapoleNumber", quadrupoleNumber);
 		data.setDouble("quadrupoleStrength", quadrupoleStrength);
 	
-		
+		data.setBoolean("cold", cold);
 		
 		
 		logic.writeToNBT(data, syncReason);
@@ -519,12 +550,17 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		isAcceleratorOn = data.getBoolean("isAcceleratorOn");
 		cooling = data.getLong("cooling");
 		rawHeating = data.getLong("rawHeating");
+		maxCoolantIn =data.getDouble("coolantIn");
+		maxCoolantOut =data.getDouble("coolantOut");
 		requiredEnergy = data.getInteger("requiredEnergy");
 		efficiency = data.getDouble("efficiency");
 		acceleratingVoltage = data.getInteger("acceleratingVoltage");
 		RFCavityNumber = data.getInteger("RFCavityNumber");
 		quadrupoleNumber = data.getInteger("quadrapoleNumber");
 		quadrupoleStrength = data.getDouble("quadrupoleStrength");
+		
+		cold = data.getBoolean("cold");
+		
 		
 		if (!logicInit) 
 		{
@@ -550,18 +586,21 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	{
 		heatBuffer.setHeatCapacity(message.heatBuffer.getHeatCapacity());
 		heatBuffer.setHeatStored(message.heatBuffer.getHeatStored());
-		energyStorage.setStorageCapacity(message.energyStorage.getEnergyStored());
+		energyStorage.setStorageCapacity(message.energyStorage.getMaxEnergyStored());
 		energyStorage.setEnergyStored(message.energyStorage.getEnergyStored());
-		//readTanks(message.)
+		
 		beam.setParticle(message.beam.getParticle());
 		beam.setMeanEnergy(message.beam.getMeanEnergy());
 		beam.setEnergySpread(message.beam.getEnergySpread());
 		beam.setLuminosity(message.beam.getLuminosity());
 		
+		for (int i = 0; i < tanks.size(); i++) tanks.get(i).readInfo(message.tanksInfo.get(i));
 		
 		isAcceleratorOn = message.isAcceleratorOn;
 		cooling = message.cooling;
 		rawHeating = message.rawHeating;
+		maxCoolantIn = message.maxCoolantIn;
+		maxCoolantOut = message.maxCoolantOut;
 		requiredEnergy = message.requiredEnergy;
 		efficiency = message.efficiency;
 		acceleratingVoltage = message.acceleratingVoltage;
@@ -618,4 +657,6 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	{
 		return logic.getMaximumInteriorLength();
 	}
+
+
 }

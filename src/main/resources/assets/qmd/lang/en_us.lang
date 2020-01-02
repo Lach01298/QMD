@@ -17,7 +17,8 @@ tile.qmd.ring_accelerator_controller.name=Synchrotron Accelerator Controller
 tile.qmd.accelerator_beam.name=Accelerator Beam
 tile.qmd.accelerator_casing.name=Accelerator Casing
 tile.qmd.accelerator_glass.name=Accelerator Glass
-tile.qmd.accelerator_port.name=Accelerator Coolant Port
+tile.qmd.accelerator_inlet.name=Accelerator Coolant Inlet
+tile.qmd.accelerator_outlet.name=Accelerator Coolant Outlet
 tile.qmd.accelerator_beam_port.name=Accelerator Beam Port
 tile.qmd.accelerator_energy_port.name=Accelerator Energy Port
 tile.qmd.accelerator_source.name=Accelerator Ion Source
@@ -61,23 +62,142 @@ tile.qmd.accelerator_cooler2.liquid_helium.name=Liquid Helium Accelerator Cooler
 tile.qmd.accelerator_cooler2.enderium.name=Enderium Accelerator Cooler
 tile.qmd.accelerator_cooler2.cryotheum.name=Cryotheum Accelerator Cooler
 
+//block desciptions
+tile.qmd.accelerator.cooler.cooling_rate=Cooling Rate:
+tile.qmd.accelerator.cooler.water.desc=Must be adjacent to at least one functional RF cavity.
+tile.qmd.accelerator.cooler.iron.desc=Must be adjacent to at least one functional electromagnet.
+tile.qmd.accelerator.cooler.end_stone.desc=Must be adjacent to at least one functional beam.
+tile.qmd.accelerator.cooler.lead.desc=Must be adjacent to at least one valid iron cooler.
+tile.qmd.accelerator.cooler.obsidian.desc=Must be adjacent to at least two valid glowstone coolers.
+tile.qmd.accelerator.cooler.quartz.desc=Must be adjacent to at least one valid redstone cooler.
+tile.qmd.accelerator.cooler.copper.desc=Must be adjacent to at least one valid water cooler.
+tile.qmd.accelerator.cooler.redstone.desc=Must be adjacent to at least one functional RF cavity and one functional electromagnet.
+tile.qmd.accelerator.cooler.purpur.desc=Must be adjacent to at least one valid iron cooler and one valid end stone cooler.
+tile.qmd.accelerator.cooler.lapis.desc=Must be adjacent to at least one functional electromagnet and one functional electromagnet yoke.
+tile.qmd.accelerator.cooler.nether_brick.desc=Must be adjacent to at least one valid obsidian cooler.
+tile.qmd.accelerator.cooler.gold.desc=Must be adjacent to at least two valid iron coolers.
+tile.qmd.accelerator.cooler.glowstone.desc=Must be adjacent to at least two valid electromagnets of diffrent types.
+tile.qmd.accelerator.cooler.prismarine.desc=Must be adjacent to at least two valid water coolers.
+tile.qmd.accelerator.cooler.tin.desc=Must be adjacent to at least two valid lapis coolers along a common axis.
+tile.qmd.accelerator.cooler.lithium.desc=Must be adjacent to at least two valid lead coolers along a common axis.
+tile.qmd.accelerator.cooler.magnesium.desc=Must be adjacent to at least one functional electromagnet and one functional beam.
+tile.qmd.accelerator.cooler.slime.desc=Must be adjacent to at least one valid water cooler and two valid lead coolers.
+tile.qmd.accelerator.cooler.manganese.desc=Must be adjacent to at least two valid RF cavities.
+tile.qmd.accelerator.cooler.arsenic.desc=Must be adjacent to at least two valid RF cavities of diffrent types.
+tile.qmd.accelerator.cooler.carobbiite.desc=Must be adjacent to at least one valid end stone cooler and one valid copper cooler.
+tile.qmd.accelerator.cooler.fluorite.desc=Must be adjacent to at least one valid gold cooler and one valid prismarine cooler.
+tile.qmd.accelerator.cooler.villiaumite.desc=Must be adjacent to at least one valid gold cooler and one functional electromagnet yoke.
+tile.qmd.accelerator.cooler.boron.desc=Must be adjacent to at least one valid quartz cooler and one functional RF cavity.
+tile.qmd.accelerator.cooler.silver.desc=Must be adjacent to at least two valid arsenic coolers.
+tile.qmd.accelerator.cooler.aluminum.desc=Must be adjacent to at least one valid quartz cooler and one valid tin cooler.
+tile.qmd.accelerator.cooler.enderium.desc=Must be adjacent to at least two valid obsidian coolers.
+tile.qmd.accelerator.cooler.liquid_nitrogen.desc=Must be adjacent to at least two valid copper coolers and one valid purpur cooler.
+tile.qmd.accelerator.cooler.diamond.desc=Must be adjacent to at least one valid gold cooler and one functional RF cavity.
+tile.qmd.accelerator.cooler.emerald.desc=Must be adjacent to at least one valid prismarine cooler and one functional electromagnet.
+tile.qmd.accelerator.cooler.liquid_helium.desc=Must be adjacent to at least one valid magnesium cooler and one valid copper cooler.
+tile.qmd.accelerator.cooler.cryotheum.desc=Must be adjacent to at least two valid end stone coolers, one functional Rf cavity and one functional electromagnet yoke.
+
+tile.qmd.rf_cavity.desc=Accelerates charged particles with a Radio Frequency electric feild. Must be made as a ring of 8 same RF cavitys surrounding a beam. Cannot be next to another RF cavity.
+
+tile.qmd.accelerator_magnet.desc=Bends the path charged particles with a strong magnetic feild. Can be used to make a Quadrupole or Dipole magnet. For a Quadrupole magnet a beam must be surrounded by 4 of the same electromagnets.
+
+tile.qmd.accelerator_yoke.desc=Shapes and strengthens the magnetic feild of a electromagnet. Used to make a Dipole magnet. For a dipole magnet a beam must have a electromaget on the top and bottom then all space not taken by beams in a 3x3 around the central beam must be filled with electromagnet yokes.
+
+//info
+info.qmd.rf_cavity.voltage=Accelerating Voltage: %s kV
+info.qmd.rf_cavity.efficiency=Power Efficiency: %s
+info.qmd.rf_cavity.heat=Heat Produced: %s H/t
+
+info.qmd.accelerator_magnet.strength=Magnet Strength: %s
+info.qmd.accelerator_magnet.efficiency=Power Efficiency: %s
+info.qmd.accelerator_magnet.heat=Heat Produced: %s H/t
 
 //multiblock validation
 
-qmd.multiblock_validation.accelerator.not_enough_ports= There must be at least 1 coolant in and 1 coolant out port.
-qmd.multiblock_validation.accelerator.need_energy_ports= There must be at least 1 Energy Port
+qmd.multiblock_validation.accelerator.no_inlet= There must be at least 1 coolant Inlet.
+qmd.multiblock_validation.accelerator.no_outlet= There must be at least 1 coolant Outlet.
+qmd.multiblock_validation.accelerator.need_energy_ports= There must be at least 1 Energy Port.
 qmd.multiblock_validation.accelerator.wrong_height= Accelerators must be 5 blocks tall.
+
 qmd.multiblock_validation.accelerator.linear.to_short= Linear Accelerator is not long enough.
 qmd.multiblock_validation.accelerator.linear.must_be_beam= There must be a straight line of Accelerator Beam blocks down the middle of the Linear Accelerator.
+qmd.multiblock_validation.accelerator.linear.have_source_and_beam_port=There must be a Ion Source at one end of the beam and a Beam Port at the other.
+
+qmd.multiblock_validation.accelerator.ring.must_be_square=The Accelerator must have the same length in te X and Z direction.
+qmd.multiblock_validation.accelerator.ring.to_short= Synchrotron Accelerator is not large enough.
+qmd.multiblock_validation.accelerator.ring.to_long= Synchrotron Accelerator is to large.
 qmd.multiblock_validation.accelerator.ring.must_be_beam= There must be a square ring of Accelerator Beam blocks down the middle of the Accelerator.
-qmd.multiblock_validation.accelerator.ring.invalid_diopole= There must be a dipole in every conner Accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then suronding the it with Accelerator Electromagnet Yokes.
+qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner= There must be a dipole in every conner of  the accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then suronding the it with Accelerator Electromagnet Yokes.
+
+//Multiblock gui
+gui.qmd.container.linear_accelerator_controller.name=Linear Accelerator 
+gui.qmd.container.accelerator.cavitys=RF Cavites: 
+gui.qmd.container.accelerator.voltage=Voltage: 
+gui.qmd.container.accelerator.quadrupoles=Quadrapoles: 
+gui.qmd.container.accelerator.magnet_strength=Strength: 
+gui.qmd.container.accelerator.energy_stored=Energy Stored:
+gui.qmd.container.accelerator.required_energy=Required Energy: %s
+gui.qmd.container.accelerator.efficiency= (%s%%)
+gui.qmd.container.accelerator.heat_stored=Heat Stored:
+gui.qmd.container.accelerator.cooling=Cooling:
+gui.qmd.container.accelerator.heating=Maximum Heating:
+gui.qmd.container.accelerator.external_heating=Maximum External Heating:
+gui.qmd.container.accelerator.coolant_stored=Coolant:
+gui.qmd.container.accelerator.coolant_required=Coolant Usage:
+gui.qmd.container.accelerator.coolant_out=Hot Coolant Out:
+gui.qmd.container.accelerator.beam=Beam:
+
+gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator
+gui.qmd.container.accelerator.dipoles=Dipoles: 
 
 
 
+gui.qmd.container.beam.stats=Energy: %s Luminosity: %d
+gui.qmd.container.temperature=Temperature: %s K
 
-
-
-
+//particles
+qmd.particle.none.name=None
+qmd.particle.up_quark.name=Up Quark
+qmd.particle.antiup_quark.name=Anti-Up Quark
+qmd.particle.down_quark.name=Down Quark
+qmd.particle.antidown_quark.name=Anti-Down Quark
+qmd.particle.charm_quark.name=Charm Quark
+qmd.particle.anticharm_quark.name=Anti-Charm Quark
+qmd.particle.strange_quark.name=Strange Quark
+qmd.particle.antistrange_quark.name=Anti-Strange Quark
+qmd.particle.top_quark.name=Top Quark
+qmd.particle.antitop_quark.name=Anti-Top Quark
+qmd.particle.bottom_quark.name=Bottom Quark
+qmd.particle.antibottom_quark.name=Anti-Bottom Quark
+qmd.particle.electron.name=Electron 
+qmd.particle.positron.name=Positron
+qmd.particle.electron_neutrino.name=Electron Neutrino
+qmd.particle.electron_antineutrino.name=Electron Antineutrino
+qmd.particle.muon.name=Muon
+qmd.particle.antimuon.name=Anti-Muon
+qmd.particle.muon_neutrino.name=Muon Neutrino
+qmd.particle.muon_antineutrino.name=Muon Antineutrino
+qmd.particle.tau.name=Tau
+qmd.particle.antitau.name=Anti-Tau
+qmd.particle.tau_neutrino.name=Tau Neutrino
+qmd.particle.tau_antineutrino.name=Tau Antineutrino
+qmd.particle.photon.name=Photon
+qmd.particle.gluon.name=Gluon
+qmd.particle.w_plus_boson.name=W+ Boson
+qmd.particle.w_minus_boson.name=W- Boson
+qmd.particle.z_boson.name=Z Boson
+qmd.particle.higgs_boson.name=Higgs Boson
+qmd.particle.proton.name=Proton
+qmd.particle.antiproton.name=Antiproton
+qmd.particle.neutron.name=Neutron
+qmd.particle.antineutron.name=Antineutron
+qmd.particle.deuteron.name=Deuteron
+qmd.particle.antideuteron.name=Anti-Deuteron
+qmd.particle.alpha.name=Alpha Particle
+qmd.particle.antialpha.name=Anti-Alpha Particle
+qmd.particle.pion_plus.name=Pion +
+qmd.particle.pion_naught.name=Pion 0
+qmd.particle.pion_minus.name=Pion -
 
 
 

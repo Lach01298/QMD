@@ -3,7 +3,9 @@ package lach_01298.qmd.multiblock.accelerator.block;
 import static nc.block.property.BlockProperties.ACTIVE;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import net.minecraft.block.Block;
@@ -59,43 +61,16 @@ public class BlockAcceleratorSource extends BlockAcceleratorPart
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
-		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(false));
+		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer).getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state)
 	{
-		super.onBlockAdded(world, pos, state);
-		setDefaultDirection(world, pos, state);
+		super.onBlockAdded(world, pos, state);	
 	}
 
-	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state)
-	{
-		if (!world.isRemote)
-		{
-			EnumFacing enumfacing = state.getValue(FACING_ALL);
-			boolean flag = world.getBlockState(pos.north()).isFullBlock();
-			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
-
-			if (enumfacing == EnumFacing.NORTH && flag && !flag1)
-				enumfacing = EnumFacing.SOUTH;
-			else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag)
-				enumfacing = EnumFacing.NORTH;
-
-			else
-			{
-				boolean flag2 = world.getBlockState(pos.west()).isFullBlock();
-				boolean flag3 = world.getBlockState(pos.east()).isFullBlock();
-
-				if (enumfacing == EnumFacing.WEST && flag2 && !flag3)
-					enumfacing = EnumFacing.EAST;
-				else if (enumfacing == EnumFacing.EAST && flag3 && !flag2)
-					enumfacing = EnumFacing.WEST;
-			}
-			world.setBlockState(pos,state.withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf(false)), 2);
-		}
-	}
-
+	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
@@ -103,7 +78,22 @@ public class BlockAcceleratorSource extends BlockAcceleratorPart
 			return false;
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking())
 			return false;
-		return rightClickOnPart(world, pos, player, hand, facing);
+		
+		if (!world.isRemote)
+		{
+			if (world.getTileEntity(pos) instanceof TileAcceleratorSource)
+			{
+				TileAcceleratorSource controller = (TileAcceleratorSource) world.getTileEntity(pos);
+
+				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
+				{
+					
+					player.openGui(QMD.instance, GUI_ID.ACCELERATOR_SOURCE, world, pos.getX(), pos.getY(), pos.getZ());
+					return true;
+				}
+			}
+		}
+		return rightClickOnPart(world, pos, player, hand, facing, true);
 	}
 
 	public void setState(boolean isActive, TileEntity tile)

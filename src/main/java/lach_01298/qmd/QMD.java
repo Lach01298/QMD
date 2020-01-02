@@ -25,10 +25,10 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = QMD.MOD_ID, name = "Quantum Mincraft Dynamics", version = QMD.VERSION, acceptedMinecraftVersions = QMD.MCVERSION, dependencies = "after:nuclearcraft;after:phys_core")
+@Mod(modid = QMD.MOD_ID, name = QMD.MOD_NAME, version = QMD.VERSION, acceptedMinecraftVersions = QMD.MCVERSION, dependencies = "after:nuclearcraft;after:phys_core")
 public class QMD
 {
-
+	public static final String MOD_NAME = "Quantum Mincraft Dynamics";
 	public static final String MOD_ID = "qmd";
 	public static final String VERSION = "1.12.2-0.2";
 	public static final String MCVERSION = "1.12.2";
@@ -74,4 +74,9 @@ public class QMD
 		event.registerServerCommand(new CommandQMD());
 	}
 
+	@EventHandler
+	public void onIdMapping(FMLModIdMappingEvent idMappingEvent) 
+	{
+		proxy.onIdMapping(idMappingEvent);
+	}
 }

@@ -6,15 +6,16 @@ import lach_01298.qmd.Util;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorGlass;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorPort;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import lach_01298.qmd.multiblock.accelerator.linear.tile.TileLinearAcceleratorController;
-import lach_01298.qmd.multiblock.accelerator.ring.tile.TileRingAcceleratorController;
+import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
+import lach_01298.qmd.multiblock.accelerator.tile.TileRingAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
@@ -30,13 +31,18 @@ public class QMDTiles
 	public static void register() 
 	{
 		
+		//other
+		GameRegistry.registerTileEntity(TileBeamline.class,new ResourceLocation(QMD.MOD_ID,"beamline"));
+		
+		
 		//Accelerator parts
 		GameRegistry.registerTileEntity(TileLinearAcceleratorController.class,Util.appendPath(acceleratorPath, "linear_controller"));
 		GameRegistry.registerTileEntity(TileRingAcceleratorController.class,Util.appendPath(acceleratorPath, "ring_controller"));
 		GameRegistry.registerTileEntity(TileAcceleratorBeam.class,Util.appendPath(acceleratorPath, "beam"));
 		GameRegistry.registerTileEntity(TileAcceleratorCasing.class,Util.appendPath(acceleratorPath, "casing"));
 		GameRegistry.registerTileEntity(TileAcceleratorGlass.class,Util.appendPath(acceleratorPath, "glass"));
-		GameRegistry.registerTileEntity(TileAcceleratorPort.class,Util.appendPath(acceleratorPath, "port"));
+		GameRegistry.registerTileEntity(TileAcceleratorInlet.class,Util.appendPath(acceleratorPath, "inlet"));
+		GameRegistry.registerTileEntity(TileAcceleratorOutlet.class,Util.appendPath(acceleratorPath, "outlet"));
 		GameRegistry.registerTileEntity(TileAcceleratorBeamPort.class,Util.appendPath(acceleratorPath, "beam_port"));
 		GameRegistry.registerTileEntity(TileAcceleratorSource.class,Util.appendPath(acceleratorPath, "source"));
 		GameRegistry.registerTileEntity(TileAcceleratorYoke.class,Util.appendPath(acceleratorPath, "yoke"));

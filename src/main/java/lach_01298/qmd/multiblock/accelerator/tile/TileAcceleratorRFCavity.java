@@ -92,6 +92,13 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 	{
 		isFunctional = func;
 	}
+	
+	
+	@Override
+	public void resetStats() 
+	{
+		isFunctional = false;
+	}
 
 	// NBT
 	@Override

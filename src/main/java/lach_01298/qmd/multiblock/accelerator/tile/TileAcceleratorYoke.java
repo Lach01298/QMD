@@ -73,7 +73,11 @@ public class TileAcceleratorYoke extends TileAcceleratorPart implements IAcceler
 		isFunctional = nbt.getBoolean("isFunctional");
 	}
 
-
+	@Override
+	public void resetStats() 
+	{
+		isFunctional = false;
+	}
 
 
 

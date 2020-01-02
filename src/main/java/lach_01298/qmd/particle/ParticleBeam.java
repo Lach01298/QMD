@@ -17,7 +17,6 @@ public class ParticleBeam implements INBTSerializable<NBTTagCompound>
 	private Particle particle;
 	private int meanEnergy, luminosity;
 	private double energySpread;
-	private int meanEnery;
 	
 	
 	public ParticleBeam()
@@ -28,6 +27,14 @@ public class ParticleBeam implements INBTSerializable<NBTTagCompound>
 		this.luminosity = 0;
 	}
 	
+	public ParticleBeam(Particle particle, int meanEnery, double energySpread, int luminosity)
+	{
+		this.particle =particle;
+		this.meanEnergy = meanEnery;
+		this.energySpread = energySpread;
+		this.luminosity = luminosity;
+	}
+
 	/**
 	 * 
 	 * @return The type of particle the beam is
@@ -149,7 +156,7 @@ public class ParticleBeam implements INBTSerializable<NBTTagCompound>
 	public void writeBuf(ByteBuf buf) 
 	{
 		ByteBufUtils.writeUTF8String(buf, particle.getName());
-		buf.writeInt(meanEnery);
+		buf.writeInt(meanEnergy);
 		buf.writeDouble(energySpread);
 		buf.writeInt(luminosity);
 	}
@@ -166,9 +173,26 @@ public class ParticleBeam implements INBTSerializable<NBTTagCompound>
 		beam.setMeanEnergy(energy);
 		beam.setEnergySpread(spread);
 		beam.setLuminosity(lum);
-		
 		return beam;
 	}
+
+	public ParticleBeam copy()
+	{
+		
+		return new ParticleBeam(particle, meanEnergy,energySpread,luminosity);
+	}
+
+	public boolean isBeamInRange(ParticleBeam beam)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static ParticleBeam getBeam(String particleName, int meanEnergy, int luminosity, double spread)
+	{
+		return new ParticleBeam(Particles.getParticleFromName(particleName),meanEnergy,spread,luminosity);
+	}
+
 	
 	
 	

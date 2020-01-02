@@ -16,7 +16,7 @@
 			"false": {},
 			"true": {
 				"textures": {
-					"front": "qmd:blocks/accelerator/ring_accelerator_controller_front_off"
+					"front": "qmd:blocks/accelerator/ring_accelerator_controller_front_on"
 				}
 			}
 		},

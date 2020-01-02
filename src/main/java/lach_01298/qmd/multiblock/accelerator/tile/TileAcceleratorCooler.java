@@ -2,6 +2,7 @@ package lach_01298.qmd.multiblock.accelerator.tile;
 
 import javax.annotation.Nullable;
 
+import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import nc.config.NCConfig;
@@ -122,14 +123,13 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 		@Override
 		public boolean isCoolerValid()
 		{
-			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList())
+			byte glowstone = 0;
+			for (EnumFacing dir : EnumFacing.VALUES)
 			{
-				for (EnumFacing dir : axialDirs)
-				{
-					if (!isActiveCooler(pos.offset(dir), "glowstone"))
-						continue axialDirsLoop;
-				}
-				return true;
+				if (isActiveCooler(pos.offset(dir),"glowstone"))
+					glowstone++;
+				if (glowstone >= 2)
+					return true;
 			}
 			return false;
 		}
@@ -166,14 +166,20 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 		@Override
 		public boolean isCoolerValid()
 		{
-			//TODO
-			byte moderators = 0;
+			String magnet1 = "";
 			for (EnumFacing dir : EnumFacing.VALUES)
 			{
-				if (isActiveMagnet(pos.offset(dir), null))
-					moderators++;
-				if (moderators >= 2)
-					return true;
+				if(isActiveMagnet(pos.offset(dir), null) && magnet1.isEmpty())
+				{
+					magnet1 = getMultiblock().getPartMap(TileAcceleratorMagnet.class).get(pos.offset(dir).toLong()).name;
+				}
+				else if(isActiveMagnet(pos.offset(dir), null))
+				{
+					if(!magnet1.equals(getMultiblock().getPartMap(TileAcceleratorMagnet.class).get(pos.offset(dir).toLong()).name))
+					{
+						return true;
+					}
+				}		
 			}
 			return false;
 		}
@@ -670,15 +676,20 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 		@Override
 		public boolean isCoolerValid()
 		{
-			//TODO
-			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList())
+			String cavity1 = "";
+			for (EnumFacing dir : EnumFacing.VALUES)
 			{
-				for (EnumFacing dir : axialDirs)
+				if(isActiveRFCavity(pos.offset(dir), null) && cavity1.isEmpty())
 				{
-					if (!isActiveRFCavity(pos.offset(dir),null))
-						continue axialDirsLoop;
+					cavity1 = getMultiblock().getPartMap(TileAcceleratorRFCavity.class).get(pos.offset(dir).toLong()).name;
 				}
-				return true;
+				else if(isActiveRFCavity(pos.offset(dir), null))
+				{
+					if(!cavity1.equals(getMultiblock().getPartMap(TileAcceleratorRFCavity.class).get(pos.offset(dir).toLong()).name))
+					{
+						return true;
+					}
+				}		
 			}
 			return false;
 		}
@@ -725,11 +736,12 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 			boolean magnesium = false;
 			for (EnumFacing dir : EnumFacing.VALUES)
 			{
-				if (isActiveCooler(pos.offset(dir), "Copper"))
+				if (isActiveCooler(pos.offset(dir), "copper"))
 					copper= true;
 				if (isActiveCooler(pos.offset(dir),"magnesium"))
 					magnesium = true;
 			}
+			
 			return copper && magnesium;
 		}
 	}
@@ -797,6 +809,7 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 	@Override
 	public void onMachineBroken()
 	{
+		resetStats(); 
 		super.onMachineBroken();
 		
 	}
@@ -805,30 +818,36 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 	@Override
 	public void update()
 	{
-		if (!isAdded)
-		{
-			onAdded();
-			isAdded = true;
-		}
-		if (isMarkedDirty)
-		{
-			markDirty();
-			isMarkedDirty = false;
-		}
+
 	}
 
 
 	@Override
 	public boolean isFunctional()
 	{
-		return isInValidPosition;
+		if (isInValidPosition) return true;
+		isInValidPosition = isCoolerValid();
+		if(!isInValidPosition)
+		{
+			System.out.println(this.name +" " + this.pos);
+		}
+		return isInValidPosition = isCoolerValid();
 	}
 
+	
+
+	
 	public abstract boolean isCoolerValid();
 
 	@Override
 	public void setFunctional(boolean func)
 	{
+	}
+	
+	@Override
+	public void resetStats() 
+	{
+		isInValidPosition = false;
 	}
 
 

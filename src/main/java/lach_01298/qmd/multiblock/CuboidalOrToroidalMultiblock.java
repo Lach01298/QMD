@@ -165,7 +165,6 @@ public abstract class CuboidalOrToroidalMultiblock<PACKET extends MultiblockUpda
 
 						if (!isPartValid)
 						{
-							System.out.println("ho");
 							if (null == multiblock.getLastError())
 							{
 								multiblock.setLastError(
@@ -341,22 +340,47 @@ public abstract class CuboidalOrToroidalMultiblock<PACKET extends MultiblockUpda
 
 	public int getExteriorVolume()
 	{
+		if(isToroidal())
+		{
+			return (getExteriorLengthX() * getExteriorLengthZ()- (getExteriorLengthX()-2*thickness)*(getExteriorLengthZ() -2*thickness))*getExteriorLengthY();
+		}
 		return getExteriorLengthX() * getExteriorLengthY() * getExteriorLengthZ();
+	}
+
+	private boolean isToroidal()
+	{
+		if(getMaxInCoord().getX() <= getMinInCoord().getX() || getMaxInCoord().getZ() <= getMinInCoord().getZ())
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public int getInteriorVolume()
 	{
+		if(isToroidal())
+		{
+			return ((getExteriorLengthX()-1) * (getExteriorLengthZ()-1)- (getExteriorLengthX()-2*(thickness+1))*(getExteriorLengthZ() -2*(thickness+1)))* getInteriorLengthY();
+		}
+		
 		return getInteriorLengthX() * getInteriorLengthY() * getInteriorLengthZ();
 	}
 
 	public int getExteriorSurfaceArea()
 	{
-		return 2 * (getExteriorLengthX() * getExteriorLengthY() + getExteriorLengthY() * getExteriorLengthZ()
-				+ getExteriorLengthZ() * getExteriorLengthX());
+		if(isToroidal())
+		{
+			return 4*(thickness+ getExteriorLengthY())*(getExteriorLengthX()+getExteriorLengthZ()-2*thickness);
+		}
+		return 2 * (getExteriorLengthX() * getExteriorLengthY() + getExteriorLengthY() * getExteriorLengthZ()+ getExteriorLengthZ() * getExteriorLengthX());
 	}
 
 	public int getInteriorSurfaceArea()
 	{
+		if(isToroidal())
+		{
+			return 4*(thickness-2+ getInteriorLengthY())*(getInteriorLengthX()+getInteriorLengthZ()-2*(thickness-2));
+		}
 		return 2 * (getInteriorLengthX() * getInteriorLengthY() + getInteriorLengthY() * getInteriorLengthZ()
 				+ getInteriorLengthZ() * getInteriorLengthX());
 	}

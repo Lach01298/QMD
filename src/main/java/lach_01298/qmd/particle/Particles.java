@@ -1,5 +1,6 @@
 package lach_01298.qmd.particle;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,9 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import io.netty.handler.logging.LogLevel;
+import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
+import net.minecraft.util.ResourceLocation;
 
 
 public class Particles
@@ -100,47 +103,47 @@ public class Particles
 	
 	public static void init()
 	{
-		none = new Particle("none",0,0,0,0);
+		none = new Particle("none",new ResourceLocation(QMD.MOD_ID, "none"),Color.white,0,0,0,0);
 		
 		//quarks
-		up = new Particle("up_quark",2.2,2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		down = new Particle("down_quark",4.7,-1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		charm = new Particle("charm_quark",1276d,2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		strange = new Particle("strange_quark",95d,-1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		top = new Particle("top_quark",173210d,2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		bottom = new Particle("bottom_quark",4180d,-1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		up = new Particle("up_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,2.2,2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		down = new Particle("down_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,4.7,-1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		charm = new Particle("charm_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,1276d,2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		strange = new Particle("strange_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,95d,-1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		top = new Particle("top_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,173210d,2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		bottom = new Particle("bottom_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,4180d,-1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
 		
 		//antiquarks
-		antiup = new Particle("antiup_quark",2.2,-2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		antidown = new Particle("antidown_quark",4.7,1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		anticharm = new Particle("anticharm_quark",1276d,-2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		antistrange = new Particle("antistrange_quark",95d,1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		antitop = new Particle("antitop_quark",173210d,-2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
-		antibottom = new Particle("antibottom_quark",4180d,1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		antiup = new Particle("antiup_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,2.2,-2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		antidown = new Particle("antidown_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,4.7,1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		anticharm = new Particle("anticharm_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,1276d,-2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		antistrange = new Particle("antistrange_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,95d,1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		antitop = new Particle("antitop_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,173210d,-2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
+		antibottom = new Particle("antibottom_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,4180d,1d/3d,1d/2d,-1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
 		
 		//leptons
-		electron = new Particle("electron",0.511,-1,1d/2d,-1d/2d);
-		muon = new Particle("muon",105.7,-1,1d/2d,-1d/2d);
-		tau = new Particle("tau",1776,-1,1d/2d,-1d/2d);
-		electron_neutrino = new Particle("electron_neutrino",0,0,1d/2d,1d/2d);
-		muon_neutrino = new Particle("muon_neutrino",0,0,1d/2d,1d/2d);
-		tau_neutrino = new Particle("tau_neutrino",0,0,1d/2d,1d/2d);
+		electron = new Particle("electron",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0.511,-1,1d/2d,-1d/2d);
+		muon = new Particle("muon",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,105.7,-1,1d/2d,-1d/2d);
+		tau = new Particle("tau",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,1776,-1,1d/2d,-1d/2d);
+		electron_neutrino = new Particle("electron_neutrino",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1d/2d,1d/2d);
+		muon_neutrino = new Particle("muon_neutrino",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1d/2d,1d/2d);
+		tau_neutrino = new Particle("tau_neutrino",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1d/2d,1d/2d);
 		
 		//antileptons
-		positron = new Particle("positron",0.511,1,1d/2d,-1d/2d);
-		antimuon = new Particle("antimuon",105.7,1,1d/2d,-1d/2d);
-		antitau = new Particle("antitau",1776,1,1d/2d,-1d/2d);
-		electron_antineutrino = new Particle("electron_antineutrino",0,0,1d/2d,1d/2d);
-		muon_antineutrino = new Particle("muon_antineutrino",0,0,1d/2d,1d/2d);
-		tau_antineutrino = new Particle("tau_antineutrino",0,0,1d/2d,1d/2d);
+		positron = new Particle("positron",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0.511,1,1d/2d,-1d/2d);
+		antimuon = new Particle("antimuon",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,105.7,1,1d/2d,-1d/2d);
+		antitau = new Particle("antitau",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,1776,1,1d/2d,-1d/2d);
+		electron_antineutrino = new Particle("electron_antineutrino",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1d/2d,1d/2d);
+		muon_antineutrino = new Particle("muon_antineutrino",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1d/2d,1d/2d);
+		tau_antineutrino = new Particle("tau_antineutrino",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1d/2d,1d/2d);
 		
 		//bosons
-		photon = new Particle("photon",0,0,1,0);
-		gluon = new Particle("gluon",0,0,1,0,ColourCharge.UNSPECIFIED,ColourCharge.UNSPECIFIED);
-		w_plus_boson = new Particle("w_plus_boson",8038,1,1,1);
-		w_minus_boson = new Particle("w_minus_boson",8038,-1,1,-1);
-		z_boson = new Particle("z_boson",9118,0,1,0);
-		higgs_boson = new Particle("higgs_boson",125180,0,0,-1d/2d);
+		photon = new Particle("photon",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1,0);
+		gluon = new Particle("gluon",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,0,0,1,0,ColourCharge.UNSPECIFIED,ColourCharge.UNSPECIFIED);
+		w_plus_boson = new Particle("w_plus_boson",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,8038,1,1,1);
+		w_minus_boson = new Particle("w_minus_boson",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,8038,-1,1,-1);
+		z_boson = new Particle("z_boson",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,9118,0,1,0);
+		higgs_boson = new Particle("higgs_boson",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,125180,0,0,-1d/2d);
 		
 		
 		//register anti particles
@@ -222,30 +225,30 @@ public class Particles
 	
 	private static void initComposites()
 	{
-		proton = new Particle("proton",938.3,1,1d/2d,0);
+		proton = new Particle("proton",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.RED,938.3,1,1d/2d,0);
 		proton.addComponentParticle(up);
 		proton.addComponentParticle(up);
 		proton.addComponentParticle(down);
 		
-		neutron = new Particle("neutron",939.6,0,1d/2d,0);
+		neutron = new Particle("neutron",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.BLUE,939.6,0,1d/2d,0);
 		neutron.addComponentParticle(up);
 		neutron.addComponentParticle(down);
 		neutron.addComponentParticle(down);
 		
 		
-		pion_plus = new Particle("pion_plus",139.6,1,0,0);
+		pion_plus = new Particle("pion_plus",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,139.6,1,0,0);
 		pion_plus.addComponentParticle(up);
 		pion_plus.addComponentParticle(down);
 		
-		pion_naught = new Particle("pion_naught",135.0,0,0,0);
+		pion_naught = new Particle("pion_naught",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,135.0,0,0,0);
 		pion_plus.addComponentParticle(up);
 		pion_plus.addComponentParticle(down);
 		
-		deuteron = new Particle("deuteron",1875.0,1,0,0);
+		deuteron = new Particle("deuteron",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,1875.0,1,0,0);
 		deuteron.addComponentParticle(proton);
 		deuteron.addComponentParticle(neutron);
 		
-		alpha = new Particle("alpha",3727,2,0,0);
+		alpha = new Particle("alpha",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,3727,2,0,0);
 		alpha.addComponentParticle(proton);
 		alpha.addComponentParticle(proton);
 		alpha.addComponentParticle(neutron);
@@ -253,18 +256,18 @@ public class Particles
 		
 		
 		
-		antiproton = makeAntiParticle(proton, "antiproton");
-		antineutron = makeAntiParticle(neutron, "antineutron");
-		pion_minus = makeAntiParticle(pion_plus, "pion_minus");
-		antideuteron = makeAntiParticle(deuteron, "antideuteron");
-		antialpha = makeAntiParticle(alpha, "antialpha");
+		antiproton = makeAntiParticle(proton, "antiproton",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN);
+		antineutron = makeAntiParticle(neutron, "antineutron",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN);
+		pion_minus = makeAntiParticle(pion_plus, "pion_minus",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN);
+		antideuteron = makeAntiParticle(deuteron, "antideuteron",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN);
+		antialpha = makeAntiParticle(alpha, "antialpha",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN);
 		
 		
 		
 	}
 	
 	
-	public static Particle makeAntiParticle(Particle particle, String name)
+	public static Particle makeAntiParticle(Particle particle, String name,ResourceLocation texture, Color color)
 	{
 		double mass = particle.getMass();
 		double charge = -particle.getCharge();
@@ -276,7 +279,7 @@ public class Particles
 			anticomponent.add(component.getAntiParticle());
 		}
 
-		Particle antiparticle = new Particle(name, mass, charge, spin, weakIsospin);
+		Particle antiparticle = new Particle(name, texture, color, mass, charge, spin, weakIsospin);
 		antiparticle.setComponentParticles(anticomponent);
 		antiparticle.setAntiParticle(particle);
 		return antiparticle;

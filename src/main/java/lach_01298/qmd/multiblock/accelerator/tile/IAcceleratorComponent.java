@@ -15,7 +15,7 @@ public interface IAcceleratorComponent extends IAcceleratorPart {
 	
 	public void setFunctional(boolean func);
 	
-	
+	public void resetStats();
 	
 	
 	
@@ -30,13 +30,24 @@ public interface IAcceleratorComponent extends IAcceleratorPart {
 	public default boolean isActiveRFCavity(BlockPos pos, String name)
 	{
 		TileAcceleratorRFCavity cavity =  getMultiblock().getPartMap(TileAcceleratorRFCavity.class).get(pos.toLong());
-		return cavity == null ? false : (cavity.isFunctional() && cavity.name.equals(name))||(cavity.isFunctional() && name == null);
+		return cavity == null ? false : (cavity.isFunctional() && (cavity.name.equals(name))||(cavity.isFunctional() && name == null));
 	}
 
 	public default boolean isActiveCooler(BlockPos pos, String name)
 	{
 		TileAcceleratorCooler cooler =  getMultiblock().getPartMap(TileAcceleratorCooler.class).get(pos.toLong());
-		return cooler == null ? false : (cooler.isFunctional() && cooler.name.equals(name))||(cooler.isFunctional() && name == null);
+		
+		if(cooler != null)
+		{
+			if(cooler.name.equals(name)||name == null)
+			{
+				return  cooler.isFunctional();
+			}
+		
+		}
+		
+		
+		return false;
 	}
 
 	public default boolean isActiveMagnet(BlockPos pos, String name)
@@ -50,5 +61,7 @@ public interface IAcceleratorComponent extends IAcceleratorPart {
 		TileAcceleratorYoke yoke  = getMultiblock().getPartMap(TileAcceleratorYoke.class).get(pos.toLong());
 		return yoke == null ? false : yoke.isFunctional();
 	}
+
+
 	
 }

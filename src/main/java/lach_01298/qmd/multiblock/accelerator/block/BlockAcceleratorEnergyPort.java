@@ -5,7 +5,7 @@ package lach_01298.qmd.multiblock.accelerator.block;
 import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorPort;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 
 import nc.util.Lang;
 import net.minecraft.block.properties.IProperty;

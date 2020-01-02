@@ -1,0 +1,18 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "qmd:beamline",
+        "textures": {
+            "side": "qmd:blocks/beamline/side",
+            "end": "qmd:blocks/beamline/end"
+        }
+    },
+    "variants": {
+       "inventory": [{}],
+       "axis_horizontal": {
+            "x": {},
+            "z": {"y": 90}
+       }
+    }
+}
+
