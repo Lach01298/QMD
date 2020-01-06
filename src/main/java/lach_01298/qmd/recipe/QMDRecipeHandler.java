@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
+import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.Global;
 import nc.ModCheck;
 import nc.config.NCConfig;

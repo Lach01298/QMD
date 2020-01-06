@@ -28,7 +28,7 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.particle.ParticleBeam;
+import lach_01298.qmd.particle.AcceleratorStorage;
 import lach_01298.qmd.recipe.QMDRecipes;
 import nc.Global;
 import nc.config.NCConfig;
@@ -93,8 +93,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 	public final HeatBuffer heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
-	public final ParticleBeam beam = new ParticleBeam();
 	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(Accelerator.BASE_MAX_OUTPUT, null));
+	
+	public List<AcceleratorStorage> beams = Lists.newArrayList(new AcceleratorStorage());
 	
 	public boolean logicInit = false, refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
@@ -518,8 +519,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	{
 		heatBuffer.writeToNBT(data);
 		energyStorage.writeToNBT(data);
-		beam.writeToNBT(data);
 		writeTanks(tanks,data);
+		writeBeams(beams,data);
 		
 		data.setBoolean("isAcceleratorOn", isAcceleratorOn);
 		data.setLong("cooling", cooling);
@@ -544,8 +545,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	{
 		heatBuffer.readFromNBT(data);
 		energyStorage.readFromNBT(data);
-		beam.readFromNBT(data);
 		readTanks(tanks,data);
+		readBeams(beams,data);
 		
 		isAcceleratorOn = data.getBoolean("isAcceleratorOn");
 		cooling = data.getLong("cooling");
@@ -588,11 +589,6 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		heatBuffer.setHeatStored(message.heatBuffer.getHeatStored());
 		energyStorage.setStorageCapacity(message.energyStorage.getMaxEnergyStored());
 		energyStorage.setEnergyStored(message.energyStorage.getEnergyStored());
-		
-		beam.setParticle(message.beam.getParticle());
-		beam.setMeanEnergy(message.beam.getMeanEnergy());
-		beam.setEnergySpread(message.beam.getEnergySpread());
-		beam.setLuminosity(message.beam.getLuminosity());
 		
 		for (int i = 0; i < tanks.size(); i++) tanks.get(i).readInfo(message.tanksInfo.get(i));
 		
@@ -658,5 +654,25 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		return logic.getMaximumInteriorLength();
 	}
 
+	public NBTTagCompound writeBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	{
+		for (int i = 0; i < beams.size(); i++)
+		{
+			beams.get(i).writeToNBT(data, i);
+		}
+		
+		return data;
+	}
+
+	public void readBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	{
+		for (int i = 0; i < beams.size(); i++)
+		{
+			beams.get(i).readFromNBT(data, i);
+		}
+		beams.get(0).readFromNBT(data);
+	}
+	
+	
 
 }

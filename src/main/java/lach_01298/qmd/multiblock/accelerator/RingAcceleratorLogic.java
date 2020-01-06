@@ -24,8 +24,9 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
-import lach_01298.qmd.particle.ParticleBeam;
-import lach_01298.qmd.recipe.IParticleIngredient;
+import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.Particle;
+import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.Global;
 import nc.multiblock.Multiblock;
 import nc.multiblock.TileBeefBase.SyncReason;
@@ -50,12 +51,19 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public int dipoleNumber =0;
 	public double dipoleStrength =0;
 	
+	private int updateCount = 0;
+	private int updateRate = 20;
+	
+	
 	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
 
 	
 	public RingAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
+		getAccelerator().beams.add(new AcceleratorStorage());
+		getAccelerator().beams.get(0).setMinEnergy(5000); //Probably add to config
+		getAccelerator().beams.get(1).setMinExtractionLuminosity(200);
 	}
 
 
@@ -334,35 +342,31 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
+		updateCount--;
+		
+		if (updateCount <= 0)
+		{
+
+			if (getAccelerator().isAcceleratorOn)
+			{
+				produceBeam();
+			}
+			else
+			{
+				
+				resetBeam();
+			}
+			getAccelerator().beams.get(0).setParticleStack(null);
+			updateCount = updateRate;
+		}
 		return super.onUpdateServer();
+
 	}
 
 	
 	
-	private void produceBeam()
-	{
-//		IParticleIngredient particleIngredient = recipeInfo.getRecipe().particleProducts().get(0);
-//		ParticleBeam beam = particleIngredient.getStack();
-//		getAccelerator().beam.setParticle(beam.getParticle());
-//		
-//	
-//		int maxEnergyFromRadiation = (int) ((3* getAccelerator().acceleratingVoltage * Math.pow(beam.getParticle().getMass(),4)*(getMaximumInteriorLength()-2)/2) / beam.getParticle().getCharge());
-//		int maxEnergyFromMagnet = (int) Math.sqrt(Math.pow(beam.getParticle().getCharge()*dipoleStrength*((getMaximumInteriorLength()-2)/2),2) +Math.pow(beam.getParticle().getMass(),2));
-//		if(maxEnergyFromRadiation < maxEnergyFromMagnet)
-//		{
-//			getAccelerator().beam.setMeanEnergy(maxEnergyFromRadiation*1000);
-//		}
-//		else
-//		{
-//			getAccelerator().beam.setMeanEnergy(maxEnergyFromMagnet*1000);
-//		}
-//		
-//		
-//		getAccelerator().beam.setLuminosity((int) (beam.getLuminosity()*getAccelerator().quadrupoleStrength));
-		
-	}
 	
 	
 	
@@ -433,8 +437,53 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		getAccelerator().efficiency = efficiency;
 		getAccelerator().acceleratingVoltage=(int) voltage;
 		
+		getAccelerator().beams.get(1).setInverseArea(1+getAccelerator().quadrupoleStrength);
 	}
 
+	
+	// Recipe Stuff
+	
+	private void resetBeam()
+	{
+		getAccelerator().beams.get(1).setParticleStack(null);
+	}
+
+
+	private void produceBeam()
+	{
+		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
+		{
+			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack());
+			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
+			
+			int maxEnergyFromFeild = 0;
+			if(getAccelerator().acceleratingVoltage > 0)
+			{
+				maxEnergyFromFeild = (int) (Math.sqrt(Math.pow(particle.getCharge()*dipoleStrength*getAccelerator().getExteriorLengthX()/2,2)+Math.pow(particle.getMass(),2))*1000);
+			}
+			int maxEnergyFromRadiation = (int) ((3*getAccelerator().acceleratingVoltage*Math.pow(particle.getMass(),4)*getAccelerator().getExteriorLengthX()/2)/Math.abs(particle.getCharge()));
+			
+			
+			if(maxEnergyFromRadiation >= maxEnergyFromFeild)
+			{
+				getAccelerator().beams.get(1).getParticleStack().setMeanEnergy(maxEnergyFromFeild);
+			}
+			else
+			{
+				getAccelerator().beams.get(1).getParticleStack().setMeanEnergy(maxEnergyFromRadiation);
+			}
+			
+		}
+		else
+		{
+			resetBeam();
+		}
+		
+		
+		
+	}
+	
+	
 	
 	
 	// Network
@@ -445,7 +494,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating, getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength,
-				getAccelerator().heatBuffer, getAccelerator().energyStorage,getAccelerator().beam,getAccelerator().tanks,dipoleNumber,dipoleStrength);
+				getAccelerator().heatBuffer, getAccelerator().energyStorage,getAccelerator().tanks,dipoleNumber,dipoleStrength, getAccelerator().beams.get(0), getAccelerator().beams.get(1));
 	}
 	
 	@Override
@@ -457,6 +506,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			RingAcceleratorUpdatePacket packet = (RingAcceleratorUpdatePacket) message;
 			dipoleNumber = packet.dipoleNumber;
 			dipoleStrength = packet.dipoleStrength;
+			getAccelerator().beams.clear();
+			getAccelerator().beams.add(packet.beamIn);
+			getAccelerator().beams.add(packet.beamOut);
 
 		}
 	}
@@ -491,22 +543,10 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	
 	
 	@Override
-	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) {
+	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
+	{
 		return new ContainerRingAcceleratorController(player, getAccelerator().controller);
 	}
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	
 	
 }

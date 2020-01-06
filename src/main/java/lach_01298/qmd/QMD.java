@@ -1,8 +1,7 @@
 package lach_01298.qmd;
 
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.capabilities.CapabilityHandler;
-import lach_01298.qmd.capabilities.QMDCapabilities;
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.commands.CommandQMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUIHandler;
@@ -12,6 +11,7 @@ import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.proxy.CommonProxy;
 import lach_01298.qmd.research.Researches;
 import lach_01298.qmd.tile.QMDTiles;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -54,8 +54,8 @@ public class QMD
 		Util.getLogger().info("Initialization");
 		proxy.init(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GUIHandler());
-		//MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
-	    //MinecraftForge.EVENT_BUS.register(new EventHandler());
+		MinecraftForge.EVENT_BUS.register(new CapabilityParticleStackHandler());
+	   
 	}
 
 	@EventHandler

@@ -13,6 +13,8 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
+import lach_01298.qmd.pipe.PipeBeamline;
+import lach_01298.qmd.tile.TileBeamline;
 
 public class MultiblockPartClasses
 {
@@ -30,5 +32,8 @@ public class MultiblockPartClasses
 		Accelerator.PART_CLASSES.add(TileAcceleratorYoke.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorRFCavity.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorSource.class);
+		
+		PipeBeamline.PART_CLASSES.add(TileBeamline.class);
+		
 	}
 }

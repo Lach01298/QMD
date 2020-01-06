@@ -28,11 +28,12 @@ import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
-import lach_01298.qmd.particle.ParticleBeam;
+import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
-import lach_01298.qmd.recipe.IParticleIngredient;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.Global;
 import nc.block.property.BlockProperties;
 import nc.config.NCConfig;
@@ -67,9 +68,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	private int updateCount = 0;
 	private int updateRate = 20;
 	
+	
 	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
 		super(oldLogic);
+		getAccelerator().beams.get(0).setMinExtractionLuminosity(200); //Probably add to config
 	}
 
 	
@@ -484,6 +487,9 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		getAccelerator().efficiency = efficiency;
 		getAccelerator().acceleratingVoltage=(int) voltage;
 		
+		getAccelerator().beams.get(0).setInverseArea(1+getAccelerator().quadrupoleStrength);
+		
+		
 	}
 	
 	
@@ -491,20 +497,15 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	private void resetBeam()
 	{
-		getAccelerator().beam.setParticle(Particles.none);
-		getAccelerator().beam.setMeanEnergy(0);
-		getAccelerator().beam.setLuminosity(0);
+		getAccelerator().beams.get(0).setParticleStack(null);
 	}
 
 
 	private void produceBeam()
 	{
 		IParticleIngredient particleIngredient = recipeInfo.getRecipe().particleProducts().get(0);
-		ParticleBeam beam = particleIngredient.getStack();
-		getAccelerator().beam.setParticle(beam.getParticle());
-		
-		getAccelerator().beam.setMeanEnergy((int) (getAccelerator().acceleratingVoltage*beam.getParticle().getCharge()));
-		getAccelerator().beam.setLuminosity((int) (beam.getLuminosity()*getAccelerator().quadrupoleStrength));
+		getAccelerator().beams.get(0).setParticleStack(particleIngredient.getStack());
+		getAccelerator().beams.get(0).getParticleStack().setMeanEnergy((int) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(0).getParticleStack().getParticle().getCharge())));
 		useItemDurability();
 	}
 
@@ -524,7 +525,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		ItemStack item =source.getInventory().getStackInSlot(0).copy();
 		item.setItemDamage(0);
 		items.add(item);
-		recipeInfo = accelerator_source.getRecipeInfoFromInputs(items, new ArrayList<Tank>(), new ArrayList<ParticleBeam>());
+		recipeInfo = accelerator_source.getRecipeInfoFromInputs(items, new ArrayList<Tank>(), new ArrayList<ParticleStack>());
 	}
 	
 	
@@ -544,7 +545,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength,
-				getAccelerator().heatBuffer, getAccelerator().energyStorage,getAccelerator().beam, getAccelerator().tanks);
+				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams.get(0));
 	}
 	
 	@Override
@@ -554,7 +555,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		if (message instanceof LinearAcceleratorUpdatePacket)
 		{
 			LinearAcceleratorUpdatePacket packet = (LinearAcceleratorUpdatePacket) message;
-
+			getAccelerator().beams.clear();
+			getAccelerator().beams.add(packet.beam);
 		}
 	}
 	

@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import lach_01298.qmd.particle.ParticleBeam;
-import lach_01298.qmd.recipe.IParticleIngredient;
+import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.FluidIngredient;
@@ -17,31 +16,31 @@ import net.minecraftforge.fluids.FluidStack;
 public class ParticleIngredient implements IParticleIngredient
 {
 
-	public ParticleBeam stack;
+	public ParticleStack stack;
 	public String particleName;
 	public int meanEnergy;
-	public int luminosity;
+	public int amount;
 	public double range;
 
-	public ParticleIngredient(ParticleBeam beam)
+	public ParticleIngredient(ParticleStack stack)
 	{
-		this.stack = beam;
-		particleName = beam.getParticle().getName();
-		meanEnergy = beam.getMeanEnergy();
-		range = beam.getEnergySpread();
+		this.stack = stack;
+		particleName = stack.getParticle().getName();
+		meanEnergy = stack.getMeanEnergy();
+		range = stack.getEnergySpread();
 	}
 
-	public ParticleIngredient(String particleName, int meanEnergy, int luminosity, double range)
+	public ParticleIngredient(String particleName, int meanEnergy, int amount, double range)
 	{
-		stack = ParticleBeam.getBeam(particleName, meanEnergy, luminosity, range);
+		stack = ParticleStack.getParticleStack(particleName, meanEnergy, amount, range);
 		this.particleName = particleName;
 		this.meanEnergy = meanEnergy;
-		this.luminosity = luminosity;
+		this.amount = amount;
 		this.range = range;
 	}
 
 	@Override
-	public ParticleBeam getStack()
+	public ParticleStack getStack()
 	{
 		return stack == null ? null : stack.copy();
 	}
@@ -61,14 +60,10 @@ public class ParticleIngredient implements IParticleIngredient
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption type)
 	{
-		if (object instanceof ParticleBeam)
+		if (object instanceof ParticleStack)
 		{
-			ParticleBeam beam = (ParticleBeam) object;
-			if (!beam.isBeamInRange(beam))
-			{
-				return IngredientMatchResult.FAIL;
-			}
-			return new IngredientMatchResult(type.checkStackSize(stack.getLuminosity(), beam.getLuminosity()), 0);
+			ParticleStack stack = (ParticleStack) object;
+			return new IngredientMatchResult(type.checkStackSize(stack.getAmount(), stack.getAmount()), 0);
 		}
 		else if (object instanceof ParticleIngredient && match(((ParticleIngredient) object).stack, type).matches())
 		{
@@ -79,13 +74,13 @@ public class ParticleIngredient implements IParticleIngredient
 	}
 
 	@Override
-	public List<ParticleBeam> getInputStackList()
+	public List<ParticleStack> getInputStackList()
 	{
 		return Lists.newArrayList(stack);
 	}
 
 	@Override
-	public List<ParticleBeam> getOutputStackList()
+	public List<ParticleStack> getOutputStackList()
 	{
 		return Lists.newArrayList(stack);
 	}
@@ -93,14 +88,14 @@ public class ParticleIngredient implements IParticleIngredient
 	@Override
 	public int getMaxStackSize(int ingredientNumber)
 	{
-		return luminosity;
+		return amount;
 	}
 
 	@Override
 	public void setMaxStackSize(int stackSize)
 	{
-		luminosity = stackSize;
-		stack.setLuminosity(stackSize);
+		amount = stackSize;
+		stack.setAmount(stackSize);
 	}
 
 	@Override

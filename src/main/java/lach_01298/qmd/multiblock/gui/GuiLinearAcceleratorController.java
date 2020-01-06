@@ -7,6 +7,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.LinearAcceleratorLogic;
+import lach_01298.qmd.multiblock.accelerator.RingAcceleratorLogic;
 import nc.multiblock.gui.GuiLogicMultiblockController;
 import nc.multiblock.gui.GuiMultiblockController;
 import nc.multiblock.gui.element.MultiblockButton;
@@ -49,6 +50,7 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) 
 	{
+		
 		int offset = 50;
 		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.linear_accelerator_controller.name");
@@ -64,10 +66,21 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 				 multiblock.quadrupoleNumber +" "+Lang.localise("gui.qmd.container.accelerator.magnet_strength") + multiblock.quadrupoleStrength;
 		fontRenderer.drawString(quadrupoles,offset, 50, fontColor);
 		
+		String particle;
+		String particle2;
+		if(multiblock.beams.get(0).getParticleStack() != null)
+		{
+			particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle."+ multiblock.beams.get(0).getParticleStack().getParticle().getName()+".name"); 	
+			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(multiblock.beams.get(0).getParticleStack().getMeanEnergy()*1000, 5, "eV"),multiblock.beams.get(0).getLuminosity());
+		}
+		else
+		{
+			particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle.none.name"); 
+			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(0, 5, "eV"),multiblock.beams.get(0).getLuminosity());
+		}
 		
-		String particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle."+ multiblock.beam.getParticle().getName()+".name"); 	
 		fontRenderer.drawString(particle,offset, 70, fontColor);
-		String particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(multiblock.beam.getMeanEnergy()*1000, 5, "eV"),multiblock.beam.getLuminosity());
+		
 		fontRenderer.drawString(particle2,offset, 80, fontColor);
 		
 		String temperature=Lang.localise("gui.qmd.container.temperature",multiblock.getTemperature());

@@ -147,7 +147,7 @@ gui.qmd.container.accelerator.coolant_required=Coolant Usage:
 gui.qmd.container.accelerator.coolant_out=Hot Coolant Out:
 gui.qmd.container.accelerator.beam=Beam:
 
-gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator
+gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator R:
 gui.qmd.container.accelerator.dipoles=Dipoles: 
 
 

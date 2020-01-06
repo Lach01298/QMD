@@ -5,8 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import lach_01298.qmd.particle.ParticleBeam;
-import lach_01298.qmd.recipe.IParticleIngredient;
+import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import net.minecraftforge.fluids.FluidStack;
@@ -14,7 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 public class ParticleArrayIngredient implements IParticleIngredient {
 	
 	public List<IParticleIngredient> ingredientList;
-	public List<ParticleBeam> cachedStackList = new ArrayList<ParticleBeam>();
+	public List<ParticleStack> cachedStackList = new ArrayList<ParticleStack>();
 	
 	public ParticleArrayIngredient(IParticleIngredient... ingredients) {
 		this(Lists.newArrayList(ingredients));
@@ -26,7 +25,7 @@ public class ParticleArrayIngredient implements IParticleIngredient {
 	}
 	
 	@Override
-	public ParticleBeam getStack() {
+	public ParticleStack getStack() {
 		if (cachedStackList == null || cachedStackList.isEmpty() || cachedStackList.get(0) == null) return null;
 		return cachedStackList.get(0).copy();
 	}
@@ -58,19 +57,19 @@ public class ParticleArrayIngredient implements IParticleIngredient {
 	@Override
 	public void setMaxStackSize(int stackSize) {
 		for (IParticleIngredient ingredient : ingredientList) ingredient.setMaxStackSize(stackSize);
-		for (ParticleBeam stack : cachedStackList) stack.setLuminosity(stackSize);
+		for (ParticleStack stack : cachedStackList) stack.setAmount(stackSize);
 	}
 	
 	@Override
-	public List<ParticleBeam> getInputStackList() {
-		List<ParticleBeam> stacks = new ArrayList<ParticleBeam>();
+	public List<ParticleStack> getInputStackList() {
+		List<ParticleStack> stacks = new ArrayList<ParticleStack>();
 		ingredientList.forEach(ingredient -> ingredient.getInputStackList().forEach(obj -> stacks.add(obj)));
 		return stacks;
 	}
 	
 	@Override
-	public List<ParticleBeam> getOutputStackList() {
-		if (cachedStackList == null || cachedStackList.isEmpty()) return new ArrayList<ParticleBeam>();
+	public List<ParticleStack> getOutputStackList() {
+		if (cachedStackList == null || cachedStackList.isEmpty()) return new ArrayList<ParticleStack>();
 		return Lists.newArrayList(getStack());
 	}
 	

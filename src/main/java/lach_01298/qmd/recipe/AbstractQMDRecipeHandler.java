@@ -17,8 +17,9 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleBeam;
+import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
 import nc.recipe.IngredientSorption;
 import nc.recipe.RecipeTupleGenerator;
@@ -50,10 +51,10 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 	
 	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
 	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
-	private static List<Class<?>> validParticleInputs = Lists.newArrayList(IParticleIngredient.class, ArrayList.class, String.class, Particle.class, ParticleBeam.class, ParticleBeam[].class);
+	private static List<Class<?>> validParticleInputs = Lists.newArrayList(IParticleIngredient.class, ArrayList.class, String.class, Particle.class, ParticleStack.class, ParticleStack[].class);
 	private static List<Class<?>> validItemOutputs = Lists.newArrayList(IItemIngredient.class, String.class, Item.class, Block.class, ItemStack.class);
 	private static List<Class<?>> validFluidOutputs = Lists.newArrayList(IFluidIngredient.class, String.class, Fluid.class, FluidStack.class);
-	private static List<Class<?>> validParticleOutputs = Lists.newArrayList(IParticleIngredient.class, String.class, Particle.class, ParticleBeam.class);
+	private static List<Class<?>> validParticleOutputs = Lists.newArrayList(IParticleIngredient.class, String.class, Particle.class, ParticleStack.class);
 	
 	private static List<Class<?>> needItemAltering = Lists.newArrayList(Item.class, Block.class);
 	private static List<Class<?>> needFluidAltering = Lists.newArrayList(Fluid.class);
@@ -73,7 +74,7 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 	public abstract void addRecipe(Object... objects);
 
 	public @Nullable QMDRecipeInfo<T> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,
-			List<ParticleBeam> particleInputs)
+			List<ParticleStack> particleInputs)
 	{
 		T recipe = recipeCache.get(hashMaterialsRaw(itemInputs, fluidInputs,particleInputs));
 		if (recipe != null)
@@ -131,7 +132,7 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		{
 			List<List<ItemStack>> itemInputLists = new ArrayList<>();
 			List<List<FluidStack>> fluidInputLists = new ArrayList<>();
-			List<List<ParticleBeam>> particleInputLists = new ArrayList<>();
+			List<List<ParticleStack>> particleInputLists = new ArrayList<>();
 
 			for (IItemIngredient item : recipe.itemIngredients())
 				itemInputLists.add(item.getInputStackHashingList());
@@ -168,18 +169,18 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 				maxNumbers[i + itemInputLists.size() + fluidInputLists.size()] = maxNumber;
 			}
 
-			List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleBeam>>> materialListTuples = new ArrayList<>();
+			List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>>> materialListTuples = new ArrayList<>();
 
 			QMDRecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers,
 					itemInputLists, fluidInputLists, particleInputLists);
 
-			for (Triple<List<ItemStack>, List<FluidStack>, List<ParticleBeam>> materials : materialListTuples)
+			for (Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>> materials : materialListTuples)
 			{
 				for (List<ItemStack> items : permutations(materials.getLeft()))
 				{
 					for (List<FluidStack> fluids : permutations(materials.getMiddle()))
 					{
-						for (List<ParticleBeam> particles : permutations(materials.getRight()))
+						for (List<ParticleStack> particles : permutations(materials.getRight()))
 						{
 							recipeCache.put(hashMaterials(items, fluids, particles), recipe);
 						}
@@ -189,7 +190,7 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		}
 	}
 
-	private static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids, List<ParticleBeam> particles)
+	private static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids, List<ParticleStack> particles)
 	{
 		long hash = 1L;
 		Iterator<ItemStack> itemIter = items.iterator();
@@ -205,17 +206,17 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 			hash = 31L * hash + (tank == null ? 0L
 					: tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
 		}
-		Iterator<ParticleBeam> particleIter = particles.iterator();
+		Iterator<ParticleStack> particleIter = particles.iterator();
 		while (particleIter.hasNext())
 		{
-			ParticleBeam beam = particleIter.next();
+			ParticleStack stack = particleIter.next();
 			hash = 31L * hash
-					+ (beam == null ? 0L : beam.getParticle() == null ? 0L : beam.getParticle().getName().hashCode());
+					+ (stack == null ? 0L : stack.getParticle() == null ? 0L : stack.getParticle().getName().hashCode());
 		}
 		return hash;
 	}
 
-	private static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids, List<ParticleBeam> particles)
+	private static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids, List<ParticleStack> particles)
 	{
 		long hash = 1L;
 		Iterator<ItemStack> itemIter = items.iterator();
@@ -230,12 +231,12 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 			FluidStack stack = fluidIter.next();
 			hash = 31L * hash + (stack == null ? 0L : stack.getFluid().getName().hashCode());
 		}
-		Iterator<ParticleBeam> particleIter = particles.iterator();
+		Iterator<ParticleStack> particleIter = particles.iterator();
 		while (particleIter.hasNext())
 		{
-			ParticleBeam beam = particleIter.next();
+			ParticleStack particleStack = particleIter.next();
 			hash = 31L * hash
-					+ (beam == null ? 0L : beam.getParticle() == null ? 0L : beam.getParticle().getName().hashCode());
+					+ (particleStack == null ? 0L : particleStack.getParticle() == null ? 0L : particleStack.getParticle().getName().hashCode());
 		}
 		return hash;
 	}
@@ -423,13 +424,13 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		return false;
 	}
 
-	public boolean isValidParticleInput(ParticleBeam beam)
+	public boolean isValidParticleInput(ParticleStack stack)
 	{
 		for (T recipe : recipeList)
 		{
 			for (IParticleIngredient input : recipe.particleIngredients())
 			{
-				if (input.match(beam, IngredientSorption.NEUTRAL).matches())
+				if (input.match(stack, IngredientSorption.NEUTRAL).matches())
 				{
 					return true;
 				}
@@ -468,13 +469,13 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		return false;
 	}
 
-	public boolean isValidParticleOutput(ParticleBeam beam)
+	public boolean isValidParticleOutput(ParticleStack stack)
 	{
 		for (T recipe : recipeList)
 		{
 			for (IParticleIngredient output : recipe.particleProducts())
 			{
-				if (output.match(beam, IngredientSorption.OUTPUT).matches())
+				if (output.match(stack, IngredientSorption.OUTPUT).matches())
 				{
 					return true;
 				}
@@ -554,11 +555,11 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		return new FluidIngredient(fluidName, stackSize);
 	}
 
-	public static ParticleIngredient particleBeam(String particleName, int meanEnergy, int luminosity, double spread)
+	public static ParticleIngredient particleStack(String particleName, int meanEnergy, int amount, double spread)
 	{
-		if (!(Particles.getParticleFromName(particleName) == Particles.none))
+		if (Particles.getParticleFromName(particleName) == null)
 			return null;
-		return new ParticleIngredient(particleName, meanEnergy, luminosity, spread);
+		return new ParticleIngredient(particleName, meanEnergy, amount, spread);
 	}
 
 	public static List<OreIngredient> oreStackList(List<String> oreTypes, int stackSize)

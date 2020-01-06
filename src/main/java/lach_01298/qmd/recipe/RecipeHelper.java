@@ -12,9 +12,10 @@ import org.apache.commons.lang3.tuple.Triple;
 import com.google.common.collect.Lists;
 
 import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleBeam;
+import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
+import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.recipe.ingredient.ParticleArrayIngredient;
 import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
 import nc.ModCheck;
@@ -139,17 +140,17 @@ public class RecipeHelper
 		}
 	}
 
-	public static ParticleBeam fixParticleBeam(Object object)
+	public static ParticleStack fixParticleStack(Object object)
 	{
 		if (object == null)
 			return null;
 
-		else if (object instanceof ParticleBeam)
+		else if (object instanceof ParticleStack)
 		{
-			ParticleBeam beam = ((ParticleBeam) object).copy();
-			if (beam.getLuminosity() <= 0)
+			ParticleStack beam = ((ParticleStack) object).copy();
+			if (beam.getAmount() <= 0)
 			{
-				beam.setLuminosity(1);
+				beam.setAmount(1);
 			}
 			return beam;
 		}
@@ -157,9 +158,9 @@ public class RecipeHelper
 		{
 			if (!(object instanceof Particle))
 			{
-				throw new RuntimeException(String.format("Invalid ParticleBeam: %s", object));
+				throw new RuntimeException(String.format("Invalid ParticleStack: %s", object));
 			}
-			return new ParticleBeam((Particle) object, 0, 0, 0);
+			return new ParticleStack((Particle) object, 0, 0, 0);
 		}
 	}
 
@@ -198,9 +199,9 @@ public class RecipeHelper
 		return values;
 	}
 
-	public static List<List<ParticleBeam>> getParticleInputLists(List<IParticleIngredient> ingredientList)
+	public static List<List<ParticleStack>> getParticleInputLists(List<IParticleIngredient> ingredientList)
 	{
-		List<List<ParticleBeam>> values = new ArrayList<List<ParticleBeam>>();
+		List<List<ParticleStack>> values = new ArrayList<List<ParticleStack>>();
 		ingredientList.forEach(ingredient -> values.add(ingredient.getInputStackList()));
 		return values;
 	}
@@ -219,9 +220,9 @@ public class RecipeHelper
 		return values;
 	}
 
-	public static List<List<ParticleBeam>> getParticleOutputLists(List<IParticleIngredient> ingredientList)
+	public static List<List<ParticleStack>> getParticleOutputLists(List<IParticleIngredient> ingredientList)
 	{
-		List<List<ParticleBeam>> values = new ArrayList<List<ParticleBeam>>();
+		List<List<ParticleStack>> values = new ArrayList<List<ParticleStack>>();
 		ingredientList.forEach(ingredient -> values.add(getParticleOutputStackList(ingredient)));
 		return values;
 	}
@@ -242,7 +243,7 @@ public class RecipeHelper
 			return Lists.newArrayList(ingredient.getStack());
 	}
 
-	public static List<ParticleBeam> getParticleOutputStackList(IParticleIngredient ingredient)
+	public static List<ParticleStack> getParticleOutputStackList(IParticleIngredient ingredient)
 	{
 		return Lists.newArrayList(ingredient.getStack());
 	}
@@ -272,14 +273,14 @@ public class RecipeHelper
 	}
 
 	@Nullable
-	public static List<ParticleBeam> getParticleOutputList(List<IParticleIngredient> list)
+	public static List<ParticleStack> getParticleOutputList(List<IParticleIngredient> list)
 	{
 		if (list.contains(null))
-			return new ArrayList<ParticleBeam>();
-		List stacks = new ArrayList<ParticleBeam>();
+			return new ArrayList<ParticleStack>();
+		List stacks = new ArrayList<ParticleStack>();
 		list.forEach(ingredient -> stacks.add(ingredient.getStack()));
 		if (stacks.contains(null))
-			return new ArrayList<ParticleBeam>();
+			return new ArrayList<ParticleStack>();
 		return stacks;
 	}
 
@@ -306,7 +307,7 @@ public class RecipeHelper
 	}
 
 	@Nullable
-	public static ParticleBeam getParticleStackFromIngredientList(List<IParticleIngredient> list, int pos)
+	public static ParticleStack getParticleStackFromIngredientList(List<IParticleIngredient> list, int pos)
 	{
 		if (!list.isEmpty() && pos < list.size())
 		{
@@ -439,7 +440,7 @@ public class RecipeHelper
 	{
 		if (AbstractQMDRecipeHandler.requiresParticleFixing(object))
 		{
-			object = RecipeHelper.fixParticleBeam(object);
+			object = RecipeHelper.fixParticleStack(object);
 		}
 		if (object instanceof IParticleIngredient)
 		{
@@ -478,9 +479,9 @@ public class RecipeHelper
 		{
 			return checkedParticleIngredient(RecipeHelper.particleBeamFromString((String) object));
 		}
-		if (object instanceof ParticleBeam)
+		if (object instanceof ParticleStack)
 		{
-			return checkedParticleIngredient(new ParticleIngredient((ParticleBeam) object));
+			return checkedParticleIngredient(new ParticleIngredient((ParticleStack) object));
 		}
 		return null;
 	}
@@ -563,8 +564,8 @@ public class RecipeHelper
 			}
 			for (int i = 0; i < particles.size(); i++)
 			{
-				Object particle = particles.get(i) instanceof ParticleBeam
-						? ((ParticleBeam) particles.get(i)).getParticle()
+				Object particle = particles.get(i) instanceof ParticleStack
+						? ((ParticleStack) particles.get(i)).getParticle()
 						: particles.get(i);
 				IngredientMatchResult matchResult = particleIngredients.get(i).match(particle, sorption);
 				if (matchResult.matches())
@@ -620,8 +621,8 @@ public class RecipeHelper
 					particleIngredients);
 			particleInputs: for (int i = 0; i < particles.size(); i++)
 			{
-				Object particle = particles.get(i) instanceof ParticleBeam
-						? ((ParticleBeam) particles.get(i)).getParticle()
+				Object particle = particles.get(i) instanceof ParticleStack
+						? ((ParticleStack) particles.get(i)).getParticle()
 						: particles.get(i);
 				for (int j = 0; j < particleIngredients.size(); j++)
 				{

@@ -5,8 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
-
-import lach_01298.qmd.particle.ParticleBeam;
+import lach_01298.qmd.particle.ParticleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -18,19 +17,19 @@ public class QMDRecipeTupleGenerator {
 	
 	private boolean itemEnd, fluidEnd, particleEnd;
 	
-	public void generateMaterialListTuples(List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleBeam>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, List<List<ParticleBeam>> particleInputLists) {
+	public void generateMaterialListTuples(List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, List<List<ParticleStack>> particleInputLists) {
 		do {
 			generateNextMaterialListTuple(tuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists, particleInputLists);
 		}
 		while (!itemEnd || !fluidEnd || !particleEnd);
 	}
 	
-	private void generateNextMaterialListTuple(List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleBeam>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, List<List<ParticleBeam>> particleInputLists) {
+	private void generateNextMaterialListTuple(List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, List<List<ParticleStack>> particleInputLists) {
 		int itemInputSize = itemInputLists.size(), fluidInputSize = fluidInputLists.size(), particleInputSize = particleInputLists.size();
 		
 		List<ItemStack> itemInputs = new ArrayList<>();
 		List<FluidStack> fluidInputs = new ArrayList<>();
-		List<ParticleBeam> particleInputs = new ArrayList<>();
+		List<ParticleStack> particleInputs = new ArrayList<>();
 		
 		for (int i = 0; i < itemInputSize; i++) {
 			itemInputs.add(itemInputLists.get(i).get(inputNumbers[i]));

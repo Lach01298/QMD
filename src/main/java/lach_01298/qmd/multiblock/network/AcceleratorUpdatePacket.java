@@ -3,7 +3,6 @@ package lach_01298.qmd.multiblock.network;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import lach_01298.qmd.particle.ParticleBeam;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -24,7 +23,6 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 	public int quadrupoleNumber, RFCavityNumber, acceleratingVoltage;
 	public HeatBuffer heatBuffer;
 	public EnergyStorage energyStorage;
-	public ParticleBeam beam;
 	public byte numberOfTanks;
 	public List<TankInfo> tanksInfo;
 
@@ -37,7 +35,7 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 	}
 
 	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating,double maxCoolantIn, double maxCoolantOut, int requiredEnergy, double efficiency, int acceleratingVoltage,
-int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, HeatBuffer heatBuffer, EnergyStorage energyStorage, ParticleBeam beam, List<Tank> tanks)
+int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks)
 	{
 		this.pos = pos;
 		this.isAcceleratorOn = isAcceleratorOn;
@@ -54,7 +52,6 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, HeatBuffer 
 		
 		this.heatBuffer = heatBuffer;
 		this.energyStorage = energyStorage;
-		this.beam = beam;
 		
 		numberOfTanks = (byte) tanks.size();
 		tanksInfo = TankInfo.infoList(tanks);
@@ -81,7 +78,6 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, HeatBuffer 
 		
 		heatBuffer = ByteUtil.readBufHeat(buf);
 		energyStorage = ByteUtil.readBufEnergy(buf);
-		beam = ParticleBeam.readBuf(buf);
 		numberOfTanks = buf.readByte();
 		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
 		
@@ -107,7 +103,6 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, HeatBuffer 
 
 		ByteUtil.writeBufHeat(heatBuffer, buf);
 		ByteUtil.writeBufEnergy(energyStorage, buf);
-		beam.writeBuf(buf);
 		buf.writeByte(numberOfTanks);
 		for (TankInfo info : tanksInfo) info.writeBuf(buf);
 	

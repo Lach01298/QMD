@@ -5,8 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import lach_01298.qmd.particle.ParticleBeam;
-import lach_01298.qmd.recipe.IParticleIngredient;
+import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.EmptyFluidIngredient;
@@ -21,19 +20,19 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	}
 
 	@Override
-	public ParticleBeam getStack()
+	public ParticleStack getStack()
 	{
 		return null;
 	}
 
 	@Override
-	public List<ParticleBeam> getInputStackList()
+	public List<ParticleStack> getInputStackList()
 	{
 		return new ArrayList<>();
 	}
 
 	@Override
-	public List<ParticleBeam> getOutputStackList()
+	public List<ParticleStack> getOutputStackList()
 	{
 		return new ArrayList<>();
 	}
@@ -66,9 +65,9 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	{
 		if (object == null)
 			return IngredientMatchResult.PASS_0;
-		if (object instanceof ParticleBeam)
+		if (object instanceof ParticleStack)
 		{
-			return new IngredientMatchResult(((ParticleBeam) object).getParticle() == null, 0);
+			return new IngredientMatchResult(((ParticleStack) object).getParticle() == null, 0);
 		}
 		return new IngredientMatchResult(object instanceof EmptyParticleIngredient, 0);
 	}
@@ -80,8 +79,8 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	}
 
 	@Override
-	public List<ParticleBeam> getInputStackHashingList()
+	public List<ParticleStack> getInputStackHashingList()
 	{
-		return Lists.newArrayList((ParticleBeam) null);
+		return Lists.newArrayList((ParticleStack) null);
 	}
 }

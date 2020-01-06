@@ -19,7 +19,7 @@ public class Particles
 	public static final Map<String,Particle> list = new HashMap<String,Particle>();
 	
 	
-	public static Particle none; // special case for no particles
+
 	
 	//quarks
 	public static Particle up;
@@ -94,16 +94,15 @@ public class Particles
 			if (!list.containsKey(name))
 			{
 				Util.getLogger().error("there is no particle with name " + name);
-				return none;
+				return null;
 			}
 			return list.get(name);
 		}
-		return none;
+		return null;
 	}
 	
 	public static void init()
 	{
-		none = new Particle("none",new ResourceLocation(QMD.MOD_ID, "none"),Color.white,0,0,0,0);
 		
 		//quarks
 		up = new Particle("up_quark",new ResourceLocation(QMD.MOD_ID, "up_quark"),Color.GREEN,2.2,2d/3d,1d/2d,1d/2d, ColourCharge.UNSPECIFIED,ColourCharge.WHITE);
@@ -168,7 +167,6 @@ public class Particles
 
 	public static void register()
 	{
-		registerPaticle(none);
 		
 		registerPaticle(up);
 		registerPaticle(antiup);

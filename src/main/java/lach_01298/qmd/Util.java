@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import nc.Global;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class Util
@@ -86,7 +87,35 @@ public class Util
 		return "";
 	}
 	
+	public static EnumFacing getAxisFacing(EnumFacing.Axis axis, boolean positive)
+	{
+		if(axis == EnumFacing.Axis.X)
+		{
+			if(positive)
+			{
+				return EnumFacing.EAST;
+			}
+			return EnumFacing.WEST;
+		}
+		if(axis == EnumFacing.Axis.Y)
+		{
+			if(positive)
+			{
+				return EnumFacing.UP;
+			}
+			return EnumFacing.DOWN;
+		}
+		if(axis == EnumFacing.Axis.Z)
+		{
+			if(positive)
+			{
+				return EnumFacing.SOUTH;
+			}
+			return EnumFacing.NORTH;
+		}
 	
+		return null;
+	}
 	
 	
 	

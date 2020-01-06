@@ -52,7 +52,7 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 		RingAcceleratorLogic ring =  (RingAcceleratorLogic) multiblock.getLogic();
 		int offset = 50;
 		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
-		String title = Lang.localise("gui.qmd.container.ring_accelerator_controller.name");
+		String title = Lang.localise("gui.qmd.container.ring_accelerator_controller.name")+multiblock.getExteriorLengthX()/2.0;
 		fontRenderer.drawString(title,offset, 7, fontColor);
 		
 		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys")+ multiblock.RFCavityNumber;
@@ -69,10 +69,21 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 				ring.dipoleNumber +" "+Lang.localise("gui.qmd.container.accelerator.magnet_strength") + ring.dipoleStrength;
 		fontRenderer.drawString(dipoles,offset, 60, fontColor);
 		
+		String particle;
+		String particle2;
+		if(multiblock.beams.get(1).getParticleStack() != null)
+		{
+			particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle."+ multiblock.beams.get(1).getParticleStack().getParticle().getName()+".name"); 	
+			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(multiblock.beams.get(1).getParticleStack().getMeanEnergy()*1000, 5, "eV"),multiblock.beams.get(1).getLuminosity());
+		}
+		else
+		{
+			particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle.none.name"); 
+			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(0, 5, "eV"),multiblock.beams.get(1).getLuminosity());
+		}
 		
-		String particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle."+ multiblock.beam.getParticle().getName()+".name"); 	
 		fontRenderer.drawString(particle,offset, 70, fontColor);
-		String particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(multiblock.beam.getMeanEnergy()*1000, 5, "eV"),multiblock.beam.getLuminosity());
+		
 		fontRenderer.drawString(particle2,offset, 80, fontColor);
 		
 		String temperature=Lang.localise("gui.qmd.container.temperature",multiblock.getTemperature());

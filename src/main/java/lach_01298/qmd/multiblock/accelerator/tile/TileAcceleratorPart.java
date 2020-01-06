@@ -34,7 +34,6 @@ public abstract class TileAcceleratorPart extends TileCuboidalOrToroidalMultiblo
 	public void onMachineBroken()
 	{
 		super.onMachineBroken();
-		
 	}
 
 

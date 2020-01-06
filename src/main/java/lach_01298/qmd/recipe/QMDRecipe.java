@@ -2,7 +2,8 @@ package lach_01298.qmd.recipe;
 
 import java.util.List;
 
-import lach_01298.qmd.particle.ParticleBeam;
+import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.config.NCConfig;
 import nc.recipe.IRecipe;
 import nc.recipe.IngredientSorption;
@@ -86,7 +87,7 @@ public class QMDRecipe  implements IQMDRecipe
 
 	@Override
 	public QMDRecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,
-			List<ParticleBeam> particleInputs)
+			List<ParticleStack> particleInputs)
 	{
 		
 		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients,particleIngredients, itemInputs, fluidInputs,particleInputs, isShapeless);
@@ -94,7 +95,7 @@ public class QMDRecipe  implements IQMDRecipe
 
 	@Override
 	public QMDRecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs,
-			List<ParticleBeam> particleOutputs)
+			List<ParticleStack> particleOutputs)
 	{
 		// TODO Auto-generated method stub
 		return null;
