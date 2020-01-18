@@ -20,7 +20,8 @@ public class QMDInfo
 			info[i] = new String[] {
 					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.voltage", values[i].getVoltage()),
 					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
-					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.heat", values[i].getHeatGenerated())
+					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.heat", values[i].getHeatGenerated()),
+					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.power", values[i].getBasePower())
 					};
 		}
 		return info;
@@ -50,7 +51,8 @@ public class QMDInfo
 			info[i] = new String[] {
 					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.strength", values[i].getStrength()),
 					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
-					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.heat", values[i].getHeatGenerated())
+					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.heat", values[i].getHeatGenerated()),
+					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.power", values[i].getBasePower())
 					};
 		}
 		return info;
@@ -124,6 +126,36 @@ public class QMDInfo
 
 
 
+	// Magnet info
+	public static String[][] detectorFixedInfo()
+	{
+		EnumTypes.DetectorType[] values = EnumTypes.DetectorType.values();
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++) {
+			info[i] = new String[] {
+					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
+					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.power", values[i].getBasePower())
+					};
+		}
+		return info;
+	}
+
+
+	public static String[][] detectorInfo()
+	{
+		EnumTypes.DetectorType[] values = EnumTypes.DetectorType.values();
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++) {
+			info[i] = InfoHelper.formattedInfo(detectorInfoString(values[i]));
+		}
+		return info;
+	}
+
+
+	private static String detectorInfoString(EnumTypes.DetectorType type) 
+	{
+		return Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector." + type.getName() + ".desc");
+	}
 
 
 

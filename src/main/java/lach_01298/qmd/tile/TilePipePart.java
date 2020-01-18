@@ -1,30 +1,38 @@
 package lach_01298.qmd.tile;
 
+
+import lach_01298.qmd.multiblock.accelerator.Accelerator;
+import lach_01298.qmd.pipe.Pipe;
 import lach_01298.qmd.pipe.PipeMultiblock;
 import nc.multiblock.BlockFacing;
 import nc.multiblock.TileMultiblockPart;
 import nc.multiblock.cuboidal.PartPosition;
 
-public abstract class TilePipePart<T extends PipeMultiblock> extends TileMultiblockPart<T>
+public abstract class TilePipePart extends TileMultiblockPart<Pipe>
 {
 
-	public TilePipePart(Class<T> tClass)
+	public TilePipePart()
 	{
-		super(tClass);
+		super(Pipe.class);
 	}
 	
 	
-	// Handlers from MultiblockTileEntityBase
 
 	@Override
-	public void onAttached(T newMultiblock)
+	public Pipe createNewMultiblock()
+	{
+		return new Pipe(getWorld());
+	}
+
+	@Override
+	public void onAttached(Pipe newMultiblock)
 	{
 		super.onAttached(newMultiblock);
 
 	}
 
 	@Override
-	public void onMachineAssembled(T multiblock)
+	public void onMachineAssembled(Pipe multiblock)
 	{
 	}
 

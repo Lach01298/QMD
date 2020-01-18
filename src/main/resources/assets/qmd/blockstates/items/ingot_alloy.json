@@ -15,6 +15,11 @@
                 "textures": {
                     "layer0": "qmd:items/materials/ingot_niobium_tin"
                 }
+            },
+			   "stainless_steel": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot_stainless_steel"
+                }
             }
         }
     }

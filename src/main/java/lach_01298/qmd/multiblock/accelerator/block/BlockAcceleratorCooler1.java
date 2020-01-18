@@ -2,6 +2,7 @@ package lach_01298.qmd.multiblock.accelerator.block;
 
 import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
+import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -13,7 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorCooler1 extends BlockMetaAcceleratorPart<EnumTypes.CoolerType1>
+public class BlockAcceleratorCooler1 extends BlockMetaQMDPart<EnumTypes.CoolerType1>
 {
 
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", EnumTypes.CoolerType1.class);

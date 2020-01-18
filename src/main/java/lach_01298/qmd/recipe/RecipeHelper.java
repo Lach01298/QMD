@@ -147,12 +147,12 @@ public class RecipeHelper
 
 		else if (object instanceof ParticleStack)
 		{
-			ParticleStack beam = ((ParticleStack) object).copy();
-			if (beam.getAmount() <= 0)
+			ParticleStack stack = ((ParticleStack) object).copy();
+			if (stack.getAmount() <= 0)
 			{
-				beam.setAmount(1);
+				stack.setAmount(1);
 			}
-			return beam;
+			return stack;
 		}
 		else
 		{
@@ -160,7 +160,7 @@ public class RecipeHelper
 			{
 				throw new RuntimeException(String.format("Invalid ParticleStack: %s", object));
 			}
-			return new ParticleStack((Particle) object, 0, 0, 0);
+			return new ParticleStack((Particle) object, 0, 1,0,0);
 		}
 	}
 
@@ -178,10 +178,10 @@ public class RecipeHelper
 		return null;
 	}
 
-	public static ParticleIngredient particleBeamFromString(String name)
+	public static ParticleIngredient particleStackFromString(String name)
 	{
 		if (Particles.getParticleFromName(name) != null)
-			return new ParticleIngredient(name, 0, 1, 0);
+			return new ParticleIngredient(name, 0, 1, 0,0);
 		return null;
 	}
 
@@ -477,7 +477,7 @@ public class RecipeHelper
 		}
 		else if (object instanceof String)
 		{
-			return checkedParticleIngredient(RecipeHelper.particleBeamFromString((String) object));
+			return checkedParticleIngredient(RecipeHelper.particleStackFromString((String) object));
 		}
 		if (object instanceof ParticleStack)
 		{
@@ -527,14 +527,12 @@ public class RecipeHelper
 			List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients,
 			List<IParticleIngredient> particleIngredients, List items, List fluids, List particles, boolean shapeless)
 	{
-		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()
-				|| particleIngredients.size() != particles.size())
+		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()|| particleIngredients.size() != particles.size())
 			return QMDRecipeMatchResult.FAIL;
 
 		List<Integer> itemIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(itemIngredients.size(), 0));
 		List<Integer> fluidIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(fluidIngredients.size(), 0));
-		List<Integer> particleIngredientNumbers = new ArrayList<Integer>(
-				Collections.nCopies(particleIngredients.size(), 0));
+		List<Integer> particleIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(particleIngredients.size(), 0));
 		List<Integer> itemInputOrder = CollectionHelper.increasingList(itemIngredients.size());
 		List<Integer> fluidInputOrder = CollectionHelper.increasingList(fluidIngredients.size());
 		List<Integer> particleInputOrder = CollectionHelper.increasingList(particleIngredients.size());
@@ -564,10 +562,7 @@ public class RecipeHelper
 			}
 			for (int i = 0; i < particles.size(); i++)
 			{
-				Object particle = particles.get(i) instanceof ParticleStack
-						? ((ParticleStack) particles.get(i)).getParticle()
-						: particles.get(i);
-				IngredientMatchResult matchResult = particleIngredients.get(i).match(particle, sorption);
+				IngredientMatchResult matchResult = particleIngredients.get(i).match(particles.get(i), sorption);
 				if (matchResult.matches())
 				{
 					particleIngredientNumbers.set(i, matchResult.getIngredientNumber());
@@ -621,15 +616,12 @@ public class RecipeHelper
 					particleIngredients);
 			particleInputs: for (int i = 0; i < particles.size(); i++)
 			{
-				Object particle = particles.get(i) instanceof ParticleStack
-						? ((ParticleStack) particles.get(i)).getParticle()
-						: particles.get(i);
 				for (int j = 0; j < particleIngredients.size(); j++)
 				{
 					IParticleIngredient particleIngredient = particleIngredientsRemaining.get(j);
 					if (particleIngredient == null)
 						continue;
-					IngredientMatchResult matchResult = particleIngredient.match(particle, sorption);
+					IngredientMatchResult matchResult = particleIngredient.match(particles.get(i), sorption);
 					if (matchResult.matches())
 					{
 						particleIngredientsRemaining.set(j, null);

@@ -69,7 +69,7 @@ public abstract class QMDRecipeHandler extends AbstractQMDRecipeHandler<QMDRecip
 			}
 			else if (i < itemInputSize + fluidInputSize + particleInputSize)
 			{
-				particleOutputs.add(object);
+				particleInputs.add(object);
 			}
 			else if (i < itemInputSize + fluidInputSize + particleInputSize + itemOutputSize)
 			{

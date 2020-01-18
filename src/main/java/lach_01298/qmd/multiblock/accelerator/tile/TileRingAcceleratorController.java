@@ -22,16 +22,11 @@ public class TileRingAcceleratorController extends TileAcceleratorPart implement
 	}
 
 	@Override
-	public Class<? extends AcceleratorLogic> getLogicClass()
+	public String getLogicID()
 	{
-		return RingAcceleratorLogic.class;
+		return	"ring_accelerator";
 	}
 
-	@Override
-	public AcceleratorLogic createNewLogic(AcceleratorLogic oldLogic)
-	{
-		return new RingAcceleratorLogic(oldLogic);
-	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)

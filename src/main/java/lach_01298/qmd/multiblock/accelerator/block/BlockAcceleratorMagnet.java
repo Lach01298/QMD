@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
+import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -17,7 +18,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockAcceleratorMagnet extends BlockMetaAcceleratorPart<EnumTypes.MagnetType>
+public class BlockAcceleratorMagnet extends BlockMetaQMDPart<EnumTypes.MagnetType>
 {
 
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", EnumTypes.MagnetType.class);

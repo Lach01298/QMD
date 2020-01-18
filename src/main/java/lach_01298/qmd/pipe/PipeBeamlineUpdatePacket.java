@@ -7,7 +7,7 @@ import lach_01298.qmd.particle.AcceleratorStorage;
 import lach_01298.qmd.tile.TileBeamline;
 import nc.multiblock.network.MultiblockUpdatePacket;
 
-public class PipeBeamlineUpdatePacket extends MultiblockUpdatePacket
+public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
 {
 
 	public AcceleratorStorage storage;
@@ -38,7 +38,7 @@ public class PipeBeamlineUpdatePacket extends MultiblockUpdatePacket
 	}
 
 	
-public static class Handler extends MultiblockUpdatePacket.Handler<PipeBeamlineUpdatePacket, PipeBeamline, TileBeamline> {
+public static class Handler extends MultiblockUpdatePacket.Handler<PipeBeamlineUpdatePacket, Pipe, TileBeamline> {
 		
 		public Handler() {
 			super(TileBeamline.class);

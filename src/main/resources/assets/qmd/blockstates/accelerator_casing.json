@@ -3,7 +3,7 @@
     "defaults": {
         "model":"cube_all",
         "textures": {
-            "all": "qmd:blocks/accelerator/accelerator_casing"
+            "all": "qmd:blocks/accelerator/casing"
         }
     },
     "variants": {

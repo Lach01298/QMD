@@ -4,34 +4,13 @@ import net.minecraft.util.EnumFacing;
 
 public class AcceleratorStorage extends ParticleStorage
 {
-	private double inverseArea;
 	private int minExtractionLuminosity;
 	public AcceleratorStorage()
 	{
 		super(null,Integer.MAX_VALUE,Integer.MAX_VALUE);
-		this.inverseArea = 1;
 		this.minExtractionLuminosity = 0;
 	}
 	
-	public int getLuminosity()
-	{
-		if(this.particleStack != null) 
-		{
-			return (int) (this.inverseArea*this.particleStack.getAmount());
-		}
-		return 0;
-	}
-	
-	
-	public void setInverseArea(double inverseArea)
-	{
-		this.inverseArea = inverseArea;
-	}
-	
-	public double getInverseArea()
-	{
-		return this.inverseArea;
-	}
 	
 	public void setMaxEnergy(int maxEnergy)
 	{
@@ -66,9 +45,12 @@ public class AcceleratorStorage extends ParticleStorage
 	
 	public ParticleStack extractParticle(EnumFacing side)
 	{
-		if(getLuminosity() >= minExtractionLuminosity)
+		if(this.particleStack != null)
 		{
-			return this.particleStack.copy();
+			if(this.particleStack.getLuminosity() >= minExtractionLuminosity)
+			{
+				return this.particleStack.copy();
+			}
 		}
 		return null;
 	}

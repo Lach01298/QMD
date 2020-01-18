@@ -1,0 +1,36 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "sodium_22": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope_sodium_22"
+                }
+            },
+            "promethium_147": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope_promethium_147"
+                }
+            },
+            "beryllium_7": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope_beryllium_7"
+                }
+            },
+            "magnesium_24": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope_magnesium_24"
+                }
+            },
+            "magnesium_26": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope_magnesium_26"
+                }
+            }
+        }
+    }
+}

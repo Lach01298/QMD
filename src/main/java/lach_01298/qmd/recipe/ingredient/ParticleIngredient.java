@@ -21,6 +21,7 @@ public class ParticleIngredient implements IParticleIngredient
 	public int meanEnergy;
 	public int amount;
 	public double range;
+	public int luminosity;
 
 	public ParticleIngredient(ParticleStack stack)
 	{
@@ -30,13 +31,14 @@ public class ParticleIngredient implements IParticleIngredient
 		range = stack.getEnergySpread();
 	}
 
-	public ParticleIngredient(String particleName, int meanEnergy, int amount, double range)
+	public ParticleIngredient(String particleName, int meanEnergy, int amount, double range, int luminosity)
 	{
-		stack = ParticleStack.getParticleStack(particleName, meanEnergy, amount, range);
+		stack = ParticleStack.getParticleStack(particleName, meanEnergy, amount, range, luminosity);
 		this.particleName = particleName;
 		this.meanEnergy = meanEnergy;
 		this.amount = amount;
 		this.range = range;
+		this.luminosity = luminosity;
 	}
 
 	@Override
@@ -60,16 +62,23 @@ public class ParticleIngredient implements IParticleIngredient
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption type)
 	{
+		
 		if (object instanceof ParticleStack)
 		{
-			ParticleStack stack = (ParticleStack) object;
+			ParticleStack particleStack = (ParticleStack) object;
+			if(!stack.isInRange(particleStack))
+			{
+				
+				return IngredientMatchResult.FAIL;
+			}
+			
 			return new IngredientMatchResult(type.checkStackSize(stack.getAmount(), stack.getAmount()), 0);
 		}
 		else if (object instanceof ParticleIngredient && match(((ParticleIngredient) object).stack, type).matches())
-		{
-			return new IngredientMatchResult(
-					type.checkStackSize(getMaxStackSize(0), ((ParticleIngredient) object).getMaxStackSize(0)), 0);
+		{	
+			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((ParticleIngredient) object).getMaxStackSize(0)), 0);
 		}
+		
 		return IngredientMatchResult.FAIL;
 	}
 

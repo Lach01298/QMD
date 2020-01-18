@@ -1,0 +1,47 @@
+{
+    "forge_marker": 1,
+    "variants": {
+        "fluid_hydrochloric_acid": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "hydrochloric_acid"
+            }
+        },
+        "fluid_nitric_acid": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "nitric_acid"
+            }
+        },
+        "fluid_sodium_chloride_solution": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "sodium_chloride_solution"
+            }
+        },
+        "fluid_liquid_hydrogen": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "liquid_hydrogen"
+            }
+        },
+        "fluid_liquid_argon": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "liquid_argon"
+            }
+        },
+        "fluid_argon": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "argon"
+            }
+        },
+           "fluid_silicon": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "silicon"
+            }
+        }
+    }
+}

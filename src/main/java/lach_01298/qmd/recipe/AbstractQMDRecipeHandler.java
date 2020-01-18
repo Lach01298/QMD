@@ -76,9 +76,12 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 	public @Nullable QMDRecipeInfo<T> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,
 			List<ParticleStack> particleInputs)
 	{
+		
 		T recipe = recipeCache.get(hashMaterialsRaw(itemInputs, fluidInputs,particleInputs));
+
 		if (recipe != null)
 		{
+			
 			QMDRecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs,particleInputs);
 			if (matchResult.matches())
 				return new QMDRecipeInfo(recipe, matchResult);
@@ -203,15 +206,13 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		while (fluidIter.hasNext())
 		{
 			Tank tank = fluidIter.next();
-			hash = 31L * hash + (tank == null ? 0L
-					: tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
+			hash = 31L * hash + (tank == null ? 0L: tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
 		}
 		Iterator<ParticleStack> particleIter = particles.iterator();
 		while (particleIter.hasNext())
 		{
 			ParticleStack stack = particleIter.next();
-			hash = 31L * hash
-					+ (stack == null ? 0L : stack.getParticle() == null ? 0L : stack.getParticle().getName().hashCode());
+			hash = 31L * hash + (stack == null ? 0L : stack.getParticle().getName().hashCode());
 		}
 		return hash;
 	}
@@ -234,9 +235,8 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		Iterator<ParticleStack> particleIter = particles.iterator();
 		while (particleIter.hasNext())
 		{
-			ParticleStack particleStack = particleIter.next();
-			hash = 31L * hash
-					+ (particleStack == null ? 0L : particleStack.getParticle() == null ? 0L : particleStack.getParticle().getName().hashCode());
+			ParticleStack stack = particleIter.next();
+			hash = 31L * hash + (stack == null ? 0L : stack.getParticle().getName().hashCode());
 		}
 		return hash;
 	}
@@ -555,11 +555,11 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 		return new FluidIngredient(fluidName, stackSize);
 	}
 
-	public static ParticleIngredient particleStack(String particleName, int meanEnergy, int amount, double spread)
+	public static ParticleIngredient particleStack(String particleName, int meanEnergy, int amount, double spread, int luminosity)
 	{
 		if (Particles.getParticleFromName(particleName) == null)
 			return null;
-		return new ParticleIngredient(particleName, meanEnergy, amount, spread);
+		return new ParticleIngredient(particleName, meanEnergy, amount, spread, luminosity);
 	}
 
 	public static List<OreIngredient> oreStackList(List<String> oreTypes, int stackSize)

@@ -18,14 +18,15 @@ import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.particle.AcceleratorStorage;
 import lach_01298.qmd.particle.Particle;
+import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.Global;
 import nc.multiblock.Multiblock;
@@ -51,8 +52,6 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public int dipoleNumber =0;
 	public double dipoleStrength =0;
 	
-	private int updateCount = 0;
-	private int updateRate = 20;
 	
 	
 	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
@@ -63,9 +62,13 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		super(oldLogic);
 		getAccelerator().beams.add(new AcceleratorStorage());
 		getAccelerator().beams.get(0).setMinEnergy(5000); //Probably add to config
-		getAccelerator().beams.get(1).setMinExtractionLuminosity(200);
 	}
 
+	@Override
+	public String getID()
+	{
+		return "ring_accelerator";
+	}
 
 	// Multiblock Validation
 	
@@ -77,7 +80,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		
 		if (acc.getExteriorLengthY() != thickness)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height, ", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height", null);
 			return false;
 		}
 
@@ -85,19 +88,19 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		if (acc.getExteriorLengthX() != acc.getExteriorLengthZ())
 		{
 			
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_square, ", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_square", null);
 				return false;
 		}
 		
 		if(acc.getExteriorLengthX() < QMDConfig.accelerator_ring_min_size)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_short, ", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_short", null);
 			return false;
 		}
 		
 		if(acc.getExteriorLengthX() > QMDConfig.accelerator_ring_max_size)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_long, ", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_long", null);
 			return false;
 		}
 		
@@ -107,7 +110,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		{
 			if (!(acc.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam))
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_beam, ", pos);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_beam", pos);
 				return false;
 			}
 		}
@@ -119,7 +122,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		{
 			if (!acc.isValidDipole(pos, true))
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_dipole_in_conner, ", pos);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_dipole_in_conner", pos);
 				return false;
 			}
 		}
@@ -344,23 +347,18 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-		updateCount--;
-		
-		if (updateCount <= 0)
+
+		if (getAccelerator().isAcceleratorOn)
+		{
+			produceBeam();
+		}
+		else
 		{
 
-			if (getAccelerator().isAcceleratorOn)
-			{
-				produceBeam();
-			}
-			else
-			{
-				
-				resetBeam();
-			}
-			getAccelerator().beams.get(0).setParticleStack(null);
-			updateCount = updateRate;
+			resetBeam();
 		}
+		getAccelerator().beams.get(0).setParticleStack(null);
+
 		return super.onUpdateServer();
 
 	}
@@ -437,7 +435,6 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		getAccelerator().efficiency = efficiency;
 		getAccelerator().acceleratingVoltage=(int) voltage;
 		
-		getAccelerator().beams.get(1).setInverseArea(1+getAccelerator().quadrupoleStrength);
 	}
 
 	
@@ -454,25 +451,27 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
 			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack());
+			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
 			
 			int maxEnergyFromFeild = 0;
 			if(getAccelerator().acceleratingVoltage > 0)
 			{
-				maxEnergyFromFeild = (int) (Math.sqrt(Math.pow(particle.getCharge()*dipoleStrength*getAccelerator().getExteriorLengthX()/2,2)+Math.pow(particle.getMass(),2))*1000);
+				maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*dipoleStrength*getAccelerator().getExteriorLengthX()/2,2)/(2*particle.getMass()))*1000;
 			}
 			int maxEnergyFromRadiation = (int) ((3*getAccelerator().acceleratingVoltage*Math.pow(particle.getMass(),4)*getAccelerator().getExteriorLengthX()/2)/Math.abs(particle.getCharge()));
 			
+			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
 			
 			if(maxEnergyFromRadiation >= maxEnergyFromFeild)
 			{
-				getAccelerator().beams.get(1).getParticleStack().setMeanEnergy(maxEnergyFromFeild);
+				particleOut.setMeanEnergy(maxEnergyFromFeild);
 			}
 			else
 			{
-				getAccelerator().beams.get(1).getParticleStack().setMeanEnergy(maxEnergyFromRadiation);
+				particleOut.setMeanEnergy(maxEnergyFromRadiation);
 			}
-			
+			particleOut.addLuminosity((int) (particleIn.getAmount()*(getAccelerator().quadrupoleStrength)));
 		}
 		else
 		{
@@ -516,27 +515,23 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason) {
-		super.writeToNBT(data, syncReason);
-		NBTTagCompound logicTag = new NBTTagCompound();
-	
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.writeToLogicTag(logicTag, syncReason);
+		
+
 		logicTag.setInteger("dipoleNumber", dipoleNumber);
 		logicTag.setDouble("dipoleStrength", dipoleStrength);
-	
-		data.setTag("ring_accelerator", logicTag);
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason) {
-		super.readFromNBT(data, syncReason);
-		if (data.hasKey("ring_accelerator")) {
-			NBTTagCompound logicTag = data.getCompoundTag("ring_accelerator");
-			dipoleNumber = logicTag.getInteger("dipoleNumber");
-			dipoleStrength = logicTag.getDouble("dipoleStrength");
-			
-		}
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.readFromLogicTag(logicTag, syncReason);
+
+		dipoleNumber = logicTag.getInteger("dipoleNumber");
+		dipoleStrength = logicTag.getDouble("dipoleStrength");
 	}
-	
 	
 	
 	

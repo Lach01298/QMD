@@ -36,7 +36,36 @@ public abstract class PipeMultiblock<PACKET extends MultiblockUpdatePacket> exte
 	{
 		return Integer.MAX_VALUE;
 	}
+	
+	
+	public int getLengthX()
+	{
+		return Math.abs(getMaximumCoord().getX() - getMinimumCoord().getX()) + 1;
+	}
 
+	public int getLengthY()
+	{
+		return Math.abs(getMaximumCoord().getY() - getMinimumCoord().getY()) + 1;
+	}
+
+	public int getLengthZ()
+	{
+		return Math.abs(getMaximumCoord().getZ() - getMinimumCoord().getZ()) + 1;
+	}
+
+	public int length()
+	{
+		if(this.getLengthX() > this.getLengthZ())
+		{
+			return this.getLengthX();
+		}
+		else
+		{
+			return this.getLengthZ();
+		}
+	}
+	
+	
 	@Override
 	protected boolean isMachineWhole(Multiblock multiblock)
 	{

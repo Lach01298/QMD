@@ -3,17 +3,12 @@
 	"defaults": {
 		"model": "cube_all",
 		"textures": {
-			"all": "qmd:blocks/accelerator/beam_port/default"
+			"all": "qmd:blocks/accelerator/beam_port/input"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
 		"io": {
-			"default": {
-				"textures": {
-						"all": "qmd:blocks/accelerator/beam_port/default"
-					}
-			},
 			"input": {
 				"textures": {
 						"all": "qmd:blocks/accelerator/beam_port/input"

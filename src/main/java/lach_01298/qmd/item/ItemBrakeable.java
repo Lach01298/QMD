@@ -11,7 +11,7 @@ public class ItemBrakeable extends Item implements IInfoItem
 
 	public ItemBrakeable(int durability)
 	{
-		this.setMaxStackSize(1);
+		this.setMaxStackSize(16);
 	    this.setMaxDamage(durability);
 	  
 	}

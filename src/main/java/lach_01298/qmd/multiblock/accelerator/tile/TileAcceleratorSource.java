@@ -1,25 +1,35 @@
 package lach_01298.qmd.multiblock.accelerator.tile;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
+import lach_01298.qmd.network.QMDTileUpdatePacket;
 import nc.Global;
 import nc.ModCheck;
 import nc.block.property.BlockProperties;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.network.tile.ProcessorUpdatePacket;
+import nc.network.tile.TileUpdatePacket;
+import nc.tile.ITileGui;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.InventoryTileWrapper;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileFilteredInventory;
 import nc.tile.inventory.ITileInventory;
 import nc.util.BlockPosHelper;
 import nc.util.GasHelper;
+import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,17 +41,21 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory
+public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory,ITileGui<TileUpdatePacket>, ITileFilteredInventory
 {
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_source";
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.IN, ItemSorption.OUT));
 	private @Nonnull InventoryTileWrapper invWrapper;
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	
+	protected Set<EntityPlayer> playersToUpdate;
+	
 	public TileAcceleratorSource()
 	{
 		super(CuboidalPartPositionType.WALL);
 		invWrapper = new InventoryTileWrapper(this);
+		
+		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
 	}
 
 	@Override
@@ -79,7 +93,7 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 	@Override
 	public String getName()
 	{
-		return inventoryName;
+		return Lang.localise("gui."+inventoryName);
 	}
 
 	@Override
@@ -172,6 +186,46 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 			return null;
 		}
 		return super.getCapability(capability, side);
+	}
+
+	@Override
+	public int getGuiID()
+	{
+		
+		return GUI_ID.ACCELERATOR_SOURCE;
+	}
+
+	@Override
+	public Set<EntityPlayer> getPlayersToUpdate()
+	{
+		
+		return playersToUpdate;
+	}
+
+	@Override
+	public TileUpdatePacket getGuiUpdatePacket()
+	{
+		return new QMDTileUpdatePacket();
+	}
+
+	@Override
+	public void onGuiPacket(TileUpdatePacket message)
+	{	
+		
+	}
+
+	@Override
+	public NonNullList<ItemStack> getFilterStacks()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void onFilterChanged(int slot)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

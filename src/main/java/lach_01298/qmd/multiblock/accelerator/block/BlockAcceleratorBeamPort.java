@@ -29,7 +29,7 @@ public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 	public BlockAcceleratorBeamPort()
 	{
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(IO, EnumTypes.IOType.DEFAULT));
+		setDefaultState(blockState.getBaseState().withProperty(IO, EnumTypes.IOType.INPUT));
 	}
 
 	@Override
@@ -85,8 +85,7 @@ public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 	
 	private static TextComponentString getToggleMessage(EntityPlayer player, TileAcceleratorBeamPort port)
 	{
-		TextFormatting color = TextFormatting.WHITE;
-		return new TextComponentString(Lang.localise("qmd.block_toggle") + " " + color + Lang.localise("qmd.block.accelerator_beam_port_config." + port.getIOType().name()));
+		return new TextComponentString(TextFormatting.AQUA + Lang.localise("qmd.block_toggle." + port.getIOType().name())) ;
 	}
 	
 	

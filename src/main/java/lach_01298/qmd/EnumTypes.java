@@ -372,12 +372,93 @@ public class EnumTypes
 	
 	
 	
+	public enum DetectorType implements IStringSerializable, IBlockMetaEnum 
+	{
+		BUBBLE_CHAMBER("bubble_chamber", 0,  QMDConfig.detector_efficiency[0], QMDConfig.detector_base_power[0]),
+		SILLICON_TRACKER("silicon_tracker", 1,  QMDConfig.detector_efficiency[1], QMDConfig.detector_base_power[1]),
+		WIRE_CHAMBER("wire_chamber", 2,  QMDConfig.detector_efficiency[2], QMDConfig.detector_base_power[2]),
+		EM_CALORIMETER("em_calorimeter", 3,  QMDConfig.detector_efficiency[3], QMDConfig.detector_base_power[3]),
+		HADRON_CALORIMETER("hadron_calorimeter", 4,  QMDConfig.detector_efficiency[4], QMDConfig.detector_base_power[4]); 
+		
+		private String name;
+		private int id;
+		private double efficiency;
+		private int basePower;
+
+		private DetectorType(String name, int id, double efficiency, int basePower)
+		{
+			this.name = name;
+			this.id = id;
+			this.efficiency = efficiency;
+			this.basePower = basePower;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		public int getID()
+		{
+			return id;
+		}
+
+		
+		public double getEfficiency()
+		{
+			return efficiency;
+		}
+
+
+		public int getBasePower()
+		{
+			return basePower;
+		}
+		
+		@Override
+		public int getHarvestLevel()
+		{
+			return 0;
+		}
+
+		@Override
+		public String getHarvestTool()
+		{
+			return "pickaxe";
+		}
+
+		@Override
+		public float getHardness()
+		{
+			return 2;
+		}
+
+		@Override
+		public float getResistance()
+		{
+			return 15;
+		}
+
+		@Override
+		public int getLightValue()
+		{
+			return 0;
+		}
+	}
+	
+	
 	public enum IOType implements IStringSerializable
 	{
-		DEFAULT("default", 0),
-		INPUT("input", 1),
-		OUTPUT("output", 2),
-		DISABLED("disabled", 3);
+		INPUT("input", 0),
+		OUTPUT("output", 1),
+		DISABLED("disabled", 2);
 		
 
 		private String name;
@@ -407,29 +488,7 @@ public class EnumTypes
 			return IOType.values()[id];
 		}
 		
-		public IOType getNextSimpleIO()
-		{
-			if(this == INPUT)
-			{
-				return OUTPUT;
-			}
-				return INPUT;
-		}
-		
-		public static IOType getSimpleTypeFromID(int id)
-		{
-			switch (id)
-			{
-			case 0:
-				return IOType.INPUT;
-			case 1:
-				return IOType.OUTPUT;
-			default:
-				return IOType.INPUT;
-			}
-			
-				
-		}
+
 
 		@Override
 		public String getName()
@@ -448,18 +507,6 @@ public class EnumTypes
 			return id;
 		}
 		
-		public int getSimpleID()
-		{
-			switch (this)
-			{
-			case INPUT:
-				return 0;
-			case OUTPUT:
-				return 1;
-			default:
-				return 0;
-			}
-		}
 				
 	
 	}

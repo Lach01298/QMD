@@ -56,6 +56,7 @@ public class ByteUtil
 		{
 			ByteBufUtils.writeUTF8String(buf,"none");
 			buf.writeInt(0);
+			buf.writeInt(0);
 			buf.writeDouble(0);
 			buf.writeInt(0);
 		}
@@ -71,15 +72,16 @@ public class ByteUtil
 			}
 			
 			buf.writeInt(stack.getMeanEnergy());
-			buf.writeDouble(stack.getEnergySpread());
 			buf.writeInt(stack.getAmount());
+			buf.writeDouble(stack.getEnergySpread());
+			buf.writeInt(stack.getLuminosity());
 		}
 	
 		
 		
 		buf.writeInt(beam.getMaxEnergy());
 		buf.writeInt(beam.getMinEnergy());
-		buf.writeDouble(beam.getInverseArea());
+		buf.writeInt(beam.getMinExtractionLuminosity());
 	}
 	
 
@@ -93,22 +95,26 @@ public class ByteUtil
 		{
 			beam.setParticleStack(null);
 			buf.readInt();
+			buf.readInt();
 			buf.readDouble();
 			buf.readInt();
+			
 		}
 		else
 		{
 			Particle p = Particles.getParticleFromName(string);
 			int energy = buf.readInt();
-			double spread = buf.readDouble();
 			int amount = buf.readInt();
-			ParticleStack stack = new ParticleStack(p,energy, amount, spread);
+			double spread = buf.readDouble();
+			int lum = buf.readInt();
+			
+			ParticleStack stack = new ParticleStack(p,energy, amount, spread,lum);
 			beam.setParticleStack(stack);
 		}
 		
 		beam.setMaxEnergy(buf.readInt());
 		beam.setMinEnergy(buf.readInt());
-		beam.setInverseArea(buf.readDouble());
+		beam.setMinExtractionLuminosity(buf.readInt());
 
 		return beam;
 	}

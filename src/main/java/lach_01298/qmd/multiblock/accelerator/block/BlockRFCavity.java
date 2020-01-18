@@ -2,6 +2,7 @@ package lach_01298.qmd.multiblock.accelerator.block;
 
 import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -13,7 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockRFCavity extends BlockMetaAcceleratorPart<EnumTypes.RFCavityType>
+public class BlockRFCavity extends BlockMetaQMDPart<EnumTypes.RFCavityType>
 {
 
 	public final static PropertyEnum TYPE = PropertyEnum.create("type", EnumTypes.RFCavityType.class);

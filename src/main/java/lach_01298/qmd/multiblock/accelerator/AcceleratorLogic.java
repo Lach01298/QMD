@@ -48,7 +48,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket> 
-{
+{ 
 
 	
 	
@@ -70,18 +70,17 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		super(oldLogic);
 	}
 	
+	@Override
+	public String getID()
+	{
+		return "";
+	}
+	
 	protected Accelerator getAccelerator() 
 	{
 		return multiblock;
 	}
 	
-
-	
-	@Override
-	public void load() {}
-	
-	@Override
-	public void unload() {}
 	
 	public void onResetStats() {}
 	
@@ -208,8 +207,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		{
 			if (isRedstonePowered())
 			{
-				if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
-						true) == getAccelerator().requiredEnergy)
+				if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,true) == getAccelerator().requiredEnergy)
 				{
 					getAccelerator().energyStorage.changeEnergyStored(-getAccelerator().requiredEnergy);
 					internalHeating();
@@ -311,39 +309,41 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 			excessCoolantOut -= Math.floor(excessCoolantOut);
 		}
 		
-		int heatUsed = (int) ((fluidIngredientStackSize/getAccelerator().coolingRecipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(0))*getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-		
-		double recipeRatio =getAccelerator().tanks.get(0).getFluidAmount()/fluidIngredientStackSize;
-		
-		if(recipeRatio >(getAccelerator().tanks.get(1).getCapacity()-getAccelerator().tanks.get(1).getFluidAmount()/fluidOutputStackSize))
+		if(fluidIngredientStackSize > 0)
 		{
-			 recipeRatio =(getAccelerator().tanks.get(1).getCapacity()-getAccelerator().tanks.get(1).getFluidAmount())/fluidOutputStackSize;
-		}
-		if(recipeRatio > getAccelerator().heatBuffer.getHeatStored()/heatUsed)
-		{
-			 recipeRatio =getAccelerator().heatBuffer.getHeatStored()/heatUsed;
-		}
-		
-		if(recipeRatio > 1)
-		{
-			recipeRatio = 1;
-		}
-		IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().fluidProducts().get(0);
-		
-		if (getAccelerator().tanks.get(1).isEmpty())
-		{
-			getAccelerator().tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
-			getAccelerator().tanks.get(1).setFluidAmount((int) (fluidOutputStackSize * recipeRatio));
-		}
-		else
-		{
-			getAccelerator().tanks.get(1).changeFluidAmount((int) (fluidOutputStackSize * recipeRatio));
-		}
-		
-		getAccelerator().tanks.get(0).changeFluidAmount(-(int)(fluidIngredientStackSize*recipeRatio));
-		getAccelerator().heatBuffer.changeHeatStored(-(int)(heatUsed*recipeRatio));
-		if (getAccelerator().tanks.get(0).getFluidAmount() <= 0) getAccelerator().tanks.get(0).setFluidStored(null);
-	
+			int heatUsed = (int) ((fluidIngredientStackSize/getAccelerator().coolingRecipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(0))*getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+			
+			double recipeRatio =getAccelerator().tanks.get(0).getFluidAmount()/fluidIngredientStackSize;
+			
+			if(recipeRatio >(getAccelerator().tanks.get(1).getCapacity()-getAccelerator().tanks.get(1).getFluidAmount()/fluidOutputStackSize))
+			{
+				 recipeRatio =(getAccelerator().tanks.get(1).getCapacity()-getAccelerator().tanks.get(1).getFluidAmount())/fluidOutputStackSize;
+			}
+			if(recipeRatio > getAccelerator().heatBuffer.getHeatStored()/heatUsed)
+			{
+				 recipeRatio =getAccelerator().heatBuffer.getHeatStored()/heatUsed;
+			}
+			
+			if(recipeRatio > 1)
+			{
+				recipeRatio = 1;
+			}
+			IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().fluidProducts().get(0);
+			
+			if (getAccelerator().tanks.get(1).isEmpty())
+			{
+				getAccelerator().tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
+				getAccelerator().tanks.get(1).setFluidAmount((int) (fluidOutputStackSize * recipeRatio));
+			}
+			else
+			{
+				getAccelerator().tanks.get(1).changeFluidAmount((int) (fluidOutputStackSize * recipeRatio));
+			}
+			
+			getAccelerator().tanks.get(0).changeFluidAmount(-(int)(fluidIngredientStackSize*recipeRatio));
+			getAccelerator().heatBuffer.changeHeatStored(-(int)(heatUsed*recipeRatio));
+			if (getAccelerator().tanks.get(0).getFluidAmount() <= 0) getAccelerator().tanks.get(0).setFluidStored(null);
+		}	
 	}
 	
 
@@ -388,19 +388,19 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		
 	}
 	
-
 	
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason) 
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
 		
 	}
-	
+
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason) 
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
+	
 		
 	}
 	
@@ -448,4 +448,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		if (MaterialHelper.isReplaceable(world.getBlockState(pos).getMaterial()) || world.getTileEntity(pos) instanceof TileAcceleratorPart) return true;
 		else return getAccelerator().standardLastError(x, y, z, multiblock);
 	}
+
+	
+
+
 }

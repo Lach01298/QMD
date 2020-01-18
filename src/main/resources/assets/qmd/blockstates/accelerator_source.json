@@ -3,11 +3,11 @@
 	"defaults": {
 		"model": "nuclearcraft:machine",
 		"textures": {
-			"top": "qmd:blocks/accelerator/accelerator_casing",
-			"bottom": "qmd:blocks/accelerator/accelerator_casing",
-			"front": "qmd:blocks/accelerator/accelerator_source_front",
-			"side": "qmd:blocks/accelerator/accelerator_casing",
-			"back": "qmd:blocks/accelerator/accelerator_source_back_off"
+			"top": "qmd:blocks/accelerator/casing",
+			"bottom": "qmd:blocks/accelerator/casing",
+			"front": "qmd:blocks/accelerator/source_front",
+			"side": "qmd:blocks/accelerator/casing",
+			"back": "qmd:blocks/accelerator/source_back_off"
 		}
 	},
 	"variants": {
@@ -16,7 +16,7 @@
 			"false": {},
 			"true": {
 				"textures": {
-					"back": "qmd:blocks/accelerator/accelerator_source_back_on"
+					"back": "qmd:blocks/accelerator/source_back_on"
 				}
 			}
 		},

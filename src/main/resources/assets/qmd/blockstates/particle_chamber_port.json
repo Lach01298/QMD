@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"cube_all",
+        "textures": {
+            "all": "qmd:blocks/particle_chamber/port"
+        }
+    },
+    "variants": {
+        "inventory": [{}],
+        "normal": [{}]
+    }
+}

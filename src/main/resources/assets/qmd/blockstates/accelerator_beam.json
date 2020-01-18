@@ -3,7 +3,7 @@
     "defaults": {
         "model":"cube_all",
         "textures": {
-            "all": "qmd:blocks/accelerator/beam/beam_disabled"
+            "all": "qmd:blocks/accelerator/beam"
         }
     },
     "variants": {

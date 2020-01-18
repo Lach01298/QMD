@@ -1,0 +1,30 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all",
+		"textures": {
+			"all": "qmd:blocks/particle_chamber/beam_port/input"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"io": {
+			"input": {
+				"textures": {
+						"all": "qmd:blocks/particle_chamber/beam_port/input"
+					}
+			},
+			"output": {
+				"textures": {
+						"all": "qmd:blocks/particle_chamber/beam_port/output"
+					}
+			},
+			"disabled": {
+				"textures": {
+						"all": "qmd:blocks/particle_chamber/beam_port/disabled"
+					}
+			}
+		}
+		
+	}
+}

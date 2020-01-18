@@ -1,0 +1,32 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "silicon_p_doped": {
+                "textures": {
+                    "layer0": "qmd:items/semiconductor/silicon_p_doped"
+                }
+            },
+            "silicon_n_doped": {
+                "textures": {
+                    "layer0": "qmd:items/semiconductor/silicon_n_doped"
+                }
+            },
+            "silicon_boule": {
+                "textures": {
+                    "layer0": "qmd:items/semiconductor/silicon_boule"
+                }
+            },
+            "silicon_wafer": {
+                "textures": {
+                    "layer0": "qmd:items/semiconductor/silicon_wafer"
+                }
+            }
+        }
+    }
+}
+

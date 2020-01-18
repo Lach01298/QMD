@@ -25,6 +25,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.TileBeamline;
 import nc.block.NCBlock;
 import nc.tab.NCTabs;
@@ -39,7 +40,7 @@ public class BlockBeamline extends NCBlock implements ITileEntityProvider
 	public BlockBeamline()
 	{
 		super(Material.IRON);
-		setCreativeTab(NCTabs.MACHINE);
+		setCreativeTab(QMDTabs.BLOCKS);
 		setDefaultState(blockState.getBaseState().withProperty(AXIS_HORIZONTAL, EnumFacing.Axis.X));
 		
 	}

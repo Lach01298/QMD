@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import lach_01298.qmd.QMD;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 
@@ -18,55 +19,46 @@ public class Particle
 	protected final double mass; 	//in MeV/c^2
 	protected final double charge;	// in e
 	protected final double spin;	// in h bar
-	protected final ColourCharge colour;
-	protected final ColourCharge secondColour; //only for gluons
-	protected final double weakIsospin;
+	protected final boolean coloured;
+	protected final boolean weakCharged;
 	protected Particle antiparticle;
 	protected List<Particle> componentParticles = new ArrayList<Particle>();
 	
 	//render stuff
 	protected final ResourceLocation texture;
-	protected int color = 0xFFFFFFFF;
 	
-	public Particle(@Nonnull String name, ResourceLocation texture, Color color,  double mass, double charge, double spin, double weakisospin)
+	public Particle(@Nonnull String name, ResourceLocation texture,  double mass, double charge, double spin, boolean weakCharged)
 	{
 		this.name = name;
 		this.texture = texture;
-		this.setColor(color);
 		
 		
 		
 		this.mass = mass;
 		this.charge = charge;
 		this.spin = spin;
-		this.weakIsospin = weakisospin;
-		this.colour = ColourCharge.WHITE;
-		this.secondColour = ColourCharge.WHITE;
+		this.weakCharged = weakCharged;
+		this.coloured = false;
 		this.antiparticle = this; // default case have to register Antiparticles
 	}
 	
 
 
-	public Particle(@Nonnull String name, ResourceLocation texture, Color color, double mass, double charge, double spin, double weakisospin, ColourCharge colour,ColourCharge secondaryColour)
+	public Particle(@Nonnull String name, ResourceLocation texture, double mass, double charge, double spin, boolean weakCharged, Boolean coloured)
 	{
 		this.name = name;
 		this.texture = texture;
-		this.setColor(color);
+		
 		
 		this.mass = mass;
 		this.charge = charge;
 		this.spin = spin;
-		this.weakIsospin = weakisospin;
-		this.colour = colour;
-		this.secondColour = secondaryColour;
+		this.weakCharged = weakCharged;
+		this.coloured = coloured;
+		
 		this.antiparticle = this; // default case have to register Antiparticles
 	}
 	
-	public Particle setColor(Color color)
-    {
-        this.color = color.getRGB();
-        return this;
-    }
 	
 	
 	public String getName()
@@ -88,10 +80,6 @@ public class Particle
 		return this.spin;
 	}
 	
-	public double getWeakIsospin()
-	{
-		return this.weakIsospin;
-	}
 
 	public void setAntiParticle(Particle antiparticle)
 	{
@@ -126,18 +114,34 @@ public class Particle
 	
 	public String getUnlocalizedName()
     {
-		return "particle." + this.name;
+		return QMD.MOD_ID + ".particle." + this.name + ".name";
 	}
 
-	public int getColor()
-	{
-		return color;
-	}
 
 	public ResourceLocation getTexture()
 	{
 		return texture;
 	}
+	
+	
+	
+	public boolean interactsWithEM()
+	{
+		return this.charge !=0;
+	}
+	public boolean interactsWithStrong()
+	{
+		return this.coloured;
+	}
+	
+	public boolean interactsWithWeak()
+	{
+		return this.weakCharged;
+	}
+	
+	
+	
+	
 }
 
 

@@ -1,43 +1,75 @@
 package lach_01298.qmd.multiblock.particleChamber;
 
+import java.lang.reflect.Constructor;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
+import com.google.common.collect.Lists;
+
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.AcceleratorLogic;
+import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
+import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberPart;
+import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.particle.AcceleratorStorage;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
+import nc.Global;
 import nc.multiblock.ILogicMultiblock;
 import nc.multiblock.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
 import nc.multiblock.ILogicMultiblock.PartSuperMap;
 import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
+import nc.multiblock.fission.FissionReactorLogic;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeInfo;
+import nc.tile.internal.energy.EnergyStorage;
 import nc.util.SuperMap;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePacket> implements ILogicMultiblock<ParticleChamberLogic, IParticleChamberPart>
-{
+{ 
 
 	public static final ObjectSet<Class<? extends IParticleChamberPart>> PART_CLASSES = new ObjectOpenHashSet<>();
+	public static final Object2ObjectMap<String, Constructor<? extends ParticleChamberLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
+
+	
 	protected @Nonnull ParticleChamberLogic logic = new ParticleChamberLogic(this);
 	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 	
 	protected final PartSuperMap<IParticleChamberPart> partSuperMap = new PartSuperMap<>();
 	
-	public QMDRecipeInfo<QMDRecipe> RecipeInfo;
-	public double effecicy;
+	
+	public boolean refreshFlag = true, isChamberOn = false;
+	public int requiredEnergy;
+	public double efficiency = 1;
 	
 	
+	public IParticleChamberController controller;
 	
-	protected ParticleChamber(World world)
+	
+	public static final int	BASE_MAX_ENERGY = 40000;
+	
+	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
+	
+	public List<AcceleratorStorage> beams = Lists.newArrayList(new AcceleratorStorage());
+	
+	public ParticleChamber(World world)
 	{
 		super(world);
 		for (Class<? extends IParticleChamberPart> clazz : PART_CLASSES)
@@ -51,6 +83,12 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	{
 		return logic;
 	}
+	
+	@Override
+	public void setLogic(String logicID) {
+		if (logicID.equals(logic.getID())) return;
+		logic = getNewLogic(LOGIC_MAP.get(logicID));
+	}
 
 	@Override
 	public PartSuperMap<IParticleChamberPart> getPartSuperMap()
@@ -61,15 +99,13 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	@Override
 	protected int getMinimumInteriorLength()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return logic.getMinimumInteriorLength();
 	}
 
 	@Override
 	protected int getMaximumInteriorLength()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return logic.getMaximumInteriorLength();
 	}
 
 	@Override
@@ -133,12 +169,48 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 		logic.onAssimilated(assimilator);
 	}
 
+	
+	@Override
+	protected boolean isMachineWhole(Multiblock multiblock)
+	{
+		return setLogic(multiblock)  && super.isMachineWhole(multiblock) && logic.isMachineWhole(multiblock);
+	}
+	
+	public boolean setLogic(Multiblock multiblock)
+	{
+		if (getPartMap(IParticleChamberController.class).isEmpty()) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+			return false;
+		}
+		if (getPartMap(IParticleChamberController.class).size() > 1) {
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+			return false;
+		}
+		
+		for (IParticleChamberController contr : getPartMap(IParticleChamberController.class).values()) 
+		{
+			controller = contr;
+		}
+		
+		setLogic(controller.getLogicID());
+		
+		return true;
+	}
+	
+	
+	
+	public void resetStats()
+	{
+		logic.onResetStats();
+	}
+	
+	
 	@Override
 	protected boolean updateServer()
 	{
 		if (refreshFlag) 
 		{
-			logic.refreshParticleChamber();
+			logic.refreshChamber();
 		}
 		updateActivity();
 		
@@ -150,6 +222,21 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 		sendUpdateToListeningPlayers();
 		
 		return true;
+	}
+
+	public void updateActivity()
+	{
+		boolean wasChamberOn = isChamberOn;
+		isChamberOn = isAssembled() && logic.isChamberOn();
+		if (isChamberOn != wasChamberOn)
+		{
+			if (controller != null)
+			{
+				controller.updateBlockState(isChamberOn);
+			}
+			sendUpdateToAllPlayers();
+		}
+		
 	}
 
 	@Override
@@ -165,18 +252,35 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	}
 
 	@Override
-	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
-		// TODO Auto-generated method stub
+		energyStorage.writeToNBT(data);
+		writeBeams(beams,data);
+		
+		data.setBoolean("isChamberOn", isChamberOn);
+		data.setInteger("requiredEnergy", requiredEnergy);
+		data.setDouble("efficiency", efficiency);
+		
+		logic.writeToLogicTag(data, syncReason);
 		
 	}
+	
+	@Override
+	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
+	{
+		energyStorage.readFromNBT(data);
+		readBeams(beams,data);
+		
+		isChamberOn = data.getBoolean("isChamberOn");
+		requiredEnergy = data.getInteger("requiredEnergy");
+		efficiency = data.getDouble("efficiency");
+		
+		
+
+		logic.readFromLogicTag(data, syncReason);	
+	}
+
+	
 
 	@Override
 	protected ParticleChamberUpdatePacket getUpdatePacket()
@@ -187,7 +291,80 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	@Override
 	public void onPacket(ParticleChamberUpdatePacket message)
 	{
+		energyStorage.setStorageCapacity(message.energyStorage.getMaxEnergyStored());
+		energyStorage.setEnergyStored(message.energyStorage.getEnergyStored());
+		
+		isChamberOn = message.isChamberOn;
+		efficiency = message.efficiency;
+		requiredEnergy = message.requiredEnergy;
+		
 		logic.onPacket(message);
+	}
+	
+	
+	
+	public NBTTagCompound writeBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	{
+		for (int i = 0; i < beams.size(); i++)
+		{
+			beams.get(i).writeToNBT(data, i);
+		}
+		
+		return data;
+	}
+
+	public void readBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	{
+		for (int i = 0; i < beams.size(); i++)
+		{
+			beams.get(i).readFromNBT(data, i);
+		}
+		beams.get(0).readFromNBT(data);
+	}
+	
+	
+	//packet handler
+	
+	public void sendUpdateToAllPlayers()
+	{
+		ParticleChamberUpdatePacket packet = getUpdatePacket();
+		if (packet == null)
+		{
+			return;
+		}
+		QMDPacketHandler.instance.sendToAll(getUpdatePacket());
+	}
+	
+	public void sendUpdateToListeningPlayers()
+	{
+		ParticleChamberUpdatePacket packet = getUpdatePacket();
+		if (packet == null)
+		{
+			return;
+		}
+		for (EntityPlayer player : playersToUpdate)
+		{
+			QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
+		}
+	}
+	
+	public void sendIndividualUpdate(EntityPlayer player)
+	{
+		if (WORLD.isRemote)
+		{
+			return;
+		}
+		ParticleChamberUpdatePacket packet = getUpdatePacket();
+		if (packet == null)
+		{
+			return;
+		}
+		QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
+	}
+
+	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	{
+		return logic.getContainer(player);
 	}
 
 }

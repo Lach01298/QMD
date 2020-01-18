@@ -7,9 +7,12 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
+import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
+import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
@@ -41,6 +44,9 @@ public class GUIHandler implements IGuiHandler
 				if (tile instanceof TileAcceleratorSource)
 					return new ContainerAcceleratorSource(player,  (TileAcceleratorSource)tile);
 			
+			case GUI_ID.TARGET_CHAMBER:
+				if (tile instanceof TileTargetChamberController)
+					return new ContainerTargetChamberController(player,  (TileTargetChamberController)tile);
 		
 			
 			}
@@ -71,6 +77,9 @@ public class GUIHandler implements IGuiHandler
 				if (tile instanceof TileAcceleratorSource)
 					return new GUIAcceleratorSource(player, (TileAcceleratorSource) tile);
 			
+			case GUI_ID.TARGET_CHAMBER:
+				if (tile instanceof TileTargetChamberController)
+					return new GuiTargetChamberController(((TileTargetChamberController) tile).getMultiblock(), tile.getPos(), ((TileTargetChamberController) tile).getMultiblock().getContainer(player));
 		
 			}
 		}

@@ -21,6 +21,7 @@ public class ParticleStack
 	private Particle particle;
 	private int meanEnergy, amount;
 	private double energySpread;
+	private int luminosity;			//beam stat
 	
 	public ParticleStack()
 	{
@@ -28,15 +29,17 @@ public class ParticleStack
 		this.meanEnergy = 0;
 		this.amount = 0;
 		this.energySpread = 0;
+		this.luminosity= 0;
 		
 	}
 	
-	public ParticleStack(Particle particle, int meanEnergy, int amount, double energySpread)
+	public ParticleStack(Particle particle, int meanEnergy, int amount, double energySpread, int luminosity)
 	{
 		this.particle =particle;
 		this.meanEnergy = meanEnergy;
 		this.amount = amount;
 		this.energySpread = energySpread;
+		this.luminosity= luminosity;
 		
 	}
 	
@@ -47,6 +50,7 @@ public class ParticleStack
 		this.meanEnergy = meanEnergy;
 		this.amount = amount;
 		this.energySpread = 0;
+		this.luminosity= 0;
 		
 	}
 
@@ -72,6 +76,11 @@ public class ParticleStack
 	public int getAmount()
 	{
 		return amount;
+	}
+	
+	public int getLuminosity()
+	{
+		return luminosity;
 	}
 	
 	
@@ -110,6 +119,17 @@ public class ParticleStack
 			particle = null;		
 		}
 	}
+	
+	public void setLuminosity(int newLuminosity)
+	{
+		this.luminosity = newLuminosity;
+	}
+	
+	
+	public void addLuminosity(int add)
+	{
+		this.luminosity += add;
+	}
 
 
 	
@@ -128,6 +148,7 @@ public class ParticleStack
 		nbt.setInteger("meanEnergy", meanEnergy);
 		nbt.setInteger("amount", amount);
 		nbt.setDouble("energySpread", energySpread);
+		nbt.setInteger("luminosity", luminosity);
 
 		
 		return nbt;
@@ -140,6 +161,7 @@ public class ParticleStack
 		this.meanEnergy = nbt.getInteger("meanEnergy");
 		this.amount = nbt.getInteger("amount");
 		this.energySpread = nbt.getDouble("energySpread");
+		this.luminosity = nbt.getInteger("luminosity");
 		
 		return this;
 	}
@@ -147,7 +169,7 @@ public class ParticleStack
 	
 	public ParticleStack copy()
 	{
-		return new ParticleStack(particle, meanEnergy,amount,energySpread);
+		return new ParticleStack(particle, meanEnergy,amount,energySpread,luminosity);
 	}
 
 	
@@ -166,17 +188,36 @@ public class ParticleStack
 		int amount = nbt.getInteger("amount");
 		int energy = nbt.getInteger("meanEnergy");
 		double spread = nbt.getDouble("energySpread");
+		int lum = nbt.getInteger("luminosity");
 
-		ParticleStack beam = new ParticleStack(Particles.getParticleFromName(particleName), energy, amount, spread);
+		ParticleStack beam = new ParticleStack(Particles.getParticleFromName(particleName), energy, amount, spread,lum);
 
 		return beam;
 	}
 	
 	
-
-	public static ParticleStack getParticleStack(String particleName, int meanEnergy, int amount, double spread)
+	public static ParticleStack getParticleStack(String particleName, int meanEnergy, int amount,double spread, int luminosity)
 	{
-		return new ParticleStack(Particles.getParticleFromName(particleName),meanEnergy,amount,spread);
+		return new ParticleStack(Particles.getParticleFromName(particleName),meanEnergy,amount,spread, luminosity);
+	}
+
+	public boolean isInRange(ParticleStack particleStack)
+	{
+		if(particleStack != null)
+		{
+			if(particleStack.getParticle() == particle)
+			{
+				if(particleStack.getLuminosity() >= luminosity)
+				{
+					if(particleStack.getMeanEnergy() >= meanEnergy && particleStack.getMeanEnergy() <= meanEnergy *(1+ energySpread))
+					{
+						return true;
+					}
+				}
+				
+			}
+		}
+		return false;
 	}
 
 

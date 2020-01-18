@@ -20,7 +20,6 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
@@ -28,6 +27,7 @@ import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.particle.AcceleratorStorage;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
@@ -65,16 +65,23 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	protected TileAcceleratorSource source;
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
-	private int updateCount = 0;
-	private int updateRate = 20;
 	
+	private int tick = 0;
 	
 	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
 		super(oldLogic);
-		getAccelerator().beams.get(0).setMinExtractionLuminosity(200); //Probably add to config
+		//getAccelerator().beams.get(0).setMinExtractionLuminosity(200); //Probably add to config
 	}
 
+	
+	@Override
+	public String getID() 
+	{
+		return "linear_accelerator";
+	}
+	
+	
 	
 	// Multiblock Validation
 	
@@ -86,7 +93,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 		if (acc.getExteriorLengthY() != thickness)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height, ", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height", null);
 			return false;
 		}
 		
@@ -96,12 +103,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			axis = Axis.X;
 			if(acc.getExteriorLengthX() < QMDConfig.accelerator_linear_min_size)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short, ", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short", null);
 				return false;
 			}
 			if(acc.getExteriorLengthZ() != thickness)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.must_be_5_wide, ", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.must_be_5_wide", null);
 				return false;
 			}
 			
@@ -111,12 +118,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			axis = Axis.Z;
 			if(acc.getExteriorLengthZ() < QMDConfig.accelerator_linear_min_size)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short, ", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short", null);
 				return false;
 			}
 			if(acc.getExteriorLengthX() != thickness)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.must_be_5_wide, ", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.must_be_5_wide", null);
 				return false;
 			}
 		}
@@ -126,7 +133,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		{
 			if (!(acc.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam))
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_beam, ", pos);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_beam", pos);
 				return false;
 			}
 		}
@@ -136,21 +143,17 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		{
 			BlockPos end1 =acc.getExtremeCoord(false, false, false).add(0, thickness / 2,thickness / 2);
 			BlockPos end2 =acc.getExtremeCoord(true, false, false).add(0, thickness / 2,thickness / 2);
-			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource|| acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
+			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
+					!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port, ", null);
-				return false;
-			}
-			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort|| acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort))
-			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port, ", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port", null);
 				return false;
 			}
 			if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource)
 			{
 				if(acc.WORLD.getBlockState(end1).getValue(FACING_ALL) !=  EnumFacing.EAST)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in, ", null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end1);
 					return false;
 				}
 			}
@@ -158,7 +161,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			{
 				if(acc.WORLD.getBlockState(end2).getValue(FACING_ALL) !=  EnumFacing.WEST)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in, ", null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end2);
 					return false;
 				}
 			}
@@ -170,29 +173,25 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		{
 			BlockPos end1 =acc.getExtremeCoord(false, false, false).add(thickness / 2, thickness / 2,0);
 			BlockPos end2 =acc.getExtremeCoord(false, false, true).add(thickness / 2, thickness / 2,0);
-			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource|| acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
+			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
+					!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port, ", null);
-				return false;
-			}
-			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort|| acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort))
-			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port, ", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port",  null);
 				return false;
 			}
 			if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource)
 			{
 				if(acc.WORLD.getBlockState(end1).getValue(FACING_ALL) !=  EnumFacing.SOUTH)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in, ", null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end1);
 					return false;
 				}
 			}
 			else
 			{
-				if(acc.WORLD.getBlockState(end1).getValue(FACING_ALL) !=  EnumFacing.NORTH)
+				if(acc.WORLD.getBlockState(end2).getValue(FACING_ALL) !=  EnumFacing.NORTH)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in, ", null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end2);
 					return false;
 				}
 			}
@@ -407,31 +406,26 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
-		updateCount--;
-		if(updateCount <= 0)
+
+		if (getAccelerator().isAcceleratorOn)
 		{
-			
-			if(getAccelerator().isAcceleratorOn)
+			refreshRecipe();
+			if (recipeInfo != null)
 			{
-				refreshRecipe();
-				if (recipeInfo != null)
-				{
-					produceBeam();
-				}
-				else
-				{
-					resetBeam();
-				}
+				produceBeam();
 			}
 			else
 			{
 				resetBeam();
 			}
-		
-			updateCount = updateRate;
 		}
+		else
+		{
+			resetBeam();
+		}
+
 		return super.onUpdateServer();
 	}
 	
@@ -485,11 +479,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		getAccelerator().rawHeating = heat;
 		getAccelerator().quadrupoleStrength = strength;
 		getAccelerator().efficiency = efficiency;
-		getAccelerator().acceleratingVoltage=(int) voltage;
-		
-		getAccelerator().beams.get(0).setInverseArea(1+getAccelerator().quadrupoleStrength);
-		
-		
+		getAccelerator().acceleratingVoltage=(int) voltage;				
 	}
 	
 	
@@ -505,17 +495,27 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		IParticleIngredient particleIngredient = recipeInfo.getRecipe().particleProducts().get(0);
 		getAccelerator().beams.get(0).setParticleStack(particleIngredient.getStack());
-		getAccelerator().beams.get(0).getParticleStack().setMeanEnergy((int) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(0).getParticleStack().getParticle().getCharge())));
+		ParticleStack particle = getAccelerator().beams.get(0).getParticleStack();
+		particle.addLuminosity((int) (particle.getAmount()*(getAccelerator().quadrupoleStrength)));
+		particle.setMeanEnergy((int) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(0).getParticleStack().getParticle().getCharge())));
 		useItemDurability();
 	}
 
 
 	private void useItemDurability()
 	{
-		if(source.getInventory().getStackInSlot(0).attemptDamageItem(1, rand, null))
+		if(tick >= 20)
 		{
-			source.getInventory().setInventorySlotContents(0, ItemStack.EMPTY);
+			if(source.getInventory().getStackInSlot(0).attemptDamageItem(1, rand, null))
+			{
+				source.getInventory().setInventorySlotContents(0, ItemStack.EMPTY);
+			}
+			tick = 0;
 		}
+		else
+		{
+			tick++;
+		}	
 	}
 
 
@@ -563,23 +563,16 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	// NBT
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data, SyncReason syncReason)
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-		super.writeToNBT(data, syncReason);
-		NBTTagCompound logicTag = new NBTTagCompound();
-		//stuff
-		data.setTag("linear_accelerator", logicTag);
+		super.writeToLogicTag(logicTag, syncReason);
+		
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound data, SyncReason syncReason)
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-		super.readFromNBT(data, syncReason);
-		if (data.hasKey("linear_accelerator"))
-		{
-			NBTTagCompound logicTag = data.getCompoundTag("linear_accelerator");
-			//stuff
-		}
+		super.readFromLogicTag(logicTag, syncReason);
 	}
 
 	

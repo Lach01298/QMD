@@ -33,11 +33,21 @@ public class QMDFluids
 		{
 
 			// acids
-			fluidPairList.add(fluidPair(FluidType.ACID, "hydrochloric_acid", 0x99ffee));
-			fluidPairList.add(fluidPair(FluidType.ACID, "nitric_acid", 0x4f9eff));
+			addFluidPair(FluidType.ACID, "hydrochloric_acid", 0x99ffee);
+			addFluidPair(FluidType.ACID, "nitric_acid", 0x4f9eff);
 
 			// solutions
-			fluidPairList.add(fluidPair(FluidType.SALT_SOLUTION, "sodium_chloride_solution", waterBlend(0x0057fa)));
+			addFluidPair(FluidType.SALT_SOLUTION, "sodium_chloride_solution", waterBlend(0x0057fa));
+			
+			//cryo liquids
+			addFluidPair(FluidType.LIQUID, "liquid_hydrogen",false, 0xB37AC4,71,20,100,0);
+			addFluidPair(FluidType.LIQUID, "liquid_argon",false, 0xfa6400,1395,87,100,0);
+			
+			//gases
+			addFluidPair(FluidType.GAS, "argon", 0xfa6400);
+			
+			//molten
+			addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);
 
 		}
 		catch (Exception e)
@@ -46,12 +56,20 @@ public class QMDFluids
 		}
 	}
 
-	public static <T extends NCBlockFluid> Block withName(T block)
+	private static <T extends Fluid, V extends NCBlockFluid> void addFluidPair(FluidType fluidType, Object... fluidArgs)
 	{
-		return block.setTranslationKey(QMD.MOD_ID + "." + block.getBlockName())
-				.setRegistryName(new ResourceLocation(QMD.MOD_ID, block.getBlockName()));
+		try
+		{
+			T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
+			V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
+			fluidPairList.add(Pair.of(fluid, block));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
-
+	
 	public static void register()
 	{
 		for (Pair<Fluid, NCBlockFluid> fluidPair : fluidPairList)
@@ -66,20 +84,19 @@ public class QMDFluids
 			registerBlock(fluidPair.getRight());
 		}
 	}
-
+	
 	public static void registerBlock(NCBlockFluid block)
 	{
 		ForgeRegistries.BLOCKS.register(withName(block));
 		ForgeRegistries.ITEMS.register(new NCItemBlock(block, TextFormatting.AQUA).setRegistryName(block.getRegistryName()));
-		NuclearCraft.proxy.registerFluidBlockRendering(block, block.getBlockName());
+		QMD.proxy.registerFluidBlockRendering(block, block.name);
+	}
+	
+	public static <T extends NCBlockFluid> Block withName(T block)
+	{
+		return block.setTranslationKey(QMD.MOD_ID + "." + block.name).setRegistryName(new ResourceLocation(QMD.MOD_ID, block.name));
 	}
 
-	public static <T extends Fluid, V extends NCBlockFluid> Pair<Fluid, NCBlockFluid> fluidPair(FluidType fluidType, Object... fluidArgs) throws Exception
-	{
-		T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
-		V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
-		return Pair.of(fluid, block);
-	}
 
 	private static int waterBlend(int soluteColor, float blendRatio)
 	{

@@ -1,0 +1,28 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated"
+    },
+    "variants": {
+        "type": {
+            "empty_cooler": {
+                "model": "qmd:item/empty_cooler"
+            },
+            "detector_casing": {
+                "model": "qmd:item/empty_detector"
+            },
+            "scintillator_pwo": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/scintillator_pwo"
+                }
+            },
+            "scintillator_plastic": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/scintillator_plastic"
+                }
+            }
+        }
+    }
+}

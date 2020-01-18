@@ -1,19 +1,38 @@
 
-
 //items
 item.qmd.dust.tungsten.name=Tungsten Dust
 item.qmd.dust.niobium.name=Niobium Dust
+item.qmd.dust.chromium.name=Chromium Dust
+
 item.qmd.ingot.tungsten.name=Tungsten Ingot
 item.qmd.ingot.niobium.name=Niobium Ingot
+item.qmd.ingot.chromium.name=Chromium Ingot
+
 item.qmd.ingot_alloy.tungsten_carbide.name=Tungsten Carbide Ingot
 item.qmd.ingot_alloy.niobium_tin.name=Niobium-Tin Ingot
+item.qmd.ingot_alloy.stainless_steel.name=Stainless Steel Ingot
 
+item.qmd.tungsten_filament.name=Tungsten Filament
+item.qmd.canister.name=Canister
+item.qmd.canister_hydrogen.name=Hydrogen Canister
+item.qmd.canister_helium.name=Helium Canister
+item.qmd.canister_deuterium.name=Deuterium Canister
+
+item.qmd.source_sodium_22.name=Sodium-22 Source
+
+item.qmd.isotope.sodium_22.name=Sodium-22
+item.qmd.isotope.promethium_147.name=Promethium-147
+
+item.qmd.part.empty_cooler.name=Empty Cooler
 
 
 
 //blocks
+tile.qmd.beamline.name=Beamline Pipe
+
 tile.qmd.linear_accelerator_controller.name=Linear Accelerator Controller
 tile.qmd.ring_accelerator_controller.name=Synchrotron Accelerator Controller
+
 tile.qmd.accelerator_beam.name=Accelerator Beam
 tile.qmd.accelerator_casing.name=Accelerator Casing
 tile.qmd.accelerator_glass.name=Accelerator Glass
@@ -23,12 +42,13 @@ tile.qmd.accelerator_beam_port.name=Accelerator Beam Port
 tile.qmd.accelerator_energy_port.name=Accelerator Energy Port
 tile.qmd.accelerator_source.name=Accelerator Ion Source
 tile.qmd.accelerator_cavity.copper.name=Copper RF Cavity
-tile.qmd.accelerator_cavity.magnesium_diboride.name=Magnisum Diboride RF Cavity
+tile.qmd.accelerator_cavity.magnesium_diboride.name=Magnesium Diboride RF Cavity
 tile.qmd.accelerator_cavity.niobium_tin.name=Niobium-Tin RF Cavity
 tile.qmd.accelerator_magnet.copper.name=Copper Accelerator Electromagnet
-tile.qmd.accelerator_magnet.magnesium_diboride.name=Magnisum Diboride Accelerator Electromagnet
+tile.qmd.accelerator_magnet.magnesium_diboride.name=Magnesium Diboride Accelerator Electromagnet
 tile.qmd.accelerator_magnet.niobium_tin.name=Niobium-Tin Accelerator Electromagnet
 tile.qmd.accelerator_yoke.name=Accelerator Electromagnet Yoke
+
 tile.qmd.accelerator_cooler1.water.name=Water Accelerator Cooler
 tile.qmd.accelerator_cooler1.iron.name=Iron Accelerator Cooler
 tile.qmd.accelerator_cooler1.redstone.name=Redstone Accelerator Cooler
@@ -62,7 +82,22 @@ tile.qmd.accelerator_cooler2.liquid_helium.name=Liquid Helium Accelerator Cooler
 tile.qmd.accelerator_cooler2.enderium.name=Enderium Accelerator Cooler
 tile.qmd.accelerator_cooler2.cryotheum.name=Cryotheum Accelerator Cooler
 
-//block desciptions
+tile.qmd.target_chamber_controller.name=Target Chamber Controller
+
+tile.qmd.particle_chamber_beam_port.name=Particle Chamber Port
+tile.qmd.particle_chamber_casing.name=Particle Chamber Casing
+tile.qmd.particle_chamber_glass.name=Particle Chamber Glass
+tile.qmd.particle_chamber_beam.name=Particle Chamber Beam
+tile.qmd.particle_chamber_target.name=Particle Chamber Target
+tile.qmd.particle_chamber_port.name=Particle Chamber Port
+
+tile.qmd.particle_chamber_detector.bubble_chamber.name=Bubble Chamber Detector
+tile.qmd.particle_chamber_detector.silicon_tracker.name=Silicon Tracker Detector
+tile.qmd.particle_chamber_detector.wire_chamber.name=Wire Chamber Detector
+tile.qmd.particle_chamber_detector.em_calorimeter.name=Electromagnetic Calorimeter Detector
+tile.qmd.particle_chamber_detector.hadron_calorimeter.name=Hadron Calorimeter Detector
+
+//block descriptions
 tile.qmd.accelerator.cooler.cooling_rate=Cooling Rate:
 tile.qmd.accelerator.cooler.water.desc=Must be adjacent to at least one functional RF cavity.
 tile.qmd.accelerator.cooler.iron.desc=Must be adjacent to at least one functional electromagnet.
@@ -76,7 +111,7 @@ tile.qmd.accelerator.cooler.purpur.desc=Must be adjacent to at least one valid i
 tile.qmd.accelerator.cooler.lapis.desc=Must be adjacent to at least one functional electromagnet and one functional electromagnet yoke.
 tile.qmd.accelerator.cooler.nether_brick.desc=Must be adjacent to at least one valid obsidian cooler.
 tile.qmd.accelerator.cooler.gold.desc=Must be adjacent to at least two valid iron coolers.
-tile.qmd.accelerator.cooler.glowstone.desc=Must be adjacent to at least two valid electromagnets of diffrent types.
+tile.qmd.accelerator.cooler.glowstone.desc=Must be adjacent to at least two valid electromagnets of different types.
 tile.qmd.accelerator.cooler.prismarine.desc=Must be adjacent to at least two valid water coolers.
 tile.qmd.accelerator.cooler.tin.desc=Must be adjacent to at least two valid lapis coolers along a common axis.
 tile.qmd.accelerator.cooler.lithium.desc=Must be adjacent to at least two valid lead coolers along a common axis.
@@ -97,43 +132,86 @@ tile.qmd.accelerator.cooler.emerald.desc=Must be adjacent to at least one valid 
 tile.qmd.accelerator.cooler.liquid_helium.desc=Must be adjacent to at least one valid magnesium cooler and one valid copper cooler.
 tile.qmd.accelerator.cooler.cryotheum.desc=Must be adjacent to at least two valid end stone coolers, one functional Rf cavity and one functional electromagnet yoke.
 
-tile.qmd.rf_cavity.desc=Accelerates charged particles with a Radio Frequency electric feild. Must be made as a ring of 8 same RF cavitys surrounding a beam. Cannot be next to another RF cavity.
+tile.qmd.rf_cavity.desc=Accelerates charged particles with a Radio Frequency electric field. Must be made as a ring of 8 same RF cavities surrounding a beam. Cannot be next to another RF cavity.
 
-tile.qmd.accelerator_magnet.desc=Bends the path charged particles with a strong magnetic feild. Can be used to make a Quadrupole or Dipole magnet. For a Quadrupole magnet a beam must be surrounded by 4 of the same electromagnets.
+tile.qmd.accelerator_magnet.desc=Bends the path charged particles with a strong magnetic field. Can be used to make a Quadrupole or Dipole magnet. For a Quadrupole magnet a beam must be surrounded by 4 of the same electromagnets.
 
-tile.qmd.accelerator_yoke.desc=Shapes and strengthens the magnetic feild of a electromagnet. Used to make a Dipole magnet. For a dipole magnet a beam must have a electromaget on the top and bottom then all space not taken by beams in a 3x3 around the central beam must be filled with electromagnet yokes.
+tile.qmd.accelerator_yoke.desc=Shapes and strengthens the magnetic field of a electromagnet. Used to make a Dipole magnet. For a dipole magnet a beam must have a electromagnet on the top and bottom then all space not taken by beams in a 3x3 around the central beam must be filled with electromagnet yokes.
+
+
+tile.qmd.particle_chamber.detector.bubble_chamber.desc=Must be placed within 2 blocks of a Target.
+tile.qmd.particle_chamber.detector.wire_chamber.desc=Must be placed within 2 blocks of a Target.
+tile.qmd.particle_chamber.detector.silicon_tracker.desc=Must be placed next to a Target.
+tile.qmd.particle_chamber.detector.em_calorimeter.desc=Must be place within 3 blocks of a Target.
+tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=Must be place within 5 blocks of a Target.
+
+
+//fluids
+fluid.hydrochloric_acid=Hydrochloric Acid
+tile.qmd.fluid_hydrochloric_acid.name=Hydrochloric Acid
+fluid.nitric_acid=Nitric Acid
+tile.qmd.fluid_nitric_acid.name=Nitric Acid
+fluid.sodium_chloride_solution=Sodium Chloride Solution
+tile.qmd.fluid_sodium_chloride_solution.name=Sodium Chloride Solution
+fluid.liquid_hydrogen=Liquid Hydrogen
+tile.qmd.fluid_liquid_hydrogen.name=Liquid Hydrogen
+fluid.liquid_argon=Liquid Argon
+tile.qmd.fluid_liquid_hydrogen.name=Liquid Argon
+fluid.argon=Argon
+tile.qmd.fluid_argon.name=Argon
+fluid.silicon=Molten Silicon
+tile.qmd.fluid_silicon.name=Molten Silicon
 
 //info
 info.qmd.rf_cavity.voltage=Accelerating Voltage: %s kV
 info.qmd.rf_cavity.efficiency=Power Efficiency: %s
 info.qmd.rf_cavity.heat=Heat Produced: %s H/t
+info.qmd.rf_cavity.power=Base Power: %s RF/t
 
 info.qmd.accelerator_magnet.strength=Magnet Strength: %s
 info.qmd.accelerator_magnet.efficiency=Power Efficiency: %s
 info.qmd.accelerator_magnet.heat=Heat Produced: %s H/t
+info.qmd.accelerator_magnet.power=Base Power: %s RF/t
+
+info.qmd.particle_chamber.detector.efficiency=Particle Efficiency: %s
+info.qmd.particle_chamber.detector.power=Base Power: %s RF/t
+
 
 //multiblock validation
 
-qmd.multiblock_validation.accelerator.no_inlet= There must be at least 1 coolant Inlet.
-qmd.multiblock_validation.accelerator.no_outlet= There must be at least 1 coolant Outlet.
-qmd.multiblock_validation.accelerator.need_energy_ports= There must be at least 1 Energy Port.
-qmd.multiblock_validation.accelerator.wrong_height= Accelerators must be 5 blocks tall.
+qmd.multiblock_validation.accelerator.no_inlet=There must be at least 1 coolant Inlet.
+qmd.multiblock_validation.accelerator.no_outlet=There must be at least 1 coolant Outlet.
+qmd.multiblock_validation.accelerator.need_energy_ports=There must be at least 1 Energy Port.
+qmd.multiblock_validation.accelerator.wrong_height=Accelerators must be 5 blocks tall.
 
-qmd.multiblock_validation.accelerator.linear.to_short= Linear Accelerator is not long enough.
-qmd.multiblock_validation.accelerator.linear.must_be_beam= There must be a straight line of Accelerator Beam blocks down the middle of the Linear Accelerator.
+qmd.multiblock_validation.accelerator.linear.to_short=Linear Accelerator is not long enough.
+qmd.multiblock_validation.accelerator.linear.must_be_beam=There must be a straight line of Accelerator Beam blocks down the middle of the Linear Accelerator.
 qmd.multiblock_validation.accelerator.linear.have_source_and_beam_port=There must be a Ion Source at one end of the beam and a Beam Port at the other.
+qmd.multiblock_validation.accelerator.linear.source_must_face_in=The Ion Source must face inwards at the beam.
 
-qmd.multiblock_validation.accelerator.ring.must_be_square=The Accelerator must have the same length in te X and Z direction.
+qmd.multiblock_validation.accelerator.ring.must_be_square=The Accelerator must have the same length in the X and Z direction.
 qmd.multiblock_validation.accelerator.ring.to_short= Synchrotron Accelerator is not large enough.
 qmd.multiblock_validation.accelerator.ring.to_long= Synchrotron Accelerator is to large.
 qmd.multiblock_validation.accelerator.ring.must_be_beam= There must be a square ring of Accelerator Beam blocks down the middle of the Accelerator.
-qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner= There must be a dipole in every conner of  the accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then suronding the it with Accelerator Electromagnet Yokes.
+qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner= There must be a dipole in every conner of  the accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then surrounding the it with Accelerator Electromagnet Yokes.
+
+
+qmd.multiblock_validation.chamber.target_chamber.must_be_square=Target Chamber must have the same X and Z dimensions.
+qmd.multiblock_validation.chamber.target_chamber.must_be_odd=Target Chamber must have an odd width.
+qmd.multiblock_validation.chamber.must_have_target=Target Chamber must have a Particle Chamber Target at the center.
+qmd.multiblock_validation.chamber.must_be_beam=There must be a line of Beams from each Beam Port to the Target.
+qmd.multiblock_validation.chamber.beam_port_wrong_spot=Beam Ports must be at the center of a face.
+qmd.multiblock_validation.chamber.must_have_input_beam=There must be a input Beam Port.
+qmd.multiblock_validation.chamber.need_energy_ports=There must be at least 1 Energy Port.
+qmd.multiblock_validation.chamber.need_ports=There must be 2 Particle Chamber Ports.
+
+
 
 //Multiblock gui
 gui.qmd.container.linear_accelerator_controller.name=Linear Accelerator 
-gui.qmd.container.accelerator.cavitys=RF Cavites: 
+gui.qmd.container.accelerator.cavitys=RF Cavities: 
 gui.qmd.container.accelerator.voltage=Voltage: 
-gui.qmd.container.accelerator.quadrupoles=Quadrapoles: 
+gui.qmd.container.accelerator.quadrupoles=Quadrupoles: 
 gui.qmd.container.accelerator.magnet_strength=Strength: 
 gui.qmd.container.accelerator.energy_stored=Energy Stored:
 gui.qmd.container.accelerator.required_energy=Required Energy: %s
@@ -150,10 +228,19 @@ gui.qmd.container.accelerator.beam=Beam:
 gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator R:
 gui.qmd.container.accelerator.dipoles=Dipoles: 
 
+gui.qmd.container.target_chamber.efficiency=Efficiency: %s%%
 
 
+
+
+//gui container
 gui.qmd.container.beam.stats=Energy: %s Luminosity: %d
 gui.qmd.container.temperature=Temperature: %s K
+
+gui.qmd.container.accelerator_source=Accelerator Ion Source
+
+
+
 
 //particles
 qmd.particle.none.name=None
@@ -188,9 +275,9 @@ qmd.particle.w_minus_boson.name=W- Boson
 qmd.particle.z_boson.name=Z Boson
 qmd.particle.higgs_boson.name=Higgs Boson
 qmd.particle.proton.name=Proton
-qmd.particle.antiproton.name=Antiproton
+qmd.particle.antiproton.name=Anti-Proton
 qmd.particle.neutron.name=Neutron
-qmd.particle.antineutron.name=Antineutron
+qmd.particle.antineutron.name=Anti-Neutron
 qmd.particle.deuteron.name=Deuteron
 qmd.particle.antideuteron.name=Anti-Deuteron
 qmd.particle.alpha.name=Alpha Particle
@@ -198,8 +285,83 @@ qmd.particle.antialpha.name=Anti-Alpha Particle
 qmd.particle.pion_plus.name=Pion +
 qmd.particle.pion_naught.name=Pion 0
 qmd.particle.pion_minus.name=Pion -
+qmd.particle.triton.name=Triton
+qmd.particle.antitriton.name=Anti-Triton
+
+//particle descriptions
+qmd.particle.up_quark.desc=The Up Quark is the lightest quark. Up and Down quarks combine to form Protons and Neutrons
+qmd.particle.antiup_quark.desc=The Anti-Up Quark is the antimatter partner of the Up Quark.
+qmd.particle.down_quark.desc=The Down Quark is the second lightest quark. Up and Down quarks combine to form Protons and Neutrons
+qmd.particle.antidown_quark.desc=The Anti-Down Quark is the antimatter partner of the Up Down.
+qmd.particle.charm_quark.desc=The Charm Quark is a heavy version of the Up Quark.
+qmd.particle.anticharm_quark.desc=The Anti-Charm Quark is the antimatter partner of the Charm Quark.
+qmd.particle.strange_quark.desc=The Strange Quark is a heavy version of the Down Quark.
+qmd.particle.antistrange_quark.desc=The Anti-Strange Quark is the antimatter partner of the Strange Quark.
+qmd.particle.top_quark.desc=The Top Quark is a very heavy version of the Up Quark.
+qmd.particle.antitop_quark.desc=The Anti-Top Quark is the antimatter partner of the Top Quark.
+qmd.particle.bottom_quark.desc=The Bottom Quark is a very heavy version of the Down Quark.
+qmd.particle.antibottom_quark.desc=The Anti-Bottom Quark is the antimatter partner of the Bottom Quark.
+qmd.particle.electron.desc=The Electron is lightest charged lepton. It is commonly found in orbitals around nuclei, forming atoms.
+qmd.particle.positron.desc=The positron is the Antimatter particle of the electron. When a electron and positron meet the annihilate resulting in all there mass being converted into energy in the form of 2 gamma rays.
+qmd.particle.electron_neutrino.desc=The Electron Neutrino is the neutrino partner of the Electron.
+qmd.particle.electron_antineutrino=The Electron Antineutrino is the antimatter partner of the Electron Neutrino.
+qmd.particle.muon.desc=The Muon is basically a heavy electron.
+qmd.particle.antimuon.desc=The Anti-Muon is the antimatter partner of the Muon.
+qmd.particle.muon_neutrino.desc=The Muon Neutrino is the neutrino partner of the Muon.
+qmd.particle.muon_antineutrino.desc=The Muon Antineutrino is the antimatter partner of the Muon Neutrino.
+qmd.particle.tau.desc=The Tau is basically a really heavy electron
+qmd.particle.antitau.desc=The Anti-Tau is the antimatter partner of the Tau.
+qmd.particle.tau_neutrino.desc=The Tau Neutrino is the neutrino partner of the Tau.
+qmd.particle.tau_antineutrino.desc=The Tau Antineutrino is the antimatter partner of the Tau Neutrino.
+qmd.particle.photon.desc=Photons are the particles that make up light. They are the carries of the electromagnetic force. High energy Photons are called gamma rays.
+qmd.particle.gluon.desc=Gluons are the carries of the strong force. The strong force is what keeps quarks bound together to create composite particles like protons and neutrons.
+qmd.particle.w_plus_boson.desc=The Z and W bosons are the carries of the weak force. The weak force is what allows some particles to decay and is responsible for beta decay.
+qmd.particle.w_minus_boson.desc= The Z and W bosons are the carries of the weak force. The weak force is what allows some particles to decay and is responsible for beta decay.
+qmd.particle.z_boson.desc=The Z and W bosons are the carries of the weak force. The weak force is what allows some particles to decay and is responsible for beta decay.
+qmd.particle.higgs_boson.desc=The Higgs Boson is the boson of the Higgs Field which is responsible for giving particles their mass.
+qmd.particle.proton.desc=The Proton is a Nucleon along with the Neutron make up the nucleus of atoms.
+qmd.particle.antiproton.desc=The Anti-Proton is the antimatter partner of the Proton.
+qmd.particle.neutron.desc=The Neutron is a Nucleon along with the Protons make up the nucleus of atoms. The Neutron is used in nuclear fission to split fissile nuclei.
+qmd.particle.antineutron.desc=The Anti-Neutron is the antimatter partner of the Neutron.
+qmd.particle.deuteron.desc=The Deuteron is the nucleus of a Deuterium Atom.
+qmd.particle.antideuteron.desc=The Anti-Deuteron is the antimatter partner of the Deuteron.
+qmd.particle.alpha.desc=Alpha Particle is another name for the nucleus of helium 4. It is commonly released in the decay of heavy elements like uranium and plutonium.
+qmd.particle.antialpha.desc=The Anti-Alpha Particle is the antimatter partner of the Alpha Particle.
+qmd.particle.pion_plus.desc=Pions are the particles that are responsible for holding nuclei together. Although not colored themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.pion_naught.desc=Pions are the particles that are responsible for holding nuclei together. Although not colored themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.pion_minus.desc=Pions are the particles that are responsible for holding nuclei together. Although not colored themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.triton.desc=The Triton is the nucleus of a Tritium Atom.
+qmd.particle.antitriton.desc=The Anti-Triton is the antimatter partner of the Triton.
+
+//particleStack info
+gui.qmd.particlestack.amount=Amount: %s
+gui.qmd.particlestack.mean_energy=Energy: %s
+gui.qmd.particlestack.luminosity=Luminosity: %s
+
+//jei
+qmd.gui.jei.category.accelerator_source=Ion Source
+qmd.gui.jei.category.particle_info=Particle Information
+qmd.gui.jei.category.target_chamber=Target Chamber
+
+gui.qmd.jei.particle.mass=Mass: %s
+gui.qmd.jei.particle.charge=Charge: %s
+gui.qmd.jei.particle.spin=Spin: %s
+gui.qmd.jei.particle.colour=Color Charge: %s
+gui.qmd.jei.particle.weak=Weak Charge: %s
+gui.qmd.jei.particle.components=Made of:
+gui.qmd.jei.particle.luminosity=Minimum Luminosity: %s
+gui.qmd.jei.particle.spread=Energy Range: %s%%
 
 
+//tabs
+itemGroup.qmd.items=Quantum Minecraft Dynamics Items
+itemGroup.qmd.blocks=Quantum Minecraft Dynamics Blocks
+
+
+//block settings
+qmd.block_toggle.INPUT=Toggled To Input
+qmd.block_toggle.OUTPUT=Toggled To Output
+qmd.block_toggle.DISABLED=Toggled To Disabled
 
 
 

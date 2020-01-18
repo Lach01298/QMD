@@ -1,0 +1,35 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"bubble_chamber": {
+				"textures": {
+					"all": "qmd:blocks/particle_chamber/detector/bubble_chamber"
+				}
+			},
+			"silicon_tracker": {
+				"textures": {
+					"all": "qmd:blocks/particle_chamber/detector/silicon_tracker"
+				}
+			},
+			"wire_chamber": {
+				"textures": {
+					"all": "qmd:blocks/particle_chamber/detector/wire_chamber"
+				}
+			},
+			"em_calorimeter": {
+				"textures": {
+					"all": "qmd:blocks/particle_chamber/detector/em_calorimeter"
+				}
+			},
+			"hadron_calorimeter": {
+				"textures": {
+					"all": "qmd:blocks/particle_chamber/detector/hadron_calorimeter"
+				}
+			}
+		}
+	}
+}

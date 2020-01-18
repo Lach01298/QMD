@@ -1,11 +1,14 @@
 package lach_01298.qmd.multiblock;
 
 
+import lach_01298.qmd.network.QMDPacketHandler;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockValidationError;
 import nc.multiblock.network.MultiblockUpdatePacket;
-
+import nc.network.PacketHandler;
 import nc.util.NCMath;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -687,4 +690,46 @@ public abstract class CuboidalOrToroidalMultiblock<PACKET extends MultiblockUpda
 					getExtremeInteriorCoord(false, false, false));
 		}
 	}
+	
+	
+	
+	
+	public void sendUpdateToAllPlayers()
+	{
+		PACKET packet = getUpdatePacket();
+		if (packet == null)
+		{
+			return;
+		}
+		QMDPacketHandler.instance.sendToAll(getUpdatePacket());
+	}
+	
+	public void sendUpdateToListeningPlayers()
+	{
+		PACKET packet = getUpdatePacket();
+		if (packet == null)
+		{
+			return;
+		}
+		for (EntityPlayer player : playersToUpdate)
+		{
+			QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
+		}
+	}
+	
+	public void sendIndividualUpdate(EntityPlayer player)
+	{
+		if (WORLD.isRemote)
+		{
+			return;
+		}
+		PACKET packet = getUpdatePacket();
+		if (packet == null)
+		{
+			return;
+		}
+		QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
+	}
+	
+	
 }

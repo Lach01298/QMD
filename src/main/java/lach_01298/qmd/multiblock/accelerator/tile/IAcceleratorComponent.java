@@ -2,7 +2,7 @@ package lach_01298.qmd.multiblock.accelerator.tile;
 
 import javax.annotation.Nullable;
 
-
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

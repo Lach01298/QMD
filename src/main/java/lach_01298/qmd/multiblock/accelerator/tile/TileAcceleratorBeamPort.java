@@ -37,10 +37,11 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	private EnumTypes.IOType type;
 	
 	
+	
 	public TileAcceleratorBeamPort()
 	{
 		super(CuboidalPartPositionType.WALL);
-		this.type = EnumTypes.IOType.DEFAULT;
+		this.type = EnumTypes.IOType.INPUT;
 		
 		
 	}
@@ -82,12 +83,14 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 		setIOType(type.getNextIO());
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
 		markDirtyAndNotify();
+		getMultiblock().checkIfMachineIsWhole();
 	}
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) 
 	{
 		super.writeAll(nbt);
 		nbt.setInteger("setting", type.getID());
+		
 		return nbt;
 	}
 		
@@ -95,52 +98,41 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	{
 		super.readAll(nbt);
 		type =EnumTypes.IOType.getTypeFromID(nbt.getInteger("setting"));
+	
 	}
 
-	@Override
-	public void onMachineAssembled(Accelerator controller)
-	{
-		super.onMachineAssembled(controller);
-		
-	}
 
-	@Override
-	public void onMachineBroken()
-	{
-		super.onMachineBroken();
-		
-	}
 		
 	// Capability
 
-		@Override
-		public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
+	{
+		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
-			{
-				return type != EnumTypes.IOType.DISABLED;
-			}
-			return super.hasCapability(capability, side);
+			return type != EnumTypes.IOType.DISABLED;
 		}
+		return super.hasCapability(capability, side);
+	}
 
-		@Override
-		public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side)
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side)
+	{
+		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
+			if (!getTanks().isEmpty())
 			{
-				if (!getTanks().isEmpty())
+				if(type ==EnumTypes.IOType.OUTPUT && getTanks().size() >=2)
 				{
-					if(type ==EnumTypes.IOType.OUTPUT && getTanks().size() >=2)
-					{
-						return (T) getTanks().get(1);
-					}
-					return (T) getTanks().get(0);
+					return (T) getTanks().get(1);
 				}
-				return null;
+				return (T) getTanks().get(0);
 			}
-
-			return super.getCapability(capability, side);
+			return null;
 		}
+
+		return super.getCapability(capability, side);
+	}
 
 		@Override
 		public List<? extends ParticleStorage> getTanks()

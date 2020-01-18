@@ -1,5 +1,6 @@
 package lach_01298.qmd.multiblock.accelerator;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.multiblock.CuboidalOrToroidalMultiblock;
@@ -22,12 +25,12 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.particle.AcceleratorStorage;
 import lach_01298.qmd.recipe.QMDRecipes;
 import nc.Global;
@@ -41,6 +44,7 @@ import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.fission.FissionCluster;
 import nc.multiblock.network.FissionUpdatePacket;
+import nc.multiblock.turbine.TurbineLogic;
 import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.RecipeInfo;
@@ -58,7 +62,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 {
 
 	public static final ObjectSet<Class<? extends IAcceleratorPart>> PART_CLASSES = new ObjectOpenHashSet<>();
-
+	public static final Object2ObjectMap<String, Constructor<? extends AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>(); 
+	
 	protected @Nonnull AcceleratorLogic logic = new AcceleratorLogic(this);
 
 	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
@@ -97,7 +102,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 	public List<AcceleratorStorage> beams = Lists.newArrayList(new AcceleratorStorage());
 	
-	public boolean logicInit = false, refreshFlag = true, isAcceleratorOn = false, cold = false;
+	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
 	public int ambientTemp = 290;
 	public long cooling = 0L, rawHeating = 0L;
@@ -128,6 +133,13 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	public @Nonnull AcceleratorLogic getLogic()
 	{
 		return logic;
+	}
+	
+	@Override
+	public void setLogic(String logicID)
+	{
+		if (logicID.equals(logic.getID())) return;
+		logic = getNewLogic(LOGIC_MAP.get(logicID));	
 	}
 
 	@Override
@@ -252,7 +264,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 	public boolean isValidQuadrupole(BlockPos center, Axis axis)
 	{
-		if(!(this.WORLD.getTileEntity(center.up()) instanceof TileAcceleratorMagnet) )
+		if(!(this.WORLD.getTileEntity(center.up()) instanceof TileAcceleratorMagnet))
 		{
 			return false;
 		}
@@ -427,17 +439,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 			controller = contr;
 		}
 		
-		logicInit = logic.getClass() == controller.getLogicClass();
-		if (!logicInit) 
-		{
-			logic.unload();
-			logic = controller.createNewLogic(logic);
-			syncDataFrom(cachedData, SyncReason.FullSync);
-			cachedData = new NBTTagCompound();
-			logic.load();
-		}
+		setLogic(controller.getLogicID());
 		
-		return logicInit = true;
+		return true;
 	}
 
 	@Override
@@ -536,8 +540,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 		data.setBoolean("cold", cold);
 		
-		
-		logic.writeToNBT(data, syncReason);
+		writeLogicNBT(data, syncReason);
 	}
 
 	@Override
@@ -547,6 +550,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		energyStorage.readFromNBT(data);
 		readTanks(tanks,data);
 		readBeams(beams,data);
+		
+		
 		
 		isAcceleratorOn = data.getBoolean("isAcceleratorOn");
 		cooling = data.getLong("cooling");
@@ -562,13 +567,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		
 		cold = data.getBoolean("cold");
 		
-		
-		if (!logicInit) 
-		{
-			cachedData = data.copy();
-			logicInit = true;
-		}
-		logic.readFromNBT(data, syncReason);	
+		readLogicNBT(data, syncReason);
 	}
 
 	
@@ -670,8 +669,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		{
 			beams.get(i).readFromNBT(data, i);
 		}
-		beams.get(0).readFromNBT(data);
 	}
+
+
 	
 	
 

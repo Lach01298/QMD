@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import nc.Global;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 
 public class Util
 {
@@ -116,6 +117,17 @@ public class Util
 	
 		return null;
 	}
+	
+	
+	
+	public static int getTaxiDistance(BlockPos a, BlockPos b)
+	{
+		int x = Math.abs(a.getX()- b.getX());
+		int y = Math.abs(a.getY()- b.getY());
+		int z = Math.abs(a.getZ()- b.getZ());	
+		return x+y+z;
+	}
+	
 	
 	
 	

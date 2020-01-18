@@ -73,13 +73,21 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 		String particle2;
 		if(multiblock.beams.get(1).getParticleStack() != null)
 		{
-			particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle."+ multiblock.beams.get(1).getParticleStack().getParticle().getName()+".name"); 	
-			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(multiblock.beams.get(1).getParticleStack().getMeanEnergy()*1000, 5, "eV"),multiblock.beams.get(1).getLuminosity());
+			if(multiblock.beams.get(1).getParticleStack().getParticle() != null)
+			{
+				particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle."+ multiblock.beams.get(1).getParticleStack().getParticle().getName()+".name"); 	
+				particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(multiblock.beams.get(1).getParticleStack().getMeanEnergy()*1000, 5, "eV"),multiblock.beams.get(1).getParticleStack().getLuminosity());
+			}
+			else
+			{
+				particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle.none.name"); 
+				particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(0, 5, "eV"),0);
+			}
 		}
 		else
 		{
 			particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle.none.name"); 
-			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(0, 5, "eV"),multiblock.beams.get(1).getLuminosity());
+			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(0, 5, "eV"),0);
 		}
 		
 		fontRenderer.drawString(particle,offset, 70, fontColor);

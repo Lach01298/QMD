@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.util.BlockPosHelper;
@@ -827,10 +828,6 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 	{
 		if (isInValidPosition) return true;
 		isInValidPosition = isCoolerValid();
-		if(!isInValidPosition)
-		{
-			System.out.println(this.name +" " + this.pos);
-		}
 		return isInValidPosition = isCoolerValid();
 	}
 

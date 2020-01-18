@@ -15,10 +15,11 @@ public class AcceleratorSourceRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		addRecipe(QMDItems.tungsten_filament,new ParticleStack(Particles.electron,0,100,0));
-		addRecipe(QMDItems.canister_Hydrogen,new ParticleStack(Particles.proton,0,100,0));
-		addRecipe(QMDItems.canister_Helium,new ParticleStack(Particles.alpha,0,100,0));
-		addRecipe(QMDItems.sodium_22_source,new ParticleStack(Particles.positron,0,100,0));
+		addRecipe(QMDItems.tungsten_filament,new ParticleStack(Particles.electron,0,100));
+		addRecipe(QMDItems.canister_Hydrogen,new ParticleStack(Particles.proton,0,100));
+		addRecipe(QMDItems.canister_Helium,new ParticleStack(Particles.alpha,0,100));
+		addRecipe(QMDItems.canister_Deuterium,new ParticleStack(Particles.deuteron,0,100));
+		addRecipe(QMDItems.source_sodium_22,new ParticleStack(Particles.positron,0,100));
 	}
 	
 	

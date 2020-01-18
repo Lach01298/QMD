@@ -7,7 +7,6 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorGlass;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
@@ -16,6 +15,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileRingAcceleratorController;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberBeam;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberBeamPort;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberCasing;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberDetector;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberEnergyPort;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberGlass;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberPort;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberTarget;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
@@ -26,6 +35,9 @@ public class QMDTiles
 	private static ResourceLocation magnetPath = new ResourceLocation(QMD.MOD_ID,"accelerator_magnet");
 	private static ResourceLocation cavityPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cavity");
 	private static ResourceLocation coolerPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cooler");
+	
+	private static ResourceLocation chamberPath = new ResourceLocation(QMD.MOD_ID,"particle_chamber_");
+	private static ResourceLocation detectorPath = new ResourceLocation(QMD.MOD_ID,"particle_chamber_detector_");
 
 	
 	public static void register() 
@@ -93,5 +105,26 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.LiquidHelium.class, Util.appendPath(coolerPath, EnumTypes.CoolerType2.LIQUID_HELIUM.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Enderium.class, Util.appendPath(coolerPath, EnumTypes.CoolerType2.ENDERIUM.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Cryotheum.class, Util.appendPath(coolerPath, EnumTypes.CoolerType2.CRYOTHEUM.getName()));
+		
+		
+		
+		
+		
+		//Particle Chamber Parts
+		GameRegistry.registerTileEntity(TileTargetChamberController.class,Util.appendPath(chamberPath, "target_chamber_controller"));
+		GameRegistry.registerTileEntity(TileParticleChamberBeam.class,Util.appendPath(chamberPath, "beam"));
+		GameRegistry.registerTileEntity(TileParticleChamberCasing.class,Util.appendPath(chamberPath, "casing"));
+		GameRegistry.registerTileEntity(TileParticleChamberGlass.class,Util.appendPath(chamberPath, "glass"));;
+		GameRegistry.registerTileEntity(TileParticleChamberBeamPort.class,Util.appendPath(chamberPath, "beam_port"));
+		GameRegistry.registerTileEntity(TileParticleChamberTarget.class,Util.appendPath(chamberPath, "target"));
+		GameRegistry.registerTileEntity(TileParticleChamberEnergyPort.class,Util.appendPath(chamberPath, "energy_port"));
+		GameRegistry.registerTileEntity(TileParticleChamberPort.class,Util.appendPath(chamberPath, "port"));
+		
+		//detectors
+		GameRegistry.registerTileEntity(TileParticleChamberDetector.BubbleChamber.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.BUBBLE_CHAMBER.getName()));
+		GameRegistry.registerTileEntity(TileParticleChamberDetector.SiliconTracker.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.SILLICON_TRACKER.getName()));
+		GameRegistry.registerTileEntity(TileParticleChamberDetector.WireChamber.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.WIRE_CHAMBER.getName()));
+		GameRegistry.registerTileEntity(TileParticleChamberDetector.EMCalorimeter.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.EM_CALORIMETER.getName()));
+		GameRegistry.registerTileEntity(TileParticleChamberDetector.HadronCalorimeter.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.HADRON_CALORIMETER.getName()));
 	}
 }
