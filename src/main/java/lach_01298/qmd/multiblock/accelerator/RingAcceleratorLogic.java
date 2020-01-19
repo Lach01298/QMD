@@ -61,7 +61,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		super(oldLogic);
 		getAccelerator().beams.add(new AcceleratorStorage());
-		getAccelerator().beams.get(0).setMinEnergy(5000); //Probably add to config
+		getAccelerator().beams.get(0).setMinEnergy(QMDConfig.minimium_accelerator_ring_input_particle_energy);
 	}
 
 	@Override

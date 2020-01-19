@@ -4,6 +4,9 @@ package lach_01298.qmd.multiblock.particleChamber.tile;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
@@ -19,6 +22,7 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.InventoryTileWrapper;
 import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.util.BlockPosHelper;
 import net.minecraft.block.state.IBlockState;
@@ -29,15 +33,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController, ITileInventory
+public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController
 {
 
 private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
 	
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	private @Nonnull InventoryTileWrapper invWrapper;
-	
+	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 
 	
 	public int inventoryStackLimit = 64;
@@ -105,6 +111,8 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	{
 		super.writeAll(nbt);
 		writeInventory(nbt);
+		writeInventoryConnections(nbt);
+
 		
 		return nbt;
 	}
@@ -113,6 +121,7 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	{
 		super.readAll(nbt);
 		readInventory(nbt);
+		readInventoryConnections(nbt);
 	}
 	
 	@Override
@@ -136,13 +145,13 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	@Override
 	public InventoryConnection[] getInventoryConnections()
 	{
-		return null;
+		return inventoryConnections;
 	}
 
 	@Override
 	public void setInventoryConnections(InventoryConnection[] connections)
 	{
-		
+		inventoryConnections = connections;
 	}
 	
 	@Override
@@ -202,7 +211,7 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	public boolean isItemValidForSlot(int slot, ItemStack stack) 
 	{
 		if (getRecipeHandler() == null) {
-			return ITileInventory.super.isItemValidForSlot(slot, stack);
+			return true;
 		}
 		if (stack == ItemStack.EMPTY || slot >= getRecipeHandler().itemInputSize) return false;
 		return   getRecipeHandler().isValidItemInput(stack);
@@ -211,7 +220,7 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) 
 	{
-		return ITileInventory.super.canInsertItem(slot, stack, side) && (getRecipeHandler() == null || isItemValidForSlot(slot, stack));
+		return  (getRecipeHandler() == null || isItemValidForSlot(slot, stack));
 	}
 	
 	@Override
@@ -219,5 +228,29 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return !getInventoryStacks().isEmpty() && hasInventorySideCapability(side);
+		}
+		return super.hasCapability(capability, side);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side)
+	{
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		{
+			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side))
+			{
+				return (T) getItemHandlerCapability(side);
+			}
+			return null;
+
+		}
+		return super.getCapability(capability, side);
 	}
 }

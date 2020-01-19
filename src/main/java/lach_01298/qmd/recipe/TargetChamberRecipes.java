@@ -32,13 +32,13 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 						new EmptyParticleIngredient(),
 						new EmptyParticleIngredient()
 				);
-		addRecipe("ingotBeryllium",
-				new ParticleStack(Particles.proton,29000,500000000,0.068966,100),
-				"ingotBoron10",
-				new EmptyParticleIngredient(),
-						new ParticleStack(Particles.photon,6585,1),
-						new EmptyParticleIngredient()
-				);
+//		addRecipe("ingotBeryllium",
+//				new ParticleStack(Particles.proton,29000,500000000,0.068966,100),
+//				"ingotBoron10",
+//				new EmptyParticleIngredient(),
+//						new ParticleStack(Particles.photon,6585,1),
+//						new EmptyParticleIngredient()
+//				);
 		addRecipe("ingotBoron10",
 				new ParticleStack(Particles.proton,4000,166000,0.05,100),
 				"ingotBeryllium7",
@@ -53,13 +53,13 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.photon,15956,1),
 						new EmptyParticleIngredient()
 				);
-		addRecipe("charcoal",
-				new ParticleStack(Particles.proton,45000,833000,0.1111,100),
-				"ingotBeryllium7",
-				new ParticleStack(Particles.alpha,-8756,6),
-				new ParticleStack(Particles.neutron,-8756,6),
-				new ParticleStack(Particles.proton,-8756,6)
-				);
+//		addRecipe("charcoal",
+//				new ParticleStack(Particles.proton,45000,833000,0.1111,100),
+//				"ingotBeryllium7",
+//				new ParticleStack(Particles.alpha,-8756,6),
+//				new ParticleStack(Particles.neutron,-8756,6),
+//				new ParticleStack(Particles.proton,-8756,6)
+//				);
 		addRecipe("charcoal",
 				new ParticleStack(Particles.proton,15000,178000,0.1333,100),
 				"ingotBeryllium",
@@ -102,13 +102,13 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.neutron,-1459,54),
 				new EmptyParticleIngredient()
 				);
-		addRecipe("ingotUranium238",
-				new ParticleStack(Particles.proton,19000,113000,0.2105,100),
-				"ingotNeptunium236",
-				new ParticleStack(Particles.triton,-12996,44),
-				new EmptyParticleIngredient(),
-				new EmptyParticleIngredient()
-				);
+//		addRecipe("ingotUranium238",
+//				new ParticleStack(Particles.proton,19000,113000,0.2105,100),
+//				"ingotNeptunium236",
+//				new ParticleStack(Particles.triton,-12996,44),
+//				new EmptyParticleIngredient(),
+//				new EmptyParticleIngredient()
+//				);
 		addRecipe("ingotUranium235",
 				new ParticleStack(Particles.proton,65000,454000,0.1538,100),
 				"ingotUranium233",
@@ -221,8 +221,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new EmptyParticleIngredient(),
 				new ParticleStack(Particles.neutron,-2790,30),
 				new EmptyParticleIngredient()
-				);
-		
+				);		
 		addRecipe("ingotBeryllium",
 				new ParticleStack(Particles.alpha,7500,100000,0.06666,100),
 				"charcoal",
@@ -230,7 +229,6 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.neutron,5702,50),
 				new EmptyParticleIngredient()
 				);
-		
 		addRecipe("charcoal",
 				new ParticleStack(Particles.alpha,35000,416000,0.2847,100),
 				"ingotBoron11",

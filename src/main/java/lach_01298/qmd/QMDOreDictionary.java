@@ -27,6 +27,13 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotBeryllium7",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.BERYLLIUM_7.getID()));
 		OreDictionary.registerOre("ingotMagnesium24",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.MAGNESIUM_24.getID()));
 		OreDictionary.registerOre("ingotMagnesium26",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.MAGNESIUM_26.getID()));
+		
+		
+		OreDictionary.registerOre("siliconBoule",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.SILICON_BOULE.getID()));
+		OreDictionary.registerOre("siliconWafer",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.SILICON_WAFER.getID()));
+
+	
+	
 	}
 
 }

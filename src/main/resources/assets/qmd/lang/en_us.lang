@@ -22,10 +22,19 @@ item.qmd.source_sodium_22.name=Sodium-22 Source
 
 item.qmd.isotope.sodium_22.name=Sodium-22
 item.qmd.isotope.promethium_147.name=Promethium-147
+item.qmd.isotope.magnesium_26.name=Magnesium-26
+item.qmd.isotope.magnesium_24.name=Magnesium-24
+item.qmd.isotope.beryllium_7.name=Beryllium-7
 
 item.qmd.part.empty_cooler.name=Empty Cooler
+item.qmd.part.scintillator_pwo.name=Lead Tungstate Scintillator
+item.qmd.part.scintillator_plastic.name=Plastic Scintillator
+item.qmd.part.detector_casing.name=Empty Detector Casing
 
-
+item.qmd.semiconductor.silicon_p_doped.name=P-Type Doped Silicon
+item.qmd.semiconductor.silicon_n_doped.name=N-Type Doped Silicon
+item.qmd.semiconductor.silicon_boule.name=Silicon Boule
+item.qmd.semiconductor.silicon_wafer.name=Silicon Wafer
 
 //blocks
 tile.qmd.beamline.name=Beamline Pipe
@@ -84,12 +93,13 @@ tile.qmd.accelerator_cooler2.cryotheum.name=Cryotheum Accelerator Cooler
 
 tile.qmd.target_chamber_controller.name=Target Chamber Controller
 
-tile.qmd.particle_chamber_beam_port.name=Particle Chamber Port
+tile.qmd.particle_chamber_beam_port.name=Particle Chamber Beam Port
 tile.qmd.particle_chamber_casing.name=Particle Chamber Casing
 tile.qmd.particle_chamber_glass.name=Particle Chamber Glass
 tile.qmd.particle_chamber_beam.name=Particle Chamber Beam
 tile.qmd.particle_chamber_target.name=Particle Chamber Target
 tile.qmd.particle_chamber_port.name=Particle Chamber Port
+tile.qmd.particle_chamber_energy_port.name=Particle Chamber Energy Port
 
 tile.qmd.particle_chamber_detector.bubble_chamber.name=Bubble Chamber Detector
 tile.qmd.particle_chamber_detector.silicon_tracker.name=Silicon Tracker Detector

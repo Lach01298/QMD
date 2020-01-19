@@ -208,7 +208,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				}
 			}
 
-			int distance = getChamber().getInteriorLengthX() / 2;
+			int distance = getChamber().getExteriorLengthX() / 2;
 			EnumFacing facing = null;
 			if (target.getPos().getX() == input.getX())
 			{
@@ -234,12 +234,14 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				}
 			}
 
+
 			if (getWorld().getTileEntity(
 					target.getPos().offset(facing.rotateY(), distance)) instanceof TileParticleChamberBeamPort)
 			{
 				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld()
 						.getTileEntity(target.getPos().offset(facing.rotateY(), distance));
 				port.setIONumber(1);
+
 			}
 			if (getWorld().getTileEntity(target.getPos().offset(facing.rotateY().rotateY(),
 					distance)) instanceof TileParticleChamberBeamPort)
@@ -247,6 +249,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld()
 						.getTileEntity(target.getPos().offset(facing.rotateY().rotateY(), distance));
 				port.setIONumber(2);
+
 			}
 			if (getWorld().getTileEntity(target.getPos().offset(facing.rotateY().rotateY().rotateY(),
 					distance)) instanceof TileParticleChamberBeamPort)
@@ -254,6 +257,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld()
 						.getTileEntity(target.getPos().offset(facing.rotateY().rotateY().rotateY(), distance));
 				port.setIONumber(3);
+
 			}
 
 		}
@@ -451,11 +455,13 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		if(outputNeutral == null) particles--;
 		if(outputMinus == null) particles--;
 		
+		//System.out.println("p " + particles);
 		
 		getChamber().beams.get(1).setParticleStack(outputPlus);
 		if(outputPlus != null)
 		{
-			getChamber().beams.get(1).getParticleStack().setMeanEnergy(outputPlus.getMeanEnergy()/particles + getChamber().beams.get(0).getParticleStack().getMeanEnergy());
+			getChamber().beams.get(1).getParticleStack().setMeanEnergy(outputPlus.getMeanEnergy() + getChamber().beams.get(0).getParticleStack().getMeanEnergy()/particles);
+			getChamber().beams.get(1).getParticleStack().setAmount(outputPlus.getAmount()*(getChamber().beams.get(0).getParticleStack().getAmount()/100));
 			getChamber().beams.get(1).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
 		}
 		
@@ -463,14 +469,16 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		getChamber().beams.get(2).setParticleStack(outputNeutral);
 		if(outputNeutral != null)
 		{
-			getChamber().beams.get(2).getParticleStack().setMeanEnergy(outputNeutral.getMeanEnergy()/particles + getChamber().beams.get(0).getParticleStack().getMeanEnergy());
+			getChamber().beams.get(2).getParticleStack().setMeanEnergy(outputNeutral.getMeanEnergy() + getChamber().beams.get(0).getParticleStack().getMeanEnergy()/particles);
+			getChamber().beams.get(2).getParticleStack().setAmount(outputNeutral.getAmount()*(getChamber().beams.get(0).getParticleStack().getAmount()/100));
 			getChamber().beams.get(2).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
 		}
 		
 		getChamber().beams.get(3).setParticleStack(outputMinus);
 		if(outputMinus != null)
 		{
-			getChamber().beams.get(3).getParticleStack().setMeanEnergy(outputMinus.getMeanEnergy()/particles + getChamber().beams.get(0).getParticleStack().getMeanEnergy());
+			getChamber().beams.get(3).getParticleStack().setMeanEnergy(outputMinus.getMeanEnergy() + getChamber().beams.get(0).getParticleStack().getMeanEnergy()/particles);
+			getChamber().beams.get(3).getParticleStack().setAmount(outputMinus.getAmount()*(getChamber().beams.get(0).getParticleStack().getAmount()/100));
 			getChamber().beams.get(3).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
 		}
 	}

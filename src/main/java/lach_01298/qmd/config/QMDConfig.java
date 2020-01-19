@@ -54,13 +54,13 @@ public class QMDConfig {
 	
 	public static int[] cooler_heat_removed;
 
-	public static int acceleratorCycle = 10;
-	public static int minimumExtractionLuminosity = 200;
+
 	public static int beamAttenuationRate = 10;
 
 	public static int[] detector_base_power;
 	public static double[] detector_efficiency;
 	
+	public static int minimium_accelerator_ring_input_particle_energy;
 	
 	
 	
@@ -136,12 +136,19 @@ public class QMDConfig {
 		propertyCoolerHeatRemoved.setLanguageKey("gui.config.accelerator.cooler_heat_removed");
 		
 		
+		Property propertyAcceleratorRingInputEnergy = config.get(CATEGORY_ACCELERATOR, "minimium_accelerator_ring_input_particle_energy", 5000, Lang.localise("gui.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment"), 0, 2147483647);
+		propertyAcceleratorRingInputEnergy.setLanguageKey("gui.config.accelerator.minimium_accelerator_ring_input_particle_energy");
+		
+		
 		
 		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {3.0D, 5.0D, 3.5D, 2.5D,1.5D}, Lang.localise("gui.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
 		propertyMagnetEfficiency.setLanguageKey("gui.config.particle_chamber.detector_efficiency");
 		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.config.particle_chamber.detector_base_power.comment"), 0, 32767);
 		propertyMagnetBasePower.setLanguageKey("gui.config.particle_chamber.detector_base_power");
 
+	
+		
+		
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
 		propertyOrderAccelerator.add(propertyAcceleratorLinearMinSize.getName());
@@ -160,6 +167,8 @@ public class QMDConfig {
 		propertyOrderAccelerator.add(propertyMagnetBasePower.getName());
 		
 		propertyOrderAccelerator.add(propertyCoolerHeatRemoved.getName());
+		
+		propertyOrderAccelerator.add(propertyAcceleratorRingInputEnergy.getName());
 		
 		config.setCategoryPropertyOrder(CATEGORY_ACCELERATOR, propertyOrderAccelerator);
 		
@@ -191,6 +200,7 @@ public class QMDConfig {
 			
 			cooler_heat_removed = readIntegerArrayFromConfig(propertyCoolerHeatRemoved);
 			
+			minimium_accelerator_ring_input_particle_energy= propertyAcceleratorRingInputEnergy.getInt();
 			
 			
 			detector_efficiency = readDoubleArrayFromConfig(propertyDetectorEfficiency);
@@ -215,6 +225,8 @@ public class QMDConfig {
 		
 		propertyCoolerHeatRemoved.set(cooler_heat_removed);
 
+		propertyAcceleratorRingInputEnergy.set(minimium_accelerator_ring_input_particle_energy);
+		
 
 		propertyDetectorEfficiency.set(detector_efficiency);
 		propertyDetectorBasePower.set(detector_base_power);
