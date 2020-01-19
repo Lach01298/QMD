@@ -18,8 +18,6 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.ingredients.IIngredientHelper;
-import mezz.jei.color.ColorGetter;
-import mezz.jei.startup.StackHelper;
 
 public class ParticleStackHelper implements IIngredientHelper<ParticleStack>
 {

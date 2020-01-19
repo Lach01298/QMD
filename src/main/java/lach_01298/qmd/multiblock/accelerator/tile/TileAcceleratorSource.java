@@ -41,7 +41,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory,ITileGui<TileUpdatePacket>, ITileFilteredInventory
+public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory,ITileGui<TileUpdatePacket>
 {
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_source";
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.IN, ItemSorption.OUT));
@@ -152,13 +152,15 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 	
 
 	@Override
-	public NBTTagCompound writeInventory(NBTTagCompound nbt) {
+	public NBTTagCompound writeInventory(NBTTagCompound nbt)
+	{
 		ItemStackHelper.saveAllItems(nbt, inventoryStacks);
 		return nbt;
 	}
-	
+
 	@Override
-	public void readInventory(NBTTagCompound nbt) {
+	public void readInventory(NBTTagCompound nbt)
+	{
 		ItemStackHelper.loadAllItems(nbt, inventoryStacks);
 	}
 
@@ -214,19 +216,6 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 		
 	}
 
-	@Override
-	public NonNullList<ItemStack> getFilterStacks()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void onFilterChanged(int slot)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 	

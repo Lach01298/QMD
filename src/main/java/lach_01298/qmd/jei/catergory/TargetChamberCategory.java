@@ -18,8 +18,6 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.config.Constants;
-import mezz.jei.util.Translator;
 import nc.util.Lang;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;

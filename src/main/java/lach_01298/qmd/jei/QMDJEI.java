@@ -18,7 +18,7 @@ import lach_01298.qmd.jei.recipe.TargetChamberTargetRecipeMaker;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.AcceleratorSourceRecipes;
 import lach_01298.qmd.recipe.QMDRecipes;
-import mezz.jei.Internal;
+import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
@@ -28,9 +28,6 @@ import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
-import mezz.jei.gui.GuiHelper;
-import mezz.jei.plugins.vanilla.furnace.SmeltingRecipeMaker;
-import mezz.jei.runtime.JeiHelpers;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
@@ -57,8 +54,8 @@ public class QMDJEI implements IModPlugin
 
 	public void registerCategories(IRecipeCategoryRegistration registry)
 	{
-		JeiHelpers jeiHelpers = Internal.getHelpers();
-		GuiHelper guiHelper = jeiHelpers.getGuiHelper();
+		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
+		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		registry.addRecipeCategories(
 				new AcceleratorSourceCategory(guiHelper),
 				new ParticleInfoCategory(guiHelper),

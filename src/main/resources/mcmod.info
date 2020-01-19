@@ -1,8 +1,8 @@
 [
 {
-  "modid": "nuclear_Engineering",
-  "name": "Nuclear Engineering",
-  "description": "A Addon to Nuclearcraft",
+  "modid": "qmd",
+  "name": "Quantum Minecraft Dynamics",
+  "description": "A Nuclearcraft addon that aims to bring particle accelerators and particle physics to minecraft",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

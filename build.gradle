@@ -23,7 +23,7 @@ repositories {
   }
 }
 
-version = "${mod_version}--${mc_version}"
+version = "${mod_version}-${mc_version}"
 group = "lach_01298" 
 archivesBaseName = "QMD"
 
@@ -45,11 +45,11 @@ dependencies {
     deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-    compile files('libs/NuclearCraft-${nuclearcraft_version}-${mc_version}.jar')
+    deobfCompile "nuclearcraft-mod:NuclearCraft:${nuclearcraft_version}:${mc_version}"
 }
 
 processResources {
-    exclude '**/Thumbs.db'
+
     
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -63,3 +63,5 @@ processResources {
         exclude 'mcmod.info'
     }
 }
+
+

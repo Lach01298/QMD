@@ -10,7 +10,6 @@ import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import mezz.jei.util.Translator;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.client.Minecraft;

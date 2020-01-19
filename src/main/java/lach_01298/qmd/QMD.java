@@ -30,7 +30,7 @@ public class QMD
 {
 	public static final String MOD_NAME = "Quantum Minecraft Dynamics";
 	public static final String MOD_ID = "qmd";
-	public static final String VERSION = "1.12.2-0.2";
+	public static final String VERSION = "@VERSION@";
 	public static final String MCVERSION = "1.12.2";
 
 	@Instance(MOD_ID)
