@@ -3,7 +3,7 @@ package lach_01298.qmd.multiblock.container;
 import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.ContainerTile;
 import nc.container.NCContainer;
 import nc.container.slot.SlotFiltered;

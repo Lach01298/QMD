@@ -1,8 +1,8 @@
 package lach_01298.qmd.tile;
 
-import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorGlass;
@@ -22,8 +22,10 @@ import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberDetecto
 import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberEnergyPort;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberGlass;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberPort;
-import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberTarget;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileDecayChamberController;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.pipe.TileBeamline;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
@@ -64,6 +66,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Copper.class, Util.appendPath(magnetPath, EnumTypes.MagnetType.COPPER.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.MagnesiumDiboride.class, Util.appendPath(magnetPath, EnumTypes.MagnetType.MAGNESIUM_DIBORIDE.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.NiobiumTin.class, Util.appendPath(magnetPath, EnumTypes.MagnetType.NIOBIUM_TIN.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Bscco.class, Util.appendPath(magnetPath, EnumTypes.MagnetType.BSCCO.getName()));
 		
 		//RF Cavities
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.Copper.class, Util.appendPath(cavityPath, EnumTypes.RFCavityType.COPPER.getName()));
@@ -112,11 +115,12 @@ public class QMDTiles
 		
 		//Particle Chamber Parts
 		GameRegistry.registerTileEntity(TileTargetChamberController.class,Util.appendPath(chamberPath, "target_chamber_controller"));
+		GameRegistry.registerTileEntity(TileDecayChamberController.class,Util.appendPath(chamberPath, "decay_chamber_controller"));
 		GameRegistry.registerTileEntity(TileParticleChamberBeam.class,Util.appendPath(chamberPath, "beam"));
 		GameRegistry.registerTileEntity(TileParticleChamberCasing.class,Util.appendPath(chamberPath, "casing"));
 		GameRegistry.registerTileEntity(TileParticleChamberGlass.class,Util.appendPath(chamberPath, "glass"));;
 		GameRegistry.registerTileEntity(TileParticleChamberBeamPort.class,Util.appendPath(chamberPath, "beam_port"));
-		GameRegistry.registerTileEntity(TileParticleChamberTarget.class,Util.appendPath(chamberPath, "target"));
+		GameRegistry.registerTileEntity(TileParticleChamber.class,Util.appendPath(chamberPath, "particle_chamber"));
 		GameRegistry.registerTileEntity(TileParticleChamberEnergyPort.class,Util.appendPath(chamberPath, "energy_port"));
 		GameRegistry.registerTileEntity(TileParticleChamberPort.class,Util.appendPath(chamberPath, "port"));
 		

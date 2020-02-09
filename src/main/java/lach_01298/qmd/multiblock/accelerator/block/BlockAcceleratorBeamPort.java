@@ -3,7 +3,7 @@ package lach_01298.qmd.multiblock.accelerator.block;
 import static lach_01298.qmd.block.BlockProperties.IO;
 import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
 
-import lach_01298.qmd.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
@@ -21,6 +21,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
@@ -29,7 +30,7 @@ public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 	public BlockAcceleratorBeamPort()
 	{
 		super();
-		setDefaultState(blockState.getBaseState().withProperty(IO, EnumTypes.IOType.INPUT));
+		setDefaultState(blockState.getBaseState().withProperty(IO, EnumTypes.IOType.DISABLED));
 	}
 
 	@Override
@@ -75,9 +76,19 @@ public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 		{
 			TileAcceleratorBeamPort port = (TileAcceleratorBeamPort) world.getTileEntity(pos);
 			
-			port.toggleSetting();
-			if (!world.isRemote)
-				player.sendMessage(getToggleMessage(player, port));
+			if(player.isSneaking())
+			{
+				port.toggleSwitchSetting();
+				if (!world.isRemote)
+					player.sendMessage(getToggleSwitchMessage(player, port));
+			}
+			else
+			{
+				port.toggleSetting();
+				if (!world.isRemote)
+					player.sendMessage(getToggleMessage(player, port));
+			}
+			
 			return true;
 		}
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
@@ -86,6 +97,11 @@ public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 	private static TextComponentString getToggleMessage(EntityPlayer player, TileAcceleratorBeamPort port)
 	{
 		return new TextComponentString(TextFormatting.AQUA + Lang.localise("qmd.block_toggle." + port.getIOType().name())) ;
+	}
+	
+	private static TextComponentString getToggleSwitchMessage(EntityPlayer player, TileAcceleratorBeamPort port)
+	{
+		return new TextComponentString(TextFormatting.AQUA + Lang.localise("qmd.block_toggle_switch." + port.getSwitchSetting().name())) ;
 	}
 	
 	

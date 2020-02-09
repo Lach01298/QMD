@@ -10,7 +10,7 @@ import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
 import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.slot.SlotFurnace;
 import nc.multiblock.container.ContainerMultiblockController;
 import net.minecraft.entity.player.EntityPlayer;

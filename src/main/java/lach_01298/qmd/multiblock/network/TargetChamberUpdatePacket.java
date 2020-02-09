@@ -9,7 +9,7 @@ import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
-import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -18,16 +18,16 @@ import net.minecraft.util.math.BlockPos;
 
 public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 {
-	public List<AcceleratorStorage> beams;
-	public int particleCount, recipeParticleCount;
+	public List<ParticleStorageAccelerator> beams;
+	public long particleCount, recipeParticleCount;
 	
 	public TargetChamberUpdatePacket() {
 		super();
-		beams = new ArrayList<AcceleratorStorage>();
+		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
 
 	public TargetChamberUpdatePacket(BlockPos pos, boolean isAcceleratorOn, int requiredEnergy, double efficiency,
-			EnergyStorage energyStorage, List<AcceleratorStorage> beams, int particleCount, int particleRecipeCount)
+			EnergyStorage energyStorage, List<ParticleStorageAccelerator> beams, long particleCount, long particleRecipeCount)
 	{
 		super(pos, isAcceleratorOn, requiredEnergy, efficiency, energyStorage);
 		this.beams = beams;
@@ -56,12 +56,12 @@ public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 		super.writeMessage(buf);
 		
 		buf.writeInt(beams.size());
-		for(AcceleratorStorage beam : beams)
+		for(ParticleStorageAccelerator beam : beams)
 		{
 			ByteUtil.writeBufBeam(beam, buf);
 		}
-		buf.writeInt(particleCount);
-		buf.writeInt(recipeParticleCount);
+		buf.writeLong(particleCount);
+		buf.writeLong(recipeParticleCount);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<TargetChamberUpdatePacket, ParticleChamber, TileTargetChamberController> {

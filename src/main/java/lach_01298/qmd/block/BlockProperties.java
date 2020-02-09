@@ -1,7 +1,7 @@
 package lach_01298.qmd.block;
 
-import lach_01298.qmd.EnumTypes;
-import lach_01298.qmd.EnumTypes.IOType;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.util.EnumFacing;

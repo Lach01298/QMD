@@ -19,7 +19,8 @@ public class ParticleStack
 {
 
 	private Particle particle;
-	private int meanEnergy, amount;
+	private long meanEnergy;
+	private int amount;
 	private double energySpread;
 	private int luminosity;			//beam stat
 	
@@ -33,7 +34,7 @@ public class ParticleStack
 		
 	}
 	
-	public ParticleStack(Particle particle, int meanEnergy, int amount, double energySpread, int luminosity)
+	public ParticleStack(Particle particle, long meanEnergy, int amount, double energySpread, int luminosity)
 	{
 		this.particle =particle;
 		this.meanEnergy = meanEnergy;
@@ -44,7 +45,7 @@ public class ParticleStack
 	}
 	
 	
-	public ParticleStack(Particle particle, int meanEnergy, int amount)
+	public ParticleStack(Particle particle, long meanEnergy, int amount)
 	{
 		this.particle =particle;
 		this.meanEnergy = meanEnergy;
@@ -61,7 +62,7 @@ public class ParticleStack
 	}
 	
 
-	public int getMeanEnergy()
+	public long getMeanEnergy()
 	{
 		return meanEnergy;
 	}
@@ -89,9 +90,14 @@ public class ParticleStack
 		this.particle =newParticle;
 	}
 	
-	public void setMeanEnergy(int newMeanEnergy)
+	public void setMeanEnergy(long newMeanEnergy)
 	{
 		this.meanEnergy = newMeanEnergy;
+	}
+	
+	public void addMeanEnergy(long add)
+	{
+		this.meanEnergy += add;
 	}
 	
 	public void setEnergySpread(double newEnergySpread)
@@ -105,12 +111,12 @@ public class ParticleStack
 	}
 	
 	
-	public void addAmount(int add)
+	public void addAmount(long add)
 	{
 		this.amount += add;
 	}
 	
-	public void removeAmount(int remove)
+	public void removeAmount(long remove)
 	{
 		this.amount -= remove;
 		if(amount < 0)
@@ -145,8 +151,8 @@ public class ParticleStack
 			nbt.setString("particle", particle.getName());
 		}
 		
-		nbt.setInteger("meanEnergy", meanEnergy);
-		nbt.setInteger("amount", amount);
+		nbt.setLong("meanEnergy", meanEnergy);
+		nbt.setLong("amount", amount);
 		nbt.setDouble("energySpread", energySpread);
 		nbt.setInteger("luminosity", luminosity);
 
@@ -158,7 +164,7 @@ public class ParticleStack
 	{
 
 		this.particle = Particles.getParticleFromName(nbt.getString("particle"));
-		this.meanEnergy = nbt.getInteger("meanEnergy");
+		this.meanEnergy = nbt.getLong("meanEnergy");
 		this.amount = nbt.getInteger("amount");
 		this.energySpread = nbt.getDouble("energySpread");
 		this.luminosity = nbt.getInteger("luminosity");
@@ -186,7 +192,7 @@ public class ParticleStack
 
 		String particleName = nbt.getString("particle");
 		int amount = nbt.getInteger("amount");
-		int energy = nbt.getInteger("meanEnergy");
+		long energy = nbt.getLong("meanEnergy");
 		double spread = nbt.getDouble("energySpread");
 		int lum = nbt.getInteger("luminosity");
 
@@ -196,7 +202,7 @@ public class ParticleStack
 	}
 	
 	
-	public static ParticleStack getParticleStack(String particleName, int meanEnergy, int amount,double spread, int luminosity)
+	public static ParticleStack getParticleStack(String particleName, long meanEnergy, int amount,double spread, int luminosity)
 	{
 		return new ParticleStack(Particles.getParticleFromName(particleName),meanEnergy,amount,spread, luminosity);
 	}

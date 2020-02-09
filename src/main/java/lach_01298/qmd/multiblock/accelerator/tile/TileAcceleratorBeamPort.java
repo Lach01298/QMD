@@ -10,13 +10,12 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import lach_01298.qmd.EnumTypes;
-import lach_01298.qmd.EnumTypes.IOType;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
-import lach_01298.qmd.EnumTypes.IOType;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.io.IIOType;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particle.ITileParticleStorage;
 import lach_01298.qmd.particle.ParticleStorage;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -33,31 +32,21 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOType, ITileParticleStorage
 {
 	
-	private final @Nonnull List<AcceleratorStorage> backupTanks = Lists.newArrayList(new AcceleratorStorage());
+	private final @Nonnull List<ParticleStorageAccelerator> backupTanks = Lists.newArrayList(new ParticleStorageAccelerator());
 	private EnumTypes.IOType type;
-	
-	
+	private EnumTypes.IOType switchType;
+	private boolean triggered = false;
+	private boolean powered = false;
 	
 	public TileAcceleratorBeamPort()
 	{
 		super(CuboidalPartPositionType.WALL);
-		this.type = EnumTypes.IOType.INPUT;
-		
+		this.type = EnumTypes.IOType.DISABLED;
+		this.switchType = EnumTypes.IOType.INPUT;
 		
 	}
 
-	boolean isFunctional()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) 
@@ -76,21 +65,71 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	public void setIOType(IOType type)
 	{
 		this.type = type;
-	}
-	
-	public void toggleSetting()
-	{
-		setIOType(type.getNextIO());
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
 		markDirtyAndNotify();
 		getMultiblock().checkIfMachineIsWhole();
 	}
 	
+	public void toggleSetting()
+	{
+		setIOType(type.getNextIO());
+	}
+	
+	
+
+	public IOType getSwitchSetting()
+	{
+		
+		return switchType;
+	}
+	
+	public void toggleSwitchSetting()
+	{
+		if (switchType == IOType.INPUT)
+		{
+			setSwitchType(IOType.OUTPUT);
+		}
+		else
+		{
+			setSwitchType(IOType.INPUT);
+		}
+	}
+	
+	
+	public void switchSetting()
+	{
+		if(type == switchType)
+		{
+			setIOType(IOType.DISABLED);
+		}
+		else
+		{
+			setIOType(switchType);
+		}
+		
+		
+		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
+		markDirtyAndNotify();
+		getMultiblock().checkIfMachineIsWhole();
+	}
+	
+	public void setSwitchType(IOType setting)
+	{
+		switchType = setting;
+				
+		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
+		markDirtyAndNotify();
+		getMultiblock().checkIfMachineIsWhole();
+	}
+	
+	
+	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) 
 	{
 		super.writeAll(nbt);
 		nbt.setInteger("setting", type.getID());
-		
+		nbt.setInteger("switchSetting", switchType.getID());
+		nbt.setBoolean("triggered", triggered);
 		return nbt;
 	}
 		
@@ -98,7 +137,8 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	{
 		super.readAll(nbt);
 		type =EnumTypes.IOType.getTypeFromID(nbt.getInteger("setting"));
-	
+		switchType =EnumTypes.IOType.getTypeFromID(nbt.getInteger("switchSetting"));
+		triggered = nbt.getBoolean("triggered");
 	}
 
 
@@ -142,5 +182,42 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 			return getMultiblock().beams;
 		}
 	
+		
+		public boolean isTriggered()
+		{
+			return triggered;
+		}
+		public void resetTrigger()
+		{
+			triggered = false;
+		}
+		public void setTrigger()
+		{
+			triggered = true;
+		}
+		
 	
+	@Override
+	public void update()
+	{
+
+		if (!world.isRemote)
+		{
+			if (this.getMultiblock() != null)
+			{
+				if (getIsRedstonePowered() && !powered)
+				{
+					setTrigger();
+					this.getMultiblock().switchIO();
+				}
+			}
+			powered = getIsRedstonePowered();
+		}
+	}
+
 }
+		
+		
+		
+		
+

@@ -1,6 +1,6 @@
 package lach_01298.qmd.multiblock.accelerator;
 
-import static lach_01298.qmd.recipe.QMDRecipes.accelerator_cooling;
+import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,12 +8,15 @@ import java.util.List;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
+import com.sun.jna.platform.win32.WinUser.INPUT;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorPart;
@@ -25,7 +28,9 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.particle.IParticleStackHandler;
+import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
@@ -43,6 +48,8 @@ import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -202,7 +209,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 	
 	public boolean onUpdateServer()
 	{
-		
 		if (getAccelerator().getTemperature() <= getAccelerator().ambientTemp)
 		{
 			if (isRedstonePowered())
@@ -216,14 +222,16 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 						operational = true;
 					}
 					else
-					{
+					{	
 						operational = false;
+						getAccelerator().errorCode = Accelerator.errorCode_ToHot;
 					}
 
 				}
 				else
 				{
 					operational = false;
+					getAccelerator().errorCode = Accelerator.errorCode_OutOfPower;
 				}
 			}
 			else
@@ -242,6 +250,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		return true;
 	}
 	
+
+
 	protected void refreshFluidRecipe() 
 	{
 		
@@ -449,6 +459,58 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		else return getAccelerator().standardLastError(x, y, z, multiblock);
 	}
 
+	
+	protected void push()
+	{
+		if(getAccelerator().output != null)
+		{
+			for(EnumFacing face : EnumFacing.VALUES)
+			{
+				TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().output.getPos().offset(face));
+				if(tile != null)
+				{
+					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
+					{
+						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+						otherStorage.reciveParticle(face.getOpposite(), getAccelerator().beams.get(1).getParticleStack());
+					}
+				}
+			}
+		}
+	}
+	
+	protected void pull()
+	{
+		if (getAccelerator().input != null)
+		{
+			for (EnumFacing face : EnumFacing.VALUES)
+			{
+				TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().input.getPos().offset(face));
+				if (tile != null)
+				{
+
+					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,
+							face.getOpposite()))
+					{
+						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite());
+						ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
+						if (!getAccelerator().beams.get(0).reciveParticle(face, stack))
+						{
+							if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
+							{
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+							}
+							else
+							{
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	
 
 

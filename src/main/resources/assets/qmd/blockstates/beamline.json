@@ -9,9 +9,10 @@
     },
     "variants": {
        "inventory": [{}],
-       "axis_horizontal": {
-            "x": {},
-            "z": {"y": 90}
+       "axis": {
+            "x": {"y": 90},
+            "y": {"x":90},
+            "z": {}
        }
     }
 }

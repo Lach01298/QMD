@@ -2,7 +2,7 @@ package lach_01298.qmd.multiblock.particleChamber.block;
 
 
 
-import lach_01298.qmd.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberEnergyPort;
 import nc.util.Lang;
 import net.minecraft.block.properties.IProperty;

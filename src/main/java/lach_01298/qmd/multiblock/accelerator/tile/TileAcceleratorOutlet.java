@@ -9,11 +9,11 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import lach_01298.qmd.EnumTypes;
-import lach_01298.qmd.EnumTypes.IOType;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.io.IIOType;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.ModCheck;
 import nc.block.property.BlockProperties;
 import nc.config.NCConfig;

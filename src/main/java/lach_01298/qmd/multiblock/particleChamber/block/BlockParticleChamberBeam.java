@@ -1,9 +1,9 @@
 package lach_01298.qmd.multiblock.particleChamber.block;
 
 
-import lach_01298.qmd.EnumTypes;
-import lach_01298.qmd.EnumTypes.IOType;
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberBeam;
 import nc.block.property.ISidedProperty;

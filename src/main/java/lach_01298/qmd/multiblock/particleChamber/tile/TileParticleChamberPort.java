@@ -22,11 +22,13 @@ import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.util.GasHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -36,7 +38,7 @@ public class TileParticleChamberPort extends TileParticleChamberPart implements 
 	
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	private @Nonnull InventoryTileWrapper invWrapper;
-	private IParticleChamberController controller;
+	private TileTargetChamberController controller;
 	
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.particle_chamber_port";
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
@@ -50,15 +52,23 @@ public class TileParticleChamberPort extends TileParticleChamberPart implements 
 	@Override
 	public void update()
 	{
-		// TODO Auto-generated method stub
+
 		
 	}
 	
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
+	{
+		return oldState.getBlock() != newState.getBlock();
+	}
 	
 	@Override
 	public void onMachineAssembled(ParticleChamber chamber) 
 	{
-		controller =  chamber.controller;
+		if(chamber.controller instanceof TileTargetChamberController)
+		{
+			controller =  (TileTargetChamberController) chamber.controller;
+		}
 		super.onMachineAssembled(chamber);
 	}
 	
@@ -67,6 +77,7 @@ public class TileParticleChamberPort extends TileParticleChamberPart implements 
 	public void onMachineBroken()
 	{
 		controller = null;
+		super.onMachineBroken();
 	}
 
 	@Override
@@ -133,9 +144,11 @@ public class TileParticleChamberPort extends TileParticleChamberPart implements 
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return !getInventoryStacks().isEmpty() && hasInventorySideCapability(side) && controller != null;
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
+	{
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		{
+			return !getInventoryStacks().isEmpty() && hasInventorySideCapability(side);
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -145,7 +158,7 @@ public class TileParticleChamberPort extends TileParticleChamberPart implements 
 	{
 		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 		{
-			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side) && controller != null)
+			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side))
 			{
 				return (T) getItemHandlerCapability(side);
 			}

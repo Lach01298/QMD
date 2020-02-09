@@ -20,7 +20,7 @@ import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.network.QMDPacketHandler;
-import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import nc.Global;
@@ -40,6 +40,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePacket> implements ILogicMultiblock<ParticleChamberLogic, IParticleChamberPart>
@@ -67,7 +68,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	
-	public List<AcceleratorStorage> beams = Lists.newArrayList(new AcceleratorStorage());
+	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
 	
 	public ParticleChamber(World world)
 	{
@@ -85,7 +86,8 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	}
 	
 	@Override
-	public void setLogic(String logicID) {
+	public void setLogic(String logicID) 
+	{
 		if (logicID.equals(logic.getID())) return;
 		logic = getNewLogic(LOGIC_MAP.get(logicID));
 	}
@@ -261,7 +263,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 		data.setInteger("requiredEnergy", requiredEnergy);
 		data.setDouble("efficiency", efficiency);
 		
-		logic.writeToLogicTag(data, syncReason);
+		writeLogicNBT(data, syncReason);
 		
 	}
 	
@@ -274,10 +276,8 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 		isChamberOn = data.getBoolean("isChamberOn");
 		requiredEnergy = data.getInteger("requiredEnergy");
 		efficiency = data.getDouble("efficiency");
-		
-		
 
-		logic.readFromLogicTag(data, syncReason);	
+		readLogicNBT(data, syncReason);	
 	}
 
 	
@@ -303,7 +303,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	
 	
 	
-	public NBTTagCompound writeBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	public NBTTagCompound writeBeams(List<ParticleStorageAccelerator> beams, NBTTagCompound data)
 	{
 		for (int i = 0; i < beams.size(); i++)
 		{
@@ -313,7 +313,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 		return data;
 	}
 
-	public void readBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	public void readBeams(List<ParticleStorageAccelerator> beams, NBTTagCompound data)
 	{
 		for (int i = 0; i < beams.size(); i++)
 		{
@@ -365,6 +365,11 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		return logic.getContainer(player);
+	}
+
+	public boolean switchOutputs(BlockPos pos)
+	{
+		return logic.switchOutputs(pos);	
 	}
 
 }

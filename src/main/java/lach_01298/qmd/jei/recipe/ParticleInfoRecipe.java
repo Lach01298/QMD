@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
+import lach_01298.qmd.Units;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.ingredients.IIngredients;
@@ -49,7 +50,7 @@ public class ParticleInfoRecipe implements IRecipeWrapper
 		}
 		
 		
-		String massString = Lang.localise("gui.qmd.jei.particle.mass", UnitHelper.prefix(particle.getParticle().getMass()*1000000,4,"eV/c^2"));
+		String massString = Lang.localise("gui.qmd.jei.particle.mass", Units.getSIFormat(particle.getParticle().getMass(),6,"eV/c^2"));
 		
 		DecimalFormat df = new DecimalFormat("#.##");
 		String chargeString = Lang.localise("gui.qmd.jei.particle.charge", df.format(particle.getParticle().getCharge()));

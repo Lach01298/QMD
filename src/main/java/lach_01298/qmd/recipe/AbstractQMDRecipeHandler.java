@@ -73,6 +73,25 @@ public abstract class AbstractQMDRecipeHandler<T extends IQMDRecipe> {
 
 	public abstract void addRecipe(Object... objects);
 
+	
+	public @Nullable QMDRecipeInfo<T> getRecipeInfoRespectingParticleEnergy(List<ItemStack> itemInputs, List<Tank> fluidInputs, List<ParticleStack> particleInputs)
+	{
+		for(T recipe : recipeList)
+		{	
+
+			QMDRecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs, particleInputs);
+			if (matchResult.matches())
+				return new QMDRecipeInfo(recipe, matchResult);
+
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
 	public @Nullable QMDRecipeInfo<T> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,
 			List<ParticleStack> particleInputs)
 	{

@@ -2,12 +2,17 @@ package lach_01298.qmd.multiblock.accelerator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.AcceleratorLogic;
 import lach_01298.qmd.multiblock.accelerator.DipoleMagnet;
@@ -28,7 +33,8 @@ import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipe.QMDRecipe;
@@ -53,11 +59,13 @@ import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
+
+import static lach_01298.qmd.recipes.QMDRecipes.accelerator_source;
 import static nc.block.property.BlockProperties.FACING_ALL;
-import static lach_01298.qmd.recipe.QMDRecipes.accelerator_source;
 
 public class LinearAcceleratorLogic extends AcceleratorLogic
 {
@@ -71,7 +79,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
 		super(oldLogic);
-		//getAccelerator().beams.get(0).setMinExtractionLuminosity(200); //Probably add to config
+		getAccelerator().beams.add(new ParticleStorageAccelerator());
 	}
 
 	
@@ -143,58 +151,120 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		{
 			BlockPos end1 =acc.getExtremeCoord(false, false, false).add(0, thickness / 2,thickness / 2);
 			BlockPos end2 =acc.getExtremeCoord(true, false, false).add(0, thickness / 2,thickness / 2);
-			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
-					!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
+			
+			if(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port", null);
-				return false;
-			}
-			if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource)
-			{
-				if(acc.WORLD.getBlockState(end1).getValue(FACING_ALL) !=  EnumFacing.EAST)
+				List<TileAcceleratorBeamPort> ports = new ArrayList<TileAcceleratorBeamPort>();
+				ports.add((TileAcceleratorBeamPort) acc.WORLD.getTileEntity(end1));
+				ports.add((TileAcceleratorBeamPort) acc.WORLD.getTileEntity(end2));
+				
+				int inputs =0;
+				int outputs =0;
+				for(TileAcceleratorBeamPort port : ports)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end1);
+					if(port.getIOType() == IOType.INPUT)
+					{
+						inputs++;
+					}
+					
+					if(port.getIOType() == IOType.OUTPUT)
+					{
+						outputs++;
+					}
+				}
+				if(inputs != 1 || outputs != 1)
+				{
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_have_io", null);
 					return false;
 				}
 			}
 			else
 			{
-				if(acc.WORLD.getBlockState(end2).getValue(FACING_ALL) !=  EnumFacing.WEST)
+				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
+						!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end2);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port", null);
 					return false;
 				}
+				if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource)
+				{
+					if(acc.WORLD.getBlockState(end1).getValue(FACING_ALL) !=  EnumFacing.EAST)
+					{
+						multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end1);
+						return false;
+					}
+				}
+				else
+				{
+					if(acc.WORLD.getBlockState(end2).getValue(FACING_ALL) !=  EnumFacing.WEST)
+					{
+						multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end2);
+						return false;
+					}
+				}
 			}
-			
-			
-			
+	
 		}
 		if(axis == Axis.Z)
 		{
 			BlockPos end1 =acc.getExtremeCoord(false, false, false).add(thickness / 2, thickness / 2,0);
 			BlockPos end2 =acc.getExtremeCoord(false, false, true).add(thickness / 2, thickness / 2,0);
-			if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
-					!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
+			
+			if(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port",  null);
-				return false;
-			}
-			if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource)
-			{
-				if(acc.WORLD.getBlockState(end1).getValue(FACING_ALL) !=  EnumFacing.SOUTH)
+				List<TileAcceleratorBeamPort> ports = new ArrayList<TileAcceleratorBeamPort>();
+				ports.add((TileAcceleratorBeamPort) acc.WORLD.getTileEntity(end1));
+				ports.add((TileAcceleratorBeamPort) acc.WORLD.getTileEntity(end2));
+				
+				int inputs =0;
+				int outputs =0;
+				for(TileAcceleratorBeamPort port : ports)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end1);
-					return false;
+					if(port.getIOType() == IOType.INPUT)
+					{
+						inputs++;
+					}
+					
+					if(port.getIOType() == IOType.OUTPUT)
+					{
+						outputs++;
+					}
 				}
+				if(inputs != 1 || outputs != 1)
+				{
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_have_io", null);
+					return false;
+				}	
 			}
 			else
 			{
-				if(acc.WORLD.getBlockState(end2).getValue(FACING_ALL) !=  EnumFacing.NORTH)
+				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
+						!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorSource))
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end2);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port",  null);
 					return false;
 				}
+				if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorSource)
+				{
+					if(acc.WORLD.getBlockState(end1).getValue(FACING_ALL) !=  EnumFacing.SOUTH)
+					{
+						multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end1);
+						return false;
+					}
+				}
+				else
+				{
+					if(acc.WORLD.getBlockState(end2).getValue(FACING_ALL) !=  EnumFacing.NORTH)
+					{
+						multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.source_must_face_in", end2);
+						return false;
+					}
+				}
 			}
+			
+			
+			
+			
 		}
 		
 		
@@ -355,6 +425,21 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 				}
 
+				
+				//beam ports
+				for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
+				{
+					if(port.getIOType() == IOType.INPUT)
+					{
+						acc.input = port;
+					}
+					
+					if(port.getIOType() == IOType.OUTPUT)
+					{
+						acc.output = port;
+					}
+				}
+				
 				//source
 				for (TileAcceleratorSource source :acc.getPartMap(TileAcceleratorSource.class).values())
 				{
@@ -371,6 +456,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		 Accelerator acc = getAccelerator();
 		 source = null;
+		 acc.input = null;
+		 acc.output = null;
 		 
 		 for (RFCavity cavity : acc.getRFCavityMap().values())
 		{
@@ -408,24 +495,35 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-
+		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
+		getAccelerator().beams.get(0).setParticleStack(null);
+		pull();		
+		
 		if (getAccelerator().isAcceleratorOn)
 		{
-			refreshRecipe();
-			if (recipeInfo != null)
+			if(source != null)
 			{
-				produceBeam();
+				refreshRecipe();
+				if (recipeInfo != null)
+				{
+					produceSourceBeam();
+				}
+				else
+				{
+					resetBeam();
+				}
 			}
 			else
 			{
-				resetBeam();
-			}
+				produceBeam();
+			}	
 		}
 		else
 		{
 			resetBeam();
 		}
-
+		push();
+		
 		return super.onUpdateServer();
 	}
 	
@@ -433,20 +531,23 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		int energy = 0;
 		int heat = 0;
-		double efficiency =1;
+		int parts= 0;
+		double efficiency =0;
 		double strength =0;
 		double voltage = 0;
 		for(TileAcceleratorMagnet magnet :getAccelerator().getPartMap(TileAcceleratorMagnet.class).values())
 		{
 			heat += magnet.heat;
 			energy += magnet.basePower;
-			efficiency *= Math.pow(magnet.efficiency,1/4d);
+			parts++;
+			efficiency += magnet.efficiency;
 		}
 		for(TileAcceleratorRFCavity cavity :getAccelerator().getPartMap(TileAcceleratorRFCavity.class).values())
 		{
 			heat += cavity.heat;
 			energy += cavity.basePower;
-			efficiency *= Math.pow(cavity.efficiency,1/8d);
+			parts++;
+			efficiency += cavity.efficiency;
 			
 		}
 		
@@ -473,9 +574,9 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				}
 			}
 		}
+		efficiency /= parts;
 		
-		
-		getAccelerator().requiredEnergy =  (int) (energy*(2-efficiency));
+		getAccelerator().requiredEnergy =  (int) (energy/efficiency);
 		getAccelerator().rawHeating = heat;
 		getAccelerator().quadrupoleStrength = strength;
 		getAccelerator().efficiency = efficiency;
@@ -487,20 +588,46 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	private void resetBeam()
 	{
-		getAccelerator().beams.get(0).setParticleStack(null);
+		getAccelerator().beams.get(1).setParticleStack(null);
 	}
 
 
-	private void produceBeam()
+	private void produceSourceBeam()
 	{
 		IParticleIngredient particleIngredient = recipeInfo.getRecipe().particleProducts().get(0);
-		getAccelerator().beams.get(0).setParticleStack(particleIngredient.getStack());
-		ParticleStack particle = getAccelerator().beams.get(0).getParticleStack();
-		particle.addLuminosity((int) (particle.getAmount()*(getAccelerator().quadrupoleStrength)));
-		particle.setMeanEnergy((int) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(0).getParticleStack().getParticle().getCharge())));
+		getAccelerator().beams.get(1).setParticleStack(particleIngredient.getStack());
+		ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
+		particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+		particle.addLuminosity((int) (particle.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+		if(particle.getLuminosity() <= 0)
+		{
+			particle = null;
+			getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+		}
+		
 		useItemDurability();
 	}
 
+	private void produceBeam()
+	{
+		
+		ParticleStack inputBeam = getAccelerator().beams.get(0).getParticleStack();
+		
+		getAccelerator().beams.get(1).setParticleStack(inputBeam);
+		ParticleStack outputBeam = getAccelerator().beams.get(1).getParticleStack();
+		if(outputBeam != null)
+		{
+			outputBeam.addLuminosity((int) (outputBeam.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			outputBeam.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+			if(outputBeam.getLuminosity() <= 0)
+			{
+				outputBeam = null;
+				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+			}
+		}
+		
+		
+	}
 
 	private void useItemDurability()
 	{
@@ -530,7 +657,6 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	
 	
-	
 
 
 	
@@ -544,8 +670,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		return new LinearAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
-				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength,
-				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams.get(0));
+				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().errorCode,
+				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
 	}
 	
 	@Override
@@ -555,8 +681,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		if (message instanceof LinearAcceleratorUpdatePacket)
 		{
 			LinearAcceleratorUpdatePacket packet = (LinearAcceleratorUpdatePacket) message;
-			getAccelerator().beams.clear();
-			getAccelerator().beams.add(packet.beam);
+			getAccelerator().beams = packet.beams;
 		}
 	}
 	
@@ -583,5 +708,14 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		return new ContainerLinearAcceleratorController(player, getAccelerator().controller);
 	}
+	
+	
+	public int getLength()
+	{
+		return getAccelerator().getInteriorLengthX() > getAccelerator().getInteriorLengthZ() ?getAccelerator().getInteriorLengthX() : getAccelerator().getInteriorLengthZ();
+	}
+	
+	
+	
 	
 }

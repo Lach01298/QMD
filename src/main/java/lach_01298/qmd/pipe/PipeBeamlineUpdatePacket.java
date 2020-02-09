@@ -3,14 +3,13 @@ package lach_01298.qmd.pipe;
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.ByteUtil;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import lach_01298.qmd.particle.AcceleratorStorage;
-import lach_01298.qmd.tile.TileBeamline;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.multiblock.network.MultiblockUpdatePacket;
 
 public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
 {
 
-	public AcceleratorStorage storage;
+	public ParticleStorageAccelerator storage;
 	
 	
 	public PipeBeamlineUpdatePacket()
@@ -18,7 +17,7 @@ public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
 		messageValid = false;
 	}
 	
-	public PipeBeamlineUpdatePacket(AcceleratorStorage storage)
+	public PipeBeamlineUpdatePacket(ParticleStorageAccelerator storage)
 	{
 		this.storage = storage;
 		messageValid = true;

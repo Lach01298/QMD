@@ -8,17 +8,17 @@
         "type": {
             "tungsten_carbide": {
                 "textures": {
-                    "layer0": "qmd:items/materials/ingot_tungsten_carbide"
+                    "layer0": "qmd:items/materials/alloy/ingot_tungsten_carbide"
                 }
             },
             "niobium_tin": {
                 "textures": {
-                    "layer0": "qmd:items/materials/ingot_niobium_tin"
+                    "layer0": "qmd:items/materials/alloy/ingot_niobium_tin"
                 }
             },
-			   "stainless_steel": {
+            "stainless_steel": {
                 "textures": {
-                    "layer0": "qmd:items/materials/ingot_stainless_steel"
+                    "layer0": "qmd:items/materials/alloy/ingot_stainless_steel"
                 }
             }
         }

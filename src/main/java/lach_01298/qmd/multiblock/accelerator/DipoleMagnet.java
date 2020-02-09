@@ -2,8 +2,8 @@ package lach_01298.qmd.multiblock.accelerator;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.Util;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import net.minecraft.util.EnumFacing;

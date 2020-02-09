@@ -8,29 +8,43 @@
         "type": {
             "sodium_22": {
                 "textures": {
-                    "layer0": "qmd:items/materials/isotope_sodium_22"
+                    "layer0": "qmd:items/materials/isotope/sodium_22"
                 }
             },
             "promethium_147": {
                 "textures": {
-                    "layer0": "qmd:items/materials/isotope_promethium_147"
+                    "layer0": "qmd:items/materials/isotope/promethium_147"
                 }
             },
             "beryllium_7": {
                 "textures": {
-                    "layer0": "qmd:items/materials/isotope_beryllium_7"
+                    "layer0": "qmd:items/materials/isotope/beryllium_7"
                 }
             },
             "magnesium_24": {
                 "textures": {
-                    "layer0": "qmd:items/materials/isotope_magnesium_24"
+                    "layer0": "qmd:items/materials/isotope/magnesium_24"
                 }
             },
             "magnesium_26": {
                 "textures": {
-                    "layer0": "qmd:items/materials/isotope_magnesium_26"
+                    "layer0": "qmd:items/materials/isotope/magnesium_26"
+                }
+            },
+            "lead_210": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/lead_210"
+                }
+            },
+            "vanadium_50": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/vanadium_50"
+                }
+            },
+            "strontium_90": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/strontium_90"
                 }
             }
         }
-    }
-}
+    }}

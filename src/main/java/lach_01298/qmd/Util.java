@@ -1,5 +1,7 @@
 package lach_01298.qmd;
 
+import java.text.DecimalFormat;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,58 +37,7 @@ public class Util
 	
 	
 	
-	public static String getSIPrefix(double number,int power)
-	{
-		int index =(int) Math.log10(number) + power;
-		
-		switch(index)
-		{
-		case -15:
-		case -14:
-		case -13:
-			return "f";
-		case -12:
-		case -11:
-		case -10:
-			return "p";
-		case -9:
-		case -8:
-		case -7:
-			return "n";
-		case -6:
-		case -5:
-		case -4:
-			return "u";
-		case -3:
-		case -2:
-		case -1:
-			return "m";
-		case 0:
-		case 1:
-		case 2:
-			return "";
-		case 3:
-		case 4:
-		case 5:
-			return "k";
-		case 6:
-		case 7:
-		case 8:
-			return "M";
-		case 9:
-		case 10:
-		case 11:
-			return "G";
-		case 12:
-		case 13:
-		case 14:
-			return "T";
-		case 15:
-			return "P";
-			
-		}
-		return "";
-	}
+	
 	
 	public static EnumFacing getAxisFacing(EnumFacing.Axis axis, boolean positive)
 	{

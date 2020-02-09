@@ -2,8 +2,7 @@ package lach_01298.qmd.multiblock.particleChamber.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-
-import lach_01298.qmd.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;

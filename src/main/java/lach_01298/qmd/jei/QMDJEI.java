@@ -4,6 +4,7 @@ import java.util.List;
 
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.catergory.AcceleratorSourceCategory;
+import lach_01298.qmd.jei.catergory.DecayChamberCategory;
 import lach_01298.qmd.jei.catergory.ParticleInfoCategory;
 import lach_01298.qmd.jei.catergory.QMDRecipeCategoryUid;
 import lach_01298.qmd.jei.catergory.TargetChamberCategory;
@@ -13,11 +14,12 @@ import lach_01298.qmd.jei.ingredient.ParticleStackRenderer;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipe;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipeMaker;
+import lach_01298.qmd.jei.recipe.DecayChamberRecipeMaker;
 import lach_01298.qmd.jei.recipe.ParticleInfoRecipeMaker;
-import lach_01298.qmd.jei.recipe.TargetChamberTargetRecipeMaker;
+import lach_01298.qmd.jei.recipe.TargetChamberRecipeMaker;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.AcceleratorSourceRecipes;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.recipes.AcceleratorSourceRecipes;
+import lach_01298.qmd.recipes.QMDRecipes;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
@@ -59,7 +61,8 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipeCategories(
 				new AcceleratorSourceCategory(guiHelper),
 				new ParticleInfoCategory(guiHelper),
-				new TargetChamberCategory(guiHelper)
+				new TargetChamberCategory(guiHelper),
+				new DecayChamberCategory(guiHelper)
 				);
 
 	}
@@ -75,8 +78,11 @@ public class QMDJEI implements IModPlugin
 	
 		registry.addRecipes(ParticleInfoRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.PARTICLE_INFO);
 	
-		registry.addRecipes(TargetChamberTargetRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.TARGET_CHAMBER);
-		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.particleChamberTarget),QMDRecipeCategoryUid.TARGET_CHAMBER);
+		registry.addRecipes(TargetChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.TARGET_CHAMBER);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.targetChamberController),QMDRecipeCategoryUid.TARGET_CHAMBER);
+		
+		registry.addRecipes(DecayChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.DECAY_CHAMBER);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.decayChamberController),QMDRecipeCategoryUid.DECAY_CHAMBER);
 	}
 
 

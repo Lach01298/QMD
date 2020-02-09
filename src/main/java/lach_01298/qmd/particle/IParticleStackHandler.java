@@ -5,8 +5,6 @@ import net.minecraft.util.EnumFacing;
 public interface IParticleStackHandler
 {
 
-	
-	
 	/**
 	 * 
 	 * @param side
@@ -16,15 +14,20 @@ public interface IParticleStackHandler
 	boolean reciveParticle(EnumFacing side, ParticleStack stack);
 	
 	
+	/**
+	 * 
+	 * @param side
+	 * @return the extracted ParticleStack
+	 */
+	ParticleStack extractParticle(EnumFacing side);
 	
 	/**
 	 * 
 	 * @param side
 	 * @param type the type of particle
-	 * @param the amount of particles
 	 * @return the extracted ParticleStack
 	 */
-	ParticleStack extractParticle(EnumFacing side, Particle type, int Amount);
+	ParticleStack extractParticle(EnumFacing side, Particle type);
 	
 	/**
 	 * 
@@ -38,19 +41,13 @@ public interface IParticleStackHandler
 	 * 
 	 * @param side
 	 * @param type the type of particle
+	 * @param the amount of particles
 	 * @return the extracted ParticleStack
 	 */
-	ParticleStack extractParticle(EnumFacing side, Particle type);
+	ParticleStack extractParticle(EnumFacing side, Particle type, int Amount);
 	
 	
-	/**
-	 * 
-	 * @param side
-	 * @return the extracted ParticleStack
-	 */
-	ParticleStack extractParticle(EnumFacing side);
 
-	
 	/**
 	 * 
 	 * @param side

@@ -17,12 +17,12 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 
 	protected ParticleStack particleStack;
 	protected TileEntity tile;
-	protected int maxEnergy;
-	protected int minEnergy;
+	protected long maxEnergy;
+	protected long minEnergy;
 	protected int capacity;
 
 	
-	public ParticleStorage(ParticleStack stack, int maxEnergy, int capacity, int minEnergy)
+	public ParticleStorage(ParticleStack stack, long maxEnergy, int capacity, long minEnergy)
 	{
 		this.particleStack = stack;
 		this.maxEnergy = maxEnergy;
@@ -30,7 +30,7 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		this.minEnergy = minEnergy;
 	}
 	
-	public ParticleStorage(ParticleStack stack, int maxEnergy, int capacity)
+	public ParticleStorage(ParticleStack stack, long maxEnergy, int capacity)
 	{
 		this.particleStack = stack;
 		this.maxEnergy = maxEnergy;
@@ -38,7 +38,7 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		this.minEnergy = 0;
 	}
 	
-	public ParticleStorage(ParticleStack stack, int maxEnergy)
+	public ParticleStorage(ParticleStack stack, long maxEnergy)
 	{
 		this.particleStack = stack;
 		this.maxEnergy = maxEnergy;
@@ -114,15 +114,19 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 	{
 		if(stack != null)
 		{
+			if(particleStack == null)
+			{
+				particleStack = stack.copy();
+				return true;
+			}
 			if(particleStack.getParticle() == stack.getParticle())
 			{
-				if(stack.getMeanEnergy() > minEnergy && stack.getMeanEnergy() < maxEnergy)
+				if(stack.getMeanEnergy() >= minEnergy && stack.getMeanEnergy() <= maxEnergy)
 				{
 					if(particleStack.getAmount()+ stack.getAmount() <= capacity)
 					{
 						
-						particleStack.setMeanEnergy((stack.getMeanEnergy() * stack.getAmount() + particleStack.getMeanEnergy() * particleStack.getAmount())
-								/ (stack.getAmount() + particleStack.getAmount()));
+						particleStack.setMeanEnergy((stack.getMeanEnergy() * stack.getAmount() + particleStack.getMeanEnergy() * particleStack.getAmount())/ (stack.getAmount() + particleStack.getAmount()));
 						particleStack.addAmount(stack.getAmount());
 						return true;
 					}
@@ -139,6 +143,10 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 	{
 		if(stack != null)
 		{
+			if(particleStack == null)
+			{
+				return true;
+			}
 			if(particleStack.getParticle() == stack.getParticle())
 			{
 				if(stack.getMeanEnergy() > minEnergy && stack.getMeanEnergy() < maxEnergy)
@@ -166,13 +174,13 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 	}
 
 	@Override
-	public int getMaxEnergy()
+	public long getMaxEnergy()
 	{
 		return maxEnergy;
 	}
 
 	@Override
-	public int getMinEnergy()
+	public long getMinEnergy()
 	{
 		return minEnergy;
 	}
@@ -188,18 +196,42 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		this.capacity = capacity;
 	}
 	
-	public void setMaxEnergy(int maxEnergy)
+	public void setMaxEnergy(long maxEnergy)
 	{
 		this.maxEnergy = maxEnergy;
 	}
 
-	public void setMinEnergy(int minEnergy)
+	public void setMinEnergy(long minEnergy)
 	{
 		this.minEnergy = minEnergy;
 	}
 
 
-
+	@Override
+	public ParticleStack extractParticle(EnumFacing side)
+	{
+		if (canExtractParticle(side))
+		{
+			ParticleStack stack = this.particleStack;
+			this.particleStack = null;
+			return stack;
+		}
+		return null;
+	}
+	
+	@Override
+	public ParticleStack extractParticle(EnumFacing side, Particle type)
+	{
+		if (canExtractParticle(side))
+		{
+			if (particleStack.getParticle() == type)
+			{
+				return extractParticle(side);
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public ParticleStack extractParticle(EnumFacing side, int amount)
 	{
@@ -233,30 +265,9 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		return null;
 	}
 
-	@Override
-	public ParticleStack extractParticle(EnumFacing side)
-	{
-		if (canExtractParticle(side))
-		{
-			ParticleStack stack = this.particleStack;
-			this.particleStack = null;
-			return stack;
-		}
-		return null;
-	}
 	
-	@Override
-	public ParticleStack extractParticle(EnumFacing side, Particle type)
-	{
-		if (canExtractParticle(side))
-		{
-			if (particleStack.getParticle() == type)
-			{
-				return extractParticle(side);
-			}
-		}
-		return null;
-	}
+	
+	
 	
 	
 	

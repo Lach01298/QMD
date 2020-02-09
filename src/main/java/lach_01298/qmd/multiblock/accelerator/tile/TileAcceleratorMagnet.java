@@ -59,7 +59,15 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPart implemen
 			super(QMDConfig.magnet_strength[2], QMDConfig.magnet_efficiency[2], QMDConfig.magnet_heat_generated[2], QMDConfig.magnet_base_power[2], "niobium_tin");
 		}
 	}
+	
+	public static class Bscco extends TileAcceleratorMagnet
+	{
 
+		public Bscco()
+		{
+			super(QMDConfig.magnet_strength[3], QMDConfig.magnet_efficiency[3], QMDConfig.magnet_heat_generated[3], QMDConfig.magnet_base_power[3], "bscco");
+		}
+	}
 	
 	
 

@@ -1,7 +1,7 @@
 package lach_01298.qmd;
 
 import io.netty.buffer.ByteBuf;
-import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
@@ -47,7 +47,7 @@ public class ByteUtil
 	}
 	
 	
-	public static void writeBufBeam(AcceleratorStorage beam,ByteBuf buf) 
+	public static void writeBufBeam(ParticleStorageAccelerator beam,ByteBuf buf) 
 	{
 		ParticleStack stack = beam.getParticleStack();
 		
@@ -55,7 +55,7 @@ public class ByteUtil
 		if(stack == null)
 		{
 			ByteBufUtils.writeUTF8String(buf,"none");
-			buf.writeInt(0);
+			buf.writeLong(0);
 			buf.writeInt(0);
 			buf.writeDouble(0);
 			buf.writeInt(0);
@@ -71,7 +71,7 @@ public class ByteUtil
 				ByteBufUtils.writeUTF8String(buf, stack.getParticle().getName());
 			}
 			
-			buf.writeInt(stack.getMeanEnergy());
+			buf.writeLong(stack.getMeanEnergy());
 			buf.writeInt(stack.getAmount());
 			buf.writeDouble(stack.getEnergySpread());
 			buf.writeInt(stack.getLuminosity());
@@ -79,22 +79,21 @@ public class ByteUtil
 	
 		
 		
-		buf.writeInt(beam.getMaxEnergy());
-		buf.writeInt(beam.getMinEnergy());
-		buf.writeInt(beam.getMinExtractionLuminosity());
+		buf.writeLong(beam.getMaxEnergy());
+		buf.writeLong(beam.getMinEnergy());
 	}
 	
 
 	
-	public static AcceleratorStorage readBufBeam(ByteBuf buf)
+	public static ParticleStorageAccelerator readBufBeam(ByteBuf buf)
 	{
-		AcceleratorStorage beam = new AcceleratorStorage();
+		ParticleStorageAccelerator beam = new ParticleStorageAccelerator();
 		
 		String string = ByteBufUtils.readUTF8String(buf);
 		if(string.equals("none"))
 		{
 			beam.setParticleStack(null);
-			buf.readInt();
+			buf.readLong();
 			buf.readInt();
 			buf.readDouble();
 			buf.readInt();
@@ -103,7 +102,7 @@ public class ByteUtil
 		else
 		{
 			Particle p = Particles.getParticleFromName(string);
-			int energy = buf.readInt();
+			long energy = buf.readLong();
 			int amount = buf.readInt();
 			double spread = buf.readDouble();
 			int lum = buf.readInt();
@@ -112,9 +111,8 @@ public class ByteUtil
 			beam.setParticleStack(stack);
 		}
 		
-		beam.setMaxEnergy(buf.readInt());
-		beam.setMinEnergy(buf.readInt());
-		beam.setMinExtractionLuminosity(buf.readInt());
+		beam.setMaxEnergy(buf.readLong());
+		beam.setMinEnergy(buf.readLong());
 
 		return beam;
 	}

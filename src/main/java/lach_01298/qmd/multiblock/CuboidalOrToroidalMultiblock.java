@@ -114,13 +114,6 @@ public abstract class CuboidalOrToroidalMultiblock<PACKET extends MultiblockUpda
 			{
 				for (int z = minZ; z <= maxZ; z++)
 				{
-					
-					//don't check the hole
-					if(z > minInCoord.getZ() && z < maxInCoord.getZ() && x > minInCoord.getX() && x < maxInCoord.getX())
-					{
-						continue;
-					}
-					
 					// Okay, figure out what sort of block this should be.
 					te = WORLD.getTileEntity(new BlockPos(x, y, z));
 					if (te instanceof TileCuboidalOrToroidalMultiblockPart)
@@ -143,6 +136,30 @@ public abstract class CuboidalOrToroidalMultiblock<PACKET extends MultiblockUpda
 						// inside interiors
 						part = null;
 					}
+					
+					
+					
+					//don't check the hole
+					if(z > minInCoord.getZ() && z < maxInCoord.getZ() && x > minInCoord.getX() && x < maxInCoord.getX())
+					{
+						if(z > minInCoord.getZ()+1 && z < maxInCoord.getZ()-1 && x > minInCoord.getX()+1 && x < maxInCoord.getX()-1)
+						{
+							continue;
+						}
+						
+						if(part != null) // check inner edge isn't a multiblock part
+						{
+							
+							multiblock.setLastError("zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part", new BlockPos(x, y, z), x, y, z);
+							return false;
+						}
+						else
+						{
+							continue;
+						}
+					}
+					
+					
 
 					// Validate block type against both part-level and material-level validators.
 					extremes = 0;
@@ -160,7 +177,7 @@ public abstract class CuboidalOrToroidalMultiblock<PACKET extends MultiblockUpda
 					if (z == maxZ || (z == minInCoord.getZ() && x > minInCoord.getX() && x < maxInCoord.getX()))
 						extremes++;
 
-					if (extremes >= 2)
+					if (extremes >= 2 )
 					{
 
 						isPartValid = part != null ? part.isGoodForFrame(multiblock)

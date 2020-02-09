@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "qmd:items/source_sodium_22"
+        "layer0": "qmd:items/particle_sources/source_sodium_22"
     }
 }
 }

@@ -8,17 +8,77 @@
         "type": {
             "tungsten": {
                 "textures": {
-                    "layer0": "qmd:items/materials/dust_tungsten"
+                    "layer0": "qmd:items/materials/dust/tungsten"
                 }
             },
             "niobium": {
                 "textures": {
-                    "layer0": "qmd:items/materials/dust_niobium"
+                    "layer0": "qmd:items/materials/dust/niobium"
                 }
             },
 			 "chromium": {
                 "textures": {
-                    "layer0": "qmd:items/materials/dust_chromium"
+                    "layer0": "qmd:items/materials/dust/chromium"
+                }
+            },
+             "titanium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/titanium"
+                }
+            },
+            "cobalt": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/cobalt"
+                }
+            },
+             "nickel": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/nickel"
+                }
+            },
+             "hafnium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/hafnium"
+                }
+            },
+            "zinc": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/zinc"
+                }
+            },
+             "osmium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/osmium"
+                }
+            },
+             "iridium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/iridium"
+                }
+            },
+            "platinum": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/platinum"
+                }
+            },
+             "sodium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/sodium"
+                }
+            },
+             "potassium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/potassium"
+                }
+            },
+            "calcium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/calcium"
+                }
+            },
+             "strontium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/strontium"
                 }
             }
         }

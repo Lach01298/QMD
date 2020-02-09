@@ -1,12 +1,14 @@
 package lach_01298.qmd.jei.recipe;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import lach_01298.qmd.Units;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.ingredients.IIngredients;
@@ -56,12 +58,37 @@ public class TargetChamberRecipe implements IRecipeWrapper
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
 	{
 		FontRenderer fontRenderer = minecraft.fontRenderer;
-		String spreadString = Lang.localise("gui.qmd.jei.particle.spread", String.format("%.2f",inputParticle.getEnergySpread()*100));
-		String luminosityString = Lang.localise("gui.qmd.jei.particle.luminosity", UnitHelper.prefix(inputParticle.getLuminosity(),4,"lu"));
+		String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticle.getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(inputParticle.getMeanEnergy()*(1+inputParticle.getEnergySpread()),3,"eV"));
+		
+		double efficacy = 1;
+		boolean displayEfficacy = false;
+		if(outputParticlePlus != null)
+		{
+			efficacy = outputParticlePlus.getEnergySpread();
+			displayEfficacy = true;
+		}
+		if(outputParticleNeutral != null)
+		{
+			efficacy = outputParticleNeutral.getEnergySpread();
+			displayEfficacy = true;
+		}
+		if(outputParticleMinus != null)
+		{
+			efficacy = outputParticleMinus.getEnergySpread();
+			displayEfficacy = true;
+		}
+		
+		fontRenderer.drawString(rangeString, 0, 70, Color.gray.getRGB());
+		
+		if(displayEfficacy)
+		{
+			DecimalFormat df = new DecimalFormat("#.##");
+			String efficacyString = Lang.localise("gui.qmd.jei.reaction.efficiency",  df.format(efficacy*100));
+			fontRenderer.drawString(efficacyString, 0, 80, Color.gray.getRGB());
+		}
 		
 		
-		fontRenderer.drawString(spreadString, 0, 70, Color.gray.getRGB());
-		//fontRenderer.drawSplitString(luminosityString, 0, 80,100, Color.gray.getRGB());
+		
 	}
 
 }

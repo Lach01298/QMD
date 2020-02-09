@@ -10,13 +10,12 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import lach_01298.qmd.EnumTypes;
-import lach_01298.qmd.EnumTypes.IOType;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
-import lach_01298.qmd.EnumTypes.IOType;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.io.IIOType;
 import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
-import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particle.ITileParticleStorage;
 import lach_01298.qmd.particle.ParticleStorage;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -33,7 +32,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 public class TileParticleChamberBeamPort extends TileParticleChamberPart implements IIOType, ITileParticleStorage
 {
 	
-	private final @Nonnull List<AcceleratorStorage> backupTanks = Lists.newArrayList(new AcceleratorStorage(),new AcceleratorStorage(),new AcceleratorStorage(),new AcceleratorStorage());
+	private final @Nonnull List<ParticleStorageAccelerator> backupTanks = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	private EnumTypes.IOType type;
 	private int IONumber;
 	
@@ -80,6 +79,20 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
 		markDirtyAndNotify();
 		getMultiblock().checkIfMachineIsWhole();
+	}
+	
+	public boolean switchOutputs()
+	{
+		if(IONumber == 0 || IONumber == 2)
+		{
+			return false;
+		}
+		if(isMultiblockAssembled())
+		{
+			return getMultiblock().switchOutputs(this.pos);
+		}
+		return false;
+		
 	}
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) 
@@ -141,4 +154,10 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 			IONumber= number;
 		}
 	}
+	
+	public int getIONumber()
+	{
+		return	IONumber;
+	}
+	
 }

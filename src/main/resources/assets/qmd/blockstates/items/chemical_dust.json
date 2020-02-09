@@ -1,0 +1,36 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "tungsten_oxide": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/tungsten_oxide"
+                }
+            },
+            "bscco": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/bscco"
+                }
+            },
+            "sodium_nitrate": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/sodium_nitrate"
+                }
+            },
+            "sodium_chloride": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/sodium_chloride"
+                }
+            },
+                "copper_oxide": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/copper_oxide"
+                }
+            }
+        }
+    }
+}

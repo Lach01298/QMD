@@ -18,6 +18,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.CuboidalOrToroidalMultiblock;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorPart;
@@ -31,8 +32,8 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.particle.AcceleratorStorage;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.ILogicMultiblock;
@@ -75,20 +76,13 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	protected final Long2ObjectMap<QuadrupoleMagnet> quadrupoleMap = new Long2ObjectOpenHashMap<>();
 	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
 	
-	
-
-	
-	protected final ObjectSet<TileAcceleratorOutlet> outlets = new ObjectOpenHashSet<>();
-	protected final ObjectSet<TileAcceleratorInlet> inlets = new ObjectOpenHashSet<>();
 	protected final ObjectSet<TileAcceleratorBeamPort> beamPorts = new ObjectOpenHashSet<>();
-	protected final ObjectSet<TileAcceleratorEnergyPort> energyPorts = new ObjectOpenHashSet<>();
-	
-	
-	
+
 	
 	public IAcceleratorController controller;
 
-	
+	public TileAcceleratorBeamPort input;
+	public TileAcceleratorBeamPort output;
 	
 	public static final int BASE_MAX_HEAT = 25000, MAX_OPERATING_TEMP = 10;
 	public static final int	BASE_MAX_ENERGY = 40000;
@@ -100,7 +94,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(Accelerator.BASE_MAX_OUTPUT, null));
 	
-	public List<AcceleratorStorage> beams = Lists.newArrayList(new AcceleratorStorage());
+	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
 	
 	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
@@ -111,6 +105,14 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	public int requiredEnergy = 0, acceleratingVoltage =0;
 	public int RFCavityNumber =0, quadrupoleNumber =0;
 	public double quadrupoleStrength =0;
+	
+	public int errorCode =0;
+	public static final int errorCode_Nothing = 0;
+	public static final int errorCode_ToHot = 1;
+	public static final int errorCode_OutOfPower = 2;
+	public static final int errorCode_NotEnoughQuadrupoles = 3;
+	public static final int errorCode_InputParticleEnergyToLow = 4;
+	public static final int errorCode_InputParticleEnergyToHigh = 5;
 	
 	private static final int thickness = 5;
 	
@@ -170,25 +172,12 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		return dipoleMap;
 	}
 	
-	public ObjectSet<TileAcceleratorInlet> getIntlets()
-	{
-		return inlets;
-	}
-	
-	public ObjectSet<TileAcceleratorOutlet> getOutlets()
-	{
-		return outlets;
-	}
-	
-	public ObjectSet<TileAcceleratorBeamPort> getBeamPorts()
+	public ObjectSet<TileAcceleratorBeamPort> getValidBeamPorts()
 	{
 		return beamPorts;
 	}
 	
-	public ObjectSet<TileAcceleratorEnergyPort> getEnergyPorts()
-	{
-		return energyPorts;
-	}
+	
 	
 	
 	
@@ -348,24 +337,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 				return false;
 			}
 		}
-		int beams= 0;
-		for(BlockPos pos : faces)
-		{
-			if(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam)
-			{
-				beams++;
-			}
-		}
-		if(beams < 2)
-		{
-			
-			return false;
-		}
-		if(beams != 2 && !conner)
-		{
-
-			return false;
-		}
+		
 
 		return true;	
 	}
@@ -508,6 +480,51 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		return (long) (ambientTemp*THERMAL_CONDUCTIVITY*this.getExteriorSurfaceArea());
 	}
 
+	
+	public void switchIO()
+	{
+		
+		boolean changed = false;
+		for (TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
+		{
+			if(port.isTriggered())
+			{
+				
+				if(port.getSwitchSetting() != port.getIOType())
+				{
+					port.switchSetting();
+					changed = true;
+					if(port.getIOType() == IOType.INPUT)
+					{
+						input = port;
+						
+					}
+					if(port.getIOType() == IOType.OUTPUT)
+					{
+						output = port;
+					}
+				}
+				port.resetTrigger();
+			}
+		}
+		
+		if(changed)
+		{
+			for (TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
+			{
+				if(port != input && port != output)
+				{
+					port.setIOType(IOType.DISABLED);
+				}
+			}
+			checkIfMachineIsWhole();
+		}
+	}
+	
+	
+	
+	
+	
 	// Client
 
 	@Override
@@ -537,7 +554,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		data.setInteger("RFCavityNumber", RFCavityNumber);
 		data.setInteger("quadrapoleNumber", quadrupoleNumber);
 		data.setDouble("quadrupoleStrength", quadrupoleStrength);
-	
+		data.setInteger("errorCode",errorCode);
 		data.setBoolean("cold", cold);
 		
 		writeLogicNBT(data, syncReason);
@@ -564,7 +581,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		RFCavityNumber = data.getInteger("RFCavityNumber");
 		quadrupoleNumber = data.getInteger("quadrapoleNumber");
 		quadrupoleStrength = data.getDouble("quadrupoleStrength");
-		
+		errorCode = data.getInteger("errorCode");
 		cold = data.getBoolean("cold");
 		
 		readLogicNBT(data, syncReason);
@@ -602,7 +619,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		RFCavityNumber = message.RFCavityNumber;
 		quadrupoleNumber = message.quadrupoleNumber;
 		quadrupoleStrength = message.quadrupoleStrength;
-		
+		errorCode =message.errorCode;
 		
 		logic.onPacket(message);
 	}
@@ -653,7 +670,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		return logic.getMaximumInteriorLength();
 	}
 
-	public NBTTagCompound writeBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	public NBTTagCompound writeBeams(List<ParticleStorageAccelerator> beams, NBTTagCompound data)
 	{
 		for (int i = 0; i < beams.size(); i++)
 		{
@@ -663,7 +680,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		return data;
 	}
 
-	public void readBeams(List<AcceleratorStorage> beams, NBTTagCompound data)
+	public void readBeams(List<ParticleStorageAccelerator> beams, NBTTagCompound data)
 	{
 		for (int i = 0; i < beams.size(); i++)
 		{

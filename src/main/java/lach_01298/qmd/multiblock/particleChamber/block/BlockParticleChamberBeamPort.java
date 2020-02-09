@@ -3,7 +3,8 @@ package lach_01298.qmd.multiblock.particleChamber.block;
 import static lach_01298.qmd.block.BlockProperties.IO;
 import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
 
-import lach_01298.qmd.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberBeamPort;
 import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
 import nc.multiblock.heatExchanger.tile.TileCondenserTube;
@@ -72,10 +73,29 @@ public class BlockParticleChamberBeamPort extends BlockParticleChamberPart
 		if (player.getHeldItemMainhand().isEmpty() && world.getTileEntity(pos) instanceof TileParticleChamberBeamPort)
 		{
 			TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) world.getTileEntity(pos);
-			
+			if(player.isSneaking())
+			{
+				if (!world.isRemote)
+				{
+					if(port.switchOutputs())
+					{
+						
+							player.sendMessage(getSwitchMessage(player, port));
+					}
+					else
+					{
+						return false;
+					}
+				}
+				
+				
+			}
+			else
+			{
 			port.toggleSetting();
 			if (!world.isRemote)
 				player.sendMessage(getToggleMessage(player, port));
+			}
 			return true;
 		}
 		return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
@@ -86,6 +106,10 @@ public class BlockParticleChamberBeamPort extends BlockParticleChamberPart
 		return new TextComponentString(TextFormatting.AQUA + Lang.localise("qmd.block_toggle." + port.getIOType().name())) ;
 	}
 	
+	private static TextComponentString getSwitchMessage(EntityPlayer player, TileParticleChamberBeamPort port)
+	{
+		return new TextComponentString(TextFormatting.AQUA + Lang.localise("qmd.block_switch.particle_chamber." + port.getIONumber())) ;
+	}
 	
 	
 }

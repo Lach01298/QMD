@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.Units;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.gui.IDrawable;
@@ -86,8 +87,8 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	{
 		List<String> list = new ArrayList<>();
 		list.add(Lang.localise(ingredient.getParticle().getUnlocalizedName()));
-		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",UnitHelper.prefix(ingredient.getAmount(),4,"pu")));
-		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",UnitHelper.prefix(ingredient.getMeanEnergy()*1000,4,"eV")));
+		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(ingredient.getAmount(),"pu")));
+		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getSIFormat(ingredient.getMeanEnergy(),3,"eV")));
 		
 		
 		return list;

@@ -48,13 +48,18 @@ public class PipeLogic extends MultiblockLogic<Pipe, IPipePart, PipeUpdatePacket
 	@Override
 	public void onMachineAssembled()
 	{
+		onPipeFormed();
+	}
+
+	public void onPipeFormed()
+	{
 		
 	}
 
 	@Override
 	public void onMachineRestored()
 	{
-		
+		onPipeFormed();
 	}
 
 	@Override

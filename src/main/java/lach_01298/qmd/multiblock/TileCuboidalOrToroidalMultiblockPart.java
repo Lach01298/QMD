@@ -90,6 +90,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<T extends CuboidalOrT
 	public EnumFacing getExternalFacing()
 	{
 
+		
 		EnumFacing facing = null != this.position ? this.position.getFacing() : null;
 
 		if (null == facing)

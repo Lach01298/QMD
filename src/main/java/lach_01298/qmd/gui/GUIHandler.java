@@ -5,13 +5,16 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorControlle
 import lach_01298.qmd.multiblock.accelerator.tile.TileRingAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
+import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
+import lach_01298.qmd.multiblock.gui.GuiDecayChamberController;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -27,7 +30,8 @@ public class GUIHandler implements IGuiHandler
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-
+		
+		
 		if (tile != null)
 		{
 			switch (ID)
@@ -47,6 +51,10 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.TARGET_CHAMBER:
 				if (tile instanceof TileTargetChamberController)
 					return new ContainerTargetChamberController(player,  (TileTargetChamberController)tile);
+				
+			case GUI_ID.DECAY_CHAMBER:
+				if (tile instanceof TileDecayChamberController)
+					return new ContainerDecayChamberController(player,  (TileDecayChamberController)tile);
 		
 			
 			}
@@ -63,6 +71,7 @@ public class GUIHandler implements IGuiHandler
 
 		if (tile != null)
 		{
+		
 			switch (ID)
 			{
 			case GUI_ID.LINEAR_ACCELERATOR:
@@ -81,6 +90,9 @@ public class GUIHandler implements IGuiHandler
 				if (tile instanceof TileTargetChamberController)
 					return new GuiTargetChamberController(((TileTargetChamberController) tile).getMultiblock(), tile.getPos(), ((TileTargetChamberController) tile).getMultiblock().getContainer(player));
 		
+			case GUI_ID.DECAY_CHAMBER:
+				if (tile instanceof TileDecayChamberController)
+					return new GuiDecayChamberController(((TileDecayChamberController) tile).getMultiblock(), tile.getPos(), ((TileDecayChamberController) tile).getMultiblock().getContainer(player));
 			}
 		}
 

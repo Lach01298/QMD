@@ -11,7 +11,7 @@ import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.multiblock.Multiblocks;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.Particles;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.tile.QMDTiles;
 import nc.init.NCFluids;
 import nc.radiation.RadArmor;

@@ -19,7 +19,12 @@
 				"textures": {
 					"all": "qmd:blocks/accelerator/magnet/niobium_tin"
 				}
-			}
+			},
+			 "bscco": {
+                "textures": {
+                    "all": "qmd:blocks/accelerator/magnet/bscco"
+                }
+            }
 		}
 	}
 }

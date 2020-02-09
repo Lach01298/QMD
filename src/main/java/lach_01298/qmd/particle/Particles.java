@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import com.google.common.collect.Lists;
+
 import io.netty.handler.logging.LogLevel;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
 import net.minecraft.util.ResourceLocation;
+import scala.actors.threadpool.Arrays;
 
 
 public class Particles
@@ -34,6 +37,7 @@ public class Particles
 	public static Particle antistrange;
 	public static Particle antitop;
 	public static Particle antibottom;
+	
 	//leptons
 	public static Particle electron;
 	public static Particle electron_neutrino;
@@ -56,16 +60,13 @@ public class Particles
 	public static Particle z_boson;
 	public static Particle higgs_boson;
 	
-	//composite particles
+	//Nucleons
 	public static Particle proton;
 	public static Particle antiproton;
 	public static Particle neutron;
 	public static Particle antineutron;
-	public static Particle pion_plus;
-	public static Particle pion_naught;
-	public static Particle pion_minus;
 	
-	//ions
+	//nuclei
 	public static Particle deuteron;
 	public static Particle antideuteron;
 	public static Particle alpha;
@@ -73,11 +74,47 @@ public class Particles
 	public static Particle triton;
 	public static Particle antitriton;
 	
+	public static Particle boron_ion;
+
+	
+	//Pions
+	public static Particle pion_plus;
+	public static Particle pion_naught;
+	public static Particle pion_minus;
 	
 	
+	//Kaons
+	public static Particle kaon_plus;
+	public static Particle kaon_naught;
+	public static Particle kaon_minus;
 	
+	//D mesons
+	public static Particle d_meson_plus;
+	public static Particle d_meson_naught;
+	public static Particle d_meson_minus;
+	public static Particle strange_d_meson_plus;
+	public static Particle strange_d_meson_minus;
 	
-	public static void registerPaticle (Particle particle)
+	//B mesons
+	public static Particle b_meson_plus;
+	public static Particle b_meson_naught;
+	public static Particle b_meson_minus;
+	public static Particle strange_b_meson_plus;
+	public static Particle strange_b_meson_minus;
+	public static Particle charmed_b_meson_plus;
+	public static Particle charmed_b_meson_minus;
+	
+	//lambda
+	public static Particle lambda;
+	public static Particle antilambda;
+	public static Particle charmed_lambda;
+	public static Particle charmed_antilambda;
+	public static Particle bottom_lambda;
+	public static Particle bottom_antilambda;
+
+
+	
+	public static void registerParticle (Particle particle)
 	{
 		if(!list.containsKey(particle.getName()))
 		{
@@ -169,56 +206,61 @@ public class Particles
 	public static void register()
 	{
 		
-		registerPaticle(up);
-		registerPaticle(antiup);
-		registerPaticle(down);
-		registerPaticle(antidown);
-		registerPaticle(charm);
-		registerPaticle(anticharm);
-		registerPaticle(strange);
-		registerPaticle(antistrange);
-		registerPaticle(top);
-		registerPaticle(antitop);
-		registerPaticle(bottom);
-		registerPaticle(antibottom);
+		registerParticle(up);
+		registerParticle(antiup);
+		registerParticle(down);
+		registerParticle(antidown);
+		registerParticle(charm);
+		registerParticle(anticharm);
+		registerParticle(strange);
+		registerParticle(antistrange);
+		registerParticle(top);
+		registerParticle(antitop);
+		registerParticle(bottom);
+		registerParticle(antibottom);
 		
-		registerPaticle(electron);
-		registerPaticle(positron);
-		registerPaticle(electron_neutrino);
-		registerPaticle(electron_antineutrino);
-		registerPaticle(muon);
-		registerPaticle(antimuon);
-		registerPaticle(muon_neutrino);
-		registerPaticle(muon_antineutrino);
-		registerPaticle(tau);
-		registerPaticle(antitau);
-		registerPaticle(tau_neutrino);
-		registerPaticle(tau_antineutrino);
+		registerParticle(electron);
+		registerParticle(positron);
+		registerParticle(electron_neutrino);
+		registerParticle(electron_antineutrino);
+		registerParticle(muon);
+		registerParticle(antimuon);
+		registerParticle(muon_neutrino);
+		registerParticle(muon_antineutrino);
+		registerParticle(tau);
+		registerParticle(antitau);
+		registerParticle(tau_neutrino);
+		registerParticle(tau_antineutrino);
 		
 		
-		registerPaticle(photon);
-		registerPaticle(gluon);
-		registerPaticle(w_plus_boson);
-		registerPaticle(w_minus_boson);
-		registerPaticle(z_boson);
-		registerPaticle(higgs_boson);
+		registerParticle(photon);
+		registerParticle(gluon);
+		registerParticle(w_plus_boson);
+		registerParticle(w_minus_boson);
+		registerParticle(z_boson);
+		registerParticle(higgs_boson);
 		
-		registerPaticle(proton);
-		registerPaticle(antiproton);
-		registerPaticle(neutron);
-		registerPaticle(antineutron);
-		registerPaticle(pion_plus);
-		registerPaticle(pion_naught);
-		registerPaticle(pion_minus);
-		registerPaticle(deuteron);
-		registerPaticle(antideuteron);
-		registerPaticle(alpha);
-		registerPaticle(antialpha);
-		registerPaticle(triton);
-		registerPaticle(antitriton);
+		registerParticle(proton);
+		registerParticle(antiproton);
+		registerParticle(neutron);
+		registerParticle(antineutron);
 
+		registerParticle(deuteron);
+		registerParticle(antideuteron);
+		registerParticle(alpha);
+		registerParticle(antialpha);
+		registerParticle(triton);
+		registerParticle(antitriton);
+
+		registerParticle(boron_ion);
 		
+		registerParticle(pion_plus);
+		registerParticle(pion_naught);
+		registerParticle(pion_minus);
 		
+		registerParticle(kaon_plus);
+		registerParticle(kaon_naught);
+		registerParticle(kaon_minus);
 		
 	}
 	
@@ -226,47 +268,67 @@ public class Particles
 	
 	private static void initComposites()
 	{
+		//Nucleons
 		proton = new Particle("proton",Util.appendPath(particlePath, "proton.png"),938.3,1,1d/2d,true);
 		proton.addComponentParticle(up);
 		proton.addComponentParticle(up);
 		proton.addComponentParticle(down);
+		antiproton = makeAntiParticle(proton, "antiproton",Util.appendPath(particlePath, "antiproton.png"));
 		
 		neutron = new Particle("neutron",Util.appendPath(particlePath, "neutron.png"),939.6,0,1d/2d,true);
 		neutron.addComponentParticle(up);
 		neutron.addComponentParticle(down);
 		neutron.addComponentParticle(down);
+		antineutron = makeAntiParticle(neutron, "antineutron",Util.appendPath(particlePath, "antineutron.png"));
 		
 		
-		pion_plus = new Particle("pion_plus",Util.appendPath(particlePath, "pion_plus.png"),139.6,1,0,true);
-		pion_plus.addComponentParticle(up);
-		pion_plus.addComponentParticle(antidown);
-		
-		pion_naught = new Particle("pion_naught",Util.appendPath(particlePath, "pion_naught.png"),135.0,0,0,true);
-		pion_naught.addComponentParticle(up);
-		pion_naught.addComponentParticle(antiup);
-		
+		//nuclei
 		deuteron = new Particle("deuteron",Util.appendPath(particlePath, "deuteron.png"),1875.0,1,0,true);
 		deuteron.addComponentParticle(proton);
 		deuteron.addComponentParticle(neutron);
+		antideuteron = makeAntiParticle(deuteron, "antideuteron",Util.appendPath(particlePath, "antideuteron.png"));
 		
 		alpha = new Particle("alpha",Util.appendPath(particlePath, "alpha.png"),3727,2,0,true);
 		alpha.addComponentParticle(proton);
 		alpha.addComponentParticle(proton);
 		alpha.addComponentParticle(neutron);
 		alpha.addComponentParticle(neutron);
+		antialpha = makeAntiParticle(alpha, "antialpha",Util.appendPath(particlePath, "antialpha.png"));
+		
 		
 		triton = new Particle("triton",Util.appendPath(particlePath, "triton.png"),2809,1,1/2,true);
 		triton.addComponentParticle(proton);
 		triton.addComponentParticle(neutron);
 		triton.addComponentParticle(neutron);
-		
-		antiproton = makeAntiParticle(proton, "antiproton",Util.appendPath(particlePath, "antiproton.png"));
-		antineutron = makeAntiParticle(neutron, "antineutron",Util.appendPath(particlePath, "antineutron.png"));
-		pion_minus = makeAntiParticle(pion_plus, "pion_minus",Util.appendPath(particlePath, "pion_minus.png"));
-		antideuteron = makeAntiParticle(deuteron, "antideuteron",Util.appendPath(particlePath, "antideuteron.png"));
-		antialpha = makeAntiParticle(alpha, "antialpha",Util.appendPath(particlePath, "antialpha.png"));
 		antitriton = makeAntiParticle(triton, "antitriton",Util.appendPath(particlePath, "antitriton.png"));
 		
+		
+		boron_ion = new Particle("boron_ion",Util.appendPath(particlePath, "boron_ion.png"),10246,1,1/2,true);
+		boron_ion.setComponentParticles(Lists.newArrayList(proton,proton,proton,proton,proton,neutron,neutron,neutron,neutron,neutron,neutron,electron,electron,electron,electron));
+		
+		
+		
+		
+		//Pions
+		pion_plus = new Particle("pion_plus",Util.appendPath(particlePath, "pion_plus.png"),139.6,1,0,true);
+		pion_plus.addComponentParticle(up);
+		pion_plus.addComponentParticle(antidown);
+		pion_minus = makeAntiParticle(pion_plus, "pion_minus",Util.appendPath(particlePath, "pion_minus.png"));
+		
+		pion_naught = new Particle("pion_naught",Util.appendPath(particlePath, "pion_naught.png"),135.0,0,0,true);
+		pion_naught.addComponentParticle(up);
+		pion_naught.addComponentParticle(antiup);
+		
+		
+		//Kaons
+		kaon_plus =  new Particle("kaon_plus",Util.appendPath(particlePath, "kaon_plus.png"),463.7,1,0,true);
+		kaon_plus.addComponentParticle(up);
+		kaon_plus.addComponentParticle(antistrange);
+		kaon_minus =  makeAntiParticle(kaon_plus, "kaon_minus",Util.appendPath(particlePath, "kaon_minus.png"));
+		
+		kaon_naught =  new Particle("kaon_naught",Util.appendPath(particlePath, "kaon_naught.png"),497.6,1,0,true);
+		kaon_naught.addComponentParticle(down);
+		kaon_naught.addComponentParticle(antistrange);
 		
 		
 	}

@@ -38,6 +38,11 @@ public class QMDFluids
 
 			// solutions
 			addFluidPair(FluidType.SALT_SOLUTION, "sodium_chloride_solution", waterBlend(0x0057fa));
+			addFluidPair(FluidType.SALT_SOLUTION, "sodium_nitrate_solution", waterBlend(0xffffff));
+			addFluidPair(FluidType.SALT_SOLUTION, "lead_nitrate_solution", waterBlend(0xd5d5d5));
+			addFluidPair(FluidType.SALT_SOLUTION, "sodium_tungstate_solution", waterBlend(0xfffea3));
+			addFluidPair(FluidType.SALT_SOLUTION, "lead_tungstate_solution", waterBlend(0xd58715));
+			
 			
 			//cryo liquids
 			addFluidPair(FluidType.LIQUID, "liquid_hydrogen",false, 0xB37AC4,71,20,100,0);
@@ -45,6 +50,9 @@ public class QMDFluids
 			
 			//gases
 			addFluidPair(FluidType.GAS, "argon", 0xfa6400);
+			addFluidPair(FluidType.GAS, "chlorine", 0xffff8f);
+			addFluidPair(FluidType.GAS, "nitric_oxide", 0xc9eeff);
+			addFluidPair(FluidType.GAS, "nitrogen_dioxide", 0x782a10);
 			
 			//molten
 			addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);

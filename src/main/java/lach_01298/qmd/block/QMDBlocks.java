@@ -1,8 +1,10 @@
 package lach_01298.qmd.block;
 
-import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDInfo;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes.ProcessorType;
+import lach_01298.qmd.machine.block.BlockQMDProcessor;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorCasing;
@@ -25,10 +27,10 @@ import lach_01298.qmd.multiblock.particleChamber.block.BlockParticleChamberDetec
 import lach_01298.qmd.multiblock.particleChamber.block.BlockParticleChamberEnergyPort;
 import lach_01298.qmd.multiblock.particleChamber.block.BlockParticleChamberGlass;
 import lach_01298.qmd.multiblock.particleChamber.block.BlockParticleChamberPort;
-import lach_01298.qmd.multiblock.particleChamber.block.BlockParticleChamberTarget;
+import lach_01298.qmd.multiblock.particleChamber.block.BlockDecayChamberController;
+import lach_01298.qmd.multiblock.particleChamber.block.BlockParticleChamber;
 import lach_01298.qmd.multiblock.particleChamber.block.BlockTargetChamberController;
-import nc.Global;
-import nc.NCInfo;
+import lach_01298.qmd.pipe.BlockBeamline;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
 import nc.block.tile.ITileType;
@@ -64,14 +66,15 @@ public class QMDBlocks
 	public static Block acceleratorSource;
 	public static Block acceleratorEnergyPort;
 	
-	public static Block TargetChamberController;
+	public static Block targetChamberController;
+	public static Block decayChamberController;
 	public static Block particleChamberBeam;
 	public static Block particleChamberCasing;
 	public static Block particleChamberGlass;
 	public static Block particleChamberBeamPort;
 	public static Block particleChamberDetector;
 	public static Block particleChamberEnergyPort;
-	public static Block particleChamberTarget;
+	public static Block particleChamber;
 	public static Block particleChamberPort;
 	
 	public static Block oreLeacher;
@@ -98,26 +101,30 @@ public class QMDBlocks
 		acceleratorSource =  withName(new BlockAcceleratorSource(), "accelerator_source");
 		acceleratorEnergyPort = withName(new BlockAcceleratorEnergyPort(), "accelerator_energy_port");
 		
-		TargetChamberController = withName(new BlockTargetChamberController(), "target_chamber_controller");
+		targetChamberController = withName(new BlockTargetChamberController(), "target_chamber_controller");
+		decayChamberController = withName(new BlockDecayChamberController(), "decay_chamber_controller");
 		particleChamberBeam = withName(new BlockParticleChamberBeam(), "particle_chamber_beam");
 		particleChamberCasing = withName(new BlockParticleChamberCasing(), "particle_chamber_casing");
 		particleChamberGlass = withName(new BlockParticleChamberGlass(), "particle_chamber_glass");
 		particleChamberBeamPort = withName(new BlockParticleChamberBeamPort(), "particle_chamber_beam_port");
 		particleChamberDetector = withName(new BlockParticleChamberDetector(), "particle_chamber_detector");
 		particleChamberEnergyPort = withName(new BlockParticleChamberEnergyPort(), "particle_chamber_energy_port");
-		particleChamberTarget = withName(new BlockParticleChamberTarget(), "particle_chamber_target");
+		particleChamber = withName(new BlockParticleChamber(), "particle_chamber");
 		particleChamberPort = withName(new BlockParticleChamberPort(), "particle_chamber_port");
+		
+		
+		// oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
 		
 	}
 	
 	public static void register() 
 	{
-		registerBlock(beamline);
+		registerBlock(beamline,TextFormatting.AQUA+ QMDInfo.BeamlineInfo(),TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		
 		
 		registerBlock(linearAcceleratorController);
 		registerBlock(ringAcceleratorController);
-		registerBlock(acceleratorBeam);
+		registerBlock(acceleratorBeam,TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(acceleratorCasing);
 		registerBlock(acceleratorGlass);
 		registerBlock(acceleratorInlet);
@@ -132,16 +139,18 @@ public class QMDBlocks
 		registerBlock(acceleratorEnergyPort);
 		
 		
-		registerBlock(TargetChamberController);
+		registerBlock(targetChamberController);
+		registerBlock(decayChamberController);
 		registerBlock(particleChamberBeam);
 		registerBlock(particleChamberCasing);
 		registerBlock(particleChamberGlass);
 		registerBlock(particleChamberBeamPort);
 		registerBlock(particleChamberDetector, new ItemBlockMeta(particleChamberDetector, EnumTypes.DetectorType.class,TextFormatting.GREEN, QMDInfo.detectorFixedInfo(),TextFormatting.AQUA,QMDInfo.detectorInfo()));
 		registerBlock(particleChamberEnergyPort);
-		registerBlock(particleChamberTarget);
+		registerBlock(particleChamber);
 		registerBlock(particleChamberPort);
-				
+		
+		//registerBlock(oreLeacher);
 				
 				
 	}
@@ -182,7 +191,8 @@ public class QMDBlocks
 		registerRender(acceleratorEnergyPort);
 	
 	
-		registerRender(TargetChamberController);
+		registerRender(targetChamberController);
+		registerRender(decayChamberController);
 		registerRender(particleChamberBeam);
 		registerRender(particleChamberCasing);
 		registerRender(particleChamberGlass);
@@ -192,10 +202,10 @@ public class QMDBlocks
 			registerRender(particleChamberDetector, i, EnumTypes.DetectorType.values()[i].getName());
 		}
 		registerRender(particleChamberEnergyPort);
-		registerRender(particleChamberTarget);
+		registerRender(particleChamber);
 		registerRender(particleChamberPort);
 	
-	
+		//registerRender(oreLeacher);
 	}
 
 

@@ -17,12 +17,12 @@ public interface IParticleStorage
     /**
      * @return The Maximum energy of a particle that the tank can hold.
      */
-    int getMaxEnergy();
+    long getMaxEnergy();
 
     /**
      * @return The Minimum energy of a particle that the tank can hold.
      */
-    int getMinEnergy();
+    long getMinEnergy();
 
     /**
      * @return The Maximum number of particles that the tank can hold.

@@ -1,7 +1,7 @@
 package lach_01298.qmd.io;
 
-import lach_01298.qmd.EnumTypes;
-import lach_01298.qmd.EnumTypes.IOType;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 
 public interface IIOType
 {

@@ -2,7 +2,7 @@ package lach_01298.qmd.multiblock.accelerator.tile;
 
 import javax.annotation.Nonnull;
 
-import lach_01298.qmd.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;

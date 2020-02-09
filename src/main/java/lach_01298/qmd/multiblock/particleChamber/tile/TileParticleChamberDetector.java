@@ -2,9 +2,9 @@ package lach_01298.qmd.multiblock.particleChamber.tile;
 
 import javax.annotation.Nullable;
 
-import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.Util;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;

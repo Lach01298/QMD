@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.Units;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.LinearAcceleratorLogic;
@@ -125,8 +126,8 @@ public class GuiTargetChamberController extends GuiLogicMultiblockController<Par
 	public List<String> energyInfo() 
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.energy_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.energyStorage.getEnergyStored(), multiblock.energyStorage.getMaxEnergyStored(), 4, "RF"));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.required_energy",UnitHelper.prefix(multiblock.requiredEnergy, 4, "RF/t")));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.energy_stored",Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(),"RF")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.required_energy",Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));
 		return info;
 	}
 	
@@ -135,11 +136,17 @@ public class GuiTargetChamberController extends GuiLogicMultiblockController<Par
 	{
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		GuiParticle guiParticle = new GuiParticle(this);
-		guiParticle.drawParticleStackWithLuminosity(multiblock.beams.get(0).getParticleStack(), guiLeft+12, guiTop+30, mouseX, mouseY);
+		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft+12, guiTop+30);
+		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+80, guiTop+7);
+		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+125, guiTop+30);
+		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft+80, guiTop+53);
 		
-		guiParticle.drawParticleStackWithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+80, guiTop+7, mouseX, mouseY);
-		guiParticle.drawParticleStackWithLuminosity(multiblock.beams.get(2).getParticleStack(), guiLeft+125, guiTop+30, mouseX, mouseY);
-		guiParticle.drawParticleStackWithLuminosity(multiblock.beams.get(3).getParticleStack(), guiLeft+80, guiTop+53, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(0).getParticleStack(), guiLeft+12, guiTop+30, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+80, guiTop+7, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(2).getParticleStack(), guiLeft+125, guiTop+30, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(3).getParticleStack(), guiLeft+80, guiTop+53, mouseX, mouseY);
+		
+		
 		
 		renderTooltips(mouseX, mouseY);
 	}

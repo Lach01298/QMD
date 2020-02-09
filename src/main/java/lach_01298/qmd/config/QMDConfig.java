@@ -55,7 +55,7 @@ public class QMDConfig {
 	public static int[] cooler_heat_removed;
 
 
-	public static int beamAttenuationRate = 10;
+	public static int beamAttenuationRate;
 
 	public static int[] detector_base_power;
 	public static double[] detector_efficiency;
@@ -103,48 +103,50 @@ public class QMDConfig {
 		if (loadFromFile) config.load();
 
 		
-		Property propertyAcceleratorLinearMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_min_size", 6, Lang.localise("gui.config.accelerator.accelerator_linear_min_size.comment"), 6, 255);
-		propertyAcceleratorLinearMinSize.setLanguageKey("gui.config.accelerator.accelerator_linear_min_size");
-		Property propertyAcceleratorLinearMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_max_size", 100, Lang.localise("gui.config.accelerator.accelerator_linear_max_size.comment"), 6, 255);
-		propertyAcceleratorLinearMaxSize.setLanguageKey("gui.config.accelerator.accelerator_linear_max_size");
+		Property propertyAcceleratorLinearMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_min_size", 6, Lang.localise("gui.qmd.config.accelerator.accelerator_linear_min_size.comment"), 6, 255);
+		propertyAcceleratorLinearMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_linear_min_size");
+		Property propertyAcceleratorLinearMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_max_size", 100, Lang.localise("gui.qmd.config.accelerator.accelerator_linear_max_size.comment"), 6, 255);
+		propertyAcceleratorLinearMaxSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_linear_max_size");
 		
-		Property propertyAcceleratorRingMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_min_size", 11, Lang.localise("gui.config.accelerator.accelerator_ring_min_size.comment"), 11, 255);
-		propertyAcceleratorRingMinSize.setLanguageKey("gui.config.accelerator.accelerator_ring_min_size");
-		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 50, Lang.localise("gui.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
-		propertyAcceleratorRingMaxSize.setLanguageKey("gui.config.accelerator.accelerator_ring_max_size");
+		Property propertyAcceleratorRingMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_min_size", 11, Lang.localise("gui.qmd.config.accelerator.accelerator_ring_min_size.comment"), 11, 255);
+		propertyAcceleratorRingMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_min_size");
+		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 100, Lang.localise("gui.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
+		propertyAcceleratorRingMaxSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_max_size");
 		
+		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 5, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0, 255);
+		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
 		
-		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {500, 1000, 2000}, Lang.localise("gui.config.accelerator.RF_cavity_voltage.comment"), 0, 2147483647);
-		propertyRFCavityVoltage.setLanguageKey("gui.config.accelerator.RF_cavity_voltage");
-		Property propertyRFCavityEfficiency = config.get(CATEGORY_ACCELERATOR, "RF_cavity_efficiency", new double[] {0.9D, 0.95D, 0.99D}, Lang.localise("gui.config.accelerator.RF_cavity_efficiency.comment"), 0D, 1D);
-		propertyRFCavityEfficiency.setLanguageKey("gui.config.accelerator.RF_cavity_efficiency");
-		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {50, 100, 250}, Lang.localise("gui.config.accelerator.RF_cavity_heat_generated.comment"), 0, 32767);
-		propertyRFCavityHeatGenerated.setLanguageKey("gui.config.accelerator.RF_cavity_heat_generated");
-		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {1000, 2000, 4000}, Lang.localise("gui.config.accelerator.RF_cavity_base_power.comment"), 0, 32767);
-		propertyRFCavityBasePower.setLanguageKey("gui.config.accelerator.RF_cavity_base_power");
+		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {500, 1000, 2000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, 2147483647);
+		propertyRFCavityVoltage.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_voltage");
+		Property propertyRFCavityEfficiency = config.get(CATEGORY_ACCELERATOR, "RF_cavity_efficiency", new double[] {0.5D, 0.80D, 0.90D}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_efficiency.comment"), 0D, 1D);
+		propertyRFCavityEfficiency.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_efficiency");
+		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {50, 100, 250}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, 32767);
+		propertyRFCavityHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_heat_generated");
+		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {2000, 4000, 8000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, 32767);
+		propertyRFCavityBasePower.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_base_power");
 		
-		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {1D, 2D, 6D}, Lang.localise("gui.config.accelerator.magnet_strength.comment"), 0D, 100D);
-		propertyMagnetStrength.setLanguageKey("gui.config.accelerator.magnet_strength");
-		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.9, 0.95D, 0.99D}, Lang.localise("gui.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
-		propertyMagnetEfficiency.setLanguageKey("gui.config.accelerator.magnet_efficiency");
-		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {50, 100, 250}, Lang.localise("gui.config.accelerator.magnet_heat_generated.comment"),0, 32767);
-		propertyMagnetHeatGenerated.setLanguageKey("gui.config.accelerator.magnet_heat_generated");
-		Property propertyMagnetBasePower = config.get(CATEGORY_ACCELERATOR, "magnet_base_power", new int[] {1000, 2000, 4000}, Lang.localise("gui.config.accelerator.magnet_base_power.comment"), 0, 32767);
-		propertyMagnetBasePower.setLanguageKey("gui.config.accelerator.magnet_base_power");
+		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 1D, 4D, 8D}, Lang.localise("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
+		propertyMagnetStrength.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_strength");
+		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.5, 0.60D, 0.80D, 0.90D}, Lang.localise("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
+		propertyMagnetEfficiency.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_efficiency");
+		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {50, 100, 250,500}, Lang.localise("gui.qmd.config.accelerator.magnet_heat_generated.comment"),0, 32767);
+		propertyMagnetHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.magnet_heat_generated");
+		Property propertyMagnetBasePower = config.get(CATEGORY_ACCELERATOR, "magnet_base_power", new int[] {2000, 4000, 8000, 16000}, Lang.localise("gui.qmd.config.accelerator.magnet_base_power.comment"), 0, 32767);
+		propertyMagnetBasePower.setLanguageKey("gui.qmd.config.accelerator.magnet_base_power");
 		
-		Property propertyCoolerHeatRemoved = config.get(CATEGORY_ACCELERATOR, "cooler_heat_removed", new int[] {50, 55, 85, 75, 70, 100, 110, 95, 105, 115, 135, 60, 90, 190, 195, 80, 120, 65, 165, 125, 130, 140, 175, 170, 155, 160, 150, 145, 185, 200, 180, 205}, Lang.localise("gui.config.accelerator.cooler_heat_removed.comment"), 0, 32767);
-		propertyCoolerHeatRemoved.setLanguageKey("gui.config.accelerator.cooler_heat_removed");
-		
-		
-		Property propertyAcceleratorRingInputEnergy = config.get(CATEGORY_ACCELERATOR, "minimium_accelerator_ring_input_particle_energy", 5000, Lang.localise("gui.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment"), 0, 2147483647);
-		propertyAcceleratorRingInputEnergy.setLanguageKey("gui.config.accelerator.minimium_accelerator_ring_input_particle_energy");
+		Property propertyCoolerHeatRemoved = config.get(CATEGORY_ACCELERATOR, "cooler_heat_removed", new int[] {50, 55, 85, 75, 70, 100, 110, 95, 105, 115, 135, 60, 90, 190, 195, 80, 120, 65, 165, 125, 130, 140, 175, 170, 155, 160, 150, 145, 185, 200, 180, 205}, Lang.localise("gui.qmd.config.accelerator.cooler_heat_removed.comment"), 0, 32767);
+		propertyCoolerHeatRemoved.setLanguageKey("gui.qmd.config.accelerator.cooler_heat_removed");
 		
 		
+		Property propertyAcceleratorRingInputEnergy = config.get(CATEGORY_ACCELERATOR, "minimium_accelerator_ring_input_particle_energy", 5000, Lang.localise("gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment"), 0, 2147483647);
+		propertyAcceleratorRingInputEnergy.setLanguageKey("gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy");
 		
-		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {3.0D, 5.0D, 3.5D, 2.5D,1.5D}, Lang.localise("gui.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
-		propertyMagnetEfficiency.setLanguageKey("gui.config.particle_chamber.detector_efficiency");
-		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.config.particle_chamber.detector_base_power.comment"), 0, 32767);
-		propertyMagnetBasePower.setLanguageKey("gui.config.particle_chamber.detector_base_power");
+		
+		
+		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {3.0D, 5.0D, 3.5D, 2.5D,1.5D}, Lang.localise("gui.qmd.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
+		propertyMagnetEfficiency.setLanguageKey("gui.qmd.config.particle_chamber.detector_efficiency");
+		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, 32767);
+		propertyMagnetBasePower.setLanguageKey("gui.qmd.config.particle_chamber.detector_base_power");
 
 	
 		
@@ -155,6 +157,8 @@ public class QMDConfig {
 		propertyOrderAccelerator.add(propertyAcceleratorLinearMaxSize.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorRingMinSize.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorRingMaxSize.getName());
+		
+		propertyOrderAccelerator.add(propertyBeamAttenuationRate.getName());
 		
 		propertyOrderAccelerator.add(propertyRFCavityVoltage.getName());
 		propertyOrderAccelerator.add(propertyRFCavityEfficiency.getName());
@@ -188,6 +192,8 @@ public class QMDConfig {
 			accelerator_ring_min_size = propertyAcceleratorRingMinSize.getInt();
 			accelerator_ring_max_size = propertyAcceleratorRingMaxSize.getInt();
 			
+			beamAttenuationRate = propertyBeamAttenuationRate.getInt();
+			
 			RF_cavity_voltage = readIntegerArrayFromConfig(propertyRFCavityVoltage);
 			RF_cavity_efficiency = readDoubleArrayFromConfig(propertyRFCavityEfficiency);
 			RF_cavity_heat_generated = readIntegerArrayFromConfig(propertyRFCavityHeatGenerated);
@@ -212,6 +218,8 @@ public class QMDConfig {
 		propertyAcceleratorLinearMaxSize.set(accelerator_linear_max_size);
 		propertyAcceleratorRingMinSize.set(accelerator_ring_min_size);
 		propertyAcceleratorRingMaxSize.set(accelerator_ring_max_size);
+		
+		propertyBeamAttenuationRate.set(beamAttenuationRate);
 		
 		propertyRFCavityVoltage.set(RF_cavity_voltage);
 		propertyRFCavityEfficiency.set(RF_cavity_efficiency);

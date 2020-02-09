@@ -1,7 +1,7 @@
 package lach_01298.qmd.item;
 
-import lach_01298.qmd.MaterialEnums;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.enums.MaterialEnums;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.tab.QMDTabs;
 import nc.Global;
@@ -25,14 +25,16 @@ public class QMDItems
 	public static Item ingotAlloy;
 	public static Item tungsten_filament;
 	public static Item canister;
-	public static Item canister_Hydrogen;
-	public static Item canister_Deuterium;
-	public static Item canister_Helium;
-	public static Item source_sodium_22; //TODO radation 0.042735 rad/t
+	public static Item canister_hydrogen;
+	public static Item canister_deuterium;
+	public static Item canister_helium;
+	public static Item canister_diborane;
+	public static Item source_sodium_22;
+	
 	public static Item isotope;
 	public static Item part;
 	public static Item semiconductor;
-	
+	public static Item chemicalDust;
 	
 	
 	
@@ -44,14 +46,15 @@ public class QMDItems
 		ingotAlloy = withName(new NCItemMeta(MaterialEnums.IngotAlloyType.class), "ingot_alloy");
 		tungsten_filament = withName(new ItemBrakeable(300),"tungsten_filament");
 		canister = withName(new ItemBrakeable(300),"canister");
-		canister_Hydrogen = withName(new ItemBrakeable(300),"canister_hydrogen");
-		canister_Deuterium = withName(new ItemBrakeable(300),"canister_deuterium");
-		canister_Helium = withName(new ItemBrakeable(300),"canister_helium");
+		canister_hydrogen = withName(new ItemBrakeable(300),"canister_hydrogen");
+		canister_deuterium = withName(new ItemBrakeable(300),"canister_deuterium");
+		canister_helium = withName(new ItemBrakeable(300),"canister_helium");
+		canister_diborane = withName(new ItemBrakeable(300),"canister_diborane");
 		source_sodium_22 = withName(new ItemBrakeable(300),"source_sodium_22");
 		isotope = withName(new NCItemMeta(MaterialEnums.IsotopeType.class), "isotope");
 		part =  withName(new NCItemMeta(MaterialEnums.PartType.class), "part");
 		semiconductor =  withName(new NCItemMeta(MaterialEnums.SemiconductorType.class), "semiconductor");
-		
+		chemicalDust =  withName(new NCItemMeta(MaterialEnums.ChemicalDustType.class), "chemical_dust");
 	}
 
 	public static void register()
@@ -62,16 +65,17 @@ public class QMDItems
 		
 		registerItem(tungsten_filament, QMDTabs.ITEMS);
 		registerItem(canister, QMDTabs.ITEMS);
-		registerItem(canister_Hydrogen, QMDTabs.ITEMS);
-		registerItem(canister_Deuterium, QMDTabs.ITEMS);
-		registerItem(canister_Helium, QMDTabs.ITEMS);
+		registerItem(canister_hydrogen, QMDTabs.ITEMS);
+		registerItem(canister_deuterium, QMDTabs.ITEMS);
+		registerItem(canister_helium, QMDTabs.ITEMS);
+		registerItem(canister_diborane, QMDTabs.ITEMS);
 		registerItem(source_sodium_22, QMDTabs.ITEMS);
 		
 		registerItem(isotope, QMDTabs.ITEMS);
 		
 		registerItem(part, QMDTabs.ITEMS);
 		registerItem(semiconductor, QMDTabs.ITEMS);
-	
+		registerItem(chemicalDust, QMDTabs.ITEMS);
 		
 		
 	}
@@ -95,9 +99,10 @@ public class QMDItems
 		
 		registerRender(tungsten_filament);
 		registerRender(canister);
-		registerRender(canister_Hydrogen);
-		registerRender(canister_Deuterium);
-		registerRender(canister_Helium);
+		registerRender(canister_hydrogen);
+		registerRender(canister_deuterium);
+		registerRender(canister_helium);
+		registerRender(canister_diborane);
 		registerRender(source_sodium_22);
 		
 		for(int i = 0; i < MaterialEnums.IsotopeType.values().length; i++) 
@@ -114,6 +119,12 @@ public class QMDItems
 		{
 			registerRender(semiconductor, i, MaterialEnums.SemiconductorType.values()[i].getName());
 		}
+		for (int i = 0; i < MaterialEnums.ChemicalDustType.values().length; i++)
+		{
+			registerRender(chemicalDust, i, MaterialEnums.ChemicalDustType.values()[i].getName());
+		}
+		
+		
 	}
 	
 	

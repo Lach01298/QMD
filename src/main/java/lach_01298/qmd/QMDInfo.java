@@ -1,6 +1,9 @@
 package lach_01298.qmd;
 
-import lach_01298.qmd.EnumTypes.CoolerType1;
+import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.ICoolerEnum;
+import lach_01298.qmd.enums.EnumTypes.CoolerType1;
 import nc.Global;
 import nc.enumm.IHeatSinkEnum;
 import nc.enumm.MetaEnums;
@@ -157,6 +160,16 @@ public class QMDInfo
 		return Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector." + type.getName() + ".desc");
 	}
 
+
+
+	public static String BeamlineInfo()
+	{	
+		return Lang.localise("tile." + QMD.MOD_ID + ".beamline.desc");
+	}
+	public static String BeamlineFixedlineInfo()
+	{	
+		return Lang.localise("info." + QMD.MOD_ID + ".beamline.attenuation",Units.getSIFormat(QMDConfig.beamAttenuationRate,"lu/Block"));
+	}
 
 
 	

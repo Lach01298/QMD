@@ -16,8 +16,9 @@ import lach_01298.qmd.multiblock.accelerator.block.BlockLinearAcceleratorControl
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
+import lach_01298.qmd.multiblock.particleChamber.block.BlockTargetChamberController;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
-import lach_01298.qmd.recipe.QMDRecipes;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.InventoryTileWrapper;
@@ -36,7 +37,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController
+public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController, ITileInventory
 {
 
 private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
@@ -95,9 +96,9 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	@Override
 	public void updateBlockState(boolean isActive)
 	{
-		if (getBlockType() instanceof BlockLinearAcceleratorController)
+		if (getBlockType() instanceof BlockTargetChamberController)
 		{
-			((BlockLinearAcceleratorController) getBlockType()).setState(isActive, this);
+			((BlockTargetChamberController) getBlockType()).setState(isActive, this);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 	}

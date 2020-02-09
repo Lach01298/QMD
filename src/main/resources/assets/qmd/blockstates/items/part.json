@@ -22,6 +22,12 @@
                 "textures": {
                     "layer0": "qmd:items/part/scintillator_plastic"
                 }
+            },
+               "wire_bscco": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/wire_bscco"
+                }
             }
         }
     }

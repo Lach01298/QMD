@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.Units;
 import lach_01298.qmd.Util;
+import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.RingAcceleratorLogic;
 import nc.multiblock.gui.GuiLogicMultiblockController;
@@ -16,7 +18,6 @@ import nc.util.Lang;
 import nc.util.NCMath;
 import nc.util.NCUtil;
 import nc.util.StringHelper;
-import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
@@ -46,63 +47,57 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 		return gui_texture;
 	}
 
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) 
+	{
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		GuiParticle guiParticle = new GuiParticle(this);
+		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21);
+		
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21, mouseX, mouseY);
+
+		renderTooltips(mouseX, mouseY);
+	}
+	
+	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) 
 	{
 		RingAcceleratorLogic ring =  (RingAcceleratorLogic) multiblock.getLogic();
-		int offset = 50;
+		int offset = 40;
 		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
-		String title = Lang.localise("gui.qmd.container.ring_accelerator_controller.name")+multiblock.getExteriorLengthX()/2.0;
-		fontRenderer.drawString(title,offset, 7, fontColor);
+		String title = Lang.localise("gui.qmd.container.ring_accelerator_controller.name");
+		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys")+ multiblock.RFCavityNumber;
-		fontRenderer.drawString(cavitys,offset, 25, fontColor);
+		String radius = Lang.localise("gui.qmd.container.accelerator.radius", ring.getRadius());
+		fontRenderer.drawString(radius,offset+25, 20, fontColor);
 		
-		String voltage =Lang.localise("gui.qmd.container.accelerator.voltage")+ UnitHelper.prefix(multiblock.acceleratingVoltage*1000, 5, "V");
-		fontRenderer.drawString(voltage,offset, 35, fontColor);
+		String length = Lang.localise("gui.qmd.container.accelerator.length", ring.getLength());
+		fontRenderer.drawString(length,offset+25, 30, fontColor);
 		
-		String quadrupoles = Lang.localise("gui.qmd.container.accelerator.quadrupoles") +
-				 multiblock.quadrupoleNumber +" "+Lang.localise("gui.qmd.container.accelerator.magnet_strength") + multiblock.quadrupoleStrength;
-		fontRenderer.drawString(quadrupoles,offset, 50, fontColor);
+		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys",multiblock.RFCavityNumber, Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V")) ;
+		fontRenderer.drawString(cavitys,offset, 50, fontColor);
 		
-		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles") +
-				ring.dipoleNumber +" "+Lang.localise("gui.qmd.container.accelerator.magnet_strength") + ring.dipoleStrength;
-		fontRenderer.drawString(dipoles,offset, 60, fontColor);
+		String quadrupoles = Lang.localise("gui.qmd.container.accelerator.quadrupoles", multiblock.quadrupoleNumber,  Units.getSIFormat(multiblock.quadrupoleStrength,""));
+		fontRenderer.drawString(quadrupoles,offset, 60, fontColor);
 		
-		String particle;
-		String particle2;
-		if(multiblock.beams.get(1).getParticleStack() != null)
+		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles",ring.dipoleNumber, Units.getSIFormat(ring.dipoleStrength,""));
+		fontRenderer.drawString(dipoles,offset, 70, fontColor);
+		
+		String temperature=Lang.localise("gui.qmd.container.temperature",Units.getSIFormat(multiblock.getTemperature(),"K"));
+		fontRenderer.drawString(temperature,offset, 80, fontColor);
+		
+		if(multiblock.errorCode != Accelerator.errorCode_Nothing)
 		{
-			if(multiblock.beams.get(1).getParticleStack().getParticle() != null)
-			{
-				particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle."+ multiblock.beams.get(1).getParticleStack().getParticle().getName()+".name"); 	
-				particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(multiblock.beams.get(1).getParticleStack().getMeanEnergy()*1000, 5, "eV"),multiblock.beams.get(1).getParticleStack().getLuminosity());
-			}
-			else
-			{
-				particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle.none.name"); 
-				particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(0, 5, "eV"),0);
-			}
-		}
-		else
-		{
-			particle =Lang.localise("gui.qmd.container.accelerator.beam") +Lang.localise("qmd.particle.none.name"); 
-			particle2=Lang.localise("gui.qmd.container.beam.stats",UnitHelper.prefix(0, 5, "eV"),0);
+			String error=Lang.localise("gui.qmd.container.accelerator.error."+multiblock.errorCode);
+			fontRenderer.drawString(error,offset, 90, 15641088);
 		}
 		
-		fontRenderer.drawString(particle,offset, 70, fontColor);
-		
-		fontRenderer.drawString(particle2,offset, 80, fontColor);
-		
-		String temperature=Lang.localise("gui.qmd.container.temperature",multiblock.getTemperature());
-		fontRenderer.drawString(temperature,offset, 90, fontColor);
-		
-		
-		
-		
+
 		if (!NCUtil.isModifierKeyDown()) 
 		{
-			//System.out.println("pop "+ multiblock.beam.getMeanEnergy());
+			
 		}
 	}
 	
@@ -142,19 +137,19 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 	public List<String> heatInfo() 
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.heat_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.heatBuffer.getHeatStored(), multiblock.heatBuffer.getHeatCapacity(), 6, "H"));
-		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.cooling") + " " + TextFormatting.WHITE + UnitHelper.prefix(-multiblock.cooling, 6, "H/t"));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.heating") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.rawHeating+multiblock.getMaxExternalHeating(), 6, "H/t"));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.external_heating") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.getMaxExternalHeating(), 6, "H/t"));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.heat_stored",Units.getSIFormat(multiblock.heatBuffer.getHeatStored(), "H"),Units.getSIFormat(multiblock.heatBuffer.getHeatCapacity(), "H")));
+		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.cooling",Units.getSIFormat(-multiblock.cooling, "H/t")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.heating",Units.getSIFormat(multiblock.rawHeating+multiblock.getMaxExternalHeating(),"H/t")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.external_heating",Units.getSIFormat( multiblock.getMaxExternalHeating(), "H/t")));
 		return info;
 	}
 	
 	public List<String> energyInfo() 
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.energy_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix(multiblock.energyStorage.getEnergyStored(), multiblock.energyStorage.getMaxEnergyStored(), 4, "RF"));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.required_energy",UnitHelper.prefix(multiblock.requiredEnergy, 4, "RF/t")) +
-				Lang.localise("gui.qmd.container.accelerator.efficiency",String.format("%.2f", (2-multiblock.efficiency)*100)));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.energy_stored", Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.required_energy",Units.getSIFormat(multiblock.requiredEnergy, "RF/t")) +
+				Lang.localise("gui.qmd.container.accelerator.efficiency",String.format("%.2f", (1/multiblock.efficiency)*100)));
 		return info;
 	}
 	
@@ -162,9 +157,9 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 	public List<String> coolantInfo() 
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.coolant_stored") + " " + TextFormatting.WHITE + UnitHelper.prefix((multiblock.tanks.get(0).getFluidAmount()), multiblock.tanks.get(0).getCapacity(), 8, "mB"));
-		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.coolant_required") + " " + TextFormatting.WHITE + multiblock.maxCoolantIn + "mB/t");
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.coolant_out") + " " + TextFormatting.WHITE + multiblock.maxCoolantOut + " mB/t");
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.coolant_stored",Units.getSIFormat(multiblock.tanks.get(0).getFluidAmount(), -3,"B"),Units.getSIFormat(multiblock.tanks.get(0).getCapacity(), -3,"B")));
+		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.coolant_required",Units.getSIFormat(multiblock.maxCoolantIn , -3,"B/t")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.coolant_out",Units.getSIFormat(multiblock.maxCoolantOut, -3,"B/t")));
 	
 		
 		return info;

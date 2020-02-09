@@ -6,7 +6,9 @@ import java.util.Set;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.ToroidalMultiblock;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.AcceleratorLogic;
@@ -16,6 +18,7 @@ import lach_01298.qmd.multiblock.accelerator.RFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeam;
+import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
@@ -24,7 +27,8 @@ import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.particle.AcceleratorStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
@@ -42,6 +46,7 @@ import nc.multiblock.network.SolidFissionUpdatePacket;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
@@ -60,7 +65,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public RingAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new AcceleratorStorage());
+		getAccelerator().beams.add(new ParticleStorageAccelerator());
 		getAccelerator().beams.get(0).setMinEnergy(QMDConfig.minimium_accelerator_ring_input_particle_energy);
 	}
 
@@ -149,6 +154,60 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.need_energy_ports", null);
 			return false;
 		}
+		
+		
+		//beam ports
+		
+		int inputs =0;
+		int outputs =0;
+		for(TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
+		{
+			if(port.getIOType() == IOType.INPUT)
+			{
+				inputs++;
+			}
+			
+			if(port.getIOType() == IOType.OUTPUT)
+			{
+				outputs++;
+			}
+				
+			if(port.getPos().getY() != acc.getMiddleY())
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_inline_with_beam", port.getPos());
+				return false;
+			}
+			
+			port.recalculateExternalDirection(acc.getMinimumCoord(), acc.getMaximumCoord());
+			if(port.getExternalFacing() == null)
+			{
+			
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.something_is_wrong", port.getPos());
+				return false;
+			}
+			
+			
+			
+			if(!(acc.WORLD.getTileEntity(port.getPos().offset(port.getExternalFacing().getOpposite())) instanceof TileAcceleratorBeam))
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.beam_port_must_connect", port.getPos().offset(port.getExternalFacing().getOpposite()));
+				return false;
+			}
+			if(!acc.isValidDipole(port.getPos().offset(port.getExternalFacing().getOpposite(),2),false))
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_dipole", port.getPos().offset(port.getExternalFacing().getOpposite(),2));
+				return false;
+			}
+			
+			
+		}
+		if(inputs != 1 || outputs != 1)
+		{
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
+			return false;
+		}	
+		
+		
 
 		return true;
 	}
@@ -293,8 +352,22 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 				}
 
 			}
+		
+			//beam ports
+			for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
+			{
+				if(port.getIOType() == IOType.INPUT)
+				{
+					acc.input = port;
+				}
+				
+				if(port.getIOType() == IOType.OUTPUT)
+				{
+					acc.output = port;
+				}
+			}		
 		}
-		 
+ 
 		 refreshStats();
 		 super.onAcceleratorFormed();
 	}
@@ -347,48 +420,47 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-
+		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
+		getAccelerator().beams.get(0).setParticleStack(null);
+		pull();
+		
 		if (getAccelerator().isAcceleratorOn)
 		{
 			produceBeam();
 		}
 		else
 		{
-
 			resetBeam();
 		}
-		getAccelerator().beams.get(0).setParticleStack(null);
+		
+		push();
 
 		return super.onUpdateServer();
-
 	}
 
-	
-	
-	
-	
-	
-	
 	
 	private void refreshStats()
 	{
 		dipoleStrength = 0;
 		int energy = 0;
 		int heat = 0;
-		double efficiency =1;
+		int parts= 0;
+		double efficiency =0;
 		double quadStrength =0;
 		double voltage = 0;
 		for(TileAcceleratorMagnet magnet :getAccelerator().getPartMap(TileAcceleratorMagnet.class).values())
 		{
 			heat += magnet.heat;
 			energy += magnet.basePower;
-			efficiency *= Math.pow(magnet.efficiency,1/4d);
+			parts++;
+			efficiency += magnet.efficiency;
 		}
 		for(TileAcceleratorRFCavity cavity :getAccelerator().getPartMap(TileAcceleratorRFCavity.class).values())
 		{
 			heat += cavity.heat;
 			energy += cavity.basePower;
-			efficiency *= Math.pow(cavity.efficiency,1/8d);
+			parts++;
+			efficiency += cavity.efficiency;
 			
 		}
 		
@@ -428,8 +500,8 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			}
 		}
 		
-		
-		getAccelerator().requiredEnergy =  (int) (energy*(2-efficiency));
+		efficiency /= parts;
+		getAccelerator().requiredEnergy =  (int) (energy/efficiency);
 		getAccelerator().rawHeating = heat;
 		getAccelerator().quadrupoleStrength = quadStrength;
 		getAccelerator().efficiency = efficiency;
@@ -454,35 +526,97 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
 			
-			int maxEnergyFromFeild = 0;
+			long maxEnergyFromFeild = 0;
 			if(getAccelerator().acceleratingVoltage > 0)
 			{
-				maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*dipoleStrength*getAccelerator().getExteriorLengthX()/2,2)/(2*particle.getMass()))*1000;
+				maxEnergyFromFeild = (long) (Math.pow(particle.getCharge()*dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
 			}
-			int maxEnergyFromRadiation = (int) ((3*getAccelerator().acceleratingVoltage*Math.pow(particle.getMass(),4)*getAccelerator().getExteriorLengthX()/2)/Math.abs(particle.getCharge()));
 			
+			
+			long maxEnergyFromRadiation =  (long)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
+				
+				
 			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
+			
 			
 			if(maxEnergyFromRadiation >= maxEnergyFromFeild)
 			{
-				particleOut.setMeanEnergy(maxEnergyFromFeild);
+				particleOut.setMeanEnergy((long)(maxEnergyFromFeild*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
 			}
 			else
 			{
-				particleOut.setMeanEnergy(maxEnergyFromRadiation);
+				particleOut.setMeanEnergy((long)(maxEnergyFromRadiation*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
 			}
-			particleOut.addLuminosity((int) (particleIn.getAmount()*(getAccelerator().quadrupoleStrength)));
+			
+			particleOut.addLuminosity((int) (particleIn.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			if(particleOut.getLuminosity() <= 0)
+			{
+				particleOut = null;
+				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+			}
+			
 		}
 		else
 		{
 			resetBeam();
 		}
-		
-		
-		
 	}
 	
-	
+	@Override
+	protected void pull()
+	{
+		if (getAccelerator().input != null)
+		{
+			for (EnumFacing face : EnumFacing.VALUES)
+			{
+				TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().input.getPos().offset(face));
+				if (tile != null)
+				{
+
+					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,
+							face.getOpposite()))
+					{
+						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite());
+						ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
+						
+						if(stack != null)
+						{
+							Particle particle = stack.getParticle();
+							int maxEnergyFromFeild = 0;
+							if(getAccelerator().acceleratingVoltage > 0)
+							{
+								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
+							}
+							int maxEnergyFromRadiation =  (int)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
+						
+							if(maxEnergyFromRadiation >= maxEnergyFromFeild)
+							{
+								getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromFeild);
+							}
+							else
+							{
+								getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromRadiation);
+							}
+							
+						}
+
+						if (!getAccelerator().beams.get(0).reciveParticle(face, stack))
+						{
+							if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
+							{
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+							}
+							else if (stack.getMeanEnergy() < getAccelerator().beams.get(0).getMinEnergy())
+							{
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	
 	// Network
@@ -492,8 +626,8 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		return new RingAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating, getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
-				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength,
-				getAccelerator().heatBuffer, getAccelerator().energyStorage,getAccelerator().tanks,dipoleNumber,dipoleStrength, getAccelerator().beams.get(0), getAccelerator().beams.get(1));
+				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().errorCode,
+				getAccelerator().heatBuffer, getAccelerator().energyStorage,getAccelerator().tanks,dipoleNumber,dipoleStrength, getAccelerator().beams);
 	}
 	
 	@Override
@@ -505,9 +639,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			RingAcceleratorUpdatePacket packet = (RingAcceleratorUpdatePacket) message;
 			dipoleNumber = packet.dipoleNumber;
 			dipoleStrength = packet.dipoleStrength;
-			getAccelerator().beams.clear();
-			getAccelerator().beams.add(packet.beamIn);
-			getAccelerator().beams.add(packet.beamOut);
+			getAccelerator().beams = packet.beams;
 
 		}
 	}
@@ -534,6 +666,17 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	
+	
+	
+	public double getRadius()
+	{
+		return (getAccelerator().getInteriorLengthX()-2)/2d;
+	}
+	
+	public int getLength()
+	{
+		return 4*getAccelerator().getInteriorLengthX()-12;
+	}
 	
 	
 	

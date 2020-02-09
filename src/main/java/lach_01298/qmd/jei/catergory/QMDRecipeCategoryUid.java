@@ -7,4 +7,5 @@ public class QMDRecipeCategoryUid
 	public static final String SOURCE = QMD.MOD_ID+".accelerator_source";
 	public static final String PARTICLE_INFO = QMD.MOD_ID+".particle_info";
 	public static final String TARGET_CHAMBER = QMD.MOD_ID+".target_chamber";
+	public static final String DECAY_CHAMBER = QMD.MOD_ID+".decay_chamber";
 }

@@ -8,17 +8,77 @@
         "type": {
             "tungsten": {
                 "textures": {
-                    "layer0": "qmd:items/materials/ingot_tungsten"
+                    "layer0": "qmd:items/materials/ingot/tungsten"
                 }
             },
             "niobium": {
                 "textures": {
-                    "layer0": "qmd:items/materials/ingot_niobium"
+                    "layer0": "qmd:items/materials/ingot/niobium"
                 }
             },
-			"chromium": {
+             "chromium": {
                 "textures": {
-                    "layer0": "qmd:items/materials/ingot_chromium"
+                    "layer0": "qmd:items/materials/ingot/chromium"
+                }
+            },
+             "titanium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/titanium"
+                }
+            },
+            "cobalt": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/cobalt"
+                }
+            },
+             "nickel": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/nickel"
+                }
+            },
+             "hafnium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/hafnium"
+                }
+            },
+            "zinc": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/zinc"
+                }
+            },
+             "osmium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/osmium"
+                }
+            },
+             "iridium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/iridium"
+                }
+            },
+            "platinum": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/platinum"
+                }
+            },
+             "sodium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/sodium"
+                }
+            },
+             "potassium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/potassium"
+                }
+            },
+            "calcium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/calcium"
+                }
+            },
+             "strontium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/strontium"
                 }
             }
         }

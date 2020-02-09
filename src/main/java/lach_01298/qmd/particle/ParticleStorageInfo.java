@@ -12,8 +12,8 @@ public final class ParticleStorageInfo
 {
     @Nullable
     public final ParticleStack particleStack;
-    public final int maxEnergy;
-    public final int minEnergy;
+    public final long maxEnergy;
+    public final long minEnergy;
     public final int capacity;
 
     public ParticleStorageInfo(@Nullable ParticleStack particleStack, int maxEnergy, int capacity, int minEnergy)

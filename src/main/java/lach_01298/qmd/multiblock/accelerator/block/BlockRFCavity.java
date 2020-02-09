@@ -1,6 +1,6 @@
 package lach_01298.qmd.multiblock.accelerator.block;
 
-import lach_01298.qmd.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;
 import net.minecraft.block.properties.IProperty;

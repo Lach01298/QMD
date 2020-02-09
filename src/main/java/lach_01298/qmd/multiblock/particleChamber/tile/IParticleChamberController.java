@@ -8,7 +8,7 @@ import nc.tile.inventory.ITileInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-public interface IParticleChamberController extends IParticleChamberPart, ILogicMultiblockController<ParticleChamber>, ITileInventory 
+public interface IParticleChamberController extends IParticleChamberPart, ILogicMultiblockController<ParticleChamber> 
 {
 
 	public void updateBlockState(boolean isActive);

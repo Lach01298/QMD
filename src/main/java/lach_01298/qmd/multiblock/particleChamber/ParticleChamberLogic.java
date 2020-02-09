@@ -1,5 +1,7 @@
 package lach_01298.qmd.multiblock.particleChamber;
 
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.AcceleratorLogic;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorComponent;
@@ -8,12 +10,17 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberPart;
+import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberBeamPort;
+import lach_01298.qmd.particle.IParticleStackHandler;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.TileBeefBase.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber,IParticleChamberPart,ParticleChamberUpdatePacket>
 { 
@@ -104,7 +111,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber,IParti
 
 	@Override
 	public void onMachineDisassembled()
-	{
+	{	
 		getChamber().resetStats();
 		if (getChamber().controller != null)
 		{
@@ -188,5 +195,62 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber,IParti
 		return null;
 	}
 
+	
+	protected void pull()
+	{
+		for(TileParticleChamberBeamPort port : getPartMap(TileParticleChamberBeamPort.class).values())
+		{
+		
+			if(port.getIOType() == IOType.INPUT)
+			{
+				for(EnumFacing face : EnumFacing.HORIZONTALS)
+				{
+					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
+					if(tile != null)
+					{
+						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
+						{
+							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+							getChamber().beams.get(0).setParticleStack(otherStorage.extractParticle(face.getOpposite()));
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	protected void push()
+	{
+		for(TileParticleChamberBeamPort port : getPartMap(TileParticleChamberBeamPort.class).values())
+		{
+		
+			if(port.getIOType() == IOType.OUTPUT)
+			{
+				for(EnumFacing face : EnumFacing.HORIZONTALS)
+				{
+					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
+					if(tile != null)
+					{
+						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
+						{
+							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+							otherStorage.reciveParticle(face.getOpposite(), getChamber().beams.get(port.getIONumber()).getParticleStack());
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public boolean switchOutputs(BlockPos pos)
+	{
+		return false;	
+	}
+	
+	
+	
+	
+	
 
 }

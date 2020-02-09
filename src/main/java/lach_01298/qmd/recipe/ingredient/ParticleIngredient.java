@@ -18,7 +18,7 @@ public class ParticleIngredient implements IParticleIngredient
 
 	public ParticleStack stack;
 	public String particleName;
-	public int meanEnergy;
+	public long meanEnergy;
 	public int amount;
 	public double range;
 	public int luminosity;
@@ -31,7 +31,7 @@ public class ParticleIngredient implements IParticleIngredient
 		range = stack.getEnergySpread();
 	}
 
-	public ParticleIngredient(String particleName, int meanEnergy, int amount, double range, int luminosity)
+	public ParticleIngredient(String particleName, long meanEnergy, int amount, double range, int luminosity)
 	{
 		stack = ParticleStack.getParticleStack(particleName, meanEnergy, amount, range, luminosity);
 		this.particleName = particleName;
@@ -72,7 +72,7 @@ public class ParticleIngredient implements IParticleIngredient
 				return IngredientMatchResult.FAIL;
 			}
 			
-			return new IngredientMatchResult(type.checkStackSize(stack.getAmount(), stack.getAmount()), 0);
+			return new IngredientMatchResult(type.checkStackSize((int)stack.getAmount(), (int)stack.getAmount()), 0);
 		}
 		else if (object instanceof ParticleIngredient && match(((ParticleIngredient) object).stack, type).matches())
 		{	

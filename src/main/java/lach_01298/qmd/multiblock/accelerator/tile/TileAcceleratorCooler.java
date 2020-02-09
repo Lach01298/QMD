@@ -2,8 +2,8 @@ package lach_01298.qmd.multiblock.accelerator.tile;
 
 import javax.annotation.Nullable;
 
-import lach_01298.qmd.EnumTypes;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorMagnet;
 import nc.config.NCConfig;
@@ -409,14 +409,13 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 		@Override
 		public boolean isCoolerValid()
 		{
-			axialDirsLoop: for (EnumFacing[] axialDirs : BlockPosHelper.axialDirsList())
+			byte lapis = 0;
+			for (EnumFacing dir : EnumFacing.VALUES)
 			{
-				for (EnumFacing dir : axialDirs)
-				{
-					if (!isActiveCooler(pos.offset(dir), "lapis"))
-						continue axialDirsLoop;
-				}
-				return true;
+				if (isActiveCooler(pos.offset(dir), "lapis"))
+					lapis++;
+				if (lapis >= 2)
+					return true;
 			}
 			return false;
 		}
@@ -459,8 +458,6 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 			{
 				if (isActiveCooler(pos.offset(dir), "quartz"))
 					quartz++;
-				if (quartz > 1)
-					return false;
 				if (!cavity && isActiveRFCavity(pos.offset(dir),null))
 					cavity = true;
 			}
@@ -786,7 +783,7 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 			boolean cavity = false;
 			for (EnumFacing dir : EnumFacing.VALUES)
 			{
-				if (endstone < 2 && isActiveCooler(pos.offset(dir), "copper"))
+				if (endstone < 2 && isActiveCooler(pos.offset(dir), "end_stone"))
 					endstone++;
 				if (!yoke && isActiveYoke(pos.offset(dir)))
 					yoke = true;

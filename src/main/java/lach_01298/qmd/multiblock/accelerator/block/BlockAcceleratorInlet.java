@@ -2,7 +2,7 @@ package lach_01298.qmd.multiblock.accelerator.block;
 
 
 
-import lach_01298.qmd.EnumTypes;
+import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCasing;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorInlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
