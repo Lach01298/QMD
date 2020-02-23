@@ -36,15 +36,21 @@
                     "layer0": "qmd:items/materials/isotope/lead_210"
                 }
             },
-            "vanadium_50": {
-                "textures": {
-                    "layer0": "qmd:items/materials/isotope/vanadium_50"
-                }
-            },
             "strontium_90": {
                 "textures": {
                     "layer0": "qmd:items/materials/isotope/strontium_90"
                 }
+            },
+             "uranium_234": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/uranium_234"
+                }
+            },
+            "protactinium_231": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/protactinium_231"
+                }
             }
         }
-    }}
+    }
+}

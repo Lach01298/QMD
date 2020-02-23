@@ -2,6 +2,7 @@ package lach_01298.qmd.multiblock;
 
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.AcceleratorLogic;
+import lach_01298.qmd.multiblock.accelerator.BeamDiverterLogic;
 import lach_01298.qmd.multiblock.accelerator.LinearAcceleratorLogic;
 import lach_01298.qmd.multiblock.accelerator.RingAcceleratorLogic;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorComponent;
@@ -66,7 +67,7 @@ public class Multiblocks
 			Accelerator.LOGIC_MAP.put("", AcceleratorLogic.class.getConstructor(AcceleratorLogic.class));
 			Accelerator.LOGIC_MAP.put("linear_accelerator",LinearAcceleratorLogic.class.getConstructor(AcceleratorLogic.class));
 			Accelerator.LOGIC_MAP.put("ring_accelerator",RingAcceleratorLogic.class.getConstructor(AcceleratorLogic.class));
-
+			Accelerator.LOGIC_MAP.put("beam_diverter",BeamDiverterLogic.class.getConstructor(AcceleratorLogic.class));
 			
 			ParticleChamber.LOGIC_MAP.put("", ParticleChamberLogic.class.getConstructor(ParticleChamberLogic.class));
 			ParticleChamber.LOGIC_MAP.put("target_chamber",TargetChamberLogic.class.getConstructor(ParticleChamberLogic.class));

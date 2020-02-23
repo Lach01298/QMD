@@ -103,8 +103,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	public double maxCoolantIn =0, maxCoolantOut=0;
 	public double efficiency = 0D;
 	public int requiredEnergy = 0, acceleratingVoltage =0;
-	public int RFCavityNumber =0, quadrupoleNumber =0;
-	public double quadrupoleStrength =0;
+	public int RFCavityNumber =0, quadrupoleNumber =0,dipoleNumber =0;
+	public double quadrupoleStrength =0, dipoleStrength =0;
 	
 	public int errorCode =0;
 	public static final int errorCode_Nothing = 0;
@@ -186,8 +186,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	{
 		logic.onResetStats();
 		cooling = rawHeating  = 0L;
-		quadrupoleStrength = efficiency = 0D;
-		RFCavityNumber = quadrupoleNumber = acceleratingVoltage = requiredEnergy = 0;
+		quadrupoleStrength = efficiency= dipoleStrength = 0D;
+		RFCavityNumber = quadrupoleNumber = dipoleNumber = acceleratingVoltage = requiredEnergy = 0;
 		coolingRecipeInfo = null;
 		maxCoolantIn = maxCoolantOut =0;
 	}
@@ -197,12 +197,10 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 	public boolean isValidRFCavity(BlockPos center, Axis axis)
 	{
-		
 		if(!(this.WORLD.getTileEntity(center.up()) instanceof TileAcceleratorRFCavity) )
 		{
 			return false;
 		}
-		
 		
 		Class cavityType = this.WORLD.getTileEntity(center.up()).getClass();
 		
@@ -284,60 +282,160 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	
 	
 	
-	public boolean isValidDipole(BlockPos center, boolean conner)
+	public boolean isValidDipole(BlockPos center, boolean vertical)
 	{
-		if(!(this.WORLD.getTileEntity(center.up()) instanceof TileAcceleratorMagnet))
+		if(vertical)
 		{
-			return false;
+			if(this.WORLD.getTileEntity(center.north()) instanceof TileAcceleratorMagnet )
+			{
+				Class magnetType = this.WORLD.getTileEntity(center.north()).getClass();
+				if(!magnetType.isInstance(this.WORLD.getTileEntity(center.south())))
+				{
+					return false;
+				}	
+				if (!(this.WORLD.getTileEntity(center.north().up()) instanceof TileAcceleratorYoke) || 
+						!(this.WORLD.getTileEntity(center.north().down()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.north().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.north().west()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.north().up().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.north().up().west()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.north().down().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.north().down().west()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.south().up()) instanceof TileAcceleratorYoke) || 
+						!(this.WORLD.getTileEntity(center.south().down()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.south().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.south().west()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.south().up().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.south().up().west()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.south().down().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.south().down().west()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.up().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.up().west()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.down().east()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.down().west()) instanceof TileAcceleratorYoke))		
+				{		
+					return false;
+				}
+				List<BlockPos> faces = new ArrayList<BlockPos>();
+				faces.add(center.up());
+				faces.add(center.down());
+				faces.add(center.east());
+				faces.add(center.west());
+				
+				for(BlockPos pos : faces)
+				{
+					if(!(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam) && !(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorYoke))
+					{
+						
+						return false;
+					}
+				}	
+			}
+			else if(this.WORLD.getTileEntity(center.east()) instanceof TileAcceleratorMagnet )
+			{
+				Class magnetType = this.WORLD.getTileEntity(center.east()).getClass();
+				if(!magnetType.isInstance(this.WORLD.getTileEntity(center.west())))
+				{
+					return false;
+				}
+				
+				if (!(this.WORLD.getTileEntity(center.east().up()) instanceof TileAcceleratorYoke) || 
+						!(this.WORLD.getTileEntity(center.east().down()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.east().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.east().south()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.east().up().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.east().up().south()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.east().down().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.east().down().south()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.west().up()) instanceof TileAcceleratorYoke) || 
+						!(this.WORLD.getTileEntity(center.west().down()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.west().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.west().south()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.west().up().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.west().up().south()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.west().down().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.west().down().south()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.up().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.up().south()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.down().north()) instanceof TileAcceleratorYoke) ||
+						!(this.WORLD.getTileEntity(center.down().south()) instanceof TileAcceleratorYoke))		
+				{
+					
+					return false;
+				}
+				List<BlockPos> faces = new ArrayList<BlockPos>();
+				faces.add(center.up());
+				faces.add(center.down());
+				faces.add(center.north());
+				faces.add(center.south());
+				
+				for(BlockPos pos : faces)
+				{
+					if(!(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam) && !(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorYoke))
+					{
+						
+						return false;
+					}
+				}
+			}
+			else
+			{
+				return false;
+			}
 		}
-		
-		Class magnetType = this.WORLD.getTileEntity(center.up()).getClass();
-		
-		if(!magnetType.isInstance(this.WORLD.getTileEntity(center.down())))
+		else
 		{
-			return false;
-		}
-		
-		if (!(this.WORLD.getTileEntity(center.up().north()) instanceof TileAcceleratorYoke) || 
-				!(this.WORLD.getTileEntity(center.up().south()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.up().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.up().west()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.up().north().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.up().north().west()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.up().south().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.up().south().west()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.down().north()) instanceof TileAcceleratorYoke)|| 
-				!(this.WORLD.getTileEntity(center.down().south()) instanceof TileAcceleratorYoke)||
-				!(this.WORLD.getTileEntity(center.down().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.down().west()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.down().north().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.down().north().west()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.down().south().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.down().south().west()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.north().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.north().west()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.south().east()) instanceof TileAcceleratorYoke) ||
-				!(this.WORLD.getTileEntity(center.south().west()) instanceof TileAcceleratorYoke))		
-		{
+			if(!(this.WORLD.getTileEntity(center.up()) instanceof TileAcceleratorMagnet))
+			{
+				return false;
+			}
 			
-			return false;
-		}
-		
-		List<BlockPos> faces = new ArrayList<BlockPos>();
-		faces.add(center.north());
-		faces.add(center.south());
-		faces.add(center.east());
-		faces.add(center.west());
-		
-		for(BlockPos pos : faces)
-		{
-			if(!(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam) && !(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorYoke))
+			Class magnetType = this.WORLD.getTileEntity(center.up()).getClass();
+			
+			if(!magnetType.isInstance(this.WORLD.getTileEntity(center.down())))
+			{
+				return false;
+			}
+			
+			if (!(this.WORLD.getTileEntity(center.up().north()) instanceof TileAcceleratorYoke) || 
+					!(this.WORLD.getTileEntity(center.up().south()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.up().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.up().west()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.up().north().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.up().north().west()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.up().south().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.up().south().west()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.down().north()) instanceof TileAcceleratorYoke)|| 
+					!(this.WORLD.getTileEntity(center.down().south()) instanceof TileAcceleratorYoke)||
+					!(this.WORLD.getTileEntity(center.down().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.down().west()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.down().north().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.down().north().west()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.down().south().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.down().south().west()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.north().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.north().west()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.south().east()) instanceof TileAcceleratorYoke) ||
+					!(this.WORLD.getTileEntity(center.south().west()) instanceof TileAcceleratorYoke))		
 			{
 				
 				return false;
 			}
+			List<BlockPos> faces = new ArrayList<BlockPos>();
+			faces.add(center.north());
+			faces.add(center.south());
+			faces.add(center.east());
+			faces.add(center.west());
+			
+			for(BlockPos pos : faces)
+			{
+				if(!(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam) && !(this.WORLD.getTileEntity(pos) instanceof TileAcceleratorYoke))
+				{
+					
+					return false;
+				}
+			}
 		}
-		
 
 		return true;	
 	}
@@ -488,10 +586,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		for (TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
 		{
 			if(port.isTriggered())
-			{
-				
+			{	
 				if(port.getSwitchSetting() != port.getIOType())
-				{
+				{	
 					port.switchSetting();
 					changed = true;
 					if(port.getIOType() == IOType.INPUT)
@@ -554,6 +651,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		data.setInteger("RFCavityNumber", RFCavityNumber);
 		data.setInteger("quadrapoleNumber", quadrupoleNumber);
 		data.setDouble("quadrupoleStrength", quadrupoleStrength);
+		data.setInteger("dipoleNumber", dipoleNumber);
+		data.setDouble("dipoleStrength", dipoleStrength);
 		data.setInteger("errorCode",errorCode);
 		data.setBoolean("cold", cold);
 		
@@ -581,6 +680,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		RFCavityNumber = data.getInteger("RFCavityNumber");
 		quadrupoleNumber = data.getInteger("quadrapoleNumber");
 		quadrupoleStrength = data.getDouble("quadrupoleStrength");
+		dipoleNumber = data.getInteger("dipoleNumber");
+		dipoleStrength = data.getDouble("dipoleStrength");
 		errorCode = data.getInteger("errorCode");
 		cold = data.getBoolean("cold");
 		
@@ -607,6 +708,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		energyStorage.setEnergyStored(message.energyStorage.getEnergyStored());
 		
 		for (int i = 0; i < tanks.size(); i++) tanks.get(i).readInfo(message.tanksInfo.get(i));
+		beams = message.beams;
 		
 		isAcceleratorOn = message.isAcceleratorOn;
 		cooling = message.cooling;
@@ -619,6 +721,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 		RFCavityNumber = message.RFCavityNumber;
 		quadrupoleNumber = message.quadrupoleNumber;
 		quadrupoleStrength = message.quadrupoleStrength;
+		dipoleNumber = message.dipoleNumber;
+		dipoleStrength = message.dipoleStrength;
 		errorCode =message.errorCode;
 		
 		logic.onPacket(message);

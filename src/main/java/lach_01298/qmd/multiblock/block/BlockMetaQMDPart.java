@@ -20,7 +20,7 @@ public abstract class BlockMetaQMDPart<T extends Enum<T> & IStringSerializable &
 
 	public BlockMetaQMDPart(Class<T> enumm, PropertyEnum<T> property)
 	{
-		super(enumm, property, Material.IRON, QMDTabs.BLOCKS);
+		super(enumm, property, Material.IRON, QMDTabs.MULTIBLOCKS);
 	}
 
 }

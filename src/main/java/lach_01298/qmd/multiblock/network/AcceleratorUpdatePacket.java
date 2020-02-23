@@ -21,8 +21,8 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 	public double maxCoolantIn;
 	public double maxCoolantOut;
 	public int requiredEnergy;
-	public double efficiency, quadrupoleStrength;
-	public int quadrupoleNumber, RFCavityNumber, acceleratingVoltage;
+	public double efficiency, quadrupoleStrength, dipoleStrength;
+	public int quadrupoleNumber, RFCavityNumber, acceleratingVoltage, dipoleNumber;
 	public HeatBuffer heatBuffer;
 	public EnergyStorage energyStorage;
 	public byte numberOfTanks;
@@ -39,7 +39,7 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 	}
 
 	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating,double maxCoolantIn, double maxCoolantOut, int requiredEnergy, double efficiency, int acceleratingVoltage,
-int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, int errorCode, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
+int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNumber, double dipoleStrength ,int errorCode, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
 		this.pos = pos;
 		this.isAcceleratorOn = isAcceleratorOn;
@@ -53,6 +53,8 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, int errorCo
 		this.RFCavityNumber = RFCavityNumber;
 		this.quadrupoleNumber = quadrupoleNumber;
 		this.quadrupoleStrength = quadrupoleStrength;
+		this.dipoleNumber = dipoleNumber;
+		this.dipoleStrength = dipoleStrength;
 		this.errorCode = errorCode;
 		
 		this.heatBuffer = heatBuffer;
@@ -82,6 +84,8 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, int errorCo
 		RFCavityNumber = buf.readInt();
 		quadrupoleNumber = buf.readInt();
 		quadrupoleStrength = buf.readDouble();
+		dipoleNumber = buf.readInt();
+		dipoleStrength = buf.readDouble();
 		errorCode = buf.readInt();
 		
 		heatBuffer = ByteUtil.readBufHeat(buf);
@@ -113,6 +117,8 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, int errorCo
 		buf.writeInt(RFCavityNumber);
 		buf.writeInt(quadrupoleNumber);
 		buf.writeDouble(quadrupoleStrength);
+		buf.writeInt(dipoleNumber);
+		buf.writeDouble(dipoleStrength);
 		buf.writeInt(errorCode);
 		
 		ByteUtil.writeBufHeat(heatBuffer, buf);

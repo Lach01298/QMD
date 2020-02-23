@@ -3,6 +3,7 @@ package lach_01298.qmd.tile;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
 import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.machine.tile.TileQMDProcessor;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorGlass;
@@ -11,6 +12,7 @@ import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorYoke;
+import lach_01298.qmd.multiblock.accelerator.tile.TileBeamDiverterController;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
@@ -52,6 +54,7 @@ public class QMDTiles
 		//Accelerator parts
 		GameRegistry.registerTileEntity(TileLinearAcceleratorController.class,Util.appendPath(acceleratorPath, "linear_controller"));
 		GameRegistry.registerTileEntity(TileRingAcceleratorController.class,Util.appendPath(acceleratorPath, "ring_controller"));
+		GameRegistry.registerTileEntity(TileBeamDiverterController.class,Util.appendPath(acceleratorPath, "beam_diverter_controller"));
 		GameRegistry.registerTileEntity(TileAcceleratorBeam.class,Util.appendPath(acceleratorPath, "beam"));
 		GameRegistry.registerTileEntity(TileAcceleratorCasing.class,Util.appendPath(acceleratorPath, "casing"));
 		GameRegistry.registerTileEntity(TileAcceleratorGlass.class,Util.appendPath(acceleratorPath, "glass"));
@@ -130,5 +133,10 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.WireChamber.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.WIRE_CHAMBER.getName()));
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.EMCalorimeter.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.EM_CALORIMETER.getName()));
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.HadronCalorimeter.class, Util.appendPath(detectorPath, EnumTypes.DetectorType.HADRON_CALORIMETER.getName()));
+	
+	
+		//machines
+		GameRegistry.registerTileEntity(TileQMDProcessor.TileOreLeacher.class,new ResourceLocation(QMD.MOD_ID,"ore_leacher"));
+	
 	}
 }

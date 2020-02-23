@@ -37,7 +37,7 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 	public DecayChamberCategory(IGuiHelper guiHelper) 
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/decay_chamber_controller.png");
-		background = guiHelper.createDrawable(gui_texture, 24, 3, 122, 80);
+		background = guiHelper.createDrawable(gui_texture, 24, 3, 122, 90);
 		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.decayChamberController));
 		
 	}

@@ -31,6 +31,9 @@ item.qmd.ingot.sodium.name=Sodium Ingot
 item.qmd.ingot.potassium.name=Potassium Ingot
 item.qmd.ingot.calcium.name=Calcium Ingot
 item.qmd.ingot.strontium.name=Strontium Ingot
+item.qmd.ingot2.yttrium.name=Yttrium Ingot
+item.qmd.ingot2.neodymium.name=Neodymium Ingot
+item.qmd.ingot2.germanium.name=Germanium Ingot
 
 item.qmd.ingot_alloy.tungsten_carbide.name=Tungsten Carbide Ingot
 item.qmd.ingot_alloy.niobium_tin.name=Niobium-Tin Ingot
@@ -54,17 +57,23 @@ item.qmd.isotope.lead_210.name=Lead-210
 item.qmd.isotope.lead_210.name=Lead-210
 item.qmd.isotope.vanadium_50.name=Vanadium-50
 item.qmd.isotope.strontium_90.name=Strontium-90
+item.qmd.isotope.uranium_234.name=Uranium-234
+item.qmd.isotope.protactinium_231.name=Protactinium-231 Dust
 
 item.qmd.part.empty_cooler.name=Empty Cooler
 item.qmd.part.scintillator_pwo.name=Lead Tungstate Scintillator
 item.qmd.part.scintillator_plastic.name=Plastic Scintillator
 item.qmd.part.detector_casing.name=Empty Detector Casing
 item.qmd.part.wire_bscco.name=BSCCO Wire
+item.qmd.part.rod_nd_yag.name=Neodymium Doped YAG Rod
 
 item.qmd.semiconductor.silicon_p_doped.name=P-Type Doped Silicon
 item.qmd.semiconductor.silicon_n_doped.name=N-Type Doped Silicon
 item.qmd.semiconductor.silicon_boule.name=Silicon Boule
 item.qmd.semiconductor.silicon_wafer.name=Silicon Wafer
+item.qmd.semiconductor.basic_processor.name=Basic Processor
+item.qmd.semiconductor.advanced_processor.name=Advanced Processor
+item.qmd.semiconductor.elite_processor.name=Elite Processor
 
 item.qmd.chemical_dust.tungsten_oxide.name=Tungsten Oxide
 item.qmd.chemical_dust.bscco.name=BSCCO Dust
@@ -72,11 +81,21 @@ item.qmd.chemical_dust.sodium_nitrate.name=Sodium Nitrate
 item.qmd.chemical_dust.sodium_chloride.name=Sodium Chloride
 item.qmd.chemical_dust.copper_oxide.name=Copper Oxide
 
+item.qmd.sword_tungsten_carbide.name=Tungsten Carbide Sword
+item.qmd.shovel_tungsten_carbide.name=Tungsten Carbide Shovel
+item.qmd.axe_tungsten_carbide.name=Tungsten Carbide Axe
+item.qmd.hoe_tungsten_carbide.name=Tungsten Carbide Hoe
+item.qmd.pickaxe_tungsten_carbide.name=Tungsten Carbide Pickaxe
+
 //blocks
 tile.qmd.beamline.name=Beamline Pipe
+tile.qmd.ore_leacher.name=Ore Leacher
+tile.qmd.fission_reflector.tungsten_carbide.name=Tungsten Carbide Neutron Reflector
+
 
 tile.qmd.linear_accelerator_controller.name=Linear Accelerator Controller
 tile.qmd.ring_accelerator_controller.name=Synchrotron Accelerator Controller
+tile.qmd.beam_diverter_controller.name=Beam Diverter Controller
 
 tile.qmd.accelerator_beam.name=Accelerator Beam
 tile.qmd.accelerator_casing.name=Accelerator Casing
@@ -213,20 +232,23 @@ tile.qmd.fluid_argon.name=Argon
 fluid.silicon=Molten Silicon
 tile.qmd.fluid_silicon.name=Molten Silicon
 fluid.sodium_nitrate_solution=Sodium Nitrate Solution
-tile.qmd.sodium_nitrate_solution.name=Sodium Nitrate Solution
+tile.qmd.fluid_sodium_nitrate_solution.name=Sodium Nitrate Solution
 fluid.lead_nitrate_solution=Lead Nitrate Solution
-tile.qmd.lead_nitrate_solution.name=Lead Nitrate Solution
+tile.qmd.fluid_lead_nitrate_solution.name=Lead Nitrate Solution
 fluid.sodium_tungstate_solution=Sodium Tungstate Solution
-tile.qmd.sodium_tungstate_solution.name=Sodium Tungstate Solution
+tile.qmd.fluid_sodium_tungstate_solution.name=Sodium Tungstate Solution
 fluid.lead_tungstate_solution=Lead Tungstate Solution
-tile.qmd.lead_tungstate_solution.name=Lead Tungstate Solution
+tile.qmd.fluid_lead_tungstate_solution.name=Lead Tungstate Solution
 fluid.chlorine=Chlorine
-tile.qmd.chlorine.name=Chlorine
+tile.qmd.fluid_chlorine.name=Chlorine
 fluid.nitric_oxide=Nitric Oxide
-tile.qmd.nitric_oxide.name=Nitric Oxide
+tile.qmd.fluid_nitric_oxide.name=Nitric Oxide
 fluid.nitrogen_dioxide=Nitrogen Dioxide
-tile.qmd.nitrogen_dioxide.name=Nitrogen Dioxide
-
+tile.qmd.fluid_nitrogen_dioxide.name=Nitrogen Dioxide
+fluid.yag=Molten Yttrium Aluminum Garnet
+tile.qmd.fluid_yag.name=Molten Yttrium Aluminum Garnet
+fluid.nd_yag=Molten Neodymium Doped YAG
+tile.qmd.fluid_nd_yag.name=Molten Neodymium Doped YAG
 
 //info
 info.qmd.rf_cavity.voltage=Accelerating Voltage: %s kV
@@ -253,6 +275,8 @@ qmd.multiblock_validation.accelerator.no_inlet=There must be at least 1 coolant 
 qmd.multiblock_validation.accelerator.no_outlet=There must be at least 1 coolant Outlet.
 qmd.multiblock_validation.accelerator.need_energy_ports=There must be at least 1 Energy Port.
 qmd.multiblock_validation.accelerator.wrong_height=Accelerators must be 5 blocks tall.
+qmd.multiblock_validation.accelerator.invalid_beam_port=A Beam Port can not be here.
+qmd.multiblock_validation.accelerator.something_is_wrong=You got a Beam Port with no facing. Well how did you manage to do that?
 
 qmd.multiblock_validation.accelerator.linear.to_short=Linear Accelerator is not long enough.
 qmd.multiblock_validation.accelerator.linear.must_be_beam=There must be a straight line of Accelerator Beam blocks down the middle of the Linear Accelerator.
@@ -265,7 +289,12 @@ qmd.multiblock_validation.accelerator.ring.to_short= Synchrotron Accelerator is 
 qmd.multiblock_validation.accelerator.ring.to_long= Synchrotron Accelerator is to large.
 qmd.multiblock_validation.accelerator.ring.must_be_beam=There must be a square ring of Accelerator Beam blocks down the middle of the Accelerator.
 qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner=There must be a dipole in every corner of  the accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then surrounding the it with Accelerator Electromagnet Yokes.
+qmd.multiblock_validation.accelerator.ring.must_be_dipole=There Must be a dipole where a Beam Port Enters.
 qmd.multiblock_validation.accelerator.ring.must_have_io=There must be an Input and Output Beam Port.
+
+qmd.multiblock_validation.beam_director.must_be_cube=The Beam Diverter must be 1 5x5 Cube with a dipole in the center.
+qmd.multiblock_validation.beam_director.must_be_beam=There must have a Accelerator Beam block at the center.
+qmd.multiblock_validation.accelerator.beam_director.must_be_dipole=There Must be a vertical or horizontal dipole at the center.
 
 qmd.multiblock_validation.chamber.target_chamber.must_be_square=Target Chamber must have the same X and Z dimensions.
 qmd.multiblock_validation.chamber.target_chamber.must_be_odd=Target Chamber must have an odd width.
@@ -287,6 +316,7 @@ gui.qmd.container.temperature=Temperature: %s
 
 gui.qmd.container.linear_accelerator_controller.name=Linear Accelerator 
 gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator
+gui.qmd.container.beam_diverter_controller.name=Beam Diverter
 gui.qmd.container.accelerator.cavitys=RF Cavities: %s at %s 
 gui.qmd.container.accelerator.quadrupoles=Quadrupoles: %s at %s
 gui.qmd.container.accelerator.dipoles=Dipoles: %s at %s 
@@ -306,6 +336,9 @@ gui.qmd.container.accelerator.error.2=Does not have enough power
 gui.qmd.container.accelerator.error.3=Luminosity to low
 gui.qmd.container.accelerator.error.4=Particle energy to low
 gui.qmd.container.accelerator.error.5=Particle energy to High
+
+gui.qmd.container.beam_dirverter.max_energy=Maximum Energy: %s
+gui.qmd.container.beam_dirverter.energy_loss=Energy Loss: %s
 
 gui.qmd.container.target_chamber.efficiency=Efficiency: %s%%
 
@@ -441,6 +474,7 @@ gui.qmd.jei.reaction.efficiency=Particle Efficiency: %s%%
 //tabs
 itemGroup.qmd.items=Quantum Minecraft Dynamics Items
 itemGroup.qmd.blocks=Quantum Minecraft Dynamics Blocks
+itemGroup.qmd.multiblocks=QMD Multiblocks
 
 
 //block settings

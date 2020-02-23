@@ -36,7 +36,7 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/decay_chamber_controller.png");
 		xSize = 176;
-		ySize = 166;
+		ySize = 100;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
 		
 		String efficiency = Lang.localise("gui.qmd.container.target_chamber.efficiency",String.format("%.2f", multiblock.efficiency*100));
-		fontRenderer.drawString(efficiency,offset, 73, fontColor);
+		fontRenderer.drawString(efficiency,offset, 76, fontColor);
 		
 		
 		

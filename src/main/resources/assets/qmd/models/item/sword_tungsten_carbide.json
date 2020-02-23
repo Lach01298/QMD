@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "qmd:items/tools/sword_tungsten_carbide"
+    }
+}

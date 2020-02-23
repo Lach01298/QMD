@@ -14,9 +14,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class DecayChamberRecipeMaker
 {
-	private DecayChamberRecipeMaker()
-	{
-	}
+
 
 	public static List<DecayChamberRecipe> getRecipes(IJeiHelpers helpers)
 	{

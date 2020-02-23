@@ -27,6 +27,11 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotCalcium",new ItemStack(QMDItems.ingot, 1, MaterialEnums.IngotType.CALCIUM.getID()));
 		OreDictionary.registerOre("ingotStrontium",new ItemStack(QMDItems.ingot, 1, MaterialEnums.IngotType.STRONTIUM.getID()));
 		
+		OreDictionary.registerOre("ingotYttrium",new ItemStack(QMDItems.ingot2, 1, MaterialEnums.IngotType2.YTTRIUM.getID()));
+		OreDictionary.registerOre("ingotNeodymium",new ItemStack(QMDItems.ingot2, 1, MaterialEnums.IngotType2.NEODYMIUM.getID()));
+		OreDictionary.registerOre("ingotGermanium",new ItemStack(QMDItems.ingot2, 1, MaterialEnums.IngotType2.GERMANIUM.getID()));
+		
+		
 		
 		OreDictionary.registerOre("dustTungsten",new ItemStack(QMDItems.dust, 1, MaterialEnums.DustType.TUNGSTEN.getID()));
 		OreDictionary.registerOre("dustNiobium",new ItemStack(QMDItems.dust, 1, MaterialEnums.DustType.NIOBIUM.getID()));
@@ -55,21 +60,29 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotMagnesium26",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.MAGNESIUM_26.getID()));
 		OreDictionary.registerOre("ingotStrontium90",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.STRONTIUM_90.getID()));
 		OreDictionary.registerOre("ingotLead210",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.LEAD_210.getID()));
-		OreDictionary.registerOre("ingotVanadium50",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.VANADIUM_50.getID()));
-
+		OreDictionary.registerOre("ingotUranium234",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.Uranium_234.getID()));
+		OreDictionary.registerOre("dustProtactinium231",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.PROTACTINIUM_231.getID()));
 		
 		
 		OreDictionary.registerOre("siliconBoule",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.SILICON_BOULE.getID()));
 		OreDictionary.registerOre("siliconWafer",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.SILICON_WAFER.getID()));
+		OreDictionary.registerOre("siliconPDoped",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.SILICON_P_DOPED.getID()));
+		OreDictionary.registerOre("siliconNDoped",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.SILICON_N_DOPED.getID()));
+		OreDictionary.registerOre("processorBasic",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.BASIC_PROCESSOR.getID()));
+		OreDictionary.registerOre("processorAdvanced",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.ADVANCED_PROCESSOR.getID()));
+		OreDictionary.registerOre("processorElite",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.ELITE_PROCESSOR.getID()));
 		
 		
-		OreDictionary.registerOre("wireBscco",new ItemStack(QMDItems.part, 1, MaterialEnums.PartType.WIRE_BSCCO.getID()));
+		OreDictionary.registerOre("wireBSCCO",new ItemStack(QMDItems.part, 1, MaterialEnums.PartType.WIRE_BSCCO.getID()));
+		OreDictionary.registerOre("rodNdYAG",new ItemStack(QMDItems.part, 1, MaterialEnums.PartType.ROD_ND_YAG.getID()));
 		
 		OreDictionary.registerOre("dustTungstenOxide",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.TUNGSTEN_OXIDE.getID()));
-		OreDictionary.registerOre("dustBscco",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.BSCCO.getID()));
+		OreDictionary.registerOre("dustBSCCO",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.BSCCO.getID()));
 		OreDictionary.registerOre("dustNiter",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.SODIUM_NITRATE.getID()));
+		OreDictionary.registerOre("dustSaltpeter",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.SODIUM_NITRATE.getID()));
 		OreDictionary.registerOre("dustSodiumNitrate",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.SODIUM_NITRATE.getID()));
 		OreDictionary.registerOre("dustSodiumChloride",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.SODIUM_CHLORIDE.getID()));
+		OreDictionary.registerOre("dustSalt",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.SODIUM_CHLORIDE.getID()));
 		OreDictionary.registerOre("dustCopperOxide",new ItemStack(QMDItems.chemicalDust, 1, MaterialEnums.ChemicalDustType.COPPER_OXIDE.getID()));
 		
 	}

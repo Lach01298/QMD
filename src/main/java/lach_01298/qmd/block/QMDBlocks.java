@@ -17,6 +17,7 @@ import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorMagnet;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorOutlet;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorYoke;
+import lach_01298.qmd.multiblock.accelerator.block.BlockBeamDiverterController;
 import lach_01298.qmd.multiblock.accelerator.block.BlockRFCavity;
 import lach_01298.qmd.multiblock.accelerator.block.BlockLinearAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.block.BlockRingAcceleratorController;
@@ -31,9 +32,11 @@ import lach_01298.qmd.multiblock.particleChamber.block.BlockDecayChamberControll
 import lach_01298.qmd.multiblock.particleChamber.block.BlockParticleChamber;
 import lach_01298.qmd.multiblock.particleChamber.block.BlockTargetChamberController;
 import lach_01298.qmd.pipe.BlockBeamline;
+import nc.block.BlockMeta;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
 import nc.block.tile.ITileType;
+import nc.enumm.MetaEnums;
 import nc.util.InfoHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -65,6 +68,7 @@ public class QMDBlocks
 	public static Block acceleratorCooler2;
 	public static Block acceleratorSource;
 	public static Block acceleratorEnergyPort;
+	public static Block beamDiverterController;
 	
 	public static Block targetChamberController;
 	public static Block decayChamberController;
@@ -79,6 +83,7 @@ public class QMDBlocks
 	
 	public static Block oreLeacher;
 
+	public static Block fission_reflector;
 	
 	public static void init() 
 	{
@@ -100,6 +105,7 @@ public class QMDBlocks
 		acceleratorCooler2 = withName(new BlockAcceleratorCooler2(), "accelerator_cooler2");
 		acceleratorSource =  withName(new BlockAcceleratorSource(), "accelerator_source");
 		acceleratorEnergyPort = withName(new BlockAcceleratorEnergyPort(), "accelerator_energy_port");
+		beamDiverterController = withName(new BlockBeamDiverterController(), "beam_diverter_controller");
 		
 		targetChamberController = withName(new BlockTargetChamberController(), "target_chamber_controller");
 		decayChamberController = withName(new BlockDecayChamberController(), "decay_chamber_controller");
@@ -113,8 +119,9 @@ public class QMDBlocks
 		particleChamberPort = withName(new BlockParticleChamberPort(), "particle_chamber_port");
 		
 		
-		// oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
+		 oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
 		
+		 fission_reflector = withName(new QMDBlockMeta.BlockFissionReflector(), "fission_reflector");
 	}
 	
 	public static void register() 
@@ -137,7 +144,7 @@ public class QMDBlocks
 		registerBlock(acceleratorCooler2, new ItemBlockMeta(acceleratorCooler2, EnumTypes.CoolerType2.class,TextFormatting.BLUE, QMDInfo.cooler2FixedInfo(),TextFormatting.AQUA,QMDInfo.cooler2Info()));
 		registerBlock(acceleratorSource);
 		registerBlock(acceleratorEnergyPort);
-		
+		registerBlock(beamDiverterController);
 		
 		registerBlock(targetChamberController);
 		registerBlock(decayChamberController);
@@ -150,8 +157,8 @@ public class QMDBlocks
 		registerBlock(particleChamber);
 		registerBlock(particleChamberPort);
 		
-		//registerBlock(oreLeacher);
-				
+		registerBlock(oreLeacher);
+		registerBlock(fission_reflector, new ItemBlockMeta(fission_reflector, EnumTypes.NeutronReflectorType.class, TextFormatting.AQUA));		
 				
 	}
 
@@ -189,7 +196,7 @@ public class QMDBlocks
 		}
 		registerRender(acceleratorSource);
 		registerRender(acceleratorEnergyPort);
-	
+		registerRender(beamDiverterController);
 	
 		registerRender(targetChamberController);
 		registerRender(decayChamberController);
@@ -205,7 +212,10 @@ public class QMDBlocks
 		registerRender(particleChamber);
 		registerRender(particleChamberPort);
 	
-		//registerRender(oreLeacher);
+		registerRender(oreLeacher);
+		for (int i = 0; i < EnumTypes.NeutronReflectorType.values().length; i++) {
+			registerRender(fission_reflector, i, EnumTypes.NeutronReflectorType.values()[i].getName());
+		}
 	}
 
 

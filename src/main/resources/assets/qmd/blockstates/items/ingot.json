@@ -80,6 +80,7 @@
                 "textures": {
                     "layer0": "qmd:items/materials/ingot/strontium"
                 }
+                
             }
         }
     }

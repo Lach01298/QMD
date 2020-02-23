@@ -26,10 +26,10 @@ public class LinearAcceleratorUpdatePacket extends AcceleratorUpdatePacket
 	
 	public LinearAcceleratorUpdatePacket(BlockPos pos, boolean isAcceleratorOn, long cooling, long rawHeating, double maxCoolantIn, double maxCoolantOut,
 			int requiredEnergy, double efficiency, int acceleratingVoltage, int RFCavityNumber, int quadrupoleNumber,
-			double quadrupoleStrength, int errorCode ,HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks,List<ParticleStorageAccelerator> beams)
+			double quadrupoleStrength, int dipoleNumber, double dipoleStrength, int errorCode ,HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks,List<ParticleStorageAccelerator> beams)
 	{
 		super(pos, isAcceleratorOn, cooling, rawHeating, maxCoolantIn, maxCoolantOut, requiredEnergy, efficiency, acceleratingVoltage,
-				RFCavityNumber, quadrupoleNumber, quadrupoleStrength, errorCode, heatBuffer, energyStorage,tanks, beams);
+				RFCavityNumber, quadrupoleNumber, quadrupoleStrength, dipoleNumber, dipoleStrength, errorCode, heatBuffer, energyStorage,tanks, beams);
 
 	}
 	

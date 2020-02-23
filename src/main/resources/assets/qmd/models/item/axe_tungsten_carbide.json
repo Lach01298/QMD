@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "qmd:items/tools/axe_tungsten_carbide"
+    }
+}

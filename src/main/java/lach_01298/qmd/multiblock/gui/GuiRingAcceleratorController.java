@@ -82,7 +82,7 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 		String quadrupoles = Lang.localise("gui.qmd.container.accelerator.quadrupoles", multiblock.quadrupoleNumber,  Units.getSIFormat(multiblock.quadrupoleStrength,""));
 		fontRenderer.drawString(quadrupoles,offset, 60, fontColor);
 		
-		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles",ring.dipoleNumber, Units.getSIFormat(ring.dipoleStrength,""));
+		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles",multiblock.dipoleNumber, Units.getSIFormat(multiblock.dipoleStrength,""));
 		fontRenderer.drawString(dipoles,offset, 70, fontColor);
 		
 		String temperature=Lang.localise("gui.qmd.container.temperature",Units.getSIFormat(multiblock.getTemperature(),"K"));

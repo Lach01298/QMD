@@ -48,9 +48,9 @@ public class CapabilityParticleStackHandler
 			{
 				nbt.setString("Empty", "");
 			}
-			nbt.setInteger("MaxEnergy", tank.getMaxEnergy());
+			nbt.setLong("MaxEnergy", tank.getMaxEnergy());
 			nbt.setInteger("Capacity", tank.getCapacity());
-			nbt.setInteger("MinEnergy", tank.getMinEnergy());
+			nbt.setLong("MinEnergy", tank.getMinEnergy());
 			return nbt;
 		}
 
@@ -61,9 +61,9 @@ public class CapabilityParticleStackHandler
 				throw new RuntimeException("IParticleStackHandler instance is not instance of ParticleStorage");
 			NBTTagCompound tags = (NBTTagCompound) nbt;
 			ParticleStorage tank = (ParticleStorage) instance;
-			tank.setMaxEnergy(tags.getInteger("MaxEnergy"));
+			tank.setMaxEnergy(tags.getLong("MaxEnergy"));
 			tank.setCapacity(tags.getInteger("Capacity"));
-			tank.setMinEnergy(tags.getInteger("MinEnergy"));
+			tank.setMinEnergy(tags.getLong("MinEnergy"));
 			tank.readFromNBT(tags);
 		}
     }

@@ -10,7 +10,7 @@ public abstract class BlockParticleChamberPart extends BlockMultiblockPart
 
 	public BlockParticleChamberPart()
 	{
-		super(Material.IRON, QMDTabs.BLOCKS);
+		super(Material.IRON, QMDTabs.MULTIBLOCKS);
 	}
 
 	public static abstract class Transparent extends BlockMultiblockPart.Transparent
@@ -18,7 +18,7 @@ public abstract class BlockParticleChamberPart extends BlockMultiblockPart
 
 		public Transparent(boolean smartRender)
 		{
-			super(Material.IRON, QMDTabs.BLOCKS, smartRender);
+			super(Material.IRON, QMDTabs.MULTIBLOCKS, smartRender);
 		}
 	}
 }

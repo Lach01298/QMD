@@ -36,7 +36,7 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 	public TargetChamberCategory(IGuiHelper guiHelper) 
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png");
-		background = guiHelper.createDrawable(gui_texture, 4, 3, 142, 80);
+		background = guiHelper.createDrawable(gui_texture, 4, 3, 142, 90);
 		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.targetChamberController));
 		
 	}

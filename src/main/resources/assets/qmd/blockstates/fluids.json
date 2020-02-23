@@ -79,10 +79,22 @@
                 "fluid": "nitric_oxide"
             }
         },
-          "fluid_nitrogen_dioxide": {
+        "fluid_nitrogen_dioxide": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "nitrogen_dioxide"
+            }
+        },
+        "fluid_yag": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "yag"
+            }
+        },
+        "fluid_nd_yag": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "nd_yag"
             }
         }
     }

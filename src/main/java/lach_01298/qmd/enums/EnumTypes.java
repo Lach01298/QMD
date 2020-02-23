@@ -3,6 +3,8 @@ package lach_01298.qmd.enums;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.machine.tile.TileQMDProcessor;
+import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
+import lach_01298.qmd.tab.QMDTabs;
 import nc.config.NCConfig;
 import nc.enumm.IBlockMetaEnum;
 import nc.init.NCBlocks;
@@ -524,7 +526,7 @@ public class EnumTypes
 	
 	public enum ProcessorType implements IStringSerializable
 	{
-		ORE_LEACHER("ore_leacher", 0, "portal", "reddust");
+		ORE_LEACHER("ore_leacher", 6, "portal", "reddust");
 
 		private String name;
 		private int id;
@@ -555,7 +557,7 @@ public class EnumTypes
 			switch (this)
 			{
 			case ORE_LEACHER:
-			//	return new TileQMDProcessor.OreLeacher();
+				return new TileOreLeacher();
 
 			default:
 				return null;
@@ -579,7 +581,7 @@ public class EnumTypes
 			switch (this)
 			{
 			default:
-				return NCTabs.MACHINE;
+				return QMDTabs.BLOCKS;
 			}
 		}
 
@@ -600,7 +602,90 @@ public class EnumTypes
 		}
 	}
 	
-	
+	public static enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum 
+	{
+		TUNGSTEN_CABIDE("tungsten_carbide", 0, QMDConfig.fission_reflector_efficiency[0], QMDConfig.fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0);
+			
+		private String name;
+		private int id;
+		private double efficiency;
+		private double reflectivity;
+		private int harvestLevel;
+		private String harvestTool;
+		private float hardness;
+		private float resistance;
+		private int lightValue;
+		
+		private NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) 
+		{
+			this.name = name;
+			this.id = id;
+			this.efficiency = efficiency;
+			this.reflectivity = reflectivity;
+			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
+			this.hardness = hardness;
+			this.resistance = resistance;
+			this.lightValue = lightValue;
+		}
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+
+		public double getEfficiency()
+		{
+			return efficiency;
+		}
+
+		public double getReflectivity()
+		{
+			return reflectivity;
+		}
+
+		@Override
+		public int getHarvestLevel()
+		{
+			return harvestLevel;
+		}
+
+		@Override
+		public String getHarvestTool()
+		{
+			return harvestTool;
+		}
+
+		@Override
+		public float getHardness()
+		{
+			return hardness;
+		}
+
+		@Override
+		public float getResistance()
+		{
+			return resistance;
+		}
+
+		@Override
+		public int getLightValue()
+		{
+			return lightValue;
+		}
+	}
 	
 	
 	

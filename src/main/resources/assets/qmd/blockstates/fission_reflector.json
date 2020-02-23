@@ -1,0 +1,15 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all"
+    },
+    "variants": {
+        "type": {
+            "tungsten_carbide": {
+                "textures": {
+                    "all": "qmd:blocks/machine/reflector_tungsten_carbide"
+                }
+            }
+        }
+    }
+}

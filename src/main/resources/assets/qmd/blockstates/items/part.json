@@ -28,6 +28,12 @@
                 "textures": {
                     "layer0": "qmd:items/part/wire_bscco"
                 }
+            },
+            "rod_nd_yag": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/rod_nd_yag"
+                }
             }
         }
     }

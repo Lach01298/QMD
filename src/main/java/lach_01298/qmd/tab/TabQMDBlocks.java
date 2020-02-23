@@ -5,14 +5,17 @@ import nc.init.NCItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
-public class TabQMDBlocks extends CreativeTabs {
+public class TabQMDBlocks extends CreativeTabs
+{
 
-	public TabQMDBlocks() {
+	public TabQMDBlocks()
+	{
 		super("qmd.blocks");
 	}
 
 	@Override
-	public ItemStack createIcon() {
-		return new ItemStack(QMDBlocks.linearAcceleratorController);
+	public ItemStack createIcon()
+	{
+		return new ItemStack(QMDBlocks.oreLeacher);
 	}
 }

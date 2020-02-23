@@ -73,10 +73,4 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 
 	}
 
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
-		
-	}
 }

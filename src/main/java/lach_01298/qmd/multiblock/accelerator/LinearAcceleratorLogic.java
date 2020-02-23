@@ -292,6 +292,27 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			return false;
 		}
 
+		int sources = 0;
+		for(TileAcceleratorSource port :getPartMap(TileAcceleratorSource.class).values())
+		{	
+			sources++;
+		}
+		if(sources > 1)
+		{
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.only_one_source", null);
+			return false;
+		}
+		int ports = 0;
+		for(TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
+		{	
+			ports++;
+		}
+		if(ports > 2-sources)
+		{
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_many_beam_ports", null);
+			return false;
+		}
+		
 		
 		return true;
 
@@ -454,39 +475,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	public void onMachineDisassembled()
 	{
-		 Accelerator acc = getAccelerator();
 		 source = null;
-		 acc.input = null;
-		 acc.output = null;
-		 
-		 for (RFCavity cavity : acc.getRFCavityMap().values())
-		{
-			for (IAcceleratorComponent componet : cavity.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
-
-		}
-		
-		
-		for (QuadrupoleMagnet quad : acc.getQuadrupoleMap().values())
-		{
-			for (IAcceleratorComponent componet : quad.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
-
-		}
-		
-		
-		acc.getRFCavityMap().clear();
-		acc.getQuadrupoleMap().clear();
-		
-		for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
-		{
-			beam.setFunctional(false);
-		}
-		
 		super.onMachineDisassembled();
 	}
 	
@@ -670,7 +659,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		return new LinearAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
-				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().errorCode,
+				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
 	}
 	
@@ -681,7 +670,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		if (message instanceof LinearAcceleratorUpdatePacket)
 		{
 			LinearAcceleratorUpdatePacket packet = (LinearAcceleratorUpdatePacket) message;
-			getAccelerator().beams = packet.beams;
+
 		}
 	}
 	

@@ -11,16 +11,31 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 repositories {
-  maven {
-    // location of the maven that hosts JEI files
-    name = "Progwml6 maven"
-    url = "http://dvs1.progwml6.com/files/maven"
-  }
-  maven {
-    // location of a maven mirror for JEI files, as a fallback
-    name = "ModMaven"
-    url = "modmaven.k-4u.nl"
-  }
+	maven {
+		// location of the maven that hosts JEI files
+		name = "Progwml6 maven"
+		url = "http://dvs1.progwml6.com/files/maven"
+	}
+	maven {
+		// location of a maven mirror for JEI files, as a fallback
+		name = "ModMaven"
+		url = "modmaven.k-4u.nl"
+	}
+	maven {
+		// CraftTweaker
+		name = "blamejared"
+		url = "http://maven.blamejared.com/"
+	}
+	maven {
+		// IC2
+		name = "ic2"
+		url = "http://maven.ic2.player.to/"
+	}
+	maven {
+		// OpenComputers
+		name = "cil"
+		url = "http://maven.cil.li/"
+	}
 }
 
 version = "${mod_version}-${mc_version}"
@@ -46,6 +61,9 @@ dependencies {
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
     deobfCompile "nuclearcraft-mod:NuclearCraft:${nuclearcraft_version}:${mc_version}"
+	deobfCompile "net.industrial-craft:industrialcraft-2:${ic2_version}:api"
+	deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:${crafttweaker_version}"
+	deobfCompile "li.cil.oc:OpenComputers:${oc_version}"
 }
 
 processResources {

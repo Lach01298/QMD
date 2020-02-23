@@ -3,19 +3,26 @@ package lach_01298.qmd.gui;
 
 import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileRingAcceleratorController;
+import lach_01298.qmd.machine.container.ContainerOreLeacher;
+import lach_01298.qmd.machine.gui.GuiOreLeacher;
+import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.multiblock.accelerator.tile.TileBeamDiverterController;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
+import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
 import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
+import lach_01298.qmd.multiblock.gui.GuiBeamDiverterController;
 import lach_01298.qmd.multiblock.gui.GuiDecayChamberController;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
+import nc.container.processor.ContainerMachineConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
@@ -55,8 +62,18 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.DECAY_CHAMBER:
 				if (tile instanceof TileDecayChamberController)
 					return new ContainerDecayChamberController(player,  (TileDecayChamberController)tile);
-		
+			case GUI_ID.ORE_LEACHER:
+				if (tile instanceof TileOreLeacher)
+					return new ContainerOreLeacher(player,  (TileOreLeacher)tile);
 			
+			case GUI_ID.ORE_LEACHER_SIDE_CONFIG:
+				if (tile instanceof TileOreLeacher)
+					return new ContainerMachineConfig(player,  (TileOreLeacher)tile);
+			
+			case GUI_ID.BEAM_DIVERTER:
+				if (tile instanceof TileBeamDiverterController)
+					return new ContainerBeamDiverterController(player,  (TileBeamDiverterController) tile);
+				
 			}
 		}
 
@@ -93,6 +110,18 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.DECAY_CHAMBER:
 				if (tile instanceof TileDecayChamberController)
 					return new GuiDecayChamberController(((TileDecayChamberController) tile).getMultiblock(), tile.getPos(), ((TileDecayChamberController) tile).getMultiblock().getContainer(player));
+			
+			case GUI_ID.ORE_LEACHER:
+			if (tile instanceof TileOreLeacher)
+					return new GuiOreLeacher(player,(TileOreLeacher) tile);
+			
+			case GUI_ID.ORE_LEACHER_SIDE_CONFIG:
+				if (tile instanceof TileOreLeacher)
+					return new GuiOreLeacher.SideConfig(player,(TileOreLeacher) tile);
+				
+			case GUI_ID.BEAM_DIVERTER:
+				if (tile instanceof TileBeamDiverterController)
+					return new GuiBeamDiverterController(((TileBeamDiverterController) tile).getMultiblock(), tile.getPos(), ((TileBeamDiverterController) tile).getMultiblock().getContainer(player));
 			}
 		}
 

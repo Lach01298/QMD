@@ -176,12 +176,54 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 	
 	public void onMachineDisassembled()
 	{
-		getAccelerator().resetStats();
-		if (getAccelerator().controller != null)
+	 Accelerator acc = getAccelerator();
+		 
+	 	
+	 	
+		 for (RFCavity cavity : acc.getRFCavityMap().values())
 		{
-			getAccelerator().controller.updateBlockState(false);
+			for (IAcceleratorComponent componet : cavity.getComponents().values())
+			{
+				componet.setFunctional(false);
+			}
+
 		}
-		getAccelerator().isAcceleratorOn = false;
+		
+		
+		for (QuadrupoleMagnet quad : acc.getQuadrupoleMap().values())
+		{
+			for (IAcceleratorComponent componet : quad.getComponents().values())
+			{
+				componet.setFunctional(false);
+			}
+
+		}
+		
+		for (DipoleMagnet dipole : acc.dipoleMap.values())
+		{
+			for (IAcceleratorComponent componet : dipole.getComponents().values())
+			{
+				componet.setFunctional(false);
+			}
+
+		}
+		
+		
+		acc.getRFCavityMap().clear();
+		acc.getQuadrupoleMap().clear();
+		acc.dipoleMap.clear();
+		
+		for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
+		{
+			beam.setFunctional(false);
+		}
+		
+		acc.resetStats();
+		if (acc.controller != null)
+		{
+			acc.controller.updateBlockState(false);
+		}
+		acc.isAcceleratorOn = false;
 		operational = false;
 	}
 
@@ -462,18 +504,15 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 	
 	protected void push()
 	{
-		if(getAccelerator().output != null)
+		if(getAccelerator().output != null && getAccelerator().output.getExternalFacing() != null)
 		{
-			for(EnumFacing face : EnumFacing.VALUES)
+			TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().output.getPos().offset(getAccelerator().output.getExternalFacing()));
+			if (tile != null)
 			{
-				TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().output.getPos().offset(face));
-				if(tile != null)
+				if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getAccelerator().output.getExternalFacing().getOpposite()))
 				{
-					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
-					{
-						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-						otherStorage.reciveParticle(face.getOpposite(), getAccelerator().beams.get(1).getParticleStack());
-					}
+					IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getAccelerator().output.getExternalFacing().getOpposite());
+					otherStorage.reciveParticle(getAccelerator().output.getExternalFacing().getOpposite(), getAccelerator().beams.get(1).getParticleStack());
 				}
 			}
 		}
@@ -481,20 +520,19 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 	
 	protected void pull()
 	{
-		if (getAccelerator().input != null)
+		if (getAccelerator().input != null && getAccelerator().input.getExternalFacing() != null)
 		{
-			for (EnumFacing face : EnumFacing.VALUES)
-			{
-				TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().input.getPos().offset(face));
+			
+				TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().input.getPos().offset(getAccelerator().input.getExternalFacing()));
 				if (tile != null)
 				{
 
 					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,
-							face.getOpposite()))
+							getAccelerator().input.getExternalFacing().getOpposite()))
 					{
-						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite());
-						ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
-						if (!getAccelerator().beams.get(0).reciveParticle(face, stack))
+						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getAccelerator().input.getExternalFacing().getOpposite());
+						ParticleStack stack = otherStorage.extractParticle(getAccelerator().input.getExternalFacing().getOpposite());
+						if (!getAccelerator().beams.get(0).reciveParticle(getAccelerator().input.getExternalFacing(), stack))
 						{
 							if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
 							{
@@ -508,7 +546,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 						}
 					}
 				}
-			}
+			
 		}
 	}
 	

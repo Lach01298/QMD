@@ -36,7 +36,7 @@ public class GuiTargetChamberController extends GuiLogicMultiblockController<Par
 		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png");
 		xSize = 176;
-		ySize = 166;
+		ySize = 180;
 	}
 
 	@Override

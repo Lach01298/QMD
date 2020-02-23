@@ -17,11 +17,11 @@ public class ContainerOreLeacher extends ContainerItemFluidProcessor
 	{
 		super(player, tileEntity, QMDRecipes.ore_leacher);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 46, 35));
+		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 36, 11));
 		
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 1, 126, 35));
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 2, 146, 35));
-		addSlotToContainer(new SlotFurnace(player, tileEntity, 3, 166, 35));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 1, 112, 42));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 2, 132, 42));
+		addSlotToContainer(new SlotFurnace(player, tileEntity, 3, 152, 42));
 		
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 4, 132, 64, speedUpgrade));
 		addSlotToContainer(new SlotSpecificInput(tileEntity, 5, 152, 64, energyUpgrade));

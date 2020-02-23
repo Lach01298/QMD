@@ -34,6 +34,7 @@ public class QMDConfig {
 	public static final String CATEGORY_PROCESSORS = "processors";
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_PARTICLE_CHAMBER = "particle_chamber";
+	public static final String CATEGORY_TOOLS = "tools";
 	public static final String CATEGORY_OTHER = "other";
 	
 	public static int accelerator_linear_min_size;
@@ -56,13 +57,25 @@ public class QMDConfig {
 
 
 	public static int beamAttenuationRate;
+	public static int beamDiverterRadius;
 
 	public static int[] detector_base_power;
 	public static double[] detector_efficiency;
 	
 	public static int minimium_accelerator_ring_input_particle_energy;
 	
+	public static int[] processor_power;
+	public static int[] processor_time;
 	
+	
+	public static int[] tool_mining_level;
+	public static int[] tool_durability;
+	public static double[] tool_speed;
+	public static double[] tool_attack_damage;
+	public static int[] tool_enchantability;
+	
+	public static double[] fission_reflector_efficiency;
+	public static double[] fission_reflector_reflectivity;
 	
 	public static Configuration getConfig()
 	{
@@ -115,6 +128,8 @@ public class QMDConfig {
 		
 		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 5, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0, 255);
 		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
+		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 100, Lang.localise("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
+		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
 		
 		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {500, 1000, 2000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, 2147483647);
 		propertyRFCavityVoltage.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_voltage");
@@ -148,8 +163,28 @@ public class QMDConfig {
 		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, 32767);
 		propertyMagnetBasePower.setLanguageKey("gui.qmd.config.particle_chamber.detector_base_power");
 
-	
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {100}, Lang.localise("gui.qmd.config.processors.power.comment"), 0, 32767);
+		propertyProcessorPower.setLanguageKey("gui.qmd.config.processors.power");
 		
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
+		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
+		
+		
+		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {4}, Lang.localise("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
+		propertyToolMiningLevel.setLanguageKey("gui.qmd.config.tools.tool_mining_level");
+		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {1928*3}, Lang.localise("gui.qmd.config.tools.tool_durability.comment"), 1, 32767);
+		propertyToolDurability.setLanguageKey("gui.qmd.config.tools.tool_durability");
+		Property propertyToolSpeed = config.get(CATEGORY_TOOLS, "tool_speed", new double[] {11D}, Lang.localise("gui.qmd.config.tools.tool_speed.comment"), 1D, 255D);
+		propertyToolSpeed.setLanguageKey("gui.qmd.config.tools.tool_speed");
+		Property propertyToolAttackDamage = config.get(CATEGORY_TOOLS, "tool_attack_damage", new double[] {3D}, Lang.localise("gui.qmd.config.tools.tool_attack_damage.comment"), 0D, 255D);
+		propertyToolAttackDamage.setLanguageKey("gui.qmd.config.tools.tool_attack_damage");
+		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {12}, Lang.localise("gui.qmd.config.tools.tool_enchantability.comment"), 1, 255);
+		propertyToolEnchantability.setLanguageKey("gui.qmd.config.tools.tool_enchantability");
+		
+		Property propertyFissionReflectorEfficiency = config.get(CATEGORY_OTHER, "fission_reflector_efficiency", new double[] {0.75D}, Lang.localise("gui.qmd.config.other.fission_reflector_efficiency.comment"), 0D, 1D);
+		propertyFissionReflectorEfficiency.setLanguageKey("gui.qmd.config.other.fission_reflector_efficiency");
+		Property propertyFissionReflectorReflectivity = config.get(CATEGORY_OTHER, "fission_reflector_reflectivity", new double[] {1D}, Lang.localise("gui.qmd.config.other.fission_reflector_reflectivity.comment"), 0D, 1D);
+		propertyFissionReflectorReflectivity.setLanguageKey("gui.qmd.config.other.fission_reflector_reflectivity");
 		
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
@@ -159,6 +194,7 @@ public class QMDConfig {
 		propertyOrderAccelerator.add(propertyAcceleratorRingMaxSize.getName());
 		
 		propertyOrderAccelerator.add(propertyBeamAttenuationRate.getName());
+		propertyOrderAccelerator.add(propertyBeamDiverterRadius.getName());
 		
 		propertyOrderAccelerator.add(propertyRFCavityVoltage.getName());
 		propertyOrderAccelerator.add(propertyRFCavityEfficiency.getName());
@@ -185,6 +221,21 @@ public class QMDConfig {
 		config.setCategoryPropertyOrder(CATEGORY_PARTICLE_CHAMBER, propertyOrderParticleChamber);
 		
 		
+		List<String> propertyOrderProcessors = new ArrayList<String>();
+		propertyOrderProcessors.add(propertyProcessorPower.getName());
+		propertyOrderProcessors.add(propertyProcessorTime.getName());
+		
+		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
+		
+		
+		List<String> propertyOrderTools = new ArrayList<String>();
+		propertyOrderTools.add(propertyToolMiningLevel.getName());
+		propertyOrderTools.add(propertyToolDurability.getName());
+		propertyOrderTools.add(propertyToolSpeed.getName());
+		propertyOrderTools.add(propertyToolAttackDamage.getName());
+		propertyOrderTools.add(propertyToolEnchantability.getName());
+		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
+		
 		if (setFromConfig) 
 		{
 			accelerator_linear_min_size = propertyAcceleratorLinearMinSize.getInt();
@@ -193,6 +244,7 @@ public class QMDConfig {
 			accelerator_ring_max_size = propertyAcceleratorRingMaxSize.getInt();
 			
 			beamAttenuationRate = propertyBeamAttenuationRate.getInt();
+			beamDiverterRadius = propertyBeamDiverterRadius.getInt();
 			
 			RF_cavity_voltage = readIntegerArrayFromConfig(propertyRFCavityVoltage);
 			RF_cavity_efficiency = readDoubleArrayFromConfig(propertyRFCavityEfficiency);
@@ -212,6 +264,22 @@ public class QMDConfig {
 			detector_efficiency = readDoubleArrayFromConfig(propertyDetectorEfficiency);
 			detector_base_power = readIntegerArrayFromConfig(propertyDetectorBasePower);
 			
+			
+			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
+			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
+			
+			
+			
+			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
+			tool_durability = readIntegerArrayFromConfig(propertyToolDurability);
+			tool_speed = readDoubleArrayFromConfig(propertyToolSpeed);
+			tool_attack_damage = readDoubleArrayFromConfig(propertyToolAttackDamage);
+			tool_enchantability = readIntegerArrayFromConfig(propertyToolEnchantability);
+			
+			
+			fission_reflector_efficiency = readDoubleArrayFromConfig(propertyFissionReflectorEfficiency);
+			fission_reflector_reflectivity = readDoubleArrayFromConfig(propertyFissionReflectorReflectivity);
+			
 		}
 		
 		propertyAcceleratorLinearMinSize.set(accelerator_linear_min_size);
@@ -220,6 +288,7 @@ public class QMDConfig {
 		propertyAcceleratorRingMaxSize.set(accelerator_ring_max_size);
 		
 		propertyBeamAttenuationRate.set(beamAttenuationRate);
+		propertyBeamDiverterRadius.set(beamDiverterRadius);
 		
 		propertyRFCavityVoltage.set(RF_cavity_voltage);
 		propertyRFCavityEfficiency.set(RF_cavity_efficiency);
@@ -239,7 +308,18 @@ public class QMDConfig {
 		propertyDetectorEfficiency.set(detector_efficiency);
 		propertyDetectorBasePower.set(detector_base_power);
 		
-
+		propertyProcessorPower.set(processor_power);
+		propertyProcessorTime.set(processor_time);
+		
+		propertyToolMiningLevel.set(tool_mining_level);
+		propertyToolDurability.set(tool_durability);
+		propertyToolSpeed.set(tool_speed);
+		propertyToolAttackDamage.set(tool_attack_damage);
+		propertyToolEnchantability.set(tool_enchantability);
+		
+		propertyFissionReflectorEfficiency.set(fission_reflector_efficiency);
+		propertyFissionReflectorReflectivity.set(fission_reflector_reflectivity);
+		
 		if (config.hasChanged()) config.save();
 	}
 	

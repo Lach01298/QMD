@@ -54,14 +54,7 @@ import net.minecraft.util.math.BlockPos;
 public class RingAcceleratorLogic extends AcceleratorLogic
 {
 
-	public int dipoleNumber =0;
-	public double dipoleStrength =0;
-	
-	
-	
-	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
 
-	
 	public RingAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
@@ -125,7 +118,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		
 		for (BlockPos pos : getinteriorAxisConners())
 		{
-			if (!acc.isValidDipole(pos, true))
+			if (!acc.isValidDipole(pos, false))
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_dipole_in_conner", pos);
 				return false;
@@ -182,7 +175,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			if(port.getExternalFacing() == null)
 			{
 			
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.something_is_wrong", port.getPos());
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.something_is_wrong", port.getPos());
 				return false;
 			}
 			
@@ -311,18 +304,14 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 					}
 					else if (acc.isValidDipole(beam.getPos(), false))
 					{
-						dipoleMap.put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
-					}
-					else if (acc.isValidDipole(beam.getPos(), true))
-					{
-						dipoleMap.put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
+						acc.dipoleMap.put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
 					}
 				}
 			}
 
-			getAccelerator().RFCavityNumber = acc.getRFCavityMap().size();
-			getAccelerator().quadrupoleNumber = acc.getQuadrupoleMap().size();
-			dipoleNumber = dipoleMap.size();
+			acc.RFCavityNumber = acc.getRFCavityMap().size();
+			acc.quadrupoleNumber = acc.getQuadrupoleMap().size();
+			acc.dipoleNumber = acc.dipoleMap.size();
 
 		
 			for (RFCavity cavity : acc.getRFCavityMap().values())
@@ -344,7 +333,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 
 			}
 
-			for (DipoleMagnet dipole : dipoleMap.values())
+			for (DipoleMagnet dipole : acc.dipoleMap.values())
 			{
 				for (IAcceleratorComponent componet : dipole.getComponents().values())
 				{
@@ -373,47 +362,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	public void onMachineDisassembled()
-	{
-		 Accelerator acc = getAccelerator();
-		 
-		 for (RFCavity cavity : acc.getRFCavityMap().values())
-		{
-			for (IAcceleratorComponent componet : cavity.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
-
-		}
-		
-		
-		for (QuadrupoleMagnet quad : acc.getQuadrupoleMap().values())
-		{
-			for (IAcceleratorComponent componet : quad.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
-
-		}
-		
-		for (DipoleMagnet dipole : dipoleMap.values())
-		{
-			for (IAcceleratorComponent componet : dipole.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
-
-		}
-		
-		
-		acc.getRFCavityMap().clear();
-		acc.getQuadrupoleMap().clear();
-		dipoleMap.clear();
-		
-		for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
-		{
-			beam.setFunctional(false);
-		}
-		
+	{	
 		super.onMachineDisassembled();
 	}
 	
@@ -441,7 +390,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	
 	private void refreshStats()
 	{
-		dipoleStrength = 0;
+		getAccelerator().dipoleStrength = 0;
 		int energy = 0;
 		int heat = 0;
 		int parts= 0;
@@ -488,14 +437,14 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			}
 		}
 		
-		for (DipoleMagnet dipole : dipoleMap.values())
+		for (DipoleMagnet dipole : getAccelerator().dipoleMap.values())
 		{
 			for (IAcceleratorComponent componet : dipole.getComponents().values())
 			{
 				if(componet instanceof TileAcceleratorMagnet)
 				{
 					TileAcceleratorMagnet magnet = (TileAcceleratorMagnet) componet;
-					dipoleStrength += magnet.strength/2;
+					getAccelerator().dipoleStrength += magnet.strength/2;
 				}
 			}
 		}
@@ -529,11 +478,11 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			long maxEnergyFromFeild = 0;
 			if(getAccelerator().acceleratingVoltage > 0)
 			{
-				maxEnergyFromFeild = (long) (Math.pow(particle.getCharge()*dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
+				maxEnergyFromFeild = (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
 			}
 			
 			
-			long maxEnergyFromRadiation =  (long)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
+			long maxEnergyFromRadiation =  (long)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage/1000d*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
 				
 				
 			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
@@ -585,7 +534,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 							int maxEnergyFromFeild = 0;
 							if(getAccelerator().acceleratingVoltage > 0)
 							{
-								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
+								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
 							}
 							int maxEnergyFromRadiation =  (int)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
 						
@@ -624,10 +573,10 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public RingAcceleratorUpdatePacket getUpdatePacket()
 	{
 		return new RingAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating, getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,
+				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
-				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().errorCode,
-				getAccelerator().heatBuffer, getAccelerator().energyStorage,getAccelerator().tanks,dipoleNumber,dipoleStrength, getAccelerator().beams);
+				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
+				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
 	}
 	
 	@Override
@@ -637,10 +586,6 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		if (message instanceof RingAcceleratorUpdatePacket)
 		{
 			RingAcceleratorUpdatePacket packet = (RingAcceleratorUpdatePacket) message;
-			dipoleNumber = packet.dipoleNumber;
-			dipoleStrength = packet.dipoleStrength;
-			getAccelerator().beams = packet.beams;
-
 		}
 	}
 	
@@ -650,19 +595,12 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
 		super.writeToLogicTag(logicTag, syncReason);
-		
-
-		logicTag.setInteger("dipoleNumber", dipoleNumber);
-		logicTag.setDouble("dipoleStrength", dipoleStrength);
 	}
 	
 	@Override
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
 		super.readFromLogicTag(logicTag, syncReason);
-
-		dipoleNumber = logicTag.getInteger("dipoleNumber");
-		dipoleStrength = logicTag.getDouble("dipoleStrength");
 	}
 	
 	

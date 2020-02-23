@@ -56,6 +56,8 @@ public class QMDFluids
 			
 			//molten
 			addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);
+			addFluidPair(FluidType.MOLTEN, "yag", 0xfffddb);
+			addFluidPair(FluidType.MOLTEN, "nd_yag", 0xe4bcf5);
 
 		}
 		catch (Exception e)

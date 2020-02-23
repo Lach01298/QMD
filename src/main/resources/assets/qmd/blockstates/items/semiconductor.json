@@ -25,7 +25,23 @@
                 "textures": {
                     "layer0": "qmd:items/semiconductor/silicon_wafer"
                 }
+            },
+            "basic_processor": {
+                "textures": {
+                    "layer0": "qmd:items/semiconductor/basic_processor"
+                }
+            },
+            "advanced_processor": {
+                "textures": {
+                    "layer0": "qmd:items/semiconductor/advanced_processor"
+                }
+            },
+            "elite_processor": {
+                "textures": {
+                    "layer0": "qmd:items/semiconductor/elite_processor"
+                }
             }
+            
         }
     }
 }

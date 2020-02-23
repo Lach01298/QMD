@@ -1,10 +1,14 @@
 package lach_01298.qmd.jei;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.catergory.AcceleratorSourceCategory;
 import lach_01298.qmd.jei.catergory.DecayChamberCategory;
+import lach_01298.qmd.jei.catergory.OreLeacherCategory;
 import lach_01298.qmd.jei.catergory.ParticleInfoCategory;
 import lach_01298.qmd.jei.catergory.QMDRecipeCategoryUid;
 import lach_01298.qmd.jei.catergory.TargetChamberCategory;
@@ -30,6 +34,18 @@ import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import nc.config.NCConfig;
+import nc.init.NCBlocks;
+import nc.integration.jei.IJEIHandler;
+import nc.integration.jei.JEICategoryAbstract;
+import nc.integration.jei.JEIMethods;
+import nc.integration.jei.JEIRecipeWrapper;
+import nc.integration.jei.JEIRecipeWrapperAbstract;
+import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
+import nc.recipe.NCRecipes;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.util.ItemStackHelper;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
@@ -62,15 +78,17 @@ public class QMDJEI implements IModPlugin
 				new AcceleratorSourceCategory(guiHelper),
 				new ParticleInfoCategory(guiHelper),
 				new TargetChamberCategory(guiHelper),
-				new DecayChamberCategory(guiHelper)
+				new DecayChamberCategory(guiHelper),
+				JEIProcessorHandler.ORE_LEACHER.getCategory(guiHelper)
 				);
-
+		
 	}
 
 	public void register(IModRegistry registry)
 	{
 		IIngredientRegistry ingredientRegistry = registry.getIngredientRegistry();
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
+		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 
 
 		registry.addRecipes(AcceleratorSourceRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.SOURCE);
@@ -83,7 +101,93 @@ public class QMDJEI implements IModPlugin
 		
 		registry.addRecipes(DecayChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.DECAY_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.decayChamberController),QMDRecipeCategoryUid.DECAY_CHAMBER);
+		
+		registry.addRecipes(JEIProcessorHandler.ORE_LEACHER.getJEIRecipes(guiHelper), JEIProcessorHandler.ORE_LEACHER.getUUID());
+		registry.addRecipeCatalyst(JEIProcessorHandler.ORE_LEACHER.getCrafters().get(0),JEIProcessorHandler.ORE_LEACHER.getUUID());
 	}
 
+	
+	public enum JEIProcessorHandler implements IJEIHandler 
+	{
+		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class, 1);
+	
+		private ProcessorRecipeHandler recipeHandler;
+		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
+		private boolean enabled;
+		private List<ItemStack> crafters;
+		private String textureName;
+		
+		JEIProcessorHandler(ProcessorRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
+			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper);
+		}
+		
+		JEIProcessorHandler(ProcessorRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) {
+			this(recipeHandler, crafters, textureName, recipeWrapper, -1);
+		}
+		
+		JEIProcessorHandler(ProcessorRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper, enabled);
+		}
+		
+		JEIProcessorHandler(ProcessorRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper, int enabled) {
+			this.recipeHandler = recipeHandler;
+			this.recipeWrapper = recipeWrapper;
+			this.enabled = enabled < 0 ? true : NCConfig.register_processor[enabled];
+			this.crafters = new ArrayList<ItemStack>();
+			if (this.enabled) for (Block crafter : crafters) this.crafters.add(ItemStackHelper.fixItemStack(crafter));
+			this.textureName = textureName;
+		}
+		
+		@Override
+		public JEICategoryAbstract getCategory(IGuiHelper guiHelper) {
+			switch (this) {
+			case ORE_LEACHER:
+				return new OreLeacherCategory(guiHelper, this);
+			default:
+				return null;
+			}
+		}
+		
+		@Override
+		public ProcessorRecipeHandler getRecipeHandler() {
+			return recipeHandler;
+		}
+		
+		@Override
+		public Class<? extends JEIRecipeWrapperAbstract> getJEIRecipeWrapper() {
+			return recipeWrapper;
+		}
+		
+		@Override
+		public ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper) {
+			return JEIMethods.getJEIRecipes(guiHelper, this, getRecipeHandler(), getJEIRecipeWrapper());
+		}
+
+		
+		@Override
+		public String getUUID() {
+			return getRecipeHandler().getRecipeName();
+		}
+		
+		@Override
+		public boolean getEnabled() {
+			return enabled;
+		}
+		
+		@Override
+		public List<ItemStack> getCrafters() {
+			return crafters;
+		}
+		
+		@Override
+		public String getTextureName() {
+			return textureName;
+		}
+	}
+	
+	
+	
+	
+	
 
 }

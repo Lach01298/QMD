@@ -46,7 +46,7 @@ public class ContainerTargetChamberController extends ContainerMultiblockControl
 		addSlotToContainer(new SlotQMDProcessorInput(tile,recipeHandler, 0, 47, 30));
 		addSlotToContainer(new SlotFurnace(player, tile, 1, 89, 30));
 		
-		addPlayerInventory(player,8,84);
+		addPlayerInventory(player,8,98);
 
 	}
 	
