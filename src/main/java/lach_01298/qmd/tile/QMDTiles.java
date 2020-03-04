@@ -3,6 +3,7 @@ package lach_01298.qmd.tile;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Util;
 import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.machine.tile.QMDTileRTG;
 import lach_01298.qmd.machine.tile.TileQMDProcessor;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorEnergyPort;
@@ -137,6 +138,8 @@ public class QMDTiles
 	
 		//machines
 		GameRegistry.registerTileEntity(TileQMDProcessor.TileOreLeacher.class,new ResourceLocation(QMD.MOD_ID,"ore_leacher"));
+		GameRegistry.registerTileEntity(TileQMDProcessor.TileIrradiator.class,new ResourceLocation(QMD.MOD_ID,"irradiator"));
+		GameRegistry.registerTileEntity(QMDTileRTG.Strontium.class,new ResourceLocation(QMD.MOD_ID,"rtg_strontium"));
 	
 	}
 }

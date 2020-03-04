@@ -25,4 +25,12 @@ public class TileQMDProcessor
 					QMDConfig.processor_power[0], true, QMDRecipes.ore_leacher, GUI_ID.ORE_LEACHER, 0);
 		}
 	}
+	public static class TileIrradiator extends TileItemDamageFuelProcessor
+	{
+		public TileIrradiator()
+		{
+			super("irradiator", 1, 1, 1, defaultItemSorptions(1,1,1), QMDConfig.processor_time[1],
+					true, QMDRecipes.irradiator, QMDRecipes.irradiator_fuel, GUI_ID.IRRADIATOR, 0);
+		}
+	}
 }

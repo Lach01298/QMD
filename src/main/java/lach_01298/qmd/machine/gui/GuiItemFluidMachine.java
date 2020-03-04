@@ -21,14 +21,14 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class GuiMachine extends NCGui {
+public abstract class GuiItemFluidMachine extends NCGui {
 	
 	protected final EntityPlayer player;
 	protected final TileItemFluidProcessor tile;
 	protected final ResourceLocation gui_textures;
 	protected GuiItemRenderer speedUpgradeRender = null, energyUpgradeRender = null;
 
-	public GuiMachine(String name, EntityPlayer player, TileItemFluidProcessor tile, Container inventory) {
+	public GuiItemFluidMachine(String name, EntityPlayer player, TileItemFluidProcessor tile, Container inventory) {
 		super(inventory);
 		this.player = player;
 		this.tile = tile;

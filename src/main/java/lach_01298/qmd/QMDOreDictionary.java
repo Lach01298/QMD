@@ -62,6 +62,8 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotLead210",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.LEAD_210.getID()));
 		OreDictionary.registerOre("ingotUranium234",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.Uranium_234.getID()));
 		OreDictionary.registerOre("dustProtactinium231",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.PROTACTINIUM_231.getID()));
+		OreDictionary.registerOre("ingotCobalt60",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.COBALT_60.getID()));
+		OreDictionary.registerOre("ingotIridium192",new ItemStack(QMDItems.isotope, 1, MaterialEnums.IsotopeType.IRIDIUM_192.getID()));
 		
 		
 		OreDictionary.registerOre("siliconBoule",new ItemStack(QMDItems.semiconductor, 1, MaterialEnums.SemiconductorType.SILICON_BOULE.getID()));

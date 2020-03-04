@@ -37,7 +37,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiOreLeacher  extends GuiMachine
+public class GuiOreLeacher  extends GuiItemFluidMachine
 {
 	
 	public GuiOreLeacher(EntityPlayer player, TileItemFluidProcessor tile)

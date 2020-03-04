@@ -197,7 +197,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1),RadSources.THORIUM);
 		createRecipe("dustBismuth", "ingotIridium", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 1,
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1));
-		createRecipe("ingotLead210", "ingotPlatinum", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 1,
+		createRecipe("ingotLead210", "ingotIridium192", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 1,
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1));
 		createRecipe("ingotLead", "ingotOsmium", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 1,
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1));

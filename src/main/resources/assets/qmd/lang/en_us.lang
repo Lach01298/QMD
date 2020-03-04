@@ -47,6 +47,9 @@ item.qmd.canister_deuterium.name=Deuterium Canister
 item.qmd.canister_diborane.name=Diborane Canister
 
 item.qmd.source_sodium_22.name=Sodium-22 Source
+item.qmd.source_cobalt_60.name=Cobalt-60 Source
+item.qmd.source_iridium_192.name=Iridium-192 Source
+
 
 item.qmd.isotope.sodium_22.name=Sodium-22
 item.qmd.isotope.promethium_147.name=Promethium-147
@@ -59,6 +62,8 @@ item.qmd.isotope.vanadium_50.name=Vanadium-50
 item.qmd.isotope.strontium_90.name=Strontium-90
 item.qmd.isotope.uranium_234.name=Uranium-234
 item.qmd.isotope.protactinium_231.name=Protactinium-231 Dust
+item.qmd.isotope.cobalt_60.name=Cobalt-60
+item.qmd.isotope.iridium_192.name=Iridium-192
 
 item.qmd.part.empty_cooler.name=Empty Cooler
 item.qmd.part.scintillator_pwo.name=Lead Tungstate Scintillator
@@ -87,11 +92,15 @@ item.qmd.axe_tungsten_carbide.name=Tungsten Carbide Axe
 item.qmd.hoe_tungsten_carbide.name=Tungsten Carbide Hoe
 item.qmd.pickaxe_tungsten_carbide.name=Tungsten Carbide Pickaxe
 
+item.qmd.flesh.name=Not So Rotten Flesh
+
 //blocks
 tile.qmd.beamline.name=Beamline Pipe
 tile.qmd.ore_leacher.name=Ore Leacher
-tile.qmd.fission_reflector.tungsten_carbide.name=Tungsten Carbide Neutron Reflector
+tile.qmd.irradiator.name=Irradiator
 
+tile.qmd.fission_reflector.tungsten_carbide.name=Tungsten Carbide Neutron Reflector
+tile.qmd.rtg_strontium.name=Strontium RTG
 
 tile.qmd.linear_accelerator_controller.name=Linear Accelerator Controller
 tile.qmd.ring_accelerator_controller.name=Synchrotron Accelerator Controller
@@ -167,6 +176,7 @@ tile.qmd.particle_chamber_detector.hadron_calorimeter.name=Hadron Calorimeter De
 //block descriptions
 
 tile.qmd.beamline.desc=Transports particles
+tile.qmd.rtg.desc=Produces %s constantly
 
 tile.qmd.accelerator.cooler.cooling_rate=Cooling Rate:
 tile.qmd.accelerator.cooler.water.desc=Must be adjacent to at least one functional RF cavity.
@@ -471,6 +481,10 @@ gui.qmd.jei.reaction.range=Range: %s
 gui.qmd.jei.reaction.q=Released Energy: %s
 gui.qmd.jei.reaction.efficiency=Particle Efficiency: %s%%
 
+//jei trick
+tile.qmd.irradiator_fuel.name=Irradiator Fuel
+
+
 //tabs
 itemGroup.qmd.items=Quantum Minecraft Dynamics Items
 itemGroup.qmd.blocks=Quantum Minecraft Dynamics Blocks
@@ -507,6 +521,9 @@ gui.qmd.config.accelerator.accelerator_ring_max_size.comment=The Maximum exterio
 gui.qmd.config.accelerator.beam_attenuation_rate=Beam Attenuation Rate
 gui.qmd.config.accelerator.beam_attenuation_rate.comment=The rate a particle beam attenuates at in lu/block. Must be in range [0,255].
 
+gui.qmd.config.accelerator.beam_diverter_radius=Beam Attenuation Rate
+gui.qmd.config.accelerator.beam_diverter_radius.comment=The effective radius a beam diverter will use in calculations. Must be in range [0,1000].
+
 gui.qmd.config.accelerator.RF_cavity_voltage=RF Cavity Voltage
 gui.qmd.config.accelerator.RF_cavity_voltage.comment=The accelerating voltage of each cavity in kV. Order: Copper, Magnesium Diboride, Niobium-Tin 
 
@@ -542,3 +559,32 @@ gui.qmd.config.particle_chamber.detector_base_power.comment=The amount of RF/t e
 
 gui.qmd.config.accelerator.cooler_heat_removed=Cooler Heat
 gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
+
+gui.qmd.config.other.fission_reflector_efficiency=Neutron Reflector Efficiency
+gui.qmd.config.other.fission_reflector_efficiency.comment= The efficiency of each type of neutron reflector. Order:Tungsten Carbide
+
+gui.qmd.config.other.fission_reflector_reflectivity=Neutron Reflector Reflectivity
+gui.qmd.config.other.fission_reflector_reflectivity.comment= The reflectivity of each type of neutron reflector. Order:Tungsten Carbide
+
+gui.qmd.config.processors.power=Machine Power Usage
+gui.qmd.config.processors.power.comment= The default amount of RF/t a machine uses. Order:Ore Leacher
+
+gui.qmd.config.processors.power=Machine Power Usage
+gui.qmd.config.processors.power.comment= The default time a machine takes to process in ticks. Order:Ore Leacher, Irradiator
+
+gui.qmd.config.tools.tool_mining_level=Tool Mining Level
+gui.qmd.config.tools.tool_mining_level.comment=The mining level of tool types. Order:Tungsten Carbide
+
+gui.qmd.config.tools.tool_durability=Tool Durability
+gui.qmd.config.tools.tool_durability.comment=The durability of tool types. Order:Tungsten Carbide
+
+gui.qmd.config.tools.tool_speed=Tool Speed
+gui.qmd.config.tools.tool_speed.comment=The Speed of tool types. Order:Tungsten Carbide
+
+gui.qmd.config.tools.tool_attack_damage=Tool Attack Damage
+gui.qmd.config.tools.tool_attack_damage.comment=The attack damage of tool types. Order:Tungsten Carbide
+
+gui.qmd.config.tools.tool_enchantability=Tool Enchantability
+gui.qmd.config.tools.tool_enchantability.comment=The enchantability of tool types. Order:Tungsten Carbide
+
+

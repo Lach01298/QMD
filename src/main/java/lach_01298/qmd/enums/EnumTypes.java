@@ -2,14 +2,24 @@ package lach_01298.qmd.enums;
 
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.machine.tile.TileQMDProcessor;
-import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
+import lach_01298.qmd.machine.tile.QMDTileRTG;
+import lach_01298.qmd.machine.tile.TileQMDProcessor.*;
 import lach_01298.qmd.tab.QMDTabs;
+import lach_01298.qmd.gui.GUI_ID;
 import nc.config.NCConfig;
 import nc.enumm.IBlockMetaEnum;
 import nc.init.NCBlocks;
 import nc.tab.NCTabs;
+import nc.tile.TileBin;
+import nc.tile.dummy.TileMachineInterface;
+import nc.tile.energy.battery.TileBattery;
+import nc.tile.generator.TileDecayGenerator;
+import nc.tile.generator.TileRTG;
+import nc.tile.generator.TileSolarPanel;
+import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileProcessor;
+import nc.tile.radiation.TileGeigerCounter;
+import nc.tile.radiation.TileRadiationScrubber;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
@@ -526,7 +536,8 @@ public class EnumTypes
 	
 	public enum ProcessorType implements IStringSerializable
 	{
-		ORE_LEACHER("ore_leacher", 6, "portal", "reddust");
+		ORE_LEACHER("ore_leacher", GUI_ID.ORE_LEACHER, "splash", "reddust"),
+		IRRADIATOR("irradiator",  GUI_ID.IRRADIATOR, "endRod", "reddust");
 
 		private String name;
 		private int id;
@@ -558,6 +569,8 @@ public class EnumTypes
 			{
 			case ORE_LEACHER:
 				return new TileOreLeacher();
+			case IRRADIATOR:
+				return new TileIrradiator();
 
 			default:
 				return null;
@@ -570,6 +583,8 @@ public class EnumTypes
 			{
 			case ORE_LEACHER:
 				return QMDBlocks.oreLeacher;
+			case IRRADIATOR:
+				return QMDBlocks.irradiator;
 
 			default:
 				return QMDBlocks.oreLeacher;
@@ -687,7 +702,46 @@ public class EnumTypes
 		}
 	}
 	
-	
+	public enum SimpleTileType implements IStringSerializable 
+	{
+		RTG_STRONTIUM("rtg_strontium", QMDTabs.BLOCKS);
+		
+		
+		private String name;
+		private CreativeTabs tab;
+		
+		private SimpleTileType(String name, CreativeTabs tab) 
+		{
+			this.name = name;
+			this.tab = tab;
+		}
+		
+		@Override
+		public String getName() 
+		{
+			return name;
+		}
+		
+		public TileEntity getTile() 
+		{
+			switch (this) 
+			{
+		
+			
+			case RTG_STRONTIUM:
+				return new QMDTileRTG.Strontium();
+		
+			
+			default:
+				return null;
+			}
+		}
+		
+		public CreativeTabs getCreativeTab() 
+		{
+			return tab;
+		}
+	}
 	
 	
 

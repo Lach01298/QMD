@@ -2,6 +2,7 @@ package lach_01298.qmd.recipes;
 
 import static nc.config.NCConfig.ore_dict_raw_material_recipes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -17,12 +18,16 @@ import nc.enumm.MetaEnums;
 import nc.enumm.MetaEnums.IngotType;
 import nc.init.NCBlocks;
 import nc.init.NCItems;
+import nc.radiation.RadSources;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.NCRecipes;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.processor.ManufactoryRecipes;
 import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
@@ -50,6 +55,8 @@ public class QMDRecipes
 	public static TargetChamberRecipes target_chamber;
 	public static DecayChamberRecipes decay_chamber;
 	public static OreLeacherRecipes ore_leacher;
+	public static IrradiatorRecipes irradiator;
+	public static IrradiatorFuel irradiator_fuel;
 	
 	
 	
@@ -67,7 +74,9 @@ public class QMDRecipes
 		decay_chamber = new DecayChamberRecipes();
 		
 		ore_leacher = new OreLeacherRecipes();
-
+		irradiator = new IrradiatorRecipes();
+		irradiator_fuel = new IrradiatorFuel();
+		
 		addRecipes();
 
 		initialized = true;
@@ -91,6 +100,8 @@ public class QMDRecipes
 		decay_chamber.refreshCache();
 		
 		ore_leacher.refreshCache();
+		irradiator.refreshCache();
+		irradiator_fuel.refreshCache();
 	}
 	
 	
@@ -158,11 +169,20 @@ public class QMDRecipes
 		NCRecipes.supercooler.addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_hydrogen", 25), 1D, 1D);
 		
 		// Decay Hastener
+		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
+		itemIngredients.add(new ItemIngredient(new ItemStack(NCItems.plutonium,1,MetaEnums.PlutoniumType._238.getID())));
+		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+		NCRecipes.decay_hastener.removeRecipe(NCRecipes.decay_hastener.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+		
 		NCRecipes.decay_hastener.addDecayRecipes("Beryllium7","Lithium7", QMDRadSources.BERYLLIUM_7 );
-		NCRecipes.decay_hastener.addDecayRecipes("Lead210","dustPolonium", QMDRadSources.LEAD_210 );
-		NCRecipes.decay_hastener.addDecayRecipes("Strontium90","ingotZirconium", QMDRadSources.STRONTIUM_90);
-		NCRecipes.decay_hastener.addDecayRecipes("dustProtactinum231","dustLead", QMDRadSources.STRONTIUM_90);
-		NCRecipes.decay_hastener.addDecayRecipes("ingotVanadium50","ingotTiatanium", QMDRadSources.STRONTIUM_90);
+		NCRecipes.decay_hastener.addDecayRecipes("Lead210","Polonium", QMDRadSources.LEAD_210 );
+		NCRecipes.decay_hastener.addRecipe("ingotStrontium90","dustZirconium", QMDRadSources.STRONTIUM_90);
+		NCRecipes.decay_hastener.addDecayRecipes("Protactinium231","Lead", QMDRadSources.PROTACTINIUM_231);
+		NCRecipes.decay_hastener.addDecayRecipes("Plutonium238","Uranium234",RadSources.PLUTONIUM_238);
+		NCRecipes.decay_hastener.addDecayRecipes("Uranium234","Radium",QMDRadSources.URANIUM_234);
+		NCRecipes.decay_hastener.addDecayRecipes("Promethium147","Neodymium",QMDRadSources.PROMETHIUM_147);
+		NCRecipes.decay_hastener.addRecipe("ingotCobalt60","dustNickel",QMDRadSources.COBALT_60);
+		NCRecipes.decay_hastener.addRecipe("ingotIridium192","dustPlatinum",QMDRadSources.IRIDIUM_192);
 		
 		// Assembeler
 		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("dustBSCCO",3),AbstractRecipeHandler.oreStack("ingotSilver",6),new EmptyItemIngredient(),new EmptyItemIngredient(),AbstractRecipeHandler.oreStack("wireBSCCO",6),1D,1D);
@@ -174,15 +194,16 @@ public class QMDRecipes
 		
 		//Fission Irradiator
 		NCRecipes.fission_irradiator.addRecipe("siliconWafer", new ItemStack(QMDItems.semiconductor,1,MaterialEnums.SemiconductorType.SILICON_N_DOPED.getID()),120000,0d,0);
-		NCRecipes.fission_irradiator.addRecipe("ingotUranium234", "ingotUranium235",120000,0d,0);
-		NCRecipes.fission_irradiator.addRecipe("ingotStrontium", "ingotYttrium",120000,0d,0);
-		NCRecipes.fission_irradiator.addRecipe("ingotNeodymium", "ingotPromethium147",720000,0d,0);
-		NCRecipes.fission_irradiator.addRecipe("ingotVanadium50", "ingotChromium",240000,0d,0);
-		NCRecipes.fission_irradiator.addRecipe("dustProtactinium231", "dustProtactinium233",240000,0d,0);
+		NCRecipes.fission_irradiator.addRecipe("ingotUranium234", "ingotUranium235",1920000,0d,QMDRadSources.URANIUM_234);
+		NCRecipes.fission_irradiator.addRecipe("ingotStrontium", "ingotYttrium",1920000,0d,0);
+		NCRecipes.fission_irradiator.addRecipe("ingotNeodymium", "ingotPromethium147",9600000,0d,0);
+		NCRecipes.fission_irradiator.addRecipe("dustProtactinium231", "dustProtactinium233",3840000,0d,QMDRadSources.PROTACTINIUM_231);
+		NCRecipes.fission_irradiator.addRecipe("ingotCobalt", "ingotCobalt60",1920000,0d,0);
 		
 		// Fission reflector
-		for (int i = 0; i < EnumTypes.NeutronReflectorType.values().length; i++) {
-			NCRecipes.fission_reflector.addRecipe(new ItemStack(QMDBlocks.fission_reflector, 1, i), QMDConfig.fission_reflector_efficiency[i], QMDConfig.fission_reflector_reflectivity[i]);
+		for (int i = 0; i < EnumTypes.NeutronReflectorType.values().length; i++) 
+		{
+			NCRecipes.fission_reflector.addRecipe(new ItemStack(QMDBlocks.fissionReflector, 1, i), QMDConfig.fission_reflector_efficiency[i], QMDConfig.fission_reflector_reflectivity[i]);
 		}
 		
 		

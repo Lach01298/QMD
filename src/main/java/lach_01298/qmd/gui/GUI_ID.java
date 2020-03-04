@@ -13,6 +13,7 @@ public class GUI_ID
 	public final static int ORE_LEACHER = 6;
 	public final static int ORE_LEACHER_SIDE_CONFIG = 1000+ ORE_LEACHER;
 	public final static int BEAM_DIVERTER = 7;
-
+	public static final int IRRADIATOR = 8;
+	public final static int IRRADIATOR_SIDE_CONFIG = 1000+ IRRADIATOR;
 	
 }

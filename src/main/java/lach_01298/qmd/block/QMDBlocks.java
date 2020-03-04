@@ -2,8 +2,10 @@ package lach_01298.qmd.block;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDInfo;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.enums.EnumTypes.ProcessorType;
+import lach_01298.qmd.enums.EnumTypes.SimpleTileType;
 import lach_01298.qmd.machine.block.BlockQMDProcessor;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeamPort;
@@ -35,9 +37,12 @@ import lach_01298.qmd.pipe.BlockBeamline;
 import nc.block.BlockMeta;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
+import nc.block.tile.BlockSimpleTile;
 import nc.block.tile.ITileType;
+import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.util.InfoHelper;
+import nc.util.UnitHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -82,8 +87,10 @@ public class QMDBlocks
 	public static Block particleChamberPort;
 	
 	public static Block oreLeacher;
+	public static Block irradiator;
 
-	public static Block fission_reflector;
+	public static Block fissionReflector;
+	public static Block rtgStrontium;
 	
 	public static void init() 
 	{
@@ -120,8 +127,10 @@ public class QMDBlocks
 		
 		
 		 oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
+		 irradiator = withName(new BlockQMDProcessor(ProcessorType.IRRADIATOR));
 		
-		 fission_reflector = withName(new QMDBlockMeta.BlockFissionReflector(), "fission_reflector");
+		 fissionReflector = withName(new QMDBlockMeta.BlockFissionReflector(), "fission_reflector");
+		 rtgStrontium = withName(new QMDBlockSimpleTile(SimpleTileType.RTG_STRONTIUM));
 	}
 	
 	public static void register() 
@@ -158,7 +167,9 @@ public class QMDBlocks
 		registerBlock(particleChamberPort);
 		
 		registerBlock(oreLeacher);
-		registerBlock(fission_reflector, new ItemBlockMeta(fission_reflector, EnumTypes.NeutronReflectorType.class, TextFormatting.AQUA));		
+		registerBlock(irradiator);
+		registerBlock(fissionReflector, new ItemBlockMeta(fissionReflector, EnumTypes.NeutronReflectorType.class, TextFormatting.AQUA));	
+		registerBlock(rtgStrontium,InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(QMDConfig.rtg_power[0], 5, "RF/t")));
 				
 	}
 
@@ -213,9 +224,12 @@ public class QMDBlocks
 		registerRender(particleChamberPort);
 	
 		registerRender(oreLeacher);
+		registerRender(irradiator);
 		for (int i = 0; i < EnumTypes.NeutronReflectorType.values().length; i++) {
-			registerRender(fission_reflector, i, EnumTypes.NeutronReflectorType.values()[i].getName());
+			registerRender(fissionReflector, i, EnumTypes.NeutronReflectorType.values()[i].getName());
 		}
+		
+		registerRender(rtgStrontium);
 	}
 
 

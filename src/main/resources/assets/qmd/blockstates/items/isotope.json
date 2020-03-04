@@ -50,6 +50,16 @@
                 "textures": {
                     "layer0": "qmd:items/materials/isotope/protactinium_231"
                 }
+            },
+            "cobalt_60": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/cobalt_60"
+                }
+            },
+            "iridium_192": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/iridium_192"
+                }
             }
         }
     }

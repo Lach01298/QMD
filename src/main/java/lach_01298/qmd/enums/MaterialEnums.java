@@ -188,7 +188,9 @@ public class MaterialEnums
 		LEAD_210("lead_210",5),
 		STRONTIUM_90("strontium_90",6),
 		Uranium_234("uranium_234",7),
-		PROTACTINIUM_231("protactinium_231",8);
+		PROTACTINIUM_231("protactinium_231",8),
+		COBALT_60("cobalt_60",9),
+		IRIDIUM_192("iridium_192",10);
 		 
 		private String name;
 		private int id;

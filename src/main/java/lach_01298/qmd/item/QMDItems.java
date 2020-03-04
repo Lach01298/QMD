@@ -11,6 +11,7 @@ import nc.config.NCConfig;
 import nc.enumm.MetaEnums;
 import nc.init.NCItems;
 import nc.item.IInfoItem;
+import nc.item.NCItemFood;
 import nc.item.NCItemMeta;
 import nc.item.tool.NCAxe;
 import nc.item.tool.NCHoe;
@@ -19,11 +20,13 @@ import nc.item.tool.NCShovel;
 import nc.item.tool.NCSpaxelhoe;
 import nc.item.tool.NCSword;
 import nc.tab.NCTabs;
+import nc.util.PotionHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
@@ -46,6 +49,8 @@ public class QMDItems
 	public static Item canister_helium;
 	public static Item canister_diborane;
 	public static Item source_sodium_22;
+	public static Item source_cobalt_60;
+	public static Item source_iridium_192;
 	
 	public static Item isotope;
 	public static Item part;
@@ -58,6 +63,8 @@ public class QMDItems
 	public static Item shovel_tungsten_carbide;
 	public static Item axe_tungsten_carbide;
 	public static Item hoe_tungsten_carbide;
+	
+	public static Item flesh;
 	
 	public static void init()
 	{
@@ -72,6 +79,8 @@ public class QMDItems
 		canister_helium = withName(new ItemBrakeable(300),"canister_helium");
 		canister_diborane = withName(new ItemBrakeable(300),"canister_diborane");
 		source_sodium_22 = withName(new ItemBrakeable(300),"source_sodium_22");
+		source_cobalt_60 = withName(new ItemBrakeable(300),"source_cobalt_60");
+		source_iridium_192 = withName(new ItemBrakeable(300),"source_iridium_192");
 		isotope = withName(new NCItemMeta(MaterialEnums.IsotopeType.class), "isotope");
 		part =  withName(new NCItemMeta(MaterialEnums.PartType.class), "part");
 		semiconductor =  withName(new NCItemMeta(MaterialEnums.SemiconductorType.class), "semiconductor");
@@ -85,6 +94,7 @@ public class QMDItems
 		axe_tungsten_carbide = withName(new NCAxe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "axe_tungsten_carbide");
 		hoe_tungsten_carbide = withName(new NCHoe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "hoe_tungsten_carbide");
 		
+		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
 		
 		
 	}
@@ -103,6 +113,8 @@ public class QMDItems
 		registerItem(canister_helium, QMDTabs.ITEMS);
 		registerItem(canister_diborane, QMDTabs.ITEMS);
 		registerItem(source_sodium_22, QMDTabs.ITEMS);
+		registerItem(source_cobalt_60, QMDTabs.ITEMS);
+		registerItem(source_iridium_192, QMDTabs.ITEMS);
 		
 		registerItem(isotope, QMDTabs.ITEMS);
 		
@@ -116,6 +128,8 @@ public class QMDItems
 		registerItem(shovel_tungsten_carbide,QMDTabs.ITEMS);
 		registerItem(axe_tungsten_carbide,QMDTabs.ITEMS);
 		registerItem(hoe_tungsten_carbide,QMDTabs.ITEMS);
+		
+		registerItem(flesh,QMDTabs.ITEMS);
 		
 		
 		
@@ -151,6 +165,8 @@ public class QMDItems
 		registerRender(canister_helium);
 		registerRender(canister_diborane);
 		registerRender(source_sodium_22);
+		registerRender(source_cobalt_60);
+		registerRender(source_iridium_192);
 		
 		for(int i = 0; i < MaterialEnums.IsotopeType.values().length; i++) 
 		{
@@ -176,6 +192,8 @@ public class QMDItems
 		registerRender(shovel_tungsten_carbide);
 		registerRender(axe_tungsten_carbide);
 		registerRender(hoe_tungsten_carbide);
+		
+		registerRender(flesh);
 	}
 	
 	

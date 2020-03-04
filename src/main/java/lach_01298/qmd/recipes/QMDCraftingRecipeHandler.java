@@ -56,9 +56,9 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDItems.canister,4), new Object[] {"TTT", "T T", "TTT", 'T', "ingotTin"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.beamline,6), new Object[] {"SSS", "   ", "SSS", 'S', "ingotStainlessSteel"});
 		tools("ingotTungstenCarbide", QMDItems.sword_tungsten_carbide, QMDItems.pickaxe_tungsten_carbide, QMDItems.shovel_tungsten_carbide, QMDItems.axe_tungsten_carbide,QMDItems.hoe_tungsten_carbide);
-		addShapedOreRecipe(new ItemStack(QMDBlocks.fission_reflector, 1, 0), new Object[] {"TTT", "TFT", "TTT", 'T', "ingotTungstenCarbide", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.fissionReflector, 1, 0), new Object[] {"TTT", "TFT", "TTT", 'T', "ingotTungstenCarbide", 'F', "steelFrame"});
 		addShapedOreRecipe(QMDBlocks.oreLeacher, new Object[] {"PRP", "CFC", "PHP", 'P', "plateElite", 'F', "chassis", 'C', NCBlocks.chemical_reactor, 'R', NCBlocks.rock_crusher, 'H', "ingotHardCarbon"});
-		
+		addShapedOreRecipe(QMDBlocks.irradiator, new Object[] {"TPT", "PFP", "TPT", 'P', "plateDU", 'F', "chassis", 'T', "ingotTungsten"});
 		
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler1,1,EnumTypes.CoolerType1.WATER.getID()), new Object[] {new BucketIngredient("water"),new ItemStack(QMDItems.part,1,MaterialEnums.PartType.EMTPY_COOLER.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler1,1,EnumTypes.CoolerType1.IRON.getID()), new Object[] {" I ", "ICI", " I ", 'I', "ingotIron", 'C',new ItemStack(QMDItems.part,1,MaterialEnums.PartType.EMTPY_COOLER.getID())});
@@ -141,6 +141,8 @@ public class QMDCraftingRecipeHandler
 
 		
 		addShapedOreRecipe(new ItemStack(QMDItems.source_sodium_22), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotSodium22",'B', "bioplastic"});
+		addShapedOreRecipe(new ItemStack(QMDItems.source_cobalt_60), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "bioplastic"});
+		addShapedOreRecipe(new ItemStack(QMDItems.source_iridium_192), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "bioplastic"});
 		
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberDetector,1,EnumTypes.DetectorType.EM_CALORIMETER.getID()), new Object[] {"SSS", "SCS", "SSS", 'S',  new ItemStack(QMDItems.part,1,MaterialEnums.PartType.SCINTILLATOR_PWO.getID()), 'C', new ItemStack(QMDItems.part,1,MaterialEnums.PartType.DETECTOR_CASING.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberDetector,1,EnumTypes.DetectorType.HADRON_CALORIMETER.getID()), new Object[] {"SSS", "SCS", "SSS", 'S',  new ItemStack(QMDItems.part,1,MaterialEnums.PartType.SCINTILLATOR_PLASTIC.getID()), 'C', new ItemStack(QMDItems.part,1,MaterialEnums.PartType.DETECTOR_CASING.getID())});
@@ -150,6 +152,8 @@ public class QMDCraftingRecipeHandler
 		
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCharcoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
+		
+		addShapedOreRecipe(QMDBlocks.rtgStrontium, new Object[] {"AGA", "GSG", "AGA", 'S', "ingotStrontium90",'A', "plateAdvanced", 'G', "ingotGraphite"});
 		
 	}
 	

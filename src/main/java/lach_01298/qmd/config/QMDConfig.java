@@ -76,6 +76,8 @@ public class QMDConfig {
 	
 	public static double[] fission_reflector_efficiency;
 	public static double[] fission_reflector_reflectivity;
+
+	public static int[] rtg_power;
 	
 	public static Configuration getConfig()
 	{
@@ -123,7 +125,7 @@ public class QMDConfig {
 		
 		Property propertyAcceleratorRingMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_min_size", 11, Lang.localise("gui.qmd.config.accelerator.accelerator_ring_min_size.comment"), 11, 255);
 		propertyAcceleratorRingMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_min_size");
-		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 100, Lang.localise("gui.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
+		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 100, Lang.localise("gui.qmd.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
 		propertyAcceleratorRingMaxSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_max_size");
 		
 		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 5, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0, 255);
@@ -166,7 +168,7 @@ public class QMDConfig {
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {100}, Lang.localise("gui.qmd.config.processors.power.comment"), 0, 32767);
 		propertyProcessorPower.setLanguageKey("gui.qmd.config.processors.power");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
 		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
 		
 		
@@ -186,6 +188,8 @@ public class QMDConfig {
 		Property propertyFissionReflectorReflectivity = config.get(CATEGORY_OTHER, "fission_reflector_reflectivity", new double[] {1D}, Lang.localise("gui.qmd.config.other.fission_reflector_reflectivity.comment"), 0D, 1D);
 		propertyFissionReflectorReflectivity.setLanguageKey("gui.qmd.config.other.fission_reflector_reflectivity");
 		
+		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {200}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
+		propertyFissionReflectorEfficiency.setLanguageKey("gui.qmd.config.other.rtg_power");
 		
 		List<String> propertyOrderAccelerator = new ArrayList<String>();
 		propertyOrderAccelerator.add(propertyAcceleratorLinearMinSize.getName());
@@ -236,6 +240,12 @@ public class QMDConfig {
 		propertyOrderTools.add(propertyToolEnchantability.getName());
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
 		
+		List<String> propertyOrderOther = new ArrayList<String>();
+		propertyOrderOther.add(propertyFissionReflectorEfficiency.getName());
+		propertyOrderOther.add(propertyFissionReflectorReflectivity.getName());
+		propertyOrderOther.add(propertyRTGPower.getName());
+		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
+		
 		if (setFromConfig) 
 		{
 			accelerator_linear_min_size = propertyAcceleratorLinearMinSize.getInt();
@@ -279,6 +289,7 @@ public class QMDConfig {
 			
 			fission_reflector_efficiency = readDoubleArrayFromConfig(propertyFissionReflectorEfficiency);
 			fission_reflector_reflectivity = readDoubleArrayFromConfig(propertyFissionReflectorReflectivity);
+			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			
 		}
 		
@@ -319,6 +330,8 @@ public class QMDConfig {
 		
 		propertyFissionReflectorEfficiency.set(fission_reflector_efficiency);
 		propertyFissionReflectorReflectivity.set(fission_reflector_reflectivity);
+		propertyRTGPower.set(rtg_power);
+		
 		
 		if (config.hasChanged()) config.save();
 	}

@@ -3,8 +3,11 @@ package lach_01298.qmd.gui;
 
 import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.TileRingAcceleratorController;
+import lach_01298.qmd.machine.container.ContainerIrradiator;
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
+import lach_01298.qmd.machine.gui.GuiIrradiator;
 import lach_01298.qmd.machine.gui.GuiOreLeacher;
+import lach_01298.qmd.machine.tile.TileQMDProcessor.TileIrradiator;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.accelerator.tile.TileBeamDiverterController;
@@ -74,6 +77,13 @@ public class GUIHandler implements IGuiHandler
 				if (tile instanceof TileBeamDiverterController)
 					return new ContainerBeamDiverterController(player,  (TileBeamDiverterController) tile);
 				
+			case GUI_ID.IRRADIATOR:
+				if (tile instanceof TileIrradiator)
+					return new ContainerIrradiator(player,  (TileIrradiator)tile);
+			
+			case GUI_ID.IRRADIATOR_SIDE_CONFIG:
+				if (tile instanceof TileIrradiator)
+					return new ContainerMachineConfig(player,  (TileIrradiator)tile);
 			}
 		}
 
@@ -122,6 +132,15 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.BEAM_DIVERTER:
 				if (tile instanceof TileBeamDiverterController)
 					return new GuiBeamDiverterController(((TileBeamDiverterController) tile).getMultiblock(), tile.getPos(), ((TileBeamDiverterController) tile).getMultiblock().getContainer(player));
+			
+			case GUI_ID.IRRADIATOR:
+				if (tile instanceof TileIrradiator)
+						return new GuiIrradiator(player,(TileIrradiator) tile);
+				
+				case GUI_ID.IRRADIATOR_SIDE_CONFIG:
+					if (tile instanceof TileIrradiator)
+						return new GuiIrradiator.SideConfig(player,(TileIrradiator) tile);
+				
 			}
 		}
 

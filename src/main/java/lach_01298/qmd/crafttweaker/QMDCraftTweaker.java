@@ -19,7 +19,7 @@ public class QMDCraftTweaker
 {
 	@ZenClass("mods.qmd.ore_leacher")
 	@ZenRegister
-	public static class ManufactoryHandler 
+	public static class OreLeacherHandler 
 	{
 		
 		@ZenMethod
@@ -44,6 +44,36 @@ public class QMDCraftTweaker
 		public static void removeAllRecipes() 
 		{
 			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(QMDRecipes.ore_leacher));
+		}
+	}
+	
+	@ZenClass("mods.qmd.irradiator")
+	@ZenRegister
+	public static class IrradiatorHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation) 
+		{
+			CraftTweakerAPI.apply(new AddProcessorRecipe(QMDRecipes.irradiator, Lists.newArrayList(input, output, timeMultiplier, powerMultiplier, processRadiation)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient input) 
+		{
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(QMDRecipes.irradiator, IngredientSorption.INPUT, Lists.newArrayList(input)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient output) 
+		{
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(QMDRecipes.irradiator, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(QMDRecipes.irradiator));
 		}
 	}
 }
