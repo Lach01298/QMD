@@ -347,13 +347,13 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 		@Override
 		public List<IItemIngredient> getItemIngredients() 
 		{
-			return recipeInfo.getRecipe().itemIngredients();
+			return recipeInfo.getRecipe().getItemIngredients();
 		}
 		
 		@Override
 		public List<IItemIngredient> getItemProducts() 
 		{
-			return recipeInfo.getRecipe().itemProducts();
+			return recipeInfo.getRecipe().getItemProducts();
 		}
 		
 		// ITileInventory
@@ -508,6 +508,18 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 		public int getSideConfigYOffset() 
 		{
 			return sideConfigYOffset;
+		}
+
+		@Override
+		public int getItemInputSize()
+		{
+			return itemInputSize;
+		}
+
+		@Override
+		public int getItemOutputSize()
+		{
+			return itemOutputSize;
 		}
 		
 		

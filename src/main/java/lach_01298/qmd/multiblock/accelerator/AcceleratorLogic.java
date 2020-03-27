@@ -54,7 +54,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket> 
+public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket> 
 { 
 
 	
@@ -301,8 +301,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		getAccelerator().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getAccelerator().tanks.subList(0, 1));
 		if(getAccelerator().coolingRecipeInfo != null)
 		{
-			getAccelerator().maxCoolantIn =   (double)(getAccelerator().cooling* getAccelerator().coolingRecipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(0))/ (double)(getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-			getAccelerator().maxCoolantOut =  (double)(getAccelerator().cooling* getAccelerator().coolingRecipeInfo.getRecipe().fluidProducts().get(0).getMaxStackSize(0))/ (double)(getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+			getAccelerator().maxCoolantIn =   (double)(getAccelerator().cooling* getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))/ (double)(getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+			getAccelerator().maxCoolantOut =  (double)(getAccelerator().cooling* getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0))/ (double)(getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
 		}
 	}
 
@@ -316,7 +316,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 			return false;
 		}
 		
-		IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().fluidProducts().get(0);
+		IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
 		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null)
 			return false;
 
@@ -363,7 +363,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 		
 		if(fluidIngredientStackSize > 0)
 		{
-			int heatUsed = (int) ((fluidIngredientStackSize/getAccelerator().coolingRecipeInfo.getRecipe().fluidIngredients().get(0).getMaxStackSize(0))*getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+			int heatUsed = (int) ((fluidIngredientStackSize/getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
 			
 			double recipeRatio =getAccelerator().tanks.get(0).getFluidAmount()/fluidIngredientStackSize;
 			
@@ -380,7 +380,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, IAcceleratorP
 			{
 				recipeRatio = 1;
 			}
-			IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().fluidProducts().get(0);
+			IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
 			
 			if (getAccelerator().tanks.get(1).isEmpty())
 			{

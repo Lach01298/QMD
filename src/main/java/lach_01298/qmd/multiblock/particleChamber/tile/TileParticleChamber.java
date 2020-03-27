@@ -13,7 +13,6 @@ import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.fission.salt.SaltFissionVesselSetting;
-import nc.multiblock.fission.tile.TileFissionPort;
 import nc.recipe.ProcessorRecipeHandler;
 import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.InventoryConnection;
@@ -36,7 +35,7 @@ public class TileParticleChamber extends TileParticleChamberPart
 	public TileParticleChamber()
 	{
 		super(CuboidalPartPositionType.INTERIOR);
-		
+	
 	}
 
 	@Override

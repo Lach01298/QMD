@@ -22,7 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber,IParticleChamberPart,ParticleChamberUpdatePacket>
+public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic,IParticleChamberPart,ParticleChamberUpdatePacket>
 { 
 
 	public static final int maxSize = 7;

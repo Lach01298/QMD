@@ -63,7 +63,7 @@ import net.minecraft.world.World;
 public class TargetChamberLogic extends ParticleChamberLogic
 {
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
-	
+
 	protected TileParticleChamber mainChamber;
 	
 	

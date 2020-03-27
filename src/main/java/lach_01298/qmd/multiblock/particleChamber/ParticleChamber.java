@@ -54,7 +54,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 	
 	protected final PartSuperMap<IParticleChamberPart> partSuperMap = new PartSuperMap<>();
-	
+
 	
 	public boolean refreshFlag = true, isChamberOn = false;
 	public int requiredEnergy;

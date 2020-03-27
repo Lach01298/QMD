@@ -5,12 +5,15 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import crafttweaker.api.item.IIngredient;
+import crafttweaker.mc1120.item.MCItemStack;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.tile.internal.fluid.Tank;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class EmptyParticleIngredient implements IParticleIngredient
 {
@@ -83,4 +86,13 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	{
 		return Lists.newArrayList((ParticleStack) null);
 	}
+
+	@Override
+	public IIngredient ct()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

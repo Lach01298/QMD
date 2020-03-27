@@ -6,7 +6,7 @@ import nc.multiblock.MultiblockLogic;
 import nc.multiblock.TileBeefBase.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class PipeLogic extends MultiblockLogic<Pipe, IPipePart, PipeUpdatePacket>
+public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeUpdatePacket>
 {
 
 	public PipeLogic(PipeLogic oldLogic)

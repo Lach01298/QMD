@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import crafttweaker.api.item.IIngredient;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
@@ -111,5 +112,12 @@ public class ParticleIngredient implements IParticleIngredient
 	public boolean isValid()
 	{
 		return stack != null;
+	}
+
+	@Override
+	public IIngredient ct()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

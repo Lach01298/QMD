@@ -36,7 +36,6 @@ public class Pipe extends PipeMultiblock<PipeUpdatePacket> implements ILogicMult
 	protected @Nonnull PipeLogic logic = new PipeLogic(this);
 	
 	protected final PartSuperMap<IPipePart> partSuperMap = new PartSuperMap<>();
-
 	public IPipeController controller;
 	
 	public Pipe(World world)

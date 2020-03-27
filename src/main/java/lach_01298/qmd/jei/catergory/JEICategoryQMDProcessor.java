@@ -64,20 +64,20 @@ public abstract class JEICategoryQMDProcessor<WRAPPER extends JEIRecipeWrapperAb
 	{
 		recipeLayout.getItemStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> 
 		{
-			int outputIndex = slotIndex - recipeWrapper.recipeHandler.itemInputSize;
-			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.itemOutputSize && recipeWrapper.recipe.itemProducts().get(outputIndex) instanceof ChanceItemIngredient) 
+			int outputIndex = slotIndex - recipeWrapper.recipeHandler.getItemInputSize();
+			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.getItemOutputSize() && recipeWrapper.recipe.getItemProducts().get(outputIndex) instanceof ChanceItemIngredient) 
 			{
-				ChanceItemIngredient chanceIngredient = (ChanceItemIngredient)recipeWrapper.recipe.itemProducts().get(outputIndex);
+				ChanceItemIngredient chanceIngredient = (ChanceItemIngredient)recipeWrapper.recipe.getItemProducts().get(outputIndex);
 				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.meanStackSize, 2)));
 			}
 		});
 		
 		recipeLayout.getFluidStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> 
 		{
-			int outputIndex = slotIndex - recipeWrapper.recipeHandler.fluidInputSize;
-			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.fluidOutputSize && recipeWrapper.recipe.fluidProducts().get(outputIndex) instanceof ChanceFluidIngredient) 
+			int outputIndex = slotIndex - recipeWrapper.recipeHandler.getFluidInputSize();
+			if (outputIndex >= 0 && outputIndex <= recipeWrapper.recipeHandler.getFluidOutputSize() && recipeWrapper.recipe.getFluidProducts().get(outputIndex) instanceof ChanceFluidIngredient) 
 			{
-				ChanceFluidIngredient chanceIngredient = (ChanceFluidIngredient)recipeWrapper.recipe.fluidProducts().get(outputIndex);
+				ChanceFluidIngredient chanceIngredient = (ChanceFluidIngredient)recipeWrapper.recipe.getFluidProducts().get(outputIndex);
 				tooltip.add(TextFormatting.WHITE + Lang.localise("jei.nuclearcraft.chance_output", chanceIngredient.minStackSize, chanceIngredient.getMaxStackSize(0), NCMath.decimalPlaces(chanceIngredient.meanStackSize, 2)));
 			}
 		});
