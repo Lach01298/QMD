@@ -3,7 +3,7 @@ package lach_01298.qmd.pipe;
 import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeUpdatePacket>

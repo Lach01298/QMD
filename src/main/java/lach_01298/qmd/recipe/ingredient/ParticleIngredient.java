@@ -5,12 +5,16 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.item.IIngredient;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidStackHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -30,6 +34,7 @@ public class ParticleIngredient implements IParticleIngredient
 		particleName = stack.getParticle().getName();
 		meanEnergy = stack.getMeanEnergy();
 		range = stack.getEnergySpread();
+		luminosity = stack.getLuminosity();
 	}
 
 	public ParticleIngredient(String particleName, long meanEnergy, int amount, double range, int luminosity)
@@ -119,5 +124,19 @@ public class ParticleIngredient implements IParticleIngredient
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public IntList getFactors()
+	{
+		return new IntArrayList(Lists.newArrayList(stack.getAmount()));
+	}
+
+	@Override
+	public IParticleIngredient getFactoredIngredient(int factor)
+	{
+		ParticleStack newStack = stack.copy();
+		newStack.setAmount(stack.getAmount()/factor);
+		return new ParticleIngredient(newStack);
 	}
 }

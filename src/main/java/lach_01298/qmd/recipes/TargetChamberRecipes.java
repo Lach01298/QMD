@@ -28,7 +28,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		//addRecipe(item input, particle input, item output,particle output +, particle output neutral, particle -)
 		
 		
-		
+		//proton reactions
 		createRecipe("ingotBeryllium", "ingotLithium6", new ParticleStack(Particles.proton, 1000, 120000), 2125, 7500, 0.34,
 				new ParticleStack(Particles.alpha, 0, 1), null, null);
 
@@ -39,15 +39,15 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		createRecipe("ingotBoron10", "ingotBeryllium7", new ParticleStack(Particles.proton, 4000, 180000), 1144, 6000, 0.3,
 				new ParticleStack(Particles.alpha, 0, 1), null, null);
 		
-		createRecipe("ingotBoron11", "charcoal", new ParticleStack(Particles.proton, 15000, 1200000), 15956, 17000, 0.01,
+		createRecipe("ingotBoron11", "dustGraphite", new ParticleStack(Particles.proton, 15000, 1200000), 15956, 17000, 0.01,
 				null, new ParticleStack(Particles.photon,0,1), null);
 		
 
-		createRecipe("charcoal", "ingotBeryllium7", new ParticleStack(Particles.proton, 45000, 840000), -26266, 50000, 0.06,
+		createRecipe("dustGraphite", "ingotBeryllium7", new ParticleStack(Particles.proton, 45000, 840000), -26266, 50000, 0.06,
 				new ParticleStack(Particles.alpha, 0, 1), new ParticleStack(Particles.neutron, 0, 1), new ParticleStack(Particles.proton, 0, 1));
 
 	
-		createRecipe("charcoal", "ingotBeryllium", new ParticleStack(Particles.proton, 15000, 180000), -7551, 17000, 0.28,
+		createRecipe("dustGraphite", "ingotBeryllium", new ParticleStack(Particles.proton, 15000, 180000), -7551, 17000, 0.28,
 				new ParticleStack(Particles.alpha, 0, 1), null, null);
 		
 		createRecipe("ingotSodium", "ingotSodium22", new ParticleStack(Particles.proton, 24000, 180000), -12418, 26000, 0.28,
@@ -73,14 +73,14 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		
 		
-		
+		//deuteron reactions
 		createRecipe("ingotBeryllium", "ingotLithium7", new ParticleStack(Particles.deuteron, 4000, 180000), 7152, 5000, 0.3,
 				new ParticleStack(Particles.alpha, 0, 1), null,null);
 		
-		createRecipe("ingotBoron11", "charcoal", new ParticleStack(Particles.deuteron, 2000, 180000), 13732, 4000, 0.24,
+		createRecipe("ingotBoron11", "dustGraphite", new ParticleStack(Particles.deuteron, 2000, 180000), 13732, 4000, 0.24,
 				null, new ParticleStack(Particles.neutron, 0, 1),null);
 		
-		createRecipe("charcoal", "ingotBoron10", new ParticleStack(Particles.deuteron, 5000, 180000), -1339, 15000, 0.28,
+		createRecipe("dustGraphite", "ingotBoron10", new ParticleStack(Particles.deuteron, 5000, 180000), -1339, 15000, 0.28,
 				new ParticleStack(Particles.alpha, 0, 1), null,null);
 		
 		createRecipe("ingotMagnesium24", "ingotSodium22", new ParticleStack(Particles.deuteron, 8000, 300000), 1958, 10000, 0.18,
@@ -91,7 +91,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 
 		
-		
+		// photon reactions
 		createRecipe("ingotMagnesium26", "ingotMagnesium24", new ParticleStack(Particles.photon, 25000, 240000), -18423, 30000, 0.2,
 				null, new ParticleStack(Particles.neutron, 0, 2),null);
 		
@@ -101,7 +101,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 
 		
 		
-		
+		// neutron reactions
 		createRecipe("ingotPlutonium242", "ingotPlutonium241", new ParticleStack(Particles.neutron, 10000, 40000), 0, 12000, 1,
 				null, new ParticleStack(Particles.neutron, 0, 2),null);
 
@@ -116,23 +116,30 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 
 		
-		
+		// triton reactions
 		createRecipe("ingotBeryllium", "ingotBoron11", new ParticleStack(Particles.triton, 4000, 120000), 9559, 7000, 0.47,
 				null, new ParticleStack(Particles.neutron, 0, 1),null);	
 		
 		
+		// alpha reactions
 		createRecipe("ingotLithium7", "ingotBoron10", new ParticleStack(Particles.alpha, 7500, 180000), -2790, 15000, 0.3,
 				null, new ParticleStack(Particles.neutron, 0, 1),null);	
 		
-		createRecipe("ingotBeryllium", "charcoal", new ParticleStack(Particles.alpha, 7500, 90000), 5702, 8000, 0.5,
+		createRecipe("ingotBeryllium", "dustGraphite", new ParticleStack(Particles.alpha, 7500, 90000), 5702, 8000, 0.5,
 				null, new ParticleStack(Particles.neutron, 0, 1),null);	
 			
-		createRecipe("charcoal", "ingotBoron11", new ParticleStack(Particles.alpha, 35000, 420000), -15956, 45000, 0.12,
+		createRecipe("dustGraphite", "ingotBoron11", new ParticleStack(Particles.alpha, 35000, 420000), -15956, 45000, 0.12,
 				new ParticleStack(Particles.alpha, 0, 1), null,new ParticleStack(Particles.proton, 0, 1));	
 		
+		createRecipe("ingotAluminum", "itemSilicon", new ParticleStack(Particles.alpha, 4000, 300000), 0, 6000, 0.4,
+				new ParticleStack(Particles.positron, 0, 1), new ParticleStack(Particles.neutron, 0, 1), new ParticleStack(Particles.electron_neutrino, 0, 1));	
+		
+		// Other reactions
+		createRecipe("siliconWafer", "siliconPDoped", new ParticleStack(Particles.boron_ion, 4000, 120000), 0, 5000, 0,
+				null,null,null);
 		
 	
-		//proton induced fission
+		// proton induced fission
 		createRecipe("ingotAmericium241", "ingotNeodymium", new ParticleStack(Particles.proton, 50000, 120000), -1000, 95000, 1,
 				null, new ParticleStack(Particles.neutron, 0, 2),null);	
 		createRecipe("ingotPlutonium242", "ingotZirconium", new ParticleStack(Particles.proton, 65000, 120000), -1000, 100000, 0.9,
@@ -148,7 +155,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		createRecipe("ingotThorium", "ingotStrontium", new ParticleStack(Particles.proton, 45000, 120000), -1000, 100000, 0.5,
 				null, new ParticleStack(Particles.neutron, 0, 2),null);
 		
-		//antiproton making
+		// spallation reactions
 		createRecipe("ingotCaliforium252", "ingotUranium234", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 2.5,
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1),RadSources.CALIFORNIUM_252);	
 		createRecipe("ingotCaliforium251", "ingotUranium233", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 2.5,
@@ -163,7 +170,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1),RadSources.BERKELIUM_248);
 		createRecipe("ingotCurium247", "dustBismuth", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 2.3,
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1),RadSources.CURIUM_247);
-		createRecipe("ingotCurium246", "dustBismuth", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 2.3,
+		createRecipe("ingotCurium246", "ingotLead", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 2.3,
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1),RadSources.CURIUM_246);
 		createRecipe("ingotCurium245", "ingotLead", new ParticleStack(Particles.proton, 6575000, 1200000),-6575000, 2*6575000, 2.3,
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1),RadSources.CURIUM_245);
@@ -221,78 +228,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.proton, 0, 1), null,new ParticleStack(Particles.antiproton, 0, 1));
 		
 		
-		createRecipe("ingotCaliforium252", "ingotNeptunium237", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_252);
-		createRecipe("ingotCaliforium251", "ingotNeptunium236", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_251);
-		createRecipe("ingotCaliforium250", "ingotUranium235", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_250);
-		createRecipe("ingotCaliforium249", "ingotUranium234", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_249);
-		createRecipe("ingotBerkelium248", "ingotUranium233", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.4,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.BERKELIUM_248);
-		createRecipe("ingotBerkelium247", "ingotThorium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.4,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.BERKELIUM_247);
-		createRecipe("ingotCurium247", "ingotThorium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_247);
-		createRecipe("ingotCurium246", "dustProtactinium231", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_246);
-		createRecipe("ingotCurium245", "dustRadium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_245);
-		createRecipe("ingotCurium243", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_243);
-		createRecipe("ingotAmericium243", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.AMERICIUM_243);
-		createRecipe("ingotAmericium242", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.AMERICIUM_242);
-		createRecipe("ingotAmericium241", "dustRadium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.AMERICIUM_241);
-		createRecipe("ingotPlutonium242", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_242);
-		createRecipe("ingotPlutonium241", "dustRadium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_241);
-		createRecipe("ingotPlutonium239", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_239);
-		createRecipe("ingotPlutonium238", "ingotlead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_238);
-		createRecipe("ingotNeptunium237", "dustPolonium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.0,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.NEPTUNIUM_237);
-		createRecipe("ingotNeptunium236", "dustPolonium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.0,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.NEPTUNIUM_237);
-		createRecipe("ingotUranium238", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.URANIUM_238);
-		createRecipe("ingotUranium235", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.URANIUM_235);
-		createRecipe("ingotUranium233", "ingotLead210", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.URANIUM_233);
-		createRecipe("ingotThorium", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.4,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.THORIUM);
-		createRecipe("dustBismuth", "ingotplatnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotLead210", "ingotPlatnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("dustBismuth", "ingotIridium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotLead", "ingotIridium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotGold", "ingotTungsten", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotPlatinum", "ingotHafnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotIridium", "ingotHafnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotOsmium", "ingotHafnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotSilver", "ingotZirconium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotZirconium", "dustArsenic", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotStrontium", "ingotGermanium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.5,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotTitianium", "dustSulfer", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.2,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
-		createRecipe("ingotPotasium", "dustSulfer", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.2,
-				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		
 		
 		
 		
@@ -368,9 +304,80 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		createRecipe("ingotCalcium", "ingotMagnesium26", new ParticleStack(Particles.proton, 1539000, 1200000), -1539000, 2*1539000, 0.2,
 				new ParticleStack(Particles.pion_plus, 0, 1),null,new ParticleStack(Particles.pion_minus, 0, 1));
 		
-		//Semiconductor recipes
-		createRecipe("siliconWafer", new ItemStack(QMDItems.semiconductor,1,MaterialEnums.SemiconductorType.SILICON_P_DOPED.getID()), new ParticleStack(Particles.boron_ion, 4000, 120000), 0, 5000, 0,
-				null,null,null);
+		
+		// antiproton anhilation
+		createRecipe("ingotCaliforium252", "ingotNeptunium237", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_252);
+		createRecipe("ingotCaliforium251", "ingotNeptunium236", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_251);
+		createRecipe("ingotCaliforium250", "ingotUranium235", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_250);
+		createRecipe("ingotCaliforium249", "ingotUranium234", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CALIFORNIUM_249);
+		createRecipe("ingotBerkelium248", "ingotUranium233", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.4,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.BERKELIUM_248);
+		createRecipe("ingotBerkelium247", "ingotThorium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.4,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.BERKELIUM_247);
+		createRecipe("ingotCurium247", "ingotThorium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_247);
+		createRecipe("ingotCurium246", "dustProtactinium231", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_246);
+		createRecipe("ingotCurium245", "dustRadium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_245);
+		createRecipe("ingotCurium243", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.3,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.CURIUM_243);
+		createRecipe("ingotAmericium243", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.AMERICIUM_243);
+		createRecipe("ingotAmericium242", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.AMERICIUM_242);
+		createRecipe("ingotAmericium241", "dustRadium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.AMERICIUM_241);
+		createRecipe("ingotPlutonium242", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.2,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_242);
+		createRecipe("ingotPlutonium241", "dustRadium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_241);
+		createRecipe("ingotPlutonium239", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_239);
+		createRecipe("ingotPlutonium238", "ingotlead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.PLUTONIUM_238);
+		createRecipe("ingotNeptunium237", "dustPolonium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.0,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.NEPTUNIUM_237);
+		createRecipe("ingotNeptunium236", "dustPolonium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 2.0,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.NEPTUNIUM_237);
+		createRecipe("ingotUranium238", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.URANIUM_238);
+		createRecipe("ingotUranium235", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.URANIUM_235);
+		createRecipe("ingotUranium233", "ingotLead210", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.URANIUM_233);
+		createRecipe("ingotThorium", "ingotLead", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1.4,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1), RadSources.THORIUM);
+		createRecipe("dustBismuth", "ingotplatnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotLead210", "ingotPlatnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("dustBismuth", "ingotIridium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotLead", "ingotIridium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotGold", "ingotTungsten", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotPlatinum", "ingotHafnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotIridium", "ingotHafnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotOsmium", "ingotHafnium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 1,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotSilver", "ingotZirconium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotZirconium", "dustArsenic", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotStrontium", "ingotGermanium", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.5,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotTitianium", "dustSulfer", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.2,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
+		createRecipe("ingotPotasium", "dustSulfer", new ParticleStack(Particles.antiproton, 1, 1200000),(int)(2*Particles.proton.getMass()-(2*Particles.pion_plus.getMass()+ Particles.pion_naught.getMass()))*1000, 10000000, 0.2,
+				new ParticleStack(Particles.pion_plus, 0, 1),new ParticleStack(Particles.pion_naught, 0, 1),new ParticleStack(Particles.pion_minus, 0, 1));
 		
 		
 		
@@ -453,7 +460,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		
 		
-		addRecipe(itemIn, new ParticleStack(particleIn.getParticle(),thresholdEnergy, processTime,spread,100),itemOut,pOut1,pOut2,pOut3);	
+		addRecipe(itemIn, new ParticleStack(particleIn.getParticle(),thresholdEnergy, processTime,spread,0),itemOut,pOut1,pOut2,pOut3);	
 	}
 	
 	
@@ -530,7 +537,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		
 		
-		addRecipe(itemIn, new ParticleStack(particleIn.getParticle(),thresholdEnergy, processTime,spread,100),itemOut,pOut1,pOut2,pOut3,radiation);	
+		addRecipe(itemIn, new ParticleStack(particleIn.getParticle(),thresholdEnergy, processTime,spread,0),itemOut,pOut1,pOut2,pOut3,radiation);	
 	}
 	
 	

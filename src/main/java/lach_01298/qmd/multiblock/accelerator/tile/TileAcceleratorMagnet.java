@@ -86,11 +86,6 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPart implemen
 	}
 
 
-	@Override
-	public void update()
-	{
-	}
-
 
 	@Override
 	public boolean isFunctional()

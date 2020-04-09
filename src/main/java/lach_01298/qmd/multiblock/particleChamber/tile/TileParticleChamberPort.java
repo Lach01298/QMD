@@ -49,12 +49,6 @@ public class TileParticleChamberPort extends TileParticleChamberPart implements 
 		invWrapper = new InventoryTileWrapper(this);
 	}
 
-	@Override
-	public void update()
-	{
-
-		
-	}
 	
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)

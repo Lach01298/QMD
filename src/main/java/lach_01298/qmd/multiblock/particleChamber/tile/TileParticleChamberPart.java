@@ -4,7 +4,6 @@ package lach_01298.qmd.multiblock.particleChamber.tile;
 import lach_01298.qmd.multiblock.TileCuboidalOrToroidalMultiblockPart;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
-import nc.multiblock.TileMultiblockPart;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.cuboidal.TileCuboidalMultiblockPart;
 import net.minecraft.nbt.NBTTagCompound;

@@ -14,7 +14,7 @@ import lach_01298.qmd.multiblock.particleChamber.tile.TileParticleChamberBeamPor
 import lach_01298.qmd.particle.IParticleStackHandler;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

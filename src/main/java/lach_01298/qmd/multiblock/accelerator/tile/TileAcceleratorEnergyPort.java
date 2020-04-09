@@ -38,11 +38,6 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 		super(CuboidalPartPositionType.WALL);
 	}
 
-	@Override
-	public void update()
-	{
-		
-	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)

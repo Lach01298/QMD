@@ -1,5 +1,8 @@
 package lach_01298.qmd.recipes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
@@ -68,6 +71,16 @@ public class OreLeacherRecipes extends ProcessorRecipeHandler
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
 				chanceOreStack("dustBoron", 3, 50,2),new EmptyItemIngredient(),new EmptyItemIngredient()
 				);
+	}
+
+	@Override
+	public List fixExtras(List extras) 
+	{
+		List fixed = new ArrayList(3);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
+		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		return fixed;
 	}
 
 }

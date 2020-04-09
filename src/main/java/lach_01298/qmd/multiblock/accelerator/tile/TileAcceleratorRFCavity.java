@@ -74,12 +74,6 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 	}
 
 
-	@Override
-	public void update()
-	{
-
-	}
-
 
 	@Override
 	public boolean isFunctional()

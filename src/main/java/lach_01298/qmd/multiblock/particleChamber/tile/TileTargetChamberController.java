@@ -224,12 +224,6 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 		return  (getRecipeHandler() == null || isItemValidForSlot(slot, stack));
 	}
 	
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 	@Override

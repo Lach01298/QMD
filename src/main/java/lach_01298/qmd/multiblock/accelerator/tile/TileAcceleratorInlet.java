@@ -77,12 +77,6 @@ public class TileAcceleratorInlet extends TileAcceleratorPart implements ITileFl
 
 
 
-	@Override
-	public void update()
-	{
-
-	}
-
 
 	// Fluids
 

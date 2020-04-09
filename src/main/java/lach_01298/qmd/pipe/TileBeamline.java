@@ -39,7 +39,7 @@ public class TileBeamline extends TilePipePart implements IPipeController, ITile
 	}
 	
 
-
+ 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
 	{

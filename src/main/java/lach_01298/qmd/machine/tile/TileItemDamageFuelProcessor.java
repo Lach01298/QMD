@@ -492,7 +492,7 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 		@Override
 		public ProcessorUpdatePacket getGuiUpdatePacket() 
 		{
-			return new ProcessorUpdatePacket(pos, time, tick, baseProcessTime, 0, new ArrayList<Tank>());
+			return new ProcessorUpdatePacket(pos,isProcessing ,time, tick, baseProcessTime, 0, new ArrayList<Tank>());
 		}
 		
 		@Override

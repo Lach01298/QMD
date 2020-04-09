@@ -25,10 +25,10 @@ import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import nc.Global;
 import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.ITileMultiblockPart;
+import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
 import nc.multiblock.ILogicMultiblock.PartSuperMap;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.fission.FissionReactorLogic;
@@ -254,7 +254,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	}
 
 	@Override
-	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason)
+	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
 		energyStorage.writeToNBT(data);
 		writeBeams(beams,data);
@@ -268,7 +268,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	}
 	
 	@Override
-	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
+	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
 		energyStorage.readFromNBT(data);
 		readBeams(beams,data);

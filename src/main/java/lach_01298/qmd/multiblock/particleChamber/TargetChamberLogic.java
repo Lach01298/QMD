@@ -47,7 +47,7 @@ import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
@@ -189,11 +189,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				getChamber().requiredEnergy += detector.basePower;
 				if (detector.isInvalidPostion(mainChamber.getPos()))
 				{
-					getChamber().efficiency += detector.efficiency - 1;
+					getChamber().efficiency += detector.efficiency;
 				}
 			}
 
-			getChamber().efficiency /= getChamber().getInteriorVolume();
 			getChamber().efficiency += 1;
 
 			BlockPos input = null;
@@ -311,8 +310,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				
 				if(recipeInfo != null)
 				{
+					
 					if(canProduceProduct())
 					{
+						
 						produceProduct();
 						produceBeams();
 					}	

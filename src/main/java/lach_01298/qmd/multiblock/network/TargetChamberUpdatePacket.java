@@ -21,7 +21,8 @@ public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 	public List<ParticleStorageAccelerator> beams;
 	public long particleCount, recipeParticleCount;
 	
-	public TargetChamberUpdatePacket() {
+	public TargetChamberUpdatePacket() 
+	{
 		super();
 		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
@@ -46,8 +47,8 @@ public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 			beams.add(ByteUtil.readBufBeam(buf));
 		}
 
-		particleCount = buf.readInt();
-		recipeParticleCount = buf.readInt();
+		particleCount = buf.readLong();
+		recipeParticleCount = buf.readLong();
 	}
 
 	@Override

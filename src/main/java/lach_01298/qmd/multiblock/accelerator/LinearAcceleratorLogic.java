@@ -44,7 +44,7 @@ import nc.Global;
 import nc.block.property.BlockProperties;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.container.ContainerSaltFissionController;
 import nc.multiblock.fission.FissionReactor;

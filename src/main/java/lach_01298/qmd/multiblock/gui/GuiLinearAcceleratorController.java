@@ -68,13 +68,13 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) 
 	{
 		int offset = 40;
-		LinearAcceleratorLogic linear =  (LinearAcceleratorLogic) multiblock.getLogic();
+		
 		
 		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.linear_accelerator_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.accelerator.length", linear.getLength());
+		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getLength());
 		fontRenderer.drawString(length,offset+25, 25, fontColor);
 		
 		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys",multiblock.RFCavityNumber, Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V")) ;

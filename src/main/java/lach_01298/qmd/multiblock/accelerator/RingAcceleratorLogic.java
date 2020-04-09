@@ -34,7 +34,7 @@ import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.Global;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.container.ContainerSaltFissionController;
 import nc.multiblock.fission.FissionReactor;

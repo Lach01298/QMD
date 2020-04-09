@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.mc1120.item.MCItemStack;
+import it.unimi.dsi.fastutil.ints.IntList;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
@@ -92,6 +93,19 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public IntList getFactors()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IParticleIngredient getFactoredIngredient(int factor)
+	{
+		return new EmptyParticleIngredient();
 	}
 
 

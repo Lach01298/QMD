@@ -5,7 +5,6 @@ import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.enums.ICoolerEnum;
 import lach_01298.qmd.enums.EnumTypes.CoolerType1;
 import nc.Global;
-import nc.enumm.IHeatSinkEnum;
 import nc.enumm.MetaEnums;
 import nc.util.InfoHelper;
 import nc.util.Lang;

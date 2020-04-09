@@ -50,7 +50,7 @@ import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
@@ -194,11 +194,10 @@ public class DecayChamberLogic extends ParticleChamberLogic
 				getChamber().requiredEnergy += detector.basePower;
 				if (detector.isInvalidPostion(mainChamber.getPos()))
 				{
-					getChamber().efficiency += detector.efficiency - 1;
+					getChamber().efficiency += detector.efficiency;
 				}
 			}
 
-			getChamber().efficiency /= getChamber().getInteriorVolume();
 			getChamber().efficiency += 1;
 
 			BlockPos input = null;
@@ -450,8 +449,9 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		getChamber().beams.get(1).setParticleStack(outputPlus);
 		if(outputPlus != null)
 		{
+			double particleEfficiency = outputPlus.getEnergySpread()+getChamber().efficiency-1 > 1 ? 1 : outputPlus.getEnergySpread()+getChamber().efficiency-1;
 			getChamber().beams.get(1).getParticleStack().setMeanEnergy(outputPlus.getMeanEnergy()+getChamber().beams.get(0).getParticleStack().getMeanEnergy()/outputPlus.getLuminosity());
-			getChamber().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount()*outputPlus.getEnergySpread()*getChamber().beams.get(0).getParticleStack().getAmount()));
+			getChamber().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount()*particleEfficiency*getChamber().beams.get(0).getParticleStack().getAmount()));
 			getChamber().beams.get(1).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
 		}
 		
@@ -459,16 +459,20 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		getChamber().beams.get(2).setParticleStack(outputNeutral);
 		if(outputNeutral != null)
 		{
+
+			double particleEfficiency = outputNeutral.getEnergySpread()+getChamber().efficiency-1 > 1 ? 1 : outputNeutral.getEnergySpread()+getChamber().efficiency-1;
 			getChamber().beams.get(2).getParticleStack().setMeanEnergy(outputNeutral.getMeanEnergy()+getChamber().beams.get(0).getParticleStack().getMeanEnergy()/outputNeutral.getLuminosity());
-			getChamber().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount()*outputNeutral.getEnergySpread()*getChamber().beams.get(0).getParticleStack().getAmount()));
+			getChamber().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount()*particleEfficiency*getChamber().beams.get(0).getParticleStack().getAmount()));
 			getChamber().beams.get(2).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
 		}
 		
 		getChamber().beams.get(3).setParticleStack(outputMinus);
 		if(outputMinus != null)
 		{
+
+			double particleEfficiency = outputMinus.getEnergySpread()+getChamber().efficiency-1 > 1 ? 1 : outputMinus.getEnergySpread()+getChamber().efficiency-1;
 			getChamber().beams.get(3).getParticleStack().setMeanEnergy(outputMinus.getMeanEnergy()+getChamber().beams.get(0).getParticleStack().getMeanEnergy()/outputMinus.getLuminosity());
-			getChamber().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount()*outputMinus.getEnergySpread()*getChamber().beams.get(0).getParticleStack().getAmount()));
+			getChamber().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount()*particleEfficiency*getChamber().beams.get(0).getParticleStack().getAmount()));
 			getChamber().beams.get(3).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
 		}
 	}

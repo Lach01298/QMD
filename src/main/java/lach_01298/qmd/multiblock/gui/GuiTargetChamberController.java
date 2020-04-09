@@ -102,16 +102,18 @@ public class GuiTargetChamberController extends GuiLogicMultiblockController<Par
 			drawTexturedModalRect(guiLeft + 63, guiTop + 46, 182, 34, 16, 16);
 		}
 		
-		TargetChamberLogic logic =  (TargetChamberLogic) multiblock.getLogic();
+		
 		
 		//draw progress bar
 		int progress = (int)Math.round((double)logic.particleCount/(double)logic.recipeParticleCount*21);
-
+		
+		
 		drawTexturedModalRect(guiLeft+65, guiTop+32, 182, 0, progress, 12);
 	}
 	
 	@Override
-	public void renderTooltips(int mouseX, int mouseY) {
+	public void renderTooltips(int mouseX, int mouseY) 
+	{
 		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 153, 81, 18, 18);
 		
 		

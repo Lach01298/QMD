@@ -38,12 +38,6 @@ public class TileParticleChamber extends TileParticleChamberPart
 	
 	}
 
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 	

@@ -9,13 +9,13 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorPart;
-import nc.multiblock.ITileMultiblockPart;
+import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.Global;
 import nc.multiblock.ILogicMultiblock;
 import nc.multiblock.ILogicMultiblock.PartSuperMap;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.heatExchanger.HeatExchangerLogic;
 import nc.util.SuperMap;
 import net.minecraft.nbt.NBTTagCompound;
@@ -163,14 +163,14 @@ public class Pipe extends PipeMultiblock<PipeUpdatePacket> implements ILogicMult
 	}
 
 	@Override
-	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
+	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
 		logic.readFromLogicTag(data, syncReason);	
 		
 	}
 
 	@Override
-	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason)
+	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
 		
 		logic.writeToLogicTag(data, syncReason);

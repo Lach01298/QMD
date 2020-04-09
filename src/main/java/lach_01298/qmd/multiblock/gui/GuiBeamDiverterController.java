@@ -70,7 +70,7 @@ public class GuiBeamDiverterController extends GuiLogicMultiblockController<Acce
 	{
 		int offset = 40;
 		
-		BeamDiverterLogic logic =  (BeamDiverterLogic) multiblock.getLogic();
+		
 		
 		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.beam_diverter_controller.name");

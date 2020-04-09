@@ -37,13 +37,7 @@ public class TileParticleChamberBeam extends TileParticleChamberPart implements 
 		super.onMachineBroken();
 		
 	}
-	
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
 		
-	}	
 
 	@Override
 	public boolean isFunctional()

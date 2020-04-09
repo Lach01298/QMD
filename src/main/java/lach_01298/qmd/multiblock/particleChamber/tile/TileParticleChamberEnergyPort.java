@@ -38,11 +38,6 @@ public class TileParticleChamberEnergyPort extends TileParticleChamberPart imple
 		super(CuboidalPartPositionType.WALL);
 	}
 
-	@Override
-	public void update()
-	{
-		
-	}
 
 	@Override
 	public void onMachineAssembled(ParticleChamber controller)

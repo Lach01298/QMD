@@ -17,16 +17,16 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 	public void addRecipes()
 	{
 		createRecipe(new ParticleStack(Particles.neutron,0,1),new ParticleStack(Particles.proton,0,1),new ParticleStack(Particles.electron_antineutrino,0,1),new ParticleStack(Particles.electron,0,1),1);
-		createRecipe(new ParticleStack(Particles.pion_naught,0,1),null,new ParticleStack(Particles.photon,0,2),null,1);
-		createRecipe(new ParticleStack(Particles.pion_plus,0,1),new ParticleStack(Particles.antimuon,0,1),new ParticleStack(Particles.muon_neutrino,0,1),null,1);
-		createRecipe(new ParticleStack(Particles.pion_minus,0,1),null,new ParticleStack(Particles.muon_antineutrino,0,1),new ParticleStack(Particles.muon,0,1),1);
+		createRecipe(new ParticleStack(Particles.pion_naught,0,1),null,new ParticleStack(Particles.photon,0,2),null,0.98);
+		createRecipe(new ParticleStack(Particles.pion_plus,0,1),new ParticleStack(Particles.antimuon,0,1),new ParticleStack(Particles.muon_neutrino,0,1),null,0.99);
+		createRecipe(new ParticleStack(Particles.pion_minus,0,1),null,new ParticleStack(Particles.muon_antineutrino,0,1),new ParticleStack(Particles.muon,0,1),0.99);
 		createRecipe(new ParticleStack(Particles.muon,0,1),new ParticleStack(Particles.electron_antineutrino,0,1),new ParticleStack(Particles.muon_neutrino,0,1),new ParticleStack(Particles.electron,0,1),1);
 		createRecipe(new ParticleStack(Particles.antimuon,0,1),new ParticleStack(Particles.positron,0,1),new ParticleStack(Particles.muon_antineutrino,0,1),new ParticleStack(Particles.electron_neutrino,0,1),1);
-		createRecipe(new ParticleStack(Particles.tau,0,1),new ParticleStack(Particles.tau_neutrino,0,1),new ParticleStack(Particles.pion_naught,0,1),new ParticleStack(Particles.pion_minus,0,1),1);
-		createRecipe(new ParticleStack(Particles.antitau,0,1),new ParticleStack(Particles.pion_plus,0,1),new ParticleStack(Particles.pion_naught,0,1),new ParticleStack(Particles.tau_antineutrino,0,1),1);
-		createRecipe(new ParticleStack(Particles.kaon_plus,0,1),new ParticleStack(Particles.antimuon,0,1),new ParticleStack(Particles.muon_neutrino,0,1),null,1);
-		createRecipe(new ParticleStack(Particles.kaon_minus,0,1),new ParticleStack(Particles.muon,0,1),new ParticleStack(Particles.muon_antineutrino,0,1),null,1);
-		createRecipe(new ParticleStack(Particles.kaon_naught,0,1),new ParticleStack(Particles.pion_plus,0,1),null,new ParticleStack(Particles.pion_minus,0,1),1);
+		createRecipe(new ParticleStack(Particles.tau,0,1),new ParticleStack(Particles.tau_neutrino,0,1),new ParticleStack(Particles.pion_naught,0,1),new ParticleStack(Particles.pion_minus,0,1),0.25);
+		createRecipe(new ParticleStack(Particles.antitau,0,1),new ParticleStack(Particles.pion_plus,0,1),new ParticleStack(Particles.pion_naught,0,1),new ParticleStack(Particles.tau_antineutrino,0,1),0.25);
+		createRecipe(new ParticleStack(Particles.kaon_plus,0,1),new ParticleStack(Particles.antimuon,0,1),new ParticleStack(Particles.muon_neutrino,0,1),null,0.63);
+		createRecipe(new ParticleStack(Particles.kaon_minus,0,1),new ParticleStack(Particles.muon,0,1),new ParticleStack(Particles.muon_antineutrino,0,1),null,0.63);
+		createRecipe(new ParticleStack(Particles.kaon_naught,0,1),new ParticleStack(Particles.pion_plus,0,1),null,new ParticleStack(Particles.pion_minus,0,1),0.77);
 	
 	
 	

@@ -507,17 +507,17 @@ public class RecipeHelper
 			if (GasHelper.TRANSLATION_MAP.containsKey(stack.fluidName))
 			{
 				fluidStackList.add(AbstractQMDRecipeHandler.fluidStack(GasHelper.TRANSLATION_MAP.get(stack.fluidName),
-						stack.amount));
+						stack.stack.amount));
 			}
 			else
 			{
-				fluidStackList.add(AbstractQMDRecipeHandler.fluidStack("liquid" + stack.fluidName, stack.amount));
+				fluidStackList.add(AbstractQMDRecipeHandler.fluidStack("liquid" + stack.fluidName, stack.stack.amount));
 			}
 		}
 
 		if (ModCheck.techRebornLoaded())
 		{
-			fluidStackList.add(AbstractQMDRecipeHandler.fluidStack("fluid" + stack.fluidName, stack.amount));
+			fluidStackList.add(AbstractQMDRecipeHandler.fluidStack("fluid" + stack.fluidName, stack.stack.amount));
 		}
 
 		return fluidStackList;

@@ -502,18 +502,19 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 		@Override
 		public boolean isCoolerValid()
 		{
-			byte magnet = 0;
+			boolean magnet = false;
+			boolean cavity = false;
 			boolean beam = false;
 			for (EnumFacing dir : EnumFacing.VALUES)
 			{
-				if (isActiveMagnet(pos.offset(dir),null))
-					magnet++;
-				if (magnet > 1)
-					return false;
+				if (!magnet && isActiveMagnet(pos.offset(dir),null))
+					magnet = true;
+				if (!cavity && isActiveRFCavity(pos.offset(dir),null))
+					cavity = true;
 				if (!beam && isBeam(pos.offset(dir)))
 					beam = true;
 			}
-			return magnet >= 1 && beam;
+			return magnet && cavity && beam;
 		}
 	}
 
@@ -813,11 +814,6 @@ public abstract class TileAcceleratorCooler extends TileAcceleratorPart implemen
 	}
 
 
-	@Override
-	public void update()
-	{
-
-	}
 
 
 	@Override

@@ -17,13 +17,6 @@ public class TileParticleChamberGlass extends TileParticleChamberPart
 
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
 	public void onMachineAssembled(ParticleChamber controller)
 	{
 		doStandardNullControllerResponse(controller);

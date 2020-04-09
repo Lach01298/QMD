@@ -34,7 +34,7 @@ import lach_01298.qmd.recipes.QMDRecipes;
 import nc.config.NCConfig;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.turbine.tile.TileTurbinePart;
 import nc.network.PacketHandler;

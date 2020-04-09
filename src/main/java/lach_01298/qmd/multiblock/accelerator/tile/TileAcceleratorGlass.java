@@ -17,13 +17,6 @@ public class TileAcceleratorGlass extends TileAcceleratorPart
 
 
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
 		doStandardNullControllerResponse(controller);

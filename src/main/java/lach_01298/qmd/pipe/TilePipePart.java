@@ -3,7 +3,7 @@ package lach_01298.qmd.pipe;
 
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import nc.multiblock.BlockFacing;
-import nc.multiblock.TileMultiblockPart;
+import nc.multiblock.tile.TileMultiblockPart;
 import nc.multiblock.cuboidal.PartPosition;
 
 public abstract class TilePipePart extends TileMultiblockPart<Pipe>

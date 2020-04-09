@@ -37,10 +37,10 @@ import lach_01298.qmd.recipes.QMDRecipes;
 import nc.Global;
 import nc.config.NCConfig;
 import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.ITileMultiblockPart;
+import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
 import nc.multiblock.ILogicMultiblock.PartSuperMap;
-import nc.multiblock.TileBeefBase.SyncReason;
+import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.fission.FissionCluster;
@@ -633,7 +633,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	// NBT
 
 	@Override
-	protected void syncDataTo(NBTTagCompound data, SyncReason syncReason)
+	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
 		heatBuffer.writeToNBT(data);
 		energyStorage.writeToNBT(data);
@@ -660,7 +660,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	}
 
 	@Override
-	protected void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
+	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
 		heatBuffer.readFromNBT(data);
 		energyStorage.readFromNBT(data);

@@ -215,6 +215,7 @@ public class ParticleStack
 			{
 				if(particleStack.getLuminosity() >= luminosity)
 				{
+					
 					if(particleStack.getMeanEnergy() >= meanEnergy && particleStack.getMeanEnergy() <= meanEnergy *(1+ energySpread))
 					{
 						return true;

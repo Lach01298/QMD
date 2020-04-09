@@ -3,7 +3,7 @@ package lach_01298.qmd.multiblock;
 
 import nc.multiblock.BlockFacing;
 import nc.multiblock.Multiblock;
-import nc.multiblock.TileMultiblockPart;
+import nc.multiblock.tile.TileMultiblockPart;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.multiblock.cuboidal.PartPosition;
 import net.minecraft.util.EnumFacing;

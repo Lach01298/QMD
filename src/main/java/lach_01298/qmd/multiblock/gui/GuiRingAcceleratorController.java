@@ -64,16 +64,15 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) 
 	{
-		RingAcceleratorLogic ring =  (RingAcceleratorLogic) multiblock.getLogic();
 		int offset = 40;
 		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.ring_accelerator_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String radius = Lang.localise("gui.qmd.container.accelerator.radius", ring.getRadius());
+		String radius = Lang.localise("gui.qmd.container.accelerator.radius", logic.getRadius());
 		fontRenderer.drawString(radius,offset+25, 20, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.accelerator.length", ring.getLength());
+		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getLength());
 		fontRenderer.drawString(length,offset+25, 30, fontColor);
 		
 		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys",multiblock.RFCavityNumber, Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V")) ;

@@ -6,9 +6,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import crafttweaker.api.item.IIngredient;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ItemArrayIngredient;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ParticleArrayIngredient implements IParticleIngredient {
@@ -92,5 +96,25 @@ public class ParticleArrayIngredient implements IParticleIngredient {
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public IntList getFactors()
+	{
+		IntList list = new IntArrayList();
+		for (IParticleIngredient ingredient : ingredientList) {
+			list.addAll(ingredient.getFactors());
+		}
+		return new IntArrayList(list);
+	}
+
+	@Override
+	public IParticleIngredient getFactoredIngredient(int factor)
+	{
+		List<IParticleIngredient> list = new ArrayList<>();
+		for (IParticleIngredient ingredient : ingredientList) {
+			list.add(ingredient.getFactoredIngredient(factor));
+		}
+		return new ParticleArrayIngredient(list);
 	}
 }

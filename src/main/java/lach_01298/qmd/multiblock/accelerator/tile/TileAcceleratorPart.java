@@ -3,7 +3,7 @@ package lach_01298.qmd.multiblock.accelerator.tile;
 
 import lach_01298.qmd.multiblock.TileCuboidalOrToroidalMultiblockPart;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import nc.multiblock.TileMultiblockPart;
+import nc.multiblock.tile.TileMultiblockPart;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.nbt.NBTTagCompound;
 

@@ -1,7 +1,7 @@
 package lach_01298.qmd.multiblock.particleChamber.block;
 
 import lach_01298.qmd.tab.QMDTabs;
-import nc.multiblock.BlockMultiblockPart;
+import nc.multiblock.block.BlockMultiblockPart;
 import nc.tab.NCTabs;
 import net.minecraft.block.material.Material;
 

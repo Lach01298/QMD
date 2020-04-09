@@ -45,14 +45,6 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 	}
 
 
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) 
