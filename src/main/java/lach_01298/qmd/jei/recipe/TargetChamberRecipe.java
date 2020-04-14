@@ -31,8 +31,11 @@ public class TargetChamberRecipe implements IRecipeWrapper
 	private final ParticleStack outputParticlePlus;
 	private final ParticleStack outputParticleNeutral;
 	private final ParticleStack outputParticleMinus;
+	private final long maxEnergy;
+	private final double crossSection;
+	private final double energyReleased;
 
-	public TargetChamberRecipe(ItemStack inputItem, ParticleStack inputParticle,ItemStack outputItem, ParticleStack outputParticlePlus, ParticleStack outputParticleNeutral, ParticleStack outputParticleMinus)
+	public TargetChamberRecipe(ItemStack inputItem, ParticleStack inputParticle,ItemStack outputItem, ParticleStack outputParticlePlus, ParticleStack outputParticleNeutral, ParticleStack outputParticleMinus, long maxEnergy, double crossSection, long energyReleased)
 	{
 		this.inputItem = inputItem;
 		this.outputItem = outputItem;
@@ -40,6 +43,9 @@ public class TargetChamberRecipe implements IRecipeWrapper
 		this.outputParticlePlus = outputParticlePlus;
 		this.outputParticleNeutral = outputParticleNeutral;
 		this.outputParticleMinus= outputParticleMinus;
+		this.maxEnergy = maxEnergy;
+		this.crossSection = crossSection;
+		this.energyReleased = energyReleased;
 	}
 	
 	@Override
@@ -58,36 +64,17 @@ public class TargetChamberRecipe implements IRecipeWrapper
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
 	{
 		FontRenderer fontRenderer = minecraft.fontRenderer;
-		String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticle.getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(inputParticle.getMeanEnergy()*(1+inputParticle.getEnergySpread()),3,"eV"));
+		String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticle.getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(maxEnergy,3,"eV"));
 		
-		double efficacy = 1;
-		boolean displayEfficacy = false;
-		if(outputParticlePlus != null)
-		{
-			efficacy = outputParticlePlus.getEnergySpread();
-			displayEfficacy = true;
-		}
-		if(outputParticleNeutral != null)
-		{
-			efficacy = outputParticleNeutral.getEnergySpread();
-			displayEfficacy = true;
-		}
-		if(outputParticleMinus != null)
-		{
-			efficacy = outputParticleMinus.getEnergySpread();
-			displayEfficacy = true;
-		}
+		DecimalFormat df = new DecimalFormat("#.##");
+		String crossSectionString = Lang.localise("gui.qmd.jei.reaction.cross_section", df.format(crossSection*100));
+		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getSIFormat(energyReleased,3,"eV"));
 		
+
 		fontRenderer.drawString(rangeString, 0, 70, Color.gray.getRGB());
-		
-		if(displayEfficacy)
-		{
-			DecimalFormat df = new DecimalFormat("#.##");
-			String efficacyString = Lang.localise("gui.qmd.jei.reaction.efficiency",  df.format(efficacy*100));
-			fontRenderer.drawString(efficacyString, 0, 80, Color.gray.getRGB());
-		}
-		
-		
+		fontRenderer.drawString(crossSectionString, 0, 80, Color.gray.getRGB());
+		fontRenderer.drawString(energyReleasedString, 0, 90, Color.gray.getRGB());
+
 		
 	}
 

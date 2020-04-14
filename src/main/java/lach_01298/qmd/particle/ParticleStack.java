@@ -19,39 +19,52 @@ public class ParticleStack
 {
 
 	private Particle particle;
-	private long meanEnergy;
 	private int amount;
-	private double energySpread;
-	private int luminosity;			//beam stat
+	private long meanEnergy;
+	private double focus;			//Basically inverse area of the beam
 	
 	public ParticleStack()
 	{
 		this.particle =null;
-		this.meanEnergy = 0;
 		this.amount = 0;
-		this.energySpread = 0;
-		this.luminosity= 0;
-		
-	}
-	
-	public ParticleStack(Particle particle, long meanEnergy, int amount, double energySpread, int luminosity)
-	{
-		this.particle =particle;
-		this.meanEnergy = meanEnergy;
-		this.amount = amount;
-		this.energySpread = energySpread;
-		this.luminosity= luminosity;
+		this.meanEnergy = 0;
+		this.focus= 0;
 		
 	}
 	
 	
-	public ParticleStack(Particle particle, long meanEnergy, int amount)
+	public ParticleStack(Particle particle, int amount, long meanEnergy, double focus)
+	{
+		this.particle =particle;
+		this.amount = amount;
+		this.meanEnergy = meanEnergy;
+		this.focus= focus;
+		
+	}
+	
+	public ParticleStack(Particle particle, int amount, long meanEnergy)
 	{
 		this.particle =particle;
 		this.meanEnergy = meanEnergy;
 		this.amount = amount;
-		this.energySpread = 0;
-		this.luminosity= 0;
+		this.focus= 0;
+		
+	}
+	
+	public ParticleStack(Particle particle, int amount)
+	{
+		this.particle =particle;
+		this.amount = amount;
+		this.meanEnergy = 0;
+		this.focus= 0;
+		
+	}
+	public ParticleStack(Particle particle)
+	{
+		this.particle =particle;
+		this.amount = 1;
+		this.meanEnergy = 0;
+		this.focus= 0;
 		
 	}
 
@@ -68,20 +81,14 @@ public class ParticleStack
 	}
 	
 
-	public double getEnergySpread()
-	{
-		return energySpread;
-	}
-	
-
 	public int getAmount()
 	{
 		return amount;
 	}
 	
-	public int getLuminosity()
+	public double getFocus()
 	{
-		return luminosity;
+		return focus;
 	}
 	
 	
@@ -100,10 +107,6 @@ public class ParticleStack
 		this.meanEnergy += add;
 	}
 	
-	public void setEnergySpread(double newEnergySpread)
-	{
-		this.energySpread = newEnergySpread;
-	}
 	
 	public void setAmount(int newAmount)
 	{
@@ -126,15 +129,15 @@ public class ParticleStack
 		}
 	}
 	
-	public void setLuminosity(int newLuminosity)
+	public void setFocus(double newFocus)
 	{
-		this.luminosity = newLuminosity;
+		this.focus = newFocus;
 	}
 	
 	
-	public void addLuminosity(int add)
+	public void addFocus(double add)
 	{
-		this.luminosity += add;
+		this.focus += add;
 	}
 
 
@@ -151,10 +154,9 @@ public class ParticleStack
 			nbt.setString("particle", particle.getName());
 		}
 		
+		nbt.setInteger("amount", amount);
 		nbt.setLong("meanEnergy", meanEnergy);
-		nbt.setLong("amount", amount);
-		nbt.setDouble("energySpread", energySpread);
-		nbt.setInteger("luminosity", luminosity);
+		nbt.setDouble("focus", focus);
 
 		
 		return nbt;
@@ -164,10 +166,9 @@ public class ParticleStack
 	{
 
 		this.particle = Particles.getParticleFromName(nbt.getString("particle"));
-		this.meanEnergy = nbt.getLong("meanEnergy");
 		this.amount = nbt.getInteger("amount");
-		this.energySpread = nbt.getDouble("energySpread");
-		this.luminosity = nbt.getInteger("luminosity");
+		this.meanEnergy = nbt.getLong("meanEnergy");
+		this.focus = nbt.getDouble("focus");
 		
 		return this;
 	}
@@ -175,7 +176,7 @@ public class ParticleStack
 	
 	public ParticleStack copy()
 	{
-		return new ParticleStack(particle, meanEnergy,amount,energySpread,luminosity);
+		return new ParticleStack(particle,amount,meanEnergy,focus);
 	}
 
 	
@@ -193,30 +194,40 @@ public class ParticleStack
 		String particleName = nbt.getString("particle");
 		int amount = nbt.getInteger("amount");
 		long energy = nbt.getLong("meanEnergy");
-		double spread = nbt.getDouble("energySpread");
-		int lum = nbt.getInteger("luminosity");
+		double focus = nbt.getDouble("focus");
 
-		ParticleStack beam = new ParticleStack(Particles.getParticleFromName(particleName), energy, amount, spread,lum);
+		ParticleStack beam = new ParticleStack(Particles.getParticleFromName(particleName), amount, energy,focus);
 
 		return beam;
 	}
 	
 	
-	public static ParticleStack getParticleStack(String particleName, long meanEnergy, int amount,double spread, int luminosity)
+	public static ParticleStack getParticleStack(String particleName, int amount, long meanEnergy, double focus)
 	{
-		return new ParticleStack(Particles.getParticleFromName(particleName),meanEnergy,amount,spread, luminosity);
+		return new ParticleStack(Particles.getParticleFromName(particleName),amount, meanEnergy, focus);
 	}
 
-	public boolean isInRange(ParticleStack particleStack)
+	public boolean matchesType(ParticleStack particleStack)
 	{
 		if(particleStack != null)
 		{
 			if(particleStack.getParticle() == particle)
 			{
-				if(particleStack.getLuminosity() >= luminosity)
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isInRange(ParticleStack particleStack, long maxEnergy)
+	{
+		if(particleStack != null)
+		{
+			if(particleStack.getParticle() == particle)
+			{
+				if(particleStack.getFocus() >= focus)
 				{
-					
-					if(particleStack.getMeanEnergy() >= meanEnergy && particleStack.getMeanEnergy() <= meanEnergy *(1+ energySpread))
+					if(particleStack.getMeanEnergy() >= meanEnergy && particleStack.getMeanEnergy() <= maxEnergy)
 					{
 						return true;
 					}
@@ -226,13 +237,5 @@ public class ParticleStack
 		}
 		return false;
 	}
-
-
-
-	
-	
-	
-	
-	
 	
 }

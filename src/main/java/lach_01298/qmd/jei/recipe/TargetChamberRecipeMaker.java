@@ -28,14 +28,18 @@ public class TargetChamberRecipeMaker
 		for (QMDRecipe recipe : recipes)
 		{
 			
-			ItemStack inputItem = recipe.itemIngredients().get(0).getStack();
-			ParticleStack inputParticle = recipe.particleIngredients().get(0).getStack();
-			ItemStack outputItem = recipe.itemProducts().get(0).getStack();
-			ParticleStack outputParticlePlus = recipe.particleProducts().get(0).getStack();
-			ParticleStack outputParticleNeutral = recipe.particleProducts().get(1).getStack();
-			ParticleStack outputParticleMinus = recipe.particleProducts().get(2).getStack();
+			ItemStack inputItem = recipe.getItemIngredients().get(0).getStack();
+			ParticleStack inputParticle = recipe.getParticleIngredients().get(0).getStack();
+			ItemStack outputItem = recipe.getItemProducts().get(0).getStack();
+			ParticleStack outputParticlePlus = recipe.getParticleProducts().get(0).getStack();
+			ParticleStack outputParticleNeutral = recipe.getParticleProducts().get(1).getStack();
+			ParticleStack outputParticleMinus = recipe.getParticleProducts().get(2).getStack();
 			
-			TargetChamberRecipe jeiRecipe = new TargetChamberRecipe(inputItem, inputParticle,outputItem,outputParticlePlus,outputParticleNeutral,outputParticleMinus);
+			long maxEnergy = (long) recipe.getMaxEnergy();
+			double crossSection = (double) recipe.getCrossSection();
+			long energyReleased = (long) recipe.getEnergyRelased();
+			
+			TargetChamberRecipe jeiRecipe = new TargetChamberRecipe(inputItem, inputParticle, outputItem, outputParticlePlus, outputParticleNeutral, outputParticleMinus, maxEnergy, crossSection, energyReleased);
 			jeiRecipes.add(jeiRecipe);
 		}
 

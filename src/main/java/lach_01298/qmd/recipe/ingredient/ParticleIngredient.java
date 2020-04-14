@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import crafttweaker.api.item.IIngredient;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import lach_01298.qmd.crafttweaker.particle.CTParticleStack;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
@@ -17,34 +18,22 @@ import nc.util.FluidStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class ParticleIngredient implements IParticleIngredient
 {
 
 	public ParticleStack stack;
-	public String particleName;
-	public long meanEnergy;
-	public int amount;
-	public double range;
-	public int luminosity;
 
 	public ParticleIngredient(ParticleStack stack)
 	{
 		this.stack = stack;
-		particleName = stack.getParticle().getName();
-		meanEnergy = stack.getMeanEnergy();
-		range = stack.getEnergySpread();
-		luminosity = stack.getLuminosity();
+
 	}
 
-	public ParticleIngredient(String particleName, long meanEnergy, int amount, double range, int luminosity)
+	public ParticleIngredient(String particleName, int amount, long meanEnergy, double focus)
 	{
-		stack = ParticleStack.getParticleStack(particleName, meanEnergy, amount, range, luminosity);
-		this.particleName = particleName;
-		this.meanEnergy = meanEnergy;
-		this.amount = amount;
-		this.range = range;
-		this.luminosity = luminosity;
+		stack = ParticleStack.getParticleStack(particleName, amount, meanEnergy, focus);
 	}
 
 	@Override
@@ -53,40 +42,6 @@ public class ParticleIngredient implements IParticleIngredient
 		return stack == null ? null : stack.copy();
 	}
 
-	@Override
-	public String getIngredientName()
-	{
-		return particleName;
-	}
-
-	@Override
-	public String getIngredientNamesConcat()
-	{
-		return particleName;
-	}
-
-	@Override
-	public IngredientMatchResult match(Object object, IngredientSorption type)
-	{
-		
-		if (object instanceof ParticleStack)
-		{
-			ParticleStack particleStack = (ParticleStack) object;
-			if(!stack.isInRange(particleStack))
-			{
-				
-				return IngredientMatchResult.FAIL;
-			}
-			
-			return new IngredientMatchResult(type.checkStackSize((int)stack.getAmount(), (int)stack.getAmount()), 0);
-		}
-		else if (object instanceof ParticleIngredient && match(((ParticleIngredient) object).stack, type).matches())
-		{	
-			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((ParticleIngredient) object).getMaxStackSize(0)), 0);
-		}
-		
-		return IngredientMatchResult.FAIL;
-	}
 
 	@Override
 	public List<ParticleStack> getInputStackList()
@@ -103,29 +58,27 @@ public class ParticleIngredient implements IParticleIngredient
 	@Override
 	public int getMaxStackSize(int ingredientNumber)
 	{
-		return amount;
+		return stack.getAmount();
 	}
 
 	@Override
 	public void setMaxStackSize(int stackSize)
 	{
-		amount = stackSize;
 		stack.setAmount(stackSize);
 	}
 
 	@Override
-	public boolean isValid()
+	public String getIngredientName()
 	{
-		return stack != null;
+		return stack.getParticle().getName();
 	}
-
+	
 	@Override
-	public IIngredient ct()
+	public String getIngredientNamesConcat()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return stack.getParticle().getName();
 	}
-
+	
 	@Override
 	public IntList getFactors()
 	{
@@ -139,4 +92,63 @@ public class ParticleIngredient implements IParticleIngredient
 		newStack.setAmount(stack.getAmount()/factor);
 		return new ParticleIngredient(newStack);
 	}
+	
+	@Override
+	public IngredientMatchResult match(Object object, IngredientSorption type)
+	{
+		
+		if (object instanceof ParticleStack)
+		{
+			ParticleStack particleStack = (ParticleStack) object;
+			if(!stack.matchesType(particleStack))
+			{
+				return IngredientMatchResult.FAIL;
+			}
+			
+			return new IngredientMatchResult(type.checkStackSize((int)stack.getAmount(), (int)stack.getAmount()), 0);
+		}
+		else if (object instanceof ParticleIngredient && match(((ParticleIngredient) object).stack, type).matches())
+		{	
+			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((ParticleIngredient) object).getMaxStackSize(0)), 0);
+		}
+		
+		return IngredientMatchResult.FAIL;
+	}
+	
+	@Override
+	public IngredientMatchResult matchWithData(Object object, IngredientSorption type, List extras)
+	{
+		
+		if (object instanceof ParticleStack)
+		{
+			ParticleStack particleStack = (ParticleStack) object;
+			if(!stack.isInRange(particleStack, (long) extras.get(0)))
+			{
+				return IngredientMatchResult.FAIL;
+			}
+			
+			return new IngredientMatchResult(type.checkStackSize((int)stack.getAmount(), (int)stack.getAmount()), 0);
+		}
+		else if (object instanceof ParticleIngredient && matchWithData(((ParticleIngredient) object).stack, type, extras).matches())
+		{	
+			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((ParticleIngredient) object).getMaxStackSize(0)), 0);
+		}
+		
+		return IngredientMatchResult.FAIL;
+	}
+	
+	@Override
+	public boolean isValid()
+	{
+		return stack != null;
+	}
+
+	@Override
+	@Optional.Method(modid = "crafttweaker")
+	public IIngredient ct()
+	{
+		return new CTParticleStack(stack);
+	}
+
+	
 }

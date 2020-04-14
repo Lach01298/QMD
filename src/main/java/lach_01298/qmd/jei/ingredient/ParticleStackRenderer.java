@@ -36,7 +36,8 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	private static final int TEX_HEIGHT = 16;
 	
 	private final int amount;
-	private final int energy;
+	private final long energy;
+	private final double focus;
 	private final int width;
 	private final int height;
 	
@@ -45,13 +46,14 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	
 	public ParticleStackRenderer() 
 	{
-		this(0,0, TEX_WIDTH, TEX_HEIGHT, null);
+		this(0,0,0, TEX_WIDTH, TEX_HEIGHT, null);
 	}
 	
-	public ParticleStackRenderer(int amount, int energy, int width, int height, @Nullable IDrawable overlay) 
+	public ParticleStackRenderer(int amount, long energy, double focus, int width, int height, @Nullable IDrawable overlay) 
 	{
 		this.amount = amount;
 		this.energy = energy;
+		this.focus = focus;
 		//this.tooltipMode = tooltipMode;
 		this.width = width;
 		this.height = height;
@@ -89,6 +91,7 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 		list.add(Lang.localise(ingredient.getParticle().getUnlocalizedName()));
 		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(ingredient.getAmount(),"pu")));
 		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getSIFormat(ingredient.getMeanEnergy(),3,"eV")));
+		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.focus",Units.getSIFormat(ingredient.getFocus(),"")));
 		
 		
 		return list;

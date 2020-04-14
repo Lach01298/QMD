@@ -56,7 +56,7 @@ public class GuiParticle
 		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu")));
 		if(showLuminosity)
 		{
-			text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.luminosity",Units.getSIFormat(stack.getLuminosity(),"lu")));
+			text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.focus",Units.getSIFormat(stack.getFocus(),"")));
 		}
 		screen.drawHoveringText(text, mouseX, mouseY);
 		

@@ -548,8 +548,8 @@ public class DeceleratorLogic extends AcceleratorLogic
 				particleOut.setMeanEnergy((long)(maxEnergyFromRadiation*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
 			}
 			
-			particleOut.addLuminosity((int) (particleIn.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
-			if(particleOut.getLuminosity() <= 0)
+			particleOut.addFocus((int) (particleIn.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			if(particleOut.getFocus() <= 0)
 			{
 				particleOut = null;
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;

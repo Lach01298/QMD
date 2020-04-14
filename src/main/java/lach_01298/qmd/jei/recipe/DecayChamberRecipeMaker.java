@@ -25,15 +25,16 @@ public class DecayChamberRecipeMaker
 
 		for (QMDRecipe recipe : recipes)
 		{
+			ParticleStack inputParticle = recipe.getParticleIngredients().get(0).getStack();
 			
+			ParticleStack outputParticlePlus = recipe.getParticleProducts().get(0).getStack();
+			ParticleStack outputParticleNeutral = recipe.getParticleProducts().get(1).getStack();
+			ParticleStack outputParticleMinus = recipe.getParticleProducts().get(2).getStack();
 			
-			ParticleStack inputParticle = recipe.particleIngredients().get(0).getStack();
-			
-			ParticleStack outputParticlePlus = recipe.particleProducts().get(0).getStack();
-			ParticleStack outputParticleNeutral = recipe.particleProducts().get(1).getStack();
-			ParticleStack outputParticleMinus = recipe.particleProducts().get(2).getStack();
-			
-			DecayChamberRecipe jeiRecipe = new DecayChamberRecipe(inputParticle,outputParticlePlus,outputParticleNeutral,outputParticleMinus);
+			long maxEnergy = recipe.getMaxEnergy();
+			double crossSection = recipe.getCrossSection();
+			long energyReleased = recipe.getEnergyRelased();
+			DecayChamberRecipe jeiRecipe = new DecayChamberRecipe(inputParticle, outputParticlePlus, outputParticleNeutral, outputParticleMinus, maxEnergy, crossSection, energyReleased);
 			jeiRecipes.add(jeiRecipe);
 		}
 

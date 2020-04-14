@@ -56,7 +56,7 @@ public class QMDConfig {
 	public static int[] cooler_heat_removed;
 
 
-	public static int beamAttenuationRate;
+	public static double beamAttenuationRate;
 	public static int beamDiverterRadius;
 
 	public static int[] detector_base_power;
@@ -128,7 +128,7 @@ public class QMDConfig {
 		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 100, Lang.localise("gui.qmd.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
 		propertyAcceleratorRingMaxSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_max_size");
 		
-		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 5, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0, 255);
+		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.05D, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
 		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
 		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 100, Lang.localise("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
 		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
@@ -253,7 +253,7 @@ public class QMDConfig {
 			accelerator_ring_min_size = propertyAcceleratorRingMinSize.getInt();
 			accelerator_ring_max_size = propertyAcceleratorRingMaxSize.getInt();
 			
-			beamAttenuationRate = propertyBeamAttenuationRate.getInt();
+			beamAttenuationRate = propertyBeamAttenuationRate.getDouble();
 			beamDiverterRadius = propertyBeamDiverterRadius.getInt();
 			
 			RF_cavity_voltage = readIntegerArrayFromConfig(propertyRFCavityVoltage);

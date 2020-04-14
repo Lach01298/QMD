@@ -76,4 +76,106 @@ public class QMDCraftTweaker
 			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(QMDRecipes.irradiator));
 		}
 	}
+	
+	@ZenClass("mods.qmd.target_chamber")
+	@ZenRegister
+	public static class TargetChamberHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient inputItem, IIngredient inputParticle, IIngredient outputItem, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation) 
+		{
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, inputParticle, outputItem, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient inputItem, IIngredient inputParticle) 
+		{
+			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, inputParticle)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.target_chamber));
+		}
+	}
+	
+	@ZenClass("mods.qmd.decay_chamber")
+	@ZenRegister
+	public static class DecayChamberHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient inputParticle, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3 , double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy) 
+		{
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.decay_chamber, Lists.newArrayList( inputParticle, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient inputParticle) 
+		{
+			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.decay_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputParticle)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.decay_chamber));
+		}
+	}
+	
+	@ZenClass("mods.qmd.accelerator_source")
+	@ZenRegister
+	public static class AcceleratorSourceHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient inputItem, IIngredient outputParticle) 
+		{
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList( inputItem, outputParticle)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient inputItem) 
+		{
+			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(inputItem)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.accelerator_source));
+		}
+	}
+	
+	@ZenClass("mods.qmd.particle")
+	@ZenRegister
+	public static class ParticleHandler 
+	{
+		@ZenMethod
+		public static void addParticle(String name, String textureLocation, double mass, double charge, double spin, @Optional(valueBoolean = false) boolean weakCharged, @Optional(valueBoolean = false) boolean coloured)
+		{
+			CraftTweakerAPI.apply(new CTAddParticle(name, textureLocation, mass, charge, spin,weakCharged,coloured));
+		}
+		@ZenMethod
+		public static void addAntiParticle(IIngredient particle, IIngredient antiParticle)
+		{
+			CraftTweakerAPI.apply(new CTAddAntiParticle(particle, antiParticle));
+		}
+		
+		@ZenMethod
+		public static void addComponentParticle(IIngredient parentParticle, IIngredient particle)
+		{
+			CraftTweakerAPI.apply(new CTAddComponentParticle(parentParticle, particle));
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 }

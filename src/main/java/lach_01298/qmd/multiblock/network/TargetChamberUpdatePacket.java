@@ -67,7 +67,8 @@ public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<TargetChamberUpdatePacket, ParticleChamber, TileTargetChamberController> {
 		
-		public Handler() {
+		public Handler() 
+		{
 			super(TileTargetChamberController.class);
 		}
 	}

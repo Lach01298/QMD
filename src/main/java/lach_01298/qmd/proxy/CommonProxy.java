@@ -2,6 +2,7 @@ package lach_01298.qmd.proxy;
 
 import java.util.Locale;
 
+import crafttweaker.CraftTweakerAPI;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDOreDictionary;
 import lach_01298.qmd.QMDRadSources;
@@ -42,12 +43,14 @@ public class CommonProxy
 		QMDItems.register();
 		QMDFluids.register();
 		QMDTiles.register();
+		Particles.register();
 		
 		Multiblocks.init();
 		
 		QMDOreDictionary.register();
 		
 		QMDPacketHandler.registerMessages(QMD.MOD_ID);
+		
 		
 		MinecraftForge.EVENT_BUS.register(new QMDRecipes());
 	}

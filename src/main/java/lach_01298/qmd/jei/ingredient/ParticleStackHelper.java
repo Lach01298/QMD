@@ -108,6 +108,7 @@ public class ParticleStackHelper implements IIngredientHelper<ParticleStack>
 
 		toStringHelper.add("amount", ingredient.getAmount());
 		toStringHelper.add("Energy", ingredient.getMeanEnergy());
+		toStringHelper.add("Focus", ingredient.getFocus());
 
 
 		return toStringHelper.toString();

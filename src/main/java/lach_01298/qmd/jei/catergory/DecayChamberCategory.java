@@ -36,8 +36,8 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 	
 	public DecayChamberCategory(IGuiHelper guiHelper) 
 	{
-		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/decay_chamber_controller.png");
-		background = guiHelper.createDrawable(gui_texture, 24, 3, 122, 90);
+		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/decay_chamber.png");
+		background = guiHelper.createDrawable(gui_texture, 0, 0, 150, 100);
 		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.decayChamberController));
 		
 	}
@@ -86,12 +86,12 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 		List<List<ParticleStack>> particleOutputs =ingredients.getOutputs(ParticleType.Particle);
 		
 		
-		guiParticleStacks.init(1, true, 44, 31);
+		guiParticleStacks.init(1, true, 49, 31);
 		
 		
-		guiParticleStacks.init(3, true, 77, 8);
-		guiParticleStacks.init(4, true, 77, 31);
-		guiParticleStacks.init(5, true, 77, 54);
+		guiParticleStacks.init(3, true, 82, 8);
+		guiParticleStacks.init(4, true, 82, 31);
+		guiParticleStacks.init(5, true, 82, 54);
 			
 		
 		guiParticleStacks.set(1,particleInput.get(0));

@@ -26,8 +26,8 @@ public class AcceleratorSourceRecipeMaker
 
 		for (QMDRecipe recipe : recipes)
 		{
-			ItemStack input = recipe.itemIngredients().get(0).getStack();
-			ParticleStack output = recipe.particleProducts().get(0).getStack();
+			ItemStack input = recipe.getItemIngredients().get(0).getStack();
+			ParticleStack output = recipe.getParticleProducts().get(0).getStack();
 			AcceleratorSourceRecipe jeiRecipe = new AcceleratorSourceRecipe(input, output);
 			jeiRecipes.add(jeiRecipe);
 		}

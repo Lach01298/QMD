@@ -25,11 +25,11 @@ public class ParticleStorageBeamline extends ParticleStorage
 	
 	public ParticleStack extractParticle(EnumFacing side)
 	{
-		if (canExtractParticle(side) && particleStack.getLuminosity() >length*QMDConfig.beamAttenuationRate)
+		if (canExtractParticle(side) && particleStack.getFocus() >length*QMDConfig.beamAttenuationRate)
 		{	
 			ParticleStack stack = this.particleStack;
 			this.particleStack = null;
-			stack.addLuminosity(-length*QMDConfig.beamAttenuationRate);
+			stack.addFocus(-length*QMDConfig.beamAttenuationRate);
 			return stack;
 		}
 		return null;

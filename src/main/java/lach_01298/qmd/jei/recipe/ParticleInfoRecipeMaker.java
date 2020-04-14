@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
@@ -29,22 +30,15 @@ public class ParticleInfoRecipeMaker
 
 		for (Particle particle : particles.values())
 		{
-			ParticleStack p = new ParticleStack(particle, 0, 1);
+			ParticleStack p = new ParticleStack(particle);
 
 			List<ParticleStack> c = new ArrayList<ParticleStack>();
 			if (particle.hasComponentParticles())
 			{
-				List<Particle> used = new ArrayList<Particle>();
-				for (Particle component : particle.getComponentParticles())
-				{
-					if (used.contains(component))
-					{
-						continue;
-					}
-					c.add(new ParticleStack(component, 0, Collections.frequency(particle.getComponentParticles(), component)));
-					used.add(component);
+				for (Entry<Particle, Integer> component : particle.getComponentParticles().entrySet())
+				{		
+					c.add(new ParticleStack(component.getKey(), component.getValue()));
 				}
-
 			}
 			ParticleInfoRecipe jeiRecipe = new ParticleInfoRecipe(p, c);
 			jeiRecipes.add(jeiRecipe);

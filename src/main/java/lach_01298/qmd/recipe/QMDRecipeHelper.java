@@ -2,6 +2,7 @@ package lach_01298.qmd.recipe;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -39,6 +40,7 @@ import nc.util.GasHelper;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -49,7 +51,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-public class RecipeHelper
+public class QMDRecipeHelper
 {
 
 	public static boolean containsItemIngredient(List<IItemIngredient> list, IItemIngredient ingredient)
@@ -160,7 +162,7 @@ public class RecipeHelper
 			{
 				throw new RuntimeException(String.format("Invalid ParticleStack: %s", object));
 			}
-			return new ParticleStack((Particle) object, 0, 1,0,0);
+			return new ParticleStack((Particle) object, 0, 1,0);
 		}
 	}
 
@@ -181,7 +183,7 @@ public class RecipeHelper
 	public static ParticleIngredient particleStackFromString(String name)
 	{
 		if (Particles.getParticleFromName(name) != null)
-			return new ParticleIngredient(name, 0, 1, 0,0);
+			return new ParticleIngredient(name, 0, 1, 0);
 		return null;
 	}
 
@@ -322,7 +324,7 @@ public class RecipeHelper
 	{
 		if (AbstractQMDRecipeHandler.requiresItemFixing(object))
 		{
-			object = RecipeHelper.fixItemStack(object);
+			object = QMDRecipeHelper.fixItemStack(object);
 		}
 		if (object instanceof IItemIngredient)
 		{
@@ -360,7 +362,7 @@ public class RecipeHelper
 		}
 		else if (object instanceof String)
 		{
-			return checkedItemIngredient(RecipeHelper.oreStackFromString((String) object));
+			return checkedItemIngredient(QMDRecipeHelper.oreStackFromString((String) object));
 		}
 		if (object instanceof ItemStack)
 		{
@@ -380,7 +382,7 @@ public class RecipeHelper
 	{
 		if (AbstractQMDRecipeHandler.requiresFluidFixing(object))
 		{
-			object = RecipeHelper.fixFluidStack(object);
+			object = QMDRecipeHelper.fixFluidStack(object);
 		}
 		if (needsExpanding() && object instanceof FluidIngredient)
 		{
@@ -420,7 +422,7 @@ public class RecipeHelper
 		}
 		else if (object instanceof String)
 		{
-			return checkedFluidIngredient(RecipeHelper.fluidStackFromString((String) object));
+			return checkedFluidIngredient(QMDRecipeHelper.fluidStackFromString((String) object));
 		}
 		if (object instanceof FluidStack)
 		{
@@ -440,7 +442,7 @@ public class RecipeHelper
 	{
 		if (AbstractQMDRecipeHandler.requiresParticleFixing(object))
 		{
-			object = RecipeHelper.fixParticleStack(object);
+			object = QMDRecipeHelper.fixParticleStack(object);
 		}
 		if (object instanceof IParticleIngredient)
 		{
@@ -477,7 +479,7 @@ public class RecipeHelper
 		}
 		else if (object instanceof String)
 		{
-			return checkedParticleIngredient(RecipeHelper.particleStackFromString((String) object));
+			return checkedParticleIngredient(QMDRecipeHelper.particleStackFromString((String) object));
 		}
 		if (object instanceof ParticleStack)
 		{
@@ -523,9 +525,8 @@ public class RecipeHelper
 		return fluidStackList;
 	}
 
-	public static QMDRecipeMatchResult matchIngredients(IngredientSorption sorption,
-			List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients,
-			List<IParticleIngredient> particleIngredients, List items, List fluids, List particles, boolean shapeless)
+	public static QMDRecipeMatchResult matchIngredients(IngredientSorption sorption,List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients,
+			List<IParticleIngredient> particleIngredients, List items, List fluids, List particles, boolean shapeless, List extras)
 	{
 		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()|| particleIngredients.size() != particles.size())
 			return QMDRecipeMatchResult.FAIL;
@@ -549,6 +550,7 @@ public class RecipeHelper
 				}
 				return QMDRecipeMatchResult.FAIL;
 			}
+			
 			for (int i = 0; i < fluids.size(); i++)
 			{
 				Object fluid = fluids.get(i) instanceof Tank ? ((Tank) fluids.get(i)).getFluid() : fluids.get(i);
@@ -562,7 +564,7 @@ public class RecipeHelper
 			}
 			for (int i = 0; i < particles.size(); i++)
 			{
-				IngredientMatchResult matchResult = particleIngredients.get(i).match(particles.get(i), sorption);
+				IngredientMatchResult matchResult = particleIngredients.get(i).matchWithData(particles.get(i), sorption, extras);
 				if (matchResult.matches())
 				{
 					particleIngredientNumbers.set(i, matchResult.getIngredientNumber());
@@ -621,7 +623,7 @@ public class RecipeHelper
 					IParticleIngredient particleIngredient = particleIngredientsRemaining.get(j);
 					if (particleIngredient == null)
 						continue;
-					IngredientMatchResult matchResult = particleIngredient.match(particles.get(i), sorption);
+					IngredientMatchResult matchResult = particleIngredient.matchWithData(particles.get(i), sorption,extras);
 					if (matchResult.matches())
 					{
 						particleIngredientsRemaining.set(j, null);
@@ -702,8 +704,8 @@ public class RecipeHelper
 	{
 		if (recipe == null)
 			return "nullRecipe";
-		return getRecipeString(recipe.itemIngredients(), recipe.fluidIngredients(), recipe.particleIngredients(),
-				recipe.itemProducts(), recipe.fluidProducts(), recipe.particleProducts());
+		return getRecipeString(recipe.getItemIngredients(), recipe.getFluidIngredients(), recipe.getParticleIngredients(),
+				recipe.getItemProducts(), recipe.getFluidProducts(), recipe.getParticleProducts());
 	}
 
 	public static List<String> buildItemIngredientNames(List ingredientList)
@@ -789,6 +791,56 @@ public class RecipeHelper
 		return new OreIngredient(oreName, stackSize);
 	}
 
+	public static long hashMaterialsRaw(List<ItemStack> items, List<Tank> fluids, List<ParticleStack> particles)
+	{
+		long hash = 1L;
+		Iterator<ItemStack> itemIter = items.iterator();
+		while (itemIter.hasNext())
+		{
+			ItemStack stack = itemIter.next();
+			hash = 31L * hash + (stack == null ? 0L : RecipeItemHelper.pack(stack));
+		}
+		Iterator<Tank> fluidIter = fluids.iterator();
+		while (fluidIter.hasNext())
+		{
+			Tank tank = fluidIter.next();
+			hash = 31L * hash + (tank == null ? 0L: tank.getFluid() == null ? 0L : tank.getFluid().getFluid().getName().hashCode());
+		}
+		Iterator<ParticleStack> particleIter = particles.iterator();
+		while (particleIter.hasNext())
+		{
+			ParticleStack stack = particleIter.next();
+			hash = 31L * hash + (stack == null ? 0L : stack.getParticle().getName().hashCode());
+		}
+		return hash;
+	}
+
+	public static long hashMaterials(List<ItemStack> items, List<FluidStack> fluids, List<ParticleStack> particles)
+	{
+		long hash = 1L;
+		Iterator<ItemStack> itemIter = items.iterator();
+		while (itemIter.hasNext())
+		{
+			ItemStack stack = itemIter.next();
+			hash = 31L * hash + (stack == null ? 0L : RecipeItemHelper.pack(stack));
+		}
+		Iterator<FluidStack> fluidIter = fluids.iterator();
+		while (fluidIter.hasNext())
+		{
+			FluidStack stack = fluidIter.next();
+			hash = 31L * hash + (stack == null ? 0L : stack.getFluid().getName().hashCode());
+		}
+		Iterator<ParticleStack> particleIter = particles.iterator();
+		while (particleIter.hasNext())
+		{
+			ParticleStack stack = particleIter.next();
+			hash = 31L * hash + (stack == null ? 0L : stack.getParticle().getName().hashCode());
+		}
+		return hash;
+	}
+	
+	
+	
 	public static InventoryCrafting fakeCrafter(int width, int height)
 	{
 		return new FakeCrafting(width, height);

@@ -583,12 +583,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 	private void produceSourceBeam()
 	{
-		IParticleIngredient particleIngredient = recipeInfo.getRecipe().particleProducts().get(0);
+		IParticleIngredient particleIngredient = recipeInfo.getRecipe().getParticleProducts().get(0);
 		getAccelerator().beams.get(1).setParticleStack(particleIngredient.getStack());
 		ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
 		particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
-		particle.addLuminosity((int) (particle.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
-		if(particle.getLuminosity() <= 0)
+		particle.addFocus((int) ((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+		if(particle.getFocus() <= 0)
 		{
 			particle = null;
 			getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
@@ -606,9 +606,9 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		ParticleStack outputBeam = getAccelerator().beams.get(1).getParticleStack();
 		if(outputBeam != null)
 		{
-			outputBeam.addLuminosity((int) (outputBeam.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			outputBeam.addFocus((int) ((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
 			outputBeam.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
-			if(outputBeam.getLuminosity() <= 0)
+			if(outputBeam.getFocus() <= 0)
 			{
 				outputBeam = null;
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;

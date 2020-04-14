@@ -70,15 +70,14 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	protected TileParticleChamber mainChamber;
 	
 	
-	public long particleCount = 0;
-	public long recipeParticleCount = 100;
+	public long particleWorkDone = 0;
+	public long recipeParticleWork = 100;
 	public boolean outputSwitched = false;
 	
 	public DecayChamberLogic(ParticleChamberLogic oldLogic)
 	{
 		super(oldLogic);
 		
-		//add out out beams
 		getChamber().beams.add(new ParticleStorageAccelerator());
 		getChamber().beams.add(new ParticleStorageAccelerator());
 		getChamber().beams.add(new ParticleStorageAccelerator());
@@ -198,7 +197,6 @@ public class DecayChamberLogic extends ParticleChamberLogic
 				}
 			}
 
-			getChamber().efficiency += 1;
 
 			BlockPos input = null;
 
@@ -237,8 +235,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 				}
 			}
 
-			if (getWorld().getTileEntity(
-					mainChamber.getPos().offset(facing.rotateY(), distance)) instanceof TileParticleChamberBeamPort)
+			if (getWorld().getTileEntity(mainChamber.getPos().offset(facing.rotateY(), distance)) instanceof TileParticleChamberBeamPort)
 			{
 				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld()
 						.getTileEntity(mainChamber.getPos().offset(facing.rotateY(), distance));
@@ -254,20 +251,16 @@ public class DecayChamberLogic extends ParticleChamberLogic
 				
 
 			}
-			if (getWorld().getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY(),
-					distance)) instanceof TileParticleChamberBeamPort)
+			if (getWorld().getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY(), distance)) instanceof TileParticleChamberBeamPort)
 			{
-				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld()
-						.getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY(), distance));
+				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld().getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY(), distance));
 				port.setIONumber(2);
 
 			}
-			if (getWorld().getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY().rotateY(),
-					distance)) instanceof TileParticleChamberBeamPort)
+			if (getWorld().getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY().rotateY(), distance)) instanceof TileParticleChamberBeamPort)
 			{
-				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld()
-						.getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY().rotateY(), distance));
-				if(outputSwitched)
+				TileParticleChamberBeamPort port = (TileParticleChamberBeamPort) getWorld().getTileEntity(mainChamber.getPos().offset(facing.rotateY().rotateY().rotateY(), distance));
+				if (outputSwitched)
 				{
 					port.setIONumber(1);
 				}
@@ -322,7 +315,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 				}
 				else
 				{
-					particleCount= 0;
+					particleWorkDone= 0;
 					resetBeams();
 				}
 
@@ -345,7 +338,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 
 	public void onResetStats()
 	{
-		getChamber().efficiency =0;
+		getChamber().efficiency =1;
 		getChamber().requiredEnergy =0;	
 	}
 	
@@ -420,60 +413,58 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	
 	private void produceBeams()
 	{
-		long plusAmount = 0;
-		long neutralAmount = 0;
-		long minusAmount = 0;
+		ParticleStack input = getChamber().beams.get(0).getParticleStack();
+		ParticleStack outputPlus = recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
+		ParticleStack outputNeutral = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
+		ParticleStack outputMinus = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
 		
-		ParticleStack outputPlus = recipeInfo.getRecipe().particleProducts().get(0).getStack();
-		ParticleStack outputNeutral = recipeInfo.getRecipe().particleProducts().get(1).getStack();
-		ParticleStack outputMinus = recipeInfo.getRecipe().particleProducts().get(2).getStack();
+		long energyReleased = recipeInfo.getRecipe().getEnergyRelased();
+		double crossSection = recipeInfo.getRecipe().getCrossSection();
+		double outputFactor = crossSection * getChamber().efficiency;
+		if(outputFactor >= 1)
+		{
+			outputFactor = 1;
+		}
 		
 		
+		int particlesOut = 0;
 		if (outputPlus != null)
 		{
-			plusAmount = outputPlus.getAmount();
+			particlesOut += outputPlus.getAmount();
 		}
 		if (outputNeutral != null)
 		{
-			neutralAmount = outputNeutral.getAmount();
+			particlesOut += outputNeutral.getAmount();
 		}
 		if (outputMinus != null)
 		{
-			minusAmount = outputMinus.getAmount();
+			particlesOut += outputMinus.getAmount();
 		}
-		long totalAmount = plusAmount + neutralAmount + minusAmount;
 		
-		
-			
 		
 		getChamber().beams.get(1).setParticleStack(outputPlus);
 		if(outputPlus != null)
 		{
-			double particleEfficiency = outputPlus.getEnergySpread()+getChamber().efficiency-1 > 1 ? 1 : outputPlus.getEnergySpread()+getChamber().efficiency-1;
-			getChamber().beams.get(1).getParticleStack().setMeanEnergy(outputPlus.getMeanEnergy()+getChamber().beams.get(0).getParticleStack().getMeanEnergy()/outputPlus.getLuminosity());
-			getChamber().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount()*particleEfficiency*getChamber().beams.get(0).getParticleStack().getAmount()));
-			getChamber().beams.get(1).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
+			getChamber().beams.get(1).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
+			getChamber().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount() * outputFactor * input.getAmount()));
+			getChamber().beams.get(1).getParticleStack().setFocus(input.getFocus());
 		}
 		
 		
 		getChamber().beams.get(2).setParticleStack(outputNeutral);
 		if(outputNeutral != null)
 		{
-
-			double particleEfficiency = outputNeutral.getEnergySpread()+getChamber().efficiency-1 > 1 ? 1 : outputNeutral.getEnergySpread()+getChamber().efficiency-1;
-			getChamber().beams.get(2).getParticleStack().setMeanEnergy(outputNeutral.getMeanEnergy()+getChamber().beams.get(0).getParticleStack().getMeanEnergy()/outputNeutral.getLuminosity());
-			getChamber().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount()*particleEfficiency*getChamber().beams.get(0).getParticleStack().getAmount()));
-			getChamber().beams.get(2).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
+			getChamber().beams.get(2).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
+			getChamber().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount() * outputFactor * input.getAmount()));
+			getChamber().beams.get(2).getParticleStack().setFocus(input.getFocus());
 		}
 		
 		getChamber().beams.get(3).setParticleStack(outputMinus);
 		if(outputMinus != null)
 		{
-
-			double particleEfficiency = outputMinus.getEnergySpread()+getChamber().efficiency-1 > 1 ? 1 : outputMinus.getEnergySpread()+getChamber().efficiency-1;
-			getChamber().beams.get(3).getParticleStack().setMeanEnergy(outputMinus.getMeanEnergy()+getChamber().beams.get(0).getParticleStack().getMeanEnergy()/outputMinus.getLuminosity());
-			getChamber().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount()*particleEfficiency*getChamber().beams.get(0).getParticleStack().getAmount()));
-			getChamber().beams.get(3).getParticleStack().setLuminosity(getChamber().beams.get(0).getParticleStack().getLuminosity());
+			getChamber().beams.get(3).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
+			getChamber().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount() * outputFactor * input.getAmount()));
+			getChamber().beams.get(3).getParticleStack().setFocus(input.getFocus());
 		}
 	}
 
@@ -495,7 +486,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			input.setMeanEnergy(0);
 			particles.add(input);
 			
-			recipeInfo = decay_chamber.getRecipeInfoFromInputs( new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);	
+			recipeInfo = decay_chamber.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);	
 		}
 		else
 		{
@@ -508,7 +499,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		return new DecayChamberUpdatePacket(getChamber().controller.getTilePos(), getChamber().isChamberOn,
 				getChamber().requiredEnergy, getChamber().efficiency, getChamber().energyStorage,
-				getChamber().beams,particleCount,recipeParticleCount);
+				getChamber().beams,particleWorkDone,recipeParticleWork);
 	}
 	
 	@Override
@@ -519,8 +510,8 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		{
 			DecayChamberUpdatePacket packet = (DecayChamberUpdatePacket) message;
 			getChamber().beams = packet.beams;
-			this.particleCount = packet.particleCount;
-			this.recipeParticleCount = packet.recipeParticleCount;
+			this.particleWorkDone = packet.particleWorkDone;
+			this.recipeParticleWork = packet.recipeParticleWork;
 		}
 	}
 	
@@ -532,8 +523,8 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		super.writeToLogicTag(logicTag, syncReason);
 		
-		logicTag.setLong("particleCount", particleCount);
-		logicTag.setLong("recipeParticleCount", recipeParticleCount);
+		logicTag.setLong("particleCount", particleWorkDone);
+		logicTag.setLong("recipeParticleCount", recipeParticleWork);
 		logicTag.setBoolean("outputSwitched", outputSwitched);
 	}
 
@@ -542,8 +533,8 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		super.readFromLogicTag(logicTag, syncReason);
 		
-		particleCount=logicTag.getLong("particleCount");
-		recipeParticleCount=logicTag.getLong("recipeParticleCount");
+		particleWorkDone=logicTag.getLong("particleCount");
+		recipeParticleWork=logicTag.getLong("recipeParticleCount");
 		outputSwitched =logicTag.getBoolean("outputSwitched");
 	}
 	

@@ -35,8 +35,8 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 	
 	public TargetChamberCategory(IGuiHelper guiHelper) 
 	{
-		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png");
-		background = guiHelper.createDrawable(gui_texture, 4, 3, 142, 90);
+		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/target_chamber.png");
+		background = guiHelper.createDrawable(gui_texture, 0, 0, 150, 100);
 		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.targetChamberController));
 		
 	}
@@ -89,15 +89,15 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 		
 		
 		
-		guiItemStacks.init(0, true, 42, 26);
+		guiItemStacks.init(0, true, 42, 25);
 		
-		guiParticleStacks.init(1, true, 8, 27);
+		guiParticleStacks.init(1, true, 8, 26);
 		
-		guiItemStacks.init(2, false, 84, 26);
+		guiItemStacks.init(2, false, 84, 25);
 		
-		guiParticleStacks.init(3, true, 76, 4);
-		guiParticleStacks.init(4, true, 122, 27);
-		guiParticleStacks.init(5, true, 76, 50);
+		guiParticleStacks.init(3, true, 76, 3);
+		guiParticleStacks.init(4, true, 122, 26);
+		guiParticleStacks.init(5, true, 76, 49);
 		
 		
 		guiItemStacks.set(0,itemInput.get(0));

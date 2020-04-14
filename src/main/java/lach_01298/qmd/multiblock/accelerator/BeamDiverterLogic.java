@@ -370,15 +370,15 @@ public class BeamDiverterLogic extends AcceleratorLogic
 				ParticleStack particleStraightOut = getAccelerator().beams.get(2).getParticleStack();
 				
 				particleOut.addMeanEnergy(-getEnergyLoss());
-				particleOut.addLuminosity(-5*QMDConfig.beamAttenuationRate);
-				particleStraightOut.addLuminosity(-5*QMDConfig.beamAttenuationRate);
+				particleOut.addFocus(-5*QMDConfig.beamAttenuationRate);
+				particleStraightOut.addFocus(-5*QMDConfig.beamAttenuationRate);
 				
-				if(particleOut.getLuminosity() <= 0)
+				if(particleOut.getFocus() <= 0)
 				{
 					particleOut = null;
 					getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 				}
-				if(particleStraightOut.getLuminosity() <= 0)
+				if(particleStraightOut.getFocus() <= 0)
 				{
 					particleStraightOut = null;
 					getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;

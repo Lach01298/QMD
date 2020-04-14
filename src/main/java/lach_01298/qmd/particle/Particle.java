@@ -2,6 +2,7 @@ package lach_01298.qmd.particle;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -22,7 +23,7 @@ public class Particle
 	protected final boolean coloured;
 	protected final boolean weakCharged;
 	protected Particle antiparticle;
-	protected List<Particle> componentParticles = new ArrayList<Particle>();
+	protected HashMap<Particle, Integer> componentParticles = new HashMap<Particle, Integer>();
 	
 	//render stuff
 	protected final ResourceLocation texture;
@@ -44,7 +45,7 @@ public class Particle
 	
 
 
-	public Particle(@Nonnull String name, ResourceLocation texture, double mass, double charge, double spin, boolean weakCharged, Boolean coloured)
+	public Particle(@Nonnull String name, ResourceLocation texture, double mass, double charge, double spin, boolean weakCharged, boolean coloured)
 	{
 		this.name = name;
 		this.texture = texture;
@@ -94,15 +95,36 @@ public class Particle
 
 	public void addComponentParticle(Particle component)
 	{
-		componentParticles.add(component);
+		if(componentParticles.containsKey(component))
+		{
+			componentParticles.replace(component, componentParticles.get(component)+1);
+		}
+		else
+		{
+			componentParticles.put(component, 1);
+		}
+		
+		
 	}
 
-	public void setComponentParticles(List<Particle> components)
+	public void addComponentParticle(Particle component, int amount)
 	{
-		componentParticles = components;
+		if(componentParticles.containsKey(component))
+		{
+			componentParticles.replace(component, componentParticles.get(component)+amount);
+		}
+		else
+		{
+			componentParticles.put(component, amount);
+		}
+	}
+	
+	public void setComponentParticles(HashMap<Particle, Integer> particles)
+	{
+		componentParticles = particles;	
 	}
 
-	public List<Particle> getComponentParticles()
+	public HashMap<Particle, Integer> getComponentParticles()
 	{
 		return componentParticles;
 	}

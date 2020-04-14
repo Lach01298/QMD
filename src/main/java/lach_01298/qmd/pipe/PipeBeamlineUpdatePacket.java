@@ -27,19 +27,21 @@ public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
 	@Override
 	public void readMessage(ByteBuf buf)
 	{
-		storage = ByteUtil.readBufBeam(buf);
+		storage = (ParticleStorageAccelerator) ByteUtil.readBufParticleStorage(buf);
 	}
 
 	@Override
 	public void writeMessage(ByteBuf buf)
 	{
-		ByteUtil.writeBufBeam(storage, buf);
+		ByteUtil.writeBufParticleStorage(storage, buf);
 	}
 
 	
-public static class Handler extends MultiblockUpdatePacket.Handler<PipeBeamlineUpdatePacket, Pipe, TileBeamline> {
+public static class Handler extends MultiblockUpdatePacket.Handler<PipeBeamlineUpdatePacket, Pipe, TileBeamline> 
+{
 		
-		public Handler() {
+		public Handler() 
+		{
 			super(TileBeamline.class);
 		}
 	}

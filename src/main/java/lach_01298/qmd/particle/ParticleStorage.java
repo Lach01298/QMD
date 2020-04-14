@@ -46,6 +46,13 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		this.minEnergy = 0;
 	}
 	
+	public ParticleStorage()
+	{
+		this.particleStack = null;
+		this.maxEnergy = Long.MAX_VALUE;
+		this.capacity = Integer.MAX_VALUE;
+		this.minEnergy = 0;
+	}
 
 	public ParticleStorage readFromNBT(NBTTagCompound nbt)
 	{

@@ -120,7 +120,10 @@ public class Particles
 		{
 			list.put(particle.getName(), particle);
 		}
-		Util.getLogger().error("tried registering paticle " + particle.getName() + " but " + particle.getName() + " already exists");	
+		else
+		{
+			Util.getLogger().error("tried registering paticle " + particle.getName() + " but " + particle.getName() + " already exists");	
+		}
 	}
 	
 	
@@ -177,9 +180,9 @@ public class Particles
 		//bosons
 		photon = new Particle("photon",Util.appendPath(particlePath, "photon.png"),0,0,1,false);
 		gluon = new Particle("gluon",Util.appendPath(particlePath, "gluon.png"),0,0,1,false,true);
-		w_plus_boson = new Particle("w_plus_boson",Util.appendPath(particlePath, "w_plus_boson.png"),8038,1,1,true);
-		w_minus_boson = new Particle("w_minus_boson",Util.appendPath(particlePath, "w_minus_boson.png"),8038,-1,1,true);
-		z_boson = new Particle("z_boson",Util.appendPath(particlePath, "z_boson.png"),9118,0,1,false);
+		w_plus_boson = new Particle("w_plus_boson",Util.appendPath(particlePath, "w_plus_boson.png"),80380,1,1,true);
+		w_minus_boson = new Particle("w_minus_boson",Util.appendPath(particlePath, "w_minus_boson.png"),80380,-1,1,true);
+		z_boson = new Particle("z_boson",Util.appendPath(particlePath, "z_boson.png"),91180,0,1,false);
 		higgs_boson = new Particle("higgs_boson",Util.appendPath(particlePath, "higgs_boson.png"),125180,0,0,true);
 		
 		
@@ -200,12 +203,10 @@ public class Particles
 		
 		
 		initComposites();
-		register();
 	}
 
 	public static void register()
 	{
-		
 		registerParticle(up);
 		registerParticle(antiup);
 		registerParticle(down);
@@ -270,15 +271,13 @@ public class Particles
 	{
 		//Nucleons
 		proton = new Particle("proton",Util.appendPath(particlePath, "proton.png"),938.3,1,1d/2d,true);
-		proton.addComponentParticle(up);
-		proton.addComponentParticle(up);
+		proton.addComponentParticle(up,2);
 		proton.addComponentParticle(down);
 		antiproton = makeAntiParticle(proton, "antiproton",Util.appendPath(particlePath, "antiproton.png"));
 		
 		neutron = new Particle("neutron",Util.appendPath(particlePath, "neutron.png"),939.6,0,1d/2d,true);
 		neutron.addComponentParticle(up);
-		neutron.addComponentParticle(down);
-		neutron.addComponentParticle(down);
+		neutron.addComponentParticle(down,2);
 		antineutron = makeAntiParticle(neutron, "antineutron",Util.appendPath(particlePath, "antineutron.png"));
 		
 		
@@ -289,22 +288,22 @@ public class Particles
 		antideuteron = makeAntiParticle(deuteron, "antideuteron",Util.appendPath(particlePath, "antideuteron.png"));
 		
 		alpha = new Particle("alpha",Util.appendPath(particlePath, "alpha.png"),3727,2,0,true);
-		alpha.addComponentParticle(proton);
-		alpha.addComponentParticle(proton);
-		alpha.addComponentParticle(neutron);
-		alpha.addComponentParticle(neutron);
+		alpha.addComponentParticle(proton,2);
+		alpha.addComponentParticle(neutron,2);
+
 		antialpha = makeAntiParticle(alpha, "antialpha",Util.appendPath(particlePath, "antialpha.png"));
 		
 		
 		triton = new Particle("triton",Util.appendPath(particlePath, "triton.png"),2809,1,1/2,true);
 		triton.addComponentParticle(proton);
-		triton.addComponentParticle(neutron);
-		triton.addComponentParticle(neutron);
+		triton.addComponentParticle(neutron,2);
 		antitriton = makeAntiParticle(triton, "antitriton",Util.appendPath(particlePath, "antitriton.png"));
 		
 		
 		boron_ion = new Particle("boron_ion",Util.appendPath(particlePath, "boron_ion.png"),10246,1,1/2,true);
-		boron_ion.setComponentParticles(Lists.newArrayList(proton,proton,proton,proton,proton,neutron,neutron,neutron,neutron,neutron,neutron,electron,electron,electron,electron));
+		boron_ion.addComponentParticle(proton,5);
+		boron_ion.addComponentParticle(neutron,5);
+		boron_ion.addComponentParticle(electron,4);
 		
 		
 		
@@ -341,14 +340,14 @@ public class Particles
 		double spin = particle.getSpin();
 		boolean weakCharged = particle.interactsWithWeak();
 		boolean isColoured = particle.interactsWithStrong();
-		List<Particle> anticomponent = new ArrayList<Particle>();
-		for (Particle component : particle.getComponentParticles())
+		 HashMap<Particle, Integer> anticomponents = new  HashMap<Particle, Integer>();
+		for (Map.Entry<Particle, Integer> component : particle.getComponentParticles().entrySet())
 		{
-			anticomponent.add(component.getAntiParticle());
+			anticomponents.put(component.getKey().getAntiParticle(), component.getValue());
 		}
 
 		Particle antiparticle = new Particle(name, texture, mass, charge, spin, weakCharged,isColoured);
-		antiparticle.setComponentParticles(anticomponent);
+		antiparticle.setComponentParticles(anticomponents);
 		antiparticle.setAntiParticle(particle);
 		return antiparticle;
 

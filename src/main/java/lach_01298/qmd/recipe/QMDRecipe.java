@@ -7,8 +7,7 @@ import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.config.NCConfig;
 import nc.recipe.IRecipe;
 import nc.recipe.IngredientSorption;
-
-
+import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 
@@ -27,10 +26,9 @@ public class QMDRecipe  implements IQMDRecipe
 	protected List extras;
 	public boolean isShapeless;
 
-	public QMDRecipe(List<IItemIngredient> itemIngredientsList, List<IFluidIngredient> fluidIngredientsList,
-			List<IParticleIngredient> particleIngredientsList, List<IItemIngredient> itemProductsList,
-			List<IFluidIngredient> fluidProductsList, List<IParticleIngredient> particleProductsList, List extrasList,
-			boolean shapeless)
+
+	public QMDRecipe(List<IItemIngredient> itemIngredientsList, List<IFluidIngredient> fluidIngredientsList,List<IParticleIngredient> particleIngredientsList, List<IItemIngredient> itemProductsList,
+			List<IFluidIngredient> fluidProductsList, List<IParticleIngredient> particleProductsList, List extrasList, boolean shapeless)
 	{
 		itemIngredients = itemIngredientsList;
 		fluidIngredients = fluidIngredientsList;
@@ -41,115 +39,106 @@ public class QMDRecipe  implements IQMDRecipe
 
 		extras = extrasList;
 		isShapeless = shapeless;
+		
 	}
 
 	@Override
-	public List<IItemIngredient> itemIngredients()
+	public List<IItemIngredient> getItemIngredients()
 	{
 		return itemIngredients;
 	}
 
 	@Override
-	public List<IFluidIngredient> fluidIngredients()
+	public List<IFluidIngredient> getFluidIngredients()
 	{
 		return fluidIngredients;
 	}
 
 	@Override
-	public List<IParticleIngredient> particleIngredients()
+	public List<IParticleIngredient> getParticleIngredients()
 	{
 		return particleIngredients;
 	}
 
 	@Override
-	public List<IItemIngredient> itemProducts()
+	public List<IItemIngredient> getItemProducts()
 	{
 		return itemProducts;
 	}
 
 	@Override
-	public List<IFluidIngredient> fluidProducts()
+	public List<IFluidIngredient> getFluidProducts()
 	{
 		return fluidProducts;
 	}
 
 	@Override
-	public List<IParticleIngredient> particleProducts()
+	public List<IParticleIngredient> getParticleProducts()
 	{
 		return particleProducts;
 	}
 
 	@Override
-	public List extras()
+	public List getExtras()
 	{
 		return extras;
 	}
+	
+	public boolean isShapeless() 
+	{
+		return isShapeless;
+	}
+	
 
 	@Override
-	public QMDRecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,
-			List<ParticleStack> particleInputs)
+	public QMDRecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,List<ParticleStack> particleInputs, List extras)
 	{
 		
-		return RecipeHelper.matchIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients,particleIngredients, itemInputs, fluidInputs,particleInputs, isShapeless);
+		return QMDRecipeHelper.matchIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients,particleIngredients, itemInputs, fluidInputs, particleInputs, isShapeless, extras);
 	}
 
 	@Override
-	public QMDRecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs,
-			List<ParticleStack> particleOutputs)
+	public QMDRecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs, List<ParticleStack> particleOutputs)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return QMDRecipeHelper.matchIngredients(IngredientSorption.OUTPUT, itemProducts, fluidProducts,particleIngredients, itemOutputs, fluidOutputs, particleOutputs, isShapeless, extras);
 	}
 
 	@Override
-	public QMDRecipeMatchResult matchIngredients(List<IItemIngredient> itemIngredients,
-			List<IFluidIngredient> fluidIngredients, List<IParticleIngredient> particleIngredients)
+	public QMDRecipeMatchResult matchIngredients(List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients, List<IParticleIngredient> particleIngredients)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return QMDRecipeHelper.matchIngredients(IngredientSorption.INPUT, this.itemIngredients, this.fluidIngredients, this.particleIngredients, itemIngredients, fluidIngredients, particleIngredients, isShapeless, extras);
 	}
 
 	@Override
-	public QMDRecipeMatchResult matchProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts,
-			List<IParticleIngredient> particleProducts)
+	public QMDRecipeMatchResult matchProducts(List<IItemIngredient> itemProducts, List<IFluidIngredient> fluidProducts, List<IParticleIngredient> particleProducts)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return QMDRecipeHelper.matchIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, this.particleProducts, itemProducts, fluidProducts, particleProducts, isShapeless, extras);
 	}
 
 	/* ================================== Recipe Extras ===================================== */
 	
-	// Processors
-	
-	public double getBaseProcessTime(double defaultProcessTime)
+	public long getMaxEnergy()
 	{
-		if (extras.isEmpty())
-			return defaultProcessTime;
-		else if (extras.get(0) instanceof Double)
-			return ((double) extras.get(0)) * defaultProcessTime;
-		else
-			return defaultProcessTime;
+		return (long) extras.get(0);
 	}
 	
-	public double getBaseProcessPower(double defaultProcessPower)
+	public double getCrossSection()
 	{
-		if (extras.size() < 2)
-			return defaultProcessPower;
-		else if (extras.get(1) instanceof Double)
-			return ((double) extras.get(1)) * defaultProcessPower;
-		else
-			return defaultProcessPower;
+		return (double) extras.get(1);
 	}
 	
-	public double getBaseProcessRadiation()
+	public long getEnergyRelased()
 	{
-		if (extras.size() < 3)
-			return 0D;
-		else if (extras.get(2) instanceof Double)
-			return (double) extras.get(2);
-		else
-			return 0D;
+		return (long) extras.get(2);
 	}
+	
+	
+	public double getBaseProcessRadiation() 
+	{
+		return (double) extras.get(3);
+	}
+	
+
 
 
 	

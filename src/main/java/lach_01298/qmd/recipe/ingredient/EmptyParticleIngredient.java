@@ -7,7 +7,9 @@ import com.google.common.collect.Lists;
 
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.mc1120.item.MCItemStack;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import lach_01298.qmd.crafttweaker.particle.CTParticleStack;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
@@ -34,6 +36,12 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	{
 		return new ArrayList<>();
 	}
+	
+	@Override
+	public List<ParticleStack> getInputStackHashingList()
+	{
+		return Lists.newArrayList((ParticleStack) null);
+	}
 
 	@Override
 	public List<ParticleStack> getOutputStackList()
@@ -41,6 +49,17 @@ public class EmptyParticleIngredient implements IParticleIngredient
 		return new ArrayList<>();
 	}
 
+	@Override
+	public int getMaxStackSize(int ingredientNumber)
+	{
+		return 0;
+	}
+
+	@Override
+	public void setMaxStackSize(int stackSize)
+	{
+	}
+	
 	@Override
 	public String getIngredientName()
 	{
@@ -54,15 +73,16 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	}
 
 	@Override
-	public int getMaxStackSize(int ingredientNumber)
+	public IntList getFactors()
 	{
-		return 0;
+		return new IntArrayList();
 	}
 
 	@Override
-	public void setMaxStackSize(int stackSize)
+	public IParticleIngredient getFactoredIngredient(int factor)
 	{
-	}
+		return new EmptyParticleIngredient();
+	}	
 
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption)
@@ -82,31 +102,21 @@ public class EmptyParticleIngredient implements IParticleIngredient
 		return true;
 	}
 
-	@Override
-	public List<ParticleStack> getInputStackHashingList()
-	{
-		return Lists.newArrayList((ParticleStack) null);
-	}
+	
 
 	@Override
 	public IIngredient ct()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new CTParticleStack();
 	}
 
 	@Override
-	public IntList getFactors()
+	public IngredientMatchResult matchWithData(Object object, IngredientSorption type, List extras)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return match(object, type);
 	}
 
-	@Override
-	public IParticleIngredient getFactoredIngredient(int factor)
-	{
-		return new EmptyParticleIngredient();
-	}
+	
 
 
 }

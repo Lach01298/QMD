@@ -28,7 +28,7 @@ public final class ParticleStackListFactory
 		Map<String, Particle> registeredParticles = Particles.list;
 		for (Particle particle : registeredParticles.values())
 		{
-			ParticleStack particleStack = new ParticleStack(particle, 0, 0,0,0);
+			ParticleStack particleStack = new ParticleStack(particle, 0, 0, 0);
 			particleStacks.add(particleStack);
 		}
 

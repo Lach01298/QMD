@@ -20,9 +20,10 @@ import net.minecraft.util.math.BlockPos;
 public class DecayChamberUpdatePacket extends ParticleChamberUpdatePacket
 {
 	public List<ParticleStorageAccelerator> beams;
-	public long particleCount, recipeParticleCount;
+	public long particleWorkDone, recipeParticleWork;
 	
-	public DecayChamberUpdatePacket() {
+	public DecayChamberUpdatePacket() 
+	{
 		super();
 		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
@@ -32,8 +33,8 @@ public class DecayChamberUpdatePacket extends ParticleChamberUpdatePacket
 	{
 		super(pos, isAcceleratorOn, requiredEnergy, efficiency, energyStorage);
 		this.beams = beams;
-		this.particleCount =particleCount;
-		this.recipeParticleCount=particleRecipeCount;
+		this.particleWorkDone =particleCount;
+		this.recipeParticleWork=particleRecipeCount;
 	}
 
 	@Override
@@ -47,8 +48,8 @@ public class DecayChamberUpdatePacket extends ParticleChamberUpdatePacket
 			beams.add(ByteUtil.readBufBeam(buf));
 		}
 
-		particleCount = buf.readLong();
-		recipeParticleCount = buf.readLong();
+		particleWorkDone = buf.readLong();
+		recipeParticleWork = buf.readLong();
 	}
 
 	@Override
@@ -61,13 +62,15 @@ public class DecayChamberUpdatePacket extends ParticleChamberUpdatePacket
 		{
 			ByteUtil.writeBufBeam(beam, buf);
 		}
-		buf.writeLong(particleCount);
-		buf.writeLong(recipeParticleCount);
+		buf.writeLong(particleWorkDone);
+		buf.writeLong(recipeParticleWork);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<DecayChamberUpdatePacket, ParticleChamber, TileDecayChamberController> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<DecayChamberUpdatePacket, ParticleChamber, TileDecayChamberController> 
+	{
 		
-		public Handler() {
+		public Handler() 
+		{
 			super(TileDecayChamberController.class);
 		}
 	}

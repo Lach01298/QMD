@@ -474,42 +474,45 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack());
 			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
-			
-			long maxEnergyFromFeild = 0;
-			if(getAccelerator().acceleratingVoltage > 0)
-			{
-				maxEnergyFromFeild = (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
-			}
-			
-			
-			long maxEnergyFromRadiation =  (long)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage/1000d*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
-				
-				
+	
 			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
+			particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
+			particleOut.addFocus(getAccelerator().quadrupoleStrength-getLength()*QMDConfig.beamAttenuationRate);
 			
-			
-			if(maxEnergyFromRadiation >= maxEnergyFromFeild)
-			{
-				particleOut.setMeanEnergy((long)(maxEnergyFromFeild*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
-			}
-			else
-			{
-				particleOut.setMeanEnergy((long)(maxEnergyFromRadiation*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
-			}
-			
-			particleOut.addLuminosity((int) (particleIn.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
-			if(particleOut.getLuminosity() <= 0)
+			if(particleOut.getFocus() <= 0)
 			{
 				particleOut = null;
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
-			
 		}
 		else
 		{
 			resetBeam();
 		}
 	}
+	
+	
+	public long getAcceleratorMaxEnergy(Particle particle)
+	{
+		if(particle != null && getAccelerator().acceleratingVoltage > 0)
+		{
+			long maxEnergyFromFeild = (long)(Math.pow(particle.getCharge()*getAccelerator().dipoleStrength * getRadius(), 2)/(2 * particle.getMass()) * 1000000);
+			long maxEnergyFromRadiation =  (long)(particle.getMass() * Math.pow((3 * getAccelerator().acceleratingVoltage * getRadius())/Math.abs(particle.getCharge()), 1/4d) * 1000000);
+		
+			if(maxEnergyFromRadiation < maxEnergyFromFeild)
+			{
+				return maxEnergyFromRadiation;
+			}
+			else
+			{
+				return maxEnergyFromFeild;
+			}
+		}
+		return 0;	
+	}
+	
+	
+	
 	
 	@Override
 	protected void pull()
@@ -522,43 +525,25 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 				if (tile != null)
 				{
 
-					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,
-							face.getOpposite()))
+					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 					{
 						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite());
 						ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
-						
 						if(stack != null)
 						{
-							Particle particle = stack.getParticle();
-							int maxEnergyFromFeild = 0;
-							if(getAccelerator().acceleratingVoltage > 0)
-							{
-								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
-							}
-							int maxEnergyFromRadiation =  (int)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
+							getAccelerator().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
 						
-							if(maxEnergyFromRadiation >= maxEnergyFromFeild)
-							{
-								getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromFeild);
-							}
-							else
-							{
-								getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromRadiation);
-							}
 							
-						}
-
-						if (!getAccelerator().beams.get(0).reciveParticle(face, stack))
-						{
-							if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
+							if (!getAccelerator().beams.get(0).reciveParticle(face, stack))
 							{
-								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
-							}
-							else if (stack.getMeanEnergy() < getAccelerator().beams.get(0).getMinEnergy())
-							{
-								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
-
+								if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
+								{
+									getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+								}
+								else if (stack.getMeanEnergy() < getAccelerator().beams.get(0).getMinEnergy())
+								{
+									getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+								}
 							}
 						}
 					}

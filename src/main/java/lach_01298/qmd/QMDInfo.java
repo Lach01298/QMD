@@ -167,7 +167,7 @@ public class QMDInfo
 	}
 	public static String BeamlineFixedlineInfo()
 	{	
-		return Lang.localise("info." + QMD.MOD_ID + ".beamline.attenuation",Units.getSIFormat(QMDConfig.beamAttenuationRate,"lu/Block"));
+		return Lang.localise("info." + QMD.MOD_ID + ".beamline.attenuation",QMDConfig.beamAttenuationRate);
 	}
 
 

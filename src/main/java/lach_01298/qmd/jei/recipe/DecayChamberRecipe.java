@@ -30,13 +30,19 @@ public class DecayChamberRecipe implements IRecipeWrapper
 	private final ParticleStack outputParticlePlus;
 	private final ParticleStack outputParticleNeutral;
 	private final ParticleStack outputParticleMinus;
+	private final long maxEnergy;
+	private final double crossSection;
+	private final double energyReleased;
 
-	public DecayChamberRecipe( ParticleStack inputParticle, ParticleStack outputParticlePlus, ParticleStack outputParticleNeutral, ParticleStack outputParticleMinus)
+	public DecayChamberRecipe(ParticleStack inputParticle, ParticleStack outputParticlePlus, ParticleStack outputParticleNeutral, ParticleStack outputParticleMinus, long maxEnergy, double crossSection, long energyReleased)
 	{
 		this.inputParticle = inputParticle;
 		this.outputParticlePlus = outputParticlePlus;
 		this.outputParticleNeutral = outputParticleNeutral;
 		this.outputParticleMinus= outputParticleMinus;
+		this.maxEnergy = maxEnergy;
+		this.crossSection = crossSection;
+		this.energyReleased = energyReleased;
 	}
 	
 	@Override
@@ -53,32 +59,21 @@ public class DecayChamberRecipe implements IRecipeWrapper
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
 	{
 		FontRenderer fontRenderer = minecraft.fontRenderer;
+
 		
-		
-		double efficacy = 1;
-
-		if(outputParticlePlus != null)
-		{
-			efficacy = outputParticlePlus.getEnergySpread();
-
-		}
-		if(outputParticleNeutral != null)
-		{
-			efficacy = outputParticleNeutral.getEnergySpread();
-
-		}
-		if(outputParticleMinus != null)
-		{
-			efficacy = outputParticleMinus.getEnergySpread();
-
-		}
-		
-
 		DecimalFormat df = new DecimalFormat("#.##");
-		String efficacyString = Lang.localise("gui.qmd.jei.reaction.efficiency", df.format(efficacy * 100));
-		fontRenderer.drawString(efficacyString, 0, 72, Color.gray.getRGB());
+		String maxEnergyString = Lang.localise("gui.qmd.jei.reaction.max_energy", Units.getSIFormat(maxEnergy,3,"eV"));
+		String crossSectionString = Lang.localise("gui.qmd.jei.reaction.cross_section", df.format(crossSection*100));
+		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getSIFormat(energyReleased,3,"eV"));
 		
-			
+		
+		fontRenderer.drawString(crossSectionString, 0, 72, Color.gray.getRGB());
+		fontRenderer.drawString(energyReleasedString, 0, 82, Color.gray.getRGB());
+		
+		if(maxEnergy != Long.MAX_VALUE)
+		{
+			fontRenderer.drawString(maxEnergyString, 0, 92, Color.gray.getRGB());	
+		}
 	}
 
 }

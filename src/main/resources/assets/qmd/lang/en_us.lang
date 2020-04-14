@@ -219,11 +219,11 @@ tile.qmd.accelerator_magnet.desc=Bends the path charged particles with a strong 
 tile.qmd.accelerator_yoke.desc=Shapes and strengthens the magnetic field of a electromagnet. Used to make a Dipole magnet. For a dipole magnet a beam must have a electromagnet on the top and bottom then all space not taken by beams in a 3x3 around the central beam must be filled with electromagnet yokes.
 
 
-tile.qmd.particle_chamber.detector.bubble_chamber.desc=Must be placed within 2 blocks of a Target.
-tile.qmd.particle_chamber.detector.wire_chamber.desc=Must be placed within 2 blocks of a Target.
-tile.qmd.particle_chamber.detector.silicon_tracker.desc=Must be placed next to a Target.
-tile.qmd.particle_chamber.detector.em_calorimeter.desc=Must be place within 3 blocks of a Target.
-tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=Must be place within 5 blocks of a Target.
+tile.qmd.particle_chamber.detector.bubble_chamber.desc=Must be placed within 2 blocks of a Particle Chamber.
+tile.qmd.particle_chamber.detector.wire_chamber.desc=Must be placed within 2 blocks of a Particle Chamber.
+tile.qmd.particle_chamber.detector.silicon_tracker.desc=Must be placed next to a Particle Chamber.
+tile.qmd.particle_chamber.detector.em_calorimeter.desc=Must be place within 3 blocks of a Particle Chamber.
+tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=Must be place within 5 blocks of a Particle Chamber.
 
 
 //fluids
@@ -343,9 +343,9 @@ gui.qmd.container.accelerator.coolant_out=Hot Coolant Out: %s
 
 gui.qmd.container.accelerator.error.1=To hot
 gui.qmd.container.accelerator.error.2=Does not have enough power
-gui.qmd.container.accelerator.error.3=Luminosity to low
+gui.qmd.container.accelerator.error.3=Focus to low
 gui.qmd.container.accelerator.error.4=Particle energy to low
-gui.qmd.container.accelerator.error.5=Particle energy to High
+gui.qmd.container.accelerator.error.5=Particle energy to high
 
 gui.qmd.container.beam_dirverter.max_energy=Maximum Energy: %s
 gui.qmd.container.beam_dirverter.energy_loss=Energy Loss: %s
@@ -462,7 +462,7 @@ qmd.particle.kaon_minus.desc=Kaons are Mesons with strangeness.
 //particleStack info
 gui.qmd.particlestack.amount=Amount: %s
 gui.qmd.particlestack.mean_energy=Energy: %s
-gui.qmd.particlestack.luminosity=Luminosity: %s
+gui.qmd.particlestack.focus=Focus: %s
 
 //jei
 qmd.gui.jei.category.accelerator_source=Ion Source
@@ -476,10 +476,10 @@ gui.qmd.jei.particle.spin=Spin: %s
 gui.qmd.jei.particle.colour=Color Charge: %s
 gui.qmd.jei.particle.weak=Weak Charge: %s
 gui.qmd.jei.particle.components=Made of:
-gui.qmd.jei.particle.luminosity=Minimum Luminosity: %s
+gui.qmd.jei.particle.focus=Minimum Focus: %s
 gui.qmd.jei.reaction.range=Range: %s
-gui.qmd.jei.reaction.q=Released Energy: %s
-gui.qmd.jei.reaction.efficiency=Particle Efficiency: %s%%
+gui.qmd.jei.reaction.energy_released=Released Energy: %s
+gui.qmd.jei.reaction.cross_section=Cross Section: %s%%
 
 //jei trick
 tile.qmd.irradiator_fuel.name=Irradiator Fuel

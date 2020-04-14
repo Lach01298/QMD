@@ -5,7 +5,7 @@ import java.util.List;
 public class QMDRecipeMatchResult
 {
 
-	public static final QMDRecipeMatchResult FAIL = new QMDRecipeMatchResult(false, AbstractQMDRecipeHandler.INVALID,
+	public static final QMDRecipeMatchResult FAIL = new QMDRecipeMatchResult(false, AbstractQMDRecipeHandler.INVALID, 
 			AbstractQMDRecipeHandler.INVALID, AbstractQMDRecipeHandler.INVALID, AbstractQMDRecipeHandler.INVALID,
 			AbstractQMDRecipeHandler.INVALID, AbstractQMDRecipeHandler.INVALID);
 

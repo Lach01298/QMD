@@ -2,8 +2,10 @@ package lach_01298.qmd;
 
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particle.IParticleStorage;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.Particles;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.heat.HeatBuffer;
@@ -47,18 +49,17 @@ public class ByteUtil
 	}
 	
 	
-	public static void writeBufBeam(ParticleStorageAccelerator beam,ByteBuf buf) 
+	public static void writeBufBeam(ParticleStorageAccelerator storage,ByteBuf buf) 
 	{
-		ParticleStack stack = beam.getParticleStack();
+		ParticleStack stack = storage.getParticleStack();
 		
 		
 		if(stack == null)
 		{
 			ByteBufUtils.writeUTF8String(buf,"none");
+			buf.writeInt(0);
 			buf.writeLong(0);
-			buf.writeInt(0);
 			buf.writeDouble(0);
-			buf.writeInt(0);
 		}
 		else
 		{
@@ -71,50 +72,111 @@ public class ByteUtil
 				ByteBufUtils.writeUTF8String(buf, stack.getParticle().getName());
 			}
 			
-			buf.writeLong(stack.getMeanEnergy());
 			buf.writeInt(stack.getAmount());
-			buf.writeDouble(stack.getEnergySpread());
-			buf.writeInt(stack.getLuminosity());
+			buf.writeLong(stack.getMeanEnergy());
+			buf.writeDouble(stack.getFocus());
 		}
 	
-		
-		
-		buf.writeLong(beam.getMaxEnergy());
-		buf.writeLong(beam.getMinEnergy());
+		buf.writeLong(storage.getMaxEnergy());
+		buf.writeLong(storage.getMinEnergy());
 	}
 	
 
 	
 	public static ParticleStorageAccelerator readBufBeam(ByteBuf buf)
 	{
-		ParticleStorageAccelerator beam = new ParticleStorageAccelerator();
+		ParticleStorageAccelerator storage = new ParticleStorageAccelerator();
 		
 		String string = ByteBufUtils.readUTF8String(buf);
 		if(string.equals("none"))
 		{
-			beam.setParticleStack(null);
+			storage.setParticleStack(null);
+			buf.readInt();
 			buf.readLong();
-			buf.readInt();
 			buf.readDouble();
-			buf.readInt();
-			
 		}
 		else
 		{
 			Particle p = Particles.getParticleFromName(string);
-			long energy = buf.readLong();
 			int amount = buf.readInt();
-			double spread = buf.readDouble();
-			int lum = buf.readInt();
+			long energy = buf.readLong();
+			double focus = buf.readDouble();
 			
-			ParticleStack stack = new ParticleStack(p,energy, amount, spread,lum);
-			beam.setParticleStack(stack);
+			
+			ParticleStack stack = new ParticleStack(p, amount, energy, focus);
+			storage.setParticleStack(stack);
 		}
 		
-		beam.setMaxEnergy(buf.readLong());
-		beam.setMinEnergy(buf.readLong());
+		storage.setMaxEnergy(buf.readLong());
+		storage.setMinEnergy(buf.readLong());
+		
+		return storage;
+	}
+	
+	
+	
+	public static void writeBufParticleStorage(ParticleStorage storage,ByteBuf buf) 
+	{
+		ParticleStack stack = storage.getParticleStack();
+		
+		
+		if(stack == null)
+		{
+			ByteBufUtils.writeUTF8String(buf,"none");
+			buf.writeInt(0);
+			buf.writeLong(0);
+			buf.writeDouble(0);
+		}
+		else
+		{
+			if(stack.getParticle() == null)
+			{
+				ByteBufUtils.writeUTF8String(buf, "none");
+			}
+			else
+			{
+				ByteBufUtils.writeUTF8String(buf, stack.getParticle().getName());
+			}
+			
+			buf.writeInt(stack.getAmount());
+			buf.writeLong(stack.getMeanEnergy());
+			buf.writeDouble(stack.getFocus());
+		}
+	
+		buf.writeLong(storage.getMaxEnergy());
+		buf.writeLong(storage.getMinEnergy());
+	}
+	
 
-		return beam;
+	
+	public static ParticleStorage readBufParticleStorage(ByteBuf buf)
+	{
+		ParticleStorage storage = new ParticleStorage();
+		
+		String string = ByteBufUtils.readUTF8String(buf);
+		if(string.equals("none"))
+		{
+			storage.setParticleStack(null);
+			buf.readInt();
+			buf.readLong();
+			buf.readDouble();
+		}
+		else
+		{
+			Particle p = Particles.getParticleFromName(string);
+			int amount = buf.readInt();
+			long energy = buf.readLong();
+			double focus = buf.readDouble();
+			
+			
+			ParticleStack stack = new ParticleStack(p, amount, energy, focus);
+			storage.setParticleStack(stack);
+		}
+		
+		storage.setMaxEnergy(buf.readLong());
+		storage.setMinEnergy(buf.readLong());
+		
+		return storage;
 	}
 	
 	

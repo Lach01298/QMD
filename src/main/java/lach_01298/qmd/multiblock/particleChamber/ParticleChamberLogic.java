@@ -26,7 +26,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 { 
 
 	public static final int maxSize = 7;
-	public static final int minSize = 3;
+	public static final int minSize = 1;
 	
 	
 	public ParticleChamberLogic(ParticleChamber multiblock)

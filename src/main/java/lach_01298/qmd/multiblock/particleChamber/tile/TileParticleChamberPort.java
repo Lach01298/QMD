@@ -36,7 +36,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 public class TileParticleChamberPort extends TileParticleChamberPart implements ITileInventory
 {
 	
-	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
+	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.create(); 
 	private @Nonnull InventoryTileWrapper invWrapper;
 	private TileTargetChamberController controller;
 	

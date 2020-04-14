@@ -105,7 +105,7 @@ public class GuiTargetChamberController extends GuiLogicMultiblockController<Par
 		
 		
 		//draw progress bar
-		int progress = (int)Math.round((double)logic.particleCount/(double)logic.recipeParticleCount*21);
+		int progress = (int)Math.round((double)logic.particleWorkDone/(double)logic.recipeParticleWork*21);
 		
 		
 		drawTexturedModalRect(guiLeft+65, guiTop+32, 182, 0, progress, 12);
@@ -140,12 +140,12 @@ public class GuiTargetChamberController extends GuiLogicMultiblockController<Par
 		GuiParticle guiParticle = new GuiParticle(this);
 		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft+12, guiTop+30);
 		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+80, guiTop+7);
-		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+125, guiTop+30);
+		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+126, guiTop+30);
 		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft+80, guiTop+53);
 		
 		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(0).getParticleStack(), guiLeft+12, guiTop+30, mouseX, mouseY);
 		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+80, guiTop+7, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(2).getParticleStack(), guiLeft+125, guiTop+30, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(2).getParticleStack(), guiLeft+126, guiTop+30, mouseX, mouseY);
 		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(3).getParticleStack(), guiLeft+80, guiTop+53, mouseX, mouseY);
 		
 		

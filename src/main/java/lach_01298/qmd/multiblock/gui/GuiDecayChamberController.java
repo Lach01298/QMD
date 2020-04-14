@@ -36,7 +36,7 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 		super(multiblock, controllerPos, container);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/decay_chamber_controller.png");
 		xSize = 176;
-		ySize = 100;
+		ySize = 113;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
 		
 		String efficiency = Lang.localise("gui.qmd.container.target_chamber.efficiency",String.format("%.2f", multiblock.efficiency*100));
-		fontRenderer.drawString(efficiency,offset, 76, fontColor);
+		fontRenderer.drawString(efficiency,offset, 80, fontColor);
 		
 		
 		
@@ -79,7 +79,7 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 		//input
 		if(multiblock.beams.get(0).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 51, guiTop + 39, 182, 0, 16, 6);
+			drawTexturedModalRect(guiLeft + 51, guiTop + 42, 182, 0, 16, 6);
 		}
 		
 		
@@ -87,19 +87,19 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 		//top output
 		if(multiblock.beams.get(1).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 84, guiTop + 18, 182, 6, 16, 16);
+			drawTexturedModalRect(guiLeft + 84, guiTop + 20, 182, 6, 16, 16);
 		}
 		
 		//middle output
 		if(multiblock.beams.get(2).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 85, guiTop + 40, 182, 38, 16, 4);
+			drawTexturedModalRect(guiLeft + 85, guiTop + 43, 182, 38, 16, 4);
 		}
 		
 		//bottom output
 		if(multiblock.beams.get(3).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 84, guiTop + 50, 182, 22, 16, 16);
+			drawTexturedModalRect(guiLeft + 84, guiTop + 53, 182, 22, 16, 16);
 		}
 		
 		
@@ -132,15 +132,15 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 	{
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		GuiParticle guiParticle = new GuiParticle(this);
-		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft+68, guiTop+34);
-		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+101, guiTop+11);
-		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+101, guiTop+34);
-		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft+101, guiTop+57);
+		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft+68, guiTop+37);
+		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+101, guiTop+14);
+		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+101, guiTop+37);
+		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft+101, guiTop+60);
 		
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(0).getParticleStack(), guiLeft+68, guiTop+34, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+101, guiTop+11, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(2).getParticleStack(), guiLeft+101, guiTop+34, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(3).getParticleStack(), guiLeft+101, guiTop+57, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(0).getParticleStack(), guiLeft+68, guiTop+37, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+101, guiTop+15, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(2).getParticleStack(), guiLeft+101, guiTop+37, mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(3).getParticleStack(), guiLeft+101, guiTop+60, mouseX, mouseY);
 		
 		
 		
