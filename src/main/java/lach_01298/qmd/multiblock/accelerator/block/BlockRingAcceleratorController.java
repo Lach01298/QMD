@@ -112,7 +112,7 @@ public class BlockRingAcceleratorController extends BlockAcceleratorPart
 			{
 				TileRingAcceleratorController controller = (TileRingAcceleratorController) world.getTileEntity(pos);
 				
-				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
+				if (controller.getMultiblock() != null && controller.isMultiblockAssembled())
 				{
 					
 					player.openGui(QMD.instance, GUI_ID.RING_ACCELERATOR, world, pos.getX(), pos.getY(), pos.getZ());

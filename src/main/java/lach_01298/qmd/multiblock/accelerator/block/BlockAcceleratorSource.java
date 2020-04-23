@@ -85,7 +85,7 @@ public class BlockAcceleratorSource extends BlockAcceleratorPart
 			{
 				TileAcceleratorSource controller = (TileAcceleratorSource) world.getTileEntity(pos);
 
-				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
+				if (controller.getMultiblock() != null && controller.isMultiblockAssembled())
 				{
 					
 					player.openGui(QMD.instance, GUI_ID.ACCELERATOR_SOURCE, world, pos.getX(), pos.getY(), pos.getZ());

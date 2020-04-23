@@ -12,9 +12,7 @@ import nc.init.NCBlocks;
 import nc.tab.NCTabs;
 import nc.tile.TileBin;
 import nc.tile.dummy.TileMachineInterface;
-import nc.tile.energy.battery.TileBattery;
 import nc.tile.generator.TileDecayGenerator;
-import nc.tile.generator.TileRTG;
 import nc.tile.generator.TileSolarPanel;
 import nc.tile.passive.TilePassive;
 import nc.tile.processor.TileProcessor;
@@ -702,49 +700,6 @@ public class EnumTypes
 		}
 	}
 	
-	public enum SimpleTileType implements IStringSerializable 
-	{
-		RTG_STRONTIUM("rtg_strontium", QMDTabs.BLOCKS);
-		
-		
-		private String name;
-		private CreativeTabs tab;
-		
-		private SimpleTileType(String name, CreativeTabs tab) 
-		{
-			this.name = name;
-			this.tab = tab;
-		}
-		
-		@Override
-		public String getName() 
-		{
-			return name;
-		}
-		
-		public TileEntity getTile() 
-		{
-			switch (this) 
-			{
-		
-			
-			case RTG_STRONTIUM:
-				return new QMDTileRTG.Strontium();
-		
-			
-			default:
-				return null;
-			}
-		}
-		
-		public CreativeTabs getCreativeTab() 
-		{
-			return tab;
-		}
-	}
-	
-	
-
 	
 }
 

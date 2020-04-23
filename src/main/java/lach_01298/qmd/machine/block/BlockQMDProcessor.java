@@ -100,8 +100,8 @@ public class BlockQMDProcessor extends BlockSidedTile implements IActivatable, I
 		
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof IUpgradable) {
-			if (installUpgrade(tile, ((IUpgradable) tile).getSpeedUpgradeSlot(), player, facing, new ItemStack(NCItems.upgrade, 1, 0))) return true;
-			if (installUpgrade(tile, ((IUpgradable) tile).getEnergyUpgradeSlot(), player, facing, new ItemStack(NCItems.upgrade, 1, 1))) return true;
+			if (installUpgrade(tile, ((IUpgradable) tile).getSpeedUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 0))) return true;
+			if (installUpgrade(tile, ((IUpgradable) tile).getEnergyUpgradeSlot(), player, hand, facing, new ItemStack(NCItems.upgrade, 1, 1))) return true;
 		}
 		
 		if (player.isSneaking()) return false;

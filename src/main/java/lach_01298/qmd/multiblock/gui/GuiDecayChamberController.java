@@ -108,7 +108,7 @@ public class GuiDecayChamberController extends GuiLogicMultiblockController<Part
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 153, 81, 18, 18);
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
 		
 		
 		drawTooltip(energyInfo(), mouseX, mouseY, 160, 4, 8, 76);

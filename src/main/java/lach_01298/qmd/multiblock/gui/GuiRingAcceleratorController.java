@@ -123,7 +123,7 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllFluidsInfo(), mouseX, mouseY, 153, 81, 18, 18);
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
 		
 		
 		drawTooltip(energyInfo(), mouseX, mouseY, 8, 5, 8, 96);

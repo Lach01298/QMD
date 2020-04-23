@@ -1,5 +1,10 @@
 package lach_01298.qmd.pipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
@@ -46,7 +51,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	}
 
 	@Override
-	public void onMachineAssembled()
+	public void onMachineAssembled(boolean wasAssembled)
 	{
 		onPipeFormed();
 	}
@@ -122,6 +127,12 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	public void onUpdateClient()
 	{
 		
+	}
+
+	@Override
+	public List<Pair<Class<? extends IPipePart>, String>> getPartBlacklist()
+	{
+		return new ArrayList<>();
 	}
 
 }

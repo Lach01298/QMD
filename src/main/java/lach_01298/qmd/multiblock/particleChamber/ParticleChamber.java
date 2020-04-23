@@ -27,7 +27,6 @@ import nc.Global;
 import nc.multiblock.ILogicMultiblock;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
-import nc.multiblock.ILogicMultiblock.PartSuperMap;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
@@ -43,7 +42,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePacket> implements ILogicMultiblock<ParticleChamberLogic, IParticleChamberPart>
+public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, ParticleChamberUpdatePacket> implements ILogicMultiblock<ParticleChamberLogic, IParticleChamberPart>
 { 
 
 	public static final ObjectSet<Class<? extends IParticleChamberPart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -135,9 +134,9 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	}
 
 	@Override
-	protected void onMachineAssembled()
+	protected void onMachineAssembled(boolean wasAssembled)
 	{
-		logic.onMachineAssembled();
+		logic.onMachineAssembled(wasAssembled);
 		
 	}
 
@@ -256,7 +255,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	@Override
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
-		energyStorage.writeToNBT(data);
+		energyStorage.writeToNBT(data,"energyStorage");
 		writeBeams(beams,data);
 		
 		data.setBoolean("isChamberOn", isChamberOn);
@@ -270,7 +269,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamberUpdatePac
 	@Override
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
-		energyStorage.readFromNBT(data);
+		energyStorage.readFromNBT(data,"energyStorage");
 		readBeams(beams,data);
 		
 		isChamberOn = data.getBoolean("isChamberOn");

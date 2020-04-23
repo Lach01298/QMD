@@ -39,7 +39,6 @@ import nc.config.NCConfig;
 import nc.multiblock.ILogicMultiblock;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.Multiblock;
-import nc.multiblock.ILogicMultiblock.PartSuperMap;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
@@ -59,7 +58,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
 
-public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdatePacket> implements ILogicMultiblock<AcceleratorLogic, IAcceleratorPart>
+public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, AcceleratorUpdatePacket> implements ILogicMultiblock<AcceleratorLogic, IAcceleratorPart>
 {
 
 	public static final ObjectSet<Class<? extends IAcceleratorPart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -464,9 +463,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	}
 
 	@Override
-	protected void onMachineAssembled()
+	protected void onMachineAssembled(boolean wasAssembled)
 	{
-		logic.onMachineAssembled();
+		logic.onMachineAssembled(wasAssembled);
 	}
 
 	@Override
@@ -635,9 +634,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	@Override
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
-		heatBuffer.writeToNBT(data);
-		energyStorage.writeToNBT(data);
-		writeTanks(tanks,data);
+		heatBuffer.writeToNBT(data, "heatBuffer");
+		energyStorage.writeToNBT(data,"energyStorage");
+		writeTanks(tanks,data,"tanks");
 		writeBeams(beams,data);
 		
 		data.setBoolean("isAcceleratorOn", isAcceleratorOn);
@@ -662,9 +661,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	@Override
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
-		heatBuffer.readFromNBT(data);
-		energyStorage.readFromNBT(data);
-		readTanks(tanks,data);
+		heatBuffer.readFromNBT(data,"heatBuffer");
+		energyStorage.readFromNBT(data,"energyStorage");
+		readTanks(tanks,data, "tanks");
 		readBeams(beams,data);
 		
 		
@@ -736,17 +735,11 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<AcceleratorUpdateP
 	@Override
 	public void clearAllMaterial()
 	{
-		for (Tank tank : tanks) 
-		{
-			tank.setFluidStored(null);
-		}
-		
 		logic.clearAllMaterial();
-
-		ILogicMultiblock.super.clearAllMaterial();
-
-		if (!WORLD.isRemote)
-		{
+		
+		super.clearAllMaterial();
+		
+		if (!WORLD.isRemote) {
 			logic.refreshAccelerator();
 			updateActivity();
 		}

@@ -113,7 +113,7 @@ public class BlockBeamDiverterController extends BlockAcceleratorPart
 			{
 				TileBeamDiverterController controller = (TileBeamDiverterController) world.getTileEntity(pos);
 
-				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
+				if (controller.getMultiblock() != null && controller.isMultiblockAssembled())
 				{
 					player.openGui(QMD.instance, GUI_ID.BEAM_DIVERTER, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;

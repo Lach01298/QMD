@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class TileCuboidalOrToroidalMultiblockPart<T extends CuboidalOrToroidalMultiblock> extends TileMultiblockPart<T>
+public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends CuboidalOrToroidalMultiblock> extends TileMultiblockPart<MULTIBLOCK>
 {
 
 	/**
@@ -37,7 +37,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<T extends CuboidalOrT
 	private PartPosition position;
 	private BlockFacing externalFacings;
 
-	public TileCuboidalOrToroidalMultiblockPart(Class<T> tClass,CuboidalPartPositionType positionType, int toroidThickness)
+	public TileCuboidalOrToroidalMultiblockPart(Class<MULTIBLOCK> tClass,CuboidalPartPositionType positionType, int toroidThickness)
 	{
 		super(tClass);
 		this.positionType = positionType;
@@ -117,7 +117,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<T extends CuboidalOrT
 	{
 
 		BlockFacing facings = null;
-		T multiblock = this.getMultiblock();
+		MULTIBLOCK multiblock = this.getMultiblock();
 
 		if (null != multiblock)
 		{
@@ -140,14 +140,14 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<T extends CuboidalOrT
 	// Handlers from MultiblockTileEntityBase
 
 	@Override
-	public void onAttached(T newMultiblock)
+	public void onAttached(MULTIBLOCK newMultiblock)
 	{
 		super.onAttached(newMultiblock);
 		recalculateExternalDirection(newMultiblock.getMinimumCoord(), newMultiblock.getMaximumCoord());
 	}
 
 	@Override
-	public void onMachineAssembled(T multiblock)
+	public void onMachineAssembled(MULTIBLOCK multiblock)
 	{
 		// Discover where I am on the multiblock
 		recalculateExternalDirection(multiblock.getMinimumCoord(), multiblock.getMaximumCoord());

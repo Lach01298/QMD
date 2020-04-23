@@ -15,6 +15,7 @@ import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ItemArrayIngredient;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Optional;
 
 public class ParticleArrayIngredient implements IParticleIngredient 
 {
@@ -134,6 +135,7 @@ public class ParticleArrayIngredient implements IParticleIngredient
 	}
 
 	@Override
+	@Optional.Method(modid = "crafttweaker")
 	public IIngredient ct()
 	{
 		IIngredient[] array = new IIngredient[ingredientList.size()];

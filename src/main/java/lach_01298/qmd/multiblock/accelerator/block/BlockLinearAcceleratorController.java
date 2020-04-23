@@ -112,7 +112,7 @@ public class BlockLinearAcceleratorController extends BlockAcceleratorPart
 			{
 				TileLinearAcceleratorController controller = (TileLinearAcceleratorController) world.getTileEntity(pos);
 
-				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
+				if (controller.getMultiblock() != null && controller.isMultiblockAssembled())
 				{
 					player.openGui(QMD.instance, GUI_ID.LINEAR_ACCELERATOR, world, pos.getX(), pos.getY(), pos.getZ());
 					return true;

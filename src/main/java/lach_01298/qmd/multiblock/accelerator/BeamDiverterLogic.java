@@ -9,7 +9,6 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.ToroidalMultiblock;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.accelerator.AcceleratorLogic;
 import lach_01298.qmd.multiblock.accelerator.DipoleMagnet;

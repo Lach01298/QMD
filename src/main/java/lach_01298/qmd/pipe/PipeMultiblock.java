@@ -2,9 +2,10 @@ package lach_01298.qmd.pipe;
 
 import nc.multiblock.Multiblock;
 import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.multiblock.tile.ITileMultiblockPart;
 import net.minecraft.world.World;
 
-public abstract class PipeMultiblock<PACKET extends MultiblockUpdatePacket> extends Multiblock<PACKET>
+public abstract class PipeMultiblock<T extends ITileMultiblockPart,PACKET extends MultiblockUpdatePacket> extends Multiblock<T,PACKET>
 {
 
 	protected PipeMultiblock(World world)

@@ -14,9 +14,7 @@ import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.Global;
 import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.ILogicMultiblock.PartSuperMap;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.multiblock.heatExchanger.HeatExchangerLogic;
 import nc.util.SuperMap;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -27,7 +25,7 @@ import net.minecraft.world.World;
 
 import java.lang.reflect.Constructor;
 
-public class Pipe extends PipeMultiblock<PipeUpdatePacket> implements ILogicMultiblock<PipeLogic, IPipePart>
+public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements ILogicMultiblock<PipeLogic, IPipePart>
 {
 	 
 	public static final ObjectSet<Class<? extends IPipePart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -92,9 +90,9 @@ public class Pipe extends PipeMultiblock<PipeUpdatePacket> implements ILogicMult
 	}
 
 	@Override
-	protected void onMachineAssembled()
+	protected void onMachineAssembled(boolean wasAssembled)
 	{
-		logic.onMachineAssembled();
+		logic.onMachineAssembled(wasAssembled);
 	}
 
 	@Override

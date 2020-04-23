@@ -1,5 +1,10 @@
 package lach_01298.qmd.multiblock.particleChamber;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.accelerator.Accelerator;
@@ -64,10 +69,9 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	}
 
 	@Override
-	public void onMachineAssembled()
+	public void onMachineAssembled(boolean wasAssembled)
 	{
 		onChamberFormed();
-		
 	}
 
 	public void onChamberFormed()
@@ -246,6 +250,12 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	public boolean switchOutputs(BlockPos pos)
 	{
 		return false;	
+	}
+
+	@Override
+	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
+	{
+		return new ArrayList<>();
 	}
 	
 	

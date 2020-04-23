@@ -5,7 +5,7 @@ import lach_01298.qmd.QMDInfo;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.enums.EnumTypes.ProcessorType;
-import lach_01298.qmd.enums.EnumTypes.SimpleTileType;
+import lach_01298.qmd.enums.QMDRTGType;
 import lach_01298.qmd.machine.block.BlockQMDProcessor;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeam;
 import lach_01298.qmd.multiblock.accelerator.block.BlockAcceleratorBeamPort;
@@ -130,7 +130,7 @@ public class QMDBlocks
 		 irradiator = withName(new BlockQMDProcessor(ProcessorType.IRRADIATOR));
 		
 		 fissionReflector = withName(new QMDBlockMeta.BlockFissionReflector(), "fission_reflector");
-		 rtgStrontium = withName(new QMDBlockSimpleTile(SimpleTileType.RTG_STRONTIUM));
+		 rtgStrontium = withName(new QMDBlockRTG(QMDRTGType.STRONTIUM), "rtg_strontium");
 	}
 	
 	public static void register() 

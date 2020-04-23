@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.common.collect.Lists;
 import com.sun.jna.platform.win32.WinUser.INPUT;
 
@@ -98,7 +100,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	// Multiblock Methods
 	
 	@Override
-	public void onMachineAssembled() 
+	public void onMachineAssembled(boolean wasAssembled) 
 	{
 		onAcceleratorFormed();
 	}
@@ -548,6 +550,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 				}
 			
 		}
+	}
+
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return new ArrayList<>();
 	}
 	
 

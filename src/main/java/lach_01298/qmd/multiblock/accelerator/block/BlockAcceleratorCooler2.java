@@ -4,8 +4,6 @@ import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;
 import nc.enumm.MetaEnums;
-import nc.multiblock.fission.block.BlockMetaFissionPartBase;
-import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
