@@ -25,8 +25,10 @@ public class IrradiatorFuel extends ProcessorRecipeHandler
 	@Override
 	public List fixExtras(List extras)
 	{
-		List fixed = new ArrayList(1);
+		List fixed = new ArrayList(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
+		fixed.add(0D);
+		fixed.add(0D);
 		return fixed;
 	}
 

@@ -23,8 +23,11 @@ public class IrradiatorRecipes extends ProcessorRecipeHandler
 	public void addRecipes()
 	{
 		addRecipe(Items.ROTTEN_FLESH, QMDItems.flesh,1.0);
-		addRecipe(Blocks.BROWN_MUSHROOM, NCBlocks.glowing_mushroom,2.0);
-		addRecipe(Blocks.RED_MUSHROOM, NCBlocks.glowing_mushroom,2.0);
+		addRecipe(Blocks.BROWN_MUSHROOM, NCBlocks.glowing_mushroom,4.0);
+		addRecipe(Blocks.RED_MUSHROOM, NCBlocks.glowing_mushroom,4.0);
+		addRecipe(new ItemStack(Blocks.TALLGRASS,1,1), Blocks.DEADBUSH,1.0);
+		addRecipe(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE,1.0);
+		addRecipe(new ItemStack(Blocks.STONEBRICK,1,1), Blocks.STONEBRICK,1.0);
 	}
 
 	@Override
@@ -32,8 +35,8 @@ public class IrradiatorRecipes extends ProcessorRecipeHandler
 	{
 		List fixed = new ArrayList(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
+		fixed.add(0D);
+		fixed.add(0D);
 		return fixed;
 	}
 

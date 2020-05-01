@@ -81,8 +81,8 @@ public class QMDRecipeWrapper
 		protected double getBaseProcessTime()
 		{
 			if (recipe == null)
-				return QMDConfig.processor_time[0];
-			return QMDConfig.processor_time[0]/recipe.getBaseProcessTime(1);
+				return 0;
+			return recipe.getBaseProcessTime(1);
 		}
 
 		@Override
