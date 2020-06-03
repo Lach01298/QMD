@@ -22,13 +22,13 @@ item.qmd.ingot.chromium.name=铬锭
 item.qmd.ingot.titanium.name=钛锭
 item.qmd.ingot.cobalt.name=钴锭
 item.qmd.ingot.nickel.name=镍锭
-item.qmd.ingot.hafnium.namein=铪锭
+item.qmd.ingot.hafnium.name=铪锭
 item.qmd.ingot.zinc.name=锌锭
 item.qmd.ingot.osmium.name=锇锭
 item.qmd.ingot.iridium.name=铱锭
 item.qmd.ingot.platinum.name=铂金锭
 item.qmd.ingot.sodium.name=钠锭
-item.qmd.ingot.potassium.name=
+item.qmd.ingot.potassium.name=钾锭
 item.qmd.ingot.calcium.name=钙锭
 item.qmd.ingot.strontium.name=锶锭
 item.qmd.ingot2.yttrium.name=钇锭
@@ -343,7 +343,7 @@ gui.qmd.container.accelerator.coolant_out=冷却液流出：%s
 
 gui.qmd.container.accelerator.error.1=变热
 gui.qmd.container.accelerator.error.2=功率不足
-gui.qmd.container.accelerator.error.3=焦距低
+gui.qmd.container.accelerator.error.3=聚焦低
 gui.qmd.container.accelerator.error.4=颗粒能量低
 gui.qmd.container.accelerator.error.5=颗粒能量高
 
@@ -462,7 +462,7 @@ qmd.particle.kaon_minus.desc=K介子是具有奇异性的介子。
 //particleStack信息
 gui.qmd.particlestack.amount=数量：%s
 gui.qmd.particlestack.mean_energy=能量：%s
-gui.qmd.particlestack.focus=焦点：%s
+gui.qmd.particlestack.focus=聚焦：%s
 
 //如果
 qmd.gui.jei.category.accelerator_source=离子源
