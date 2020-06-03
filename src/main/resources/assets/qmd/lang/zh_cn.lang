@@ -61,7 +61,7 @@ item.qmd.isotope.lead_210.name=铅210
 item.qmd.isotope.vanadium_50.name=钒50
 item.qmd.isotope.strontium_90.name=锶90
 item.qmd.isotope.uranium_234.name=铀234
-item.qmd.isotope.protactinium_231.name=镤231灰尘
+item.qmd.isotope.protactinium_231.name=镤231尘
 item.qmd.isotope.cobalt_60.name=钴60
 item.qmd.isotope.iridium_192.name=铱192
 
@@ -130,33 +130,33 @@ tile.qmd.accelerator_cooler1.quartz.name=石英加速器冷却器
 tile.qmd.accelerator_cooler1.obsidian.name=黑曜石加速器冷却器
 tile.qmd.accelerator_cooler1.nether_brick.name=地砖加速器冷却器
 tile.qmd.accelerator_cooler1.glowstone.name=荧石加速器冷却器
-tile.qmd.accelerator_cooler1.lapis.name=Lapis加速器冷却器
+tile.qmd.accelerator_cooler1.lapis.name=青金石加速器冷却器
 tile.qmd.accelerator_cooler1.gold.name=黄金加速器冷却器
-tile.qmd.accelerator_cooler1.prismarine.name=Prismarine加速器冷却器
+tile.qmd.accelerator_cooler1.prismarine.name=海晶石加速器冷却器
 tile.qmd.accelerator_cooler1.slime.name=粘液加速器冷却器
-tile.qmd.accelerator_cooler1.end_stone.name=结束石加速器冷却器
-tile.qmd.accelerator_cooler1.purpur.name=Purpur加速器冷却器
+tile.qmd.accelerator_cooler1.end_stone.name=末影石加速器冷却器
+tile.qmd.accelerator_cooler1.purpur.name=紫铂加速器冷却器
 tile.qmd.accelerator_cooler1.diamond.name=钻石加速器冷却器
 tile.qmd.accelerator_cooler1.emerald.name=翡翠加速器冷却器
 tile.qmd.accelerator_cooler1.copper.name=铜加速器冷却器
 tile.qmd.accelerator_cooler2.tin.name=锡加速器冷却器
-tile.qmd.accelerator_cooler2.lead.name=领先的加速器冷却器
+tile.qmd.accelerator_cooler2.lead.name=铅的加速器冷却器
 tile.qmd.accelerator_cooler2.boron.name=硼加速器冷却器
 tile.qmd.accelerator_cooler2.lithium.name=锂加速器冷却器
 tile.qmd.accelerator_cooler2.magnesium.name=镁加速器冷却器
 tile.qmd.accelerator_cooler2.manganese.name=锰加速器冷却器
-tile.qmd.accelerator_cooler2.aluminum.name=铝制加速器冷却器
-tile.qmd.accelerator_cooler2.silver.name=银色加速器冷却器
+tile.qmd.accelerator_cooler2.aluminum.name=铝加速器冷却器
+tile.qmd.accelerator_cooler2.silver.name=银加速器冷却器
 tile.qmd.accelerator_cooler2.fluorite.name=氟石加速器冷却器
-tile.qmd.accelerator_cooler2.villiaumite.name=硅藻土加速器冷却器
+tile.qmd.accelerator_cooler2.villiaumite.name=氟盐加速器冷却器
 tile.qmd.accelerator_cooler2.carobbiite.name=角铁加速器冷却器
 tile.qmd.accelerator_cooler2.arsenic.name=砷加速器冷却器
 tile.qmd.accelerator_cooler2.liquid_nitrogen.name=液氮加速器冷却器
 tile.qmd.accelerator_cooler2.liquid_helium.name=液态氦加速器冷却器
 tile.qmd.accelerator_cooler2.enderium.name=末地锭加速器冷却器
-tile.qmd.accelerator_cooler2.cryotheum.name=低温加速器冷却器
+tile.qmd.accelerator_cooler2.cryotheum.name=凛冰加速器冷却器
 
-tile.qmd.target_chamber_controller.name=目标室控制器
+tile.qmd.target_chamber_controller.name=靶室控制器
 tile.qmd.decay_chamber_controller.name=衰变室控制器
 
 tile.qmd.particle_chamber_beam_port.name=粒子室束口
@@ -212,7 +212,7 @@ tile.qmd.accelerator.cooler.emerald.desc=必须至少与一个有效的棱柱形
 tile.qmd.accelerator.cooler.liquid_helium.desc=必须至少与一个有效的镁冷却器和一个有效的铜冷却器相邻。
 tile.qmd.accelerator.cooler.cryotheum.desc=必须至少与两个有效的端部石材冷却器，一个功能性Rf腔和一个功能性电磁铁轭相邻。
 
-tile.qmd.rf_cavity.desc=通过射频电场加速带电粒子。必须做成围绕光束的8个相同RF腔的环。不能在另一个RF腔旁边。
+tile.qmd.rf_cavity.desc=（射频谐振腔）通过射频电场加速带电粒子。必须做成围绕光束的8个相同RF腔的环。不能在另一个RF腔旁边。
 
 tile.qmd.accelerator_magnet.desc=用强磁场使带电粒子弯曲。可用于制作四极或偶极磁铁。对于四极磁体，光束必须被4个相同的电磁体包围。
 
@@ -274,7 +274,7 @@ info.qmd.accelerator_magnet.power=基本功率：%sRF/t
 info.qmd.particle_chamber.detector.efficiency=粒子效率：%s
 info.qmd.particle_chamber.detector.power=基本功率：%sRF/t
 
-info.qmd.beamline.attenuation=衰变率=%s
+info.qmd.beamline.attenuation=衰变率：%s
 
 
 
@@ -343,7 +343,7 @@ gui.qmd.container.accelerator.coolant_out=冷却液流出：%s
 
 gui.qmd.container.accelerator.error.1=变热
 gui.qmd.container.accelerator.error.2=功率不足
-gui.qmd.container.accelerator.error.3=关注低
+gui.qmd.container.accelerator.error.3=焦距低
 gui.qmd.container.accelerator.error.4=颗粒能量低
 gui.qmd.container.accelerator.error.5=颗粒能量高
 
@@ -375,8 +375,8 @@ qmd.particle.electron.name=电子
 qmd.particle.positron.name=正电子
 qmd.particle.electron_neutrino.name=电子中微子
 qmd.particle.electron_antineutrino.name=电子反中微子
-qmd.particle.muon.name=介子
-qmd.particle.antimuon.name=反色粉
+qmd.particle.muon.name=μ子
+qmd.particle.antimuon.name=反μ子
 qmd.particle.muon_neutrino.name=Muon中微子
 qmd.particle.muon_antineutrino.name=Muon反中微子
 qmd.particle.tau.name=τ子
@@ -412,7 +412,7 @@ qmd.particle.kaon_naught.name=K介子0
 //粒子描述
 qmd.particle.up_quark.desc=夸克是最轻的夸克。上下夸克结合形成质子和中子
 qmd.particle.antiup_quark.desc=反夸克是反夸克的反物质伙伴。
-qmd.particle.down_quark.desc=下降夸克是第二最轻的夸克。上下夸克结合形成质子和中子
+qmd.particle.down_quark.desc=下夸克是第二最轻的夸克。上下夸克结合形成质子和中子
 qmd.particle.antidown_quark.desc=反下夸克是下夸克的反物质伙伴。
 qmd.particle.charm_quark.desc=“粲夸克”是“夸克”的沉重版本。
 qmd.particle.anticharm_quark.desc=反粲夸克是粲夸克的反物质伙伴。
@@ -426,7 +426,7 @@ qmd.particle.electron.desc=电子是最轻的带电轻子。它通常在原子�
 qmd.particle.positron.desc=正电子是电子的反物质粒子。当电子和正电子遇到湮灭时，所有质量都被转换为两束（反向的）伽马射线形式的能量。
 qmd.particle.electron_neutrino.desc=电子中微子是电子的中微子伴侣。
 qmd.particle.electron_antineutrino=电子反中微子是电子中微子的反物质伙伴。
-qmd.particle.muon.desc=介子基本上是重电子。
+qmd.particle.muon.desc=μ子基本上是重电子。
 qmd.particle.antimuon.desc=反μ子是μ子的反物质伙伴。
 qmd.particle.muon_neutrino.desc=μ子中微子是μ子的中微子伙伴。
 qmd.particle.muon_antineutrino.desc=μ子反中微子是μ子中微子的反物质伙伴。
@@ -476,7 +476,7 @@ gui.qmd.jei.particle.spin=旋转：%s
 gui.qmd.jei.particle.colour=颜色费用：%s
 gui.qmd.jei.particle.weak=弱电费：%s
 gui.qmd.jei.particle.components=制成由：
-gui.qmd.jei.particle.focus=最小聚焦：%s
+gui.qmd.jei.particle.focus=最小焦距：%s
 gui.qmd.jei.reaction.range=范围：%s
 gui.qmd.jei.reaction.energy_released=释放的能量：%s
 gui.qmd.jei.reaction.cross_section=横断面：%s%%
