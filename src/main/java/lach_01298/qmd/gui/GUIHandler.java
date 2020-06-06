@@ -1,16 +1,16 @@
 package lach_01298.qmd.gui;
 
 
-import lach_01298.qmd.multiblock.accelerator.tile.TileLinearAcceleratorController;
-import lach_01298.qmd.multiblock.accelerator.tile.TileRingAcceleratorController;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
+import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
+import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
 import lach_01298.qmd.machine.container.ContainerIrradiator;
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
 import lach_01298.qmd.machine.gui.GuiIrradiator;
 import lach_01298.qmd.machine.gui.GuiOreLeacher;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileIrradiator;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
-import lach_01298.qmd.multiblock.accelerator.tile.TileBeamDiverterController;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
 import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
@@ -23,11 +23,10 @@ import lach_01298.qmd.multiblock.gui.GuiDecayChamberController;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
-import lach_01298.qmd.multiblock.particleChamber.tile.TileDecayChamberController;
-import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
+import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import nc.container.processor.ContainerMachineConfig;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

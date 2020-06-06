@@ -20,6 +20,11 @@
 					"all": "qmd:blocks/accelerator/magnet/niobium_tin"
 				}
 			},
+			"niobium_titanium": {
+                "textures": {
+                    "all": "qmd:blocks/accelerator/magnet/niobium_titanium"
+                }
+            },
 			 "bscco": {
                 "textures": {
                     "all": "qmd:blocks/accelerator/magnet/bscco"

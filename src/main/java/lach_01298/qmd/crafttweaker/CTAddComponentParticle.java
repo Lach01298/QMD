@@ -2,7 +2,6 @@ package lach_01298.qmd.crafttweaker;
 
 import crafttweaker.IAction;
 import crafttweaker.api.item.IIngredient;
-import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 
 public class CTAddComponentParticle implements IAction

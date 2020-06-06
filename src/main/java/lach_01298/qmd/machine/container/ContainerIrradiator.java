@@ -3,12 +3,8 @@ package lach_01298.qmd.machine.container;
 import lach_01298.qmd.container.slot.SlotDamageFuel;
 import lach_01298.qmd.machine.tile.TileItemDamageFuelProcessor;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.processor.ContainerItemFluidProcessor;
 import nc.container.slot.SlotFurnace;
 import nc.container.slot.SlotProcessorInput;
-import nc.container.slot.SlotSpecificInput;
-import nc.recipe.ProcessorRecipeHandler;
-import nc.tile.processor.TileItemFluidProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 

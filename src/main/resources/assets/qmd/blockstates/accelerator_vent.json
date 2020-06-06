@@ -1,0 +1,31 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "nuclearcraft:wall_part",
+        "textures": {
+            "in": "qmd:blocks/accelerator/casing",
+            "out": "qmd:blocks/accelerator/inlet",
+            "side": "qmd:blocks/accelerator/casing",
+            "top": "qmd:blocks/accelerator/casing"
+        }
+    },
+    "variants": {
+        "inventory": [{}],
+        "active": {
+            "false": {},
+            "true": {
+                "textures": {
+                    "out": "qmd:blocks/accelerator/outlet"
+                }
+            }
+        },
+        "facing": {
+            "down": {"x": 90},
+            "up": {"x": 270},
+            "north": {},
+            "east": {"y": 90},
+            "south": {"y": 180},
+            "west": {"y": 270}
+        }
+    }
+}

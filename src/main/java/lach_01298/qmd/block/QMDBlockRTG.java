@@ -1,33 +1,23 @@
 package lach_01298.qmd.block;
 
-import nc.block.tile.BlockSimpleTile;
-import nc.block.tile.BlockTile;
-import nc.block.tile.ITileType;
-import nc.multiblock.block.BlockMultiblockPart;
-import nc.multiblock.rtg.RTGType;
-import nc.tab.NCTabs;
-import lach_01298.qmd.enums.QMDRTGType;
+import lach_01298.qmd.enums.BlockTypes.RTGType;
 import lach_01298.qmd.tab.QMDTabs;
-import net.minecraft.block.Block;
+import nc.multiblock.block.BlockMultiblockPart;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class QMDBlockRTG extends BlockMultiblockPart
 {
 
-	private final QMDRTGType type;
+	private final RTGType type;
 
-	public QMDBlockRTG(QMDRTGType type)
+	public QMDBlockRTG(RTGType type)
 	{
 		super(Material.IRON, QMDTabs.BLOCKS);
 		this.type = type;

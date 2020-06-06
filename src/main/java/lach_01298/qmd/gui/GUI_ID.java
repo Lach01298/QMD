@@ -1,7 +1,5 @@
 package lach_01298.qmd.gui;
 
-import lach_01298.qmd.QMD;
-
 public class GUI_ID
 {
 

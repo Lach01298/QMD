@@ -6,8 +6,7 @@ import static nc.block.property.BlockProperties.FACING_HORIZONTAL;
 import java.util.Random;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.enums.EnumTypes.ProcessorType;
-import nc.NuclearCraft;
+import lach_01298.qmd.enums.BlockTypes.ProcessorType;
 import nc.block.tile.BlockSidedTile;
 import nc.block.tile.IActivatable;
 import nc.block.tile.ITileType;
@@ -17,7 +16,6 @@ import nc.tile.fluid.ITileFluid;
 import nc.tile.processor.IProcessor;
 import nc.tile.processor.IUpgradable;
 import nc.util.BlockHelper;
-import nc.util.FluidHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -112,7 +110,7 @@ public class BlockQMDProcessor extends BlockSidedTile implements IActivatable, I
 		if (tile instanceof ITileFluid) {
 			if (world.isRemote) return true;
 			ITileFluid tileFluid = (ITileFluid) tile;
-			boolean accessedTanks = FluidHelper.accessTanks(player, hand, facing, tileFluid);
+			boolean accessedTanks = BlockHelper.accessTanks(player, hand, facing, tileFluid);
 			if (accessedTanks) {
 				if (tile instanceof IProcessor) {
 					((IProcessor) tile).refreshRecipe();

@@ -1,14 +1,11 @@
 package lach_01298.qmd.multiblock.gui;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
-import nc.Global;
 import nc.gui.NCGui;
-import nc.tile.processor.TileItemProcessor;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIAcceleratorSource extends NCGui 

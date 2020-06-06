@@ -5,25 +5,20 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Units;
-import lach_01298.qmd.Util;
+import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.accelerator.RingAcceleratorLogic;
 import lach_01298.qmd.gui.GuiParticle;
-import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.accelerator.RingAcceleratorLogic;
 import nc.multiblock.gui.GuiLogicMultiblockController;
-import nc.multiblock.gui.GuiMultiblockController;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
 import nc.util.Lang;
-import nc.util.NCMath;
 import nc.util.NCUtil;
-import nc.util.StringHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiRingAcceleratorController extends GuiLogicMultiblockController<Accelerator, RingAcceleratorLogic>
@@ -76,16 +71,19 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 		fontRenderer.drawString(length,offset+25, 30, fontColor);
 		
 		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys",multiblock.RFCavityNumber, Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V")) ;
-		fontRenderer.drawString(cavitys,offset, 50, fontColor);
+		fontRenderer.drawString(cavitys,offset, 40, fontColor);
 		
 		String quadrupoles = Lang.localise("gui.qmd.container.accelerator.quadrupoles", multiblock.quadrupoleNumber,  Units.getSIFormat(multiblock.quadrupoleStrength,""));
-		fontRenderer.drawString(quadrupoles,offset, 60, fontColor);
+		fontRenderer.drawString(quadrupoles,offset, 50, fontColor);
 		
 		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles",multiblock.dipoleNumber, Units.getSIFormat(multiblock.dipoleStrength,""));
-		fontRenderer.drawString(dipoles,offset, 70, fontColor);
+		fontRenderer.drawString(dipoles,offset, 60, fontColor);
 		
 		String temperature=Lang.localise("gui.qmd.container.temperature",Units.getSIFormat(multiblock.getTemperature(),"K"));
-		fontRenderer.drawString(temperature,offset, 80, fontColor);
+		fontRenderer.drawString(temperature,offset, 70, fontColor);
+		
+		String maxTemperature=Lang.localise("gui.qmd.container.accelerator.max_temperature", Units.getSIFormat(multiblock.maxOperatingTemp,"K"));
+		fontRenderer.drawString(maxTemperature,offset, 80, fontColor);
 		
 		if(multiblock.errorCode != Accelerator.errorCode_Nothing)
 		{
@@ -110,13 +108,13 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 
 		int power = (int)Math.round((double)multiblock.energyStorage.getEnergyStored()/(double)multiblock.energyStorage.getMaxEnergyStored()*95);
 
-		drawTexturedModalRect(guiLeft + 8, guiTop + 101-power, 196, 0, 6, power);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 101-power, 196, 95-power, 6, power);
 		
 		int heat = (int)Math.round((double)multiblock.heatBuffer.getHeatStored()/(double)multiblock.heatBuffer.getHeatCapacity()*95);
-		drawTexturedModalRect(guiLeft + 18, guiTop + 101- heat, 202, 0, 6, heat);
+		drawTexturedModalRect(guiLeft + 18, guiTop + 101- heat, 202, 95- heat, 6, heat);
 		
 		int coolant = (int)Math.round((double)multiblock.tanks.get(0).getFluidAmount()/(double)multiblock.tanks.get(0).getCapacity()*95);
-		drawTexturedModalRect(guiLeft + 28, guiTop + 101-coolant, 208, 0, 6, coolant);
+		drawTexturedModalRect(guiLeft + 28, guiTop + 101-coolant, 208, 95- coolant, 6, coolant);
 		
 
 	}
@@ -170,7 +168,7 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 	public void initGui() 
 	{
 		super.initGui();
-		
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 150, guiTop + 20));
 	}
 	
 	@Override

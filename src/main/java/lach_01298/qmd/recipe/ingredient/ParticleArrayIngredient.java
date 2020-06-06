@@ -12,9 +12,6 @@ import it.unimi.dsi.fastutil.ints.IntList;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.IItemIngredient;
-import nc.recipe.ingredient.ItemArrayIngredient;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
 public class ParticleArrayIngredient implements IParticleIngredient 

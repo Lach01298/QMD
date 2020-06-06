@@ -5,27 +5,21 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.Units;
-import lach_01298.qmd.Util;
+import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
 import lach_01298.qmd.gui.GuiParticle;
-import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.accelerator.LinearAcceleratorLogic;
-import lach_01298.qmd.multiblock.accelerator.RingAcceleratorLogic;
 import nc.multiblock.gui.GuiLogicMultiblockController;
-import nc.multiblock.gui.GuiMultiblockController;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
 import nc.util.Lang;
-import nc.util.NCMath;
 import nc.util.NCUtil;
-import nc.util.StringHelper;
 import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiLinearAcceleratorController extends GuiLogicMultiblockController<Accelerator, LinearAcceleratorLogic>
@@ -87,16 +81,18 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 		String temperature=Lang.localise("gui.qmd.container.temperature",Units.getSIFormat(multiblock.getTemperature(),"K"));
 		fontRenderer.drawString(temperature,offset, 70, fontColor);
 		
+		String maxTemperature=Lang.localise("gui.qmd.container.accelerator.max_temperature", Units.getSIFormat(multiblock.maxOperatingTemp,"K"));
+		fontRenderer.drawString(maxTemperature,offset, 80, fontColor);
+		
 		if(multiblock.errorCode != Accelerator.errorCode_Nothing)
 		{
 			String error=Lang.localise("gui.qmd.container.accelerator.error."+multiblock.errorCode);
-			fontRenderer.drawString(error,offset, 80, 15641088);
+			fontRenderer.drawString(error,offset, 90, 15641088);
 		}
 		
 
-		if (!NCUtil.isModifierKeyDown()) 
-		{
-			
+		if (!NCUtil.isModifierKeyDown()) {
+		
 		}
 	}
 	
@@ -110,20 +106,20 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 
 		int power = (int)Math.round((double)multiblock.energyStorage.getEnergyStored()/(double)multiblock.energyStorage.getMaxEnergyStored()*95);
 
-		drawTexturedModalRect(guiLeft + 8, guiTop + 101-power, 196, 0, 6, power);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 101-power, 196, 95-power, 6, power);
 		
 		int heat = (int)Math.round((double)multiblock.heatBuffer.getHeatStored()/(double)multiblock.heatBuffer.getHeatCapacity()*95);
-		drawTexturedModalRect(guiLeft + 18, guiTop + 101- heat, 202, 0, 6, heat);
+		drawTexturedModalRect(guiLeft + 18, guiTop + 101- heat, 202, 95- heat, 6, heat);
 		
 		int coolant = (int)Math.round((double)multiblock.tanks.get(0).getFluidAmount()/(double)multiblock.tanks.get(0).getCapacity()*95);
-		drawTexturedModalRect(guiLeft + 28, guiTop + 101-coolant, 208, 0, 6, coolant);
+		drawTexturedModalRect(guiLeft + 28, guiTop + 101-coolant, 208, 95- coolant, 6, coolant);
 		
 
 	}
 	
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) {
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 150, 20, 18, 18);
 		
 		
 		drawTooltip(energyInfo(), mouseX, mouseY, 8, 5, 8, 96);
@@ -170,7 +166,7 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 	public void initGui() 
 	{
 		super.initGui();
-		
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 150, guiTop + 20));
 	}
 	
 	@Override

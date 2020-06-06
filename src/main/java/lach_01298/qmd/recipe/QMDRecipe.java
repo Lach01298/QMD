@@ -4,18 +4,11 @@ import java.util.List;
 
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import nc.config.NCConfig;
-import nc.recipe.IRecipe;
 import nc.recipe.IngredientSorption;
-import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
-
 import nc.tile.internal.fluid.Tank;
-import nc.util.InfoHelper;
-import nc.util.Lang;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 
 public class QMDRecipe  implements IQMDRecipe
 {

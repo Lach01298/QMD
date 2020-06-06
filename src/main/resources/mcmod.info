@@ -5,7 +5,7 @@
   "description": "A Nuclearcraft addon that aims to bring particle accelerators and particle physics to minecraft",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://www.curseforge.com/minecraft/mc-mods/qmd",
   "updateUrl": "",
   "authorList": ["lach_01298"],
   "credits": "tomdodd4598 For making NuclearCraft",

@@ -30,6 +30,11 @@
                 "textures": {
                     "layer0": "qmd:items/materials/dust/chemical/copper_oxide"
                 }
+            },
+                "hafnium_oxide": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/hafnium_oxide"
+                }
             }
         }
     }

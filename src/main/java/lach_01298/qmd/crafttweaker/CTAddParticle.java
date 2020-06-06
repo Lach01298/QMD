@@ -1,11 +1,8 @@
 package lach_01298.qmd.crafttweaker;
 
-import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
-import lach_01298.qmd.QMD;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.Particles;
-import lach_01298.qmd.recipe.QMDRecipeHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class CTAddParticle implements IAction

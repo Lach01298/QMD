@@ -2,26 +2,20 @@ package lach_01298.qmd.commands;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import lach_01298.qmd.research.IResearch;
 import lach_01298.qmd.research.ResearchProvider;
 import lach_01298.qmd.research.Researches;
-import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.CommandBlockBaseLogic;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 public class CommandQMD extends CommandBase
 {

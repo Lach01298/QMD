@@ -1,26 +1,13 @@
 package lach_01298.qmd.machine.gui;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.machine.tile.TileItemDamageFuelProcessor;
-import nc.Global;
 import nc.gui.NCGui;
-import nc.gui.element.GuiItemRenderer;
-import nc.init.NCItems;
-import nc.tile.energy.ITileEnergy;
-import nc.tile.processor.TileItemFluidProcessor;
-import nc.util.Lang;
-import nc.util.NCMath;
-import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
 public abstract class GuiItemDamageFuelMachine extends NCGui {
 	

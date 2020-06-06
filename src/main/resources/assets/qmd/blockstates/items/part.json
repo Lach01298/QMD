@@ -29,11 +29,20 @@
                     "layer0": "qmd:items/part/wire_bscco"
                 }
             },
+               "wire_gold_tungsten": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/wire_gold_tungsten"
+                }
+            },
             "rod_nd_yag": {
                 "transform": "forge:default-item",
                 "textures": {
                     "layer0": "qmd:items/part/rod_nd_yag"
                 }
+            },
+            "wire_chamber_casing": {
+                "model": "qmd:item/wire_chamber_casing"
             }
         }
     }

@@ -20,6 +20,11 @@
                 "textures": {
                     "layer0": "qmd:items/materials/alloy/ingot_stainless_steel"
                 }
+            },
+            "niobium_titanium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/alloy/ingot_niobium_titanium"
+                }
             }
         }
     }

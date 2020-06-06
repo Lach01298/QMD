@@ -1,26 +1,18 @@
 package lach_01298.qmd.pipe;
 
-import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
-import lach_01298.qmd.enums.EnumTypes;
-import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particle.ParticleStorageBeamline;
-import lach_01298.qmd.particle.ITileParticleStorage;
-import lach_01298.qmd.particle.ParticleStorage;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
-import net.minecraftforge.common.capabilities.Capability;
-
-import static lach_01298.qmd.block.BlockProperties.AXIS_HORIZONTAL;
-
 import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
+
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.particle.ITileParticleStorage;
+import lach_01298.qmd.particle.ParticleStorage;
+import lach_01298.qmd.particle.ParticleStorageBeamline;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
 
 public class TileBeamline extends TilePipePart implements IPipeController, ITileParticleStorage
 {

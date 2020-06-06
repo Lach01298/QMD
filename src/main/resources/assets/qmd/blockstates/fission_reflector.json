@@ -7,7 +7,7 @@
         "type": {
             "tungsten_carbide": {
                 "textures": {
-                    "all": "qmd:blocks/machine/reflector_tungsten_carbide"
+                    "all": "qmd:blocks/fission/reflector_tungsten_carbide"
                 }
             }
         }

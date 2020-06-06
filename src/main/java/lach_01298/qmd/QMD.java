@@ -1,18 +1,11 @@
 package lach_01298.qmd;
 
-import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.commands.CommandQMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUIHandler;
-import lach_01298.qmd.item.QMDItems;
-import lach_01298.qmd.network.QMDPacketHandler;
-import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.proxy.CommonProxy;
-import lach_01298.qmd.research.Researches;
-import lach_01298.qmd.tile.QMDTiles;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -22,7 +15,6 @@ import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = QMD.MOD_ID, name = QMD.MOD_NAME, version = QMD.VERSION, acceptedMinecraftVersions = QMD.MCVERSION, dependencies = "after:nuclearcraft")

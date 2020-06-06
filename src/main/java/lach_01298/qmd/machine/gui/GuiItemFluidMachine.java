@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
-import nc.Global;
 import nc.gui.NCGui;
 import nc.gui.element.GuiItemRenderer;
 import nc.init.NCItems;

@@ -32,6 +32,7 @@ public class ParticleStorageBeamline extends ParticleStorage
 			stack.addFocus(-length*QMDConfig.beamAttenuationRate);
 			return stack;
 		}
+		
 		return null;
 	}
 	

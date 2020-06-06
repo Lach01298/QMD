@@ -1,29 +1,20 @@
 package lach_01298.qmd.pipe;
 
+import java.lang.reflect.Constructor;
+
 import javax.annotation.Nonnull;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
-import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
-import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorPart;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
 import nc.Global;
 import nc.multiblock.ILogicMultiblock;
+import nc.multiblock.Multiblock;
+import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.util.SuperMap;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumFacing.AxisDirection;
 import net.minecraft.world.World;
-
-import java.lang.reflect.Constructor;
 
 public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements ILogicMultiblock<PipeLogic, IPipePart>
 {
@@ -90,9 +81,9 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 	}
 
 	@Override
-	protected void onMachineAssembled(boolean wasAssembled)
+	protected void onMachineAssembled()
 	{
-		logic.onMachineAssembled(wasAssembled);
+		logic.onMachineAssembled();
 	}
 
 	@Override

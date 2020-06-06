@@ -6,7 +6,6 @@ import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.IIngredient;
-import nc.recipe.ingredient.IItemIngredient;
 
 public interface IParticleIngredient extends IIngredient<ParticleStack>
 {

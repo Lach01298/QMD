@@ -1,6 +1,13 @@
 package lach_01298.qmd.pipe;
 
-import net.minecraft.block.Block;
+import static nc.block.property.BlockProperties.AXIS_ALL;
+
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import lach_01298.qmd.tab.QMDTabs;
+import nc.block.NCBlock;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -16,17 +23,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import static nc.block.property.BlockProperties.AXIS_ALL;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
-import lach_01298.qmd.tab.QMDTabs;
-import nc.block.NCBlock;
-import nc.tab.NCTabs;
 
 public class BlockBeamline extends NCBlock implements ITileEntityProvider
 {

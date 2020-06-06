@@ -1,0 +1,31 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "yttrium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/yttrium"
+                }
+            },
+            "neodymium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/neodymium"
+                }
+            },
+             "holmium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/holmium"
+                }
+            },
+            "germanium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/germanium"
+                }
+            }
+        }
+    }
+}

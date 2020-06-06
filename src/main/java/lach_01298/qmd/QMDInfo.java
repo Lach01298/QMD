@@ -1,13 +1,17 @@
 package lach_01298.qmd;
 
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.EnumTypes;
+import lach_01298.qmd.enums.BlockTypes.CoolerType1;
+import lach_01298.qmd.enums.BlockTypes.CoolerType2;
+import lach_01298.qmd.enums.BlockTypes.DetectorType;
+import lach_01298.qmd.enums.BlockTypes.MagnetType;
+import lach_01298.qmd.enums.BlockTypes.NeutronShieldType;
+import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.enums.ICoolerEnum;
-import lach_01298.qmd.enums.EnumTypes.CoolerType1;
 import nc.Global;
-import nc.enumm.MetaEnums;
 import nc.util.InfoHelper;
 import nc.util.Lang;
+import nc.util.UnitHelper;
 import net.minecraft.util.IStringSerializable;
 
 public class QMDInfo
@@ -16,14 +20,15 @@ public class QMDInfo
 	// RF Cavity info
 	public static String[][] RFCavityFixedInfo()
 	{
-		EnumTypes.RFCavityType[] values = EnumTypes.RFCavityType.values();
+		RFCavityType[] values = RFCavityType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = new String[] {
 					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.voltage", values[i].getVoltage()),
 					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
 					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.heat", values[i].getHeatGenerated()),
-					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.power", values[i].getBasePower())
+					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.power", values[i].getBasePower()),
+					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.max_temp", values[i].getMaxOperatingTemp())
 					};
 		}
 		return info;
@@ -33,7 +38,7 @@ public class QMDInfo
 	
 	public static String[][] RFCavityInfo()
 	{
-		EnumTypes.RFCavityType[] values = EnumTypes.RFCavityType.values();
+		RFCavityType[] values = RFCavityType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".rf_cavity.desc"));
@@ -47,14 +52,15 @@ public class QMDInfo
 	// Magnet info
 	public static String[][] magnetFixedInfo()
 	{
-		EnumTypes.MagnetType[] values = EnumTypes.MagnetType.values();
+		MagnetType[] values = MagnetType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = new String[] {
 					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.strength", values[i].getStrength()),
 					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
 					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.heat", values[i].getHeatGenerated()),
-					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.power", values[i].getBasePower())
+					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.power", values[i].getBasePower()),
+					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.max_temp", values[i].getMaxOperatingTemp())
 					};
 		}
 		return info;
@@ -62,7 +68,7 @@ public class QMDInfo
 
 	public static String[][] magnetInfo()
 	{
-		EnumTypes.MagnetType[] values = EnumTypes.MagnetType.values();
+		MagnetType[] values = MagnetType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".accelerator_magnet.desc"));
@@ -74,12 +80,12 @@ public class QMDInfo
 	// Cooler info
 	public static String[][] cooler1FixedInfo()
 	{
-		return coolerFixedInfo(EnumTypes.CoolerType1.values());
+		return coolerFixedInfo(CoolerType1.values());
 	}
 
 	public static String[][] cooler2FixedInfo() 
 	{
-		return coolerFixedInfo(EnumTypes.CoolerType2.values());
+		return coolerFixedInfo(CoolerType2.values());
 	}
 
 	private static <T extends Enum<T> & IStringSerializable & ICoolerEnum> String[][] coolerFixedInfo(T[] values) {
@@ -99,7 +105,7 @@ public class QMDInfo
 	
 
 	public static String[][] cooler1Info() {
-		EnumTypes.CoolerType1[] values = EnumTypes.CoolerType1.values();
+		CoolerType1[] values = CoolerType1.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = InfoHelper.formattedInfo(cooler1InfoString(values[i]));
@@ -107,13 +113,13 @@ public class QMDInfo
 		return info;
 	}
 	
-	private static String cooler1InfoString(EnumTypes.CoolerType1 type) 
+	private static String cooler1InfoString(CoolerType1 type) 
 	{
 		return Lang.localise("tile." + QMD.MOD_ID + ".accelerator.cooler." + type.getName() + ".desc");
 	}
 	
 	public static String[][] cooler2Info() {
-		EnumTypes.CoolerType2[] values = EnumTypes.CoolerType2.values();
+		CoolerType2[] values = CoolerType2.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = InfoHelper.formattedInfo(cooler2InfoString(values[i]));
@@ -121,7 +127,7 @@ public class QMDInfo
 		return info;
 	}
 	
-	private static String cooler2InfoString(EnumTypes.CoolerType2 type) 
+	private static String cooler2InfoString(CoolerType2 type) 
 	{
 		return Lang.localise("tile." + QMD.MOD_ID + ".accelerator.cooler." + type.getName() + ".desc");
 	}
@@ -131,7 +137,7 @@ public class QMDInfo
 	// Magnet info
 	public static String[][] detectorFixedInfo()
 	{
-		EnumTypes.DetectorType[] values = EnumTypes.DetectorType.values();
+		DetectorType[] values = DetectorType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = new String[] {
@@ -145,7 +151,7 @@ public class QMDInfo
 
 	public static String[][] detectorInfo()
 	{
-		EnumTypes.DetectorType[] values = EnumTypes.DetectorType.values();
+		DetectorType[] values = DetectorType.values();
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = InfoHelper.formattedInfo(detectorInfoString(values[i]));
@@ -154,7 +160,7 @@ public class QMDInfo
 	}
 
 
-	private static String detectorInfoString(EnumTypes.DetectorType type) 
+	private static String detectorInfoString(DetectorType type) 
 	{
 		return Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector." + type.getName() + ".desc");
 	}
@@ -170,6 +176,32 @@ public class QMDInfo
 		return Lang.localise("info." + QMD.MOD_ID + ".beamline.attenuation",QMDConfig.beamAttenuationRate);
 	}
 
+	// Fission Neutron Shields
 
+	public static String[][] neutronShieldFixedInfo()
+	{
+		NeutronShieldType[] values = NeutronShieldType.values();
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = new String[] {
+					Lang.localise("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd",
+							UnitHelper.prefix(values[i].getHeatPerFlux(), 5, "H/t/N")),
+					Lang.localise("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd",
+							Math.round(100D * values[i].getEfficiency()) + "%"), };
+		}
+		return info;
+	}
+
+	public static String[][] neutronShieldInfo()
+	{
+		NeutronShieldType[] values = NeutronShieldType.values();
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = InfoHelper.formattedInfo(Lang.localise("tile." + Global.MOD_ID + ".fission_shield.desc"));
+		}
+		return info;
+	}
 	
 }

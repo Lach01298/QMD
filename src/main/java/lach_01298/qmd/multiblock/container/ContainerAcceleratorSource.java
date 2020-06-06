@@ -1,15 +1,11 @@
 package lach_01298.qmd.multiblock.container;
 
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.ContainerTile;
-import nc.container.NCContainer;
-import nc.container.slot.SlotFiltered;
-import nc.container.slot.SlotSpecificInput;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 

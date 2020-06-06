@@ -7,9 +7,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
-
 import com.google.common.collect.Lists;
 
 import lach_01298.qmd.particle.Particle;

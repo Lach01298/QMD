@@ -11,7 +11,6 @@ import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipe.QMDRecipeHelper;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.integration.crafttweaker.CTHelper;
-
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 

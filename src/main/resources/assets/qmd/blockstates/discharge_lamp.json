@@ -1,0 +1,50 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all"
+    },
+    "variants": {
+        "active=false,type=empty": {
+            "model": "qmd:lamp/empty_off"
+        },
+        "active=true,type=empty": {
+            "model": "qmd:lamp/empty"
+        },
+        "active=false,type=hydrogen": {
+            "model": "qmd:lamp/hydrogen_off"
+        },
+        "active=true,type=hydrogen": {
+            "model": "qmd:lamp/hydrogen"
+        },
+        "active=false,type=helium": {
+           "model": "qmd:lamp/helium_off"
+        },
+        "active=true,type=helium": {
+            "model": "qmd:lamp/helium"
+        },
+        "active=false,type=nitrogen": {
+           "model": "qmd:lamp/nitrogen_off"
+        },
+        "active=true,type=nitrogen": {
+           "model": "qmd:lamp/nitrogen"
+        },
+        "active=false,type=oxygen": {
+            "model": "qmd:lamp/oxygen_off"
+        },
+        "active=true,type=oxygen": {
+           "model": "qmd:lamp/oxygen"
+        },
+        "active=false,type=neon": {
+           "model": "qmd:lamp/neon_off"
+        },
+        "active=true,type=neon": {
+           "model": "qmd:lamp/neon"
+        },
+        "active=false,type=argon": {
+           "model": "qmd:lamp/argon_off"
+        },
+        "active=true,type=argon": {
+            "model": "qmd:lamp/argon"
+        }
+    }
+}

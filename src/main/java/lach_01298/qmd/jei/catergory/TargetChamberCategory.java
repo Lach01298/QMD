@@ -4,9 +4,7 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.jei.ingredient.IGUIParticleStackGroup;
 import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipe;
 import lach_01298.qmd.jei.recipe.TargetChamberRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.IGuiHelper;
@@ -17,9 +15,7 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.util.Lang;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 

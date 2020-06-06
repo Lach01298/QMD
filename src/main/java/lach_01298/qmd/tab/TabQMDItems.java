@@ -1,7 +1,6 @@
 package lach_01298.qmd.tab;
 
 import lach_01298.qmd.item.QMDItems;
-import nc.init.NCItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 

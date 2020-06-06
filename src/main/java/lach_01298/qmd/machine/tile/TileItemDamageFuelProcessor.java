@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import nc.config.NCConfig;
-import nc.init.NCItems;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.ProcessorRecipe;
@@ -17,20 +16,13 @@ import nc.recipe.ProcessorRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.ITileGui;
-import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.tile.inventory.TileSidedInventory;
 import nc.tile.processor.IItemProcessor;
-import nc.tile.processor.IProcessor;
-import nc.tile.processor.TileItemProcessor;
-import nc.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -276,9 +268,9 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 		
 		private void useFuel(int slot)
 		{
-				if(getInventory().getStackInSlot(slot).attemptDamageItem(1, rand, null))
+				if(getInventoryStacks().get(slot).attemptDamageItem(1, rand, null))
 				{
-					getInventory().setInventorySlotContents(slot, ItemStack.EMPTY);
+					getInventoryStacks().set(slot, ItemStack.EMPTY);
 				}	
 		}
 

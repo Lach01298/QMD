@@ -6,7 +6,6 @@ import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockValidationError;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
-import nc.network.PacketHandler;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

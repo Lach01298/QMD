@@ -2,10 +2,6 @@ package lach_01298.qmd.particle;
 
 import javax.annotation.Nullable;
 
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-
 public interface IParticleStorage
 {
 	  /**

@@ -12,7 +12,7 @@ public class SlotDamageFuel extends Slot
 	
 	public SlotDamageFuel(ITileInventory tile, ProcessorRecipeHandler recipeHandler, int index, int xPosition, int yPosition) 
 	{
-		super(tile.getInventory(), index, xPosition, yPosition);
+		super(tile, index, xPosition, yPosition);
 		this.recipeHandler = recipeHandler;
 	}
 	

@@ -2,7 +2,6 @@ package lach_01298.qmd.pipe;
 
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.ByteUtil;
-import lach_01298.qmd.multiblock.accelerator.Accelerator;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.multiblock.network.MultiblockUpdatePacket;
 

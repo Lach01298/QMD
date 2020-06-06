@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.jei.catergory.AcceleratorCoolingCategory;
 import lach_01298.qmd.jei.catergory.AcceleratorSourceCategory;
 import lach_01298.qmd.jei.catergory.DecayChamberCategory;
 import lach_01298.qmd.jei.catergory.IrradiatorCategory;
@@ -18,13 +19,12 @@ import lach_01298.qmd.jei.ingredient.ParticleStackHelper;
 import lach_01298.qmd.jei.ingredient.ParticleStackListFactory;
 import lach_01298.qmd.jei.ingredient.ParticleStackRenderer;
 import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipe;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipeMaker;
 import lach_01298.qmd.jei.recipe.DecayChamberRecipeMaker;
 import lach_01298.qmd.jei.recipe.ParticleInfoRecipeMaker;
+import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import lach_01298.qmd.jei.recipe.TargetChamberRecipeMaker;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipes.AcceleratorSourceRecipes;
 import lach_01298.qmd.recipes.QMDRecipes;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
@@ -35,20 +35,13 @@ import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
-import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
-import nc.config.NCConfig;
-import nc.init.NCBlocks;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEICategoryAbstract;
 import nc.integration.jei.JEIMethods;
-import nc.integration.jei.JEIRecipeWrapper;
 import nc.integration.jei.JEIRecipeWrapperAbstract;
-import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
-import nc.recipe.NCRecipes;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.util.ItemStackHelper;
+import nc.util.StackHelper;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 @JEIPlugin
@@ -83,7 +76,8 @@ public class QMDJEI implements IModPlugin
 				new DecayChamberCategory(guiHelper),
 				JEIProcessorHandler.ORE_LEACHER.getCategory(guiHelper),
 				JEIProcessorHandler.IRRADIATOR.getCategory(guiHelper),
-				JEIProcessorHandler.IRRADIATOR_FUEL.getCategory(guiHelper)
+				JEIProcessorHandler.IRRADIATOR_FUEL.getCategory(guiHelper),
+				JEIProcessorHandler.ACCELERATOR_COOLING.getCategory(guiHelper)
 				);
 		
 	}
@@ -114,6 +108,11 @@ public class QMDJEI implements IModPlugin
 		
 		registry.addRecipes(JEIProcessorHandler.IRRADIATOR_FUEL.getJEIRecipes(guiHelper), JEIProcessorHandler.IRRADIATOR_FUEL.getUUID());
 		registry.addRecipeCatalyst(JEIProcessorHandler.IRRADIATOR_FUEL.getCrafters().get(0),JEIProcessorHandler.IRRADIATOR_FUEL.getUUID());
+		
+		registry.addRecipes(JEIProcessorHandler.ACCELERATOR_COOLING.getJEIRecipes(guiHelper), JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
+		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(0),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
+		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(1),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
+		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(2),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
 	}
 
 	
@@ -121,8 +120,8 @@ public class QMDJEI implements IModPlugin
 	{
 		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
 		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
-		IRRADIATOR_FUEL(QMDRecipes.irradiator_fuel, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.IrradiatorFuel.class);
-	
+		IRRADIATOR_FUEL(QMDRecipes.irradiator_fuel, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.IrradiatorFuel.class),
+		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class);
 		private ProcessorRecipeHandler recipeHandler;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
 		private boolean enabled;
@@ -140,7 +139,7 @@ public class QMDJEI implements IModPlugin
 			this.recipeHandler = recipeHandler;
 			this.recipeWrapper = recipeWrapper;
 			this.crafters = new ArrayList<ItemStack>();
-			for (Block crafter : crafters) this.crafters.add(ItemStackHelper.fixItemStack(crafter));
+			for (Block crafter : crafters) this.crafters.add(StackHelper.fixItemStack(crafter));
 			this.textureName = textureName;
 		}
 		
@@ -155,6 +154,8 @@ public class QMDJEI implements IModPlugin
 				return new IrradiatorCategory(guiHelper, this);
 			case IRRADIATOR_FUEL:
 				return new IrradiatorFuelCategory(guiHelper, this);
+			case ACCELERATOR_COOLING:
+				return new AcceleratorCoolingCategory(guiHelper, this);
 			default:
 				return null;
 			}

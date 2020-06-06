@@ -6,12 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import lach_01298.qmd.QMD;
-import nc.Global;
-import nc.ModCheck;
-import nc.NuclearCraft;
 import nc.block.fluid.NCBlockFluid;
 import nc.block.item.NCItemBlock;
-import nc.config.NCConfig;
 import nc.enumm.FluidType;
 import nc.util.ColorHelper;
 import nc.util.NCUtil;
@@ -45,11 +41,14 @@ public class QMDFluids
 			
 			
 			//cryo liquids
-			addFluidPair(FluidType.LIQUID, "liquid_hydrogen",false, 0xB37AC4,71,20,100,0);
-			addFluidPair(FluidType.LIQUID, "liquid_argon",false, 0xfa6400,1395,87,100,0);
+			addFluidPair(FluidType.LIQUID, "liquid_hydrogen",false, 0xB37AC4,71,20,170,0);
+			addFluidPair(FluidType.LIQUID, "liquid_argon",false, 0xff75dd,1395,87,170,0);
+			addFluidPair(FluidType.LIQUID, "liquid_neon",false, 0xff9f7a,1207,27,170,0);
+			addFluidPair(FluidType.LIQUID, "liquid_oxygen",false, 0x7E8CC8,1141,90,170,0);
 			
 			//gases
-			addFluidPair(FluidType.GAS, "argon", 0xfa6400);
+			addFluidPair(FluidType.GAS, "argon", 0xff75dd);
+			addFluidPair(FluidType.GAS, "neon", 0xff9f7a);
 			addFluidPair(FluidType.GAS, "chlorine", 0xffff8f);
 			addFluidPair(FluidType.GAS, "nitric_oxide", 0xc9eeff);
 			addFluidPair(FluidType.GAS, "nitrogen_dioxide", 0x782a10);

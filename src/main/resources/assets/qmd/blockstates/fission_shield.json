@@ -1,0 +1,14 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all"
+    },
+    "variants": {
+        "active=false,type=hafnium": {
+            "model": "qmd:fission_shield_hafnium_off"
+        },
+        "active=true,type=hafnium": {
+            "model": "qmd:fission_shield_hafnium_on"
+        }
+    }
+}

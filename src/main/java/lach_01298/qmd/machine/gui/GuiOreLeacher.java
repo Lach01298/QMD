@@ -2,38 +2,25 @@ package lach_01298.qmd.machine.gui;
 
 import java.io.IOException;
 
-import lach_01298.qmd.QMD;
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
 import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
 import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
-import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
 import lach_01298.qmd.network.QMDPacketHandler;
-import nc.Global;
 import nc.container.ContainerTile;
-import nc.container.processor.ContainerInfuser;
 import nc.container.processor.ContainerMachineConfig;
-import nc.gui.NCGui;
 import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.GuiItemRenderer;
 import nc.gui.element.NCButton;
 import nc.gui.element.NCToggleButton;
 import nc.gui.processor.GuiFluidSorptions;
-import nc.gui.processor.GuiInfuser;
-import nc.gui.processor.GuiItemFluidProcessor;
 import nc.gui.processor.GuiItemSorptions;
 import nc.network.PacketHandler;
 import nc.network.gui.EmptyTankPacket;
-import nc.network.gui.OpenSideConfigGuiPacket;
-import nc.network.gui.OpenTileGuiPacket;
 import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.tile.processor.TileItemFluidProcessor;
 import nc.util.Lang;
 import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 

@@ -10,7 +10,6 @@ import nc.integration.crafttweaker.AddProcessorRecipe;
 import nc.integration.crafttweaker.RemoveAllProcessorRecipes;
 import nc.integration.crafttweaker.RemoveProcessorRecipe;
 import nc.recipe.IngredientSorption;
-import nc.recipe.NCRecipes;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;

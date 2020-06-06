@@ -25,16 +25,34 @@
                 "fluid": "liquid_hydrogen"
             }
         },
+        "fluid_liquid_oxygen": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "liquid_oxygen"
+            }
+        },
         "fluid_liquid_argon": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "liquid_argon"
             }
         },
+        "fluid_liquid_neon": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "liquid_neon"
+            }
+        },
         "fluid_argon": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "argon"
+            }
+        },
+        "fluid_neon": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "neon"
             }
         },
            "fluid_silicon": {

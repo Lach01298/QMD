@@ -2,15 +2,11 @@ package lach_01298.qmd.network;
 
 import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
 import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
-import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.BeamDiverterUpdatePacket;
 import lach_01298.qmd.multiblock.network.DecayChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
-import nc.network.PacketHandler;
-import nc.network.config.ConfigUpdatePacket;
-import nc.network.gui.OpenSideConfigGuiPacket;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;

@@ -2,14 +2,17 @@ package lach_01298.qmd.item;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.MaterialEnums;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
+import lach_01298.qmd.enums.MaterialTypes.DustType;
+import lach_01298.qmd.enums.MaterialTypes.DustType2;
+import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
+import lach_01298.qmd.enums.MaterialTypes.IngotType;
+import lach_01298.qmd.enums.MaterialTypes.IngotType2;
+import lach_01298.qmd.enums.MaterialTypes.IsotopeType;
+import lach_01298.qmd.enums.MaterialTypes.PartType;
+import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
 import lach_01298.qmd.tab.QMDTabs;
-import nc.Global;
-import nc.NCInfo;
 import nc.config.NCConfig;
-import nc.enumm.MetaEnums;
-import nc.init.NCItems;
 import nc.item.IInfoItem;
 import nc.item.NCItemFood;
 import nc.item.NCItemMeta;
@@ -17,15 +20,12 @@ import nc.item.tool.NCAxe;
 import nc.item.tool.NCHoe;
 import nc.item.tool.NCPickaxe;
 import nc.item.tool.NCShovel;
-import nc.item.tool.NCSpaxelhoe;
 import nc.item.tool.NCSword;
-import nc.tab.NCTabs;
-import nc.util.PotionHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -39,9 +39,15 @@ public class QMDItems
 	
 	
 	public static Item dust;
+	public static Item dust2;
 	public static Item ingot;
 	public static Item ingot2;
 	public static Item ingotAlloy;
+	public static Item isotope;
+	public static Item part;
+	public static Item semiconductor;
+	public static Item chemicalDust;
+	
 	public static Item tungsten_filament;
 	public static Item canister;
 	public static Item canister_hydrogen;
@@ -52,12 +58,9 @@ public class QMDItems
 	public static Item source_cobalt_60;
 	public static Item source_iridium_192;
 	
-	public static Item isotope;
-	public static Item part;
-	public static Item semiconductor;
-	public static Item chemicalDust;
 	
-	public static final ToolMaterial TUNGSTEN_CARBIDE = toolMaterial("tungsten_carbide", 0, new ItemStack(ingotAlloy, 1, MaterialEnums.IngotAlloyType.TUNGSTEN_CARBIDE.getID()));
+	
+	public static final ToolMaterial TUNGSTEN_CARBIDE = toolMaterial("tungsten_carbide", 0, new ItemStack(ingotAlloy, 1, IngotAlloyType.TUNGSTEN_CARBIDE.getID()));
 	public static Item sword_tungsten_carbide;
 	public static Item pickaxe_tungsten_carbide;
 	public static Item shovel_tungsten_carbide;
@@ -68,10 +71,11 @@ public class QMDItems
 	
 	public static void init()
 	{
-		dust = withName(new NCItemMeta(MaterialEnums.DustType.class), "dust");
-		ingot = withName(new NCItemMeta(MaterialEnums.IngotType.class), "ingot");
-		ingot2 = withName(new NCItemMeta(MaterialEnums.IngotType2.class), "ingot2");
-		ingotAlloy = withName(new NCItemMeta(MaterialEnums.IngotAlloyType.class), "ingot_alloy");
+		dust = withName(new NCItemMeta(DustType.class), "dust");
+		dust2 = withName(new NCItemMeta(DustType2.class), "dust2");
+		ingot = withName(new NCItemMeta(IngotType.class), "ingot");
+		ingot2 = withName(new NCItemMeta(IngotType2.class), "ingot2");
+		ingotAlloy = withName(new NCItemMeta(IngotAlloyType.class), "ingot_alloy");
 		tungsten_filament = withName(new ItemBrakeable(300),"tungsten_filament");
 		canister = withName(new ItemBrakeable(300),"canister");
 		canister_hydrogen = withName(new ItemBrakeable(300),"canister_hydrogen");
@@ -81,10 +85,10 @@ public class QMDItems
 		source_sodium_22 = withName(new ItemBrakeable(300),"source_sodium_22");
 		source_cobalt_60 = withName(new ItemBrakeable(300),"source_cobalt_60");
 		source_iridium_192 = withName(new ItemBrakeable(300),"source_iridium_192");
-		isotope = withName(new NCItemMeta(MaterialEnums.IsotopeType.class), "isotope");
-		part =  withName(new NCItemMeta(MaterialEnums.PartType.class), "part");
-		semiconductor =  withName(new NCItemMeta(MaterialEnums.SemiconductorType.class), "semiconductor");
-		chemicalDust =  withName(new NCItemMeta(MaterialEnums.ChemicalDustType.class), "chemical_dust");
+		isotope = withName(new NCItemMeta(IsotopeType.class), "isotope");
+		part =  withName(new NCItemMeta(PartType.class), "part");
+		semiconductor =  withName(new NCItemMeta(SemiconductorType.class), "semiconductor");
+		chemicalDust =  withName(new NCItemMeta(ChemicalDustType.class), "chemical_dust");
 		
 		
 		
@@ -102,6 +106,7 @@ public class QMDItems
 	public static void register()
 	{
 		registerItem(dust, QMDTabs.ITEMS);
+		registerItem(dust2, QMDTabs.ITEMS);
 		registerItem(ingot, QMDTabs.ITEMS);
 		registerItem(ingot2, QMDTabs.ITEMS);
 		registerItem(ingotAlloy, QMDTabs.ITEMS);
@@ -137,25 +142,49 @@ public class QMDItems
 
 	public static void registerRenders() 
 	{
-		for(int i = 0; i < MaterialEnums.DustType.values().length; i++) 
+		for(int i = 0; i < DustType.values().length; i++) 
 		{
-			registerRender(dust, i, MaterialEnums.DustType.values()[i].getName());
+			registerRender(dust, i, DustType.values()[i].getName());
 		}
 		
-		for(int i = 0; i < MaterialEnums.IngotType.values().length; i++) 
+		for(int i = 0; i < DustType2.values().length; i++) 
 		{
-			registerRender(ingot, i, MaterialEnums.IngotType.values()[i].getName());
+			registerRender(dust2, i, DustType2.values()[i].getName());
 		}
 		
-		for(int i = 0; i < MaterialEnums.IngotType2.values().length; i++) 
+		for(int i = 0; i < IngotType.values().length; i++) 
 		{
-			registerRender(ingot2, i, MaterialEnums.IngotType2.values()[i].getName());
+			registerRender(ingot, i, IngotType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < IngotType2.values().length; i++) 
+		{
+			registerRender(ingot2, i, IngotType2.values()[i].getName());
 		}
 		
 		
-		for(int i = 0; i < MaterialEnums.IngotAlloyType.values().length; i++) 
+		for(int i = 0; i < IngotAlloyType.values().length; i++) 
 		{
-			registerRender(ingotAlloy, i, MaterialEnums.IngotAlloyType.values()[i].getName());
+			registerRender(ingotAlloy, i, IngotAlloyType.values()[i].getName());
+		}
+		
+		for(int i = 0; i < IsotopeType.values().length; i++) 
+		{
+			registerRender(isotope, i, IsotopeType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < PartType.values().length; i++)
+		{
+			registerRender(part, i, PartType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < SemiconductorType.values().length; i++)
+		{
+			registerRender(semiconductor, i, SemiconductorType.values()[i].getName());
+		}
+		for (int i = 0; i < ChemicalDustType.values().length; i++)
+		{
+			registerRender(chemicalDust, i, ChemicalDustType.values()[i].getName());
 		}
 		
 		registerRender(tungsten_filament);
@@ -168,24 +197,6 @@ public class QMDItems
 		registerRender(source_cobalt_60);
 		registerRender(source_iridium_192);
 		
-		for(int i = 0; i < MaterialEnums.IsotopeType.values().length; i++) 
-		{
-			registerRender(isotope, i, MaterialEnums.IsotopeType.values()[i].getName());
-		}
-		
-		for (int i = 0; i < MaterialEnums.PartType.values().length; i++)
-		{
-			registerRender(part, i, MaterialEnums.PartType.values()[i].getName());
-		}
-		
-		for (int i = 0; i < MaterialEnums.SemiconductorType.values().length; i++)
-		{
-			registerRender(semiconductor, i, MaterialEnums.SemiconductorType.values()[i].getName());
-		}
-		for (int i = 0; i < MaterialEnums.ChemicalDustType.values().length; i++)
-		{
-			registerRender(chemicalDust, i, MaterialEnums.ChemicalDustType.values()[i].getName());
-		}
 		
 		registerRender(sword_tungsten_carbide);
 		registerRender(pickaxe_tungsten_carbide);

@@ -12,9 +12,6 @@ import lach_01298.qmd.crafttweaker.particle.CTParticleStack;
 import lach_01298.qmd.particle.ParticleStack;
 import nc.recipe.IngredientMatchResult;
 import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.tile.internal.fluid.Tank;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Optional;
 
 public class EmptyParticleIngredient implements IParticleIngredient

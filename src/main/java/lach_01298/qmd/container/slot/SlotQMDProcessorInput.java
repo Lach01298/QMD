@@ -12,7 +12,7 @@ public class SlotQMDProcessorInput extends Slot
 
 	public SlotQMDProcessorInput(ITileInventory tile, QMDRecipeHandler recipeHandler, int slotIndex, int xPosition, int yPosition)
 	{
-		super(tile.getInventory(), slotIndex, xPosition, yPosition);
+		super(tile, slotIndex, xPosition, yPosition);
 		this.recipeHandler = recipeHandler;
 
 	}

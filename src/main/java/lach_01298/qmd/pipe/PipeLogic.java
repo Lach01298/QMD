@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -51,7 +50,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	}
 
 	@Override
-	public void onMachineAssembled(boolean wasAssembled)
+	public void onMachineAssembled()
 	{
 		onPipeFormed();
 	}

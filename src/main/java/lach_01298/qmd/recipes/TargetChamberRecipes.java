@@ -4,16 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMDRadSources;
-import lach_01298.qmd.enums.MaterialEnums;
-import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
-import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
-import nc.enumm.MetaEnums;
-import nc.init.NCItems;
 import nc.radiation.RadSources;
-import net.minecraft.item.ItemStack;
 
 public class TargetChamberRecipes extends QMDRecipeHandler
 {
@@ -140,8 +134,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.positron), new ParticleStack(Particles.neutron), new ParticleStack(Particles.electron_neutrino), 6000, 0.4);	
 		
 		// Other reactions
-		addRecipe("siliconWafer", new ParticleStack(Particles.boron_ion, 120000, 4000), "siliconPDoped",
-				emptyParticleStack(),emptyParticleStack(),emptyParticleStack(), 5000);
+		addRecipe("siliconWafer", new ParticleStack(Particles.boron_ion, 120000, 600,2), "siliconPDoped",
+				emptyParticleStack(),emptyParticleStack(),emptyParticleStack(), 1000);
 		
 	
 		// proton induced fission

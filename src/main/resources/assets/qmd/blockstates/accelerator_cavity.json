@@ -19,7 +19,17 @@
 				"textures": {
 					"all": "qmd:blocks/accelerator/cavity/niobium_tin"
 				}
-			}
+			},
+			"niobium_titanium": {
+                "textures": {
+                    "all": "qmd:blocks/accelerator/cavity/niobium_titanium"
+                }
+            },
+            "bscco": {
+                "textures": {
+                    "all": "qmd:blocks/accelerator/cavity/bscco"
+                }
+            }
 		}
 	}
 }

@@ -4,12 +4,10 @@ import static nc.util.PermutationHelper.permutations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
 import com.google.common.collect.Lists;
@@ -26,7 +24,6 @@ import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
 import nc.recipe.IngredientSorption;
-import nc.recipe.RecipeTupleGenerator;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.recipe.ingredient.EmptyFluidIngredient;
@@ -38,10 +35,9 @@ import nc.recipe.ingredient.ItemIngredient;
 import nc.recipe.ingredient.OreIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidRegHelper;
-import nc.util.ItemStackHelper;
 import nc.util.OreDictHelper;
+import nc.util.StackHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
@@ -473,7 +469,7 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	public boolean isValidItemInput(ItemStack stack, ItemStack slotStack, List<ItemStack> otherInputs)
 	{
 		if (otherInputs.isEmpty()
-				|| (stack.isItemEqual(slotStack) && ItemStackHelper.areItemStackTagsEqual(stack, slotStack)))
+				|| (stack.isItemEqual(slotStack) && StackHelper.areItemStackTagsEqual(stack, slotStack)))
 		{
 			return isValidItemInput(stack);
 		}

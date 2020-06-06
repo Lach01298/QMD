@@ -6,7 +6,6 @@ import java.util.List;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IngredientOr;
-
 import lach_01298.qmd.crafttweaker.particle.IParticleStack;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipeHelper;

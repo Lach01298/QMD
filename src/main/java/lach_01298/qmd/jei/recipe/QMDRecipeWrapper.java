@@ -4,18 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipes.QMDRecipes;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.recipe.IStackHelper;
-import nc.config.NCConfig;
 import nc.integration.jei.IJEIHandler;
+import nc.integration.jei.JEIRecipeWrapperAbstract;
 import nc.integration.jei.JEIRecipeWrapperProcessor;
-import nc.integration.jei.JEIRecipeWrapper.Infuser;
 import nc.recipe.ProcessorRecipe;
 import nc.recipe.ProcessorRecipeHandler;
+import nc.util.Lang;
+import net.minecraft.util.text.TextFormatting;
 
 public class QMDRecipeWrapper
 {
@@ -69,28 +65,81 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class IrradiatorFuel extends JEIRecipeWrapperProcessor<IrradiatorFuel>
+	public static class IrradiatorFuel extends JEIRecipeWrapperAbstract<IrradiatorFuel>
 	{
 
 		public IrradiatorFuel(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe)
 		{
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 62, 5, 0, 0, 0, 0, 0, 0, 62, 38, 52, 19);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 62, 5, 0, 0, 0, 0, 0, 0);
 		}
 
 		@Override
-		protected double getBaseProcessTime()
+		protected int getProgressArrowTime()
+		{
+			return (int) (getIrradatorSpeed()/2D);
+		}
+
+		protected double getIrradatorSpeed() 
+		{
+			if (recipe == null) return 1D;
+			return recipe.getScrubberProcessTime();
+		}
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY)
+		{
+			List<String> tooltip = new ArrayList<>();
+
+			if (mouseX >= 5 && mouseY >= 30 && mouseX < 45 && mouseY < 50)
+			{
+				tooltip.add(TextFormatting.AQUA + SPEED + " " + TextFormatting.WHITE+ "x" +
+						+ getIrradatorSpeed());
+			}
+
+			return tooltip;
+		}
+
+		private static final String SPEED = Lang.localise("gui.nc.container.speed_multiplier");
+
+	}
+	
+	public static class AcceleratorCooling extends JEIRecipeWrapperAbstract<AcceleratorCooling>
+	{
+
+		public AcceleratorCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler,
+				ProcessorRecipe recipe)
+		{
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 27, 6);
+		}
+
+		@Override
+		protected int getProgressArrowTime()
+		{
+			return getFissionHeatingHeatPerInputMB() / 4;
+		}
+
+		protected int getFissionHeatingHeatPerInputMB()
 		{
 			if (recipe == null)
-				return 0;
-			return recipe.getBaseProcessTime(1);
+				return 64;
+			return recipe.getFissionHeatingHeatPerInputMB();
 		}
 
 		@Override
-		protected double getBaseProcessPower()
+		public List<String> getTooltipStrings(int mouseX, int mouseY)
 		{
-			return 0;
+			List<String> tooltip = new ArrayList<>();
+
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1)
+			{
+				tooltip.add(TextFormatting.YELLOW + HEAT_PER_MB + " " + TextFormatting.WHITE
+						+ getFissionHeatingHeatPerInputMB() + " H/mB");
+			}
+
+			return tooltip;
 		}
 
+		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 
 }

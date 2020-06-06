@@ -2,9 +2,7 @@ package lach_01298.qmd.machine.container;
 
 import lach_01298.qmd.machine.tile.TileItemDamageFuelProcessor;
 import nc.container.ContainerTile;
-import nc.init.NCItems;
 import nc.recipe.ProcessorRecipeHandler;
-import nc.tile.processor.TileItemProcessor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;

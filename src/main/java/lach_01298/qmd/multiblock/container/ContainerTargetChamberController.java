@@ -3,12 +3,9 @@ package lach_01298.qmd.multiblock.container;
 import javax.annotation.Nullable;
 
 import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
-import lach_01298.qmd.multiblock.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.accelerator.tile.IAcceleratorController;
-import lach_01298.qmd.multiblock.accelerator.tile.TileAcceleratorSource;
-import lach_01298.qmd.multiblock.particleChamber.ParticleChamber;
-import lach_01298.qmd.multiblock.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.multiblock.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.particleChamber.ParticleChamber;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
+import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.slot.SlotFurnace;
@@ -24,7 +21,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ContainerTargetChamberController extends ContainerMultiblockController<ParticleChamber, IParticleChamberController>
 {
 	protected final QMDRecipeHandler recipeHandler;
-	public final @Nullable IInventory invWrapper;
 	
 	protected int inputSlotsSize;
 	protected int outputSlotsSize;
@@ -35,7 +31,6 @@ public class ContainerTargetChamberController extends ContainerMultiblockControl
 	{
 		super(player, tile);
 		this.tile= tile;
-		invWrapper = tile.getInventory();
 		this.recipeHandler = QMDRecipes.target_chamber;
 		
 		this.inputSlotsSize = 1;
@@ -49,17 +44,22 @@ public class ContainerTargetChamberController extends ContainerMultiblockControl
 		addPlayerInventory(player,8,98);
 
 	}
-	
-	
-	
-	
-	
+
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn)
 	{
 		return tile.isUsableByPlayer(playerIn);
 	}
+	
+	
+    public void putStackInSlot(int slotID, ItemStack stack)
+    {
+        this.getSlot(slotID).putStack(stack);
+    }
+	
+	
+	
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index)
@@ -135,10 +135,6 @@ public class ContainerTargetChamberController extends ContainerMultiblockControl
 		}
 
 	}
-	
-	
-	
-	
 	
 	
 }

@@ -1,11 +1,8 @@
 package lach_01298.qmd;
 
-import java.text.DecimalFormat;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import nc.Global;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;

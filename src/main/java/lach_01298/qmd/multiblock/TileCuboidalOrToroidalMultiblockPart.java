@@ -1,16 +1,16 @@
 package lach_01298.qmd.multiblock;
 
 
-import nc.multiblock.BlockFacing;
-import nc.multiblock.Multiblock;
-import nc.multiblock.tile.TileMultiblockPart;
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.cuboidal.PartPosition;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import nc.multiblock.BlockFacing;
+import nc.multiblock.Multiblock;
+import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.multiblock.cuboidal.PartPosition;
+import nc.multiblock.tile.TileMultiblockPart;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends CuboidalOrToroidalMultiblock> extends TileMultiblockPart<MULTIBLOCK>
 {

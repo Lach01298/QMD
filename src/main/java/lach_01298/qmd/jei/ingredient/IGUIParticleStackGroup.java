@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.gui.IGuiIngredientGroup;
 import mezz.jei.api.gui.ITooltipCallback;
-import net.minecraft.item.ItemStack;
 
 public interface IGUIParticleStackGroup extends IGuiIngredientGroup<ParticleStack>
 {

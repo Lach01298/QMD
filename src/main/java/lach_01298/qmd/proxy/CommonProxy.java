@@ -2,7 +2,6 @@ package lach_01298.qmd.proxy;
 
 import java.util.Locale;
 
-import crafttweaker.CraftTweakerAPI;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDOreDictionary;
 import lach_01298.qmd.QMDRadSources;
@@ -14,11 +13,6 @@ import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.tile.QMDTiles;
-import nc.init.NCFluids;
-import nc.radiation.RadArmor;
-import nc.radiation.RadSources;
-import nc.recipe.NCRecipes;
-import nc.util.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

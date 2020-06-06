@@ -5,7 +5,6 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.Global;
 import nc.integration.jei.IJEIHandler;
 import nc.integration.jei.JEICategoryAbstract;
 import nc.integration.jei.JEIRecipeWrapperAbstract;

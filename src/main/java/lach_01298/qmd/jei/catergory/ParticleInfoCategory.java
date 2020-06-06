@@ -3,23 +3,17 @@ package lach_01298.qmd.jei.catergory;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipe;
 import lach_01298.qmd.jei.recipe.ParticleInfoRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiIngredientGroup;
-import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.util.Lang;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ParticleInfoCategory implements IRecipeCategory<ParticleInfoRecipe>

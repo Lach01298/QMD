@@ -1,9 +1,6 @@
 package lach_01298.qmd.item;
 
-import lach_01298.qmd.particle.Particle;
 import nc.item.IInfoItem;
-import nc.tab.NCTabs;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

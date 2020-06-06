@@ -3,18 +3,11 @@ package lach_01298.qmd.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import lach_01298.qmd.QMD;
 import lach_01298.qmd.Units;
 import lach_01298.qmd.particle.ParticleStack;
-import nc.gui.NCGui;
 import nc.util.Lang;
-import nc.util.UnitHelper;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.inventory.Container;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiParticle 

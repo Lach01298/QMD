@@ -3,8 +3,6 @@ package lach_01298.qmd.research;
 
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.logging.log4j.Level;
-import nc.util.NCUtil;
 
 public class Researches
 {
