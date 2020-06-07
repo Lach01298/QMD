@@ -148,8 +148,8 @@ public class QMDBlocks
 		 dischargeLamp = withName(new BlockLamp(), "discharge_lamp");
 		 
 		 heliumCollector = withName(new QMDBlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR),"helium_collector");
-		 neonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR),"neon_collector");
-		 argonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR),"argon_collector");
+		 neonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.NEON_COLLECTOR),"neon_collector");
+		 argonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.ARGON_COLLECTOR),"argon_collector");
 		
 	}
 	
