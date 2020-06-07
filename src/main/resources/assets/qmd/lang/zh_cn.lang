@@ -15,6 +15,9 @@ item.qmd.dust.sodium.name=钠尘
 item.qmd.dust.potassium.name=钾尘
 item.qmd.dust.calcium.name=钙尘
 item.qmd.dust.strontium.name=锶尘
+item.qmd.dust2.yttrium.name=钇尘
+item.qmd.dust2.neodymium.name=钕尘
+item.qmd.dust2.germanium.name=锗尘
 
 item.qmd.ingot.tungsten.name=钨锭
 item.qmd.ingot.niobium.name=铌锭
@@ -38,6 +41,7 @@ item.qmd.ingot2.germanium.name=锗锭
 item.qmd.ingot_alloy.tungsten_carbide.name=碳化钨锭
 item.qmd.ingot_alloy.niobium_tin.name=铌锡锭
 item.qmd.ingot_alloy.stainless_steel.name=不锈钢锭
+item.qmd.ingot_alloy.niobium_titanium.name=铌钛锭
 
 item.qmd.tungsten_filament.name=钨丝
 item.qmd.canister.name=罐
@@ -45,6 +49,8 @@ item.qmd.canister_hydrogen.name=氢罐
 item.qmd.canister_helium.name=氦气罐
 item.qmd.canister_deuterium.name=氘罐
 item.qmd.canister_diborane.name=乙硼烷罐
+item.qmd.part.wire_gold_tungsten.name=镀金钨丝
+item.qmd.part.wire_chamber_casing.name=空导线腔
 
 item.qmd.source_sodium_22.name=钠22源
 item.qmd.source_cobalt_60.name=钴60源
@@ -85,6 +91,7 @@ item.qmd.chemical_dust.bscco.name=BSCCO粉尘
 item.qmd.chemical_dust.sodium_nitrate.name=硝酸钠
 item.qmd.chemical_dust.sodium_chloride.name=氯化钠
 item.qmd.chemical_dust.copper_oxide.name=氧化铜
+item.qmd.chemical_dust.hafnium_oxide.name=氧化铪
 
 item.qmd.sword_tungsten_carbide.name=碳化钨剑
 item.qmd.shovel_tungsten_carbide.name=碳化钨铲
@@ -100,26 +107,29 @@ tile.qmd.ore_leacher.name=矿石浸出剂
 tile.qmd.irradiator.name=辐照器
 
 tile.qmd.fission_reflector.tungsten_carbide.name=碳化钨中子反射器
+tile.qmd.fission_shield.hafnium.name=铪中子反射器
 tile.qmd.rtg_strontium.name=锶RTG
 
 tile.qmd.linear_accelerator_controller.name=线性加速器控制器
 tile.qmd.ring_accelerator_controller.name=同步加速器控制器
 tile.qmd.beam_diverter_controller.name=光束转向控制器
 
-tile.qmd.accelerator_beam.name=加速梁
+tile.qmd.accelerator_beam.name=加速梁方块
 tile.qmd.accelerator_casing.name=加速器外壳
-tile.qmd.accelerator_glass.name=加速玻璃
-tile.qmd.accelerator_inlet.name=加速器冷却液入口
-tile.qmd.accelerator_outlet.name=加速器冷却液出口
+tile.qmd.accelerator_glass.name=加速器玻璃
+tile.qmd.accelerator_vent.name=加速器排液口
 tile.qmd.accelerator_beam_port.name=加速梁端口
 tile.qmd.accelerator_energy_port.name=加速器能源端口
 tile.qmd.accelerator_source.name=加速器离子源
 tile.qmd.accelerator_cavity.copper.name=铜射频腔
 tile.qmd.accelerator_cavity.magnesium_diboride.name=二硼化镁射频腔
 tile.qmd.accelerator_cavity.niobium_tin.name=铌锡射频腔
+tile.qmd.accelerator_cavity.niobium_titanium.name=铌钛射频腔
+tile.qmd.accelerator_cavity.bscco.name=BSCCO射频腔
 tile.qmd.accelerator_magnet.copper.name=铜加速器电磁铁
 tile.qmd.accelerator_magnet.magnesium_diboride.name=二硼化镁加速器电磁体
 tile.qmd.accelerator_magnet.niobium_tin.name=铌锡加速器电磁铁
+tile.qmd.accelerator_magnet.niobium_titanium.name=铌钛加速器电磁铁
 tile.qmd.accelerator_magnet.bscco.name=BSCCO加速器电磁体
 tile.qmd.accelerator_yoke.name=加速器电磁铁
 
@@ -162,7 +172,7 @@ tile.qmd.decay_chamber_controller.name=衰变室控制器
 tile.qmd.particle_chamber_beam_port.name=粒子室束口
 tile.qmd.particle_chamber_casing.name=粒子室套管
 tile.qmd.particle_chamber_glass.name=粒子室玻璃
-tile.qmd.particle_chamber_beam.name=粒子室梁
+tile.qmd.particle_chamber_beam.name=粒子室梁方块
 tile.qmd.particle_chamber.name=粒子室
 tile.qmd.particle_chamber_port.name=粒子室端口
 tile.qmd.particle_chamber_energy_port.name=粒子室能量端口
@@ -173,44 +183,56 @@ tile.qmd.particle_chamber_detector.wire_chamber.name=线室探测器
 tile.qmd.particle_chamber_detector.em_calorimeter.name=电磁量热仪
 tile.qmd.particle_chamber_detector.hadron_calorimeter.name=强子热量计检测器
 
+tile.qmd.discharge_lamp.empty.name=空放电灯
+tile.qmd.discharge_lamp.hydrogen.name=氢气放电灯
+tile.qmd.discharge_lamp.helium.name=氦气放电灯
+tile.qmd.discharge_lamp.nitrogen.name=氮气放电灯
+tile.qmd.discharge_lamp.oxygen.name=氧气放电灯
+tile.qmd.discharge_lamp.neon.name=氖气放电灯
+tile.qmd.discharge_lamp.argon.name=氩气放电灯
+
+tile.qmd.helium_collector.name=氦气收集器
+tile.qmd.neon_collector.name=氖气收集器
+tile.qmd.argon_collector.name=氩气收集器
+
 //块描述
 
 tile.qmd.beamline.desc=传输粒子
 tile.qmd.rtg.desc=不断产生%s
 
 tile.qmd.accelerator.cooler.cooling_rate=冷却速率：
-tile.qmd.accelerator.cooler.water.desc=必须与至少一个功能性RF腔相邻。
-tile.qmd.accelerator.cooler.iron.desc=必须与至少一个功能性电磁铁相邻。
-tile.qmd.accelerator.cooler.end_stone.desc=必须至少与一个功能梁相邻。
-tile.qmd.accelerator.cooler.lead.desc=必须与至少一个有效的铁制冷却器相邻。
+tile.qmd.accelerator.cooler.water.desc=必须与起作用的RF腔相邻。
+tile.qmd.accelerator.cooler.iron.desc=必须与起作用的电磁铁相邻。
+tile.qmd.accelerator.cooler.end_stone.desc=必须与起作用的梁相邻。
+tile.qmd.accelerator.cooler.lead.desc=必须与有效的铁制冷却器相邻。
 tile.qmd.accelerator.cooler.obsidian.desc=必须至少与两个有效的萤石冷却器相邻。
-tile.qmd.accelerator.cooler.quartz.desc=必须至少与一个有效的红石冷却器相邻。
-tile.qmd.accelerator.cooler.copper.desc=必须与至少一个有效的水冷却器相邻。
-tile.qmd.accelerator.cooler.redstone.desc=必须至少与一个功能性RF腔和一个功能性电磁铁相邻。
-tile.qmd.accelerator.cooler.purpur.desc=必须至少与一个有效的铁制冷却器和一个有效的端石冷却器相邻。
-tile.qmd.accelerator.cooler.lapis.desc=必须至少与一个功能性电磁铁和一个功能性电磁铁轭相邻。
-tile.qmd.accelerator.cooler.nether_brick.desc=必须与至少一个有效的黑曜石冷却器相邻。
+tile.qmd.accelerator.cooler.quartz.desc=必须与有效的红石冷却器相邻。
+tile.qmd.accelerator.cooler.copper.desc=必须与有效的水冷却器相邻。
+tile.qmd.accelerator.cooler.redstone.desc=必须至少与起作用的RF腔和起作用的电磁铁相邻。
+tile.qmd.accelerator.cooler.purpur.desc=必须在有效的铁制冷却器附近与有效的终石冷却器相邻。
+tile.qmd.accelerator.cooler.lapis.desc=必须与起作用的电磁铁和起作用的电磁铁轭相邻。
+tile.qmd.accelerator.cooler.nether_brick.desc=必须与有效的黑曜石冷却器相邻。
 tile.qmd.accelerator.cooler.gold.desc=必须至少与两个有效的铁制冷却器相邻。
-tile.qmd.accelerator.cooler.glowstone.desc=必须与至少两个不同类型的功能性电磁铁相邻。
+tile.qmd.accelerator.cooler.glowstone.desc=必须与至少两个不同类型的起作用的电磁铁相邻。
 tile.qmd.accelerator.cooler.prismarine.desc=必须至少与两个有效的饮水机相邻。
 tile.qmd.accelerator.cooler.tin.desc=必须至少与两个有效的青金石冷却器相邻。
-tile.qmd.accelerator.cooler.lithium.desc=沿着公共轴必须至少与两个有效的铅冷却器相邻。
-tile.qmd.accelerator.cooler.magnesium.desc=必须至少与一个功能性RF腔，一个功能性电磁铁和一个功能性光束相邻。
+tile.qmd.accelerator.cooler.lithium.desc=必须与有效的硼冷却器相邻。
+tile.qmd.accelerator.cooler.magnesium.desc=必须与起作用的电磁轭相邻。
 tile.qmd.accelerator.cooler.slime.desc=必须至少与一个有效的水冷却器和两个有效的铅冷却器相邻。
 tile.qmd.accelerator.cooler.manganese.desc=必须至少与两个有效的RF腔相邻。
 tile.qmd.accelerator.cooler.arsenic.desc=必须至少与两个不同类型的有效RF腔相邻。
 tile.qmd.accelerator.cooler.carobbiite.desc=必须至少与一个有效的端部石头冷却器和一个有效的铜冷却器相邻。
 tile.qmd.accelerator.cooler.fluorite.desc=必须至少与一个有效的黄金冷却器和一个有效的三棱柱冷却器相邻。
-tile.qmd.accelerator.cooler.villiaumite.desc=必须至少与一个有效的黄金冷却器和一个功能性的电磁轭相邻。
-tile.qmd.accelerator.cooler.boron.desc=必须至少与一个有效的石英冷却器和一个功能性的RF腔相邻。
+tile.qmd.accelerator.cooler.villiaumite.desc=必须至少与一个有效的黄金冷却器和一个起作用的的电磁轭相邻。
+tile.qmd.accelerator.cooler.boron.desc=必须与起作用的电磁轭和起作用的RF腔相邻。
 tile.qmd.accelerator.cooler.silver.desc=必须至少与两个有效的砷冷却器相邻。
 tile.qmd.accelerator.cooler.aluminum.desc=必须至少与一个有效的石英冷却器和一个有效的锡冷却器相邻。
-tile.qmd.accelerator.cooler.enderium.desc=必须至少与两个有效的黑曜石冷却器相邻。
-tile.qmd.accelerator.cooler.liquid_nitrogen.desc=必须至少与两个有效的铜冷却器和一个有效的紫杉冷却器相邻。
-tile.qmd.accelerator.cooler.diamond.desc=必须至少与一个有效的金冷却器和一个功能性RF腔相邻。
-tile.qmd.accelerator.cooler.emerald.desc=必须至少与一个有效的棱柱形冷却器和一个功能性电磁铁相邻。
-tile.qmd.accelerator.cooler.liquid_helium.desc=必须至少与一个有效的镁冷却器和一个有效的铜冷却器相邻。
-tile.qmd.accelerator.cooler.cryotheum.desc=必须至少与两个有效的端部石材冷却器，一个功能性Rf腔和一个功能性电磁铁轭相邻。
+tile.qmd.accelerator.cooler.enderium.desc=必须与有效的镁冷却器和有效的棱柱形冷却器相邻。
+tile.qmd.accelerator.cooler.liquid_nitrogen.desc=必须至少与一台有效的青金石冷却器和一台有效的紫杉冷却器相邻。
+tile.qmd.accelerator.cooler.diamond.desc=必须至少与一个有效的金冷却器和一个起作用的RF腔相邻。
+tile.qmd.accelerator.cooler.emerald.desc=必须至少与一个有效的棱柱形冷却器和一个起作用的电磁铁相邻。
+tile.qmd.accelerator.cooler.liquid_helium.desc=必须至少与三个有效的铜冷却器相邻。
+tile.qmd.accelerator.cooler.cryotheum.desc=必须至少与三个有效的锡冷却器相邻。
 
 tile.qmd.rf_cavity.desc=（射频谐振腔）通过射频电场加速带电粒子。必须做成围绕光束的8个相同RF腔的环。不能在另一个RF腔旁边。
 
@@ -235,10 +257,16 @@ fluid.sodium_chloride_solution=氯化钠溶液
 tile.qmd.fluid_sodium_chloride_solution.name=氯化钠溶液
 fluid.liquid_hydrogen=液态氢
 tile.qmd.fluid_liquid_hydrogen.name=液态氢
+fluid.liquid_oxygen=液氧
+tile.qmd.fluid_liquid_Oxygen.name=液氧
 fluid.liquid_argon=液态氩
 tile.qmd.fluid_liquid_argon.name=液态氩
 fluid.argon=氩
 tile.qmd.fluid_argon.name=氩
+fluid.liquid_neon=液态氖
+tile.qmd.fluid_liquid_neon.name=液态氖
+fluid.neon=氖
+tile.qmd.fluid_neon.name=氖
 fluid.silicon=熔融硅
 tile.qmd.fluid_silicon.name=熔融硅
 fluid.sodium_nitrate_solution=硝酸钠溶液
@@ -266,10 +294,11 @@ info.qmd.rf_cavity.efficiency=功率效率：%s
 info.qmd.rf_cavity.heat=产生的热量：%sH/t
 info.qmd.rf_cavity.power=基本功率：%sRF/t
 
-info.qmd.accelerator_magnet.strength=磁铁强度：%s
+info.qmd.accelerator_magnet.strength=磁铁强度：%s T
 info.qmd.accelerator_magnet.efficiency=功率效率：%s
 info.qmd.accelerator_magnet.heat=产生的热量：%sH/t
 info.qmd.accelerator_magnet.power=基本功率：%sRF/t
+info.qmd.rf_cavity.max_temp=最大工作温度:%s K
 
 info.qmd.particle_chamber.detector.efficiency=粒子效率：%s
 info.qmd.particle_chamber.detector.power=基本功率：%sRF/t
@@ -281,8 +310,8 @@ info.qmd.beamline.attenuation=衰变率：%s
 //多块验证
 zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part=位于[%s，%s，%s]的部分不能在此处。
 
-qmd.multiblock_validation.accelerator.no_inlet=必须至少有1个冷却液入口。
-qmd.multiblock_validation.accelerator.no_outlet=必须至少有1个冷却液出口。
+qmd.multiblock_validation.accelerator.no_inlet=必须至少有1个冷却液排液口输入端。
+qmd.multiblock_validation.accelerator.no_outlet=必须至少有1个冷却液排液口输出端。
 qmd.multiblock_validation.accelerator.need_energy_ports=必须至少有1个能源端口。
 qmd.multiblock_validation.accelerator.wrong_height=加速器必须高5块。
 qmd.multiblock_validation.accelerator.invalid_beam_port=光束端口不能在这里。
@@ -299,8 +328,9 @@ qmd.multiblock_validation.accelerator.ring.to_short=同步加速器不够大。
 qmd.multiblock_validation.accelerator.ring.to_long=同步加速器过大。
 qmd.multiblock_validation.accelerator.ring.must_be_beam=在加速器的中间必须有一个正方形的加速器梁环。
 qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner=加速器的每个角落都必须有一个偶极子。偶极子是通过将加速器电磁体放置在加速器梁的顶部和底部，然后用加速器电磁体轭将其围绕而制成的。
-qmd.multiblock_validation.accelerator.ring.must_be_dipole=必须有一个偶极子进入光束端口。
-qmd.multiblock_validation.accelerator.ring.must_have_io=必须有一个输入和输出光束端口。
+qmd.multiblock_validation.accelerator.ring.must_be_dipole=束口进入的地方必须有偶极子。
+qmd.multiblock_validation.accelerator.ring.must_have_io=必须有一个光束模块才能连接光束端口。
+qmd.multiblock_validation.accelerator.ring.must_have_io=必须只有一个输入端和输出端光束端口。
 
 qmd.multiblock_validation.beam_director.must_be_cube=光束转向器必须是1个5x5立方体，且偶极子在中心。
 qmd.multiblock_validation.beam_director.must_be_beam=中心必须有一个加速器光束块。
@@ -309,11 +339,10 @@ qmd.multiblock_validation.accelerator.beam_director.must_be_dipole=中心必须�
 qmd.multiblock_validation.chamber.target_chamber.must_be_square=目标试验箱必须具有相同的X和Z尺寸。
 qmd.multiblock_validation.chamber.target_chamber.must_be_odd=目标试验箱必须具有奇数宽度。
 qmd.multiblock_validation.chamber.must_have_target=目标室必须在中心有一个粒子室。
-qmd.multiblock_validation.chamber.must_be_beam=从每个光束端口到目标必须有一条光束线。
+qmd.multiblock_validation.chamber.must_be_beam=从每个光束端口到靶，必须有一条直线的“粒子腔光束块”。
 qmd.multiblock_validation.chamber.beam_port_wrong_spot=光束端口必须位于面的中心。
-qmd.multiblock_validation.chamber.must_have_input_beam=必须有1个输入光束端口。
+qmd.multiblock_validation.chamber.must_have_input_beam=必须有1个输入端光束端口。
 qmd.multiblock_validation.chamber.need_energy_ports=必须至少有1个能源端口。
-qmd.multiblock_validation.chamber.need_ports=必须有2个粒子腔端口。
 
 
 
@@ -332,6 +361,7 @@ gui.qmd.container.accelerator.quadrupoles=四极：%s，位于%s
 gui.qmd.container.accelerator.dipoles=偶极子：%s在%s
 gui.qmd.container.accelerator.radius半径=%s
 gui.qmd.container.accelerator.length=长度：%s
+gui.qmd.container.accelerator.max_temperature=最高温度: %s 
 
 gui.qmd.container.accelerator.efficiency=（%s%%）
 gui.qmd.container.accelerator.cooling=冷却：%s
@@ -481,8 +511,9 @@ gui.qmd.jei.reaction.range=范围：%s
 gui.qmd.jei.reaction.energy_released=释放的能量：%s
 gui.qmd.jei.reaction.cross_section=横断面：%s%%
 
-//如果把戏
+//JEI 调戏
 tile.qmd.irradiator_fuel.name=辐照燃料
+tile.qmd.accelerator_cooling.name=加速器冷却
 
 
 //标签
@@ -491,14 +522,16 @@ itemGroup.qmd.blocks=MC量子物理动力学方块
 itemGroup.qmd.multiblocks=MC量子物理动力学多方块结构
 
 
-//阻止设置
-qmd.block_toggle.INPUT=切换为输入
-qmd.block_toggle.OUTPUT=切换到输出
-qmd.block_toggle.DISABLED=切换为禁用
-qmd.block_toggle_switch.INPUT=切换开关类型为输入
-qmd.block_toggle_switch.OUTPUT=切换开关类型为输出
-qmd.block_switch.particle_chamber.1=切换到输出+
-qmd.block_switch.particle_chamber.3=切换到输出-
+//方块设置
+qmd.block.accelerator_port_setting_toggle=调整端口红石信号设置至
+qmd.block.port_mode_toggle=调整端口设置至
+qmd.block.port_mode.INPUT=输入端
+qmd.block.port_mode.OUTPUT=输出端
+qmd.block.port_mode.DISABLED=禁用
+qmd.block.port.mode=模式!
+qmd.block.particle_chamber_port_setting_toggle=调整端口设置至
+qmd.block.particle_chamber_setting.1=输出端+
+qmd.block.particle_chamber_setting.3=输出端-
 
 
 
@@ -518,38 +551,47 @@ gui.qmd.config.accelerator.accelerator_ring_min_size.comment=同步加速器的�
 gui.qmd.config.accelerator.accelerator_ring_max_size=同步加速器最大大小
 gui.qmd.config.accelerator.accelerator_ring_max_size.comment=同步加速器的最大外部长度。必须在[11,255]范围内。
 
-gui.qmd.config.accelerator.beam_detection_rate=波束衰变率
-gui.qmd.config.accelerator.beam_detection_rate.comment=粒子束在lu/block中衰变的速率。必须在[0,255]范围内。
+gui.qmd.config.accelerator.beam_attenuation_rate=波束衰变率
+gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子束在focus/block中衰变的速率。必须在[0,255]范围内。
 
 gui.qmd.config.accelerator.beam_diverter_radius=光束衰变率
 gui.qmd.config.accelerator.beam_diverter_radius.comment=光束转向器在计算中将使用的有效半径。必须在[0,1000]范围内。
 
 gui.qmd.config.accelerator.RF_cavity_voltage=射频腔电压
-gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个空腔的加速电压，以kV为单位。顺序：铜，二硼化镁，铌锡
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个空腔的加速电压，以kV为单位。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.RF_cavity_efficiency=射频腔功率效率
-gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个空腔的功率效率。顺序：铜，二硼化镁，铌锡
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个空腔的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.RF_cavity_heat_genic=射频腔热
-gui.qmd.config.accelerator.RF_cavity_heat_generation.comment=每个型腔产生的每个刻度的热量。顺序：铜，二硼化镁，铌锡
+gui.qmd.config.accelerator.RF_cavity_heat_generation.comment=每个型腔产生的每个刻度的热量。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.RF_cavity_base_power=射频腔基础功率
-gui.qmd.config.accelerator.RF_cavity_base_power.comment=每个腔体使用的基本RF/t。顺序：铜，二硼化镁，铌锡
+gui.qmd.config.accelerator.RF_cavity_base_power.comment=每个腔体使用的基本RF/t。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.magnet_strength=磁铁强度
-gui.qmd.config.accelerator.magnet_strength.comment=每个磁铁的强度。顺序：铜，二硼化镁，铌锡，BSCCO
+gui.qmd.config.accelerator.magnet_strength.comment=每个磁铁的强度。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.magnet_efficiency=磁铁功率效率
-gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：铜，二硼化镁，铌锡，BSCCO
+gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.magnet_heat_genic=磁铁热
-gui.qmd.config.accelerator.magnet_heat_generation.comment=每个磁铁产生的每刻度的热量。顺序：铜，二硼化镁，铌锡，BSCCO
+gui.qmd.config.accelerator.magnet_heat_generation.comment=每个磁铁产生的每刻度的热量。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.magnet_base_power=磁铁基本功率
-gui.qmd.config.accelerator.magnet_base_power.comment=每个磁铁使用的基本RF/t。顺序：铜，二硼化镁，铌锡，BSCCO
+gui.qmd.config.accelerator.magnet_base_power.comment=每个磁铁使用的基本RF/t。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
+
+gui.qmd.config.accelerator.magnet_max_temp=磁铁最高温度
+gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁体的最高工作温度，以K为单位。顺序：铜，二硼化镁，铌锡，铌钛，BSCCO
 
 gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=最小同步加速器输入粒子能量
 gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=在keV中允许输入到同步加速器的最小粒子能量
+
+gui.qmd.config.particle_chamber.target_chamber_power=靶室功率
+gui.qmd.config.particle_chamber.target_chamber_power.comment=靶室使用的基本功率RF/t
+
+gui.qmd.config.particle_chamber.decay_chamber_power=衰变室功率
+gui.qmd.config.particle_chamber.decay_chamber_power.comment=衰变室使用的基本功率RF/t
 
 gui.qmd.config.particle_chamber.detector_efficiency=探测器效率
 gui.qmd.config.particle_chamber.detector_efficiency.comment=每种探测器的效率。顺序：气泡腔，硅追踪器，多线腔，电磁量热仪，强子量热仪
@@ -560,17 +602,29 @@ gui.qmd.config.particle_chamber.detector_base_power.comment=每个探测器使�
 gui.qmd.config.accelerator.cooler_heat_removed=冷却器热量
 gui.qmd.config.accelerator.cooler_heat_removed.comment=每个冷却器每冷却一刻的热量。顺序：水，铁，红石，石英，黑曜石，地狱砖，萤石，青金石，金，海晶石，粘液，末地石，紫铂，钻石，绿宝石，铜，锡，铅，硼，锂，镁，锰，铝，银，萤石，氟盐，角铁矿，砷，液氮，液氦，末影锭（热力膨胀），凛冰（热力膨胀）。
 
-gui.qmd.config.other.fission_reflector_efficiency=中子反射器效率
-gui.qmd.config.other.fission_reflector_efficiency.comment=每种中子反射器的效率。顺序：碳化钨
+gui.qmd.config.fission.reflector_efficiency=中子反射器效率
+gui.qmd.config.fission.reflector_efficiency.comment=每种类型的中子反射器的效率。顺序：碳化钨
 
-gui.qmd.config.other.fission_reflector_reflectivity=中子反射镜的反射率
-gui.qmd.config.other.fission_reflector_reflectivity.comment=每种类型的中子反射器的反射率。顺序：碳化钨
+gui.qmd.config.fission.reflector_reflectivity=中子反射镜的反射率
+gui.qmd.config.fission.reflector_reflectivity.comment=每种中子反射器的反射率。顺序：碳化钨
 
-gui.qmd.config.processors.power=机器功耗
+gui.qmd.config.fission.shield_heat_per_flux=每通量屏蔽的热量
+gui.qmd.config.fission.shield_heat_per_flux.comment=通过反射器的每个焊剂产生的热量。顺序：铪
+
+gui.qmd.config.fission.shield_efficiency=屏蔽效率
+gui.qmd.config.fission.shield_efficiency.comment=每种反射器的效率。顺序：铪
+
+gui.qmd.config.other.rtg_power=RTG电源
+gui.qmd.config.other.rtg_power.comment=每种RTG类型生成的RF/t数量。顺序：锶90
+
+gui.qmd.config.other.processor_passive_rate=被动收集器速率
+gui.qmd.config.other.processor_passive_rate.comment=每种气体收集器类型产生的mB/t量。顺序：氦气，氖气，氩气。
+
+gui.qmd.config.processors.power=机器功耗（功率）
 gui.qmd.config.processors.power.comment=RF/ta机器使用的默认数量。顺序：矿石浸出剂
 
-gui.qmd.config.processors.power=机器功耗
-gui.qmd.config.processors.power.comment=机器处理滴答的默认时间。顺序：浸矿机，辐射器
+gui.qmd.config.processors.time=机器功耗（时间）
+gui.qmd.config.processors.time.comment=机器处理的默认时间（以tick为单位）。 顺序：浸矿机，辐射器
 
 gui.qmd.config.tools.tool_mining_level=工具挖掘级别
 gui.qmd.config.tools.tool_mining_level.comment=工具类型的挖掘级别。顺序：碳化钨
