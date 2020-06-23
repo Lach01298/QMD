@@ -199,34 +199,38 @@ tile.qmd.argon_collector.name=氩收集器
 tile.qmd.beamline.desc=运输粒子。
 tile.qmd.rtg.desc=持续产出%s。
 
+# I'm not sure here, but by infering from the message Tom sent on Discord those "a"s should be "at least one"s.
+# List of those ones:
+# water iron end_stone lead quartz copper purpur lapis
+# nether_brick lithium magnesium boron enderium
 tile.qmd.accelerator.cooler.cooling_rate=冷却速率：
-tile.qmd.accelerator.cooler.water.desc=必须接触刚好一个有效的RF腔。
-tile.qmd.accelerator.cooler.iron.desc=必须接触刚好一个有效的电磁铁。
-tile.qmd.accelerator.cooler.end_stone.desc=必须接触刚好一个有效的波束方块。
-tile.qmd.accelerator.cooler.lead.desc=必须接触刚好一个有效的铁冷却器。
+tile.qmd.accelerator.cooler.water.desc=必须接触至少一个有效的RF腔。
+tile.qmd.accelerator.cooler.iron.desc=必须接触至少一个有效的电磁铁。
+tile.qmd.accelerator.cooler.end_stone.desc=必须接触至少一个有效的波束方块。
+tile.qmd.accelerator.cooler.lead.desc=必须接触至少一个有效的铁冷却器。
 tile.qmd.accelerator.cooler.obsidian.desc=必须接触至少两个有效的荧石冷却器。
-tile.qmd.accelerator.cooler.quartz.desc=必须接触刚好一个有效的红石冷却器。
-tile.qmd.accelerator.cooler.copper.desc=必须接触刚好一个有效的水冷却器。
+tile.qmd.accelerator.cooler.quartz.desc=必须接触至少一个有效的红石冷却器。
+tile.qmd.accelerator.cooler.copper.desc=必须接触至少一个有效的水冷却器。
 tile.qmd.accelerator.cooler.redstone.desc=必须接触至少一个有效的RF腔和一个有效的电磁铁。
-tile.qmd.accelerator.cooler.purpur.desc=必须接触刚好一个有效的铁冷却器和一个有效的末地石冷却器。
-tile.qmd.accelerator.cooler.lapis.desc=必须接触刚好一个有效的电磁铁和一个有效的电磁轭。
-tile.qmd.accelerator.cooler.nether_brick.desc=必须接触刚好一个有效的黑曜石冷却器。
+tile.qmd.accelerator.cooler.purpur.desc=必须接触至少一个有效的铁冷却器和一个有效的末地石冷却器。
+tile.qmd.accelerator.cooler.lapis.desc=必须接触至少一个有效的电磁铁和一个有效的电磁轭。
+tile.qmd.accelerator.cooler.nether_brick.desc=必须接触至少一个有效的黑曜石冷却器。
 tile.qmd.accelerator.cooler.gold.desc=必须接触至少两个有效的铁冷却器。
 tile.qmd.accelerator.cooler.glowstone.desc=必须接触至少两个有效的种类不同的电磁铁。
 tile.qmd.accelerator.cooler.prismarine.desc=必须接触至少两个有效的水冷却器。
 tile.qmd.accelerator.cooler.tin.desc=必须接触至少两个有效的青金石冷却器。
-tile.qmd.accelerator.cooler.lithium.desc=必须接触刚好一个有效的硼冷却器。
-tile.qmd.accelerator.cooler.magnesium.desc=必须接触刚好一个有效的电磁轭。
+tile.qmd.accelerator.cooler.lithium.desc=必须接触至少一个有效的硼冷却器。
+tile.qmd.accelerator.cooler.magnesium.desc=必须接触至少一个有效的电磁轭。
 tile.qmd.accelerator.cooler.slime.desc=必须接触至少一个有效的水冷却器和两个有效的铅冷却器。
 tile.qmd.accelerator.cooler.manganese.desc=必须接触至少两个有效的RF腔。
 tile.qmd.accelerator.cooler.arsenic.desc=必须接触至少两个有效的种类不同的RF腔。
 tile.qmd.accelerator.cooler.carobbiite.desc=必须接触至少一个有效的末地石冷却器和一个有效的铜冷却器。
 tile.qmd.accelerator.cooler.fluorite.desc=必须接触至少一个有效的金冷却器和一个有效的海晶石冷却器。
 tile.qmd.accelerator.cooler.villiaumite.desc=必须接触至少一个有效的就冷却器和一个有效的电磁轭。
-tile.qmd.accelerator.cooler.boron.desc=必须接触刚好一个有效的电磁轭和一个有效的RF腔。
+tile.qmd.accelerator.cooler.boron.desc=必须接触至少一个有效的电磁轭和一个有效的RF腔。
 tile.qmd.accelerator.cooler.silver.desc=必须接触至少两个有效的砷冷却器。
 tile.qmd.accelerator.cooler.aluminum.desc=必须接触至少一个有效的石英冷却器和一个有效的锡冷却器。
-tile.qmd.accelerator.cooler.enderium.desc=必须接触刚好一个有效的镁冷却器和一个有效的海晶石冷却器。
+tile.qmd.accelerator.cooler.enderium.desc=必须接触至少一个有效的镁冷却器和一个有效的海晶石冷却器。
 tile.qmd.accelerator.cooler.liquid_nitrogen.desc=必须接触至少一个有效的青金石冷却器和一个有效的紫珀冷却器。
 tile.qmd.accelerator.cooler.diamond.desc=必须接触至少一个有效的金冷却器和一个有效的RF腔。
 tile.qmd.accelerator.cooler.emerald.desc=必须接触至少一个有效的海晶石冷却器和一个有效的电磁铁。
@@ -287,13 +291,13 @@ tile.qmd.fluid_nd_yag.name=熔融掺钕钇铝石榴石
 
 //信息
 info.qmd.rf_cavity.voltage=加速电压：%s kV
-info.qmd.rf_cavity.efficiency=功率效能：%s
+info.qmd.rf_cavity.efficiency=功率效率：%s
 info.qmd.rf_cavity.heat=热量产出：%s H/t
 info.qmd.rf_cavity.power=基础功率：%s RF/t
 info.qmd.rf_cavity.max_temp=最高运行温度：%s K
 
 info.qmd.accelerator_magnet.strength=磁铁强度：%s T
-info.qmd.accelerator_magnet.efficiency=功率效能：%s
+info.qmd.accelerator_magnet.efficiency=功率效率：%s
 info.qmd.accelerator_magnet.heat=热量产出：%s H/t
 info.qmd.accelerator_magnet.power=基础功率：%s RF/t
 info.qmd.accelerator_magnet.max_temp=最高运行温度：%s K
@@ -355,21 +359,21 @@ gui.qmd.container.accelerator.quadrupoles=四级磁铁：%s at %s
 gui.qmd.container.accelerator.dipoles=双极磁铁：%s at %s 
 gui.qmd.container.accelerator.radius=半径：%s
 gui.qmd.container.accelerator.length=长度：%s 
-gui.qmd.container.accelerator.max_temperature=最大温度：%s 
+gui.qmd.container.accelerator.max_temperature=最高温度：%s 
 
 gui.qmd.container.accelerator.efficiency=（%s%%）
 gui.qmd.container.accelerator.cooling=冷却：%s
-gui.qmd.container.accelerator.heating=最大加热：%s
-gui.qmd.container.accelerator.external_heating=Maximum External Heating: %s
+gui.qmd.container.accelerator.heating=最大热量：%s
+gui.qmd.container.accelerator.external_heating=最大外壳热量：%s
 gui.qmd.container.accelerator.coolant_stored=冷却液：%s/%s
 gui.qmd.container.accelerator.coolant_required=冷却液使用：%s
 gui.qmd.container.accelerator.coolant_out=热冷却液输出：%s
 
-gui.qmd.container.accelerator.error.1=To hot
-gui.qmd.container.accelerator.error.2=Does not have enough power
-gui.qmd.container.accelerator.error.3=Focus to low
-gui.qmd.container.accelerator.error.4=Particle energy to low
-gui.qmd.container.accelerator.error.5=Particle energy to high
+gui.qmd.container.accelerator.error.1=过热
+gui.qmd.container.accelerator.error.2=功率不足
+gui.qmd.container.accelerator.error.3=focus过低
+gui.qmd.container.accelerator.error.4=粒子能量过低
+gui.qmd.container.accelerator.error.5=粒子能量过高
 
 gui.qmd.container.beam_dirverter.max_energy=最大能量：%s
 gui.qmd.container.beam_dirverter.energy_loss=能量损失：%s
@@ -380,53 +384,53 @@ gui.qmd.container.accelerator_source=加速器离子源
 
 //粒子
 qmd.particle.none.name=无
-qmd.particle.up_quark.name=Up Quark
-qmd.particle.antiup_quark.name=Anti-Up Quark
-qmd.particle.down_quark.name=Down Quark
-qmd.particle.antidown_quark.name=Anti-Down Quark
-qmd.particle.charm_quark.name=Charm Quark
-qmd.particle.anticharm_quark.name=Anti-Charm Quark
-qmd.particle.strange_quark.name=Strange Quark
-qmd.particle.antistrange_quark.name=Anti-Strange Quark
-qmd.particle.top_quark.name=Top Quark
-qmd.particle.antitop_quark.name=Anti-Top Quark
-qmd.particle.bottom_quark.name=Bottom Quark
-qmd.particle.antibottom_quark.name=Anti-Bottom Quark
-qmd.particle.electron.name=Electron 
-qmd.particle.positron.name=Positron
-qmd.particle.electron_neutrino.name=Electron Neutrino
-qmd.particle.electron_antineutrino.name=Electron Antineutrino
-qmd.particle.muon.name=Muon
-qmd.particle.antimuon.name=Anti-Muon
-qmd.particle.muon_neutrino.name=Muon Neutrino
-qmd.particle.muon_antineutrino.name=Muon Antineutrino
-qmd.particle.tau.name=Tau
-qmd.particle.antitau.name=Anti-Tau
-qmd.particle.tau_neutrino.name=Tau Neutrino
-qmd.particle.tau_antineutrino.name=Tau Antineutrino
-qmd.particle.photon.name=Photon
-qmd.particle.gluon.name=Gluon
-qmd.particle.w_plus_boson.name=W+ Boson
-qmd.particle.w_minus_boson.name=W- Boson
-qmd.particle.z_boson.name=Z Boson
-qmd.particle.higgs_boson.name=Higgs Boson
-qmd.particle.proton.name=Proton
-qmd.particle.antiproton.name=Anti-Proton
-qmd.particle.neutron.name=Neutron
-qmd.particle.antineutron.name=Anti-Neutron
-qmd.particle.deuteron.name=Deuteron
-qmd.particle.antideuteron.name=Anti-Deuteron
-qmd.particle.alpha.name=Alpha Particle
-qmd.particle.antialpha.name=Anti-Alpha Particle
-qmd.particle.pion_plus.name=Pion +
-qmd.particle.pion_naught.name=Pion 0
-qmd.particle.pion_minus.name=Pion -
-qmd.particle.triton.name=Triton
-qmd.particle.antitriton.name=Anti-Triton
-qmd.particle.boron_ion.name=Boron Ion
-qmd.particle.kaon_plus.name=Kaon +
-qmd.particle.kaon_minus.name=Kaon -
-qmd.particle.kaon_naught.name=Kaon 0
+qmd.particle.up_quark.name=上夸克
+qmd.particle.antiup_quark.name=反上夸克
+qmd.particle.down_quark.name=下夸克
+qmd.particle.antidown_quark.name=反下夸克
+qmd.particle.charm_quark.name=粲夸克
+qmd.particle.anticharm_quark.name=反粲夸克
+qmd.particle.strange_quark.name=奇夸克
+qmd.particle.antistrange_quark.name=反奇夸克
+qmd.particle.top_quark.name=顶夸克
+qmd.particle.antitop_quark.name=反顶夸克
+qmd.particle.bottom_quark.name=底夸克
+qmd.particle.antibottom_quark.name=反底夸克
+qmd.particle.electron.name=电子
+qmd.particle.positron.name=正电子
+qmd.particle.electron_neutrino.name=电子中微子
+qmd.particle.electron_antineutrino.name=电子反中微子
+qmd.particle.muon.name=μ介子
+qmd.particle.antimuon.name=反μ介子
+qmd.particle.muon_neutrino.name=μ介子中微子
+qmd.particle.muon_antineutrino.name=μ介子反中微子
+qmd.particle.tau.name=τ介子
+qmd.particle.antitau.name=反τ介子
+qmd.particle.tau_neutrino.name=τ介子中微子
+qmd.particle.tau_antineutrino.name=τ介子反中微子
+qmd.particle.photon.name=光子
+qmd.particle.gluon.name=胶子
+qmd.particle.w_plus_boson.name=W+ 玻色子
+qmd.particle.w_minus_boson.name=W- 玻色子
+qmd.particle.z_boson.name=Z 玻色子
+qmd.particle.higgs_boson.name=希格斯玻色子
+qmd.particle.proton.name=质子
+qmd.particle.antiproton.name=反质子
+qmd.particle.neutron.name=中子
+qmd.particle.antineutron.name=反中子
+qmd.particle.deuteron.name=氘核
+qmd.particle.antideuteron.name=反氘核
+qmd.particle.alpha.name=阿尔法粒子
+qmd.particle.antialpha.name=反阿尔法粒子
+qmd.particle.pion_plus.name=π介子 +
+qmd.particle.pion_naught.name=π介子 0
+qmd.particle.pion_minus.name=π介子 -
+qmd.particle.triton.name=氚核
+qmd.particle.antitriton.name=反氚核
+qmd.particle.boron_ion.name=硼离子
+qmd.particle.kaon_plus.name=k介子 +
+qmd.particle.kaon_naught.name=k介子 0
+qmd.particle.kaon_minus.name=k介子 -
 
 //粒子描述
 qmd.particle.up_quark.desc=The Up Quark is the lightest quark. Up and Down quarks combine to form Protons and Neutrons
@@ -473,10 +477,10 @@ qmd.particle.pion_minus.desc=Pions are the particles that are responsible for ho
 qmd.particle.triton.desc=The Triton is the nucleus of a Tritium Atom.
 qmd.particle.antitriton.desc=The Anti-Triton is the antimatter partner of the Triton.
 
-qmd.particle.boron_ion.desc=A Boron atom with one electron missing.
-qmd.particle.kaon_plus.desc=Kaons are Mesons with strangeness.
-qmd.particle.kaon_naught.desc=Kaons are Mesons with strangeness.
-qmd.particle.kaon_minus.desc=Kaons are Mesons with strangeness.
+qmd.particle.boron_ion.desc=缺少一个电子的硼原子。
+qmd.particle.kaon_plus.desc=k介子是带有奇异性的介子。
+qmd.particle.kaon_naught.desc=k介子是带有奇异性的介子。
+qmd.particle.kaon_minus.desc=k介子是带有奇异性的介子。
 
 //粒子堆叠信息
 gui.qmd.particlestack.amount=数量：%s
@@ -532,44 +536,44 @@ gui.qmd.config.accelerator.accelerator_ring_min_size.comment=同步加速器最�
 gui.qmd.config.accelerator.accelerator_ring_max_size=同步加速器最大尺寸
 gui.qmd.config.accelerator.accelerator_ring_max_size.comment=同步加速器最大的长度（包括外壳），范围：[11,255]。
 
-gui.qmd.config.accelerator.beam_attenuation_rate=Beam Attenuation Rate
-gui.qmd.config.accelerator.beam_attenuation_rate.comment=The rate a particle beam attenuates at in focus/block. Must be in range [0,255].
+gui.qmd.config.accelerator.beam_attenuation_rate=波束衰减率
+gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子波束每经过一个方块的衰减量（单位：focus），范围：[0,255]。
 
-gui.qmd.config.accelerator.beam_diverter_radius=Beam Attenuation Rate
-gui.qmd.config.accelerator.beam_diverter_radius.comment=The effective radius a beam diverter will use in calculations. Must be in range [0,1000].
+gui.qmd.config.accelerator.beam_diverter_radius=波束转向器半径
+gui.qmd.config.accelerator.beam_diverter_radius.comment=波束转向器在计算中有效的半径，范围：[0,1000]。
 
-gui.qmd.config.accelerator.RF_cavity_voltage=RF Cavity Voltage
-gui.qmd.config.accelerator.RF_cavity_voltage.comment=The accelerating voltage of each cavity in kV. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_voltage=RF腔电压
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个RF腔进行加速时的电压（单位：kV）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.RF_cavity_efficiency=RF Cavity Power Efficiency
-gui.qmd.config.accelerator.RF_cavity_efficiency.comment=The power Efficiency of each cavity. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_efficiency=RF腔功率效率
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个RF腔的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
 gui.qmd.config.accelerator.RF_cavity_heat_generated=RF腔热量
-gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=The heat per tick  each cavity generates. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=每个RF腔产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
 gui.qmd.config.accelerator.RF_cavity_base_power=RF腔基础功率
 gui.qmd.config.accelerator.RF_cavity_base_power.comment=RF腔基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.RF_cavity_max_temp=RF腔最大温度
-gui.qmd.config.accelerator.RF_cavity_max_temp.comment=The maximum operating temperature for each cavity in K. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_max_temp=RF腔最高温度
+gui.qmd.config.accelerator.RF_cavity_max_temp.comment=每个RF腔的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.magnet_strength=Magnet Strength
-gui.qmd.config.accelerator.magnet_strength.comment=The strength of each magnet in Tesla. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_strength=磁铁强度
+gui.qmd.config.accelerator.magnet_strength.comment=磁铁的强度（单位：T）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.magnet_efficiency=Magnet Power Efficiency
-gui.qmd.config.accelerator.magnet_efficiency.comment=The power efficiency of each magnet. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_efficiency=磁铁功率效率
+gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.magnet_heat_generated=Magnet Heat
-gui.qmd.config.accelerator.magnet_heat_generated.comment=The heat per tick  each magnet generates. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_heat_generated=磁铁热量
+gui.qmd.config.accelerator.magnet_heat_generated.comment=每个磁铁产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.magnet_base_power=Magnet Base Power
-gui.qmd.config.accelerator.magnet_base_power.comment=The base RF/t each magnet uses. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_base_power=磁铁基础功率
+gui.qmd.config.accelerator.magnet_base_power.comment=磁铁基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.magnet_max_temp=Magnet Max Temperature
-gui.qmd.config.accelerator.magnet_max_temp.comment=The maximum operating temperature for each magnet in K. 顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_max_temp=磁铁最高温度
+gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁铁的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
 
-gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=Minimum Synchrotron Input Particle Energy
-gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=The minimum particle energy allowed to be inputted into a Synchrotron Accelerator in keV
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=同步加速器最小粒子能量输入
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=一个同步加速器允许的最小粒子能量输入（单位：keV）。
 
 gui.qmd.config.particle_chamber.target_chamber_power=靶间功率
 gui.qmd.config.particle_chamber.target_chamber_power.comment=靶间基础的能量消耗（单位：RF/t）。
@@ -578,49 +582,49 @@ gui.qmd.config.particle_chamber.decay_chamber_power=衰变间功率
 gui.qmd.config.particle_chamber.decay_chamber_power.comment=衰变间基础的能量消耗（单位：RF/t）。
 
 gui.qmd.config.particle_chamber.detector_efficiency=探测器效能
-gui.qmd.config.particle_chamber.detector_efficiency.comment=The efficiency of each type of Detector.Order:Bubble Chamber, Silicon Tracker, Multi-wire Chamber, Electromagnetic Calorimeter, Hadron Calorimeter
+gui.qmd.config.particle_chamber.detector_efficiency.comment=每个探测器的效能。顺序：气泡间，硅追踪器，线缆间，电磁铁热量计，强子热量计。
 
 gui.qmd.config.particle_chamber.detector_base_power=探测器功率使用
-gui.qmd.config.particle_chamber.detector_base_power.comment=The amount of RF/t each detector uses.Order:Bubble Chamber, Silicon Tracker, Multi-wire Chamber, Electromagnetic Calorimeter, Hadron Calorimeter
+gui.qmd.config.particle_chamber.detector_base_power.comment=探测器使用的能量（单位：RF/t）。顺序：气泡间，硅追踪器，线缆间，电磁铁热量计，强子热量计。
 
-gui.qmd.config.accelerator.cooler_heat_removed=Cooler Heat
-gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. 顺序：water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
+gui.qmd.config.accelerator.cooler_heat_removed=冷却器冷却
+gui.qmd.config.accelerator.cooler_heat_removed.comment=冷却器减少的热量（单位：H/t）。顺序：顺序：水，铁，红石，石英，黑曜石，地狱砖，荧石，青金石，金，海晶石，史莱姆，末地石，紫珀，钻石，绿宝石，铜，锡，铅，硼，锂，镁，锰，铝，银，氟石，氟盐，方氟钾石，砷，液氮，液氦，末影，凛冰。
 
-gui.qmd.config.fission.reflector_efficiency=Neutron Reflector Efficiency
-gui.qmd.config.fission.reflector_efficiency.comment= The efficiency of each type of neutron reflector. Order:Tungsten Carbide
+gui.qmd.config.fission.reflector_efficiency=反射器效能提升
+gui.qmd.config.fission.reflector_efficiency.comment=每个反射器的效能提升倍率。顺序：碳化钨。
 
-gui.qmd.config.fission.reflector_reflectivity=Neutron Reflector Reflectivity
-gui.qmd.config.fission.reflector_reflectivity.comment= The reflectivity of each type of neutron reflector. Order:Tungsten Carbide
+gui.qmd.config.fission.reflector_reflectivity=反射器中子通量增加
+gui.qmd.config.fission.reflector_reflectivity.comment=反射器的中子通量增加倍数。顺序：碳化钨。
 
-gui.qmd.config.fission.shield_heat_per_flux=Shield Heat Per Flux
-gui.qmd.config.fission.shield_heat_per_flux.comment=The amount of heat generated per flux through the shield. Order:Hafnium
+gui.qmd.config.fission.shield_heat_per_flux=防护屏产热
+gui.qmd.config.fission.shield_heat_per_flux.comment=有中子通量时的单位中子通量产热（单位：H/NF）。顺序：铪。
 
-gui.qmd.config.fission.shield_efficiency=Shield Efficiency
-gui.qmd.config.fission.shield_efficiency.comment= The efficiency of each type of Shield. Order:Hafnium
+gui.qmd.config.fission.shield_efficiency=防护屏效能提升
+gui.qmd.config.fission.shield_efficiency.comment=每个防护屏的效能提升倍率。顺序：铪。
 
-gui.qmd.config.other.rtg_power=RTG Power
-gui.qmd.config.other.rtg_power.comment=The Amount of RF/t generated by each RTG type. Order:Strontium-90
+gui.qmd.config.other.rtg_power=放射性热电发电机能量产出
+gui.qmd.config.other.rtg_power.comment=放射性热电发电机的能量产出（单位：RF/t）。顺序：锶。
 
-gui.qmd.config.other.processor_passive_rate=Passive Collector Rate
-gui.qmd.config.other.processor_passive_rate.comment=The Amount of mB/t generated by each Gas Collector type. Order:Helium, Neon, Argon.
+gui.qmd.config.other.processor_passive_rate=被动产出速度
+gui.qmd.config.other.processor_passive_rate.comment=被动机器的产出速度（单位：mB/t）。顺序：氦收集器，氖收集器，氩收集器。
 
-gui.qmd.config.processors.power=Machine Power Usage
-gui.qmd.config.processors.power.comment= The default amount of RF/t a machine uses. Order:Ore Leacher
+gui.qmd.config.processors.power=基础能量消耗
+gui.qmd.config.processors.power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：矿石洗涤器。
 
-gui.qmd.config.processors.time=Machine Power Usage
-gui.qmd.config.processors.time.comment= The default time a machine takes to process in ticks. Order:Ore Leacher, Irradiator
+gui.qmd.config.processors.time=基础处理时间
+gui.qmd.config.processors.time.comment=每个机器的基础处理时间（单位：t）。顺序：矿石洗涤器，辐照器。
 
-gui.qmd.config.tools.tool_mining_level=Tool Mining Level
-gui.qmd.config.tools.tool_mining_level.comment=The mining level of tool types. Order:Tungsten Carbide
+gui.qmd.config.tools.tool_mining_level=挖掘等级
+gui.qmd.config.tools.tool_mining_level.comment=挖掘等级的配置。顺序：碳化钨。
 
-gui.qmd.config.tools.tool_durability=Tool Durability
-gui.qmd.config.tools.tool_durability.comment=The durability of tool types. Order:Tungsten Carbide
+gui.qmd.config.tools.tool_durability=耐久度
+gui.qmd.config.tools.tool_durability.comment=使用次数的上限。顺序：碳化钨。
 
-gui.qmd.config.tools.tool_speed=Tool Speed
-gui.qmd.config.tools.tool_speed.comment=The Speed of tool types. Order:Tungsten Carbide
+gui.qmd.config.tools.tool_speed=挖掘速度
+gui.qmd.config.tools.tool_speed.comment=不同方块的挖掘速度。顺序：碳化钨。
 
-gui.qmd.config.tools.tool_attack_damage=Tool Attack Damage
-gui.qmd.config.tools.tool_attack_damage.comment=The attack damage of tool types. Order:Tungsten Carbide
+gui.qmd.config.tools.tool_attack_damage=攻击伤害
+gui.qmd.config.tools.tool_attack_damage.comment=每一击造成的伤害。顺序：碳化钨。
 
-gui.qmd.config.tools.tool_enchantability=Tool Enchantability
-gui.qmd.config.tools.tool_enchantability.comment=The enchantability of tool types. Order:Tungsten Carbide
+gui.qmd.config.tools.tool_enchantability=附魔
+gui.qmd.config.tools.tool_enchantability.comment=附魔的品质。顺序：碳化钨。
