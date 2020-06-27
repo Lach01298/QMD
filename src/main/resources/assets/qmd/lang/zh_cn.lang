@@ -119,6 +119,7 @@ tile.qmd.accelerator_casing.name=加速器外壳
 tile.qmd.accelerator_glass.name=透明加速器外壳
 tile.qmd.accelerator_vent.name=加速器冷却液出入口
 tile.qmd.accelerator_beam_port.name=加速器波束端口
+tile.qmd.accelerator_synchrotron_port.name=加速器同步接口
 tile.qmd.accelerator_energy_port.name=加速器能量端口
 tile.qmd.accelerator_source.name=加速器离子源
 tile.qmd.accelerator_cavity.copper.name=铜RF腔
@@ -199,10 +200,6 @@ tile.qmd.argon_collector.name=氩收集器
 tile.qmd.beamline.desc=运输粒子。
 tile.qmd.rtg.desc=持续产出%s。
 
-# I'm not sure here, but by infering from the message Tom sent on Discord those "a"s should be "at least one"s.
-# List of those ones:
-# water iron end_stone lead quartz copper purpur lapis
-# nether_brick lithium magnesium boron enderium
 tile.qmd.accelerator.cooler.cooling_rate=冷却速率：
 tile.qmd.accelerator.cooler.water.desc=必须接触至少一个有效的RF腔。
 tile.qmd.accelerator.cooler.iron.desc=必须接触至少一个有效的电磁铁。
@@ -430,7 +427,12 @@ qmd.particle.antitriton.name=反氚核
 qmd.particle.boron_ion.name=硼离子
 qmd.particle.kaon_plus.name=k介子 +
 qmd.particle.kaon_naught.name=k介子 0
+qmd.particle.antikaon_naught.name=反k介子 0
 qmd.particle.kaon_minus.name=k介子 -
+qmd.particle.eta.name=η介子
+qmd.particle.eta_prime.name=η素介子
+qmd.particle.charmed_eta.name=η粲介子
+qmd.particle.bottom_eta.name=η底介子
 
 //粒子描述
 qmd.particle.up_quark.desc=上夸克是次轻的夸克。上下夸克结合在一起以构成质子和中子。
@@ -476,11 +478,15 @@ qmd.particle.pion_naught.desc=π介子是让核子组在一起的粒子。尽管
 qmd.particle.pion_minus.desc=π介子是让核子组在一起的粒子。尽管它们本身并未着色，它们之间仍然分布着“残余的”强力以组合核子。
 qmd.particle.triton.desc=氚核是氚原子的原子核。
 qmd.particle.antitriton.desc=反氚核是氚核对应的反物质。
-
 qmd.particle.boron_ion.desc=缺少一个电子的硼原子。
-qmd.particle.kaon_plus.desc=k介子是带有奇异性的介子。
-qmd.particle.kaon_naught.desc=k介子是带有奇异性的介子。
-qmd.particle.kaon_minus.desc=k介子是带有奇异性的介子。
+qmd.particle.kaon_plus.desc=k介子 +是奇异性为1的介子。
+qmd.particle.kaon_naught.desc=k介子 0是奇异性为1的介子。
+qmd.particle.antikaon_naught.desc=反k介子 0是奇异性为-1的介子。
+qmd.particle.kaon_minus.desc=k介子 -是奇异性为1的介子。
+qmd.particle.eta.desc=η介子是无味介子，也即奇异性与味量子数皆为0的介子。
+qmd.particle.eta_prime.desc=η介子是无味介子，也即奇异性与味量子数皆为0的介子。
+qmd.particle.charmed_eta.desc=η介子是无味介子，也即奇异性与味量子数皆为0的介子。
+qmd.particle.bottom_eta.desc=η介子是无味介子，也即奇异性与味量子数皆为0的介子。
 
 //粒子堆叠信息
 gui.qmd.particlestack.amount=数量：%s
@@ -626,5 +632,5 @@ gui.qmd.config.tools.tool_speed.comment=不同方块的挖掘速度。顺序：�
 gui.qmd.config.tools.tool_attack_damage=攻击伤害
 gui.qmd.config.tools.tool_attack_damage.comment=每一击造成的伤害。顺序：碳化钨。
 
-gui.qmd.config.tools.tool_enchantability=附魔
+gui.qmd.config.tools.tool_enchantability=可附魔性
 gui.qmd.config.tools.tool_enchantability.comment=附魔的品质。顺序：碳化钨。
