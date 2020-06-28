@@ -1,5 +1,6 @@
 package lach_01298.qmd.particle;
 
+import lach_01298.qmd.config.QMDConfig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 
@@ -213,7 +214,7 @@ public class ParticleStack
 		{
 			if(particleStack.getParticle() == particle)
 			{
-				if(particleStack.getFocus() >= focus)
+				if(particleStack.getFocus() >= focus-QMDConfig.beamAttenuationRate/10d)
 				{
 					if(particleStack.getMeanEnergy() >= meanEnergy && particleStack.getMeanEnergy() <= maxEnergy)
 					{

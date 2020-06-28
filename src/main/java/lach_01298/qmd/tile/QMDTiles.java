@@ -11,6 +11,7 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorGlass;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
@@ -69,6 +70,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorGlass.class,Util.appendPath(acceleratorPath, "glass"));
 		GameRegistry.registerTileEntity(TileAcceleratorVent.class,Util.appendPath(acceleratorPath, "vent"));
 		GameRegistry.registerTileEntity(TileAcceleratorBeamPort.class,Util.appendPath(acceleratorPath, "beam_port"));
+		GameRegistry.registerTileEntity(TileAcceleratorSynchrotronPort.class,Util.appendPath(acceleratorPath, "synchrotron_port"));
 		GameRegistry.registerTileEntity(TileAcceleratorSource.class,Util.appendPath(acceleratorPath, "source"));
 		GameRegistry.registerTileEntity(TileAcceleratorYoke.class,Util.appendPath(acceleratorPath, "yoke"));
 		GameRegistry.registerTileEntity(TileAcceleratorEnergyPort.class,Util.appendPath(acceleratorPath, "energy_port"));

@@ -62,8 +62,8 @@ public class MaterialTypes
 	public static enum DustType2 implements IStringSerializable, IMetaEnum
 	{
 		YTTRIUM("yttrium", 0), 
-		NEODYMIUM("neodymium", 1),
-		GERMANIUM("germanium",2);
+		NEODYMIUM("neodymium", 1);
+		
 		
 		
 		
@@ -148,8 +148,8 @@ public class MaterialTypes
 	public static enum IngotType2 implements IStringSerializable, IMetaEnum
 	{
 		YTTRIUM("yttrium", 0), 
-		NEODYMIUM("neodymium", 1),
-		GERMANIUM("germanium",2);
+		NEODYMIUM("neodymium", 1);
+		
 		 
 		private String name;
 		private int id;
@@ -223,12 +223,11 @@ public class MaterialTypes
 		BERYLLIUM_7("beryllium_7",2),
 		MAGNESIUM_24("magnesium_24",3),
 		MAGNESIUM_26("magnesium_26",4),
-		LEAD_210("lead_210",5),
-		STRONTIUM_90("strontium_90",6),
-		Uranium_234("uranium_234",7),
-		PROTACTINIUM_231("protactinium_231",8),
-		COBALT_60("cobalt_60",9),
-		IRIDIUM_192("iridium_192",10);
+		STRONTIUM_90("strontium_90",5),
+		Uranium_234("uranium_234",6),
+		PROTACTINIUM_231("protactinium_231",7),
+		COBALT_60("cobalt_60",8),
+		IRIDIUM_192("iridium_192",9);
 		 
 		private String name;
 		private int id;
@@ -352,6 +351,120 @@ public class MaterialTypes
 		private int id;
 
 		private ChemicalDustType(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+	}
+	
+	public static enum FissionWasteType implements IStringSerializable, IMetaEnum
+	{
+		LIGHT("light", 0),
+		HEAVY("heavy",1);
+		 
+		private String name;
+		private int id;
+
+		private FissionWasteType(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+	}
+	
+	public static enum SpallationWasteType implements IStringSerializable, IMetaEnum
+	{
+		CALIFORNIUM("californium", 0),
+		BERKELIUM("berkelium",1),
+		CURIUM("curium", 2),
+		AMERICIUM("americium",3),
+		PLUTONIUM("plutonium", 4),
+		NEPTUNIUM("neptunium",5),
+		URANIUM("uranium",6),
+		PROTACTINIUM("protactinium",7),
+		THORIUM("thorium",8),
+		RADIUM("radium",9),
+		POLONIUM("polonium",10),
+		BISMUTH("bismuth",11),
+		LEAD("lead",12),
+		GOLD("gold",13),
+		PLATINUM("platinum",14),
+		IRIDIUM("iridium",15);
+		 
+		private String name;
+		private int id;
+
+		private SpallationWasteType(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+	}
+	
+	public static enum SpallationWasteType2 implements IStringSerializable, IMetaEnum
+	{
+		OSMIUM("osmium", 0),
+		TUNGSTEN("tungsten",1),
+		HAFNIUM("hafnium", 2);
+		 
+		private String name;
+		private int id;
+
+		private SpallationWasteType2(String name, int id)
 		{
 			this.name = name;
 			this.id = id;

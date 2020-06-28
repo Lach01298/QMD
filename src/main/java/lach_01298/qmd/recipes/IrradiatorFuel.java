@@ -17,8 +17,8 @@ public class IrradiatorFuel extends ProcessorRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		addRecipe(QMDItems.source_cobalt_60, 1);
-		addRecipe(QMDItems.source_iridium_192, 10);
+		addRecipe(QMDItems.source_cobalt_60, 1D);
+		addRecipe(QMDItems.source_iridium_192, 10D);
 		
 	}
 
@@ -26,7 +26,7 @@ public class IrradiatorFuel extends ProcessorRecipeHandler
 	public List fixExtras(List extras)
 	{
 		List fixed = new ArrayList(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1);
+		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
 		return fixed;
 	}
 

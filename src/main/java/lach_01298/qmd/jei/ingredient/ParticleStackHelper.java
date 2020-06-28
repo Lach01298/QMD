@@ -1,6 +1,7 @@
 package lach_01298.qmd.jei.ingredient;
 
 import java.awt.Color;
+import java.util.Collections;
 
 import javax.annotation.Nullable;
 
@@ -52,13 +53,13 @@ public class ParticleStackHelper implements IIngredientHelper<ParticleStack>
 	@Override
 	public String getModId(ParticleStack ingredient)
 	{
-			return QMD.MOD_ID;
+		return QMD.MOD_ID;
 	}
 
 	@Override
 	public Iterable<Color> getColors(ParticleStack ingredient)
 	{
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override

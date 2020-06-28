@@ -82,7 +82,7 @@ public class QMDRecipeWrapper
 		protected double getIrradatorSpeed() 
 		{
 			if (recipe == null) return 1D;
-			return recipe.getScrubberProcessTime();
+			return recipe.getBaseProcessTime(1);
 		}
 		
 		@Override

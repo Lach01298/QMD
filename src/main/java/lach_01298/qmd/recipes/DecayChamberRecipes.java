@@ -25,6 +25,7 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		
 		
 		addDecayRecipe(new ParticleStack(Particles.neutron), new ParticleStack(Particles.proton), new ParticleStack(Particles.electron_antineutrino),new ParticleStack(Particles.electron), 1.0);
+		addDecayRecipe(new ParticleStack(Particles.antineutron), new ParticleStack(Particles.positron), new ParticleStack(Particles.electron_neutrino),new ParticleStack(Particles.antiproton), 1.0);
 		
 		addDecayRecipe(new ParticleStack(Particles.pion_naught), null,new ParticleStack(Particles.photon,2), null, 0.98);
 		addDecayRecipe(new ParticleStack(Particles.pion_plus), new ParticleStack(Particles.antimuon), new ParticleStack(Particles.muon_neutrino),null, 0.99);
@@ -39,14 +40,19 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		addDecayRecipe(new ParticleStack(Particles.kaon_plus), new ParticleStack(Particles.antimuon), new ParticleStack(Particles.muon_neutrino), null, 0.63);
 		addDecayRecipe(new ParticleStack(Particles.kaon_minus), null, new ParticleStack(Particles.muon_antineutrino), new ParticleStack(Particles.muon), 0.63);
 		addDecayRecipe(new ParticleStack(Particles.kaon_naught), new ParticleStack(Particles.pion_plus), null, new ParticleStack(Particles.pion_minus), 0.77);
+		addDecayRecipe(new ParticleStack(Particles.antikaon_naught), new ParticleStack(Particles.pion_plus), null, new ParticleStack(Particles.pion_minus), 0.77);
 		
-		addDecayRecipe(new ParticleStack(Particles.higgs_boson), new ParticleStack(Particles.antibottom), null, new ParticleStack(Particles.bottom), 0.57);
 			
 		addDecayRecipe(new ParticleStack(Particles.w_minus_boson), null, null, new ParticleStack(Particles.pion_minus) , 0.32);
 		addDecayRecipe(new ParticleStack(Particles.w_plus_boson), new ParticleStack(Particles.pion_plus), null, null, 0.32);
 		
 		addDecayRecipe(new ParticleStack(Particles.z_boson), new ParticleStack(Particles.electron_neutrino), null, new ParticleStack(Particles.electron_antineutrino) , 0.068);
+		addDecayRecipe(new ParticleStack(Particles.higgs_boson), null, new ParticleStack(Particles.bottom_eta), null, 0.57);
 		
+		addDecayRecipe(new ParticleStack(Particles.eta), new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught), new ParticleStack(Particles.pion_minus), 0.33);
+		addDecayRecipe(new ParticleStack(Particles.eta_prime), new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.eta), new ParticleStack(Particles.pion_minus), 0.33);
+		addDecayRecipe(new ParticleStack(Particles.charmed_eta), new ParticleStack(Particles.kaon_naught),null, new ParticleStack(Particles.antikaon_naught), 0.07);
+		addDecayRecipe(new ParticleStack(Particles.bottom_eta), new ParticleStack(Particles.antitau),null, new ParticleStack(Particles.tau), 0.08);
 		
 	}
 	

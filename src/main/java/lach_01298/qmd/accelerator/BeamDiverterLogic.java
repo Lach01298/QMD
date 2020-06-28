@@ -28,8 +28,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	public BeamDiverterLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator());
-		getAccelerator().beams.add(new ParticleStorageAccelerator());
+		getAccelerator().beams.add(new ParticleStorageAccelerator()); //output straight
 	}
 
 	@Override
@@ -319,8 +318,8 @@ public class BeamDiverterLogic extends AcceleratorLogic
 				ParticleStack particleStraightOut = getAccelerator().beams.get(2).getParticleStack();
 				
 				particleOut.addMeanEnergy(-getEnergyLoss());
-				particleOut.addFocus(-5*QMDConfig.beamAttenuationRate);
-				particleStraightOut.addFocus(-5*QMDConfig.beamAttenuationRate);
+				particleOut.addFocus(-getAccelerator().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+				particleStraightOut.addFocus(-getAccelerator().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
 				
 				if(particleOut.getFocus() <= 0)
 				{
@@ -332,7 +331,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 					particleStraightOut = null;
 					getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 				}
-			}	
+			}
 		}
 		else
 		{

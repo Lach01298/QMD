@@ -16,43 +16,53 @@ public class Particle
 	protected final double mass; 	//in MeV/c^2
 	protected final double charge;	// in e
 	protected final double spin;	// in h bar
-	protected final boolean coloured;
-	protected final boolean weakCharged;
+	protected final boolean strongInteract;
+	protected final boolean weakInteract;
 	protected Particle antiparticle;
 	protected HashMap<Particle, Integer> componentParticles = new HashMap<Particle, Integer>();
 	
 	//render stuff
 	protected final ResourceLocation texture;
 	
-	public Particle(@Nonnull String name, ResourceLocation texture,  double mass, double charge, double spin, boolean weakCharged)
+	
+	public Particle(@Nonnull String name, ResourceLocation texture,  double mass, double charge, double spin)
 	{
 		this.name = name;
 		this.texture = texture;
 		
-		
+		this.mass = mass;
+		this.charge = charge;
+		this.spin = spin;
+		this.weakInteract = true;
+		this.strongInteract = true;
+		this.antiparticle = this; // default case have to register Antiparticles
+	}
+	
+	public Particle(@Nonnull String name, ResourceLocation texture,  double mass, double charge, double spin, boolean weakInteract)
+	{
+		this.name = name;
+		this.texture = texture;
 		
 		this.mass = mass;
 		this.charge = charge;
 		this.spin = spin;
-		this.weakCharged = weakCharged;
-		this.coloured = false;
+		this.weakInteract = weakInteract;
+		this.strongInteract = false;
 		this.antiparticle = this; // default case have to register Antiparticles
 	}
 	
 
 
-	public Particle(@Nonnull String name, ResourceLocation texture, double mass, double charge, double spin, boolean weakCharged, boolean coloured)
+	public Particle(@Nonnull String name, ResourceLocation texture, double mass, double charge, double spin, boolean weakInteract, boolean strongInteract)
 	{
 		this.name = name;
 		this.texture = texture;
 		
-		
 		this.mass = mass;
 		this.charge = charge;
 		this.spin = spin;
-		this.weakCharged = weakCharged;
-		this.coloured = coloured;
-		
+		this.weakInteract = weakInteract;
+		this.strongInteract = strongInteract;
 		this.antiparticle = this; // default case have to register Antiparticles
 	}
 	
@@ -149,12 +159,12 @@ public class Particle
 	}
 	public boolean interactsWithStrong()
 	{
-		return this.coloured;
+		return this.strongInteract;
 	}
 	
 	public boolean interactsWithWeak()
 	{
-		return this.weakCharged;
+		return this.weakInteract;
 	}
 	
 	

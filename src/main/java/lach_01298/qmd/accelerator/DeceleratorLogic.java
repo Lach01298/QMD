@@ -46,7 +46,6 @@ public class DeceleratorLogic extends AcceleratorLogic
 	public DeceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator());
 		getAccelerator().beams.get(0).setMinEnergy(QMDConfig.minimium_accelerator_ring_input_particle_energy);
 	}
 

@@ -35,6 +35,8 @@ import net.minecraft.util.math.BlockPos;
 public class TargetChamberLogic extends ParticleChamberLogic
 {
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
+	
+	public QMDRecipeInfo<QMDRecipe> rememberedRecipeInfo;
 
 	protected TileParticleChamber mainChamber;
 	
@@ -281,7 +283,14 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				
 				if(recipeInfo != null)
 				{
-					
+					if(rememberedRecipeInfo != null)
+					{
+						if(rememberedRecipeInfo.getRecipe() !=recipeInfo.getRecipe())
+						{
+							particleWorkDone= 0;
+						}	
+					}
+					rememberedRecipeInfo = recipeInfo;
 					
 					if(canProduceProduct())
 					{
@@ -292,8 +301,6 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				}
 				else
 				{
-				
-					particleWorkDone= 0;
 					resetBeams();
 				}
 
@@ -385,6 +392,8 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private boolean canProduceProduct()
 	{
+		
+		
 		TileTargetChamberController cont = (TileTargetChamberController) getChamber().controller;
 		ItemStack product = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
 		if(cont.getInventoryStacks().get(1).getCount() <= 0)
@@ -513,7 +522,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		{
 			getChamber().beams.get(1).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
 			getChamber().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount() * outputFactor * input.getAmount()));
-			getChamber().beams.get(1).getParticleStack().setFocus(input.getFocus());
+			getChamber().beams.get(1).getParticleStack().setFocus(input.getFocus()-getChamber().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
 		}
 		
 		
@@ -522,7 +531,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		{
 			getChamber().beams.get(2).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
 			getChamber().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount() * outputFactor * input.getAmount()));
-			getChamber().beams.get(2).getParticleStack().setFocus(input.getFocus());
+			getChamber().beams.get(2).getParticleStack().setFocus(input.getFocus()-getChamber().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
 		}
 		
 		getChamber().beams.get(3).setParticleStack(outputMinus);
@@ -530,7 +539,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		{
 			getChamber().beams.get(3).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
 			getChamber().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount() * outputFactor * input.getAmount()));
-			getChamber().beams.get(3).getParticleStack().setFocus(input.getFocus());
+			getChamber().beams.get(3).getParticleStack().setFocus(input.getFocus()-getChamber().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
 		}
 	}
 

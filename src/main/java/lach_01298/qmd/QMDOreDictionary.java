@@ -3,12 +3,15 @@ package lach_01298.qmd;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType2;
+import lach_01298.qmd.enums.MaterialTypes.FissionWasteType;
 import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType2;
 import lach_01298.qmd.enums.MaterialTypes.IsotopeType;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
+import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
+import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
 import lach_01298.qmd.item.QMDItems;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -36,7 +39,7 @@ public class QMDOreDictionary
 		
 		OreDictionary.registerOre("ingotYttrium",new ItemStack(QMDItems.ingot2, 1, IngotType2.YTTRIUM.getID()));
 		OreDictionary.registerOre("ingotNeodymium",new ItemStack(QMDItems.ingot2, 1, IngotType2.NEODYMIUM.getID()));
-		OreDictionary.registerOre("ingotGermanium",new ItemStack(QMDItems.ingot2, 1, IngotType2.GERMANIUM.getID()));
+		
 		
 		
 		
@@ -58,7 +61,33 @@ public class QMDOreDictionary
 		
 		OreDictionary.registerOre("dustYttrium",new ItemStack(QMDItems.dust2, 1, DustType2.YTTRIUM.getID()));
 		OreDictionary.registerOre("dustNeodymium",new ItemStack(QMDItems.dust2, 1, DustType2.NEODYMIUM.getID()));
-		OreDictionary.registerOre("dustGermanium",new ItemStack(QMDItems.dust2, 1, DustType2.GERMANIUM.getID()));
+		
+		
+		OreDictionary.registerOre("wasteFissionLight",new ItemStack(QMDItems.fissionWaste, 1, FissionWasteType.LIGHT.getID()));
+		OreDictionary.registerOre("wasteFissionHeavy",new ItemStack(QMDItems.fissionWaste, 1, FissionWasteType.HEAVY.getID()));
+		
+		OreDictionary.registerOre("wasteSpallationCalifornium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.CALIFORNIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationBerkelium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.BERKELIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationCurium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.CURIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationAmericium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.AMERICIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationPlutonium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.PLUTONIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationNeptunium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.NEPTUNIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationUranium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.URANIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationProtactinium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.PROTACTINIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationThorium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.THORIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationRadium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.RADIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationPolonium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.POLONIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationBismuth",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.BISMUTH.getID()));
+		OreDictionary.registerOre("wasteSpallationLead",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.LEAD.getID()));
+		OreDictionary.registerOre("wasteSpallationGold",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.GOLD.getID()));
+		OreDictionary.registerOre("wasteSpallationPlatinum",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.PLATINUM.getID()));
+		OreDictionary.registerOre("wasteSpallationIridium",new ItemStack(QMDItems.spallationWaste, 1, SpallationWasteType.IRIDIUM.getID()));
+		
+		OreDictionary.registerOre("wasteSpallationOsmium",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.OSMIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationTungsten",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.TUNGSTEN.getID()));
+		OreDictionary.registerOre("wasteSpallationHafnium",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.HAFNIUM.getID()));
+	
+		
 		
 		
 		OreDictionary.registerOre("ingotTungstenCarbide",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.TUNGSTEN_CARBIDE.getID()));
@@ -73,14 +102,13 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotMagnesium24",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_24.getID()));
 		OreDictionary.registerOre("ingotMagnesium26",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_26.getID()));
 		OreDictionary.registerOre("ingotStrontium90",new ItemStack(QMDItems.isotope, 1, IsotopeType.STRONTIUM_90.getID()));
-		OreDictionary.registerOre("ingotLead210",new ItemStack(QMDItems.isotope, 1, IsotopeType.LEAD_210.getID()));
 		OreDictionary.registerOre("ingotUranium234",new ItemStack(QMDItems.isotope, 1, IsotopeType.Uranium_234.getID()));
 		OreDictionary.registerOre("dustProtactinium231",new ItemStack(QMDItems.isotope, 1, IsotopeType.PROTACTINIUM_231.getID()));
 		OreDictionary.registerOre("ingotCobalt60",new ItemStack(QMDItems.isotope, 1, IsotopeType.COBALT_60.getID()));
 		OreDictionary.registerOre("ingotIridium192",new ItemStack(QMDItems.isotope, 1, IsotopeType.IRIDIUM_192.getID()));
 		
 		
-		OreDictionary.registerOre("siliconBoule",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_BOULE.getID()));
+		OreDictionary.registerOre("bouleSilicon",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_BOULE.getID()));
 		OreDictionary.registerOre("siliconWafer",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_WAFER.getID()));
 		OreDictionary.registerOre("siliconPDoped",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_P_DOPED.getID()));
 		OreDictionary.registerOre("siliconNDoped",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_N_DOPED.getID()));

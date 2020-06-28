@@ -11,6 +11,7 @@ import lach_01298.qmd.accelerator.block.BlockAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorGlass;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorMagnet;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorSource;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorVent;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorYoke;
 import lach_01298.qmd.accelerator.block.BlockBeamDiverterController;
@@ -70,6 +71,7 @@ public class QMDBlocks
 	public static Block acceleratorGlass;
 	public static Block acceleratorVent;
 	public static Block acceleratorBeamPort;
+	public static Block acceleratorSynchrotronPort;
 	public static Block RFCavity;
 	public static Block acceleratorMagnet;
 	public static Block acceleratorYoke;
@@ -116,6 +118,7 @@ public class QMDBlocks
 		acceleratorVent = withName(new BlockAcceleratorVent(), "accelerator_vent");
 		
 		acceleratorBeamPort = withName(new BlockAcceleratorBeamPort(), "accelerator_beam_port");
+		acceleratorSynchrotronPort = withName(new BlockAcceleratorSynchrotronPort(), "accelerator_synchrotron_port");
 		RFCavity = withName(new BlockRFCavity(), "accelerator_cavity");
 		acceleratorMagnet = withName(new BlockAcceleratorMagnet(), "accelerator_magnet");
 		acceleratorYoke = withName(new BlockAcceleratorYoke(), "accelerator_yoke");
@@ -165,6 +168,7 @@ public class QMDBlocks
 		registerBlock(acceleratorGlass);
 		registerBlock(acceleratorVent);
 		registerBlock(acceleratorBeamPort);
+		registerBlock(acceleratorSynchrotronPort);
 		registerBlock(RFCavity, new ItemBlockMeta(RFCavity, RFCavityType.class,TextFormatting.GREEN ,QMDInfo.RFCavityFixedInfo(),TextFormatting.AQUA,QMDInfo.RFCavityInfo()));
 		registerBlock(acceleratorMagnet, new ItemBlockMeta(acceleratorMagnet, MagnetType.class,TextFormatting.GREEN ,QMDInfo.magnetFixedInfo(),TextFormatting.AQUA,QMDInfo.magnetInfo()));
 		registerBlock(acceleratorYoke);
@@ -176,13 +180,13 @@ public class QMDBlocks
 		
 		registerBlock(targetChamberController);
 		registerBlock(decayChamberController);
-		registerBlock(particleChamberBeam);
+		registerBlock(particleChamberBeam, TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(particleChamberCasing);
 		registerBlock(particleChamberGlass);
 		registerBlock(particleChamberBeamPort);
 		registerBlock(particleChamberDetector, new ItemBlockMeta(particleChamberDetector, DetectorType.class,TextFormatting.GREEN, QMDInfo.detectorFixedInfo(),TextFormatting.AQUA,QMDInfo.detectorInfo()));
 		registerBlock(particleChamberEnergyPort);
-		registerBlock(particleChamber);
+		registerBlock(particleChamber,TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(particleChamberPort);
 		
 		registerBlock(oreLeacher);
@@ -213,6 +217,7 @@ public class QMDBlocks
 		registerRender(acceleratorGlass);
 		registerRender(acceleratorVent);
 		registerRender(acceleratorBeamPort);
+		registerRender(acceleratorSynchrotronPort);
 		
 		for (int i=0; i < RFCavityType.values().length; i++)
 		{

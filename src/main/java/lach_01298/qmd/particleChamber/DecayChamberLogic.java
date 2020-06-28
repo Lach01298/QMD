@@ -416,7 +416,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		{
 			getChamber().beams.get(1).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
 			getChamber().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount() * outputFactor * input.getAmount()));
-			getChamber().beams.get(1).getParticleStack().setFocus(input.getFocus());
+			getChamber().beams.get(1).getParticleStack().setFocus(input.getFocus()-getChamber().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
 		}
 		
 		
@@ -425,7 +425,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		{
 			getChamber().beams.get(2).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
 			getChamber().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount() * outputFactor * input.getAmount()));
-			getChamber().beams.get(2).getParticleStack().setFocus(input.getFocus());
+			getChamber().beams.get(2).getParticleStack().setFocus(input.getFocus()-getChamber().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
 		}
 		
 		getChamber().beams.get(3).setParticleStack(outputMinus);
@@ -433,7 +433,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		{
 			getChamber().beams.get(3).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
 			getChamber().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount() * outputFactor * input.getAmount()));
-			getChamber().beams.get(3).getParticleStack().setFocus(input.getFocus());
+			getChamber().beams.get(3).getParticleStack().setFocus(input.getFocus()-getChamber().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
 		}
 	}
 

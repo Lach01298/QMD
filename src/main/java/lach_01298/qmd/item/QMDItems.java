@@ -5,12 +5,15 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType2;
+import lach_01298.qmd.enums.MaterialTypes.FissionWasteType;
 import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType2;
 import lach_01298.qmd.enums.MaterialTypes.IsotopeType;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
+import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
+import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
 import lach_01298.qmd.tab.QMDTabs;
 import nc.config.NCConfig;
 import nc.item.IInfoItem;
@@ -47,6 +50,10 @@ public class QMDItems
 	public static Item part;
 	public static Item semiconductor;
 	public static Item chemicalDust;
+	public static Item fissionWaste;
+	public static Item spallationWaste;
+	public static Item spallationWaste2;
+	
 	
 	public static Item tungsten_filament;
 	public static Item canister;
@@ -89,6 +96,9 @@ public class QMDItems
 		part =  withName(new NCItemMeta(PartType.class), "part");
 		semiconductor =  withName(new NCItemMeta(SemiconductorType.class), "semiconductor");
 		chemicalDust =  withName(new NCItemMeta(ChemicalDustType.class), "chemical_dust");
+		fissionWaste =  withName(new NCItemMeta(FissionWasteType.class), "waste_fission");
+		spallationWaste =  withName(new NCItemMeta(SpallationWasteType.class), "waste_spallation");
+		spallationWaste2 =  withName(new NCItemMeta(SpallationWasteType2.class), "waste_spallation2");
 		
 		
 		
@@ -126,6 +136,9 @@ public class QMDItems
 		registerItem(part, QMDTabs.ITEMS);
 		registerItem(semiconductor, QMDTabs.ITEMS);
 		registerItem(chemicalDust, QMDTabs.ITEMS);
+		registerItem(fissionWaste, QMDTabs.ITEMS);
+		registerItem(spallationWaste, QMDTabs.ITEMS);
+		registerItem(spallationWaste2, QMDTabs.ITEMS);
 		
 		
 		registerItem(sword_tungsten_carbide,QMDTabs.ITEMS);
@@ -185,6 +198,21 @@ public class QMDItems
 		for (int i = 0; i < ChemicalDustType.values().length; i++)
 		{
 			registerRender(chemicalDust, i, ChemicalDustType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < FissionWasteType.values().length; i++)
+		{
+			registerRender(fissionWaste, i, FissionWasteType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < SpallationWasteType.values().length; i++)
+		{
+			registerRender(spallationWaste, i, SpallationWasteType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < SpallationWasteType2.values().length; i++)
+		{
+			registerRender(spallationWaste2, i, SpallationWasteType2.values()[i].getName());
 		}
 		
 		registerRender(tungsten_filament);

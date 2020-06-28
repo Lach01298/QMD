@@ -14,6 +14,7 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.particleChamber.DecayChamberLogic;
@@ -42,6 +43,7 @@ public class Multiblocks
 		Accelerator.PART_CLASSES.add(TileAcceleratorCooler.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorVent.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorBeamPort.class);
+		Accelerator.PART_CLASSES.add(TileAcceleratorSynchrotronPort.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorEnergyPort.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorBeam.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorMagnet.class);

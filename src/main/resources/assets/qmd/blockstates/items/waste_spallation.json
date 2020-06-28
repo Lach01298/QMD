@@ -1,0 +1,92 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "californium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/californium"
+                }
+            },
+            "berkelium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/berkelium"
+                }
+            },
+            "curium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/curium"
+                }
+            },
+            "americium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/americium"
+                }
+            },
+            "plutonium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/plutonium"
+                }
+            },
+            "neptunium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/neptunium"
+                }
+            },
+            "uranium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/uranium"
+                }
+            },
+             "protactinium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/protactinium"
+                }
+            },
+            "thorium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/thorium"
+                }
+            },
+            "radium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/radium"
+                }
+            },
+            "polonium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/polonium"
+                }
+            },
+            "bismuth": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/bismuth"
+                }
+            },
+            "lead": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/lead"
+                }
+            },
+            "gold": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/gold"
+                }
+            },
+            "platinum": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/platinum"
+                }
+            },
+            "iridium": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/iridium"
+                }
+            }   
+        }
+    }
+}
+

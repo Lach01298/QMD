@@ -10,6 +10,7 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -20,6 +21,7 @@ import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particle.Particles;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -37,7 +39,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public RingAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator());
+		getAccelerator().beams.add(new ParticleStorageAccelerator()); // synchroton light
 		getAccelerator().beams.get(0).setMinEnergy(QMDConfig.minimium_accelerator_ring_input_particle_energy);
 	}
 
@@ -109,6 +111,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		
 		int inputs =0;
 		int outputs =0;
+		
 		for(TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
 		{
 			if(port.getIOType() == IOType.INPUT)
@@ -155,8 +158,45 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
 			return false;
 		}	
+		int synchrotronPorts =0;
+		for(TileAcceleratorSynchrotronPort port :getPartMap(TileAcceleratorSynchrotronPort.class).values())
+		{
+			synchrotronPorts++;
+			
+			if(port.getPos().getY() != acc.getMiddleY())
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_inline_with_beam", port.getPos());
+				return false;
+			}
+			
+			port.recalculateExternalDirection(acc.getMinimumCoord(), acc.getMaximumCoord());
+			if(port.getExternalFacing() == null)
+			{
+			
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.something_is_wrong", port.getPos());
+				return false;
+			}
+			
+			
+			
+			if(!(acc.WORLD.getTileEntity(port.getPos().offset(port.getExternalFacing().getOpposite())) instanceof TileAcceleratorBeam))
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.beam_port_must_connect", port.getPos().offset(port.getExternalFacing().getOpposite()));
+				return false;
+			}
+			if(!acc.isValidDipole(port.getPos().offset(port.getExternalFacing().getOpposite(),2),false))
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_dipole", port.getPos().offset(port.getExternalFacing().getOpposite(),2));
+				return false;
+			}
+		}
+		if(synchrotronPorts > 1)
+		{
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_many_synchrotron_ports", null);
+			return false;
+		}	
 		
-		
+
 		return super.isMachineWhole(multiblock);
 	}
 	
@@ -414,6 +454,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	private void resetBeam()
 	{
 		getAccelerator().beams.get(1).setParticleStack(null);
+		getAccelerator().beams.get(2).setParticleStack(null);
 	}
 
 
@@ -433,6 +474,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			{
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
+			
+			long synchrotronEnergy = (long) (Math.pow(particleOut.getMeanEnergy()/(1000*particleOut.getParticle().getMass()),3)/(2*Math.PI*1000000*getRadius()));
+			getAccelerator().beams.get(2).setParticleStack(new ParticleStack(Particles.photon,particleOut.getAmount(),synchrotronEnergy,particleOut.getFocus()));
 		}
 		else
 		{
@@ -502,6 +546,31 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		}
 	}
 	
+	@Override
+	protected void push()
+	{
+		for(TileAcceleratorSynchrotronPort port :getAccelerator().getPartMap(TileAcceleratorSynchrotronPort.class).values())
+		{
+			if(port != null && port.getExternalFacing() != null)
+			{
+				TileEntity tile = getAccelerator().WORLD.getTileEntity(port.getPos().offset(port.getExternalFacing()));
+				if (tile != null)
+				{
+					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getExternalFacing().getOpposite()))
+					{
+						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getExternalFacing().getOpposite());
+						otherStorage.reciveParticle(port.getExternalFacing().getOpposite(), getAccelerator().beams.get(2).getParticleStack());
+					}
+				}
+			}
+		}
+		super.push();
+	}
+	
+	
+	
+	
+	
 	
 	// Network
 	@Override
@@ -548,7 +617,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	
 	public int getLength()
 	{
-		return 4*getAccelerator().getInteriorLengthX()-12;
+		return 4*(getAccelerator().getInteriorLengthX()-2)-4+2;
 	}
 	
 	

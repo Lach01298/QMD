@@ -49,7 +49,6 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator());
 	}
 
 	
@@ -642,7 +641,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	public int getLength()
 	{
-		return getAccelerator().getInteriorLengthX() > getAccelerator().getInteriorLengthZ() ?getAccelerator().getInteriorLengthX() : getAccelerator().getInteriorLengthZ();
+		return getAccelerator().getExteriorLengthX() > getAccelerator().getExteriorLengthZ() ?getAccelerator().getExteriorLengthX() : getAccelerator().getExteriorLengthZ();
 	}
 	
 	
