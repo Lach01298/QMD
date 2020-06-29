@@ -16,7 +16,6 @@ item.qmd.dust.calcium.name=钙粉
 item.qmd.dust.strontium.name=锶粉
 item.qmd.dust2.yttrium.name=钇粉
 item.qmd.dust2.neodymium.name=钕粉
-item.qmd.dust2.germanium.name=锗粉
 
 item.qmd.ingot.tungsten.name=钨锭
 item.qmd.ingot.niobium.name=铌锭
@@ -35,7 +34,28 @@ item.qmd.ingot.calcium.name=钙锭
 item.qmd.ingot.strontium.name=锶锭
 item.qmd.ingot2.yttrium.name=钇锭
 item.qmd.ingot2.neodymium.name=钕锭
-item.qmd.ingot2.germanium.name=锗锭
+
+item.qmd.waste_fission.light.name=低危裂变废料
+item.qmd.waste_fission.heavy.name=高危裂变废料
+item.qmd.waste_spallation.californium.name=锎散裂废料
+item.qmd.waste_spallation.berkelium.name=锫散裂废料
+item.qmd.waste_spallation.curium.name=锔散裂废料
+item.qmd.waste_spallation.americium.name=镅散裂废料
+item.qmd.waste_spallation.plutonium.name=钚散裂废料
+item.qmd.waste_spallation.neptunium.name=镎散裂废料
+item.qmd.waste_spallation.uranium.name=铀散裂废料
+item.qmd.waste_spallation.protactinium.name=镤散裂废料
+item.qmd.waste_spallation.thorium.name=钍散裂废料
+item.qmd.waste_spallation.radium.name=镭散裂废料
+item.qmd.waste_spallation.polonium.name=钋散裂废料
+item.qmd.waste_spallation.bismuth.name=铋散裂废料
+item.qmd.waste_spallation.lead.name=铅散裂废料
+item.qmd.waste_spallation.gold.name=金散裂废料
+item.qmd.waste_spallation.platinum.name=铂散裂废料
+item.qmd.waste_spallation.iridium.name=铱散裂废料
+item.qmd.waste_spallation2.osmium.name=锇散裂废料
+item.qmd.waste_spallation2.tungsten.name=钨散裂废料
+item.qmd.waste_spallation2.hafnium.name=铪散裂废料
 
 item.qmd.ingot_alloy.tungsten_carbide.name=碳化钨锭
 item.qmd.ingot_alloy.niobium_tin.name=铌锡锭
@@ -53,15 +73,11 @@ item.qmd.source_sodium_22.name=钠-22源
 item.qmd.source_cobalt_60.name=钴-60源
 item.qmd.source_iridium_192.name=铱-192源
 
-
 item.qmd.isotope.sodium_22.name=钠-22
 item.qmd.isotope.promethium_147.name=钷-147
 item.qmd.isotope.magnesium_26.name=镁-26
 item.qmd.isotope.magnesium_24.name=镁-24
 item.qmd.isotope.beryllium_7.name=铍-7
-item.qmd.isotope.lead_210.name=铅-210
-item.qmd.isotope.lead_210.name=铅-210
-# Repetitive?
 item.qmd.isotope.vanadium_50.name=钒-50
 item.qmd.isotope.strontium_90.name=锶-90
 item.qmd.isotope.uranium_234.name=铀-234
@@ -328,6 +344,7 @@ qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner=加速器的
 qmd.multiblock_validation.accelerator.ring.must_be_dipole=波束端口通入处必须有一个双极磁铁。
 qmd.multiblock_validation.accelerator.ring.beam_port_must_connect=必须有一个波束方块与波束端口相连接。
 qmd.multiblock_validation.accelerator.ring.must_have_io=必须只有一个模式为输入的波束端口，一个模式为输出的波束端口。
+qmd.multiblock_validation.accelerator.ring.to_many_synchrotron_ports=只能有一个同步接口。
 
 qmd.multiblock_validation.beam_director.must_be_cube=波束转向器必须是一个5x5x5的，内有一个双极磁铁的立方体。
 qmd.multiblock_validation.beam_director.must_be_beam=中间必须有一个波束方块。
@@ -543,7 +560,7 @@ gui.qmd.config.accelerator.accelerator_ring_max_size=同步加速器最大尺寸
 gui.qmd.config.accelerator.accelerator_ring_max_size.comment=同步加速器最大的长度（包括外壳），范围：[11,255]。
 
 gui.qmd.config.accelerator.beam_attenuation_rate=波束衰减率
-gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子波束每经过一个方块的衰减量（单位：focus），范围：[0,255]。
+gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子波束每经过一个方块的衰减量，范围：[0,255]。
 
 gui.qmd.config.accelerator.beam_diverter_radius=波束转向器半径
 gui.qmd.config.accelerator.beam_diverter_radius.comment=波束转向器在计算中有效的半径，范围：[0,1000]。
