@@ -15,10 +15,20 @@ import lach_01298.qmd.accelerator.block.BlockAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorVent;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorYoke;
 import lach_01298.qmd.accelerator.block.BlockBeamDiverterController;
+import lach_01298.qmd.accelerator.block.BlockDeceleratorController;
 import lach_01298.qmd.accelerator.block.BlockLinearAcceleratorController;
 import lach_01298.qmd.accelerator.block.BlockRFCavity;
 import lach_01298.qmd.accelerator.block.BlockRingAcceleratorController;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.containment.block.BlockContainmentBeamPort;
+import lach_01298.qmd.containment.block.BlockContainmentCasing;
+import lach_01298.qmd.containment.block.BlockContainmentCoil;
+import lach_01298.qmd.containment.block.BlockContainmentEnergyPort;
+import lach_01298.qmd.containment.block.BlockContainmentGlass;
+import lach_01298.qmd.containment.block.BlockContainmentLaser;
+import lach_01298.qmd.containment.block.BlockContainmentPort;
+import lach_01298.qmd.containment.block.BlockContainmentVent;
+import lach_01298.qmd.containment.block.BlockNeutralContainmentController;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
 import lach_01298.qmd.enums.BlockTypes.DetectorType;
@@ -33,6 +43,7 @@ import lach_01298.qmd.enums.BlockTypes.SimpleTileType;
 import lach_01298.qmd.fission.block.BlockFissionReflector;
 import lach_01298.qmd.fission.block.QMDBlockFissionShield;
 import lach_01298.qmd.machine.block.BlockQMDProcessor;
+import lach_01298.qmd.particleChamber.block.BlockBeamDumpController;
 import lach_01298.qmd.particleChamber.block.BlockDecayChamberController;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamber;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberBeam;
@@ -40,6 +51,7 @@ import lach_01298.qmd.particleChamber.block.BlockParticleChamberBeamPort;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberCasing;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberDetector;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberEnergyPort;
+import lach_01298.qmd.particleChamber.block.BlockParticleChamberFluidPort;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberGlass;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberPort;
 import lach_01298.qmd.particleChamber.block.BlockTargetChamberController;
@@ -80,9 +92,11 @@ public class QMDBlocks
 	public static Block acceleratorSource;
 	public static Block acceleratorEnergyPort;
 	public static Block beamDiverterController;
+	public static Block deceleratorController;
 	
 	public static Block targetChamberController;
 	public static Block decayChamberController;
+	public static Block beamDumpController;
 	public static Block particleChamberBeam;
 	public static Block particleChamberCasing;
 	public static Block particleChamberGlass;
@@ -91,6 +105,7 @@ public class QMDBlocks
 	public static Block particleChamberEnergyPort;
 	public static Block particleChamber;
 	public static Block particleChamberPort;
+	public static Block particleChamberFluidPort;
 	
 	public static Block oreLeacher;
 	public static Block irradiator;
@@ -104,6 +119,16 @@ public class QMDBlocks
 	public static Block argonCollector;
 	
 	public static Block dischargeLamp;
+	
+	public static Block neutralContainmentController;
+	public static Block containmentCasing;
+	public static Block containmentGlass;
+	public static Block containmentPort;
+	public static Block containmentVent;
+	public static Block containmentBeamPort;
+	public static Block containmentEnergyPort;
+	public static Block containmentCoil;
+	public static Block containmentLaser;
 	
 	public static void init() 
 	{
@@ -127,9 +152,11 @@ public class QMDBlocks
 		acceleratorSource =  withName(new BlockAcceleratorSource(), "accelerator_source");
 		acceleratorEnergyPort = withName(new BlockAcceleratorEnergyPort(), "accelerator_energy_port");
 		beamDiverterController = withName(new BlockBeamDiverterController(), "beam_diverter_controller");
+		deceleratorController = withName(new BlockDeceleratorController(), "decelerator_controller");
 		
 		targetChamberController = withName(new BlockTargetChamberController(), "target_chamber_controller");
 		decayChamberController = withName(new BlockDecayChamberController(), "decay_chamber_controller");
+		beamDumpController = withName(new BlockBeamDumpController(), "beam_dump_controller");
 		particleChamberBeam = withName(new BlockParticleChamberBeam(), "particle_chamber_beam");
 		particleChamberCasing = withName(new BlockParticleChamberCasing(), "particle_chamber_casing");
 		particleChamberGlass = withName(new BlockParticleChamberGlass(), "particle_chamber_glass");
@@ -138,21 +165,33 @@ public class QMDBlocks
 		particleChamberEnergyPort = withName(new BlockParticleChamberEnergyPort(), "particle_chamber_energy_port");
 		particleChamber = withName(new BlockParticleChamber(), "particle_chamber");
 		particleChamberPort = withName(new BlockParticleChamberPort(), "particle_chamber_port");
+		particleChamberFluidPort = withName(new BlockParticleChamberFluidPort(), "particle_chamber_fluid_port");
+
+		oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
+		irradiator = withName(new BlockQMDProcessor(ProcessorType.IRRADIATOR));
+
+		fissionReflector = withName(new BlockFissionReflector(), "fission_reflector");
+		fissionShield = withName(new QMDBlockFissionShield(), "fission_shield");
+
+		rtgStrontium = withName(new QMDBlockRTG(RTGType.STRONTIUM), "rtg_strontium");
+
+		dischargeLamp = withName(new BlockLamp(), "discharge_lamp");
+
+		heliumCollector = withName(new QMDBlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR), "helium_collector");
+		neonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.NEON_COLLECTOR), "neon_collector");
+		argonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.ARGON_COLLECTOR), "argon_collector");
+
+		neutralContainmentController = withName(new BlockNeutralContainmentController(), "neutral_containment_controller");
+		containmentCasing = withName(new BlockContainmentCasing(), "containment_casing");
+		containmentGlass = withName(new BlockContainmentGlass(), "containment_glass");
+		containmentPort = withName(new BlockContainmentPort(), "containment_port");
+		containmentBeamPort = withName(new BlockContainmentBeamPort(), "containment_beam_port");
+		containmentVent = withName(new BlockContainmentVent(), "containment_vent");
+		containmentEnergyPort = withName(new BlockContainmentEnergyPort(), "containment_energy_port");
+		containmentCoil = withName(new BlockContainmentCoil(), "containment_coil");
+		containmentLaser = withName(new BlockContainmentLaser(), "containment_laser");
 		
 		
-		 oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
-		 irradiator = withName(new BlockQMDProcessor(ProcessorType.IRRADIATOR));
-		
-		 fissionReflector = withName(new BlockFissionReflector(), "fission_reflector");
-		 fissionShield = withName(new QMDBlockFissionShield(), "fission_shield");
-		 
-		 rtgStrontium = withName(new QMDBlockRTG(RTGType.STRONTIUM), "rtg_strontium");
-		 
-		 dischargeLamp = withName(new BlockLamp(), "discharge_lamp");
-		 
-		 heliumCollector = withName(new QMDBlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR),"helium_collector");
-		 neonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.NEON_COLLECTOR),"neon_collector");
-		 argonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.ARGON_COLLECTOR),"argon_collector");
 		
 	}
 	
@@ -177,9 +216,11 @@ public class QMDBlocks
 		registerBlock(acceleratorSource);
 		registerBlock(acceleratorEnergyPort);
 		registerBlock(beamDiverterController);
+		registerBlock(deceleratorController);
 		
 		registerBlock(targetChamberController);
 		registerBlock(decayChamberController);
+		registerBlock(beamDumpController);
 		registerBlock(particleChamberBeam, TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(particleChamberCasing);
 		registerBlock(particleChamberGlass);
@@ -188,6 +229,7 @@ public class QMDBlocks
 		registerBlock(particleChamberEnergyPort);
 		registerBlock(particleChamber,TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(particleChamberPort);
+		registerBlock(particleChamberFluidPort);
 		
 		registerBlock(oreLeacher);
 		registerBlock(irradiator);
@@ -203,6 +245,16 @@ public class QMDBlocks
 		registerBlock(heliumCollector);
 		registerBlock(neonCollector);
 		registerBlock(argonCollector);
+		
+		registerBlock(neutralContainmentController);
+		registerBlock(containmentCasing);
+		registerBlock(containmentGlass);
+		registerBlock(containmentPort);
+		registerBlock(containmentBeamPort);
+		registerBlock(containmentVent);
+		registerBlock(containmentEnergyPort);
+		registerBlock(containmentCoil);
+		registerBlock(containmentLaser);
 	}
 
 	public static void registerRenders() 
@@ -240,9 +292,11 @@ public class QMDBlocks
 		registerRender(acceleratorSource);
 		registerRender(acceleratorEnergyPort);
 		registerRender(beamDiverterController);
+		registerRender(deceleratorController);
 	
 		registerRender(targetChamberController);
 		registerRender(decayChamberController);
+		registerRender(beamDumpController);
 		registerRender(particleChamberBeam);
 		registerRender(particleChamberCasing);
 		registerRender(particleChamberGlass);
@@ -254,26 +308,43 @@ public class QMDBlocks
 		registerRender(particleChamberEnergyPort);
 		registerRender(particleChamber);
 		registerRender(particleChamberPort);
+		registerRender(particleChamberFluidPort);
 	
 		registerRender(oreLeacher);
 		registerRender(irradiator);
 		
-		for (int i = 0; i < NeutronReflectorType.values().length; i++) {
+		for (int i = 0; i < NeutronReflectorType.values().length; i++) 
+		{
 			registerRender(fissionReflector, i, NeutronReflectorType.values()[i].getName());
 		}
-		for (int i = 0; i < NeutronShieldType.values().length; i++) {
+		for (int i = 0; i < NeutronShieldType.values().length; i++) 
+		{
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(fissionShield), i, new ModelResourceLocation(new ResourceLocation(QMD.MOD_ID, fissionShield.getRegistryName().getPath()), "active=true,type=" + NeutronShieldType.values()[i].getName()));
 		}
 		
 		registerRender(rtgStrontium);
 		
-		for (int i = 0; i < LampType.values().length; i++) {
+		for (int i = 0; i < LampType.values().length; i++) 
+		{
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dischargeLamp), i, new ModelResourceLocation(new ResourceLocation(QMD.MOD_ID, dischargeLamp.getRegistryName().getPath()), "active=true,type=" + LampType.values()[i].getName()));
 		}
 		
 		registerRender(heliumCollector);
 		registerRender(neonCollector);
 		registerRender(argonCollector);
+		
+		
+		
+		
+		registerRender(neutralContainmentController);
+		registerRender(containmentCasing);
+		registerRender(containmentGlass);
+		registerRender(containmentPort);
+		registerRender(containmentBeamPort);
+		registerRender(containmentVent);
+		registerRender(containmentEnergyPort);
+		registerRender(containmentCoil);
+		registerRender(containmentLaser);
 	}
 
 

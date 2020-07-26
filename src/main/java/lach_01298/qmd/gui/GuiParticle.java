@@ -41,13 +41,13 @@ public class GuiParticle
 	}
 	
 
-	private void drawToolTip(ParticleStack stack,int mouseX, int mouseY, boolean showLuminosity)
+	private void drawToolTip(ParticleStack stack,int mouseX, int mouseY, boolean showFocus)
 	{
 		List<String> text = new ArrayList<String>();
 		text.add(TextFormatting.WHITE + Lang.localise(stack.getParticle().getUnlocalizedName()));
-		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getSIFormat(stack.getMeanEnergy(),3,"eV")));
+		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(stack.getMeanEnergy())));
 		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu")));
-		if(showLuminosity)
+		if(showFocus)
 		{
 			text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.focus",Units.getSIFormat(stack.getFocus(),"")));
 		}
@@ -66,7 +66,7 @@ public class GuiParticle
 		}
 	}
 	
-	public void drawToolTipBoxwithLuminosity(ParticleStack particleStack, int x, int y,int mouseX, int mouseY)
+	public void drawToolTipBoxwithFocus(ParticleStack particleStack, int x, int y,int mouseX, int mouseY)
 	{
 		if(particleStack != null)
 		{

@@ -13,6 +13,8 @@ import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.tile.QMDTiles;
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import nc.capability.radiation.RadiationCapabilityHandler;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -47,18 +49,20 @@ public class CommonProxy
 		
 		
 		MinecraftForge.EVENT_BUS.register(new QMDRecipes());
+		
 	}
 	
 	public void init(FMLInitializationEvent event) 
 	{
 		QMDRecipes.init();
 		QMDRadSources.init();
+		QMDItems.registerCells();
 		
 	}
 	
 	public void postInit(FMLPostInitializationEvent postEvent) 
 	{
-		
+		CapabilityParticleStackHandler.register();
 	}
 	
 	

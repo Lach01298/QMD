@@ -11,6 +11,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
@@ -24,6 +25,7 @@ import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -52,10 +54,12 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	
 	
 	public static final int	BASE_MAX_ENERGY = 40000;
+	public static final int BASE_MAX_INPUT = 1000, BASE_MAX_OUTPUT = 1000;
 	
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
+	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, null), new Tank(BASE_MAX_OUTPUT, null));
 	
 	public ParticleChamber(World world)
 	{
@@ -244,6 +248,7 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
 		energyStorage.writeToNBT(data,"energyStorage");
+		writeTanks(tanks,data,"tanks");
 		writeBeams(beams,data);
 		
 		data.setBoolean("isChamberOn", isChamberOn);
@@ -258,6 +263,7 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
 		energyStorage.readFromNBT(data,"energyStorage");
+		readTanks(tanks,data, "tanks");
 		readBeams(beams,data);
 		
 		isChamberOn = data.getBoolean("isChamberOn");
@@ -280,6 +286,9 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	{
 		energyStorage.setStorageCapacity(message.energyStorage.getMaxEnergyStored());
 		energyStorage.setEnergyStored(message.energyStorage.getEnergyStored());
+		
+		for (int i = 0; i < tanks.size(); i++) tanks.get(i).readInfo(message.tanksInfo.get(i));
+		beams = message.beams;
 		
 		isChamberOn = message.isChamberOn;
 		efficiency = message.efficiency;

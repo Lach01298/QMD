@@ -57,9 +57,12 @@ public class QMDRecipes
 	public static AcceleratorCoolingRecipes accelerator_cooling;
 	public static TargetChamberRecipes target_chamber;
 	public static DecayChamberRecipes decay_chamber;
+	public static BeamDumpRecipes beam_dump;
 	public static OreLeacherRecipes ore_leacher;
 	public static IrradiatorRecipes irradiator;
 	public static IrradiatorFuel irradiator_fuel;
+	public static NeutralContainmentRecipes neutral_containment;
+	public static CellFillingRecipes cell_filling;
 	
 	
 	
@@ -75,10 +78,14 @@ public class QMDRecipes
 
 		target_chamber = new TargetChamberRecipes();
 		decay_chamber = new DecayChamberRecipes();
+		beam_dump = new BeamDumpRecipes();
 		
 		ore_leacher = new OreLeacherRecipes();
 		irradiator = new IrradiatorRecipes();
 		irradiator_fuel = new IrradiatorFuel();
+		
+		neutral_containment = new NeutralContainmentRecipes();
+		cell_filling = new CellFillingRecipes();
 		
 		addRecipes();
 
@@ -87,11 +94,13 @@ public class QMDRecipes
 
 	public static List<List<String>> accelerator_cooling_valid_fluids;
 	public static List<List<String>> ore_leacher_valid_fluids;
+	public static List<List<String>> cell_filling_valid_fluids;
 	
 	public static void init() 
 	{
 		accelerator_cooling_valid_fluids = RecipeHelper.validFluids(accelerator_cooling);
 		ore_leacher_valid_fluids = RecipeHelper.validFluids(ore_leacher);	
+		cell_filling_valid_fluids = RecipeHelper.validFluids(cell_filling);
 	}
 	
 
@@ -101,10 +110,14 @@ public class QMDRecipes
 		accelerator_cooling.refreshCache();
 		target_chamber.refreshCache();
 		decay_chamber.refreshCache();
+		beam_dump.refreshCache();
 		
 		ore_leacher.refreshCache();
 		irradiator.refreshCache();
 		irradiator_fuel.refreshCache();
+		
+		neutral_containment.refreshCache();
+		cell_filling.refreshCache();
 	}
 	
 	
@@ -115,13 +128,14 @@ public class QMDRecipes
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Niobium", 3, "Tin", 1, "NiobiumTin", 4, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Niobium", 1, "Titanium", 1, "NiobiumTitanium", 2, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Tungsten", 1, "Graphite", 1, "TungstenCarbide", 2, 2D, 2D);
-
+		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Osmium", 1, "Iridium", 1, "Osmiridium", 2, 1D, 1D);
 		
 		// Fluid Infuser
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDItems.canister_hydrogen),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("helium", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDItems.canister_helium),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("deuterium", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDItems.canister_deuterium),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("diborane", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDItems.canister_diborane),1D,1D);
+		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("helium3", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDItems.canister_helium_3),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID()),fluidStack("liquid_hydrogen", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.BUBBLE_CHAMBER.getID()),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.WIRE_CHAMBER_CASING.getID()),fluidStack("argon", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.WIRE_CHAMBER.getID()),1D,1D);
 		
@@ -149,7 +163,7 @@ public class QMDRecipes
 		// Fluid Enricher		
 		NCRecipes.enricher.addRecipe("dustTungstenOxide",fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME*2),fluidStack("sodium_tungstate_solution", FluidStackHelper.GEM_VOLUME), 1D, 1D);	
 		NCRecipes.enricher.addRecipe("dustLead",fluidStack("nitric_acid", FluidStackHelper.GEM_VOLUME*2),fluidStack("lead_nitrate_solution", FluidStackHelper.GEM_VOLUME), 1D, 1D);		
-		NCRecipes.enricher.addRecipe("ingotYttrium",fluidStack("alumina", 240),fluidStack("yag", 48), 2D, 2D);	
+		NCRecipes.enricher.addRecipe("ingotYttrium",fluidStack("alumina", 120),fluidStack("yag", 48), 2D, 2D);	
 		NCRecipes.enricher.addRecipe("ingotNeodymium",fluidStack("yag", FluidStackHelper.INGOT_BLOCK_VOLUME),fluidStack("nd_yag", FluidStackHelper.INGOT_BLOCK_VOLUME), 2D, 2D);	
 			
 		NCRecipes.enricher.addRecipe("dustSalt",fluidStack("water", FluidStackHelper.BUCKET_VOLUME),fluidStack("sodium_chloride_solution", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);		
@@ -188,7 +202,7 @@ public class QMDRecipes
 		NCRecipes.crystallizer.addRecipe(fluidStack("lead_tungstate_solution", FluidStackHelper.GEM_VOLUME), new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PWO.getID()), 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_nitrate_solution", FluidStackHelper.GEM_VOLUME), "dustSodiumNitrate", 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_chloride_solution", FluidStackHelper.GEM_VOLUME), "dustSodiumChloride", 1D, 1D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("nd_yag", FluidStackHelper.INGOT_VOLUME), "rodNdYAG", 2D, 2D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("nd_yag", FluidStackHelper.INGOT_VOLUME*3), "rodNdYAG", 2D, 2D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME*10), "dustSodiumChloride", 1D, 4D);	//TODO temporary recipe
 		
 		
@@ -233,7 +247,7 @@ public class QMDRecipes
 		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("bioplastic",2),AbstractRecipeHandler.oreStack("dyeBlue",1),new EmptyItemIngredient(),new EmptyItemIngredient(),new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PLASTIC.getID()),1D,1D);
 		NCRecipes.assembler.addRecipe("siliconNDoped",AbstractRecipeHandler.oreStack("dustRedstone",4),"ingotGold","ingotSilver","processorBasic",1D,1D);
 		NCRecipes.assembler.addRecipe("processorBasic",AbstractRecipeHandler.oreStack("dustRedstone",4),"dustHafniumOxide","siliconPDoped","processorAdvanced",1D,1D);
-		NCRecipes.assembler.addRecipe("processorAdvanced",AbstractRecipeHandler.oreStack("wireBSCCO",4),"dustHafniumOxide","ingotIridium","processorElite",1D,1D);
+		NCRecipes.assembler.addRecipe("processorAdvanced",AbstractRecipeHandler.oreStack("wireBSCCO",4),"dustHafniumOxide","ingotPlatinum","processorElite",1D,1D);
 		
 		//Fission Irradiator
 		NCRecipes.fission_irradiator.addRecipe("siliconWafer", new ItemStack(QMDItems.semiconductor,1,SemiconductorType.SILICON_N_DOPED.getID()),120000,0d,0);

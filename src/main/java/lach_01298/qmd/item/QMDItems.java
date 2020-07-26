@@ -34,6 +34,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class QMDItems
@@ -61,6 +63,7 @@ public class QMDItems
 	public static Item canister_deuterium;
 	public static Item canister_helium;
 	public static Item canister_diborane;
+	public static Item canister_helium_3;
 	public static Item source_sodium_22;
 	public static Item source_cobalt_60;
 	public static Item source_iridium_192;
@@ -73,6 +76,8 @@ public class QMDItems
 	public static Item shovel_tungsten_carbide;
 	public static Item axe_tungsten_carbide;
 	public static Item hoe_tungsten_carbide;
+	
+	public static Item cell;
 	
 	public static Item flesh;
 	
@@ -89,6 +94,7 @@ public class QMDItems
 		canister_deuterium = withName(new ItemBrakeable(300),"canister_deuterium");
 		canister_helium = withName(new ItemBrakeable(300),"canister_helium");
 		canister_diborane = withName(new ItemBrakeable(300),"canister_diborane");
+		canister_helium_3 = withName(new ItemBrakeable(300),"canister_helium_3");
 		source_sodium_22 = withName(new ItemBrakeable(300),"source_sodium_22");
 		source_cobalt_60 = withName(new ItemBrakeable(300),"source_cobalt_60");
 		source_iridium_192 = withName(new ItemBrakeable(300),"source_iridium_192");
@@ -110,6 +116,7 @@ public class QMDItems
 		
 		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
 		
+		cell = withName(new ItemCell(),"cell");
 		
 	}
 
@@ -127,6 +134,7 @@ public class QMDItems
 		registerItem(canister_deuterium, QMDTabs.ITEMS);
 		registerItem(canister_helium, QMDTabs.ITEMS);
 		registerItem(canister_diborane, QMDTabs.ITEMS);
+		registerItem(canister_helium_3, QMDTabs.ITEMS);
 		registerItem(source_sodium_22, QMDTabs.ITEMS);
 		registerItem(source_cobalt_60, QMDTabs.ITEMS);
 		registerItem(source_iridium_192, QMDTabs.ITEMS);
@@ -148,7 +156,7 @@ public class QMDItems
 		registerItem(hoe_tungsten_carbide,QMDTabs.ITEMS);
 		
 		registerItem(flesh,QMDTabs.ITEMS);
-		
+		registerItem(cell,QMDTabs.ITEMS);
 		
 		
 	}
@@ -221,6 +229,7 @@ public class QMDItems
 		registerRender(canister_deuterium);
 		registerRender(canister_helium);
 		registerRender(canister_diborane);
+		registerRender(canister_helium_3);
 		registerRender(source_sodium_22);
 		registerRender(source_cobalt_60);
 		registerRender(source_iridium_192);
@@ -233,7 +242,26 @@ public class QMDItems
 		registerRender(hoe_tungsten_carbide);
 		
 		registerRender(flesh);
+		
+		
+		
+		//registerRender(cell);
 	}
+	
+	public static void registerCells() 
+	{
+
+		ItemCell cells = (ItemCell) cell;
+		cells.addFluid(FluidRegistry.getFluid("antihydrogen"));
+		cells.addFluid(FluidRegistry.getFluid("antideuterium"));
+		cells.addFluid(FluidRegistry.getFluid("antitritium"));
+		cells.addFluid(FluidRegistry.getFluid("antihelium3"));
+		cells.addFluid(FluidRegistry.getFluid("antihelium"));
+		
+		
+	}
+	
+	
 	
 	
 	

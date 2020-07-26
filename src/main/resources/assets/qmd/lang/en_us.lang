@@ -62,6 +62,7 @@ item.qmd.ingot_alloy.tungsten_carbide.name=Tungsten Carbide Ingot
 item.qmd.ingot_alloy.niobium_tin.name=Niobium-Tin Ingot
 item.qmd.ingot_alloy.stainless_steel.name=Stainless Steel Ingot
 item.qmd.ingot_alloy.niobium_titanium.name=Niobium-Titanium Ingot
+item.qmd.ingot_alloy.osmiridium.name=Osmiridium Ingot
 
 item.qmd.tungsten_filament.name=Tungsten Filament
 item.qmd.canister.name=Canister
@@ -69,6 +70,7 @@ item.qmd.canister_hydrogen.name=Hydrogen Canister
 item.qmd.canister_helium.name=Helium Canister
 item.qmd.canister_deuterium.name=Deuterium Canister
 item.qmd.canister_diborane.name=Diborane Canister
+item.qmd.canister_helium_3.name=Helium-3 Canister
 
 item.qmd.source_sodium_22.name=Sodium-22 Source
 item.qmd.source_cobalt_60.name=Cobalt-60 Source
@@ -118,6 +120,7 @@ item.qmd.hoe_tungsten_carbide.name=Tungsten Carbide Hoe
 item.qmd.pickaxe_tungsten_carbide.name=Tungsten Carbide Pickaxe
 
 item.qmd.flesh.name=Not So Rotten Flesh
+item.qmd.cell.name=Cell
 
 //blocks
 tile.qmd.beamline.name=Beamline Pipe
@@ -131,6 +134,7 @@ tile.qmd.rtg_strontium.name=Strontium RTG
 tile.qmd.linear_accelerator_controller.name=Linear Accelerator Controller
 tile.qmd.ring_accelerator_controller.name=Synchrotron Accelerator Controller
 tile.qmd.beam_diverter_controller.name=Beam Diverter Controller
+tile.qmd.decelerator_controller.name=Decelerator Controller
 
 tile.qmd.accelerator_beam.name=Accelerator Beam Block
 tile.qmd.accelerator_casing.name=Accelerator Casing
@@ -187,6 +191,7 @@ tile.qmd.accelerator_cooler2.cryotheum.name=Cryotheum Accelerator Cooler
 
 tile.qmd.target_chamber_controller.name=Target Chamber Controller
 tile.qmd.decay_chamber_controller.name=Decay Chamber Controller
+tile.qmd.beam_dump_controller.name=Beam Dump Controller
 
 tile.qmd.particle_chamber_beam_port.name=Particle Chamber Beam Port
 tile.qmd.particle_chamber_casing.name=Particle Chamber Casing
@@ -195,6 +200,7 @@ tile.qmd.particle_chamber_beam.name=Particle Chamber Beam Block
 tile.qmd.particle_chamber.name=Particle Chamber
 tile.qmd.particle_chamber_port.name=Particle Chamber Port
 tile.qmd.particle_chamber_energy_port.name=Particle Chamber Energy Port
+tile.qmd.particle_chamber_fluid_port.name=Particle Chamber Fluid Port
 
 tile.qmd.particle_chamber_detector.bubble_chamber.name=Bubble Chamber Detector
 tile.qmd.particle_chamber_detector.silicon_tracker.name=Silicon Tracker Detector
@@ -213,6 +219,17 @@ tile.qmd.discharge_lamp.argon.name=Argon Discharge Lamp
 tile.qmd.helium_collector.name=Helium Collector
 tile.qmd.neon_collector.name=Neon Collector
 tile.qmd.argon_collector.name=Argon Collector
+
+tile.qmd.neutral_containment_controller.name=Neutral Exotic Containment Controller
+tile.qmd.containment_casing.name=Containment Casing
+tile.qmd.containment_glass.name=Containment Glass
+tile.qmd.containment_beam_port.name=Containment Beam Port
+tile.qmd.containment_port.name=Containment Port
+tile.qmd.containment_vent.name=Containment Coolant Vent
+tile.qmd.containment_energy_port.name=Containment Energy Port
+tile.qmd.containment_laser.name=Containment Laser
+tile.qmd.containment_coil.name=Containment Coil
+
 
 //block descriptions
 
@@ -307,6 +324,17 @@ tile.qmd.fluid_yag.name=Molten Yttrium Aluminum Garnet
 fluid.nd_yag=Molten Neodymium Doped YAG
 tile.qmd.fluid_nd_yag.name=Molten Neodymium Doped YAG
 
+fluid.antihydrogen=Anti-Hydrogen
+tile.qmd.fluid_antihydrogen.name=Anti-Hydrogen
+fluid.antideuterium=Anti-Deuterium
+tile.qmd.fluid_antideuterium.name=Anti-Deuterium
+fluid.antitritium=Anti-Tritium
+tile.qmd.fluid_antitritium.name=Anti-Tritium
+fluid.antihelium3=Anti-Helium-3
+tile.qmd.fluid_antihelium3.name=Anti-Helium3
+fluid.antihelium=Anti-Helium
+tile.qmd.fluid_antihelium.name=Anti-Helium
+
 //info
 info.qmd.rf_cavity.voltage=Accelerating Voltage: %s kV
 info.qmd.rf_cavity.efficiency=Power Efficiency: %s
@@ -328,14 +356,18 @@ info.qmd.beamline.attenuation=Attenuation Rate = %s
 
 
 //multiblock validation
-zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part=Part at [%s, %s, %s] can not be here.
+qmd.multiblock_validation.need_energy_ports=There must be at least 1 Energy Port.
+qmd.multiblock_validation.no_inlet=There must be at least 1 Coolant Vent INPUT.
+qmd.multiblock_validation.no_outlet=There must be at least 1 Coolant Vent OUTPUT.
 
-qmd.multiblock_validation.accelerator.no_inlet=There must be at least 1 Coolant Vent INPUT.
-qmd.multiblock_validation.accelerator.no_outlet=There must be at least 1 Coolant Vent OUTPUT.
-qmd.multiblock_validation.accelerator.need_energy_ports=There must be at least 1 Energy Port.
+
 qmd.multiblock_validation.accelerator.wrong_height=Accelerators must be 5 blocks tall.
 qmd.multiblock_validation.accelerator.invalid_beam_port=A Beam Port can not be here.
 qmd.multiblock_validation.accelerator.something_is_wrong=You got a Beam Port with no facing. Well how did you manage to do that?
+qmd.multiblock_validation.accelerator.no_yokes=There cannot be any Electromagnet Yokes on this type of accelerator.
+qmd.multiblock_validation.accelerator.no_synch_ports=There cannot be any Synchrotron Ports on this type of accelerator.
+qmd.multiblock_validation.accelerator.no_rf_cavity=There cannot be any RF Cavities on this type of accelerator.
+qmd.multiblock_validation.accelerator.no_source=There cannot be any Ion Sources on this type of accelerator.
 
 qmd.multiblock_validation.accelerator.linear.to_short=Linear Accelerator is not long enough.
 qmd.multiblock_validation.accelerator.linear.must_be_beam=There must be a straight line of Accelerator Beam blocks down the middle of the Linear Accelerator.
@@ -353,17 +385,29 @@ qmd.multiblock_validation.accelerator.ring.beam_port_must_connect=There must be 
 qmd.multiblock_validation.accelerator.ring.must_have_io=There must be only one INPUT and OUTPUT Beam Port.
 qmd.multiblock_validation.accelerator.ring.to_many_synchrotron_ports=There can only be one Synchrotron Port.
 
-qmd.multiblock_validation.beam_director.must_be_cube=The Beam Diverter must be 1 5x5 Cube with a dipole in the center.
+qmd.multiblock_validation.beam_director.must_be_cube=The Beam Diverter must be a 5x5x5 Cube with a dipole in the center.
 qmd.multiblock_validation.beam_director.must_be_beam=There must have a Accelerator Beam Block at the center.
 qmd.multiblock_validation.accelerator.beam_director.must_be_dipole=There Must be a vertical or horizontal dipole at the center.
 
-qmd.multiblock_validation.chamber.target_chamber.must_be_square=Target Chamber must have the same X and Z dimensions.
-qmd.multiblock_validation.chamber.target_chamber.must_be_odd=Target Chamber must have an odd width.
-qmd.multiblock_validation.chamber.must_have_target=Target Chamber must have a Particle Chamber at the center.
-qmd.multiblock_validation.chamber.must_be_beam=There must be a line of Particle Chamber Beam Blocks from each Beam Port to the Target.
+
+qmd.multiblock_validation.chamber.must_have_target=Must have a Particle Chamber at the center.
+qmd.multiblock_validation.chamber.must_be_beam=There must be a line of Particle Chamber Beam Blocks from each Beam Port to the Particle Chamber.
 qmd.multiblock_validation.chamber.beam_port_wrong_spot=Beam Ports must be at the center of a face.
+qmd.multiblock_validation.chamber.must_be_square=Chamber must have the same X and Z dimensions.
+qmd.multiblock_validation.chamber.must_be_odd=Chamber must have an odd width.
 qmd.multiblock_validation.chamber.must_have_input_beam=There must be 1 INPUT Beam Port.
-qmd.multiblock_validation.chamber.need_energy_ports=There must be at least 1 Energy Port.
+
+qmd.multiblock_validation.chamber.beam_dump.only_input_beam=There can only be 1 INPUT Beam Port on a Beam Dump.
+qmd.multiblock_validation.chamber.beam_dump.must_have_fluid_output=There Must be an OUTPUT Fluid Port on a Beam Dump.
+
+
+qmd.multiblock_validation.containment.must_be_square=Containment must have the same X and Z dimensions.
+qmd.multiblock_validation.containment.must_be_odd=Containment must have an odd width.
+
+qmd.multiblock_validation.containment.neutral.must_be_coil=There must be a ring of Containment Coils at the top and bottom.
+qmd.multiblock_validation.containment.neutral.beam_port_or_laser=There must be a Beam Port or Laser at the center of the face.
+qmd.multiblock_validation.containment.neutral.must_be_laser=There must be a Laser at the center of the face.
+qmd.multiblock_validation.containment.neutral.must_be_input_beam=There must be a INPUT Beam Port at the center of the face.
 
 
 
@@ -374,17 +418,16 @@ gui.qmd.container.energy_stored=Energy Stored: %s/%s
 gui.qmd.container.required_energy=Required Energy: %s
 gui.qmd.container.temperature=Temperature: %s
 
-
 gui.qmd.container.linear_accelerator_controller.name=Linear Accelerator 
 gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator
 gui.qmd.container.beam_diverter_controller.name=Beam Diverter
+gui.qmd.container.decelerator_controller.name=Decelerator Accelerator
 gui.qmd.container.accelerator.cavitys=RF Cavities: %s at %s 
 gui.qmd.container.accelerator.quadrupoles=Quadrupoles: %s at %s
 gui.qmd.container.accelerator.dipoles=Dipoles: %s at %s 
 gui.qmd.container.accelerator.radius=Radius: %s
 gui.qmd.container.accelerator.length=Length: %s 
 gui.qmd.container.accelerator.max_temperature=Maximum Temperature: %s 
-
 gui.qmd.container.accelerator.efficiency= (%s%%)
 gui.qmd.container.accelerator.cooling=Cooling: %s
 gui.qmd.container.accelerator.heating=Maximum Heating: %s
@@ -392,20 +435,21 @@ gui.qmd.container.accelerator.external_heating=Maximum External Heating: %s
 gui.qmd.container.accelerator.coolant_stored=Coolant: %s/%s
 gui.qmd.container.accelerator.coolant_required=Coolant Usage: %s
 gui.qmd.container.accelerator.coolant_out=Hot Coolant Out: %s
-
 gui.qmd.container.accelerator.error.1=To hot
 gui.qmd.container.accelerator.error.2=Does not have enough power
 gui.qmd.container.accelerator.error.3=Focus to low
 gui.qmd.container.accelerator.error.4=Particle energy to low
 gui.qmd.container.accelerator.error.5=Particle energy to high
-
 gui.qmd.container.beam_dirverter.max_energy=Maximum Energy: %s
 gui.qmd.container.beam_dirverter.energy_loss=Energy Loss: %s
-
-gui.qmd.container.target_chamber.efficiency=Efficiency: %s%%
-
 gui.qmd.container.accelerator_source=Accelerator Ion Source
 
+gui.qmd.container.target_chamber_controller.name=Target Chamber 
+gui.qmd.container.decay_chamber_controller.name=Decay Chamber
+gui.qmd.container.beam_dump_controller.name=Beam Dump
+gui.qmd.container.target_chamber.efficiency=Efficiency: %s%%
+
+gui.qmd.container.neutral_containment_controller.name=Neutral Exotic Containment
 
 
 
@@ -454,6 +498,8 @@ qmd.particle.pion_naught.name=Pion 0
 qmd.particle.pion_minus.name=Pion -
 qmd.particle.triton.name=Triton
 qmd.particle.antitriton.name=Anti-Triton
+qmd.particle.helion.name=Helion
+qmd.particle.antihelion.name=Anti-Helion
 qmd.particle.boron_ion.name=Boron Ion
 qmd.particle.kaon_plus.name=Kaon +
 qmd.particle.kaon_minus.name=Kaon -
@@ -509,6 +555,8 @@ qmd.particle.pion_naught.desc=Pions are the particles that are responsible for h
 qmd.particle.pion_minus.desc=Pions are the particles that are responsible for holding nuclei together. Although not colored themselves they distribute the "residual" strong force to keep nuclei together.
 qmd.particle.triton.desc=The Triton is the nucleus of a Tritium Atom.
 qmd.particle.antitriton.desc=The Anti-Triton is the antimatter partner of the Triton.
+qmd.particle.helion.desc=The Helion is the nucleus of a Helium-3 Atom.
+qmd.particle.antitriton.desc=The Anti-Helion is the antimatter partner of the Helion.
 
 qmd.particle.boron_ion.desc=A Boron atom with one electron missing.
 
@@ -532,6 +580,7 @@ qmd.gui.jei.category.accelerator_source=Ion Source
 qmd.gui.jei.category.particle_info=Particle Information
 qmd.gui.jei.category.target_chamber=Target Chamber
 qmd.gui.jei.category.decay_chamber=Decay Chamber
+qmd.gui.jei.category.beam_dump=Beam Dump
 
 gui.qmd.jei.particle.mass=Mass: %s
 gui.qmd.jei.particle.charge=Charge: %s

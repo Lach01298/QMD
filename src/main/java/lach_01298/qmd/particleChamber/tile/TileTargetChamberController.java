@@ -12,10 +12,12 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.block.BlockTargetChamberController;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
+import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
@@ -219,5 +221,8 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 		return super.getCapability(capability, side);
 	}
 	
-	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerTargetChamberController(player, this);
+	}
 }

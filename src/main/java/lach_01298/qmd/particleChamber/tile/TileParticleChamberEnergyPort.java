@@ -24,7 +24,7 @@ public class TileParticleChamberEnergyPort extends TileParticleChamberPart imple
 	
 	public TileParticleChamberEnergyPort()
 	{
-		super(CuboidalPartPositionType.WALL);
+		super(CuboidalPartPositionType.EXTERIOR);
 	}
 
 

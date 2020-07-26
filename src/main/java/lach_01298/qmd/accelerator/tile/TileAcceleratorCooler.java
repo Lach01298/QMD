@@ -4,7 +4,6 @@ import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.util.BlockPosHelper;
 import net.minecraft.util.EnumFacing;
 
 public abstract class TileAcceleratorCooler extends TileAcceleratorPart implements IAcceleratorComponent

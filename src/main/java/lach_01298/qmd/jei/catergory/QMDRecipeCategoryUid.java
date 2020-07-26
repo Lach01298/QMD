@@ -8,4 +8,5 @@ public class QMDRecipeCategoryUid
 	public static final String PARTICLE_INFO = QMD.MOD_ID+".particle_info";
 	public static final String TARGET_CHAMBER = QMD.MOD_ID+".target_chamber";
 	public static final String DECAY_CHAMBER = QMD.MOD_ID+".decay_chamber";
+	public static final String BEAM_DUMP = QMD.MOD_ID+".beam_dump";
 }

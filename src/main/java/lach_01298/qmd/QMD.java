@@ -4,8 +4,14 @@ import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.commands.CommandQMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUIHandler;
+import lach_01298.qmd.item.ItemCell;
 import lach_01298.qmd.proxy.CommonProxy;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -15,6 +21,7 @@ import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = QMD.MOD_ID, name = QMD.MOD_NAME, version = QMD.VERSION, acceptedMinecraftVersions = QMD.MCVERSION, dependencies = "after:nuclearcraft")
@@ -25,6 +32,10 @@ public class QMD
 	public static final String VERSION = "@VERSION@";
 	public static final String MCVERSION = "1.12.2";
 
+	
+	
+	public ItemCell itemCell;
+	
 	@Instance(MOD_ID)
 	public static QMD instance;
 	
@@ -50,6 +61,10 @@ public class QMD
 	   
 	}
 
+	
+	
+	
+	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{

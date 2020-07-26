@@ -65,6 +65,8 @@ public class Particles
 	public static Particle antialpha;
 	public static Particle triton;
 	public static Particle antitriton;
+	public static Particle helion;
+	public static Particle antihelion;
 	
 	public static Particle boron_ion;
 
@@ -225,6 +227,8 @@ public class Particles
 		registerParticle(antialpha);
 		registerParticle(triton);
 		registerParticle(antitriton);
+		registerParticle(helion);
+		registerParticle(antihelion);
 
 		registerParticle(boron_ion);
 		
@@ -277,6 +281,11 @@ public class Particles
 		triton.addComponentParticle(proton);
 		triton.addComponentParticle(neutron,2);
 		antitriton = makeAntiParticle(triton, "antitriton",Util.appendPath(particlePath, "antitriton.png"));
+		
+		helion = new Particle("helion",Util.appendPath(particlePath, "helion.png"),2810d,2,1/2,true);
+		helion.addComponentParticle(proton,2);
+		helion.addComponentParticle(neutron);
+		antihelion = makeAntiParticle(triton, "antihelion",Util.appendPath(particlePath, "antihelion.png"));
 		
 		
 		boron_ion = new Particle("boron_ion",Util.appendPath(particlePath, "boron_ion.png"),10200d,1,1/2,true);

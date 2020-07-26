@@ -130,7 +130,14 @@ public class Units
 		return df.format(number)+ " "+ prefix+unit;
 	}
 	
-	
+	public static String getParticleEnergy(long number)
+	{
+		if(number == 0)
+		{
+			return "< 1"+ " "+"keV";
+		}
+		return getSIFormat(number, 3, "eV");
+	}
 	
 	public static String getSIPrefix(double number,int power)
 	{
@@ -182,6 +189,7 @@ public class Units
 			return "P";
 			
 		}
+	
 		return "";
 	}
 	

@@ -11,7 +11,7 @@ public class ItemBrakeable extends Item implements IInfoItem
 	{
 		this.setMaxStackSize(16);
 	    this.setMaxDamage(durability);
-	  
+	    setNoRepair();
 	}
 
 	@Override
@@ -21,19 +21,11 @@ public class ItemBrakeable extends Item implements IInfoItem
 		
 	}
 
-	@Override
-	public boolean isRepairable()
-	{
-		return false;
-	}
 	
-	public boolean canApplyAtEnchantingTable(ItemStack stack, net.minecraft.enchantment.Enchantment enchantment)
+	 @Override
+	public boolean isEnchantable(ItemStack stack) 
     {
-        return false;
-    }
 
-	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
-	{
 		return false;
 	}
 	

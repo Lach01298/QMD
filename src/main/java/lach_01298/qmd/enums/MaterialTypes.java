@@ -184,7 +184,8 @@ public class MaterialTypes
 		TUNGSTEN_CARBIDE("tungsten_carbide", 0), 
 		NIOBIUM_TIN("niobium_tin", 1), 
 		STAINLESS_STEEL("stainless_steel", 2),
-		NIOBIUM_TITANIUM("niobium_titanium", 3);
+		NIOBIUM_TITANIUM("niobium_titanium", 3),
+		OSMIRIDIUM("osmiridium", 4);
 		 
 		 
 		private String name;

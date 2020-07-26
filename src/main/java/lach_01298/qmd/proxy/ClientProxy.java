@@ -3,6 +3,9 @@ package lach_01298.qmd.proxy;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.model.ModelCell;
+import lach_01298.qmd.render.QMDRenderHandler;
+import nc.handler.RenderHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -24,7 +27,9 @@ public class ClientProxy extends CommonProxy
 	{
 		super.preInit(preEvent);
 		QMDBlocks.registerRenders();
+		ModelCell.init();
 		QMDItems.registerRenders();
+		QMDRenderHandler.init();
 	}
 
 	@Override

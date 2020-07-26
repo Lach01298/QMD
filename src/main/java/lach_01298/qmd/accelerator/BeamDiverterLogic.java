@@ -1,10 +1,21 @@
 package lach_01298.qmd.accelerator;
 
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -144,7 +155,10 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
 			return false;
 		}	
-		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 
 		return super.isMachineWhole(multiblock);
 	}
@@ -175,7 +189,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
  
 		 refreshStats();
 		 super.onAcceleratorFormed();
-		 acc.cooling = (long) (1.1*(acc.rawHeating+acc.getMaxExternalHeating()));
+		 acc.cooling = (long) (2*(acc.rawHeating+acc.getMaxExternalHeating()));
 	}
 	
 	public void onMachineDisassembled()
@@ -383,6 +397,18 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return new ContainerBeamDiverterController(player, getAccelerator().controller);
+	}
+
+	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileAcceleratorSynchrotronPort.class,
+					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
+			Pair.of(TileAcceleratorRFCavity.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_rf_cavity"),
+			Pair.of(TileAcceleratorSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"));
+
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
 	}
 	
 }

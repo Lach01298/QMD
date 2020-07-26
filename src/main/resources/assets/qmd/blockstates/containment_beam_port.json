@@ -1,0 +1,30 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all",
+		"textures": {
+			"all": "qmd:blocks/containment/beam_port/input"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"io": {
+			"input": {
+				"textures": {
+						"all": "qmd:blocks/containment/beam_port/input"
+					}
+			},
+			"output": {
+				"textures": {
+						"all": "qmd:blocks/containment/beam_port/output"
+					}
+			},
+			"disabled": {
+				"textures": {
+						"all": "qmd:blocks/containment/beam_port/disabled"
+					}
+			}
+		}
+		
+	}
+}

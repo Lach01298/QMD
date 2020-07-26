@@ -129,6 +129,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("dustGraphite", new ParticleStack(Particles.neutron, 240000, 29500), "ingotBoron11",
 				new ParticleStack(Particles.deuteron), emptyParticleStack(), emptyParticleStack(), 60000, 0.1, -13200);
 		
+		addRecipe("dustGraphite", new ParticleStack(Particles.neutron, 434000, 105000), "ingotBerylium7",
+				new ParticleStack(Particles.helion), new ParticleStack(Particles.neutron,3), emptyParticleStack(), 150000, 0.014, -45800);
+		
 		addRecipe("ingotSodium", new ParticleStack(Particles.neutron, 233100, 17000), "ingotSodium22",
 				emptyParticleStack(), new ParticleStack(Particles.neutron,2), emptyParticleStack(), 28000, 0.11, -12400);
 		
@@ -137,6 +140,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addRecipe("ingotAluminum", new ParticleStack(Particles.neutron, 162000, 13000), "ingotMagnesium26",
 				new ParticleStack(Particles.proton), new ParticleStack(Particles.neutron), emptyParticleStack(), 30000, 0.37, -7760);
+		
+		addRecipe("ingotAluminum", new ParticleStack(Particles.neutron, 374000, 43000), "ingotSodium22",
+				new ParticleStack(Particles.helion), new ParticleStack(Particles.neutron,3), emptyParticleStack(), 80000, 0.023, -42100);
 		
 		addRecipe("itemSilicon", new ParticleStack(Particles.neutron, 158100, 18000), "ingotAluminum",
 				new ParticleStack(Particles.proton), new ParticleStack(Particles.neutron), emptyParticleStack(), 27000, 0.4, -11100);
@@ -396,6 +402,34 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addRecipe("ingotPlutonium239", new ParticleStack(Particles.alpha, 1206000, 28000), "ingotAmericium242",
 				new ParticleStack(Particles.proton), emptyParticleStack(), emptyParticleStack(), 30000, 0.01, -12300);	
+		
+		//Helion reactions
+		addRecipe("ingotLithium6", new ParticleStack(Particles.helion, 189000, 11000), "ingotBerylium7",
+				new ParticleStack(Particles.deuteron), emptyParticleStack(), emptyParticleStack(), 30000, 0.22, -397);	
+		
+		addRecipe("ingotLithium6", new ParticleStack(Particles.helion, 176000, 30000), emptyItemStack(),
+				new ParticleStack(Particles.alpha,2), emptyParticleStack(), new ParticleStack(Particles.proton), 150000, 0.28, 18400);	
+		
+		addRecipe("ingotBeryllium", new ParticleStack(Particles.helion, 257000, 23000), "ingotBeryllium7",
+				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), emptyParticleStack(), 28000, 0.08, 14);	
+		
+		addRecipe("ingotBoron10", new ParticleStack(Particles.helion, 240000, 30000), "ingotBeryllium7",
+				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), new ParticleStack(Particles.proton), 47000, 0.1, -6060);	
+		
+		addRecipe("dustGraphite", new ParticleStack(Particles.helion, 280000, 22000), "ingotBeryllium7",
+				new ParticleStack(Particles.alpha,2), emptyParticleStack(), emptyParticleStack(), 31000, 0.06, -4670);	
+		
+		addRecipe("ingotAluminum", new ParticleStack(Particles.helion, 257000, 90000), "ingotSodium22",
+				new ParticleStack(Particles.alpha,2), emptyParticleStack(), emptyParticleStack(), 165000, 0.08, -912);
+		
+		addRecipe("ingotCobalt", new ParticleStack(Particles.helion, 296000, 14000), "ingotCobalt60",
+				new ParticleStack(Particles.proton,2), emptyParticleStack(), emptyParticleStack(), 24000, 0.05, -226);
+		
+		addRecipe("ingotLead", new ParticleStack(Particles.helion, 1180000, 23000), "dustPolonium",
+				emptyParticleStack(), new ParticleStack(Particles.neutron), emptyParticleStack(), 30000, 0.01, 42);
+		
+		addRecipe("ingotNeptunium237", new ParticleStack(Particles.helion, 1260000, 23500), "ingotPlutonium238",
+				new ParticleStack(Particles.proton), new ParticleStack(Particles.neutron), emptyParticleStack(), 30000, 0.01, -2230);
 		
 		
 		

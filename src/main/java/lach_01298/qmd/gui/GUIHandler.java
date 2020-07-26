@@ -3,8 +3,10 @@ package lach_01298.qmd.gui;
 
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
+import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
 import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
+import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
 import lach_01298.qmd.machine.container.ContainerIrradiator;
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
 import lach_01298.qmd.machine.gui.GuiIrradiator;
@@ -13,16 +15,23 @@ import lach_01298.qmd.machine.tile.TileQMDProcessor.TileIrradiator;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
+import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
 import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
+import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
+import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
 import lach_01298.qmd.multiblock.gui.GuiBeamDiverterController;
+import lach_01298.qmd.multiblock.gui.GuiBeamDumpController;
 import lach_01298.qmd.multiblock.gui.GuiDecayChamberController;
+import lach_01298.qmd.multiblock.gui.GuiDeceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
+import lach_01298.qmd.multiblock.gui.GuiNeutralContainmentController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
+import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
 import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import nc.container.processor.ContainerMachineConfig;
@@ -83,6 +92,19 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.IRRADIATOR_SIDE_CONFIG:
 				if (tile instanceof TileIrradiator)
 					return new ContainerMachineConfig(player,  (TileIrradiator)tile);
+			
+			case GUI_ID.BEAM_DUMP:
+				if (tile instanceof TileBeamDumpController)
+					return new ContainerBeamDumpController(player,  (TileBeamDumpController)tile);
+			
+			case GUI_ID.NEUTRAL_CONTAINMENT:
+				if (tile instanceof TileNeutralContainmentController)
+					return new ContainerNeutralContainmentController(player,  (TileNeutralContainmentController)tile);
+				
+			case GUI_ID.DECELERATOR:
+				if (tile instanceof TileDeceleratorController)
+					return new ContainerDeceleratorController(player,  (TileDeceleratorController)tile);
+			
 			}
 		}
 
@@ -102,11 +124,11 @@ public class GUIHandler implements IGuiHandler
 			{
 			case GUI_ID.LINEAR_ACCELERATOR:
 				if (tile instanceof TileLinearAcceleratorController)
-					return new GuiLinearAcceleratorController(((TileLinearAcceleratorController) tile).getMultiblock(), tile.getPos(), ((TileLinearAcceleratorController) tile).getMultiblock().getContainer(player));
+					return new GuiLinearAcceleratorController(player, (TileLinearAcceleratorController) tile);
 				
 			case GUI_ID.RING_ACCELERATOR:
 				if (tile instanceof TileRingAcceleratorController)
-					return new GuiRingAcceleratorController(((TileRingAcceleratorController) tile).getMultiblock(), tile.getPos(), ((TileRingAcceleratorController) tile).getMultiblock().getContainer(player));
+					return new GuiRingAcceleratorController(player, (TileRingAcceleratorController) tile);
 				
 			case GUI_ID.ACCELERATOR_SOURCE:
 				if (tile instanceof TileAcceleratorSource)
@@ -114,11 +136,11 @@ public class GUIHandler implements IGuiHandler
 			
 			case GUI_ID.TARGET_CHAMBER:
 				if (tile instanceof TileTargetChamberController)
-					return new GuiTargetChamberController(((TileTargetChamberController) tile).getMultiblock(), tile.getPos(), ((TileTargetChamberController) tile).getMultiblock().getContainer(player));
+					return new GuiTargetChamberController(player, (TileTargetChamberController) tile);
 		
 			case GUI_ID.DECAY_CHAMBER:
 				if (tile instanceof TileDecayChamberController)
-					return new GuiDecayChamberController(((TileDecayChamberController) tile).getMultiblock(), tile.getPos(), ((TileDecayChamberController) tile).getMultiblock().getContainer(player));
+					return new GuiDecayChamberController(player, (TileDecayChamberController) tile);
 			
 			case GUI_ID.ORE_LEACHER:
 			if (tile instanceof TileOreLeacher)
@@ -130,15 +152,27 @@ public class GUIHandler implements IGuiHandler
 				
 			case GUI_ID.BEAM_DIVERTER:
 				if (tile instanceof TileBeamDiverterController)
-					return new GuiBeamDiverterController(((TileBeamDiverterController) tile).getMultiblock(), tile.getPos(), ((TileBeamDiverterController) tile).getMultiblock().getContainer(player));
+					return new GuiBeamDiverterController(player, (TileBeamDiverterController) tile);
 			
 			case GUI_ID.IRRADIATOR:
 				if (tile instanceof TileIrradiator)
 						return new GuiIrradiator(player,(TileIrradiator) tile);
 				
-				case GUI_ID.IRRADIATOR_SIDE_CONFIG:
-					if (tile instanceof TileIrradiator)
-						return new GuiIrradiator.SideConfig(player,(TileIrradiator) tile);
+			case GUI_ID.IRRADIATOR_SIDE_CONFIG:
+				if (tile instanceof TileIrradiator)
+					return new GuiIrradiator.SideConfig(player,(TileIrradiator) tile);
+			
+			case GUI_ID.BEAM_DUMP:
+				if (tile instanceof TileBeamDumpController)
+					return new GuiBeamDumpController(player, (TileBeamDumpController) tile);
+			
+			case GUI_ID.NEUTRAL_CONTAINMENT:
+				if (tile instanceof TileNeutralContainmentController)
+					return new GuiNeutralContainmentController(player, (TileNeutralContainmentController) tile);
+				
+			case GUI_ID.DECELERATOR:
+				if (tile instanceof TileDeceleratorController)
+					return new GuiDeceleratorController(player, (TileDeceleratorController) tile);
 				
 			}
 		}

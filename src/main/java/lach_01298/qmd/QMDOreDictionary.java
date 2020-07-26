@@ -94,7 +94,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotNiobiumTin",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.NIOBIUM_TIN.getID()));
 		OreDictionary.registerOre("ingotStainlessSteel",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.STAINLESS_STEEL.getID()));
 		OreDictionary.registerOre("ingotNiobiumTitanium",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.NIOBIUM_TITANIUM.getID()));
-
+		OreDictionary.registerOre("ingotOsmiridium",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.OSMIRIDIUM.getID()));
 		
 		OreDictionary.registerOre("ingotSodium22",new ItemStack(QMDItems.isotope, 1, IsotopeType.SODIUM_22.getID()));
 		OreDictionary.registerOre("ingotPromethium147",new ItemStack(QMDItems.isotope, 1, IsotopeType.PROMETHIUM_147.getID()));

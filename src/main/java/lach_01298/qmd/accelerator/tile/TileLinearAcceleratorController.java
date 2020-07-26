@@ -8,8 +8,12 @@ import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
 import lach_01298.qmd.accelerator.block.BlockLinearAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
+import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
+import nc.multiblock.container.ContainerMultiblockController;
+import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -72,5 +76,11 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 	{
 
 	}
+	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerLinearAcceleratorController(player, this);
+	}
+	
 
 }

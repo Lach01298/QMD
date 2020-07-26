@@ -13,5 +13,7 @@ public class GUI_ID
 	public final static int BEAM_DIVERTER = 7;
 	public static final int IRRADIATOR = 8;
 	public final static int IRRADIATOR_SIDE_CONFIG = 1000+ IRRADIATOR;
-	
+	public final static int BEAM_DUMP = 9;
+	public final static int DECELERATOR = 10;
+	public final static int NEUTRAL_CONTAINMENT = 11;
 }

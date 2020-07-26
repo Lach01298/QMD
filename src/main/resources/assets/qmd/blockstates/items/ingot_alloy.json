@@ -25,6 +25,11 @@
                 "textures": {
                     "layer0": "qmd:items/materials/alloy/ingot_niobium_titanium"
                 }
+            },
+            "osmiridium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/alloy/ingot_osmiridium"
+                }
             }
         }
     }

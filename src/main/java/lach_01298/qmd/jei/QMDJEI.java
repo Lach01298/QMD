@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.catergory.AcceleratorCoolingCategory;
 import lach_01298.qmd.jei.catergory.AcceleratorSourceCategory;
+import lach_01298.qmd.jei.catergory.BeamDumpCategory;
 import lach_01298.qmd.jei.catergory.DecayChamberCategory;
 import lach_01298.qmd.jei.catergory.IrradiatorCategory;
 import lach_01298.qmd.jei.catergory.IrradiatorFuelCategory;
@@ -20,6 +21,7 @@ import lach_01298.qmd.jei.ingredient.ParticleStackListFactory;
 import lach_01298.qmd.jei.ingredient.ParticleStackRenderer;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipeMaker;
+import lach_01298.qmd.jei.recipe.BeamDumpRecipeMaker;
 import lach_01298.qmd.jei.recipe.DecayChamberRecipeMaker;
 import lach_01298.qmd.jei.recipe.ParticleInfoRecipeMaker;
 import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
@@ -77,7 +79,8 @@ public class QMDJEI implements IModPlugin
 				JEIProcessorHandler.ORE_LEACHER.getCategory(guiHelper),
 				JEIProcessorHandler.IRRADIATOR.getCategory(guiHelper),
 				JEIProcessorHandler.IRRADIATOR_FUEL.getCategory(guiHelper),
-				JEIProcessorHandler.ACCELERATOR_COOLING.getCategory(guiHelper)
+				JEIProcessorHandler.ACCELERATOR_COOLING.getCategory(guiHelper),
+				new BeamDumpCategory(guiHelper)
 				);
 		
 	}
@@ -113,6 +116,9 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(0),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
 		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(1),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
 		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(2),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
+		
+		registry.addRecipes(BeamDumpRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.BEAM_DUMP);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.beamDumpController),QMDRecipeCategoryUid.BEAM_DUMP);
 	}
 
 	

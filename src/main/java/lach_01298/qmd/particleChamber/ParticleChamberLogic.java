@@ -3,6 +3,8 @@ package lach_01298.qmd.particleChamber;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import lach_01298.qmd.accelerator.Accelerator;
@@ -17,6 +19,7 @@ import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -47,7 +50,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		return "";
 	}
 
-	protected ParticleChamber getChamber() 
+	protected ParticleChamber getMultiblock() 
 	{
 		return multiblock;
 	}
@@ -74,17 +77,19 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	{
 		for (IParticleChamberController contr : getPartMap(IParticleChamberController.class).values()) 
 		{
-			 getChamber().controller = contr;
+			 getMultiblock().controller = contr;
 		}
 		
-		getChamber().energyStorage.setStorageCapacity(Accelerator.BASE_MAX_ENERGY * getCapacityMultiplier());
-		getChamber().energyStorage.setMaxTransfer(Accelerator.BASE_MAX_ENERGY * getCapacityMultiplier());
+		getMultiblock().energyStorage.setStorageCapacity(getMultiblock().BASE_MAX_ENERGY * getCapacityMultiplier());
+		getMultiblock().energyStorage.setMaxTransfer(getMultiblock().BASE_MAX_ENERGY * getCapacityMultiplier());
 		
+		getMultiblock().tanks.get(0).setCapacity(getMultiblock().BASE_MAX_INPUT * getCapacityMultiplier());
+		getMultiblock().tanks.get(1).setCapacity(getMultiblock().BASE_MAX_OUTPUT * getCapacityMultiplier());
 		
 		if (!getWorld().isRemote) 
 		{
 			refreshChamber();
-			getChamber().updateActivity();	 
+			getMultiblock().updateActivity();	 
 		}
 	
 	}
@@ -99,7 +104,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	
 	public int getCapacityMultiplier() 
 	{
-		return getChamber().getExteriorVolume();
+		return getMultiblock().getExteriorVolume();
 	}
 	
 	
@@ -112,12 +117,12 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	@Override
 	public void onMachineDisassembled()
 	{	
-		getChamber().resetStats();
-		if (getChamber().controller != null)
+		getMultiblock().resetStats();
+		if (getMultiblock().controller != null)
 		{
-			getChamber().controller.updateBlockState(false);
+			getMultiblock().controller.updateBlockState(false);
 		}
-		getChamber().isChamberOn = false;	
+		getMultiblock().isChamberOn = false;	
 	}
 
 	@Override
@@ -167,7 +172,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	public boolean onUpdateServer()
 	{
-		getChamber().sendUpdateToListeningPlayers();
+		getMultiblock().sendUpdateToListeningPlayers();
 		return true;
 	}
 
@@ -186,7 +191,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	public boolean isChamberOn()
 	{
 		
-		return getChamber().beams.get(0).getParticleStack() != null;
+		return getMultiblock().beams.get(0).getParticleStack() != null;
 	}
 
 	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
@@ -211,7 +216,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							getChamber().beams.get(0).setParticleStack(otherStorage.extractParticle(face.getOpposite()));
+							getMultiblock().beams.get(0).setParticleStack(otherStorage.extractParticle(face.getOpposite()));
 						}
 					}
 				}
@@ -235,7 +240,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							otherStorage.reciveParticle(face.getOpposite(), getChamber().beams.get(port.getIONumber()).getParticleStack());
+							otherStorage.reciveParticle(face.getOpposite(), getMultiblock().beams.get(port.getIONumber()).getParticleStack());
 						}
 					}
 				}
@@ -254,7 +259,16 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		return new ArrayList<>();
 	}
 	
-	
+	public void clearAllMaterial()
+	{
+		for (Tank tank : getMultiblock().tanks)
+		{
+			tank.setFluidStored(null);
+		}
+	}
+	public @Nonnull List<Tank> getTanks(List<Tank> backupTanks) {
+		return getMultiblock().isAssembled() ? getMultiblock().tanks : backupTanks;
+	}
 	
 	
 	

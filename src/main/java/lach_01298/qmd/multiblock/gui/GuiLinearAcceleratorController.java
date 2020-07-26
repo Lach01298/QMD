@@ -7,34 +7,34 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.Units;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
+import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
-import nc.multiblock.gui.GuiLogicMultiblockController;
+import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCUtil;
-import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiLinearAcceleratorController extends GuiLogicMultiblockController<Accelerator, LinearAcceleratorLogic>
+public class GuiLinearAcceleratorController extends GuiLogicMultiblock<Accelerator, LinearAcceleratorLogic, IAcceleratorController>
 {
 
 	protected final ResourceLocation gui_texture;
 
-	
+	private final GuiParticle guiParticle;
 
-	public GuiLinearAcceleratorController(Accelerator multiblock, BlockPos controllerPos, Container container)
+	public GuiLinearAcceleratorController(EntityPlayer player,IAcceleratorController controller)
 	{
-		super(multiblock, controllerPos, container);
+		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/accelerator_controller.png");
 		xSize = 196;
 		ySize = 109;
+		guiParticle = new GuiParticle(this);
 	}
 
 	@Override
@@ -49,10 +49,6 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) 
 	{
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		GuiParticle guiParticle = new GuiParticle(this);
-		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21);
-		
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21, mouseX, mouseY);
 
 		renderTooltips(mouseX, mouseY);
 	}
@@ -91,7 +87,8 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 		}
 		
 
-		if (!NCUtil.isModifierKeyDown()) {
+		if (!NCUtil.isModifierKeyDown()) 
+		{
 		
 		}
 	}
@@ -114,18 +111,19 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 		int coolant = (int)Math.round((double)multiblock.tanks.get(0).getFluidAmount()/(double)multiblock.tanks.get(0).getCapacity()*95);
 		drawTexturedModalRect(guiLeft + 28, guiTop + 101-coolant, 208, 95- coolant, 6, coolant);
 		
-
+		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21);
 	}
 	
 	@Override
-	public void renderTooltips(int mouseX, int mouseY) {
+	public void renderTooltips(int mouseX, int mouseY) 
+	{
 		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 150, 20, 18, 18);
-		
 		
 		drawTooltip(energyInfo(), mouseX, mouseY, 8, 5, 8, 96);
 		drawTooltip(heatInfo(), mouseX, mouseY, 18, 5, 8, 96);
 		drawTooltip(coolantInfo(), mouseX, mouseY, 28, 5, 8, 96);
 		
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21, mouseX, mouseY);
 	}
 	
 
@@ -155,8 +153,6 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.coolant_stored",Units.getSIFormat(multiblock.tanks.get(0).getFluidAmount(), -3,"B"),Units.getSIFormat(multiblock.tanks.get(0).getCapacity(), -3,"B")));
 		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.coolant_required",Units.getSIFormat(multiblock.maxCoolantIn , -3,"B/t")));
 		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.coolant_out",Units.getSIFormat(multiblock.maxCoolantOut, -3,"B/t")));
-	
-
 		return info;
 	}
 	
@@ -176,7 +172,7 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblockController
 		{
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
 			{
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
 			}
 		}
 	}

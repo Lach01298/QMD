@@ -50,7 +50,6 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	public static final Object2ObjectMap<String, Constructor<? extends AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>(); 
 	
 	protected @Nonnull AcceleratorLogic logic = new AcceleratorLogic(this);
-
 	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 
 	protected final PartSuperMap<IAcceleratorPart> partSuperMap = new PartSuperMap<>();
@@ -80,7 +79,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
-	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;;
+	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
 	public static final int MAX_TEMP = 400;
 	
@@ -518,10 +517,6 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	@Override
 	protected boolean updateServer()
 	{
-		if (refreshFlag) 
-		{
-			logic.refreshAccelerator();
-		}
 		updateActivity();
 		
 		if (logic.onUpdateServer()) 
@@ -557,12 +552,12 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	
 	public long getExternalHeating() 
 	{
-		return (long) ((ambientTemp - getTemperature())*THERMAL_CONDUCTIVITY*this.getExteriorSurfaceArea());
+		return (long) ((ambientTemp - getTemperature()) * THERMAL_CONDUCTIVITY * getExteriorSurfaceArea());
 	}
 	
 	public long getMaxExternalHeating() 
 	{
-		return (long) (ambientTemp*THERMAL_CONDUCTIVITY*this.getExteriorSurfaceArea());
+		return (long) (ambientTemp * THERMAL_CONDUCTIVITY * getExteriorSurfaceArea());
 	}
 
 	
@@ -727,13 +722,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	public void clearAllMaterial()
 	{
 		logic.clearAllMaterial();
-		
 		super.clearAllMaterial();
-		
-		if (!WORLD.isRemote) {
-			logic.refreshAccelerator();
-			updateActivity();
-		}
 	}
 
 	// Multiblock Validators

@@ -54,6 +54,9 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		addDecayRecipe(new ParticleStack(Particles.charmed_eta), new ParticleStack(Particles.kaon_naught),null, new ParticleStack(Particles.antikaon_naught), 0.07);
 		addDecayRecipe(new ParticleStack(Particles.bottom_eta), new ParticleStack(Particles.antitau),null, new ParticleStack(Particles.tau), 0.08);
 		
+		addRecipe(new ParticleStack(Particles.triton), new ParticleStack(Particles.helion), new ParticleStack(Particles.electron_antineutrino), new ParticleStack(Particles.electron),Long.MAX_VALUE, 1, 19);
+		addRecipe(new ParticleStack(Particles.antitriton), new ParticleStack(Particles.positron), new ParticleStack(Particles.electron_neutrino), new ParticleStack(Particles.antihelion) ,Long.MAX_VALUE, 1, 19);
+		
 	}
 	
 	
