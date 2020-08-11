@@ -1,5 +1,6 @@
 package lach_01298.qmd.multiblock.container;
 
+import lach_01298.qmd.container.slot.SlotProcessorInputIgnoreNBT;
 import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.containment.Containment;
 import lach_01298.qmd.containment.tile.IContainmentController;
@@ -34,8 +35,8 @@ protected final ProcessorRecipeHandler recipeHandler;
 		this.otherSlotsSize = 0;
 		
 		
-		//addSlotToContainer(new SlotProcessorInput(tile,recipeHandler, 0, 47, 38));
-		//addSlotToContainer(new SlotFurnace(player, tile, 1, 89, 38));
+		addSlotToContainer(new SlotProcessorInputIgnoreNBT(tile,recipeHandler, 0, 59, 60));
+		addSlotToContainer(new SlotFurnace(player, tile, 1, 101, 60));
 		
 		addPlayerInventory(player,8,95);
 

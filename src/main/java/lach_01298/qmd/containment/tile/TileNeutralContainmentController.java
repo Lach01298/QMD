@@ -2,28 +2,50 @@ package lach_01298.qmd.containment.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
-import lach_01298.qmd.accelerator.block.BlockLinearAcceleratorController;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
+
+import lach_01298.qmd.QMD;
 import lach_01298.qmd.containment.Containment;
-import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController;
 import lach_01298.qmd.containment.block.BlockNeutralContainmentController;
+import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.container.ContainerTurbineController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.recipe.ProcessorRecipeHandler;
+import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileInventory;
+import nc.util.NBTHelper;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileNeutralContainmentController extends TileContainmentPart implements IContainmentController
+public class TileNeutralContainmentController extends TileContainmentPart implements IContainmentController, ITileInventory
 {
 
+	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.neutral_containment_controller";
+	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
+	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
+	
+	public ProcessorRecipeHandler recipe_handler = QMDRecipes.cell_filling;
+	
 	public boolean isRenderer = false;
 	
 	public TileNeutralContainmentController()
@@ -78,13 +100,122 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 	}
 
 
+	public ProcessorRecipeHandler getRecipeHandler() {
+		return recipe_handler;
+	}
+	
+	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	{
+		super.writeAll(nbt);
+		writeInventory(nbt);
+		writeInventoryConnections(nbt);
+
+		
+		return nbt;
+	}
+	
+	public void readAll(NBTTagCompound nbt) 
+	{
+		super.readAll(nbt);
+		readInventory(nbt);
+		readInventoryConnections(nbt);
+	}
+	
+
 	@Override
 	public NonNullList<ItemStack> getInventoryStacks()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return inventoryStacks;
 	}
 
+	@Override
+	public String getName()
+	{
+		return inventoryName;
+	}
+	
+	@Override
+	public InventoryConnection[] getInventoryConnections()
+	{
+		return inventoryConnections;
+	}
+
+	@Override
+	public void setInventoryConnections(InventoryConnection[] connections)
+	{
+		inventoryConnections = connections;
+	}
+	
+	@Override
+	public ItemOutputSetting getItemOutputSetting(int slot)
+	{
+		return ItemOutputSetting.DEFAULT;
+	}
+
+	@Override
+	public void setItemOutputSetting(int slot, ItemOutputSetting setting)
+	{
+		
+	}
+	
+	@Override
+	public NBTTagCompound writeInventory(NBTTagCompound nbt)
+	{
+		NBTHelper.saveAllItems(nbt, inventoryStacks);
+		return nbt;
+	}
+
+	@Override
+	public void readInventory(NBTTagCompound nbt)
+	{
+		NBTHelper.loadAllItems(nbt, inventoryStacks);
+	}
+	
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack)
+	{
+		if (getRecipeHandler() == null)
+		{
+			return true;
+		}
+		if (stack == ItemStack.EMPTY || slot >= getRecipeHandler().getItemInputSize())
+			return false;
+		return getRecipeHandler().isValidItemInput(stack);
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) 
+	{
+		return  (getRecipeHandler() == null || isItemValidForSlot(slot, stack));
+	}
+	
+	
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
+	{
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		{
+			return !getInventoryStacks().isEmpty() && hasInventorySideCapability(side);
+		}
+		return super.hasCapability(capability, side);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side)
+	{
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		{
+			if (!getInventoryStacks().isEmpty() && hasInventorySideCapability(side))
+			{
+				return (T) getItemHandler(side);
+			}
+			return null;
+
+		}
+		return super.getCapability(capability, side);
+	}
+	
 	@Override
 	public ContainerMultiblockController getContainer(EntityPlayer player) 
 	{
@@ -93,31 +224,7 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 
 	
 	
-	public boolean isRenderer() 
-	{
-		return isRenderer;
-	}
 	
-
-	public void setIsRenderer(boolean isRenderer)
-	{
-		this.isRenderer = isRenderer;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
-		double defaultDistSq = super.getMaxRenderDistanceSquared();
-		if (!isRenderer || !isMultiblockAssembled())
-		{
-			return defaultDistSq;
-		}
-		return defaultDistSq
-				+ (NCMath.sq(getMultiblock().getExteriorLengthX()) + NCMath.sq(getMultiblock().getExteriorLengthY())
-						+ NCMath.sq(getMultiblock().getExteriorLengthZ())) / 4D;
-	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox()
@@ -128,7 +235,7 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 		}
 		return new AxisAlignedBB(getMultiblock().getMinimumCoord(), getMultiblock().getMaximumCoord());
 	}
-	
+
 	@Override
 	public double getDistanceSq(double x, double y, double z)
 	{
@@ -146,5 +253,29 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 			dZ = getMultiblock().getMiddleZ() + 0.5D - z;
 		}
 		return dX * dX + dY * dY + dZ * dZ;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared()
+	{
+		double defaultDistSq = super.getMaxRenderDistanceSquared();
+		if (!isRenderer || !isMultiblockAssembled())
+		{
+			return defaultDistSq;
+		}
+		return defaultDistSq
+				+ (NCMath.sq(getMultiblock().getExteriorLengthX()) + NCMath.sq(getMultiblock().getExteriorLengthY())
+						+ NCMath.sq(getMultiblock().getExteriorLengthZ())) / 4D;
+	}
+
+	public boolean isRenderer() 
+	{
+		return isRenderer;
+	}
+	
+	public void setIsRenderer(boolean isRenderer)
+	{
+		this.isRenderer = isRenderer;
 	}
 }

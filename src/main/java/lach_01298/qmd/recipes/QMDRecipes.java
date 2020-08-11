@@ -207,14 +207,18 @@ public class QMDRecipes
 		
 		
 		// SuperCooler
-		List<IItemIngredient> emptyitems = new ArrayList<IItemIngredient>();
-		List<IFluidIngredient> helium = new ArrayList<IFluidIngredient>();
-		helium.add(fluidStack("helium", FluidStackHelper.BUCKET_VOLUME*8));
-		List<IFluidIngredient> nitrogen = new ArrayList<IFluidIngredient>();
-		nitrogen.add(fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME*8));
+		if(QMDConfig.override_nc_recipes)
+		{
+			List<IItemIngredient> emptyitems = new ArrayList<IItemIngredient>();
+			List<IFluidIngredient> helium = new ArrayList<IFluidIngredient>();
+			helium.add(fluidStack("helium", FluidStackHelper.BUCKET_VOLUME*8));
+			List<IFluidIngredient> nitrogen = new ArrayList<IFluidIngredient>();
+			nitrogen.add(fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME*8));
+			
+			NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, helium));
+			NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, nitrogen));
+		}
 		
-		NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, helium));
-		NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, nitrogen));
 		
 		NCRecipes.supercooler.addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_hydrogen", 125), 1D, 15D);
 		NCRecipes.supercooler.addRecipe(fluidStack("helium", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_helium", 125), 1D, 20D);
@@ -225,10 +229,14 @@ public class QMDRecipes
 		
 		
 		// Decay Hastener
-		List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
-		itemIngredients.add(new ItemIngredient(new ItemStack(NCItems.plutonium,1,MetaEnums.PlutoniumType._238.getID())));
-		List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
-		NCRecipes.decay_hastener.removeRecipe(NCRecipes.decay_hastener.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+		if(QMDConfig.override_nc_recipes)
+		{
+			List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
+			itemIngredients.add(new ItemIngredient(new ItemStack(NCItems.plutonium,1,MetaEnums.PlutoniumType._238.getID())));
+			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+			NCRecipes.decay_hastener.removeRecipe(NCRecipes.decay_hastener.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+		}
+		
 		
 		NCRecipes.decay_hastener.addDecayRecipes("Beryllium7","Lithium7", QMDRadSources.BERYLLIUM_7 );
 		NCRecipes.decay_hastener.addDecayRecipes("Lead210","Polonium", QMDRadSources.LEAD_210 );

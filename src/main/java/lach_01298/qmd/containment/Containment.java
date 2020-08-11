@@ -74,7 +74,7 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
 	
-	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(Accelerator.BASE_MAX_OUTPUT, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(Accelerator.BASE_MAX_OUTPUT, null),new Tank(1, null));
 	
 	public Containment(World world)
 	{
@@ -282,7 +282,7 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 		writeTanks(tanks,data,"tanks");
 		writeBeams(beams,data);
 		
-		data.setBoolean("isAcceleratorOn", isContainmentOn);
+		data.setBoolean("isContainmentOn", isContainmentOn);
 		data.setLong("heating", heating);
 		data.setDouble("coolantIn", maxCoolantIn);
 		data.setDouble("coolantOut", maxCoolantOut);

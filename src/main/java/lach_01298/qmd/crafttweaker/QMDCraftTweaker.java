@@ -124,6 +124,30 @@ public class QMDCraftTweaker
 		}
 	}
 	
+	@ZenClass("mods.qmd.beam_dump")
+	@ZenRegister
+	public static class BeamDumpHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient inputParticle, IIngredient outputFluid, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy) 
+		{
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.beam_dump, Lists.newArrayList( inputParticle, outputFluid, maxEnergy)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient inputParticle) 
+		{
+			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.beam_dump, IngredientSorption.INPUT, Lists.newArrayList(inputParticle)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.beam_dump));
+		}
+	}
+	
 	@ZenClass("mods.qmd.accelerator_source")
 	@ZenRegister
 	public static class AcceleratorSourceHandler 

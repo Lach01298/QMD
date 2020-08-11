@@ -490,6 +490,43 @@ public class MaterialTypes
 		}
 	}
 	
+	public static enum ExoticCellType implements IStringSerializable, IMetaEnum
+	{
+		EMPTY("empty", 0),
+		ANTIHYDROGEN("antihydrogen", 1),
+		ANTIDEUTERIUM("antideuterium",2),
+		ANTITRITIUM("antitritium", 3),
+		ANTIHELIUM3("antihelium3", 4),
+		ANTIHELIUM("antihelium", 5);
+		 
+		private String name;
+		private int id;
+
+		private ExoticCellType(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+	}
+	
 	
 	
 }

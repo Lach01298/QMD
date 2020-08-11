@@ -5,6 +5,7 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType2;
+import lach_01298.qmd.enums.MaterialTypes.ExoticCellType;
 import lach_01298.qmd.enums.MaterialTypes.FissionWasteType;
 import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType;
@@ -88,16 +89,16 @@ public class QMDItems
 		ingot = withName(new NCItemMeta(IngotType.class), "ingot");
 		ingot2 = withName(new NCItemMeta(IngotType2.class), "ingot2");
 		ingotAlloy = withName(new NCItemMeta(IngotAlloyType.class), "ingot_alloy");
-		tungsten_filament = withName(new ItemBrakeable(300),"tungsten_filament");
-		canister = withName(new ItemBrakeable(300),"canister");
-		canister_hydrogen = withName(new ItemBrakeable(300),"canister_hydrogen");
-		canister_deuterium = withName(new ItemBrakeable(300),"canister_deuterium");
-		canister_helium = withName(new ItemBrakeable(300),"canister_helium");
-		canister_diborane = withName(new ItemBrakeable(300),"canister_diborane");
-		canister_helium_3 = withName(new ItemBrakeable(300),"canister_helium_3");
-		source_sodium_22 = withName(new ItemBrakeable(300),"source_sodium_22");
-		source_cobalt_60 = withName(new ItemBrakeable(300),"source_cobalt_60");
-		source_iridium_192 = withName(new ItemBrakeable(300),"source_iridium_192");
+		tungsten_filament = withName(new ItemBrakeable(QMDConfig.source_life_time),"tungsten_filament");
+		canister = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister");
+		canister_hydrogen = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_hydrogen");
+		canister_deuterium = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_deuterium");
+		canister_helium = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_helium");
+		canister_diborane = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_diborane");
+		canister_helium_3 = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_helium_3");
+		source_sodium_22 = withName(new ItemBrakeable(QMDConfig.source_life_time),"source_sodium_22");
+		source_cobalt_60 = withName(new ItemBrakeable(QMDConfig.irradiator_fuel_life_time),"source_cobalt_60");
+		source_iridium_192 = withName(new ItemBrakeable(QMDConfig.irradiator_fuel_life_time),"source_iridium_192");
 		isotope = withName(new NCItemMeta(IsotopeType.class), "isotope");
 		part =  withName(new NCItemMeta(PartType.class), "part");
 		semiconductor =  withName(new NCItemMeta(SemiconductorType.class), "semiconductor");
@@ -116,7 +117,7 @@ public class QMDItems
 		
 		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
 		
-		cell = withName(new ItemCell(),"cell");
+		cell = withName(new ItemCell(QMDConfig.cell_life_time),"cell");
 		
 	}
 
@@ -245,21 +246,13 @@ public class QMDItems
 		
 		
 		
-		//registerRender(cell);
+		for (int i = 0; i < ExoticCellType.values().length; i++)
+		{
+			registerRender(cell, i, ExoticCellType.values()[i].getName());
+		}
 	}
 	
-	public static void registerCells() 
-	{
-
-		ItemCell cells = (ItemCell) cell;
-		cells.addFluid(FluidRegistry.getFluid("antihydrogen"));
-		cells.addFluid(FluidRegistry.getFluid("antideuterium"));
-		cells.addFluid(FluidRegistry.getFluid("antitritium"));
-		cells.addFluid(FluidRegistry.getFluid("antihelium3"));
-		cells.addFluid(FluidRegistry.getFluid("antihelium"));
-		
-		
-	}
+	
 	
 	
 	

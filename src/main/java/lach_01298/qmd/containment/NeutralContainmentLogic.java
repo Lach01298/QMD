@@ -1,5 +1,6 @@
 package lach_01298.qmd.containment;
 
+import static lach_01298.qmd.recipes.QMDRecipes.cell_filling;
 import static lach_01298.qmd.recipes.QMDRecipes.neutral_containment;
 
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ import lach_01298.qmd.containment.tile.TileContainmentBeamPort;
 import lach_01298.qmd.containment.tile.TileContainmentCoil;
 import lach_01298.qmd.containment.tile.TileContainmentLaser;
 import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
+import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.ContainmentResendFormPacket;
 import lach_01298.qmd.multiblock.network.ContainmentUpdatePacket;
 import lach_01298.qmd.multiblock.network.NeutralContainmentUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
@@ -23,16 +24,27 @@ import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
+import nc.capability.radiation.entity.IEntityRads;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.multiblock.turbine.tile.ITurbineController;
-import nc.network.PacketHandler;
+import nc.radiation.RadiationHelper;
+import nc.recipe.ProcessorRecipe;
+import nc.recipe.RecipeInfo;
+import nc.recipe.RecipeMatchResult;
+import nc.recipe.ingredient.EmptyFluidIngredient;
+import nc.recipe.ingredient.FluidIngredient;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.internal.fluid.Tank;
+import nc.util.DamageSources;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -44,14 +56,13 @@ public class NeutralContainmentLogic extends ContainmentLogic
 	public long particle1WorkDone, particle2WorkDone, recipeParticle1Work =600, recipeParticle2Work = 600;
 	
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
-	
 	public QMDRecipeInfo<QMDRecipe> rememberedRecipeInfo;
 	
+	public RecipeInfo<ProcessorRecipe> cellRecipeInfo;
 	
 	public NeutralContainmentLogic(ContainmentLogic oldLogic)
 	{
 		super(oldLogic);
-		getMultiblock().tanks.add(new Tank(1, null));
 		getMultiblock().beams.add(new ParticleStorageAccelerator());
 	}
 
@@ -214,9 +225,10 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		{
 			controller.setIsRenderer(false);
 		}
+	
+		
 		for (IContainmentController controller : getParts(IContainmentController.class))
 		{
-			System.out.println("h");
 			controller.setIsRenderer(true);
 			break;
 		}
@@ -277,7 +289,7 @@ public class NeutralContainmentLogic extends ContainmentLogic
 	@Override
 	public void onContainmentFormed()
 	{
-		getMultiblock().tanks.get(2).setCapacity((int) (Math.pow((getMultiblock().getInteriorLengthX()-4),3)*16000));
+		getMultiblock().tanks.get(2).setCapacity((int) (Math.pow((getMultiblock().getInteriorLengthX()-4),3)*8000));
 		if (!getWorld().isRemote)
 		{
 			int energy = 0;
@@ -305,6 +317,12 @@ public class NeutralContainmentLogic extends ContainmentLogic
 			
 		}
 		
+		for (TileContainmentLaser laser : getParts(TileContainmentLaser.class))
+		{
+			laser.setIsRenderer(true);
+		}
+		
+		
 		 super.onContainmentFormed();
 	}
 	
@@ -314,6 +332,11 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		{
 			tile.setIONumber(0);
 		}
+		for (TileContainmentLaser laser : getParts(TileContainmentLaser.class))
+		{
+			laser.setIsRenderer(false);
+		}
+		containmentFaliure();
 		super.onMachineDisassembled();
 	}
 	
@@ -333,16 +356,32 @@ public class NeutralContainmentLogic extends ContainmentLogic
 			{
 				operational = true;
 				
+				refreshCellRecipe();
+				
+				if(cellRecipeInfo != null)
+				{
+					
+					if(canProduceCellProduct())
+					{		
+						
+						produceCellProduct();
+					}	
+				}
+				
+				
+				
+				
+				
 				refreshRecipe();
 				if(recipeInfo != null)
 				{
-					if(rememberedRecipeInfo != null)
+					if (rememberedRecipeInfo != null)
 					{
-						if(rememberedRecipeInfo.getRecipe() !=recipeInfo.getRecipe())
+						if (rememberedRecipeInfo.getRecipe() != recipeInfo.getRecipe())
 						{
-							particle1WorkDone= 0;
-							particle2WorkDone =0;
-						}	
+							particle1WorkDone = 0;
+							particle2WorkDone = 0;
+						}
 					}
 					rememberedRecipeInfo = recipeInfo;	
 					
@@ -356,7 +395,7 @@ public class NeutralContainmentLogic extends ContainmentLogic
 			{
 				if(operational)
 				{
-					//quenchMagnets();
+					containmentFaliure();
 				}
 				operational = false;
 			
@@ -365,6 +404,7 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		}
 		else
 		{
+			containmentFaliure();
 			operational = false;
 		}
 		
@@ -381,6 +421,56 @@ public class NeutralContainmentLogic extends ContainmentLogic
 
 	
 	
+	private void containmentFaliure()
+	{
+		if(!getMultiblock().tanks.get(2).isEmpty() && getMultiblock().tanks.get(2).getFluid() != null)
+		{
+			FluidStack fluid = getMultiblock().tanks.get(2).getFluid();
+			double size = 1;
+			switch(fluid.getFluid().getName())
+			{
+			case "antiHydrogen":
+				size = 1;
+				break;
+			case "antiDeuterium":
+				size = 2;
+				break;
+			case "antiTritium":
+			case "antiHelium3":
+				size = 3;
+				break;
+			case "antiHelium":
+				size = 4;
+				
+			}
+			size *= fluid.amount/1000d;
+			BlockPos middle = new BlockPos(getMultiblock().getMiddleX(),getMultiblock().getMiddleY(),getMultiblock().getMiddleZ());
+			
+			getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float)size*10f, true);
+			getMultiblock().WORLD.spawnEntity(new EntityGammaFlash(getMultiblock().WORLD, middle.getX(), middle.getY(),  middle.getZ(), size));
+			
+			Set<EntityLivingBase> entitylist = new HashSet();
+			double radius = 128 * Math.sqrt(size);
+
+			entitylist.addAll(getMultiblock().WORLD.getEntitiesWithinAABB(EntityLivingBase.class,
+					new AxisAlignedBB(middle.getX() - radius, middle.getY() - radius, middle.getZ() - radius, middle.getX() + radius,
+							middle.getY() + radius, middle.getZ() + radius)));
+
+			for (EntityLivingBase entity : entitylist)
+			{
+				
+				double rads = (1000 * 32 * 32 * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ);
+				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
+				entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
+				if (rads >= entityRads.getMaxRads())
+				{
+					entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+				}
+			}
+		}
+		
+	}
+
 	protected void refreshRecipe() 
 	{
 		ArrayList<ParticleStack> particles = new ArrayList<ParticleStack>();
@@ -391,6 +481,59 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		
 	}
 	
+	protected void refreshCellRecipe()
+	{
+		ArrayList<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
+		ArrayList<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+		TileNeutralContainmentController cont = (TileNeutralContainmentController) getMultiblock().controller;
+
+		ItemStack item = cont.getInventoryStacks().get(0).copy();
+		item.setTagCompound(new NBTTagCompound());
+
+		ArrayList<Tank> fluids = new ArrayList<Tank>();
+		Tank tank = getMultiblock().tanks.get(2);
+		if (tank.getFluid() != null)
+		{
+			FluidIngredient fluidIngredient = new FluidIngredient(tank.getFluid());
+			fluidIngredients.add(fluidIngredient);
+		}
+		else
+		{
+			EmptyFluidIngredient fluidIngredient = new EmptyFluidIngredient();
+			fluidIngredients.add(fluidIngredient);
+		}
+
+		ItemIngredient itemIngredient = new ItemIngredient(item);
+		itemIngredients.add(itemIngredient);
+
+		ProcessorRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
+		if (recipe != null)
+		{
+			RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
+			cellRecipeInfo = new RecipeInfo(recipe, matchResult);
+		}
+		else
+		{
+			cellRecipeInfo = null;
+		}
+
+		if (cellRecipeInfo == null)
+		{
+			EmptyFluidIngredient fluidIngredient = new EmptyFluidIngredient();
+			fluidIngredients = new ArrayList<IFluidIngredient>();
+			fluidIngredients.add(fluidIngredient);
+
+			recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
+
+			if (recipe != null)
+			{
+				RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
+				cellRecipeInfo = new RecipeInfo(recipe, matchResult);
+			}
+		}
+
+	}
+	
 	private boolean canProduceProduct()
 	{
 		
@@ -398,6 +541,42 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		if(getMultiblock().tanks.get(2).canFillFluidType(product))
 		{
 			return true;
+		}
+		
+		return false;
+	}
+	
+	private boolean canProduceCellProduct()
+	{	
+		boolean itemAllowed = false;
+		TileNeutralContainmentController cont = (TileNeutralContainmentController) getMultiblock().controller;
+		ItemStack itemProduct = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		
+		if(cont.getInventoryStacks().get(1).getCount() <= 0)
+		{
+			cont.getInventoryStacks().set(1, ItemStack.EMPTY);
+		}
+		if (cont.getInventoryStacks().get(1) == ItemStack.EMPTY)
+		{	
+			itemAllowed= true;
+		}
+		else if (cont.getInventoryStacks().get(1).isItemEqual(itemProduct) && cont.getInventoryStacks().get(0).getTagCompound().getInteger("energy") == cont.getInventoryStacks().get(1).getTagCompound().getInteger("energy"))
+		{
+			int count = cont.getInventoryStacks().get(1).getCount();
+			if (count + itemProduct.getCount() <= itemProduct.getMaxStackSize())
+			{
+				itemAllowed= true;
+			}
+		}
+		FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+
+		if(fluidProduct == null)
+		{
+			return true && itemAllowed;
+		}
+		else if (fluidProduct.amount == getMultiblock().tanks.get(2).fill(fluidProduct, false))
+		{
+			return true && itemAllowed;
 		}
 		
 		return false;
@@ -431,6 +610,62 @@ public class NeutralContainmentLogic extends ContainmentLogic
 				particle2WorkDone += getMultiblock().beams.get(1).getParticleStack().getAmount();
 			}
 		}
+	}
+	
+	private void produceCellProduct()
+	{
+		TileNeutralContainmentController cont = (TileNeutralContainmentController) getMultiblock().controller;
+		ItemStack itemProduct = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		
+		NBTTagCompound tag = cont.getInventoryStacks().get(0).getTagCompound();
+		
+		if (cont.getInventoryStacks().get(1) == ItemStack.EMPTY)
+		{
+			cont.getInventoryStacks().set(1, itemProduct);
+			cont.getInventoryStacks().get(1).setTagCompound(tag);
+			
+			if(cont.getInventoryStacks().get(0).getCount() -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
+			{
+				cont.getInventoryStacks().set(0, ItemStack.EMPTY);
+				
+			}
+			else
+			{
+				int inputCount = cont.getInventoryStacks().get(0).getCount();
+				cont.getInventoryStacks().get(0).setCount(inputCount -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
+				
+			}
+			cont.markDirtyAndNotify();
+			
+		}
+		else if (cont.getInventoryStacks().get(1).isItemEqual(itemProduct))
+		{
+			int count = cont.getInventoryStacks().get(1).getCount();
+			if (count + itemProduct.getCount() <= itemProduct.getMaxStackSize())
+			{
+				cont.getInventoryStacks().get(1).setCount(count + itemProduct.getCount());
+				if(cont.getInventoryStacks().get(0).getCount() -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
+				{
+					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
+					
+					
+				}
+				else
+				{
+					int inputCount = cont.getInventoryStacks().get(0).getCount();
+					cont.getInventoryStacks().get(0).setCount(inputCount -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
+					
+				}
+				cont.markDirtyAndNotify();
+				
+			}
+
+		}
+		
+		FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+		getMultiblock().tanks.get(2).fill(fluidProduct, true);	
+		FluidStack fluidIngredient = cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
+		getMultiblock().tanks.get(2).drain(fluidIngredient, true);	
 	}
 	
 	@Override
@@ -480,19 +715,18 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		if (message instanceof NeutralContainmentUpdatePacket)
 		{
 			NeutralContainmentUpdatePacket packet = (NeutralContainmentUpdatePacket) message;
+			getMultiblock().beams = packet.beams;
+			for (int i = 0; i < getMultiblock().tanks.size(); i++) getMultiblock().tanks.get(i).readInfo(message.tanksInfo.get(i));
 			particle1WorkDone = packet.particle1WorkDone;
 			particle2WorkDone = packet.particle2WorkDone;
 			recipeParticle1Work = packet.recipeParticle1Work;
 			recipeParticle2Work = packet.recipeParticle2Work;
-			
-		
-
 		}
 	}
 	
 	public void onRenderPacket(ContainmentRenderPacket message) 
 	{
-		getMultiblock().tanks.get(2).setFluidAmount(message.tanksInfo.get(2).amount()); 
+		getMultiblock().tanks.get(2).setFluidAmount(message.tanksInfo.get(2).amount());
 	}
 	
 	// NBT

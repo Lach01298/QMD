@@ -1,263 +1,218 @@
 package lach_01298.qmd.item;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Sets;
-
-import lach_01298.qmd.QMD;
-import lach_01298.qmd.fluid.CellFluids;
-import lach_01298.qmd.fluid.FluidContainerItemWrapper;
-import lach_01298.qmd.fluid.IFluidContainerItem;
-import nc.item.IInfoItem;
+import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.entity.EntityGammaFlash;
+import lach_01298.qmd.enums.MaterialTypes.ExoticCellType;
+import nc.capability.radiation.entity.IEntityRads;
+import nc.item.energy.ItemEnergy;
+import nc.radiation.RadiationHelper;
+import nc.tile.internal.energy.EnergyConnection;
+import nc.util.DamageSources;
+import nc.util.InfoHelper;
 import nc.util.Lang;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import nc.util.StackHelper;
+import nc.util.UnitHelper;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 
 /**
  * A universal bucket that can hold any liquid
  */
-public class ItemCell extends Item implements IFluidContainerItem, IInfoItem
+public class ItemCell extends ItemEnergy implements ITickItem
 {
-  
-	public static ArrayList<ItemStack> fluidList = new ArrayList<>();
-	static Set<Fluid> cellFluids = Sets.newHashSet();
 
-    public ItemCell()
-    {
-    	setMaxStackSize(1);
-		setNoRepair();
-    }
+	
+	private long lastUpdateTime;
 
-    public static void addFluid(Fluid fluid) 
-    {
-    	 if(fluid == null) 
-         {
-             return;
-         }
-         if (!FluidRegistry.isFluidRegistered(fluid))
-         {
-         	 return;
-         }
-        cellFluids.add(fluid);
-    	
-    	ItemStack itemStack = new ItemStack(QMDItems.cell);
-		IFluidContainerItem cell = (IFluidContainerItem) itemStack.getItem();
-		cell.fill(itemStack, new FluidStack(fluid,  Fluid.BUCKET_VOLUME), true);
-		fluidList.add(itemStack);
+	public ItemCell(int capacity)
+	{
+		super(capacity * 20 * QMDConfig.cell_power, capacity * 20 * QMDConfig.cell_power, 6, EnergyConnection.IN);
+		lastUpdateTime = 0;
 	}
-  
-    
-    @Override
-    public void getSubItems(@Nullable CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems)
-    {
-    	if (isInCreativeTab(tab)) 
-    	{
-    		subItems.add(new ItemStack(this, 1, 0));
-        	subItems.addAll(fluidList);
-    	}
-    	
-    }
 
-    @Override
-    @Nonnull
-    public String getItemStackDisplayName(@Nonnull ItemStack stack)
-    {
-    	FluidStack fluidStack = getFluid(stack);
-        if (fluidStack == null)
-        {
-        	return super.getItemStackDisplayName(stack);
-        }
-        else
-        {
-        	return Lang.localise("fluid."+ fluidStack.getFluid().getName()) + " " + Lang.localise(stack.getTranslationKey()+".name");
-        }
-    	
-    }
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+		if (isInCreativeTab(tab))
+		{
+			items.add(new ItemStack(this, 1, 0));
+			for (int i = 1; i < ExoticCellType.values().length; i++)
+			{
+				ItemStack stack = new ItemStack(this, 1, i);
+				ItemCell cell = (ItemCell) stack.getItem();
+				setEnergyStored(stack, getMaxEnergyStored(stack));
+				items.add(stack);
+			}
+		}
+	}
 
-   
-    @Override
-	public boolean isEnchantable(ItemStack stack) 
-    {
+	@Override
+	public String getTranslationKey(ItemStack stack)
+	{
+		for (int i = 0; i < ExoticCellType.values().length; i++)
+		{
+			if (StackHelper.getMetadata(stack) == i)
+			{
+				return getTranslationKey() + "." + ExoticCellType.values()[i].getName();
+			}
+			else
+			{
+				continue;
+			}
+		}
+		return getTranslationKey() + "." + ExoticCellType.values()[0].getName();
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
+		if(stack.getMetadata() == ExoticCellType.EMPTY.getID())
+		{
+			InfoHelper.infoLine(tooltip, TextFormatting.RED, Lang.localise("info.qmd.item.cell_charge_warning"));
+		}
+		else
+		{
+			InfoHelper.infoLine(tooltip, TextFormatting.YELLOW, Lang.localise("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.cell_power, 5, "RF/t")));
+			InfoHelper.infoLine(tooltip, TextFormatting.RED, Lang.localise("info.qmd.item.cell_warning"));
+		}
+		
+	
+		super.addInformation(stack, world, tooltip, flag);
+	}
 
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+	{
+		if (stack.getTagCompound() == null)
+		{
+			return;
+		}
+
+		if (worldIn.getWorldInfo().getWorldTotalTime() != stack.getTagCompound().getLong("lastTickTime"))
+		{
+			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
+			{
+				IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
+				if (QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(QMDConfig.cell_power * stack.getCount(), false))
+				{
+					explode(worldIn, entityIn.getPosition(), stack);
+					stack.shrink(stack.getCount());
+				}
+				stack.getTagCompound().setLong("lastTickTime", worldIn.getWorldInfo().getWorldTotalTime());
+			}
+		}
+	}
+
+	@Override
+	public boolean onEntityItemUpdate(EntityItem entityItem)
+	{
+		ItemStack stack = entityItem.getItem();
+
+		if (stack.getTagCompound() == null)
+		{
+			return false;
+		}
+
+		if (entityItem.world.getWorldInfo().getWorldTotalTime() != stack.getTagCompound().getLong("lastTickTime"))
+		{
+			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
+			{
+				IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
+				if (QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(QMDConfig.cell_power * stack.getCount(), false))
+				{
+
+					explode(entityItem.world, entityItem.getPosition(), stack);
+					stack.shrink(stack.getCount());
+				}
+				stack.getTagCompound().setLong("lastTickTime", entityItem.world.getWorldInfo().getWorldTotalTime());
+			}
+		}
 		return false;
 	}
 
 	@Override
-	public boolean isDamageable() {
-
-		return true;
-	}
-   
-
-	@Override
-	public FluidStack getFluid(ItemStack container)
+	public void updateTick(ItemStack stack, TileEntity tile, long tickTime)
 	{
-
-		if (container.getTagCompound() == null)
+		if (stack.getTagCompound() == null)
 		{
-			container.setTagCompound(new NBTTagCompound());
+			return;
 		}
-		if (!container.getTagCompound().hasKey("fluid"))
-		{
-			return null;
-		}
-		return FluidStack.loadFluidStackFromNBT(container.getTagCompound().getCompoundTag("fluid"));
-	}
-    
-	@Override
-	public int getCapacity(ItemStack container)
-	{
-		return Fluid.BUCKET_VOLUME;
-	}
-   
-	@Override
-	public int fill(ItemStack container, FluidStack resource, boolean doFill)
-	{
-		if (resource != null)
+		if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
 		{
 
-			if (cellFluids.contains(resource.getFluid()))
+			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
 			{
+				IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
+				if (QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(QMDConfig.cell_power * stack.getCount(), false))
+				{
 
-				if (container.getTagCompound() == null)
-				{
-					container.setTagCompound(new NBTTagCompound());
+					explode(tile.getWorld(), tile.getPos(), stack);
+					stack.shrink(stack.getCount());
 				}
-				if (resource == null || resource.amount <= 0)
-				{
-					return 0;
-				}
-				int capacity = getCapacity(container);
-
-				if (!doFill)
-				{
-					if (!container.getTagCompound().hasKey("fluid"))
-					{
-						return Math.min(capacity, resource.amount);
-					}
-					FluidStack stack = FluidStack
-							.loadFluidStackFromNBT(container.getTagCompound().getCompoundTag("fluid"));
-
-					if (stack == null)
-					{
-						return Math.min(capacity, resource.amount);
-					}
-					if (!stack.isFluidEqual(resource))
-					{
-						return 0;
-					}
-					return Math.min(capacity - stack.amount, resource.amount);
-				}
-				if (!container.getTagCompound().hasKey("fluid"))
-				{
-					NBTTagCompound fluidTag = resource.writeToNBT(new NBTTagCompound());
-
-					if (capacity < resource.amount)
-					{
-						fluidTag.setInteger("amount", capacity);
-						container.getTagCompound().setTag("fluid", fluidTag);
-						return capacity;
-					}
-					fluidTag.setInteger("amount", resource.amount);
-					container.getTagCompound().setTag("fluid", fluidTag);
-					return resource.amount;
-				}
-				NBTTagCompound fluidTag = container.getTagCompound().getCompoundTag("fluid");
-				FluidStack stack = FluidStack.loadFluidStackFromNBT(fluidTag);
-
-				if (!stack.isFluidEqual(resource))
-				{
-					return 0;
-				}
-				int filled = capacity - stack.amount;
-
-				if (resource.amount < filled)
-				{
-					stack.amount += resource.amount;
-					filled = resource.amount;
-				}
-				else
-				{
-					stack.amount = capacity;
-				}
-				container.getTagCompound().setTag("fluid", stack.writeToNBT(fluidTag));
-				return filled;
+				stack.getTagCompound().setLong("lastTickTime", tickTime);
 			}
 		}
-		return 0;
 	}
-	
 
-	@Override
-	public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain)
+	public void explode(World world, BlockPos pos, ItemStack stack)
 	{
-
-		if (container.getTagCompound() == null)
+		double size = 1;
+		switch (stack.getMetadata())
 		{
-			container.setTagCompound(new NBTTagCompound());
+		case 1:
+			size = 1;
+			break;
+		case 2:
+			size = 2;
+			break;
+		case 3:
+		case 4:
+			size = 3;
+			break;
+		case 5:
+			size = 4;
+			break;
+
 		}
-		if (!container.getTagCompound().hasKey("fluid") || maxDrain == 0)
-		{
-			return null;
-		}
-		FluidStack stack = FluidStack.loadFluidStackFromNBT(container.getTagCompound().getCompoundTag("fluid"));
 
-		if (stack == null)
-		{
-			return null;
-		}
+		 world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float)size*10f, true);
+		world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
 
-		int drained = Math.min(stack.amount, maxDrain);
+		Set<EntityLivingBase> entitylist = new HashSet();
+		double radius = 128 * Math.sqrt(size);
 
-		if (doDrain)
+		entitylist.addAll(world.getEntitiesWithinAABB(EntityLivingBase.class,
+				new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius,
+						pos.getY() + radius, pos.getZ() + radius)));
+
+		for (EntityLivingBase entity : entitylist)
 		{
-			if (maxDrain >= stack.amount)
+			double rads = (1000 * 32 * 32 * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ);
+			IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
+			entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
+			
+			if (rads >= entityRads.getMaxRads())
 			{
-				container.getTagCompound().removeTag("fluid");
-				return stack;
+				entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 			}
-			NBTTagCompound fluidTag = container.getTagCompound().getCompoundTag("fluid");
-			fluidTag.setInteger("fluid", fluidTag.getInteger("fluid") - drained);
-			container.getTagCompound().setTag("fluid", fluidTag);
 		}
-		stack.amount = drained;
-		return stack;
 	}
-	
-   
 
-
-	@Override
-	public void setInfo()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-	
-
-	
-	
 }

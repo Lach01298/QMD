@@ -120,7 +120,7 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 		}
 	
 		//TODO this temp thing
-		getMultiblock().maxOperatingTemp = getMultiblock().MAX_TEMP;
+		getMultiblock().maxOperatingTemp = 104;
 		 
 		
 		
@@ -238,7 +238,7 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 		return new ContainmentFormPacket(getMultiblock().controller.getTilePos());
 	}
 	
-	public void onFormPacket(ContainmentFormPacket message) 
+	public void onFormPacket(ContainmentFormPacket message)
 	{
 	
 	}

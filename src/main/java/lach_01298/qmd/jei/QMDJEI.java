@@ -9,9 +9,11 @@ import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.catergory.AcceleratorCoolingCategory;
 import lach_01298.qmd.jei.catergory.AcceleratorSourceCategory;
 import lach_01298.qmd.jei.catergory.BeamDumpCategory;
+import lach_01298.qmd.jei.catergory.CellFillingCategory;
 import lach_01298.qmd.jei.catergory.DecayChamberCategory;
 import lach_01298.qmd.jei.catergory.IrradiatorCategory;
 import lach_01298.qmd.jei.catergory.IrradiatorFuelCategory;
+import lach_01298.qmd.jei.catergory.NeutralContainmentCategory;
 import lach_01298.qmd.jei.catergory.OreLeacherCategory;
 import lach_01298.qmd.jei.catergory.ParticleInfoCategory;
 import lach_01298.qmd.jei.catergory.QMDRecipeCategoryUid;
@@ -23,6 +25,7 @@ import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipeMaker;
 import lach_01298.qmd.jei.recipe.BeamDumpRecipeMaker;
 import lach_01298.qmd.jei.recipe.DecayChamberRecipeMaker;
+import lach_01298.qmd.jei.recipe.NeutralContainmentRecipeMaker;
 import lach_01298.qmd.jei.recipe.ParticleInfoRecipeMaker;
 import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import lach_01298.qmd.jei.recipe.TargetChamberRecipeMaker;
@@ -80,7 +83,9 @@ public class QMDJEI implements IModPlugin
 				JEIProcessorHandler.IRRADIATOR.getCategory(guiHelper),
 				JEIProcessorHandler.IRRADIATOR_FUEL.getCategory(guiHelper),
 				JEIProcessorHandler.ACCELERATOR_COOLING.getCategory(guiHelper),
-				new BeamDumpCategory(guiHelper)
+				new BeamDumpCategory(guiHelper),
+				new NeutralContainmentCategory(guiHelper),
+				JEIProcessorHandler.CELL_FILLING.getCategory(guiHelper)
 				);
 		
 	}
@@ -119,6 +124,12 @@ public class QMDJEI implements IModPlugin
 		
 		registry.addRecipes(BeamDumpRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.BEAM_DUMP);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.beamDumpController),QMDRecipeCategoryUid.BEAM_DUMP);
+		
+		registry.addRecipes(NeutralContainmentRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.NEUTRAL_CONTAINMENT);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.neutralContainmentController),QMDRecipeCategoryUid.NEUTRAL_CONTAINMENT);
+		
+		registry.addRecipes(JEIProcessorHandler.CELL_FILLING.getJEIRecipes(guiHelper), JEIProcessorHandler.CELL_FILLING.getUUID());
+		registry.addRecipeCatalyst(JEIProcessorHandler.CELL_FILLING.getCrafters().get(0),JEIProcessorHandler.CELL_FILLING.getUUID());
 	}
 
 	
@@ -127,7 +138,9 @@ public class QMDJEI implements IModPlugin
 		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
 		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
 		IRRADIATOR_FUEL(QMDRecipes.irradiator_fuel, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.IrradiatorFuel.class),
-		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class);
+		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class),
+		CELL_FILLING(QMDRecipes.cell_filling, QMDBlocks.neutralContainmentController, "jei/cell_filling", QMDRecipeWrapper.CellFilling.class);
+		
 		private ProcessorRecipeHandler recipeHandler;
 		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
 		private boolean enabled;
@@ -162,6 +175,8 @@ public class QMDJEI implements IModPlugin
 				return new IrradiatorFuelCategory(guiHelper, this);
 			case ACCELERATOR_COOLING:
 				return new AcceleratorCoolingCategory(guiHelper, this);
+			case CELL_FILLING:
+				return new CellFillingCategory(guiHelper, this);
 			default:
 				return null;
 			}

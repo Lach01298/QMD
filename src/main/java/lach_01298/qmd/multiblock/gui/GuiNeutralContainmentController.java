@@ -57,6 +57,8 @@ public class GuiNeutralContainmentController extends GuiLogicMultiblock<Containm
 		String title = Lang.localise("gui.qmd.container.neutral_containment_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
+		String maxTemperature=Lang.localise("gui.qmd.container.accelerator.max_temperature", Units.getSIFormat(multiblock.maxOperatingTemp,"K"));
+		fontRenderer.drawString(maxTemperature,offset, 84, fontColor);
 		
 		if (!NCUtil.isModifierKeyDown())  
 		{
@@ -74,17 +76,17 @@ public class GuiNeutralContainmentController extends GuiLogicMultiblock<Containm
 
 		//power bar
 		int power = (int)Math.round((double)multiblock.energyStorage.getEnergyStored()/(double)multiblock.energyStorage.getMaxEnergyStored()*74);
-		drawTexturedModalRect(guiLeft + 160, guiTop + 82-power, 176, 0, 6, power);
+		drawTexturedModalRect(guiLeft + 160, guiTop + 82-power, 176, 74-power, 6, power);
 		
 		//heat bar
 		int heat = (int)Math.round((double)multiblock.heatBuffer.getHeatStored()/(double)multiblock.heatBuffer.getHeatCapacity()*74);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 82-heat, 182, 0, 4, heat);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 82-heat, 182, 74-heat, 4, heat);
 		
 		//coolant bar
 		int coolant = (int)Math.round((double)multiblock.tanks.get(0).getFluidAmount()/(double)multiblock.tanks.get(0).getCapacity()*74);
-		drawTexturedModalRect(guiLeft + 15, guiTop + 82-coolant, 186, 0, 4, coolant);
+		drawTexturedModalRect(guiLeft + 15, guiTop + 82-coolant, 186, 74-coolant, 4, coolant);
 		
-		
+
 		//input left
 		if(multiblock.beams.get(0).getParticleStack() != null)
 		{
@@ -100,7 +102,7 @@ public class GuiNeutralContainmentController extends GuiLogicMultiblock<Containm
 			drawTexturedModalRect(guiLeft + 114, guiTop + 33, 190, 6, 16, 6);
 		}
 		int right = (int)Math.round((double)logic.particle2WorkDone/(double)logic.recipeParticle2Work*10);
-		drawTexturedModalRect(guiLeft + 114-right, guiTop + 33, 206, 6, right, 6);
+		drawTexturedModalRect(guiLeft + 114-right, guiTop + 33, 216-right, 6, right, 6);
 		
 		
 		

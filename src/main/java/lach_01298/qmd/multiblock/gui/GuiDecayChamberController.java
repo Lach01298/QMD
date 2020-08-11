@@ -73,7 +73,7 @@ public class GuiDecayChamberController extends GuiLogicMultiblock<ParticleChambe
 
 		int power = (int)Math.round((double)multiblock.energyStorage.getEnergyStored()/(double)multiblock.energyStorage.getMaxEnergyStored()*74);
 
-		drawTexturedModalRect(guiLeft + 161, guiTop + 79-power, 176, 0, 6, power);
+		drawTexturedModalRect(guiLeft + 161, guiTop + 79-power, 176, 74-power, 6, power);
 		
 		//input
 		if(multiblock.beams.get(0).getParticleStack() != null)

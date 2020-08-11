@@ -78,7 +78,7 @@ public class GuiBeamDumpController extends GuiLogicMultiblock<ParticleChamber, B
 
 		int power = (int)Math.round((double)multiblock.energyStorage.getEnergyStored()/(double)multiblock.energyStorage.getMaxEnergyStored()*74);
 
-		drawTexturedModalRect(guiLeft + 122, guiTop + 79-power, 137, 0, 6, power);
+		drawTexturedModalRect(guiLeft + 122, guiTop + 79-power, 137, 74-power, 6, power);
 		
 		//input
 		if(multiblock.beams.get(0).getParticleStack() != null)

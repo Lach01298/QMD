@@ -38,13 +38,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController, ITileInventory
 {
 
-private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
-	
+	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 
 	
-	public int inventoryStackLimit = 64;
+	
 	public QMDRecipeHandler recipe_handler = QMDRecipes.target_chamber;
 	
 	protected Set<EntityPlayer> playersToUpdate;
@@ -158,7 +157,7 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	@Override
 	public void setItemOutputSetting(int slot, ItemOutputSetting setting)
 	{
-		// TODO Auto-generated method stub
+		
 	}
 	
 	

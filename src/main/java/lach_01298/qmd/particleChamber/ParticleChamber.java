@@ -11,7 +11,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
-import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
@@ -59,7 +58,7 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
-	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, null), new Tank(BASE_MAX_OUTPUT, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, null), new Tank(BASE_MAX_OUTPUT, null));
 	
 	public ParticleChamber(World world)
 	{

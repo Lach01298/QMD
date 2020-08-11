@@ -36,7 +36,6 @@ public class ContainmentRenderPacket extends MultiblockUpdatePacket {
 		isEmpty = buf.readBoolean();
 		numberOfTanks = buf.readByte();
 		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
-		
 	}
 	
 	@Override
@@ -47,7 +46,6 @@ public class ContainmentRenderPacket extends MultiblockUpdatePacket {
 		buf.writeBoolean(isEmpty);
 		buf.writeByte(numberOfTanks);
 		for (TankInfo info : tanksInfo) info.writeBuf(buf);
-
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<ContainmentRenderPacket, Containment, TileNeutralContainmentController> {

@@ -1,8 +1,10 @@
 package lach_01298.qmd;
 
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType2;
+import lach_01298.qmd.enums.MaterialTypes.ExoticCellType;
 import lach_01298.qmd.enums.MaterialTypes.FissionWasteType;
 import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType;
@@ -13,6 +15,9 @@ import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
 import lach_01298.qmd.item.QMDItems;
+import nc.enumm.MetaEnums;
+import nc.init.NCItems;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -107,7 +112,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotCobalt60",new ItemStack(QMDItems.isotope, 1, IsotopeType.COBALT_60.getID()));
 		OreDictionary.registerOre("ingotIridium192",new ItemStack(QMDItems.isotope, 1, IsotopeType.IRIDIUM_192.getID()));
 		
-		
+
 		OreDictionary.registerOre("bouleSilicon",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_BOULE.getID()));
 		OreDictionary.registerOre("siliconWafer",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_WAFER.getID()));
 		OreDictionary.registerOre("siliconPDoped",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_P_DOPED.getID()));
@@ -130,6 +135,21 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("dustSalt",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.SODIUM_CHLORIDE.getID()));
 		OreDictionary.registerOre("dustCopperOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.COPPER_OXIDE.getID()));
 		OreDictionary.registerOre("dustHafniumOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.HAFNIUM_OXIDE.getID()));
+		
+		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHYDROGEN.getID()));
+		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIDEUTERIUM.getID()));
+		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTITRITIUM.getID()));
+		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHELIUM3.getID()));
+		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHELIUM.getID()));
+	
+		OreDictionary.registerOre("cellAntihydrogen",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHYDROGEN.getID()));
+		OreDictionary.registerOre("cellAntideuterium",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIDEUTERIUM.getID()));
+		OreDictionary.registerOre("cellAntitritium",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTITRITIUM.getID()));
+		OreDictionary.registerOre("cellAntihelium3",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHELIUM3.getID()));
+		OreDictionary.registerOre("cellAntihelium",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHELIUM.getID()));
+		
+		
+		
 		
 	}
 
