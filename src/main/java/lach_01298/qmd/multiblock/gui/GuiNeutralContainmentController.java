@@ -92,8 +92,9 @@ public class GuiNeutralContainmentController extends GuiLogicMultiblock<Containm
 		{
 			drawTexturedModalRect(guiLeft + 44, guiTop + 33, 190, 0, 16, 6);
 		}
-		int left = (int)Math.round((double)logic.particle1WorkDone/(double)logic.recipeParticle1Work*10);
-		drawTexturedModalRect(guiLeft + 59, guiTop + 33, 206, 0, left, 6);
+		
+		int left = (int)Math.min(Math.round((double)logic.particle1WorkDone/(double)logic.recipeParticle1Work*10),10);
+		drawTexturedModalRect(guiLeft + 60, guiTop + 33, 206, 0, left, 6);
 		
 		
 		// input right
@@ -101,7 +102,8 @@ public class GuiNeutralContainmentController extends GuiLogicMultiblock<Containm
 		{
 			drawTexturedModalRect(guiLeft + 114, guiTop + 33, 190, 6, 16, 6);
 		}
-		int right = (int)Math.round((double)logic.particle2WorkDone/(double)logic.recipeParticle2Work*10);
+		int right = (int)Math.min(Math.round((double)logic.particle2WorkDone/(double)logic.recipeParticle2Work*10),10);
+		
 		drawTexturedModalRect(guiLeft + 114-right, guiTop + 33, 216-right, 6, right, 6);
 		
 		
@@ -118,7 +120,7 @@ public class GuiNeutralContainmentController extends GuiLogicMultiblock<Containm
 	@Override
 	public void renderTooltips(int mouseX, int mouseY) 
 	{
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 130, 59, 18, 18);
 		
 		drawFluidTooltip(multiblock.tanks.get(2), mouseX, mouseY, 71, 20, 32, 32);
 		
@@ -175,7 +177,7 @@ public class GuiNeutralContainmentController extends GuiLogicMultiblock<Containm
 	{
 		super.initGui();
 		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 130, guiTop + 59));
-		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 81, guiTop + 37, 16, 16));
+		//buttonList.add(new NCButton.EmptyTank(1, guiLeft + 81, guiTop + 37, 16, 16));
 	}
 	
 	@Override

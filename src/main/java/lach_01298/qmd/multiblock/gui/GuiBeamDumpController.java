@@ -87,7 +87,7 @@ public class GuiBeamDumpController extends GuiLogicMultiblock<ParticleChamber, B
 		}
 		
 		//draw progress bar
-		int progress = (int)Math.round((double)logic.particleWorkDone/(double)logic.recipeParticleWork*26);
+		int progress = Math.min((int)Math.round((double)logic.particleWorkDone/(double)logic.recipeParticleWork*26),26);
 		drawTexturedModalRect(guiLeft+54, guiTop+38, 143, 6, progress, 14);
 		
 		GuiFluidRenderer.renderGuiTank(multiblock.tanks.get(1), guiLeft + 81, guiTop + 37, zLevel, 16, 16);

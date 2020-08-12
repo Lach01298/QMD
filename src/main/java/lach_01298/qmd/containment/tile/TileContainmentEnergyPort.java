@@ -24,7 +24,7 @@ public class TileContainmentEnergyPort extends TileContainmentPart implements IT
 	
 	public TileContainmentEnergyPort()
 	{
-		super(CuboidalPartPositionType.WALL);
+		super(CuboidalPartPositionType.EXTERIOR);
 	}
 
 

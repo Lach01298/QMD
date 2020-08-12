@@ -76,6 +76,36 @@ public class QMDCraftTweaker
 		}
 	}
 	
+	@ZenClass("mods.qmd.accelerator_cooling")
+	@ZenRegister
+	public static class AcceleratorCoolingHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient fluidInput,IIngredient fluidOutput, int heatRemoved) 
+		{
+			CraftTweakerAPI.apply(new AddProcessorRecipe(QMDRecipes.accelerator_cooling, Lists.newArrayList(fluidInput, fluidOutput, heatRemoved)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient fluidInput) 
+		{
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(QMDRecipes.accelerator_cooling, IngredientSorption.INPUT, Lists.newArrayList(fluidInput)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient fluidOutput) 
+		{
+			CraftTweakerAPI.apply(new RemoveProcessorRecipe(QMDRecipes.accelerator_cooling, IngredientSorption.OUTPUT, Lists.newArrayList(fluidOutput)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new RemoveAllProcessorRecipes(QMDRecipes.accelerator_cooling));
+		}
+	}
+	
 	@ZenClass("mods.qmd.target_chamber")
 	@ZenRegister
 	public static class TargetChamberHandler 

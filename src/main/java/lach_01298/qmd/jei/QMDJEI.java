@@ -118,10 +118,12 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipeCatalyst(JEIProcessorHandler.IRRADIATOR_FUEL.getCrafters().get(0),JEIProcessorHandler.IRRADIATOR_FUEL.getUUID());
 		
 		registry.addRecipes(JEIProcessorHandler.ACCELERATOR_COOLING.getJEIRecipes(guiHelper), JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
-		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(0),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
-		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(1),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
-		registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(2),JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
-		
+		for (int i = 0; i < JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().size(); i++)
+		{
+			registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(i),
+					JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
+		}
+
 		registry.addRecipes(BeamDumpRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.BEAM_DUMP);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.beamDumpController),QMDRecipeCategoryUid.BEAM_DUMP);
 		
@@ -138,7 +140,7 @@ public class QMDJEI implements IModPlugin
 		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
 		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
 		IRRADIATOR_FUEL(QMDRecipes.irradiator_fuel, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.IrradiatorFuel.class),
-		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class),
+		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController,QMDBlocks.deceleratorController,QMDBlocks.neutralContainmentController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class),
 		CELL_FILLING(QMDRecipes.cell_filling, QMDBlocks.neutralContainmentController, "jei/cell_filling", QMDRecipeWrapper.CellFilling.class);
 		
 		private ProcessorRecipeHandler recipeHandler;

@@ -534,15 +534,18 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		IParticleIngredient particleIngredient = recipeInfo.getRecipe().getParticleProducts().get(0);
 		getAccelerator().beams.get(1).setParticleStack(particleIngredient.getStack());
-		ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
-		particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
-		particle.addFocus(((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
-		if(particle.getFocus() <= 0)
+		if(getAccelerator().beams.get(1).getParticleStack() != null)
 		{
-			getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+			ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
+			particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+			particle.addFocus(((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			if(particle.getFocus() <= 0)
+			{
+				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+			}
+			
+			useItemDurability();
 		}
-		
-		useItemDurability();
 	}
 
 	private void produceBeam()

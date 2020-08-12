@@ -375,6 +375,7 @@ public class NeutralContainmentLogic extends ContainmentLogic
 				refreshRecipe();
 				if(recipeInfo != null)
 				{
+					
 					if (rememberedRecipeInfo != null)
 					{
 						if (rememberedRecipeInfo.getRecipe() != recipeInfo.getRecipe())
@@ -384,6 +385,7 @@ public class NeutralContainmentLogic extends ContainmentLogic
 						}
 					}
 					rememberedRecipeInfo = recipeInfo;	
+					
 					
 					if(canProduceProduct())
 					{		
@@ -467,6 +469,7 @@ public class NeutralContainmentLogic extends ContainmentLogic
 					entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
 				}
 			}
+			getMultiblock().tanks.get(2).setFluidStored(null);
 		}
 		
 	}
@@ -538,10 +541,14 @@ public class NeutralContainmentLogic extends ContainmentLogic
 	{
 		
 		FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-		if(getMultiblock().tanks.get(2).canFillFluidType(product))
+		if(product != null)
 		{
-			return true;
+			if(getMultiblock().tanks.get(2).fill(product, false) == product.amount)
+			{
+				return true;
+			}	
 		}
+		
 		
 		return false;
 	}
@@ -586,30 +593,69 @@ public class NeutralContainmentLogic extends ContainmentLogic
 	{
 		recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
 		recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
+
+		boolean switchInputs = false;
+		if(getMultiblock().beams.get(0).getParticleStack() != null && recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() != null)
+		{
+			if(recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getParticle() != getMultiblock().beams.get(0).getParticleStack().getParticle())
+			{
+				switchInputs = true;
+			}
+		}
 		
+		if(getMultiblock().beams.get(1).getParticleStack() != null && recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() != null)
+		{
+			if(recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getParticle() != getMultiblock().beams.get(1).getParticleStack().getParticle())
+			{
+				switchInputs = true;
+			}
+		}
+		
+		
+		if(switchInputs)
+		{
+			long temp = recipeParticle1Work;
+			recipeParticle1Work = recipeParticle2Work;
+			recipeParticle2Work = temp;
+		}
+		
+		boolean particle1Full = false;
+		boolean particle2Full = false;
 		if (particle1WorkDone >= recipeParticle1Work)
 		{
-			if (particle2WorkDone >= recipeParticle2Work)
-			{
-				FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-				getMultiblock().tanks.get(2).fill(product, true);
-				
-				particle1WorkDone -=recipeParticle1Work;
-				particle2WorkDone -=recipeParticle2Work;
-			}	
+			particle1Full = true;
+			particle1WorkDone = recipeParticle1Work;
 		}
 		else
 		{
-			if(getMultiblock().beams.get(0).getParticleStack() != null) 
+			if (getMultiblock().beams.get(0).getParticleStack() != null)
 			{
 				particle1WorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
-
 			}
-			if(getMultiblock().beams.get(1).getParticleStack() != null) 
+		}
+
+		if (particle2WorkDone >= recipeParticle2Work)
+		{
+			particle2WorkDone = recipeParticle2Work;
+			particle2Full = true;
+		}
+		else
+		{
+			if (getMultiblock().beams.get(1).getParticleStack() != null)
 			{
 				particle2WorkDone += getMultiblock().beams.get(1).getParticleStack().getAmount();
 			}
 		}
+
+		if (particle1Full && particle2Full)
+		{
+			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+			getMultiblock().tanks.get(2).fill(product, true);
+
+			particle1WorkDone = 0;
+			particle2WorkDone = 0;
+		}
+
 	}
 	
 	private void produceCellProduct()

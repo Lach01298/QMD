@@ -104,7 +104,7 @@ public class GuiTargetChamberController extends GuiLogicMultiblock<ParticleChamb
 		
 		
 		//draw progress bar
-		int progress = (int)Math.round((double)logic.particleWorkDone/(double)logic.recipeParticleWork*21);
+		int progress = Math.min((int)Math.round((double)logic.particleWorkDone/(double)logic.recipeParticleWork*21),21);
 		drawTexturedModalRect(guiLeft+65, guiTop+40, 182, 0, progress, 12);
 		
 		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft+12, guiTop+38);

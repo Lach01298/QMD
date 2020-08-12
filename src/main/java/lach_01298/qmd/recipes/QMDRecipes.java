@@ -2,6 +2,7 @@ package lach_01298.qmd.recipes;
 
 import static nc.config.NCConfig.ore_dict_raw_material_recipes;
 import static nc.config.NCConfig.processor_passive_rate;
+import static nc.config.NCConfig.processor_time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.util.FluidRegHelper;
 import nc.util.FluidStackHelper;
+import nc.util.NCMath;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import nc.util.UnitHelper;
@@ -237,16 +239,16 @@ public class QMDRecipes
 			NCRecipes.decay_hastener.removeRecipe(NCRecipes.decay_hastener.getRecipeFromIngredients(itemIngredients, fluidIngredients));
 		}
 		
-		
+	
 		NCRecipes.decay_hastener.addDecayRecipes("Beryllium7","Lithium7", QMDRadSources.BERYLLIUM_7 );
 		NCRecipes.decay_hastener.addDecayRecipes("Lead210","Polonium", QMDRadSources.LEAD_210 );
-		NCRecipes.decay_hastener.addRecipe("ingotStrontium90","dustZirconium", QMDRadSources.STRONTIUM_90);
+		NCRecipes.decay_hastener.addRecipe("ingotStrontium90","dustZirconium", getDecayHasenerTimeMultipler(QMDRadSources.STRONTIUM_90), 1d, QMDRadSources.STRONTIUM_90);
 		NCRecipes.decay_hastener.addDecayRecipes("Protactinium231","Lead", QMDRadSources.PROTACTINIUM_231);
 		NCRecipes.decay_hastener.addDecayRecipes("Plutonium238","Uranium234",RadSources.PLUTONIUM_238);
-		NCRecipes.decay_hastener.addDecayRecipes("Uranium234","Radium",QMDRadSources.URANIUM_234);
-		NCRecipes.decay_hastener.addDecayRecipes("Promethium147","Neodymium",QMDRadSources.PROMETHIUM_147);
-		NCRecipes.decay_hastener.addRecipe("ingotCobalt60","dustNickel",QMDRadSources.COBALT_60);
-		NCRecipes.decay_hastener.addRecipe("ingotIridium192","dustPlatinum",QMDRadSources.IRIDIUM_192);
+		NCRecipes.decay_hastener.addDecayRecipes("Uranium234","Radium", QMDRadSources.URANIUM_234);
+		NCRecipes.decay_hastener.addDecayRecipes("Promethium147","Neodymium", QMDRadSources.PROMETHIUM_147);
+		NCRecipes.decay_hastener.addRecipe("ingotCobalt60","dustNickel", getDecayHasenerTimeMultipler(QMDRadSources.COBALT_60), 1d, QMDRadSources.COBALT_60);
+		NCRecipes.decay_hastener.addRecipe("ingotIridium192","dustPlatinum", getDecayHasenerTimeMultipler(QMDRadSources.IRIDIUM_192), 1d, QMDRadSources.IRIDIUM_192);
 		
 		// Assembeler
 		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("dustBSCCO",3),AbstractRecipeHandler.oreStack("ingotSilver",6),new EmptyItemIngredient(),new EmptyItemIngredient(),AbstractRecipeHandler.oreStack("wireBSCCO",6),1D,1D);
@@ -331,6 +333,15 @@ public class QMDRecipes
 		
 		
 	}
+	
+	
+	public static double getDecayHasenerTimeMultipler(double radiation)
+	{
+		double F = Math.log1p(Math.log(2D)), Z = 0.1674477985420331D;
+		return NCMath.roundTo(Z * (radiation >= 1D ? F / Math.log1p(Math.log1p(radiation)) : Math.log1p(Math.log1p(1D / radiation)) / F), 5D / processor_time[2]);
+	}
+	
+	
 
 	public static FluidIngredient fluidStack(String fluidName, int stackSize)
 	{
