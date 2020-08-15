@@ -37,6 +37,7 @@ public class QMDRadSources
 		
 		RadSources.put(STRONTIUM_90/4D, QMDBlocks.rtgStrontium);
 		
+		RadSources.putFluid(RadSources.TRITIUM, "antitritium");
 		
 		RadSources.putOre(STRONTIUM_90, "wasteFissionHeavy");
 		RadSources.putOre(STRONTIUM_90, "wasteFissionLight");
@@ -59,6 +60,8 @@ public class QMDRadSources
 		RadSources.putOre(STRONTIUM_90, "wasteSpallationOsmium");
 		RadSources.putOre(STRONTIUM_90, "wasteSpallationTungsten");
 		RadSources.putOre(STRONTIUM_90, "wasteSpallationHafnium");
+		
+		RadSources.putOre(RadSources.TRITIUM*RadSources.FLUID, "cellAntitritium");
 		
 		RadSources.addToFoodMaps(new ItemStack(QMDItems.flesh), 0, 3.0);
 	}

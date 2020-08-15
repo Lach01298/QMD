@@ -33,9 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
-/**
- * A universal bucket that can hold any liquid
- */
+
 public class ItemCell extends ItemEnergy implements ITickItem
 {
 
@@ -45,6 +43,7 @@ public class ItemCell extends ItemEnergy implements ITickItem
 	public ItemCell(int capacity)
 	{
 		super(capacity * 20 * QMDConfig.cell_power, capacity * 20 * QMDConfig.cell_power, 6, EnergyConnection.IN);
+		setHasSubtypes(true);
 		lastUpdateTime = 0;
 	}
 
@@ -64,6 +63,30 @@ public class ItemCell extends ItemEnergy implements ITickItem
 		}
 	}
 
+	@Override
+	public boolean isEnchantable(ItemStack stack) 
+    {
+		return false;
+	}
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+    {
+        return false;
+    }
+	
+	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
+    {
+        return false;
+    }
+	
+	public boolean isRepairable()
+    {
+        return false;
+    }
+	
+	
+	
 	@Override
 	public String getTranslationKey(ItemStack stack)
 	{

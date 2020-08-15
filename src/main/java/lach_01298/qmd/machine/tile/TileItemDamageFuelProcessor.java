@@ -411,7 +411,9 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 				{
 					return false;
 				}		
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(stack, getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(stack);
+				ItemStack copy = stack.copy();
+				copy.setItemDamage(0);
+				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(copy, getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(copy);
 			}
 			else
 			{

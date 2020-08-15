@@ -874,7 +874,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotTungsten", new ParticleStack(Particles.antiproton, 120000), "wasteSpallationTungsten",
 				new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),new ParticleStack(Particles.pion_minus), 10000000, 1, 1460000);
 		
-		addRecipe("ingotHafnium", new ParticleStack(Particles.antiproton, 1200000), "wasteSpallationHafnium",
+		addRecipe("ingotHafnium", new ParticleStack(Particles.antiproton, 120000), "wasteSpallationHafnium",
 				new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),new ParticleStack(Particles.pion_minus), 10000000, 1, 1460000);
 		
 	
@@ -1104,7 +1104,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				addRecipe("ingotTungsten", new ParticleStack(Particles.antideuteron, 120000), "wasteSpallationTungsten",
 						new ParticleStack(Particles.pion_plus,4),new ParticleStack(Particles.pion_naught,4),new ParticleStack(Particles.pion_minus,4), 10000000, 1, 2090000);
 				
-				addRecipe("ingotHafnium", new ParticleStack(Particles.antideuteron, 1200000), "wasteSpallationHafnium",
+				addRecipe("ingotHafnium", new ParticleStack(Particles.antideuteron, 120000), "wasteSpallationHafnium",
 						new ParticleStack(Particles.pion_plus,4),new ParticleStack(Particles.pion_naught,4),new ParticleStack(Particles.pion_minus,4), 10000000, 1, 2090000);
 					
 		

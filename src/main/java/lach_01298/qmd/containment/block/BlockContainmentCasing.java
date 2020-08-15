@@ -2,7 +2,11 @@ package lach_01298.qmd.containment.block;
 
 
 
+import static nc.block.property.BlockProperties.FRAME;
+
 import lach_01298.qmd.containment.tile.TileContainmentCasing;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -17,9 +21,26 @@ public class BlockContainmentCasing extends BlockContainmentPart
 	public BlockContainmentCasing()
 	{
 		super();
-
+		setDefaultState(blockState.getBaseState().withProperty(FRAME, false));
 	}
 
+	@Override
+	protected BlockStateContainer createBlockState()
+	{
+		return new BlockStateContainer(this, new IProperty[] { FRAME });
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta)
+	{
+		return getDefaultState().withProperty(FRAME, meta == 1);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state)
+	{
+		return state.getValue(FRAME) ? 1 : 0;
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata)

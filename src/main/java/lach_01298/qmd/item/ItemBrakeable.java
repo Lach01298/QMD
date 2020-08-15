@@ -11,7 +11,7 @@ public class ItemBrakeable extends Item implements IInfoItem
 	{
 		this.setMaxStackSize(16);
 	    this.setMaxDamage(durability);
-	    setNoRepair();
+	    this.setNoRepair();
 	}
 
 	@Override
@@ -22,13 +22,26 @@ public class ItemBrakeable extends Item implements IInfoItem
 	}
 
 	
-	 @Override
+	@Override
 	public boolean isEnchantable(ItemStack stack) 
     {
-
 		return false;
 	}
 	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+    {
+        return false;
+    }
 	
+	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
+    {
+        return false;
+    }
+	
+	public boolean isRepairable()
+    {
+        return false;
+    }
 	
 }

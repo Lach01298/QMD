@@ -28,6 +28,7 @@ public class IrradiatorRecipes extends ProcessorRecipeHandler
 		addRecipe(new ItemStack(Blocks.TALLGRASS,1,1), Blocks.DEADBUSH,1.0);
 		addRecipe(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE,1.0);
 		addRecipe(new ItemStack(Blocks.STONEBRICK,1,1), Blocks.STONEBRICK,1.0);
+		addRecipe(new ItemStack(Blocks.COBBLESTONE_WALL,1,1), Blocks.COBBLESTONE_WALL,1.0);
 	}
 
 	@Override
