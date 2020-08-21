@@ -89,7 +89,7 @@ item.qmd.part.empty_cooler.name=空冷却器
 item.qmd.part.scintillator_pwo.name=钨酸铅闪烁体
 item.qmd.part.scintillator_plastic.name=塑料闪烁体
 item.qmd.part.detector_casing.name=空探测器外壳
-item.qmd.part.wire_bscco.name=铋锶钙铜氧超导线缆
+item.qmd.part.wire_bscco.name=铋锶钙铜氧化物超导线缆
 item.qmd.part.rod_nd_yag.name=掺钕钇铝石榴石杆
 item.qmd.part.wire_gold_tungsten.name=镀金钨线缆
 item.qmd.part.wire_chamber_casing.name=空线缆室
@@ -103,7 +103,7 @@ item.qmd.semiconductor.advanced_processor.name=高级处理器
 item.qmd.semiconductor.elite_processor.name=精英处理器
 
 item.qmd.chemical_dust.tungsten_oxide.name=氧化钨
-item.qmd.chemical_dust.bscco.name=铋锶钙铜氧粉
+item.qmd.chemical_dust.bscco.name=铋锶钙铜氧化物粉
 item.qmd.chemical_dust.sodium_nitrate.name=硝酸钠
 item.qmd.chemical_dust.sodium_chloride.name=氯化钠
 item.qmd.chemical_dust.copper_oxide.name=氧化铜
@@ -142,12 +142,12 @@ tile.qmd.accelerator_cavity.copper.name=铜RF腔
 tile.qmd.accelerator_cavity.magnesium_diboride.name=二硼化镁RF腔
 tile.qmd.accelerator_cavity.niobium_tin.name=铌锡RF腔
 tile.qmd.accelerator_cavity.niobium_titanium.name=铌钛RF腔
-tile.qmd.accelerator_cavity.bscco.name=铋锶钙铜氧RF腔
+tile.qmd.accelerator_cavity.bscco.name=铋锶钙铜氧化物RF腔
 tile.qmd.accelerator_magnet.copper.name=铜加速器电磁铁
 tile.qmd.accelerator_magnet.magnesium_diboride.name=二硼化镁加速器电磁铁
 tile.qmd.accelerator_magnet.niobium_tin.name=铌锡加速器电磁铁
 tile.qmd.accelerator_magnet.niobium_titanium.name=铌钛加速器电磁铁
-tile.qmd.accelerator_magnet.bscco.name=铋锶钙铜氧加速器电磁铁
+tile.qmd.accelerator_magnet.bscco.name=铋锶钙铜氧化物加速器电磁铁
 tile.qmd.accelerator_yoke.name=加速器电磁轭
 
 tile.qmd.accelerator_cooler1.water.name=水加速器冷却器
@@ -252,9 +252,9 @@ tile.qmd.accelerator.cooler.cryotheum.desc=必须接触至少三个有效的锡�
 
 tile.qmd.rf_cavity.desc=用射频电场加速已带电的粒子。必须以八个相同的RF腔为一组围绕一个波束方块形成一个环。两个环之间不能相邻。
 
-tile.qmd.accelerator_magnet.desc=以强磁场弯曲带电粒子的运动轨迹。可用于制造四极或双极磁铁。对于四极磁铁，波束方块必须被四个种类相同的电磁铁包围。
+tile.qmd.accelerator_magnet.desc=以强磁场弯曲带电粒子的运动轨迹。可用于制造四极或双极磁铁。对于一个四极磁铁，波束方块必须被四个种类相同的电磁铁包围。
 
-tile.qmd.accelerator_yoke.desc=形成、加强电磁铁的磁场，用于制造双极磁铁。对于一个双极磁铁环，波束方块的上方与下方都必须有一个电磁铁，周围3x3范围内波束方块与电磁铁以外的所有位置都必须以电磁轭填充。
+tile.qmd.accelerator_yoke.desc=形成、加强电磁铁的磁场，用于制造双极磁铁。对于一个双极磁铁，波束方块的上方与下方都必须有一个电磁铁，周围3x3范围内波束方块与电磁铁以外的所有位置都必须以电磁轭填充。
 
 tile.qmd.particle_chamber.detector.bubble_chamber.desc=必须被放置在距粒子间两个方块处。
 tile.qmd.particle_chamber.detector.wire_chamber.desc=必须被放置在距粒子间两个方块处。
@@ -566,34 +566,34 @@ gui.qmd.config.accelerator.beam_diverter_radius=波束转向器半径
 gui.qmd.config.accelerator.beam_diverter_radius.comment=波束转向器在计算中有效的半径，范围：[0,1000]。
 
 gui.qmd.config.accelerator.RF_cavity_voltage=RF腔电压
-gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个RF腔进行加速时的电压（单位：kV）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个RF腔进行加速时的电压（单位：kV）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.RF_cavity_efficiency=RF腔功率效率
-gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个RF腔的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个RF腔的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.RF_cavity_heat_generated=RF腔热量
-gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=每个RF腔产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=每个RF腔产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.RF_cavity_base_power=RF腔基础功率
-gui.qmd.config.accelerator.RF_cavity_base_power.comment=RF腔基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_base_power.comment=RF腔基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.RF_cavity_max_temp=RF腔最高温度
-gui.qmd.config.accelerator.RF_cavity_max_temp.comment=每个RF腔的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.RF_cavity_max_temp.comment=每个RF腔的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.magnet_strength=磁铁强度
-gui.qmd.config.accelerator.magnet_strength.comment=磁铁的强度（单位：T）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_strength.comment=磁铁的强度（单位：T）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.magnet_efficiency=磁铁功率效率
-gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.magnet_heat_generated=磁铁热量
-gui.qmd.config.accelerator.magnet_heat_generated.comment=每个磁铁产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_heat_generated.comment=每个磁铁产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.magnet_base_power=磁铁基础功率
-gui.qmd.config.accelerator.magnet_base_power.comment=磁铁基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_base_power.comment=磁铁基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.magnet_max_temp=磁铁最高温度
-gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁铁的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧。
+gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁铁的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡，铌钛，铋锶钙铜氧化物。
 
 gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=同步加速器最小粒子能量输入
 gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=一个同步加速器允许的最小粒子能量输入（单位：keV）。
