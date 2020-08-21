@@ -338,7 +338,7 @@ tile.qmd.fluid_antideuterium.name=Anti-Deuterium
 fluid.antitritium=Anti-Tritium
 tile.qmd.fluid_antitritium.name=Anti-Tritium
 fluid.antihelium3=Anti-Helium-3
-tile.qmd.fluid_antihelium3.name=Anti-Helium3
+tile.qmd.fluid_antihelium3.name=Anti-Helium-3
 fluid.antihelium=Anti-Helium
 tile.qmd.fluid_antihelium.name=Anti-Helium
 
