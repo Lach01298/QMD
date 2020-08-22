@@ -717,8 +717,8 @@ gui.qmd.config.other.cell_life_time.comment=一个单元能存储物质的时间
 gui.qmd.config.other.cell_power=单元功率
 gui.qmd.config.other.cell_life_time.comment=一个单元的能量消耗（单位：RF/t）。
 
-gui.qmd.config.other.source_particle_amount=基础粒子源输出数量
-gui.qmd.config.other.source_particle_amount.comment=粒子源输出的粒子数（单位：1/t）。
+gui.qmd.config.other.source_particle_amount=基础粒子源输出量
+gui.qmd.config.other.source_particle_amount.comment=粒子源输出的粒子量（单位：1/t）。
 
 gui.qmd.config.tools.tool_mining_level=挖掘等级
 gui.qmd.config.tools.tool_mining_level.comment=挖掘等级的配置。顺序：碳化钨。
