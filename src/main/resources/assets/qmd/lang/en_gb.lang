@@ -1,0 +1,27 @@
+tile.qmd.accelerator_cooler2.aluminum.name=Aluminium Accelerator Cooler
+
+
+fluid.yag=Molten Yttrium Aluminium Garnet
+tile.qmd.fluid_yag.name=Molten Yttrium Aluminium Garnet
+
+
+qmd.multiblock_validation.beam_director.must_be_cube=The Beam Diverter must be 1 5x5 Cube with a dipole in the centre.
+qmd.multiblock_validation.beam_director.must_be_beam=There must have a Accelerator Beam Block at the centre.
+qmd.multiblock_validation.accelerator.beam_director.must_be_dipole=There Must be a vertical or horizontal dipole at the centre.
+qmd.multiblock_validation.chamber.beam_port_wrong_spot=Beam Ports must be at the centre of a face.
+
+
+qmd.particle.pion_plus.desc=Pions are the particles that are responsible for holding nuclei together. Although not coloured themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.pion_naught.desc=Pions are the particles that are responsible for holding nuclei together. Although not coloured themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.pion_minus.desc=Pions are the particles that are responsible for holding nuclei together. Although not coloured themselves they distribute the "residual" strong force to keep nuclei together.
+
+
+qmd.particle.eta.desc=Eta Mesons are flavourless mesons meaning their flavour numbers like strangeness and isospin are 0.
+qmd.particle.eta_prime.desc=Eta Mesons are flavourless mesons meaning their flavour numbers like strangeness and isospin are 0.
+qmd.particle.charmed_eta.desc=Eta Mesons are flavourless mesons meaning their flavour numbers like strangeness and isospin are 0.
+qmd.particle.bottom_eta.desc=Eta Mesons are flavourless mesons meaning their flavour numbers like strangeness and isospin are 0.
+
+
+
+gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminium, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
+

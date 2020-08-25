@@ -6,10 +6,14 @@ import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.AcceleratorLogic;
 import lach_01298.qmd.accelerator.RingAcceleratorLogic;
 import lach_01298.qmd.accelerator.block.BlockRingAcceleratorController;
+import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
+import nc.multiblock.container.ContainerMultiblockController;
+import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -71,6 +75,11 @@ public class TileRingAcceleratorController extends TileAcceleratorPart implement
 	public void doMeltdown()
 	{
 
+	}
+	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerRingAcceleratorController(player, this);
 	}
 
 }

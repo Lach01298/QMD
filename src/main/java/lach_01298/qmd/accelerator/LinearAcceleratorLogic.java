@@ -8,21 +8,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
@@ -49,7 +55,6 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator());
 	}
 
 	
@@ -255,6 +260,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		if (ports > 2 - sources)
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_many_beam_ports", null);
+			return false;
+		}
+		
+		if(containsBlacklistedPart())
+		{
 			return false;
 		}
 		
@@ -524,15 +534,18 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		IParticleIngredient particleIngredient = recipeInfo.getRecipe().getParticleProducts().get(0);
 		getAccelerator().beams.get(1).setParticleStack(particleIngredient.getStack());
-		ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
-		particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
-		particle.addFocus(((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
-		if(particle.getFocus() <= 0)
+		if(getAccelerator().beams.get(1).getParticleStack() != null)
 		{
-			getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+			ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
+			particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+			particle.addFocus(((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			if(particle.getFocus() <= 0)
+			{
+				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+			}
+			
+			useItemDurability();
 		}
-		
-		useItemDurability();
 	}
 
 	private void produceBeam()
@@ -642,10 +655,19 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	public int getLength()
 	{
-		return getAccelerator().getInteriorLengthX() > getAccelerator().getInteriorLengthZ() ?getAccelerator().getInteriorLengthX() : getAccelerator().getInteriorLengthZ();
+		return getAccelerator().getExteriorLengthX() > getAccelerator().getExteriorLengthZ() ?getAccelerator().getExteriorLengthX() : getAccelerator().getExteriorLengthZ();
 	}
-	
-	
+
+	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileAcceleratorYoke.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_yokes"),
+			Pair.of(TileAcceleratorSynchrotronPort.class,
+					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
+
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 	
 	
 }

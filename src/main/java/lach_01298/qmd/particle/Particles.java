@@ -65,6 +65,8 @@ public class Particles
 	public static Particle antialpha;
 	public static Particle triton;
 	public static Particle antitriton;
+	public static Particle helion;
+	public static Particle antihelion;
 	
 	public static Particle boron_ion;
 
@@ -78,33 +80,14 @@ public class Particles
 	//Kaons
 	public static Particle kaon_plus;
 	public static Particle kaon_naught;
+	public static Particle antikaon_naught;
 	public static Particle kaon_minus;
 	
-	//D mesons
-	public static Particle d_meson_plus;
-	public static Particle d_meson_naught;
-	public static Particle d_meson_minus;
-	public static Particle strange_d_meson_plus;
-	public static Particle strange_d_meson_minus;
-	
-	//B mesons
-	public static Particle b_meson_plus;
-	public static Particle b_meson_naught;
-	public static Particle b_meson_minus;
-	public static Particle strange_b_meson_plus;
-	public static Particle strange_b_meson_minus;
-	public static Particle charmed_b_meson_plus;
-	public static Particle charmed_b_meson_minus;
-	
-	//lambda
-	public static Particle lambda;
-	public static Particle antilambda;
-	public static Particle charmed_lambda;
-	public static Particle charmed_antilambda;
-	public static Particle bottom_lambda;
-	public static Particle bottom_antilambda;
-
-
+	//Eta mesons
+	public static Particle eta;
+	public static Particle eta_prime;
+	public static Particle charmed_eta;
+	public static Particle bottom_eta;
 	
 	public static void registerParticle (Particle particle)
 	{
@@ -138,12 +121,12 @@ public class Particles
 	{
 		
 		//quarks
-		up = new Particle("up_quark",Util.appendPath(particlePath, "up_quark.png"),2.2,2d/3d,1d/2d,true, true);
-		down = new Particle("down_quark",Util.appendPath(particlePath, "down_quark.png"),4.7,-1d/3d,1d/2d,true, true);
-		charm = new Particle("charm_quark",Util.appendPath(particlePath, "charm_quark.png"),1276d,2d/3d,1d/2d,true,true);
-		strange = new Particle("strange_quark",Util.appendPath(particlePath, "strange_quark.png"),95d,-1d/3d,1d/2d,true,true);
-		top = new Particle("top_quark",Util.appendPath(particlePath, "top_quark.png"),173210d,2d/3d,1d/2d,true, true);
-		bottom = new Particle("bottom_quark",Util.appendPath(particlePath, "bottom_quark.png"),4180d,-1d/3d,1d/2d,true, true);
+		up = new Particle("up_quark",Util.appendPath(particlePath, "up_quark.png"),2.2,2d/3d,1d/2d);
+		down = new Particle("down_quark",Util.appendPath(particlePath, "down_quark.png"),4.7,-1d/3d,1d/2d);
+		charm = new Particle("charm_quark",Util.appendPath(particlePath, "charm_quark.png"),1280d,2d/3d,1d/2d);
+		strange = new Particle("strange_quark",Util.appendPath(particlePath, "strange_quark.png"),95d,-1d/3d,1d/2d);
+		top = new Particle("top_quark",Util.appendPath(particlePath, "top_quark.png"),173000d,2d/3d,1d/2d);
+		bottom = new Particle("bottom_quark",Util.appendPath(particlePath, "bottom_quark.png"),4180d,-1d/3d,1d/2d);
 		
 		//antiquarks
 		antiup = makeAntiParticle(up,"antiup_quark",Util.appendPath(particlePath, "antiup_quark.png"));
@@ -155,8 +138,8 @@ public class Particles
 		
 		//leptons
 		electron = new Particle("electron",Util.appendPath(particlePath, "electron.png"),0.511,-1,1d/2d,true);
-		muon = new Particle("muon",Util.appendPath(particlePath, "muon.png"),105.7,-1,1d/2d,true);
-		tau = new Particle("tau",Util.appendPath(particlePath, "tau.png"),1776,-1,1d/2d,true);
+		muon = new Particle("muon",Util.appendPath(particlePath, "muon.png"),106,-1,1d/2d,true);
+		tau = new Particle("tau",Util.appendPath(particlePath, "tau.png"),1780,-1,1d/2d,true);
 		electron_neutrino = new Particle("electron_neutrino",Util.appendPath(particlePath, "electron_neutrino.png"),0.00000012,0,1d/2d,true);
 		muon_neutrino = new Particle("muon_neutrino",Util.appendPath(particlePath, "muon_neutrino.png"),0.00000012,0,1d/2d,true);
 		tau_neutrino = new Particle("tau_neutrino",Util.appendPath(particlePath, "tau_neutrino.png"),0.00000012,0,1d/2d,true);
@@ -170,12 +153,12 @@ public class Particles
 		tau_antineutrino = makeAntiParticle(tau_neutrino,"tau_antineutrino",Util.appendPath(particlePath, "tau_antineutrino.png"));
 		
 		//bosons
-		photon = new Particle("photon",Util.appendPath(particlePath, "photon.png"),0,0,1,false);
+		photon = new Particle("photon",Util.appendPath(particlePath, "photon.png"),0,0,1,false,false);
 		gluon = new Particle("gluon",Util.appendPath(particlePath, "gluon.png"),0,0,1,false,true);
-		w_plus_boson = new Particle("w_plus_boson",Util.appendPath(particlePath, "w_plus_boson.png"),80380,1,1,true);
-		w_minus_boson = new Particle("w_minus_boson",Util.appendPath(particlePath, "w_minus_boson.png"),80380,-1,1,true);
-		z_boson = new Particle("z_boson",Util.appendPath(particlePath, "z_boson.png"),91180,0,1,false);
-		higgs_boson = new Particle("higgs_boson",Util.appendPath(particlePath, "higgs_boson.png"),125180,0,0,true);
+		w_plus_boson = new Particle("w_plus_boson",Util.appendPath(particlePath, "w_plus_boson.png"),80400d,1,1,true,false);
+		w_minus_boson = new Particle("w_minus_boson",Util.appendPath(particlePath, "w_minus_boson.png"),80400d,-1,1,true,false);
+		z_boson = new Particle("z_boson",Util.appendPath(particlePath, "z_boson.png"),91200d,0,1,false,false);
+		higgs_boson = new Particle("higgs_boson",Util.appendPath(particlePath, "higgs_boson.png"),125000d,0,0,true,false);
 		
 		
 		//register anti particles
@@ -244,6 +227,8 @@ public class Particles
 		registerParticle(antialpha);
 		registerParticle(triton);
 		registerParticle(antitriton);
+		registerParticle(helion);
+		registerParticle(antihelion);
 
 		registerParticle(boron_ion);
 		
@@ -253,7 +238,13 @@ public class Particles
 		
 		registerParticle(kaon_plus);
 		registerParticle(kaon_naught);
+		registerParticle(antikaon_naught);
 		registerParticle(kaon_minus);
+		
+		registerParticle(eta);
+		registerParticle(eta_prime);
+		registerParticle(charmed_eta);
+		registerParticle(bottom_eta);
 		
 	}
 	
@@ -262,37 +253,42 @@ public class Particles
 	private static void initComposites()
 	{
 		//Nucleons
-		proton = new Particle("proton",Util.appendPath(particlePath, "proton.png"),938.3,1,1d/2d,true);
+		proton = new Particle("proton",Util.appendPath(particlePath, "proton.png"),938d,1,1d/2d,true);
 		proton.addComponentParticle(up,2);
 		proton.addComponentParticle(down);
 		antiproton = makeAntiParticle(proton, "antiproton",Util.appendPath(particlePath, "antiproton.png"));
 		
-		neutron = new Particle("neutron",Util.appendPath(particlePath, "neutron.png"),939.6,0,1d/2d,true);
+		neutron = new Particle("neutron",Util.appendPath(particlePath, "neutron.png"),940d,0,1d/2d,true);
 		neutron.addComponentParticle(up);
 		neutron.addComponentParticle(down,2);
 		antineutron = makeAntiParticle(neutron, "antineutron",Util.appendPath(particlePath, "antineutron.png"));
 		
 		
 		//nuclei
-		deuteron = new Particle("deuteron",Util.appendPath(particlePath, "deuteron.png"),1875.0,1,0,true);
+		deuteron = new Particle("deuteron",Util.appendPath(particlePath, "deuteron.png"),1880d,1,0,true);
 		deuteron.addComponentParticle(proton);
 		deuteron.addComponentParticle(neutron);
 		antideuteron = makeAntiParticle(deuteron, "antideuteron",Util.appendPath(particlePath, "antideuteron.png"));
 		
-		alpha = new Particle("alpha",Util.appendPath(particlePath, "alpha.png"),3727,2,0,true);
+		alpha = new Particle("alpha",Util.appendPath(particlePath, "alpha.png"),3730d,2,0,true);
 		alpha.addComponentParticle(proton,2);
 		alpha.addComponentParticle(neutron,2);
 
 		antialpha = makeAntiParticle(alpha, "antialpha",Util.appendPath(particlePath, "antialpha.png"));
 		
 		
-		triton = new Particle("triton",Util.appendPath(particlePath, "triton.png"),2809,1,1/2,true);
+		triton = new Particle("triton",Util.appendPath(particlePath, "triton.png"),2810d,1,1/2,true);
 		triton.addComponentParticle(proton);
 		triton.addComponentParticle(neutron,2);
 		antitriton = makeAntiParticle(triton, "antitriton",Util.appendPath(particlePath, "antitriton.png"));
 		
+		helion = new Particle("helion",Util.appendPath(particlePath, "helion.png"),2810d,2,1/2,true);
+		helion.addComponentParticle(proton,2);
+		helion.addComponentParticle(neutron);
+		antihelion = makeAntiParticle(triton, "antihelion",Util.appendPath(particlePath, "antihelion.png"));
 		
-		boron_ion = new Particle("boron_ion",Util.appendPath(particlePath, "boron_ion.png"),10246,1,1/2,true);
+		
+		boron_ion = new Particle("boron_ion",Util.appendPath(particlePath, "boron_ion.png"),10200d,1,1/2,true);
 		boron_ion.addComponentParticle(proton,5);
 		boron_ion.addComponentParticle(neutron,5);
 		boron_ion.addComponentParticle(electron,4);
@@ -301,27 +297,44 @@ public class Particles
 		
 		
 		//Pions
-		pion_plus = new Particle("pion_plus",Util.appendPath(particlePath, "pion_plus.png"),139.6,1,0,true);
+		pion_plus = new Particle("pion_plus",Util.appendPath(particlePath, "pion_plus.png"),140d,1,0,true);
 		pion_plus.addComponentParticle(up);
 		pion_plus.addComponentParticle(antidown);
 		pion_minus = makeAntiParticle(pion_plus, "pion_minus",Util.appendPath(particlePath, "pion_minus.png"));
 		
-		pion_naught = new Particle("pion_naught",Util.appendPath(particlePath, "pion_naught.png"),135.0,0,0,true);
+		pion_naught = new Particle("pion_naught",Util.appendPath(particlePath, "pion_naught.png"),135d,0,0,true);
 		pion_naught.addComponentParticle(up);
 		pion_naught.addComponentParticle(antiup);
 		
 		
 		//Kaons
-		kaon_plus =  new Particle("kaon_plus",Util.appendPath(particlePath, "kaon_plus.png"),463.7,1,0,true);
+		kaon_plus =  new Particle("kaon_plus",Util.appendPath(particlePath, "kaon_plus.png"),464d,1,0,true);
 		kaon_plus.addComponentParticle(up);
 		kaon_plus.addComponentParticle(antistrange);
 		kaon_minus =  makeAntiParticle(kaon_plus, "kaon_minus",Util.appendPath(particlePath, "kaon_minus.png"));
 		
-		kaon_naught =  new Particle("kaon_naught",Util.appendPath(particlePath, "kaon_naught.png"),497.6,1,0,true);
+		kaon_naught =  new Particle("kaon_naught",Util.appendPath(particlePath, "kaon_naught.png"),498d,1,0,true);
 		kaon_naught.addComponentParticle(down);
 		kaon_naught.addComponentParticle(antistrange);
+		antikaon_naught =  makeAntiParticle(kaon_naught, "antikaon_naught",Util.appendPath(particlePath, "antikaon_naught.png"));
 		
+		//eta
 		
+		eta =  new Particle("eta",Util.appendPath(particlePath, "eta.png"),548d,0,0,true);
+		eta.addComponentParticle(down);
+		eta.addComponentParticle(antidown);
+		
+		eta_prime =  new Particle("eta_prime",Util.appendPath(particlePath, "eta_prime.png"),958d,0,0,true);
+		eta_prime.addComponentParticle(strange);
+		eta_prime.addComponentParticle(antistrange);
+		
+		charmed_eta =  new Particle("charmed_eta",Util.appendPath(particlePath, "charmed_eta.png"),2980d,0,0,true);
+		charmed_eta.addComponentParticle(charm);
+		charmed_eta.addComponentParticle(anticharm);
+		
+		bottom_eta =  new Particle("bottom_eta",Util.appendPath(particlePath, "bottom_eta.png"),9400d,0,0,true);
+		bottom_eta.addComponentParticle(bottom);
+		bottom_eta.addComponentParticle(antibottom);
 	}
 	
 	

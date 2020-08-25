@@ -114,6 +114,36 @@
             "custom": {
                 "fluid": "nd_yag"
             }
+        },
+        "fluid_antihydrogen": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "antihydrogen"
+            }
+        },
+        "fluid_antideuterium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "antideuterium"
+            }
+        },
+        "fluid_antitritium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "antitritium"
+            }
+        },
+        "fluid_antihelium3": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "antihelium3"
+            }
+        },
+        "fluid_antihelium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "antihelium"
+            }
         }
     }
 }

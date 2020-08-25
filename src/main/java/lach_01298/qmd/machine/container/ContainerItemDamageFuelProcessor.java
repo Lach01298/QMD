@@ -54,6 +54,7 @@ public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileIte
 			itemstack = itemstack1.copy();
 			if (index >= tile.itemInputSize && index < invStart) 
 			{
+				
 				if (!mergeItemStack(itemstack1, invStart, invEnd, false)) 
 				{
 					return ItemStack.EMPTY;
@@ -71,9 +72,12 @@ public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileIte
 						return ItemStack.EMPTY;
 					}
 				}
-				if (fuelHandler.isValidItemInput(itemstack1)) 
+				
+				ItemStack copy = itemstack1.copy();
+				copy.setItemDamage(0);
+				if (fuelHandler.isValidItemInput(copy)) 
 				{
-					if (!mergeItemStack(itemstack1, 0, tile.itemFuelSize, false)) 
+					if (!mergeItemStack(itemstack1, tile.itemInputSize, tile.itemInputSize +tile.itemFuelSize, false)) 
 					{
 						return ItemStack.EMPTY;
 					}
@@ -108,4 +112,127 @@ public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileIte
 		}
 		return itemstack;
 	}
+	
+	
+	
+	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection)
+    {
+        boolean flag = false;
+        int i = startIndex;
+
+        if (reverseDirection)
+        {
+            i = endIndex - 1;
+        }
+
+        if (stack.isStackable())
+        {
+            while (!stack.isEmpty())
+            {
+                if (reverseDirection)
+                {
+                    if (i < startIndex)
+                    {
+                        break;
+                    }
+                }
+                else if (i >= endIndex)
+                {
+                    break;
+                }
+
+                Slot slot = this.inventorySlots.get(i);
+                ItemStack itemstack = slot.getStack();
+
+                if (!itemstack.isEmpty() && itemstack.getItem() == stack.getItem() && stack.getMetadata() == itemstack.getMetadata() && ItemStack.areItemStackTagsEqual(stack, itemstack))
+                {
+                	int j = itemstack.getCount() + stack.getCount();
+                    int maxSize = Math.min(slot.getSlotStackLimit(), stack.getMaxStackSize());
+
+                    if (j <= maxSize)
+                    {
+                        stack.setCount(0);
+                        itemstack.setCount(j);
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                    else if (itemstack.getCount() < maxSize)
+                    {
+                        stack.shrink(maxSize - itemstack.getCount());
+                        itemstack.setCount(maxSize);
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                }
+
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
+        if (!stack.isEmpty())
+        {
+            if (reverseDirection)
+            {
+                i = endIndex - 1;
+            }
+            else
+            {
+                i = startIndex;
+            }
+
+            while (true)
+            {
+                if (reverseDirection)
+                {
+                    if (i < startIndex)
+                    {
+                        break;
+                    }
+                }
+                else if (i >= endIndex)
+                {
+                    break;
+                }
+
+                Slot slot1 = this.inventorySlots.get(i);
+                ItemStack itemstack1 = slot1.getStack();
+
+                if (itemstack1.isEmpty() && slot1.isItemValid(stack))
+                {
+                    if (stack.getCount() > slot1.getSlotStackLimit())
+                    {
+                        slot1.putStack(stack.splitStack(slot1.getSlotStackLimit()));
+                    }
+                    else
+                    {
+                        slot1.putStack(stack.splitStack(stack.getCount()));
+                    }
+
+                    slot1.onSlotChanged();
+                    flag = true;
+                    break;
+                }
+
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
+        return flag;
+    }
+	
+	
 }

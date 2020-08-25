@@ -1,27 +1,36 @@
 package lach_01298.qmd.accelerator;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
+import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
+import lach_01298.qmd.multiblock.network.DeceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particle.Particles;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -34,11 +43,6 @@ import net.minecraft.util.math.BlockPos;
 
 public class DeceleratorLogic extends AcceleratorLogic
 {
-
-	public int dipoleNumber =0;
-	public double dipoleStrength =0;
-	
-	
 	
 	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
 
@@ -46,8 +50,6 @@ public class DeceleratorLogic extends AcceleratorLogic
 	public DeceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator());
-		getAccelerator().beams.get(0).setMinEnergy(QMDConfig.minimium_accelerator_ring_input_particle_energy);
 	}
 
 	@Override
@@ -106,13 +108,12 @@ public class DeceleratorLogic extends AcceleratorLogic
 		
 		for (BlockPos pos : getinteriorAxisConners())
 		{
-			if (!acc.isValidDipole(pos, true))
+			if (!acc.isValidDipole(pos, false))
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_dipole_in_conner", pos);
 				return false;
 			}
 		}
-		
 
 		
 		
@@ -166,6 +167,10 @@ public class DeceleratorLogic extends AcceleratorLogic
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
 			return false;
 		}	
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 		
 		return super.isMachineWhole(multiblock);
 	}
@@ -276,7 +281,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 
 			getAccelerator().RFCavityNumber = acc.getRFCavityMap().size();
 			getAccelerator().quadrupoleNumber = acc.getQuadrupoleMap().size();
-			dipoleNumber = dipoleMap.size();
+			getAccelerator().dipoleNumber = dipoleMap.size();
 
 		
 			for (RFCavity cavity : acc.getRFCavityMap().values())
@@ -395,7 +400,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 	
 	private void refreshStats()
 	{
-		dipoleStrength = 0;
+		getAccelerator().dipoleStrength = 0;
 		int energy = 0;
 		int heat = 0;
 		int parts= 0;
@@ -449,11 +454,10 @@ public class DeceleratorLogic extends AcceleratorLogic
 				if(componet instanceof TileAcceleratorMagnet)
 				{
 					TileAcceleratorMagnet magnet = (TileAcceleratorMagnet) componet;
-					dipoleStrength += magnet.strength/2;
+					getAccelerator().dipoleStrength += magnet.strength/2;
 				}
 			}
 		}
-		
 		efficiency /= parts;
 		getAccelerator().requiredEnergy =  (int) (energy/efficiency);
 		getAccelerator().rawHeating = heat;
@@ -479,33 +483,25 @@ public class DeceleratorLogic extends AcceleratorLogic
 			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack());
 			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
-			
-			long maxEnergyFromFeild = 0;
-			if(getAccelerator().acceleratingVoltage > 0)
-			{
-				maxEnergyFromFeild = (long) (Math.pow(particle.getCharge()*dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
-			}
-			
-			
-			long maxEnergyFromRadiation =  (long)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage/1000d*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
-				
-				
+	
 			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
 			
+			long energyTarget = (long)(getAcceleratorMaxEnergy(particle)*(1-getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
 			
-			if(maxEnergyFromRadiation >= maxEnergyFromFeild)
+			if(energyTarget > particleIn.getMeanEnergy())
 			{
-				particleOut.setMeanEnergy((long)(maxEnergyFromFeild*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
+				particleOut.setMeanEnergy(particleIn.getMeanEnergy());
 			}
 			else
 			{
-				particleOut.setMeanEnergy((long)(maxEnergyFromRadiation*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
+				particleOut.setMeanEnergy(energyTarget);
 			}
 			
-			particleOut.addFocus((int) (particleIn.getAmount()*(getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			
+			particleOut.addFocus(getAccelerator().quadrupoleStrength-getLength()*QMDConfig.beamAttenuationRate);
+			
 			if(particleOut.getFocus() <= 0)
 			{
-				particleOut = null;
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
 			
@@ -515,6 +511,17 @@ public class DeceleratorLogic extends AcceleratorLogic
 			resetBeam();
 		}
 	}
+	
+	public long getAcceleratorMaxEnergy(Particle particle)
+	{
+		if (particle != null && getAccelerator().acceleratingVoltage > 0)
+		{
+
+			return (long) (Math.pow(particle.getCharge() * getAccelerator().dipoleStrength * getRadius(), 2) / (2 * particle.getMass()) * 1000000);
+		}
+		return 0;
+	}
+	
 	
 	@Override
 	protected void pull()
@@ -539,19 +546,11 @@ public class DeceleratorLogic extends AcceleratorLogic
 							int maxEnergyFromFeild = 0;
 							if(getAccelerator().acceleratingVoltage > 0)
 							{
-								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
-							}
-							int maxEnergyFromRadiation =  (int)(particle.getMass()*Math.pow((300*getAccelerator().acceleratingVoltage*getRadius())/Math.abs(particle.getCharge()), 1/4d)*1000000);
-						
-							if(maxEnergyFromRadiation >= maxEnergyFromFeild)
-							{
-								getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromFeild);
-							}
-							else
-							{
-								getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromRadiation);
+								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
 							}
 							
+							getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromFeild);
+
 						}
 
 						if (!getAccelerator().beams.get(0).reciveParticle(face, stack))
@@ -575,22 +574,22 @@ public class DeceleratorLogic extends AcceleratorLogic
 	
 	// Network
 	@Override
-	public RingAcceleratorUpdatePacket getUpdatePacket()
+	public DeceleratorUpdatePacket getUpdatePacket()
 	{
-		return null;
+		return new DeceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
+				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
+				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
+				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
 	}
 	
 	@Override
 	public void onPacket(AcceleratorUpdatePacket message)
 	{
 		super.onPacket(message);
-		if (message instanceof RingAcceleratorUpdatePacket)
+		if (message instanceof DeceleratorUpdatePacket)
 		{
-			RingAcceleratorUpdatePacket packet = (RingAcceleratorUpdatePacket) message;
-			dipoleNumber = packet.dipoleNumber;
-			dipoleStrength = packet.dipoleStrength;
-			getAccelerator().beams = packet.beams;
-
+			DeceleratorUpdatePacket packet = (DeceleratorUpdatePacket) message;
 		}
 	}
 	
@@ -600,19 +599,12 @@ public class DeceleratorLogic extends AcceleratorLogic
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
 		super.writeToLogicTag(logicTag, syncReason);
-		
-
-		logicTag.setInteger("dipoleNumber", dipoleNumber);
-		logicTag.setDouble("dipoleStrength", dipoleStrength);
 	}
 	
 	@Override
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
 		super.readFromLogicTag(logicTag, syncReason);
-
-		dipoleNumber = logicTag.getInteger("dipoleNumber");
-		dipoleStrength = logicTag.getDouble("dipoleStrength");
 	}
 	
 	
@@ -633,8 +625,17 @@ public class DeceleratorLogic extends AcceleratorLogic
 	@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
-		return new ContainerRingAcceleratorController(player, getAccelerator().controller);
+		return new ContainerDeceleratorController(player, getAccelerator().controller);
 	}
 	
-	
+	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileAcceleratorSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.source"),
+			Pair.of(TileAcceleratorSynchrotronPort.class,
+					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
+
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 }

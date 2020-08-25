@@ -1,0 +1,681 @@
+
+//предметы
+item.qmd.dust.tungsten.name=Вольфрамовая пыль
+item.qmd.dust.niobium.name=Ниобиевая пыль
+item.qmd.dust.chromium.name=Хромовая пыль
+item.qmd.dust.titanium.name=Титановая пыль
+item.qmd.dust.cobalt.name=Кобальтовая пыль
+item.qmd.dust.nickel.name=Никелевая пыль
+item.qmd.dust.hafnium.name=Гафниевая пыль
+item.qmd.dust.zinc.name=Цинковая пыль
+item.qmd.dust.osmium.name=Осмиевая пыль
+item.qmd.dust.iridium.name=Иридиевая пыль
+item.qmd.dust.platinum.name=Платиновая пыль
+item.qmd.dust.sodium.name=Натриевая пыль
+item.qmd.dust.potassium.name=Калиевая пыль
+item.qmd.dust.calcium.name=Кальциевая пыль
+item.qmd.dust.strontium.name=Стронциевая пыль
+item.qmd.dust2.yttrium.name=Иттриевая пыль
+item.qmd.dust2.neodymium.name=Неодимовая пыль
+
+item.qmd.ingot.tungsten.name=Вольфрамовый слиток
+item.qmd.ingot.niobium.name=Слиток ниобия
+item.qmd.ingot.chromium.name=Слиток хрома
+item.qmd.ingot.titanium.name=Титановый слиток
+item.qmd.ingot.cobalt.name=Слиток кобальта
+item.qmd.ingot.nickel.name=Никелевый слиток
+item.qmd.ingot.hafnium.name=Слиток гафния
+item.qmd.ingot.zinc.name=Слиток цинка
+item.qmd.ingot.osmium.name=Слиток осмия
+item.qmd.ingot.iridium.name=Иридиевый слиток
+item.qmd.ingot.platinum.name=Платиновый слиток
+item.qmd.ingot.sodium.name=Слиток натрия
+item.qmd.ingot.potassium.name=Слиток калия
+item.qmd.ingot.calcium.name=Слиток кальция
+item.qmd.ingot.strontium.name=Слиток стронция
+item.qmd.ingot2.yttrium.name=Слиток иттрия
+item.qmd.ingot2.neodymium.name=Неодимовый слиток
+
+item.qmd.waste_fission.light.name=Легкие отходы деления
+item.qmd.waste_fission.heavy.name=Тяжелые отходы деления
+item.qmd.waste_spallation.californium.name=Отходы расщепления калифорния
+item.qmd.waste_spallation.berkelium.name=Отходы расщепления берклия
+item.qmd.waste_spallation.curium.name=Отходы расщепления кюрия
+item.qmd.waste_spallation.americium.name=Отходы расщепления америция
+item.qmd.waste_spallation.plutonium.name=Отходы расщепления плутония
+item.qmd.waste_spallation.neptunium.name=Отходы расщепления нептуния
+item.qmd.waste_spallation.uranium.name=Отходы расщепления урана
+item.qmd.waste_spallation.protactinium.name=Отходы расщепления протактиния
+item.qmd.waste_spallation.thorium.name=Отходы расщепления тория
+item.qmd.waste_spallation.radium.name=Отходы расщепления радия
+item.qmd.waste_spallation.polonium.name=Отходы расщепления полония
+item.qmd.waste_spallation.bismuth.name=Отходы расщепления висмута
+item.qmd.waste_spallation.lead.name=Отходы расщепления свинца
+item.qmd.waste_spallation.gold.name=Отходы расщепления золота
+item.qmd.waste_spallation.platinum.name=Отходы расщепления платины
+item.qmd.waste_spallation.iridium.name=Отходы расщепления иридия
+item.qmd.waste_spallation2.osmium.name=Отходы расщепления осмия
+item.qmd.waste_spallation2.tungsten.name=Отходы расщепления вольфрама
+item.qmd.waste_spallation2.hafnium.name=Отходы расщепления гафния
+
+item.qmd.ingot_alloy.tungsten_carbide.name=Слиток карбида вольфрама
+item.qmd.ingot_alloy.niobium_tin.name=Ниобий-оловянный слиток
+item.qmd.ingot_alloy.stainless_steel.name=Слиток из нержавеющей стали
+item.qmd.ingot_alloy.niobium_titanium.name=Ниобий-титановый слиток
+
+item.qmd.tungsten_filament.name=Вольфрамовая нить
+item.qmd.canister.name=Канистра
+item.qmd.canister_hydrogen.name=Канистра с водородом
+item.qmd.canister_helium.name=Канистра с гелием
+item.qmd.canister_deuterium.name=Канистра с дейтерием
+item.qmd.canister_diborane.name=Канистра с дибораном
+
+item.qmd.source_sodium_22.name=Натрий-22 источник частиц
+item.qmd.source_cobalt_60.name=Кобальт-60 источник частиц
+item.qmd.source_iridium_192.name=Ирридий-192 источник частиц
+
+
+item.qmd.isotope.sodium_22.name=Натрий-22
+item.qmd.isotope.promethium_147.name=Прометий-147
+item.qmd.isotope.magnesium_26.name=Магний-26
+item.qmd.isotope.magnesium_24.name=Магний-24
+item.qmd.isotope.beryllium_7.name=Бериллий-7
+item.qmd.isotope.vanadium_50.name=Ванадий-50
+item.qmd.isotope.strontium_90.name=Стронций-90
+item.qmd.isotope.uranium_234.name=Уран-234
+item.qmd.isotope.protactinium_231.name=Протактиния-231 пыль
+item.qmd.isotope.cobalt_60.name=Кобальт-60
+item.qmd.isotope.iridium_192.name=Иридий-192
+
+item.qmd.part.empty_cooler.name=Пустой кулер
+item.qmd.part.scintillator_pwo.name=Свинцовый вольфраматный сцинтиллятор
+item.qmd.part.scintillator_plastic.name=Пластиковый сцинтиллятор
+item.qmd.part.detector_casing.name=Пустой корпус детектора
+item.qmd.part.wire_bscco.name=BSCCO проволока
+item.qmd.part.rod_nd_yag.name=Неодимовый легированный YAG стержень
+item.qmd.part.wire_gold_tungsten.name=Позолоченная вольфрамовая проволока
+item.qmd.part.wire_chamber_casing.name=Пустая проволочная камера
+
+item.qmd.semiconductor.silicon_p_doped.name=P-тип легированного кремния
+item.qmd.semiconductor.silicon_n_doped.name=N-тип легированного кремния
+item.qmd.semiconductor.silicon_boule.name=Кремниевый буль
+item.qmd.semiconductor.silicon_wafer.name=Кремниевая пластина
+item.qmd.semiconductor.basic_processor.name=Базовый процессор
+item.qmd.semiconductor.advanced_processor.name=Продвинутый процессор
+item.qmd.semiconductor.elite_processor.name=Элитный Процессор
+
+item.qmd.chemical_dust.tungsten_oxide.name=Оксид вольфрама
+item.qmd.chemical_dust.bscco.name=BSCCO пыль
+item.qmd.chemical_dust.sodium_nitrate.name=Нитрат натрия
+item.qmd.chemical_dust.sodium_chloride.name=Хлорид натрия
+item.qmd.chemical_dust.copper_oxide.name=Оксид меди
+item.qmd.chemical_dust.hafnium_oxide.name=Оксид гафния
+
+item.qmd.sword_tungsten_carbide.name=Меч из карбида вольфрама
+item.qmd.shovel_tungsten_carbide.name=Лопата из карбида вольфрама
+item.qmd.axe_tungsten_carbide.name=Топор из карбида вольфрама
+item.qmd.hoe_tungsten_carbide.name=Мотыга из карбида вольфрама
+item.qmd.pickaxe_tungsten_carbide.name=Кирка из карбида вольфрама
+
+
+item.qmd.flesh.name=Подгнившая плоть
+
+//blocks
+tile.qmd.beamline.name=Труба пучка частиц
+tile.qmd.ore_leacher.name=Растворитель руды
+tile.qmd.irradiator.name=Облучатель
+
+tile.qmd.fission_reflector.tungsten_carbide.name=Карбид вольфрамовый отражатель нейтронов
+tile.qmd.fission_shield.hafnium.name=Гафниевый нейтронный щит реактора деления
+tile.qmd.rtg_strontium.name=Стронцевый RTG
+
+tile.qmd.linear_accelerator_controller.name=Контроллер линейного ускорителя
+tile.qmd.ring_accelerator_controller.name=Контроллер кольцевого ускорителя (синхротрон)
+tile.qmd.beam_diverter_controller.name=Контроллер отклонителя луча
+
+tile.qmd.accelerator_beam.name=Блок пучка частиц ускорителя
+tile.qmd.accelerator_casing.name=Корпус ускорителя
+tile.qmd.accelerator_glass.name=Стекло ускорителя
+tile.qmd.accelerator_vent.name=Вентиль охлаждения ускорителя
+tile.qmd.accelerator_beam_port.name=Порт пучка частиц ускорителя
+tile.qmd.accelerator_synchrotron_port.name=Порт Синхронтронового ускорителя
+tile.qmd.accelerator_energy_port.name=Энергетический порт ускорителя
+tile.qmd.accelerator_source.name=Источник ионов ускорителя
+tile.qmd.accelerator_cavity.copper.name=Медный RF усилитель ускорителя
+tile.qmd.accelerator_cavity.magnesium_diboride.name=Диборид магния RF усилитель ускорителя
+tile.qmd.accelerator_cavity.niobium_tin.name=Ниобий-олово RF усилитель
+tile.qmd.accelerator_cavity.niobium_titanium.name=Ниобий-Титановый RF усилитель ускорителя
+tile.qmd.accelerator_cavity.bscco.name=BSCCO RF усилитель
+tile.qmd.accelerator_magnet.copper.name=Медный электромагнит ускорителя
+tile.qmd.accelerator_magnet.magnesium_diboride.name=Диборид Магниевый электромагнит ускорителя
+tile.qmd.accelerator_magnet.niobium_tin.name=Ниобий Оловянный электромагнит ускорителя
+tile.qmd.accelerator_magnet.niobium_titanium.name=Ниобий Титановый электромагнит ускорителя
+tile.qmd.accelerator_magnet.bscco.name=BSCCO электромагнит ускорителя
+tile.qmd.accelerator_yoke.name=Электромагнитный хомут ускорителя
+
+tile.qmd.accelerator_cooler1.water.name=Водный кулер ускорителя
+tile.qmd.accelerator_cooler1.iron.name=Железный кулер ускорителя
+tile.qmd.accelerator_cooler1.redstone.name=Редстоуновый кулер ускорителя
+tile.qmd.accelerator_cooler1.quartz.name=Кварцевый кулер ускорителя
+tile.qmd.accelerator_cooler1.obsidian.name=Обсидиановый кулер ускорителя
+tile.qmd.accelerator_cooler1.nether_brick.name=Кулер ускорителя из кирпича Незера
+tile.qmd.accelerator_cooler1.glowstone.name=Светокаменный кулер ускорителя
+tile.qmd.accelerator_cooler1.lapis.name=Лазуритовый кулер ускорителя
+tile.qmd.accelerator_cooler1.gold.name=Золотой кулер ускорителя
+tile.qmd.accelerator_cooler1.prismarine.name=Призмариновый кулер ускорителя
+tile.qmd.accelerator_cooler1.slime.name=Слаймовый кулер ускорителя
+tile.qmd.accelerator_cooler1.end_stone.name=Эндстоуновый кулер ускорителя
+tile.qmd.accelerator_cooler1.purpur.name=Purpur кулер ускорителя
+tile.qmd.accelerator_cooler1.diamond.name=Алмазный кулер ускорителя
+tile.qmd.accelerator_cooler1.emerald.name=Изумрудный кулер ускорителя
+tile.qmd.accelerator_cooler1.copper.name=Медный кулер ускорителя
+tile.qmd.accelerator_cooler2.tin.name=Оловянный кулер ускорителя
+tile.qmd.accelerator_cooler2.lead.name=Свинцовый кулер ускорителя
+tile.qmd.accelerator_cooler2.boron.name=Борный кулер ускорителя
+tile.qmd.accelerator_cooler2.lithium.name=Литиевый кулер ускорителя
+tile.qmd.accelerator_cooler2.magnesium.name=Магниевый кулер ускорителя
+tile.qmd.accelerator_cooler2.manganese.name=Марганцевый кулер ускорителя
+tile.qmd.accelerator_cooler2.aluminum.name=Алюминиевый кулер ускорителя
+tile.qmd.accelerator_cooler2.silver.name=Серебрянный кулер ускорителя
+tile.qmd.accelerator_cooler2.fluorite.name=Флюоритовый кулер ускорителя
+tile.qmd.accelerator_cooler2.villiaumite.name=Вилламитовый кулер ускорителя
+tile.qmd.accelerator_cooler2.carobbiite.name=Карбобиитовый кулер ускорителя
+tile.qmd.accelerator_cooler2.arsenic.name=Мышьяковый кулер ускорителя
+tile.qmd.accelerator_cooler2.liquid_nitrogen.name=Кулер ускорителя с жидким азотом
+tile.qmd.accelerator_cooler2.liquid_helium.name=Кулер ускорителя с жидким гелием
+tile.qmd.accelerator_cooler2.enderium.name=Эндериумовый кулер ускорителя
+tile.qmd.accelerator_cooler2.cryotheum.name=Криотеумовый кулер ускорителя
+
+tile.qmd.target_chamber_controller.name=Контроллер камеры столкновения
+tile.qmd.decay_chamber_controller.name=Контроллер камеры распада
+
+tile.qmd.particle_chamber_beam_port.name=Порт пучка частиц камеры частиц
+tile.qmd.particle_chamber_casing.name=Корпус камеры частиц
+tile.qmd.particle_chamber_glass.name=Стекло камеры частиц
+tile.qmd.particle_chamber_beam.name=Блок труба пучка частиц камеры частиц
+tile.qmd.particle_chamber.name=Камера частиц
+tile.qmd.particle_chamber_port.name=Порт камеры частиц
+tile.qmd.particle_chamber_energy_port.name=Энергетический порт камеры частиц
+
+tile.qmd.particle_chamber_detector.bubble_chamber.name=Пузырьковый детектор камеры частиц
+tile.qmd.particle_chamber_detector.silicon_tracker.name=Кремниевый детектор камеры частиц
+tile.qmd.particle_chamber_detector.wire_chamber.name=Проволочный детектор камеры частиц
+tile.qmd.particle_chamber_detector.em_calorimeter.name=Электромагнитный калориметр(детектор) камеры частиц
+tile.qmd.particle_chamber_detector.hadron_calorimeter.name=Адронный калориметр (детектор) камеры частиц
+
+tile.qmd.discharge_lamp.empty.name=Газоразрядная лампа
+tile.qmd.discharge_lamp.hydrogen.name=Водородная газоразрядная лампа
+tile.qmd.discharge_lamp.helium.name=Гелиевая газоразрядная лампа
+tile.qmd.discharge_lamp.nitrogen.name=Азотная газоразрядная лампа
+tile.qmd.discharge_lamp.oxygen.name=Кислородная газоразрядная лампа
+tile.qmd.discharge_lamp.neon.name=Неоновая газоразрядная лампа
+tile.qmd.discharge_lamp.argon.name=Аргонная газоразрядная лампа
+
+tile.qmd.helium_collector.name=Сборщик гелия
+tile.qmd.neon_collector.name=Сборщик неона
+tile.qmd.argon_collector.name=Сборщик аргона
+
+//block descriptions
+
+tile.qmd.beamline.desc=Транспортирует частицы
+tile.qmd.rtg.desc=Производит %s постоянно
+
+tile.qmd.accelerator.cooler.cooling_rate=Охлаждение:
+tile.qmd.accelerator.cooler.water.desc=Должен касаться хотя бы 1 блока RF усилителя.
+tile.qmd.accelerator.cooler.iron.desc=Должен касаться хотя бы 1 блока электромагнита.
+tile.qmd.accelerator.cooler.end_stone.desc=Должен касаться хотя бы 1 блока трубы пучка частиц.
+tile.qmd.accelerator.cooler.lead.desc=Должен касаться хотя бы 1 железного кулера.
+tile.qmd.accelerator.cooler.obsidian.desc=Должен касаться хотя бы 2 блоков светокаменного кулера.
+tile.qmd.accelerator.cooler.quartz.desc=Должен касаться хотя бы 1 блока редстоунового кулера.
+tile.qmd.accelerator.cooler.copper.desc=Должен касаться хотя бы 1 блока водного кулера.
+tile.qmd.accelerator.cooler.redstone.desc=Должен касаться хотя бы 1 блока RF усилителя и хотя бы 1 блока электромагнита.
+tile.qmd.accelerator.cooler.purpur.desc=Должен касаться хотя бы 1 блока железного кулера и хотя бы 1 блока эндстоунового кулера.
+tile.qmd.accelerator.cooler.lapis.desc=Должен касаться хотя бы 1 блока электромагнита и хотя бы 1 блока электромагнитного хомута.
+tile.qmd.accelerator.cooler.nether_brick.desc=Должен касаться хотя бы 1 блока обсидианового кулера.
+tile.qmd.accelerator.cooler.gold.desc=Должен касаться хотя бы 2 блоков железного кулера.
+tile.qmd.accelerator.cooler.glowstone.desc=Должен касаться хотя бы 2 блоков электромагнита разного типа.
+tile.qmd.accelerator.cooler.prismarine.desc=Должен касаться хотя бы 2 блоков водного кулера.
+tile.qmd.accelerator.cooler.tin.desc=Должен касаться хотя бы 2 блоков лазуритового кулера.
+tile.qmd.accelerator.cooler.lithium.desc=Должен касаться хотя бы 1 блока борного кулера.
+tile.qmd.accelerator.cooler.magnesium.desc=Должен касаться хотя бы 1 блока электромагнитного хомута.
+tile.qmd.accelerator.cooler.slime.desc=Должен касаться хотя бы 1 блока водного кулера и хотя бы 2 блоков свинцового кулера.
+tile.qmd.accelerator.cooler.manganese.desc=Должен касаться хотя бы 2 блоков RF усилителя.
+tile.qmd.accelerator.cooler.arsenic.desc=Должен касаться хотя бы 2 блоков RF усилителя разного типа.
+tile.qmd.accelerator.cooler.carobbiite.desc=Должен касаться хотя бы 1 блока эндстоунового кулера и 1 блока медного кулера.
+tile.qmd.accelerator.cooler.fluorite.desc=Должен касаться хотя бы 1 блока золотого кулера и хотя бы 1 блока презмаринового кулера.
+tile.qmd.accelerator.cooler.villiaumite.desc=Должен касаться хотя бы 1 блока золотого кулера и хотя бы 1 блока электромагнитного хомута.
+tile.qmd.accelerator.cooler.boron.desc=Должен касаться хотя бы 1 блока RF усилителя и хотя бы 1 блока электромагнитного хомута.
+tile.qmd.accelerator.cooler.silver.desc=Должен касаться хотя бы 2 блоков мышьякового кулера.
+tile.qmd.accelerator.cooler.aluminum.desc=Должен касаться хотя бы 1 блока кварцевого кулера.
+tile.qmd.accelerator.cooler.enderium.desc=Должен касаться хотя бы 1 блока магниевого кулера и хотя бы 1 блока призмаринового кулера.
+tile.qmd.accelerator.cooler.liquid_nitrogen.desc=Должен касаться хотя бы 1 блока лазуритового кулера и хотя бы 1 блока purpur кулера.
+tile.qmd.accelerator.cooler.diamond.desc=Должен касаться хотя бы 1 блока золотого кулера и 1 блока RF усилителя.
+tile.qmd.accelerator.cooler.emerald.desc=Должен касаться хотя бы 1 блока призмаринового кулера и хотя бы 1 блока электромагнита.
+tile.qmd.accelerator.cooler.liquid_helium.desc=Должен касаться хотя бы 3 блоков медного кулера.
+tile.qmd.accelerator.cooler.cryotheum.desc=Должен касаться хотя бы 3 блоков свинцового кулера.
+
+tile.qmd.rf_cavity.desc=Ускоряет заряженные частицы с помощью радиоволнового электрического поля. Должен выставляться кольцом из 8 блоков усилителя одного типа вокруг трубы пучка частиц. Между кольцами усилителя должно быть расстояние хотя бы в 1 блок.
+
+tile.qmd.accelerator_magnet.desc=Увеличивает фокус и уменьшает рассеивание пучка частиц с помощью электромагнитного поля. Можно сформировать диполь из 2х блоков электромагнита. Квадриполь состоит из 4х блоков электромагнита.
+
+tile.qmd.accelerator_yoke.desc=Изменяет и усиливает электромагнитное поле. Используется для диполи. Электромагниты диполи должны быть установлены сверху и снизу блока пучка частиц. Вся конструкция диполи и трубы пучка частиц должна быть окружена блоками хомута образуя мультиблок 3х3х3.
+
+
+tile.qmd.particle_chamber.detector.bubble_chamber.desc=Размещать не далее 2х блоков от камеры частиц.
+tile.qmd.particle_chamber.detector.wire_chamber.desc=Размещать не далее 2х блоков от камеры частиц.
+tile.qmd.particle_chamber.detector.silicon_tracker.desc=Должен прилегать к камере частиц.
+tile.qmd.particle_chamber.detector.em_calorimeter.desc=Размещать не далее 3х блоков от камеры частиц.
+tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=Размещать не далее 5х блоков от камеры частиц.
+
+
+//fluids
+fluid.hydrochloric_acid=Соляная кислота
+tile.qmd.fluid_hydrochloric_acid.name=Соляная кислота
+fluid.nitric_acid=Азотная кислота
+tile.qmd.fluid_nitric_acid.name=Азотная кислота
+fluid.sodium_chloride_solution=Раствор хлорида натрия
+tile.qmd.fluid_sodium_chloride_solution.name=Раствор хлорида натрия
+fluid.liquid_hydrogen=Жидкий водород
+tile.qmd.fluid_liquid_hydrogen.name=Жидкий водород
+fluid.liquid_oxygen=Жидкий кислород
+tile.qmd.fluid_liquid_oxygen.name=Жидкий кислород
+fluid.liquid_argon=Жидкий аргон
+tile.qmd.fluid_liquid_argon.name=Жидкий аргон
+fluid.argon=Аргон
+tile.qmd.fluid_argon.name=Аргон
+fluid.liquid_neon=Жидкий неон
+tile.qmd.fluid_liquid_neon.name=Жидкий неон
+fluid.neon=Неон
+tile.qmd.fluid_neon.name=Неон
+fluid.silicon=Расплавленый кремний
+tile.qmd.fluid_silicon.name=Расплавленый кремний
+fluid.sodium_nitrate_solution=Раствор нитрата натрия
+tile.qmd.fluid_sodium_nitrate_solution.name=Раствор нитрата натрия
+fluid.lead_nitrate_solution=Раствор нитрата свинца
+tile.qmd.fluid_lead_nitrate_solution.name=Раствор нитрата свинца
+fluid.sodium_tungstate_solution=Раствор вольфрамата натрия
+tile.qmd.fluid_sodium_tungstate_solution.name=Раствор вольфрамата натрия
+fluid.lead_tungstate_solution=Свинцово вольфраматный раствор
+tile.qmd.fluid_lead_tungstate_solution.name=Свинцово вольфраматный раствор
+fluid.chlorine=Хлор
+tile.qmd.fluid_chlorine.name=Хлор
+fluid.nitric_oxide=Оксид азота
+tile.qmd.fluid_nitric_oxide.name=Оксид азота
+fluid.nitrogen_dioxide=Диоксид азота
+tile.qmd.fluid_nitrogen_dioxide.name=Двуокись азота
+fluid.yag=Расплавленный иттрий-алюминиевый гранат
+tile.qmd.fluid_yag.name=Расплавленный иттрий-алюминиевый гранат
+fluid.nd_yag=Легированный неодимом расплав YAG
+tile.qmd.fluid_nd_yag.name=Легированный неодимом расплав YAG
+
+//info
+info.qmd.rf_cavity.voltage=Напряжение ускорения: %s kV
+info.qmd.rf_cavity.efficiency=Энергоэффективность: %s
+info.qmd.rf_cavity.heat=Нагрев: %s H/t
+info.qmd.rf_cavity.power=Энергия: %s RF/t
+info.qmd.rf_cavity.max_temp=Максимальная температура: %s K
+
+info.qmd.accelerator_magnet.strength=Сила магнитного поля: %s T
+info.qmd.accelerator_magnet.efficiency=Энергоэффективность: %s
+info.qmd.accelerator_magnet.heat=Нагрев: %s H/t
+info.qmd.accelerator_magnet.power=Энергия: %s RF/t
+info.qmd.accelerator_magnet.max_temp=Максимальная температура: %s K
+
+info.qmd.particle_chamber.detector.efficiency=Эффективность: %s
+info.qmd.particle_chamber.detector.power=Энергия: %s RF/t
+
+info.qmd.beamline.attenuation=Потери фокуса = %s
+
+
+
+//multiblock validation
+zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part=Неверный блок: [%s, %s, %s].
+
+qmd.multiblock_validation.accelerator.no_inlet=Нужен хотя бы один вентиль охлаждения на ВХОД.
+qmd.multiblock_validation.accelerator.no_outlet=Нужен хотя бы один вентиль охлаждения на ВЫХОД.
+qmd.multiblock_validation.accelerator.need_energy_ports=Нужен хотя бы 1 энергетический порт.
+qmd.multiblock_validation.accelerator.wrong_height=Максимальная высота ускорителя 5 блоков.
+qmd.multiblock_validation.accelerator.invalid_beam_port=Порт пучка частиц не может быть здесь.
+qmd.multiblock_validation.accelerator.something_is_wrong=Порт пучка частиц ни к чему не прилегает. Что будем делать?
+
+qmd.multiblock_validation.accelerator.linear.to_short=Линейный ускоритель недостаточной длинны.
+qmd.multiblock_validation.accelerator.linear.must_be_beam=Внутри по центру ускорителя должна быть непрерывная линия блоков трубы пучка частиц.
+qmd.multiblock_validation.accelerator.linear.have_source_and_beam_port=С одной стороны должен быть источник частиц, с другой стороны ускорителя должен быть порт частиц на ВЫХОД.
+qmd.multiblock_validation.accelerator.linear.source_must_face_in=Источник частиц должен быть направлен внутрь ускорителя.
+qmd.multiblock_validation.accelerator.linear.must_have_io=Требуются порты пучка частиц на концах ускорителя в режимах ВХОД и ВЫХОД.
+
+qmd.multiblock_validation.accelerator.ring.must_be_square=Стенки ускорителя должны быть одинаковых размеров.
+qmd.multiblock_validation.accelerator.ring.to_short=Кольцевой ускоритель недостаточной длинны.
+qmd.multiblock_validation.accelerator.ring.to_long=Кольцевой ускоритель слишком большой.
+qmd.multiblock_validation.accelerator.ring.must_be_beam=В центре кольцевого ускорителя должна быть непрерывная линия из блоков трубы пучка частиц.
+qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner=В углах кольцевого ускорителя нужны диполи. Диполь это 2 электромагнита, установленные сверху и снизу блока трубы пучка частиц. После установки диполи, необходимо обставить сгиб блоками электромагнитного хомута, что бы получилась структура 3х3х3.
+qmd.multiblock_validation.accelerator.ring.must_be_dipole=Со стороны порта пучка частиц требуется диполь.
+qmd.multiblock_validation.accelerator.ring.beam_port_must_connect=Нужен блок трубы пучка частиц, соединяющий порт частиц.
+qmd.multiblock_validation.accelerator.ring.must_have_io=Не должно быть больше одного порта на ВХОД и одного порта на ВЫХОД.
+qmd.multiblock_validation.accelerator.ring.to_many_synchrotron_ports=Не должно быть больше одного порта синхротрона.
+
+qmd.multiblock_validation.beam_director.must_be_cube=Отклонитель луча должен быть размером 5х5 с диполью в центре.
+qmd.multiblock_validation.beam_director.must_be_beam=В центре должен быть блок трубы пучка частиц.
+qmd.multiblock_validation.accelerator.beam_director.must_be_dipole=В центре нужна вертикальная или горизонтальная диполь.
+
+qmd.multiblock_validation.chamber.target_chamber.must_be_square=Стенки камеры столкновения должны быть одинаковых размеров.
+qmd.multiblock_validation.chamber.target_chamber.must_be_odd=Стенки камеры столкновения должны быть нечетного размера (5,7,9).
+qmd.multiblock_validation.chamber.must_have_target=В центре камеры столкновения должна быть установлена камера частиц.
+qmd.multiblock_validation.chamber.must_be_beam=От камеры частиц должны проходить непрерывные линии блоков пучка частиц камеры столкновения.
+qmd.multiblock_validation.chamber.beam_port_wrong_spot=Порты пучка частиц камеры столкновения должны быть в центре стенки.
+qmd.multiblock_validation.chamber.must_have_input_beam=Требуется 1 порт частиц на ВХОД.
+qmd.multiblock_validation.chamber.need_energy_ports=Требуется хотя бы 1 энергетический порт.
+
+
+
+
+//gui container
+gui.qmd.container.heat_stored=Нагрев: %s/%s
+gui.qmd.container.energy_stored=Энергия: %s/%s
+gui.qmd.container.required_energy=Требуется энергии: %s
+gui.qmd.container.temperature=Температура: %s
+
+
+gui.qmd.container.linear_accelerator_controller.name=Линейный ускоритель
+gui.qmd.container.ring_accelerator_controller.name=Кольцевой ускоритель
+gui.qmd.container.beam_diverter_controller.name=Отклонитель луча
+gui.qmd.container.accelerator.cavitys=Усилители RF: %s at %s 
+gui.qmd.container.accelerator.quadrupoles=Квадриполи: %s at %s
+gui.qmd.container.accelerator.dipoles=Диполи: %s at %s 
+gui.qmd.container.accelerator.radius=Радиус: %s
+gui.qmd.container.accelerator.length=Длинна: %s 
+gui.qmd.container.accelerator.max_temperature=Максимальная температура: %s 
+
+gui.qmd.container.accelerator.efficiency= (%s%%)
+gui.qmd.container.accelerator.cooling=Охлаждение: %s
+gui.qmd.container.accelerator.heating=Максимальный нагрев: %s
+gui.qmd.container.accelerator.external_heating=Максимальный внешний нагрев: %s
+gui.qmd.container.accelerator.coolant_stored=Охладитель: %s/%s
+gui.qmd.container.accelerator.coolant_required=Охлаждение: %s
+gui.qmd.container.accelerator.coolant_out=Выход охладителя: %s
+
+gui.qmd.container.accelerator.error.1=Слишком горячий
+gui.qmd.container.accelerator.error.2=Не хватает энергии
+gui.qmd.container.accelerator.error.3=Недостаточный фокус
+gui.qmd.container.accelerator.error.4=Энергия частиц слишком мала
+gui.qmd.container.accelerator.error.5=Энергия частиц слишком велика
+
+gui.qmd.container.beam_dirverter.max_energy=Максимальная энергия: %s
+gui.qmd.container.beam_dirverter.energy_loss=Потери энергии: %s
+
+gui.qmd.container.target_chamber.efficiency=Эффективность: %s%%
+
+gui.qmd.container.accelerator_source=Источник частиц
+
+
+
+
+//particles
+qmd.particle.none.name=НЕТ
+qmd.particle.up_quark.name=Верхний кварк
+qmd.particle.antiup_quark.name=Анти-верхний карк
+qmd.particle.down_quark.name=Нижний кварк
+qmd.particle.antidown_quark.name=Анти-нижний кварк
+qmd.particle.charm_quark.name= C-кварк
+qmd.particle.anticharm_quark.name=Анти С-кварк
+qmd.particle.strange_quark.name=Странный кварк
+qmd.particle.antistrange_quark.name=Анти-странный кварк
+qmd.particle.top_quark.name=Top Quark
+qmd.particle.antitop_quark.name=Anti-Top Quark
+qmd.particle.bottom_quark.name=Bottom Quark
+qmd.particle.antibottom_quark.name=Anti-Bottom Quark
+qmd.particle.electron.name=Электрон 
+qmd.particle.positron.name=Позитрон
+qmd.particle.electron_neutrino.name=Электрон нейтрино
+qmd.particle.electron_antineutrino.name=Электрон антинейтрино
+qmd.particle.muon.name=Мюон
+qmd.particle.antimuon.name=Анти-мюон
+qmd.particle.muon_neutrino.name=Muon Neutrino
+qmd.particle.muon_antineutrino.name=Muon Antineutrino
+qmd.particle.tau.name=Тау
+qmd.particle.antitau.name=Анти-тау
+qmd.particle.tau_neutrino.name=Tau Neutrino
+qmd.particle.tau_antineutrino.name=Tau Antineutrino
+qmd.particle.photon.name=Фотон
+qmd.particle.gluon.name=Глюон
+qmd.particle.w_plus_boson.name=W+ Бозон
+qmd.particle.w_minus_boson.name=W- Бозон
+qmd.particle.z_boson.name=Z Бозон
+qmd.particle.higgs_boson.name=Бозон Хиггса
+qmd.particle.proton.name=Протон
+qmd.particle.antiproton.name=Анти-протон
+qmd.particle.neutron.name=Нейтрон
+qmd.particle.antineutron.name=Анти-нейтрон
+qmd.particle.deuteron.name=Дейтерон
+qmd.particle.antideuteron.name=Анти-дейтерон
+qmd.particle.alpha.name=Альфа частица
+qmd.particle.antialpha.name=Анти-альфа частица
+qmd.particle.pion_plus.name=Пион +
+qmd.particle.pion_naught.name=Пион 0
+qmd.particle.pion_minus.name=Пион -
+qmd.particle.triton.name=Тритон
+qmd.particle.antitriton.name=Анти-тритон
+qmd.particle.boron_ion.name=Ион бора
+qmd.particle.kaon_plus.name=Каон +
+qmd.particle.kaon_minus.name=Каон -
+qmd.particle.kaon_naught.name=Каон 0
+qmd.particle.antikaon_naught.name=Анти каон 0
+qmd.particle.eta.name=Eta Мезон
+qmd.particle.eta_prime.name=Eta Prime Мезон
+qmd.particle.charmed_eta.name=Charmed Eta Мезон
+qmd.particle.bottom_eta.name=Bottom Eta Мезон
+
+
+//particle descriptions
+qmd.particle.up_quark.desc=Верхний кварк - легчайший кварк. Верхний и нижний кварки формируют нейтроны и протоны.
+qmd.particle.antiup_quark.desc=Анти верхний кварк - антиматериальная версия верхнего кварка.
+qmd.particle.down_quark.desc=Нижний кварк - второй по величине легчайший кварк. Верхний и нижний кварки формируют нейтроны и протоны.
+qmd.particle.antidown_quark.desc=Анти нижний кварк - антиматериальная версия нижнего кварка.
+qmd.particle.charm_quark.desc=The Charm Quark is a heavy version of the Up Quark.
+qmd.particle.anticharm_quark.desc=The Anti-Charm Quark is the antimatter partner of the Charm Quark.
+qmd.particle.strange_quark.desc=The Strange Quark is a heavy version of the Down Quark.
+qmd.particle.antistrange_quark.desc=The Anti-Strange Quark is the antimatter partner of the Strange Quark.
+qmd.particle.top_quark.desc=The Top Quark is a very heavy version of the Up Quark.
+qmd.particle.antitop_quark.desc=The Anti-Top Quark is the antimatter partner of the Top Quark.
+qmd.particle.bottom_quark.desc=The Bottom Quark is a very heavy version of the Down Quark.
+qmd.particle.antibottom_quark.desc=The Anti-Bottom Quark is the antimatter partner of the Bottom Quark.
+qmd.particle.electron.desc=The Electron is lightest charged lepton. It is commonly found in orbitals around nuclei, forming atoms.
+qmd.particle.positron.desc=The positron is the Antimatter particle of the electron. When a electron and positron meet the annihilate resulting in all there mass being converted into energy in the form of 2 gamma rays.
+qmd.particle.electron_neutrino.desc=The Electron Neutrino is the neutrino partner of the Electron.
+qmd.particle.electron_antineutrino=The Electron Antineutrino is the antimatter partner of the Electron Neutrino.
+qmd.particle.muon.desc=The Muon is basically a heavy electron.
+qmd.particle.antimuon.desc=The Anti-Muon is the antimatter partner of the Muon.
+qmd.particle.muon_neutrino.desc=The Muon Neutrino is the neutrino partner of the Muon.
+qmd.particle.muon_antineutrino.desc=The Muon Antineutrino is the antimatter partner of the Muon Neutrino.
+qmd.particle.tau.desc=The Tau is basically a really heavy electron
+qmd.particle.antitau.desc=The Anti-Tau is the antimatter partner of the Tau.
+qmd.particle.tau_neutrino.desc=The Tau Neutrino is the neutrino partner of the Tau.
+qmd.particle.tau_antineutrino.desc=The Tau Antineutrino is the antimatter partner of the Tau Neutrino.
+qmd.particle.photon.desc=Photons are the particles that make up light. They are the carries of the electromagnetic force. High energy Photons are called gamma rays.
+qmd.particle.gluon.desc=Gluons are the carries of the strong force. The strong force is what keeps quarks bound together to create composite particles like protons and neutrons.
+qmd.particle.w_plus_boson.desc=The Z and W bosons are the carries of the weak force. The weak force is what allows some particles to decay and is responsible for beta decay.
+qmd.particle.w_minus_boson.desc= The Z and W bosons are the carries of the weak force. The weak force is what allows some particles to decay and is responsible for beta decay.
+qmd.particle.z_boson.desc=The Z and W bosons are the carries of the weak force. The weak force is what allows some particles to decay and is responsible for beta decay.
+qmd.particle.higgs_boson.desc=The Higgs Boson is the boson of the Higgs Field which is responsible for giving particles their mass.
+qmd.particle.proton.desc=The Proton is a Nucleon along with the Neutron make up the nucleus of atoms.
+qmd.particle.antiproton.desc=The Anti-Proton is the antimatter partner of the Proton.
+qmd.particle.neutron.desc=The Neutron is a Nucleon along with the Protons make up the nucleus of atoms. The Neutron is used in nuclear fission to split fissile nuclei.
+qmd.particle.antineutron.desc=The Anti-Neutron is the antimatter partner of the Neutron.
+qmd.particle.deuteron.desc=The Deuteron is the nucleus of a Deuterium Atom.
+qmd.particle.antideuteron.desc=The Anti-Deuteron is the antimatter partner of the Deuteron.
+qmd.particle.alpha.desc=Alpha Particle is another name for the nucleus of helium 4. It is commonly released in the decay of heavy elements like uranium and plutonium.
+qmd.particle.antialpha.desc=The Anti-Alpha Particle is the antimatter partner of the Alpha Particle.
+qmd.particle.pion_plus.desc=Pions are the particles that are responsible for holding nuclei together. Although not colored themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.pion_naught.desc=Pions are the particles that are responsible for holding nuclei together. Although not colored themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.pion_minus.desc=Pions are the particles that are responsible for holding nuclei together. Although not colored themselves they distribute the "residual" strong force to keep nuclei together.
+qmd.particle.triton.desc=The Triton is the nucleus of a Tritium Atom.
+qmd.particle.antitriton.desc=The Anti-Triton is the antimatter partner of the Triton.
+
+qmd.particle.boron_ion.desc=Атом бора без 1 электрона.
+
+qmd.particle.kaon_plus.desc=The Kaon + is a mesons with strangeness of 1.
+qmd.particle.kaon_naught.desc=The Kaon 0 is a mesons with strangeness of 1.
+qmd.particle.antikaon_naught.desc=The Anti-Kaon 0 is a mesons with strangeness of -1.
+qmd.particle.kaon_minus.desc=The Kaon - is a mesons with strangeness of -1.
+
+qmd.particle.eta.desc=Eta Mesons are flavourless mesons meaning their flavor numbers like strangeness and isospin are 0.
+qmd.particle.eta_prime.desc=Eta Mesons are flavorless mesons meaning their flavor numbers like strangeness and isospin are 0.
+qmd.particle.charmed_eta.desc=Eta Mesons are flavorless mesons meaning their flavor numbers like strangeness and isospin are 0.
+qmd.particle.bottom_eta.desc=Eta Mesons are flavorless mesons meaning their flavor numbers like strangeness and isospin are 0.
+
+//particleStack info
+gui.qmd.particlestack.amount=Объем: %s
+gui.qmd.particlestack.mean_energy=Энергия: %s
+gui.qmd.particlestack.focus=Фокус: %s
+
+//jei
+qmd.gui.jei.category.accelerator_source=Источник ччастиц
+qmd.gui.jei.category.particle_info=Информация о частице
+qmd.gui.jei.category.target_chamber=Камера столкновения
+qmd.gui.jei.category.decay_chamber=Камера распада
+
+gui.qmd.jei.particle.mass=Масса: %s
+gui.qmd.jei.particle.charge=Заряд: %s
+gui.qmd.jei.particle.spin=Спин: %s
+gui.qmd.jei.particle.colour=Изменение цвета: %s
+gui.qmd.jei.particle.weak=Слабый заряд: %s
+gui.qmd.jei.particle.components=Состоит из:
+gui.qmd.jei.particle.focus=Минимальный фокус: %s
+gui.qmd.jei.reaction.range=Диапазон: %s
+gui.qmd.jei.reaction.energy_released=Энергия столкновения: %s
+gui.qmd.jei.reaction.cross_section=Cross Section: %s%%
+
+//jei trick
+tile.qmd.irradiator_fuel.name=Топливо облучателя
+tile.qmd.accelerator_cooling.name=Охлаждение ускорителя
+
+
+//tabs
+itemGroup.qmd.items=Quantum Minecraft Dynamics предметы
+itemGroup.qmd.blocks=Quantum Minecraft Dynamics блоки
+itemGroup.qmd.multiblocks=QMD Мультиблоки
+
+
+//block settings
+qmd.block.accelerator_port_setting_toggle=Преключен редстоун режим порта на
+qmd.block.port_mode_toggle=Порт настроен на
+qmd.block.port_mode.INPUT=ВХОД
+qmd.block.port_mode.OUTPUT=ВЫХОД
+qmd.block.port_mode.DISABLED=ОТКЛЮЧЕНО
+qmd.block.port.mode=!
+qmd.block.particle_chamber_port_setting_toggle=Выход порта переключен на
+qmd.block.particle_chamber_setting.1=ВЫХОД +
+qmd.block.particle_chamber_setting.3=ВЫХОД -
+
+
+
+
+
+//Configs
+
+gui.qmd.config.accelerator.accelerator_linear_min_size=Минимальный размер линейного ускорителя
+gui.qmd.config.accelerator.accelerator_linear_min_size.comment=Минимальный размер линейного ускорителя в диапазоне [6-255]
+
+gui.qmd.config.accelerator.accelerator_linear_max_size=Максимальный размер линейного ускорителя
+gui.qmd.config.accelerator.accelerator_linear_max_size.comment=Максимальный размер линейного ускорителя в диапазоне [6-255]
+
+gui.qmd.config.accelerator.accelerator_ring_min_size=Минимальный размер кольцевого ускорителя
+gui.qmd.config.accelerator.accelerator_ring_min_size.comment=Минимальный размер кольцевого ускорителя в диапазоне [11-255]
+
+gui.qmd.config.accelerator.accelerator_ring_max_size=Максимальный размер кольцевого ускорителя
+gui.qmd.config.accelerator.accelerator_ring_max_size.comment=Максимальный размер кольцевого ускорителя в диапазоне [11-255]
+
+gui.qmd.config.accelerator.beam_attenuation_rate=Потери блока трубы пучка частиц
+gui.qmd.config.accelerator.beam_attenuation_rate.comment=Потери блока трубы пучка частиц в диапазоне [0-255]
+
+gui.qmd.config.accelerator.beam_diverter_radius=Потери блока трубы пучка частиц
+gui.qmd.config.accelerator.beam_diverter_radius.comment=Эффективный радиус отклонителя частиц в диапазоне [0-1000]
+
+gui.qmd.config.accelerator.RF_cavity_voltage=Напряжение RF усилителей
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=Ускоряющее напряжение усилителей в kV. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.RF_cavity_efficiency=Энергоэффективность RF усилителей
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=The power Efficiency of each cavity. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.RF_cavity_heat_generated=Нагрев RF усилителей
+gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=The heat per tick  each cavity generates. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.RF_cavity_base_power=Базовая энегрия RF усилителей
+gui.qmd.config.accelerator.RF_cavity_base_power.comment=The base RF/t each cavity uses. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.RF_cavity_max_temp=Максимальная температура RF усилителей
+gui.qmd.config.accelerator.RF_cavity_max_temp.comment=The maximum operating temperature for each cavity in K. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.magnet_strength=Мощность магнитного поля
+gui.qmd.config.accelerator.magnet_strength.comment=The strength of each magnet in Tesla. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.magnet_efficiency=Энергоэффективность электромагнитов
+gui.qmd.config.accelerator.magnet_efficiency.comment=The power efficiency of each magnet. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.magnet_heat_generated=Нагрев электромагнитов
+gui.qmd.config.accelerator.magnet_heat_generated.comment=The heat per tick  each magnet generates. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.magnet_base_power=Энергия электромагнитов
+gui.qmd.config.accelerator.magnet_base_power.comment=The base RF/t each magnet uses. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.magnet_max_temp=Максимальная температура электромагнитов
+gui.qmd.config.accelerator.magnet_max_temp.comment=The maximum operating temperature for each magnet in K. Порядок: Медный, Диборид магниевый, Ниобиум-Оловянный, Ниобиум-Титановый, BSCCO
+
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=Minimum Synchrotron Input Particle Energy
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=The minimum particle energy allowed to be inputted into a Synchrotron Accelerator in keV
+
+gui.qmd.config.particle_chamber.target_chamber_power=Энергия камеры столкновения
+gui.qmd.config.particle_chamber.target_chamber_power.comment=The Base RF/t the Target Chamber uses
+
+gui.qmd.config.particle_chamber.decay_chamber_power=Камера распада
+gui.qmd.config.particle_chamber.decay_chamber_power.comment=Требование энергии камерой распада RF/t
+
+gui.qmd.config.particle_chamber.detector_efficiency=Эффективность детекторов
+gui.qmd.config.particle_chamber.detector_efficiency.comment=Эффективность детекторов частиц. Порядок:Пузырьковая камера, Кремниевый Tracker, Мульти-проволочная камера, электромагнитный калориметр, адронный калориметр
+
+gui.qmd.config.particle_chamber.detector_base_power=Энергия детекторов
+gui.qmd.config.particle_chamber.detector_base_power.comment=The amount of RF/t each detector uses.Order:Bubble Chamber, Silicon Tracker, Multi-wire Chamber, Electromagnetic Calorimeter, Hadron Calorimeter
+
+gui.qmd.config.accelerator.cooler_heat_removed=Cooler Heat
+gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
+
+gui.qmd.config.fission.reflector_efficiency=Neutron Reflector Efficiency
+gui.qmd.config.fission.reflector_efficiency.comment= The efficiency of each type of neutron reflector. Order:Tungsten Carbide
+
+gui.qmd.config.fission.reflector_reflectivity=Neutron Reflector Reflectivity
+gui.qmd.config.fission.reflector_reflectivity.comment= The reflectivity of each type of neutron reflector. Order:Tungsten Carbide
+
+gui.qmd.config.fission.shield_heat_per_flux=Shield Heat Per Flux
+gui.qmd.config.fission.shield_heat_per_flux.comment=The amount of heat generated per flux through the shield. Order:Hafnium
+
+gui.qmd.config.fission.shield_efficiency=Эффективность щита
+gui.qmd.config.fission.shield_efficiency.comment= Эффективность щитов.
+
+gui.qmd.config.other.rtg_power=RTG энергия
+gui.qmd.config.other.rtg_power.comment=Сколько энергии генерируют RTG. Порядок:Стронций-90
+
+gui.qmd.config.other.processor_passive_rate=Пассивные сборщики газов
+gui.qmd.config.other.processor_passive_rate.comment=Скорость генерирования газов mB/t. Порядок:Гелий, Неон, Аргон.
+
+gui.qmd.config.processors.power=Энергия машин
+gui.qmd.config.processors.power.comment= Сколько Rf/t потребляют машины.
+
+gui.qmd.config.processors.time=Скорость машин
+gui.qmd.config.processors.time.comment= Сколько тиков занимает процесс машины. Порядок: Растворитель руды, Облучатель
+
+gui.qmd.config.tools.tool_mining_level=Уровень добычи
+gui.qmd.config.tools.tool_mining_level.comment=Уровень добычи инструментов из карбида вольфрама.
+
+gui.qmd.config.tools.tool_durability=Прочность инструментов
+gui.qmd.config.tools.tool_durability.comment=Прочность инструментов инструментов из карбида вольфрама.
+
+gui.qmd.config.tools.tool_speed=Скорость инструментов
+gui.qmd.config.tools.tool_speed.comment=Скорость инструментов инструментов из карбида вольфрама.
+
+gui.qmd.config.tools.tool_attack_damage=Урон инструментов
+gui.qmd.config.tools.tool_attack_damage.comment=Урон инструментов инструментов из карбида вольфрама.
+
+gui.qmd.config.tools.tool_enchantability=Зачаровываемость инструментов
+gui.qmd.config.tools.tool_enchantability.comment=Зачаровываемость инструментов из карбида вольфрама.
+
+

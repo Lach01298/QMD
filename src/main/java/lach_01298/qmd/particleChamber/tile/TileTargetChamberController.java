@@ -12,10 +12,12 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.block.BlockTargetChamberController;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
+import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
@@ -36,13 +38,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController, ITileInventory
 {
 
-private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
-	
+	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 
 	
-	public int inventoryStackLimit = 64;
+	
 	public QMDRecipeHandler recipe_handler = QMDRecipes.target_chamber;
 	
 	protected Set<EntityPlayer> playersToUpdate;
@@ -156,7 +157,7 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 	@Override
 	public void setItemOutputSetting(int slot, ItemOutputSetting setting)
 	{
-		// TODO Auto-generated method stub
+		
 	}
 	
 	
@@ -219,5 +220,8 @@ private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_ch
 		return super.getCapability(capability, side);
 	}
 	
-	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerTargetChamberController(player, this);
+	}
 }

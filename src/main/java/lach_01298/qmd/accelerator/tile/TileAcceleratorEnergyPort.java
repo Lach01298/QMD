@@ -35,7 +35,7 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 	
 	public TileAcceleratorEnergyPort()
 	{
-		super(CuboidalPartPositionType.WALL);
+		super(CuboidalPartPositionType.EXTERIOR);
 	}
 
 

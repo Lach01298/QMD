@@ -7,8 +7,9 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.Units;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.RingAcceleratorLogic;
+import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
-import nc.multiblock.gui.GuiLogicMultiblockController;
+import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
@@ -16,24 +17,25 @@ import nc.util.Lang;
 import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiRingAcceleratorController extends GuiLogicMultiblockController<Accelerator, RingAcceleratorLogic>
+public class GuiRingAcceleratorController extends GuiLogicMultiblock<Accelerator, RingAcceleratorLogic, IAcceleratorController>
 {
 
 	protected final ResourceLocation gui_texture;
 
-	
+	private final GuiParticle guiParticle;
 
-	public GuiRingAcceleratorController(Accelerator multiblock, BlockPos controllerPos, Container container)
+	public GuiRingAcceleratorController(EntityPlayer player,IAcceleratorController controller)
 	{
-		super(multiblock, controllerPos, container);
+		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/accelerator_controller.png");
 		xSize = 196;
 		ySize = 109;
+		
+		guiParticle = new GuiParticle(this);
 	}
 
 	@Override
@@ -47,10 +49,6 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) 
 	{
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		GuiParticle guiParticle = new GuiParticle(this);
-		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21);
-		
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21, mouseX, mouseY);
 
 		renderTooltips(mouseX, mouseY);
 	}
@@ -116,18 +114,19 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 		int coolant = (int)Math.round((double)multiblock.tanks.get(0).getFluidAmount()/(double)multiblock.tanks.get(0).getCapacity()*95);
 		drawTexturedModalRect(guiLeft + 28, guiTop + 101-coolant, 208, 95- coolant, 6, coolant);
 		
-
+		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21);
 	}
 	
 	@Override
-	public void renderTooltips(int mouseX, int mouseY) {
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
-		
+	public void renderTooltips(int mouseX, int mouseY) 
+	{
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 150, 20, 18, 18);
 		
 		drawTooltip(energyInfo(), mouseX, mouseY, 8, 5, 8, 96);
 		drawTooltip(heatInfo(), mouseX, mouseY, 18, 5, 8, 96);
 		drawTooltip(coolantInfo(), mouseX, mouseY, 28, 5, 8, 96);
 		
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(1).getParticleStack(), guiLeft+40, guiTop+21, mouseX, mouseY);
 	}
 	
 
@@ -178,7 +177,7 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblockController<A
 		{
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
 			{
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
 			}
 		}
 	}

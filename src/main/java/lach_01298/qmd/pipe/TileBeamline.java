@@ -11,6 +11,9 @@ import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.particle.ITileParticleStorage;
 import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.ParticleStorageBeamline;
+import nc.multiblock.container.ContainerMultiblockController;
+import nc.multiblock.tile.IMultiblockGuiPart;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -106,6 +109,15 @@ public class TileBeamline extends TilePipePart implements IPipeController, ITile
 		}
 
 		return backupTanks;
+	}
+
+
+	@Override
+	public <TILE extends IMultiblockGuiPart<Pipe>> ContainerMultiblockController<Pipe, TILE> getContainer(
+			EntityPlayer player)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

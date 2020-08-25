@@ -10,11 +10,11 @@ import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.util.math.BlockPos;
 
 public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 {
-	public List<ParticleStorageAccelerator> beams;
 	public long particleCount, recipeParticleCount;
 	
 	public TargetChamberUpdatePacket() 
@@ -24,10 +24,9 @@ public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 	}
 
 	public TargetChamberUpdatePacket(BlockPos pos, boolean isAcceleratorOn, int requiredEnergy, double efficiency,
-			EnergyStorage energyStorage, List<ParticleStorageAccelerator> beams, long particleCount, long particleRecipeCount)
+			EnergyStorage energyStorage, long particleCount, long particleRecipeCount, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
-		super(pos, isAcceleratorOn, requiredEnergy, efficiency, energyStorage);
-		this.beams = beams;
+		super(pos, isAcceleratorOn, requiredEnergy, efficiency, energyStorage, tanks, beams);
 		this.particleCount =particleCount;
 		this.recipeParticleCount=particleRecipeCount;
 	}
@@ -36,12 +35,6 @@ public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 	public void readMessage(ByteBuf buf)
 	{
 		super.readMessage(buf);
-		
-		int size = buf.readInt();
-		for (int i = 0; i < size; i++)
-		{
-			beams.add(ByteUtil.readBufBeam(buf));
-		}
 
 		particleCount = buf.readLong();
 		recipeParticleCount = buf.readLong();
@@ -52,11 +45,6 @@ public class TargetChamberUpdatePacket extends ParticleChamberUpdatePacket
 	{
 		super.writeMessage(buf);
 		
-		buf.writeInt(beams.size());
-		for(ParticleStorageAccelerator beam : beams)
-		{
-			ByteUtil.writeBufBeam(beam, buf);
-		}
 		buf.writeLong(particleCount);
 		buf.writeLong(recipeParticleCount);
 	}

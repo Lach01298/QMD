@@ -1,14 +1,9 @@
 package lach_01298.qmd.accelerator.tile;
 
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.config.QMDConfig;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.util.BlockPosHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 
 public abstract class TileAcceleratorMagnet extends TileAcceleratorPart implements IAcceleratorComponent
 {

@@ -33,7 +33,7 @@ public class TargetChamberRecipe implements IRecipeWrapper
 	private final ParticleStack outputParticleMinus;
 	private final long maxEnergy;
 	private final double crossSection;
-	private final double energyReleased;
+	private final long energyReleased;
 
 	public TargetChamberRecipe(ItemStack inputItem, ParticleStack inputParticle,ItemStack outputItem, ParticleStack outputParticlePlus, ParticleStack outputParticleNeutral, ParticleStack outputParticleMinus, long maxEnergy, double crossSection, long energyReleased)
 	{
@@ -68,7 +68,7 @@ public class TargetChamberRecipe implements IRecipeWrapper
 		
 		DecimalFormat df = new DecimalFormat("#.##");
 		String crossSectionString = Lang.localise("gui.qmd.jei.reaction.cross_section", df.format(crossSection*100));
-		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getSIFormat(energyReleased,3,"eV"));
+		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getParticleEnergy(energyReleased));
 		
 
 		fontRenderer.drawString(rangeString, 0, 70, Color.gray.getRGB());

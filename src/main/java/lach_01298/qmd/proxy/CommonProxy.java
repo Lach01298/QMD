@@ -5,7 +5,10 @@ import java.util.Locale;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDOreDictionary;
 import lach_01298.qmd.QMDRadSources;
+import lach_01298.qmd.TickItemHandler;
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.entity.QMDEntities;
 import lach_01298.qmd.fluid.QMDFluids;
 import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.multiblock.Multiblocks;
@@ -47,18 +50,20 @@ public class CommonProxy
 		
 		
 		MinecraftForge.EVENT_BUS.register(new QMDRecipes());
+		
 	}
 	
 	public void init(FMLInitializationEvent event) 
 	{
 		QMDRecipes.init();
 		QMDRadSources.init();
-		
+		QMDEntities.register();
 	}
 	
 	public void postInit(FMLPostInitializationEvent postEvent) 
 	{
-		
+		CapabilityParticleStackHandler.register();
+		MinecraftForge.EVENT_BUS.register(new TickItemHandler());
 	}
 	
 	

@@ -135,7 +135,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		if (!getWorld().isRemote) 
 		{
 			refreshConnections();
-			refreshAccelerator();
 			getAccelerator().updateActivity();	
 		}
 		
@@ -254,20 +253,20 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 
 		if (!inlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.no_inlet", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_inlet", null);
 			return false;
 		}
 
 		if (!outlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.no_outlet", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_outlet", null);
 			return false;
 		}
 
 		// Energy Ports
 		if (getPartMap(TileAcceleratorEnergyPort.class).size() < 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.need_energy_ports", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
 			return false;
 		}
 
@@ -298,15 +297,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 	}
 
-	public void refreshAccelerator()
-	{
-		refreshAcceleratorStats();
-	}
-
-	public void refreshAcceleratorStats()
-	{
-
-	}
 	
 	// Server
 	
@@ -645,7 +635,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 
 	
-	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks) {
+	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks)
+	{
 		return getAccelerator().isAssembled() ? getAccelerator().tanks : backupTanks;
 	}
 	

@@ -23,7 +23,9 @@ public class AcceleratorSourceRecipes extends QMDRecipeHandler
 		addRecipe(QMDItems.canister_helium,new ParticleStack(Particles.alpha,100));
 		addRecipe(QMDItems.canister_deuterium,new ParticleStack(Particles.deuteron,100));
 		addRecipe(QMDItems.canister_diborane,new ParticleStack(Particles.boron_ion,100));
+		addRecipe(QMDItems.canister_helium_3,new ParticleStack(Particles.helion,100));
 		addRecipe(QMDItems.source_sodium_22,new ParticleStack(Particles.positron,100));
+		
 	}
 
 	@Override

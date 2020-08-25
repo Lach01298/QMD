@@ -24,6 +24,8 @@ public class QMDConfig {
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_TOOLS = "tools";
 	public static final String CATEGORY_OTHER = "other";
+
+	
 	
 	public static int accelerator_linear_min_size;
 	public static int accelerator_linear_max_size;
@@ -58,7 +60,7 @@ public class QMDConfig {
 	
 	public static int[] processor_power;
 	public static int[] processor_time;
-	
+	public static int irradiator_fuel_life_time;
 	
 	public static int[] tool_mining_level;
 	public static int[] tool_durability;
@@ -75,6 +77,13 @@ public class QMDConfig {
 	public static int[] rtg_power;
 	public static double[] processor_passive_rate;
 	
+	public static int source_life_time;
+	public static int source_particle_amount;
+	
+	public static int cell_life_time;
+	public static int cell_power;
+	
+	public static boolean override_nc_recipes;
 	
 	public static Configuration getConfig()
 	{
@@ -120,6 +129,8 @@ public class QMDConfig {
 		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
 		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
 		
+		Property propertyIrradiatorFuelLifeTime = config.get(CATEGORY_PROCESSORS, "irradiator_fuel_life_time", 300, Lang.localise("gui.qmd.config.processors.irradiator_fuel_life_time.comment"), 1, Integer.MAX_VALUE);
+		propertyIrradiatorFuelLifeTime.setLanguageKey("gui.qmd.config.processors.irradiator_fuel_life_time");
 		
 		Property propertyAcceleratorLinearMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_min_size", 6, Lang.localise("gui.qmd.config.accelerator.accelerator_linear_min_size.comment"), 6, 255);
 		propertyAcceleratorLinearMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_linear_min_size");
@@ -131,16 +142,16 @@ public class QMDConfig {
 		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 100, Lang.localise("gui.qmd.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
 		propertyAcceleratorRingMaxSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_max_size");
 		
-		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.05D, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
+		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.04D, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
 		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
 		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 100, Lang.localise("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
 		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
 		
-		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {100, 500, 1000, 2000, 4000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityVoltage.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_voltage");
 		Property propertyRFCavityEfficiency = config.get(CATEGORY_ACCELERATOR, "RF_cavity_efficiency", new double[] {0.5D, 0.8D, 0.90D, 0.95D, 0.99D}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_efficiency.comment"), 0D, 1D);
 		propertyRFCavityEfficiency.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_efficiency");
-		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {100, 200, 400, 800, 1600}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {60, 110, 210, 410, 810}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_heat_generated");
 		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {250, 1000, 2000, 4000, 8000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityBasePower.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_base_power");
@@ -149,9 +160,9 @@ public class QMDConfig {
 		
 		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 4D, 8D}, Lang.localise("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
 		propertyMagnetStrength.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_strength");
-		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.6D, 0.8D, 0.90D, 0.95D, 0.99D}, Lang.localise("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
+		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.5D, 0.8D, 0.90D, 0.95D, 0.99D}, Lang.localise("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
 		propertyMagnetEfficiency.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_efficiency");
-		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {100, 200, 400, 800, 1600}, Lang.localise("gui.qmd.config.accelerator.magnet_heat_generated.comment"),0, Integer.MAX_VALUE);
+		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {110, 210, 410, 810, 1610}, Lang.localise("gui.qmd.config.accelerator.magnet_heat_generated.comment"),0, Integer.MAX_VALUE);
 		propertyMagnetHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.magnet_heat_generated");
 		Property propertyMagnetBasePower = config.get(CATEGORY_ACCELERATOR, "magnet_base_power", new int[] {250, 1000, 2000, 4000, 8000}, Lang.localise("gui.qmd.config.accelerator.magnet_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyMagnetBasePower.setLanguageKey("gui.qmd.config.accelerator.magnet_base_power");
@@ -197,18 +208,32 @@ public class QMDConfig {
 		Property propertyFissionShieldEfficiency = config.get(CATEGORY_FISSION, "shield_efficiency", new double[] {1D}, Lang.localise("gui.qmd.config.fission.shield_efficiency.comment"), 0D, 255D);
 		propertyFissionShieldEfficiency.setLanguageKey("gui.qmd.config.fission.shield_efficiency");
 		
-		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {200}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {100}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
 		propertyFissionReflectorEfficiency.setLanguageKey("gui.qmd.config.other.rtg_power");
 		
 		Property propertyProcessorPassiveRate = config.get(CATEGORY_OTHER, "processor_passive_rate", new double[] {5D,5D,5D}, Lang.localise("gui.qmd.config.other.processor_passive_rate.comment"), 0D, 4000D);
 		propertyProcessorPassiveRate.setLanguageKey("gui.qmd.config.other.processor_passive_rate");
 		
+		Property propertySourceLifeTime = config.get(CATEGORY_OTHER, "source_life_time", 300, Lang.localise("gui.qmd.config.other.source_life_time.comment"), 1, Integer.MAX_VALUE);
+		propertySourceLifeTime.setLanguageKey("gui.qmd.config.other.source_life_time");
+		Property propertySourceParticleAmount = config.get(CATEGORY_OTHER, "source_particle_amount", 100, Lang.localise("gui.qmd.config.other.source_particle_amount.comment"), 1, Integer.MAX_VALUE);
+		propertySourceParticleAmount.setLanguageKey("gui.qmd.config.other.source_particle_amount");
+		
+		Property propertyCellLifeTime = config.get(CATEGORY_OTHER, "cell_life_time", 300, Lang.localise("gui.qmd.config.other.cell_life_time.comment"), 1, Integer.MAX_VALUE);
+		propertyCellLifeTime.setLanguageKey("gui.qmd.config.other.cell_life_time");
+		Property propertyCellPower = config.get(CATEGORY_OTHER, "cell_power", 500, Lang.localise("gui.qmd.config.other.cell_power.comment"), 1, Integer.MAX_VALUE);
+		propertyCellPower.setLanguageKey("gui.qmd.config.other.cell_power");
 		
 		
 		
+		Property propertyOverrideNCRecipes = config.get(CATEGORY_OTHER, "override_nc_recipes", true, Lang.localise("gui.qmd.config.other.override_nc_recipes.comment"));
+		propertyOverrideNCRecipes.setLanguageKey("gui.qmd.config.other.override_nc_recipes");
+		
+
 		List<String> propertyOrderProcessors = new ArrayList<String>();
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
+		propertyOrderProcessors.add(propertyIrradiatorFuelLifeTime.getName());
 		
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
@@ -277,7 +302,12 @@ public class QMDConfig {
 		
 		propertyOrderOther.add(propertyRTGPower.getName());
 		propertyOrderOther.add(propertyProcessorPassiveRate.getName());
-		
+		propertyOrderOther.add(propertySourceLifeTime.getName());
+		propertyOrderOther.add(propertySourceParticleAmount.getName());
+		propertyOrderOther.add(propertyCellLifeTime.getName());
+		propertyOrderOther.add(propertyCellPower.getName());
+
+		propertyOrderOther.add(propertyOverrideNCRecipes.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		
@@ -285,6 +315,7 @@ public class QMDConfig {
 		{
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
+			irradiator_fuel_life_time = propertyIrradiatorFuelLifeTime.getInt();
 			
 			accelerator_linear_min_size = propertyAcceleratorLinearMinSize.getInt();
 			accelerator_linear_max_size = propertyAcceleratorLinearMaxSize.getInt();
@@ -332,9 +363,18 @@ public class QMDConfig {
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			processor_passive_rate = readDoubleArrayFromConfig(propertyProcessorPassiveRate);
 			
+			source_life_time = propertySourceLifeTime.getInt();
+			source_particle_amount = propertySourceParticleAmount.getInt();
+
+			cell_life_time = propertyCellLifeTime.getInt();
+			cell_power = propertyCellPower.getInt();
+			
+			override_nc_recipes = propertyOverrideNCRecipes.getBoolean();
+			
 		}
 		propertyProcessorPower.set(processor_power);
 		propertyProcessorTime.set(processor_time);
+		propertyIrradiatorFuelLifeTime.set(irradiator_fuel_life_time);
 		
 		propertyAcceleratorLinearMinSize.set(accelerator_linear_min_size);
 		propertyAcceleratorLinearMaxSize.set(accelerator_linear_max_size);
@@ -379,7 +419,12 @@ public class QMDConfig {
 		
 		propertyRTGPower.set(rtg_power);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
+		propertySourceLifeTime.set(source_life_time);
+		propertySourceParticleAmount.set(source_particle_amount);
+		propertyCellLifeTime.set(cell_life_time);
+		propertyCellPower.set(cell_power);
 		
+		propertyOverrideNCRecipes.set(override_nc_recipes);
 		
 		if (config.hasChanged()) config.save();
 	}

@@ -32,7 +32,7 @@ public class DecayChamberRecipe implements IRecipeWrapper
 	private final ParticleStack outputParticleMinus;
 	private final long maxEnergy;
 	private final double crossSection;
-	private final double energyReleased;
+	private final long energyReleased;
 
 	public DecayChamberRecipe(ParticleStack inputParticle, ParticleStack outputParticlePlus, ParticleStack outputParticleNeutral, ParticleStack outputParticleMinus, long maxEnergy, double crossSection, long energyReleased)
 	{
@@ -64,7 +64,7 @@ public class DecayChamberRecipe implements IRecipeWrapper
 		DecimalFormat df = new DecimalFormat("#.##");
 		String maxEnergyString = Lang.localise("gui.qmd.jei.reaction.max_energy", Units.getSIFormat(maxEnergy,3,"eV"));
 		String crossSectionString = Lang.localise("gui.qmd.jei.reaction.cross_section", df.format(crossSection*100));
-		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getSIFormat(energyReleased,3,"eV"));
+		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getParticleEnergy(energyReleased));
 		
 		
 		fontRenderer.drawString(crossSectionString, 0, 72, Color.gray.getRGB());

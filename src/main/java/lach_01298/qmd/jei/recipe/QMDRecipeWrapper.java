@@ -82,7 +82,7 @@ public class QMDRecipeWrapper
 		protected double getIrradatorSpeed() 
 		{
 			if (recipe == null) return 1D;
-			return recipe.getScrubberProcessTime();
+			return recipe.getBaseProcessTime(1);
 		}
 		
 		@Override
@@ -140,6 +140,29 @@ public class QMDRecipeWrapper
 		}
 
 		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
+	}
+	
+	public static class CellFilling extends JEIRecipeWrapperProcessor<CellFilling>
+	{
+
+		public CellFilling(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe)
+		{
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		}
+
+		@Override
+		protected double getBaseProcessTime()
+		{
+			return 0;
+		}
+
+		@Override
+		protected double getBaseProcessPower()
+		{
+			return 0;
+		}
+
+
 	}
 
 }

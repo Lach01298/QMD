@@ -37,6 +37,31 @@ public class QMDRadSources
 		
 		RadSources.put(STRONTIUM_90/4D, QMDBlocks.rtgStrontium);
 		
+		RadSources.putFluid(RadSources.TRITIUM, "antitritium");
+		
+		RadSources.putOre(STRONTIUM_90, "wasteFissionHeavy");
+		RadSources.putOre(STRONTIUM_90, "wasteFissionLight");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationCalifornium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationBerkelium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationCurium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationAmericium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationPlutonium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationNeptunium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationUranium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationProtactinium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationThorium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationRadium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationPolonium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationBismuth");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationLead");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationGold");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationPlatinum");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationIridium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationOsmium");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationTungsten");
+		RadSources.putOre(STRONTIUM_90, "wasteSpallationHafnium");
+		
+		RadSources.putOre(RadSources.TRITIUM*RadSources.FLUID, "cellAntitritium");
 		
 		RadSources.addToFoodMaps(new ItemStack(QMDItems.flesh), 0, 3.0);
 	}

@@ -1,0 +1,17 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:machine",
+		"textures": {
+			"top": "qmd:blocks/containment/coil_top",
+			"bottom": "qmd:blocks/containment/coil_top",
+			"front": "qmd:blocks/containment/coil_side",
+			"side": "qmd:blocks/containment/coil_side",
+			"back": "qmd:blocks/containment/coil_side"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"normal": [{}]
+	}
+}

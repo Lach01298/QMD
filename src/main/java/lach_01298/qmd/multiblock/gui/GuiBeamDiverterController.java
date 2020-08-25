@@ -7,8 +7,9 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.Units;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.BeamDiverterLogic;
+import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
-import nc.multiblock.gui.GuiLogicMultiblockController;
+import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
 import nc.network.PacketHandler;
@@ -16,24 +17,24 @@ import nc.util.Lang;
 import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiBeamDiverterController extends GuiLogicMultiblockController<Accelerator, BeamDiverterLogic>
+public class GuiBeamDiverterController extends GuiLogicMultiblock<Accelerator, BeamDiverterLogic, IAcceleratorController>
 {
 
 	protected final ResourceLocation gui_texture;
 
-	
+	private final GuiParticle guiParticle;
 
-	public GuiBeamDiverterController(Accelerator multiblock, BlockPos controllerPos, Container container)
+	public GuiBeamDiverterController(EntityPlayer player,IAcceleratorController controller)
 	{
-		super(multiblock, controllerPos, container);
+		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/accelerator_controller.png");
 		xSize = 196;
 		ySize = 109;
+		guiParticle = new GuiParticle(this);
 	}
 
 	@Override
@@ -48,10 +49,6 @@ public class GuiBeamDiverterController extends GuiLogicMultiblockController<Acce
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) 
 	{
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		GuiParticle guiParticle = new GuiParticle(this);
-		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+40, guiTop+21);
-		
-		guiParticle.drawToolTipBoxwithLuminosity(multiblock.beams.get(2).getParticleStack(), guiLeft+40, guiTop+21, mouseX, mouseY);
 
 		renderTooltips(mouseX, mouseY);
 	}
@@ -74,9 +71,9 @@ public class GuiBeamDiverterController extends GuiLogicMultiblockController<Acce
 		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles",1, Units.getSIFormat(multiblock.dipoleStrength,"T"));
 		fontRenderer.drawString(dipoles,offset, 40, fontColor);
 		
-		String energyLoss = Lang.localise("gui.qmd.container.beam_dirverter.energy_loss",Units.getSIFormat(logic.getEnergyLoss(),3,"eV"));
+		String energyLoss = Lang.localise("gui.qmd.container.beam_dirverter.energy_loss",Units.getParticleEnergy(logic.getEnergyLoss()));
 		fontRenderer.drawString(energyLoss,offset, 50, fontColor);
-		String maxEnergy = Lang.localise("gui.qmd.container.beam_dirverter.max_energy", Units.getSIFormat(logic.getMaxEnergy(),3,"eV"));
+		String maxEnergy = Lang.localise("gui.qmd.container.beam_dirverter.max_energy", Units.getParticleEnergy(logic.getMaxEnergy()));
 		fontRenderer.drawString(maxEnergy,offset, 60, fontColor);
 		
 		
@@ -117,17 +114,21 @@ public class GuiBeamDiverterController extends GuiLogicMultiblockController<Acce
 		int coolant = (int)Math.round((double)multiblock.tanks.get(0).getFluidAmount()/(double)multiblock.tanks.get(0).getCapacity()*95);
 		drawTexturedModalRect(guiLeft + 28, guiTop + 101-coolant, 208, 95- coolant, 6, coolant);
 		
+		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+40, guiTop+21);
 
 	}
 	
 	@Override
-	public void renderTooltips(int mouseX, int mouseY) {
-		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
+	public void renderTooltips(int mouseX, int mouseY) 
+	{
+		if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 150, 20, 18, 18);
 		
 		
 		drawTooltip(energyInfo(), mouseX, mouseY, 8, 5, 8, 96);
 		drawTooltip(heatInfo(), mouseX, mouseY, 18, 5, 8, 96);
 		drawTooltip(coolantInfo(), mouseX, mouseY, 28, 5, 8, 96);
+		
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(2).getParticleStack(), guiLeft+40, guiTop+21, mouseX, mouseY);
 		
 	}
 	
@@ -180,7 +181,7 @@ public class GuiBeamDiverterController extends GuiLogicMultiblockController<Acce
 		{
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
 			{
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(controllerPos));
+				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
 			}
 		}
 	}

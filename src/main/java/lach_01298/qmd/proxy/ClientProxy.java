@@ -2,16 +2,26 @@ package lach_01298.qmd.proxy;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.render.QMDRenderHandler;
+import lach_01298.qmd.render.entity.RenderGammaFlash;
+import nc.entity.EntityFeralGhoul;
+import nc.handler.RenderHandler;
+import nc.render.entity.RenderFeralGhoul;
+import nc.util.NCUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -25,6 +35,8 @@ public class ClientProxy extends CommonProxy
 		super.preInit(preEvent);
 		QMDBlocks.registerRenders();
 		QMDItems.registerRenders();
+		QMDRenderHandler.init();
+		
 	}
 
 	@Override
@@ -40,7 +52,7 @@ public class ClientProxy extends CommonProxy
 	}
 
 
-
+	
 
 
 	@Override
