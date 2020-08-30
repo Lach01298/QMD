@@ -6,8 +6,5 @@ import nc.multiblock.tile.ILogicMultiblockController;
 public interface IParticleChamberController extends IParticleChamberPart, ILogicMultiblockController<ParticleChamber> 
 {
 
-	public void updateBlockState(boolean isActive);
-
 	
-
 }

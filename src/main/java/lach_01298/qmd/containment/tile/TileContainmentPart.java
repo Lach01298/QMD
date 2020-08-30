@@ -17,22 +17,9 @@ public abstract class TileContainmentPart extends TileCuboidalMultiblockPart<Con
 	@Override
 	public Containment createNewMultiblock()
 	{
-		return new Containment(getWorld());
+		return new Containment(world);
 	}
 
-	@Override
-	public void onMachineAssembled(Containment controller)
-	{
-		doStandardNullControllerResponse(controller);
-		super.onMachineAssembled(controller);
-		
-	}
-
-	@Override
-	public void onMachineBroken()
-	{
-		super.onMachineBroken();
-	}
 
 
 }

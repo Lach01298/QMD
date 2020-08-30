@@ -17,21 +17,7 @@ public abstract class TileParticleChamberPart extends TileCuboidalMultiblockPart
 	@Override
 	public ParticleChamber createNewMultiblock()
 	{
-		return new ParticleChamber(getWorld());
-	}
-
-	@Override
-	public void onMachineAssembled(ParticleChamber controller)
-	{
-		doStandardNullControllerResponse(controller);
-		super.onMachineAssembled(controller);
-		
-	}
-
-	@Override
-	public void onMachineBroken()
-	{
-		super.onMachineBroken();
+		return new ParticleChamber(world);
 	}
 
 

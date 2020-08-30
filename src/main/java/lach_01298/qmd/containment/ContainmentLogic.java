@@ -14,6 +14,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.containment.tile.IContainmentController;
 import lach_01298.qmd.containment.tile.IContainmentPart;
 import lach_01298.qmd.containment.tile.TileContainmentBeamPort;
@@ -119,11 +120,8 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 			getMultiblock().updateActivity();	
 		}
 	
-		//TODO this temp thing
-		getMultiblock().maxOperatingTemp = 104;
-		 
-		
-		
+		getMultiblock().maxOperatingTemp = QMDConfig.containment_max_temp;
+	
 	}
 
 	@Override
@@ -143,18 +141,22 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	@Override
 	public void onMachinePaused()
 	{
-		
+		onContainmentBroken();
 	}
 
 	@Override
 	public void onMachineDisassembled()
 	{	
 		operational = false;
-		if (getMultiblock().controller != null)
+		onContainmentBroken();
+	}
+	
+	public void onContainmentBroken()
+	{
+		if (!getWorld().isRemote)
 		{
-			getMultiblock().controller.updateBlockState(false);
+			getMultiblock().updateActivity();
 		}
-		getMultiblock().isContainmentOn = false;	
 	}
 
 	@Override
@@ -401,8 +403,7 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	public void onUpdateClient()
 	{
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 
@@ -493,7 +494,6 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 
 	public void refreshMultiblock()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 

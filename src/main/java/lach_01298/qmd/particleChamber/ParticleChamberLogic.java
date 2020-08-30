@@ -111,20 +111,23 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	@Override
 	public void onMachinePaused()
 	{
-		
+		onChamberBroken();
 	}
 
 	@Override
 	public void onMachineDisassembled()
 	{	
-		getMultiblock().resetStats();
-		if (getMultiblock().controller != null)
-		{
-			getMultiblock().controller.updateBlockState(false);
-		}
-		getMultiblock().isChamberOn = false;	
+		onChamberBroken();
 	}
-
+	
+	public void onChamberBroken()
+	{
+		if (!getWorld().isRemote)
+		{
+			getMultiblock().updateActivity();
+		}
+	}
+	
 	@Override
 	public boolean isMachineWhole(Multiblock multiblock)
 	{
@@ -158,6 +161,12 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	public void onAssimilate(Multiblock assimilated)
 	{	
+		if (getMultiblock().isAssembled()) {
+			onChamberFormed();
+		}
+		else {
+			onChamberBroken();
+		}
 	}
 
 	public void onAssimilated(Multiblock assimilator)
@@ -166,13 +175,11 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	public void refreshChamber()
 	{
-		
-		
+	
 	}
 
 	public boolean onUpdateServer()
 	{
-		getMultiblock().sendUpdateToListeningPlayers();
 		return true;
 	}
 
@@ -182,10 +189,9 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		
 	}
 
-	public void onResetStats()
+	public void refreshChamberStats()
 	{
-		// TODO Auto-generated method stub
-		
+		getMultiblock().resetStats();
 	}
 
 	public boolean isChamberOn()
@@ -196,7 +202,6 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

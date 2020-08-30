@@ -14,7 +14,6 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.block.BlockTargetChamberController;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.container.ContainerMultiblockController;
@@ -89,16 +88,6 @@ public class TileTargetChamberController extends TileParticleChamberPart impleme
 	{
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		if (getMultiblock() != null) getMultiblock().updateActivity();
-	}
-
-	@Override
-	public void updateBlockState(boolean isActive)
-	{
-		if (getBlockType() instanceof BlockTargetChamberController)
-		{
-			((BlockTargetChamberController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
 	}
 
 

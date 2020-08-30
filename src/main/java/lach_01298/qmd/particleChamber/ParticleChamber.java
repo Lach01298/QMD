@@ -193,13 +193,14 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	
 	public void resetStats()
 	{
-		logic.onResetStats();
+		logic.refreshChamberStats();
 	}
 	
 	
 	@Override
 	protected boolean updateServer()
 	{
+		boolean flag = refreshFlag;
 		if (refreshFlag) 
 		{
 			logic.refreshChamber();
@@ -208,41 +209,44 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 		
 		if (logic.onUpdateServer()) 
 		{
-			return true;
+			flag = true;
 		}
 		
-		sendUpdateToListeningPlayers();
+		if (controller != null) 
+		{
+			sendUpdateToListeningPlayers();
+		}
 		
-		return true;
+		return flag;
 	}
 
 	public void updateActivity()
 	{
 		boolean wasChamberOn = isChamberOn;
 		isChamberOn = isAssembled() && logic.isChamberOn();
+		
 		if (isChamberOn != wasChamberOn)
 		{
 			if (controller != null)
-			{
-				controller.updateBlockState(isChamberOn);
-			}
-			sendUpdateToAllPlayers();
+			{	
+				controller.setActivity(isChamberOn);
+				sendUpdateToAllPlayers();
+			}	
 		}
-		
 	}
 
+	// Client
+	
 	@Override
 	protected void updateClient()
 	{
 		logic.onUpdateClient();	
 	}
 
-	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
-	{
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
-	}
+	
 
+	// NBT
+	
 	@Override
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
@@ -272,7 +276,7 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 		readLogicNBT(data, syncReason);	
 	}
 
-	
+	// Packets
 
 	@Override
 	protected ParticleChamberUpdatePacket getUpdatePacket()
@@ -367,4 +371,11 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 		return logic.switchOutputs(pos);	
 	}
 
+	// Multiblock Validators
+	
+	@Override
+	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
+	{
+		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+	}
 }

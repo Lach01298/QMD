@@ -20,6 +20,7 @@ public class QMDConfig {
 	public static final String CATEGORY_PROCESSORS = "processors";
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_PARTICLE_CHAMBER = "particle_chamber";
+	public static final String CATEGORY_CONTAINMENT = "containment";
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_TOOLS = "tools";
@@ -31,6 +32,7 @@ public class QMDConfig {
 	public static int accelerator_linear_max_size;
 	public static int accelerator_ring_min_size;
 	public static int accelerator_ring_max_size;
+	public static int minimium_accelerator_ring_input_particle_energy;
 	
 	public static int[] RF_cavity_voltage; //in keV
 	public static double[] RF_cavity_efficiency;
@@ -53,10 +55,13 @@ public class QMDConfig {
 
 	public static int target_chamber_power;
 	public static int decay_chamber_power;
+	public static int beam_dump_power;
 	public static int[] detector_base_power;
 	public static double[] detector_efficiency;
 	
-	public static int minimium_accelerator_ring_input_particle_energy;
+	public static int[] containment_part_power;
+	public static int[] containment_part_heat;
+	public static int containment_max_temp;
 	
 	public static int[] processor_power;
 	public static int[] processor_time;
@@ -181,11 +186,20 @@ public class QMDConfig {
 		propertyTargetChamberPower.setLanguageKey("gui.qmd.config.particle_chamber.target_chamber_power");
 		Property propertyDecayChamberPower = config.get(CATEGORY_PARTICLE_CHAMBER, "decay_chamber_power", 5000, Lang.localise("gui.qmd.config.particle_chamber.decay_chamber_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDecayChamberPower.setLanguageKey("gui.qmd.config.particle_chamber.decay_chamber_power");
+		Property propertyBeamDumpPower = config.get(CATEGORY_PARTICLE_CHAMBER, "beam_dump_power", 5000, Lang.localise("gui.qmd.config.particle_chamber.beam_dump_power.comment"), 0, Integer.MAX_VALUE);
+		propertyDecayChamberPower.setLanguageKey("gui.qmd.config.particle_chamber.beam_dump_power");
 		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {0.15D, 0.3D, 0.20D, 0.1D,0.05D}, Lang.localise("gui.qmd.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
 		propertyDetectorEfficiency.setLanguageKey("gui.qmd.config.particle_chamber.detector_efficiency");
 		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDetectorBasePower.setLanguageKey("gui.qmd.config.particle_chamber.detector_base_power");
 
+		Property propertyContainmentPartPower = config.get(CATEGORY_CONTAINMENT, "part_power", new int[] {8000, 10000}, Lang.localise("gui.qmd.config.containment.part_power.comment"), 0, Integer.MAX_VALUE);
+		propertyContainmentPartPower.setLanguageKey("gui.qmd.config.containment.part_power");
+		Property propertyContainmentPartHeat = config.get(CATEGORY_CONTAINMENT, "part_heat", new int[] {200, 500}, Lang.localise("gui.qmd.config.containment.part_power.comment"), 0, Integer.MAX_VALUE);
+		propertyContainmentPartHeat.setLanguageKey("gui.qmd.config.containment.part_heat");
+		Property propertyContainmentMaxTemp = config.get(CATEGORY_CONTAINMENT, "max_temp", 104, Lang.localise("gui.qmd.config.containment.max_temp.comment"), 0, 400);
+		propertyContainmentMaxTemp.setLanguageKey("gui.qmd.config.containment.max_temp");
+		
 		
 		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {4}, Lang.localise("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
 		propertyToolMiningLevel.setLanguageKey("gui.qmd.config.tools.tool_mining_level");
@@ -208,7 +222,7 @@ public class QMDConfig {
 		Property propertyFissionShieldEfficiency = config.get(CATEGORY_FISSION, "shield_efficiency", new double[] {1D}, Lang.localise("gui.qmd.config.fission.shield_efficiency.comment"), 0D, 255D);
 		propertyFissionShieldEfficiency.setLanguageKey("gui.qmd.config.fission.shield_efficiency");
 		
-		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {100}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {50}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
 		propertyFissionReflectorEfficiency.setLanguageKey("gui.qmd.config.other.rtg_power");
 		
 		Property propertyProcessorPassiveRate = config.get(CATEGORY_OTHER, "processor_passive_rate", new double[] {5D,5D,5D}, Lang.localise("gui.qmd.config.other.processor_passive_rate.comment"), 0D, 4000D);
@@ -269,10 +283,18 @@ public class QMDConfig {
 		List<String> propertyOrderParticleChamber = new ArrayList<String>();
 		propertyOrderParticleChamber.add(propertyTargetChamberPower.getName());
 		propertyOrderParticleChamber.add(propertyDecayChamberPower.getName());
+		propertyOrderParticleChamber.add(propertyBeamDumpPower.getName());
 		propertyOrderParticleChamber.add(propertyDetectorEfficiency.getName());
 		propertyOrderParticleChamber.add(propertyDetectorBasePower.getName());
 		
 		config.setCategoryPropertyOrder(CATEGORY_PARTICLE_CHAMBER, propertyOrderParticleChamber);
+		
+		List<String> propertyOrderContainment = new ArrayList<String>();
+		propertyOrderContainment.add(propertyContainmentPartPower.getName());
+		propertyOrderContainment.add(propertyContainmentPartHeat.getName());
+		propertyOrderContainment.add(propertyContainmentMaxTemp.getName());
+		config.setCategoryPropertyOrder(CATEGORY_CONTAINMENT, propertyOrderContainment);
+		
 		
 		
 		List<String> propertyOrderTools = new ArrayList<String>();
@@ -343,8 +365,13 @@ public class QMDConfig {
 			
 			target_chamber_power = propertyTargetChamberPower.getInt();
 			decay_chamber_power = propertyDecayChamberPower.getInt();
+			beam_dump_power = propertyDecayChamberPower.getInt();
 			detector_efficiency = readDoubleArrayFromConfig(propertyDetectorEfficiency);
 			detector_base_power = readIntegerArrayFromConfig(propertyDetectorBasePower);
+			
+			containment_part_power = readIntegerArrayFromConfig(propertyContainmentPartPower);
+			containment_part_heat = readIntegerArrayFromConfig(propertyContainmentPartHeat);
+			containment_max_temp = propertyContainmentMaxTemp.getInt();
 			
 			
 			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
@@ -402,8 +429,13 @@ public class QMDConfig {
 		
 		propertyTargetChamberPower.set(target_chamber_power);
 		propertyDecayChamberPower.set(decay_chamber_power);
+		propertyBeamDumpPower.set(beam_dump_power);
 		propertyDetectorEfficiency.set(detector_efficiency);
 		propertyDetectorBasePower.set(detector_base_power);
+		
+		propertyContainmentPartPower.set(containment_part_power);
+		propertyContainmentPartHeat.set(containment_part_heat);
+		propertyContainmentMaxTemp.set(containment_max_temp);
 		
 		propertyToolMiningLevel.set(tool_mining_level);
 		propertyToolDurability.set(tool_durability);

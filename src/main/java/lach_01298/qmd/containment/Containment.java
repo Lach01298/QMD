@@ -230,6 +230,8 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 	@Override
 	protected boolean updateServer()
 	{
+		boolean flag = refreshFlag;
+		
 		if (refreshFlag) 
 		{
 			logic.refreshMultiblock();
@@ -238,12 +240,15 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 		
 		if (logic.onUpdateServer()) 
 		{
-			return true;
+			flag = true;
 		}
 		
-		sendUpdateToListeningPlayers();
+		if (controller != null) 
+		{
+			sendUpdateToListeningPlayers();
+		}
 		
-		return true;
+		return flag;
 	}
 
 	public void updateActivity()
@@ -255,9 +260,9 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 		{
 			if (controller != null)
 			{
-				controller.updateBlockState(isContainmentOn);
+				controller.setActivity(isContainmentOn);
+				sendUpdateToAllPlayers();
 			}
-			sendUpdateToAllPlayers();
 		}
 		
 	}

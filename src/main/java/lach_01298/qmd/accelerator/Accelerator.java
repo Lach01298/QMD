@@ -517,31 +517,40 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	@Override
 	protected boolean updateServer()
 	{
+		boolean flag = refreshFlag;
+		
+		if (refreshFlag) 
+		{
+			logic.refreshAccelerator();
+		}
 		updateActivity();
 		
 		if (logic.onUpdateServer()) 
 		{
-			return true;
+			flag = true;
 		}
 		
-		sendUpdateToListeningPlayers();
+		if (controller != null) 
+		{
+			sendUpdateToListeningPlayers();
+		}
 		
-		return true;
+		return flag;
 	}
 	
 	
 	public void updateActivity()
 	{
-		
 		boolean wasAcceleratorOn = isAcceleratorOn;
 		isAcceleratorOn = isAssembled() && logic.isAcceleratorOn();
 		if (isAcceleratorOn != wasAcceleratorOn)
 		{
 			if (controller != null)
 			{
-				controller.updateBlockState(isAcceleratorOn);
+				
+				controller.setActivity(isAcceleratorOn);
+				sendUpdateToAllPlayers();
 			}
-			sendUpdateToAllPlayers();
 		}
 	}
 	

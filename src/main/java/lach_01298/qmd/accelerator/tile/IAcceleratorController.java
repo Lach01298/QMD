@@ -5,8 +5,6 @@ import nc.multiblock.tile.ILogicMultiblockController;
 
 public interface IAcceleratorController extends IAcceleratorPart, ILogicMultiblockController<Accelerator> 
 {
-
-	public void updateBlockState(boolean isActive);
 	
 	public void doMeltdown();
 }

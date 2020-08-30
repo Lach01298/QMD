@@ -172,7 +172,10 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	}
 
 	@Override
-	public void onMachinePaused() {}
+	public void onMachinePaused() 
+	{
+		onAcceleratorBroken();
+	}
 	
 	public void onMachineDisassembled()
 	{
@@ -218,22 +221,22 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			beam.setFunctional(false);
 		}
 		
-		acc.resetStats();
-		if (acc.controller != null)
-		{
-			acc.controller.updateBlockState(false);
-		}
-		acc.isAcceleratorOn = false;
-		operational = false;
 		
-		if (!getWorld().isRemote)
-		{
-			refreshConnections();
-
-			acc.updateActivity();
-		}
+		
+		operational = false;
+		onAcceleratorBroken();
+		
 	}
 
+	public void onAcceleratorBroken()
+	{
+		if (!getWorld().isRemote)
+		{
+			getAccelerator().updateActivity();
+		}
+	}
+	
+	
 	public boolean isMachineWhole(Multiblock multiblock) 
 	{
 		// vents
@@ -297,7 +300,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 	}
 
-	
+	public void refreshAccelerator()
+	{
+		
+		
+	}
 	// Server
 	
 	public boolean onUpdateServer()

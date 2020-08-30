@@ -6,6 +6,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
+import nc.block.tile.IActivatable;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockBeamDumpController extends BlockParticleChamberPart
+public class BlockBeamDumpController extends BlockParticleChamberPart implements IActivatable
 {
 	public BlockBeamDumpController()
 	{
@@ -119,18 +120,5 @@ public class BlockBeamDumpController extends BlockParticleChamberPart
 		return rightClickOnPart(world, pos, player, hand, facing, true);
 	}
 
-	public void setState(boolean isActive, TileEntity tile)
-	{
-		
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockBeamDumpController)
-		{
-			if (isActive != state.getValue(ACTIVE))
-			{
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
-	}
+	
 }
