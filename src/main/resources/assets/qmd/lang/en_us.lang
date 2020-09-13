@@ -770,6 +770,6 @@ gui.qmd.config.other.cell_power.comment=The amount of RF/t used by a filled cell
 gui.qmd.config.other.override_nc_recipes=Override Nuclearcraft Recipes
 gui.qmd.config.other.override_nc_recipes.comment=Allow QMD override NC recipes to better fit in. Default:true
 
-
-
+gui.qmd.config.other.item_ticker_chunks_per_tick=Item Ticker Chunks per Tick
+gui.qmd.config.other.item_ticker_chunks_per_tick.comment= Tells how many chunks QMD will search each tick to tick items in tile entity inventories. This is used for draining power from antimatter cells in tile entity inventories. Setting this high may cause lag. Set to 0 to disable ticking. Default:5
 

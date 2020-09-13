@@ -128,17 +128,29 @@ public class ItemCell extends ItemEnergy implements ITickItem
 			return;
 		}
 
-		if (worldIn.getWorldInfo().getWorldTotalTime() != stack.getTagCompound().getLong("lastTickTime"))
+		Long tickTime =worldIn.getTotalWorldTime();
+		if(stack.getTagCompound().hasKey("lastTickTime"))
+		{
+			if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
+			{
+				if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
+				{
+					int timeSinceTick = (int) (tickTime - stack.getTagCompound().getLong("lastTickTime"));
+					IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
+					if (timeSinceTick*QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(timeSinceTick*QMDConfig.cell_power * stack.getCount(), false))
+					{
+						explode(worldIn, entityIn.getPosition(), stack);
+						stack.shrink(stack.getCount());
+					}
+					stack.getTagCompound().setLong("lastTickTime", worldIn.getWorldInfo().getWorldTotalTime());
+				}
+			}
+		}
+		else
 		{
 			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
 			{
-				IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
-				if (QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(QMDConfig.cell_power * stack.getCount(), false))
-				{
-					explode(worldIn, entityIn.getPosition(), stack);
-					stack.shrink(stack.getCount());
-				}
-				stack.getTagCompound().setLong("lastTickTime", worldIn.getWorldInfo().getWorldTotalTime());
+				stack.getTagCompound().setLong("lastTickTime", tickTime);
 			}
 		}
 	}
@@ -152,19 +164,31 @@ public class ItemCell extends ItemEnergy implements ITickItem
 		{
 			return false;
 		}
+		Long tickTime =entityItem.world.getWorldInfo().getWorldTotalTime();
+		
+		if(stack.getTagCompound().hasKey("lastTickTime"))
+		{
+			if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
+			{
+				if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
+				{
+					int timeSinceTick = (int) (tickTime - stack.getTagCompound().getLong("lastTickTime"));
+					IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
+					if (timeSinceTick*QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(timeSinceTick*QMDConfig.cell_power * stack.getCount(), false))
+					{
 
-		if (entityItem.world.getWorldInfo().getWorldTotalTime() != stack.getTagCompound().getLong("lastTickTime"))
+						explode(entityItem.world, entityItem.getPosition(), stack);
+						stack.shrink(stack.getCount());
+					}
+					stack.getTagCompound().setLong("lastTickTime", entityItem.world.getWorldInfo().getWorldTotalTime());
+				}
+			}
+		}
+		else
 		{
 			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
 			{
-				IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
-				if (QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(QMDConfig.cell_power * stack.getCount(), false))
-				{
-
-					explode(entityItem.world, entityItem.getPosition(), stack);
-					stack.shrink(stack.getCount());
-				}
-				stack.getTagCompound().setLong("lastTickTime", entityItem.world.getWorldInfo().getWorldTotalTime());
+				stack.getTagCompound().setLong("lastTickTime", tickTime);
 			}
 		}
 		return false;
@@ -177,21 +201,35 @@ public class ItemCell extends ItemEnergy implements ITickItem
 		{
 			return;
 		}
-		if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
+		if(stack.getTagCompound().hasKey("lastTickTime"))
 		{
+			if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
+			{
 
+				if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
+				{
+					int timeSinceTick = (int) (tickTime - stack.getTagCompound().getLong("lastTickTime"));
+					IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
+					if (timeSinceTick*QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(timeSinceTick*QMDConfig.cell_power * stack.getCount(), false))
+					{
+
+						explode(tile.getWorld(), tile.getPos(), stack);
+						stack.shrink(stack.getCount());
+					}
+					stack.getTagCompound().setLong("lastTickTime", tickTime);
+				}
+			}
+		
+		}
+		else
+		{
 			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
 			{
-				IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
-				if (QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(QMDConfig.cell_power * stack.getCount(), false))
-				{
-
-					explode(tile.getWorld(), tile.getPos(), stack);
-					stack.shrink(stack.getCount());
-				}
 				stack.getTagCompound().setLong("lastTickTime", tickTime);
 			}
 		}
+		
+		
 	}
 
 	public void explode(World world, BlockPos pos, ItemStack stack)

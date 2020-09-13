@@ -90,6 +90,8 @@ public class QMDConfig {
 	
 	public static boolean override_nc_recipes;
 	
+	public static int item_ticker_chunks_per_tick;
+	
 	public static Configuration getConfig()
 	{
 		return config;
@@ -243,6 +245,9 @@ public class QMDConfig {
 		Property propertyOverrideNCRecipes = config.get(CATEGORY_OTHER, "override_nc_recipes", true, Lang.localise("gui.qmd.config.other.override_nc_recipes.comment"));
 		propertyOverrideNCRecipes.setLanguageKey("gui.qmd.config.other.override_nc_recipes");
 		
+		Property propertyItemTickerChunksPerTick = config.get(CATEGORY_OTHER, "item_ticker_chunks_per_tick", 5, Lang.localise("gui.qmd.config.other.item_ticker_chunks_per_tick.comment"),0,400);
+		propertyItemTickerChunksPerTick.setLanguageKey("gui.qmd.config.other.item_ticker_chunks_per_tick");
+		
 
 		List<String> propertyOrderProcessors = new ArrayList<String>();
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
@@ -330,6 +335,7 @@ public class QMDConfig {
 		propertyOrderOther.add(propertyCellPower.getName());
 
 		propertyOrderOther.add(propertyOverrideNCRecipes.getName());
+		propertyOrderOther.add(propertyItemTickerChunksPerTick.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		
@@ -397,6 +403,7 @@ public class QMDConfig {
 			cell_power = propertyCellPower.getInt();
 			
 			override_nc_recipes = propertyOverrideNCRecipes.getBoolean();
+			item_ticker_chunks_per_tick = propertyItemTickerChunksPerTick.getInt();
 			
 		}
 		propertyProcessorPower.set(processor_power);
@@ -457,6 +464,7 @@ public class QMDConfig {
 		propertyCellPower.set(cell_power);
 		
 		propertyOverrideNCRecipes.set(override_nc_recipes);
+		propertyItemTickerChunksPerTick.set(item_ticker_chunks_per_tick);
 		
 		if (config.hasChanged()) config.save();
 	}

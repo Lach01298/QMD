@@ -5,6 +5,7 @@ import static nc.config.NCConfig.radiation_world_chunks_per_tick;
 import java.util.Collection;
 import java.util.Random;
 
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.item.ITickItem;
 import nc.tile.dummy.TileDummy;
 import net.minecraft.item.ItemStack;
@@ -40,13 +41,12 @@ public class TickItemHandler
 		Collection<Chunk> loadedChunks = chunkProvider.getLoadedChunks();
 		int chunkArrSize = loadedChunks.size();
 		Chunk[] chunkArray = loadedChunks.toArray(new Chunk[chunkArrSize]);
-		//int chunkStart = RAND.nextInt(chunkArrSize + 1);
-		//int chunksPerTick = Math.min(radiation_world_chunks_per_tick, chunkArrSize);
+		int chunkStart = RAND.nextInt(chunkArrSize + 1);
+		int chunksPerTick = Math.min(QMDConfig.item_ticker_chunks_per_tick, chunkArrSize);
 		
-
 		if (chunkArrSize > 0)
 		{
-			for (int i = 0; i < chunkArrSize; i++)
+			for (int i = chunkStart; i < chunkStart + chunksPerTick; i++)
 			{
 				Chunk chunk = chunkArray[i % chunkArrSize];
 				if (!chunk.isLoaded())
