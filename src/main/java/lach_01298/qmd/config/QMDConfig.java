@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.QMDRadSources;
+import nc.radiation.RadSources;
 import nc.util.Lang;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -78,6 +80,13 @@ public class QMDConfig {
 
 	public static double[] fission_shield_heat_per_flux;
 	public static double[] fission_shield_efficiency;
+	
+	public static int[] copernicium_fuel_time;
+	public static int[] copernicium_heat_generation;
+	public static double[] copernicium_efficiency;
+	public static int[] copernicium_criticality;
+	public static boolean[] copernicium_self_priming;
+	public static double[] copernicium_radiation;
 	
 	public static int[] rtg_power;
 	public static double[] processor_passive_rate;
@@ -224,6 +233,20 @@ public class QMDConfig {
 		Property propertyFissionShieldEfficiency = config.get(CATEGORY_FISSION, "shield_efficiency", new double[] {1D}, Lang.localise("gui.qmd.config.fission.shield_efficiency.comment"), 0D, 255D);
 		propertyFissionShieldEfficiency.setLanguageKey("gui.qmd.config.fission.shield_efficiency");
 		
+		Property propertyCoperniciumFuelTime = config.get(CATEGORY_FISSION, "copernicium_fuel_time", new int[] {1066, 1066, 1334, 852}, Lang.localise("gui.nc.config.copernicium_fuel_time.comment"), 1, Integer.MAX_VALUE);
+		propertyCoperniciumFuelTime.setLanguageKey("gui.qmd.config.copernicium_fuel_time");
+		Property propertyCoperniciumHeatGeneration = config.get(CATEGORY_FISSION, "copernicium_heat_generation", new int[] {1720, 1720, 1396, 2128}, Lang.localise("gui.qmd.config.copernicium_heat_generation.comment"), 0, 32767);
+		propertyCoperniciumHeatGeneration.setLanguageKey("gui.qmd.config.copernicium_heat_generation");
+		Property propertyCoperniciumEfficiency = config.get(CATEGORY_FISSION, "copernicium_efficiency", new double[] {3.0D, 3.0D, 3.0D, 3.0D}, Lang.localise("gui.qmd.config.copernicium_efficieqmdy.comment"), 0D, 32767D);
+		propertyCoperniciumEfficiency.setLanguageKey("gui.qmd.config.copernicium_efficiency");
+		Property propertyCoperniciumCriticality = config.get(CATEGORY_FISSION, "copernicium_criticality", new int[] {20, 25, 30, 20}, Lang.localise("gui.qmd.config.copernicium_criticality.comment"), 0, 32767);
+		propertyCoperniciumCriticality.setLanguageKey("gui.qmd.config.copernicium_criticality");
+		Property propertyCoperniciumSelfPriming = config.get(CATEGORY_FISSION, "copernicium_self_priming", new boolean[] {true, true, true, true}, Lang.localise("gui.qmd.config.copernicium_self_priming.comment"));
+		propertyCoperniciumSelfPriming.setLanguageKey("gui.qmd.config.copernicium_self_priming");
+		Property propertyCoperniciumRadiation = config.get(CATEGORY_FISSION, "copernicium_radiation", new double[] {QMDRadSources.CN_291_FISSION, QMDRadSources.CN_291_FISSION, QMDRadSources.CN_291_FISSION, QMDRadSources.CN_291_FISSION}, Lang.localise("gui.qmd.config.copernicium_radiation.comment"), 0D, 1000D);
+		propertyCoperniciumRadiation.setLanguageKey("gui.qmd.config.copernicium_radiation");
+		
+		
 		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {50}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
 		propertyFissionReflectorEfficiency.setLanguageKey("gui.qmd.config.other.rtg_power");
 		
@@ -317,6 +340,13 @@ public class QMDConfig {
 		propertyOrderFission.add(propertyFissionShieldHeatPerFlux.getName());
 		propertyOrderFission.add(propertyFissionShieldEfficiency.getName());
 		
+		propertyOrderFission.add(propertyCoperniciumFuelTime.getName());
+		propertyOrderFission.add(propertyCoperniciumHeatGeneration.getName());
+		propertyOrderFission.add(propertyCoperniciumEfficiency.getName());
+		propertyOrderFission.add(propertyCoperniciumCriticality.getName());
+		propertyOrderFission.add(propertyCoperniciumSelfPriming.getName());
+		propertyOrderFission.add(propertyCoperniciumRadiation.getName());
+		
 		config.setCategoryPropertyOrder(CATEGORY_FISSION, propertyOrderFission);	
 		
 		
@@ -392,6 +422,12 @@ public class QMDConfig {
 			fission_shield_heat_per_flux = readDoubleArrayFromConfig(propertyFissionShieldHeatPerFlux);
 			fission_shield_efficiency = readDoubleArrayFromConfig(propertyFissionShieldEfficiency);
 			
+			copernicium_fuel_time = readIntegerArrayFromConfig(propertyCoperniciumFuelTime);
+			copernicium_heat_generation = readIntegerArrayFromConfig(propertyCoperniciumHeatGeneration);
+			copernicium_efficiency = readDoubleArrayFromConfig(propertyCoperniciumEfficiency);
+			copernicium_criticality = readIntegerArrayFromConfig(propertyCoperniciumCriticality);
+			copernicium_self_priming = readBooleanArrayFromConfig(propertyCoperniciumSelfPriming);
+			copernicium_radiation = readDoubleArrayFromConfig(propertyCoperniciumRadiation);
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			processor_passive_rate = readDoubleArrayFromConfig(propertyProcessorPassiveRate);

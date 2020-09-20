@@ -75,19 +75,18 @@ item.qmd.canister_helium_3.name=Helium-3 Canister
 item.qmd.source_sodium_22.name=Sodium-22 Source
 item.qmd.source_cobalt_60.name=Cobalt-60 Source
 item.qmd.source_iridium_192.name=Iridium-192 Source
+item.qmd.source_calcium_48.name=Calcium-48 Source
 
 
 item.qmd.isotope.sodium_22.name=Sodium-22
-item.qmd.isotope.promethium_147.name=Promethium-147
 item.qmd.isotope.magnesium_26.name=Magnesium-26
 item.qmd.isotope.magnesium_24.name=Magnesium-24
 item.qmd.isotope.beryllium_7.name=Beryllium-7
-item.qmd.isotope.vanadium_50.name=Vanadium-50
-item.qmd.isotope.strontium_90.name=Strontium-90
 item.qmd.isotope.uranium_234.name=Uranium-234
 item.qmd.isotope.protactinium_231.name=Protactinium-231 Dust
 item.qmd.isotope.cobalt_60.name=Cobalt-60
 item.qmd.isotope.iridium_192.name=Iridium-192
+item.qmd.isotope.calcium_48.name=Calcium-48
 
 item.qmd.part.empty_cooler.name=Empty Cooler
 item.qmd.part.scintillator_pwo.name=Lead Tungstate Scintillator
@@ -112,6 +111,10 @@ item.qmd.chemical_dust.sodium_nitrate.name=Sodium Nitrate
 item.qmd.chemical_dust.sodium_chloride.name=Sodium Chloride
 item.qmd.chemical_dust.copper_oxide.name=Copper Oxide
 item.qmd.chemical_dust.hafnium_oxide.name=Hafnium Oxide
+item.qmd.chemical_dust.strontium_chloride.name=Strontium Chloride
+item.qmd.chemical_dust.oxalic_acid.name=Oxalic Acid
+item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=Strontium Chloride Oxalic Acid Blend 
+item.qmd.chemical_dust.strontium_titanyl_dioxalate.name=Strontium Titanyl Dioxalate
 
 item.qmd.sword_tungsten_carbide.name=Tungsten Carbide Sword
 item.qmd.shovel_tungsten_carbide.name=Tungsten Carbide Shovel
@@ -128,6 +131,22 @@ item.qmd.cell.antitritium.name=Anti-Tritium Cell
 item.qmd.cell.antihelium3.name=Anti-Helium-3 Cell
 item.qmd.cell.antihelium.name=Anti-Helium Cell
 
+item.qmd.copernicium.291.name=Copernicium-291
+item.qmd.copernicium.291_c.name=Copernicium-291 Carbide
+item.qmd.copernicium.291_ox.name=Copernicium-291 Oxide
+item.qmd.copernicium.291_ni.name=Copernicium-291 Nitride
+item.qmd.copernicium.291_za.name=Copernicium-291-Zirconium Alloy
+
+item.qmd.pellet_copernicium.cn_291.name=Cn-291
+item.qmd.pellet_copernicium.cn_291_c.name=Cn-291 Carbide
+item.qmd.fuel_copernicium.cn_291_tr.name=Cn-291 TRISO Fuel Pebble
+item.qmd.fuel_copernicium.cn_291_ox.name=Cn-291 Oxide Fuel Pellet
+item.qmd.fuel_copernicium.cn_291_ni.name=Cn-291 Nitride Fuel Pellet
+item.qmd.fuel_copernicium.cn_291_za.name=Cn-291-Zirconium Alloy Fuel Pellet
+item.qmd.depleted_fuel_copernicium.cn_291_tr.name=Depleted Cn-291 TRISO Fuel Pebble
+item.qmd.depleted_fuel_copernicium.cn_291_ox.name=Depleted Cn-291 Oxide Fuel Pellet
+item.qmd.depleted_fuel_copernicium.cn_291_ni.name=Depleted Cn-291 Nitride Fuel Pellet
+item.qmd.depleted_fuel_copernicium.cn_291_za.name=Depleted Cn-291-Zirconium Alloy Fuel Pellet
 
 //blocks
 tile.qmd.beamline.name=Beamline Pipe
@@ -236,7 +255,8 @@ tile.qmd.containment_vent.name=Containment Coolant Vent
 tile.qmd.containment_energy_port.name=Containment Energy Port
 tile.qmd.containment_laser.name=Containment Laser
 tile.qmd.containment_coil.name=Containment Coil
-
+tile.qmd.strontium_90_block.name=Strontium-90 Block
+tile.qmd.strontium_titanate_block.name= Strontium Titanate Crystal
 
 //block descriptions
 
@@ -330,6 +350,10 @@ fluid.yag=Molten Yttrium Aluminum Garnet
 tile.qmd.fluid_yag.name=Molten Yttrium Aluminum Garnet
 fluid.nd_yag=Molten Neodymium Doped YAG
 tile.qmd.fluid_nd_yag.name=Molten Neodymium Doped YAG
+fluid.strontium_titanate=Molten Strontium Titanate
+tile.qmd.fluid_strontium_titanate.name=Molten Strontium Titanate
+fluid.titanium_tetrachloride=Titanium Tetrachloride
+tile.qmd.fluid_titanium_tetrachloride.name=Titanium Tetrachloride
 
 fluid.antihydrogen=Anti-Hydrogen
 tile.qmd.fluid_antihydrogen.name=Anti-Hydrogen
@@ -511,6 +535,7 @@ qmd.particle.antitriton.name=Anti-Triton
 qmd.particle.helion.name=Helion
 qmd.particle.antihelion.name=Anti-Helion
 qmd.particle.boron_ion.name=Boron Ion
+qmd.particle.calcium_48_ion.name=Calcium-48 Ion
 qmd.particle.kaon_plus.name=Kaon +
 qmd.particle.kaon_minus.name=Kaon -
 qmd.particle.kaon_naught.name=Kaon 0
@@ -569,6 +594,7 @@ qmd.particle.helion.desc=The Helion is the nucleus of a Helium-3 Atom.
 qmd.particle.antitriton.desc=The Anti-Helion is the antimatter partner of the Helion.
 
 qmd.particle.boron_ion.desc=A Boron atom with one electron missing.
+qmd.particle.calcium_48_ion.desc=A Calcium-48 atom with one electron missing. This is a particularly neutron rich atom useful for creating Super heavy elements.
 
 qmd.particle.kaon_plus.desc=The Kaon + is a mesons with strangeness of 1.
 qmd.particle.kaon_naught.desc=The Kaon 0 is a mesons with strangeness of 1.

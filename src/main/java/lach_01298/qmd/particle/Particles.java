@@ -69,6 +69,7 @@ public class Particles
 	public static Particle antihelion;
 	
 	public static Particle boron_ion;
+	public static Particle calcium_48_ion;
 
 	
 	//Pions
@@ -231,6 +232,7 @@ public class Particles
 		registerParticle(antihelion);
 
 		registerParticle(boron_ion);
+		registerParticle(calcium_48_ion);
 		
 		registerParticle(pion_plus);
 		registerParticle(pion_naught);
@@ -293,7 +295,10 @@ public class Particles
 		boron_ion.addComponentParticle(neutron,5);
 		boron_ion.addComponentParticle(electron,4);
 		
-		
+		calcium_48_ion = new Particle("calcium_48_ion",Util.appendPath(particlePath, "calcium_48_ion.png"),44600d,1,0,true);
+		calcium_48_ion.addComponentParticle(proton,20);
+		calcium_48_ion.addComponentParticle(neutron,28);
+		calcium_48_ion.addComponentParticle(electron,19);
 		
 		
 		//Pions

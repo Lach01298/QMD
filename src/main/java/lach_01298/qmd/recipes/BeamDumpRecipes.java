@@ -28,7 +28,7 @@ public class BeamDumpRecipes extends QMDRecipeHandler
 		addRecipe(new ParticleStack(Particles.deuteron,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("deuterium", 1));
 		addRecipe(new ParticleStack(Particles.alpha,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("helium", 1));
 		addRecipe(new ParticleStack(Particles.triton,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("tritium", 1));
-		addRecipe(new ParticleStack(Particles.helion,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("helium3", 1));
+		addRecipe(new ParticleStack(Particles.helion,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("helium_3", 1));
 	}
 
 

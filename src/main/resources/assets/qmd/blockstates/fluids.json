@@ -115,6 +115,18 @@
                 "fluid": "nd_yag"
             }
         },
+        "fluid_titanium_tetrachloride": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "titanium_tetrachloride"
+            }
+        },
+        "fluid_strontium_titanate": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "strontium_titanate"
+            }
+        },
         "fluid_antihydrogen": {
             "model": "forge:fluid",
             "custom": {

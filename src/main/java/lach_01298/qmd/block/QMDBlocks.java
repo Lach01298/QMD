@@ -62,6 +62,7 @@ import nc.block.tile.ITileType;
 import nc.util.InfoHelper;
 import nc.util.UnitHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -130,6 +131,9 @@ public class QMDBlocks
 	public static Block containmentCoil;
 	public static Block containmentLaser;
 	
+	public static Block strontiumTitanate;
+	public static Block strontium90;
+	
 	public static void init() 
 	{
 		beamline = withName(new BlockBeamline(), "beamline");
@@ -190,7 +194,8 @@ public class QMDBlocks
 		containmentEnergyPort = withName(new BlockContainmentEnergyPort(), "containment_energy_port");
 		containmentCoil = withName(new BlockContainmentCoil(), "containment_coil");
 		containmentLaser = withName(new BlockContainmentLaser(), "containment_laser");
-		
+		strontiumTitanate = withName(new BlockCrystal(), "strontium_titanate_block");
+		strontium90 = withName(new BlockQMD(Material.IRON), "strontium_90_block");
 		
 		
 	}
@@ -255,6 +260,9 @@ public class QMDBlocks
 		registerBlock(containmentEnergyPort);
 		registerBlock(containmentCoil);
 		registerBlock(containmentLaser);
+		
+		registerBlock(strontiumTitanate);
+		registerBlock(strontium90);
 	}
 
 	public static void registerRenders() 
@@ -345,6 +353,9 @@ public class QMDBlocks
 		registerRender(containmentEnergyPort);
 		registerRender(containmentCoil);
 		registerRender(containmentLaser);
+		
+		registerRender(strontiumTitanate);
+		registerRender(strontium90);
 	}
 
 

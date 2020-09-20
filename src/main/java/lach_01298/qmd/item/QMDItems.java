@@ -3,6 +3,10 @@ package lach_01298.qmd.item;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumDepletedFuelType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumFuelType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumPelletType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumType;
 import lach_01298.qmd.enums.MaterialTypes.DustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType2;
 import lach_01298.qmd.enums.MaterialTypes.ExoticCellType;
@@ -17,7 +21,9 @@ import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
 import lach_01298.qmd.tab.QMDTabs;
 import nc.config.NCConfig;
+import nc.enumm.MetaEnums;
 import nc.item.IInfoItem;
+import nc.item.ItemFissionFuel;
 import nc.item.NCItemFood;
 import nc.item.NCItemMeta;
 import nc.item.tool.NCAxe;
@@ -35,8 +41,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class QMDItems
@@ -68,6 +72,7 @@ public class QMDItems
 	public static Item source_sodium_22;
 	public static Item source_cobalt_60;
 	public static Item source_iridium_192;
+	public static Item source_calcium_48;
 	
 	
 	
@@ -81,6 +86,11 @@ public class QMDItems
 	public static Item cell;
 	
 	public static Item flesh;
+	
+	public static Item copernicium;
+	public static Item pellet_copernicium;
+	public static Item fuel_copernicium;
+	public static Item depleted_fuel_copernicium;
 	
 	public static void init()
 	{
@@ -99,6 +109,8 @@ public class QMDItems
 		source_sodium_22 = withName(new ItemBrakeable(QMDConfig.source_life_time),"source_sodium_22");
 		source_cobalt_60 = withName(new ItemBrakeable(QMDConfig.irradiator_fuel_life_time),"source_cobalt_60");
 		source_iridium_192 = withName(new ItemBrakeable(QMDConfig.irradiator_fuel_life_time),"source_iridium_192");
+		source_calcium_48 = withName(new ItemBrakeable(QMDConfig.source_life_time),"source_calcium_48");
+		
 		isotope = withName(new NCItemMeta(IsotopeType.class), "isotope");
 		part =  withName(new NCItemMeta(PartType.class), "part");
 		semiconductor =  withName(new NCItemMeta(SemiconductorType.class), "semiconductor");
@@ -118,6 +130,12 @@ public class QMDItems
 		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
 		
 		cell = withName(new ItemCell(QMDConfig.cell_life_time),"cell");
+		
+		copernicium = withName(new NCItemMeta(CoperniciumType.class), "copernicium");
+		pellet_copernicium = withName(new NCItemMeta(CoperniciumPelletType.class), "pellet_copernicium");
+		fuel_copernicium = withName(new ItemFissionFuel(CoperniciumFuelType.class), "fuel_copernicium");
+		depleted_fuel_copernicium = withName(new NCItemMeta(CoperniciumDepletedFuelType.class), "depleted_fuel_copernicium");
+		
 		
 	}
 
@@ -139,6 +157,7 @@ public class QMDItems
 		registerItem(source_sodium_22, QMDTabs.ITEMS);
 		registerItem(source_cobalt_60, QMDTabs.ITEMS);
 		registerItem(source_iridium_192, QMDTabs.ITEMS);
+		registerItem(source_calcium_48, QMDTabs.ITEMS);
 		
 		registerItem(isotope, QMDTabs.ITEMS);
 		
@@ -158,6 +177,11 @@ public class QMDItems
 		
 		registerItem(flesh,QMDTabs.ITEMS);
 		registerItem(cell,QMDTabs.ITEMS);
+		
+		registerItem(copernicium,QMDTabs.ITEMS);
+		registerItem(pellet_copernicium,QMDTabs.ITEMS);
+		registerItem(fuel_copernicium,QMDTabs.ITEMS);
+		registerItem(depleted_fuel_copernicium,QMDTabs.ITEMS);
 		
 		
 	}
@@ -234,6 +258,7 @@ public class QMDItems
 		registerRender(source_sodium_22);
 		registerRender(source_cobalt_60);
 		registerRender(source_iridium_192);
+		registerRender(source_calcium_48);
 		
 		
 		registerRender(sword_tungsten_carbide);
@@ -249,6 +274,19 @@ public class QMDItems
 		for (int i = 0; i < ExoticCellType.values().length; i++)
 		{
 			registerRender(cell, i, ExoticCellType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < CoperniciumType.values().length; i++) {
+			registerRender(copernicium, i, CoperniciumType.values()[i].getName());
+		}
+		for (int i = 0; i < CoperniciumPelletType.values().length; i++) {
+			registerRender(pellet_copernicium, i, CoperniciumPelletType.values()[i].getName());
+		}
+		for (int i = 0; i < CoperniciumFuelType.values().length; i++) {
+			registerRender(fuel_copernicium, i, CoperniciumFuelType.values()[i].getName());
+		}
+		for (int i = 0; i < CoperniciumDepletedFuelType.values().length; i++) {
+			registerRender(depleted_fuel_copernicium, i, CoperniciumDepletedFuelType.values()[i].getName());
 		}
 	}
 	

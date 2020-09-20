@@ -25,24 +25,20 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class TargetChamberRecipe implements IRecipeWrapper
 {
-	private final ItemStack inputItem;
-	private final ItemStack outputItem;
-	private final ParticleStack inputParticle;
-	private final ParticleStack outputParticlePlus;
-	private final ParticleStack outputParticleNeutral;
-	private final ParticleStack outputParticleMinus;
+	private final List<List<ItemStack>> inputItems;
+	private final List<List<ItemStack>> outputItems;
+	private final List<List<ParticleStack>> inputParticles;
+	private final List<List<ParticleStack>> outputParticles;
 	private final long maxEnergy;
 	private final double crossSection;
 	private final long energyReleased;
 
-	public TargetChamberRecipe(ItemStack inputItem, ParticleStack inputParticle,ItemStack outputItem, ParticleStack outputParticlePlus, ParticleStack outputParticleNeutral, ParticleStack outputParticleMinus, long maxEnergy, double crossSection, long energyReleased)
+	public TargetChamberRecipe(List<List<ItemStack>> inputItems, List<List<ParticleStack>> inputParticles,List<List<ItemStack>> outputItems, List<List<ParticleStack>> outputParticles, long maxEnergy, double crossSection, long energyReleased)
 	{
-		this.inputItem = inputItem;
-		this.outputItem = outputItem;
-		this.inputParticle = inputParticle;
-		this.outputParticlePlus = outputParticlePlus;
-		this.outputParticleNeutral = outputParticleNeutral;
-		this.outputParticleMinus= outputParticleMinus;
+		this.inputItems = inputItems;
+		this.outputItems = outputItems;
+		this.inputParticles = inputParticles;
+		this.outputParticles = outputParticles;
 		this.maxEnergy = maxEnergy;
 		this.crossSection = crossSection;
 		this.energyReleased = energyReleased;
@@ -51,12 +47,10 @@ public class TargetChamberRecipe implements IRecipeWrapper
 	@Override
 	public void getIngredients(IIngredients ingredients) 
 	{
-		ingredients.setInput(VanillaTypes.ITEM, inputItem);
-		ingredients.setInput(ParticleType.Particle, inputParticle);
-		ingredients.setOutput(VanillaTypes.ITEM, outputItem);
-		
-		List<ParticleStack> outputParticles = Lists.newArrayList(outputParticlePlus,outputParticleNeutral,outputParticleMinus);
-		ingredients.setOutputs(ParticleType.Particle, outputParticles);
+		ingredients.setInputLists(VanillaTypes.ITEM, inputItems);
+		ingredients.setInputLists(ParticleType.Particle, inputParticles);
+		ingredients.setOutputLists(VanillaTypes.ITEM, outputItems);
+		ingredients.setOutputLists(ParticleType.Particle, outputParticles);
 	}
 	
 	
@@ -64,7 +58,7 @@ public class TargetChamberRecipe implements IRecipeWrapper
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
 	{
 		FontRenderer fontRenderer = minecraft.fontRenderer;
-		String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticle.getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(maxEnergy,3,"eV"));
+		String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticles.get(0).get(0).getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(maxEnergy,3,"eV"));
 		
 		DecimalFormat df = new DecimalFormat("#.##");
 		String crossSectionString = Lang.localise("gui.qmd.jei.reaction.cross_section", df.format(crossSection*100));

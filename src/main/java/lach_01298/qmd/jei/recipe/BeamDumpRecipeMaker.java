@@ -5,6 +5,7 @@ import java.util.List;
 
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipe.QMDRecipeHelper;
 import lach_01298.qmd.recipes.QMDRecipes;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.recipe.IStackHelper;
@@ -27,9 +28,9 @@ public class BeamDumpRecipeMaker
 		{
 			
 			
-			ParticleStack inputParticle = recipe.getParticleIngredients().get(0).getStack();
+			 List<List<ParticleStack>> inputParticle = QMDRecipeHelper.getParticleInputLists(recipe.getParticleIngredients());
 			
-			FluidStack outputFluid = recipe.getFluidProducts().get(0).getStack();
+			 List<List<FluidStack>> outputFluid = QMDRecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
 			
 			long maxEnergy = (long) recipe.getMaxEnergy();
 			

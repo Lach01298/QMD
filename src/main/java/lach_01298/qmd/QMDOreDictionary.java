@@ -1,6 +1,6 @@
 package lach_01298.qmd;
 
-import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType2;
@@ -15,15 +15,16 @@ import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
 import lach_01298.qmd.item.QMDItems;
-import nc.enumm.MetaEnums;
-import nc.init.NCItems;
-import net.minecraft.init.Items;
+import nc.handler.OreDictHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class QMDOreDictionary
 {
 
+
+	
+	
 	public static void register()
 	{
 		OreDictionary.registerOre("ingotTungsten",new ItemStack(QMDItems.ingot, 1, IngotType.TUNGSTEN.getID()));
@@ -102,15 +103,14 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("ingotOsmiridium",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.OSMIRIDIUM.getID()));
 		
 		OreDictionary.registerOre("ingotSodium22",new ItemStack(QMDItems.isotope, 1, IsotopeType.SODIUM_22.getID()));
-		OreDictionary.registerOre("ingotPromethium147",new ItemStack(QMDItems.isotope, 1, IsotopeType.PROMETHIUM_147.getID()));
 		OreDictionary.registerOre("ingotBeryllium7",new ItemStack(QMDItems.isotope, 1, IsotopeType.BERYLLIUM_7.getID()));
 		OreDictionary.registerOre("ingotMagnesium24",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_24.getID()));
 		OreDictionary.registerOre("ingotMagnesium26",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_26.getID()));
-		OreDictionary.registerOre("ingotStrontium90",new ItemStack(QMDItems.isotope, 1, IsotopeType.STRONTIUM_90.getID()));
 		OreDictionary.registerOre("ingotUranium234",new ItemStack(QMDItems.isotope, 1, IsotopeType.Uranium_234.getID()));
 		OreDictionary.registerOre("dustProtactinium231",new ItemStack(QMDItems.isotope, 1, IsotopeType.PROTACTINIUM_231.getID()));
 		OreDictionary.registerOre("ingotCobalt60",new ItemStack(QMDItems.isotope, 1, IsotopeType.COBALT_60.getID()));
 		OreDictionary.registerOre("ingotIridium192",new ItemStack(QMDItems.isotope, 1, IsotopeType.IRIDIUM_192.getID()));
+		OreDictionary.registerOre("ingotCalcium48",new ItemStack(QMDItems.isotope, 1, IsotopeType.CALCIUM_48.getID()));
 		
 
 		OreDictionary.registerOre("bouleSilicon",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_BOULE.getID()));
@@ -135,6 +135,10 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("dustSalt",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.SODIUM_CHLORIDE.getID()));
 		OreDictionary.registerOre("dustCopperOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.COPPER_OXIDE.getID()));
 		OreDictionary.registerOre("dustHafniumOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.HAFNIUM_OXIDE.getID()));
+		OreDictionary.registerOre("dustStrontiumChloride",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.STRONTIUM_CHLORIDE.getID()));
+		OreDictionary.registerOre("dustOxalicAcid",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.OXALIC_ACID.getID()));
+		OreDictionary.registerOre("dustStrontiumChlorideOxalicAcidBlend",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.STRONTIUM_CHLORIDE_OXALIC_ACID_BLEND.getID()));
+		OreDictionary.registerOre("dustStrontiumTitanylDioxalate",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.STRONTIUM_TITANYL_DIOXALATE.getID()));
 		
 		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHYDROGEN.getID()));
 		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIDEUTERIUM.getID()));
@@ -148,9 +152,11 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("cellAntihelium3",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHELIUM3.getID()));
 		OreDictionary.registerOre("cellAntihelium",new ItemStack(QMDItems.cell, 1, ExoticCellType.ANTIHELIUM.getID()));
 		
+		OreDictionary.registerOre("blockStrontiumTitanate", new ItemStack(QMDBlocks.strontiumTitanate));
+		OreDictionary.registerOre("blockStrontium90", new ItemStack(QMDBlocks.strontium90));
 		
-		
-		
+		OreDictHandler.registerIsotopes(QMDItems.copernicium, "Copernicium", 291);
+		OreDictHandler.registerFuels(QMDItems.pellet_copernicium, QMDItems.fuel_copernicium, QMDItems.depleted_fuel_copernicium, "Cn291");
 	}
 
 }

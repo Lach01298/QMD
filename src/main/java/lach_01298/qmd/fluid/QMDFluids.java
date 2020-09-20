@@ -46,6 +46,7 @@ public class QMDFluids
 			addFluidPair(FluidType.LIQUID, "liquid_argon",false, 0xff75dd,1395,87,170,0);
 			addFluidPair(FluidType.LIQUID, "liquid_neon",false, 0xff9f7a,1207,27,170,0);
 			addFluidPair(FluidType.LIQUID, "liquid_oxygen",false, 0x7E8CC8,1141,90,170,0);
+			addFluidPair(FluidType.LIQUID, "titanium_tetrachloride",false, 0xEEFFAB,1726,300,170,0);
 			
 			//gases
 			addFluidPair(FluidType.GAS, "argon", 0xff75dd);
@@ -58,6 +59,7 @@ public class QMDFluids
 			addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);
 			addFluidPair(FluidType.MOLTEN, "yag", 0xfffddb);
 			addFluidPair(FluidType.MOLTEN, "nd_yag", 0xe4bcf5);
+			addFluidPair(FluidType.MOLTEN, "strontium_titanate", 0xAD998C);
 
 			//antimatter
 			addFluidPair(QMDFluidType.ANTIMATTER,"antihydrogen", 0xB37AC4);

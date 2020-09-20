@@ -28,6 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -36,7 +37,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileAcceleratorVent extends TileAcceleratorPart implements ITileFluid
+public class TileAcceleratorVent extends TileAcceleratorPart implements ITileFluid, ITickable
 {
 
 	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<>()),
@@ -95,7 +96,6 @@ public class TileAcceleratorVent extends TileAcceleratorPart implements ITileFlu
 	@Override
 	public void update()
 	{
-		super.update();
 		EnumFacing facing = getPartPosition().getFacing();
 		if (!world.isRemote && !getTanks().get(1).isEmpty() && facing != null && getTankSorption(facing, 1).canDrain())
 		{

@@ -1,5 +1,7 @@
 package lach_01298.qmd.accelerator.tile;
 
+import static nc.config.NCConfig.enable_gtce_eu;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+//import gregtech.api.capability.GregtechCapabilities;
+import ic2.api.energy.tile.IEnergyEmitter;
 import lach_01298.qmd.accelerator.Accelerator;
 import nc.ModCheck;
 import nc.config.NCConfig;
@@ -24,6 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fml.common.Optional;
 
 public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements ITileEnergy
 {
@@ -32,6 +37,9 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 	
 	protected final EnergyConnection[] energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.IN);
 	protected final EnergyTileWrapper[] energySides = ITileEnergy.getDefaultEnergySides(this);
+	protected final EnergyTileWrapperGT[] energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
+
+	protected boolean ic2reg = false;
 	
 	public TileAcceleratorEnergyPort()
 	{
@@ -42,6 +50,7 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
+		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
 		
 	}
@@ -53,13 +62,42 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 		
 	}
 
+	public void onLoad()
+	{
+		super.onLoad();
+		if (ModCheck.ic2Loaded())
+		{
+			addTileToENet();
+		}
+	}
+
+	@Override
+	public void invalidate()
+	{
+		super.invalidate();
+		if (ModCheck.ic2Loaded())
+		{
+			removeTileFromENet();
+		}
+	}
+
+	@Override
+	public void onChunkUnload()
+	{
+		super.onChunkUnload();
+		if (ModCheck.ic2Loaded())
+		{
+			removeTileFromENet();
+		}
+	}
+
 	@Override
 	public EnergyStorage getEnergyStorage()
 	{
 		if (!isMultiblockAssembled())
 		{
 			return backupStorage;
-		}	
+		}
 		return getMultiblock().energyStorage;
 	}
 
@@ -67,33 +105,6 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 	public EnergyConnection[] getEnergyConnections()
 	{
 		return energyConnections;
-	}
-
-	@Override
-	public int getEUSourceTier()
-	{
-		return 0;
-	}
-
-	@Override
-	public int getEUSinkTier()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void addTileToENet()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeTileFromENet()
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -105,7 +116,58 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 	@Override
 	public EnergyTileWrapperGT[] getEnergySidesGT()
 	{
-		return null;
+		return energySidesGT;
+	}
+
+	// IC2 Energy
+
+	@Override
+	public boolean getIC2Reg()
+	{
+		return ic2reg;
+	}
+
+	@Override
+	public void setIC2Reg(boolean ic2reg)
+	{
+		this.ic2reg = ic2reg;
+	}
+
+	@Override
+	public int getSinkTier()
+	{
+		return 1;
+	}
+
+	@Override
+	public int getSourceTier()
+	{
+		if (!isMultiblockAssembled())
+		{
+			return 1;
+		}
+		return EnergyHelper.getEUTier(getMultiblock().requiredEnergy);
+	}
+
+	@Override
+	@Optional.Method(modid = "ic2")
+	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side)
+	{
+		return ITileEnergy.super.acceptsEnergyFrom(emitter, side);
+	}
+
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double getDemandedEnergy()
+	{
+		return ITileEnergy.super.getDemandedEnergy();
+	}
+
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage)
+	{
+		return ITileEnergy.super.injectEnergy(directionFrom, amount, voltage);
 	}
 
 	
@@ -132,7 +194,8 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
 	{
-		if (capability == CapabilityEnergy.ENERGY)
+		if (capability == CapabilityEnergy.ENERGY /*|| ModCheck.gregtechLoaded() && enable_gtce_eu
+				&& capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER*/)
 		{
 			return hasEnergySideCapability(side);
 		}
@@ -150,6 +213,14 @@ public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements IT
 			}
 			return null;
 		}
+		/*else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)
+		{
+			if (enable_gtce_eu && hasEnergySideCapability(side))
+			{
+				return (T) getEnergySideGT(nonNullSide(side));
+			}
+			return null;
+		}*/
 		return super.getCapability(capability, side);
 	}
 	
