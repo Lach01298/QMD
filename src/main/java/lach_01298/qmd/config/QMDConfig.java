@@ -174,7 +174,7 @@ public class QMDConfig {
 		Property propertyRFCavityMaxTemp = config.get(CATEGORY_ACCELERATOR, "RF_cavity_max_temp", new int[] {350, 39, 18, 10, 104}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_max_temp.comment"), 0, 400);
 		propertyRFCavityMaxTemp.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_max_temp");
 		
-		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 4D, 8D}, Lang.localise("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
+		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 2D, 4D}, Lang.localise("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
 		propertyMagnetStrength.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_strength");
 		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.5D, 0.8D, 0.90D, 0.95D, 0.99D}, Lang.localise("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
 		propertyMagnetEfficiency.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_efficiency");
@@ -233,17 +233,17 @@ public class QMDConfig {
 		Property propertyFissionShieldEfficiency = config.get(CATEGORY_FISSION, "shield_efficiency", new double[] {1D}, Lang.localise("gui.qmd.config.fission.shield_efficiency.comment"), 0D, 255D);
 		propertyFissionShieldEfficiency.setLanguageKey("gui.qmd.config.fission.shield_efficiency");
 		
-		Property propertyCoperniciumFuelTime = config.get(CATEGORY_FISSION, "copernicium_fuel_time", new int[] {1066, 1066, 1334, 852}, Lang.localise("gui.nc.config.copernicium_fuel_time.comment"), 1, Integer.MAX_VALUE);
+		Property propertyCoperniciumFuelTime = config.get(CATEGORY_FISSION, "copernicium_fuel_time", new int[] {10000, 10000, 12004, 9001}, Lang.localise("gui.qmd.config.copernicium_fuel_time.comment"), 1, Integer.MAX_VALUE);
 		propertyCoperniciumFuelTime.setLanguageKey("gui.qmd.config.copernicium_fuel_time");
-		Property propertyCoperniciumHeatGeneration = config.get(CATEGORY_FISSION, "copernicium_heat_generation", new int[] {1720, 1720, 1396, 2128}, Lang.localise("gui.qmd.config.copernicium_heat_generation.comment"), 0, 32767);
+		Property propertyCoperniciumHeatGeneration = config.get(CATEGORY_FISSION, "copernicium_heat_generation", new int[] {2000, 2000, 1666, 2222}, Lang.localise("gui.qmd.config.copernicium_heat_generation.comment"), 0, 32767);
 		propertyCoperniciumHeatGeneration.setLanguageKey("gui.qmd.config.copernicium_heat_generation");
-		Property propertyCoperniciumEfficiency = config.get(CATEGORY_FISSION, "copernicium_efficiency", new double[] {3.0D, 3.0D, 3.0D, 3.0D}, Lang.localise("gui.qmd.config.copernicium_efficieqmdy.comment"), 0D, 32767D);
+		Property propertyCoperniciumEfficiency = config.get(CATEGORY_FISSION, "copernicium_efficiency", new double[] {5.0D, 5.0D, 5.0D, 5.0D}, Lang.localise("gui.qmd.config.copernicium_efficiency.comment"), 0D, 32767D);
 		propertyCoperniciumEfficiency.setLanguageKey("gui.qmd.config.copernicium_efficiency");
-		Property propertyCoperniciumCriticality = config.get(CATEGORY_FISSION, "copernicium_criticality", new int[] {20, 25, 30, 20}, Lang.localise("gui.qmd.config.copernicium_criticality.comment"), 0, 32767);
+		Property propertyCoperniciumCriticality = config.get(CATEGORY_FISSION, "copernicium_criticality", new int[] {20, 25, 35, 20}, Lang.localise("gui.qmd.config.copernicium_criticality.comment"), 0, 32767);
 		propertyCoperniciumCriticality.setLanguageKey("gui.qmd.config.copernicium_criticality");
 		Property propertyCoperniciumSelfPriming = config.get(CATEGORY_FISSION, "copernicium_self_priming", new boolean[] {true, true, true, true}, Lang.localise("gui.qmd.config.copernicium_self_priming.comment"));
 		propertyCoperniciumSelfPriming.setLanguageKey("gui.qmd.config.copernicium_self_priming");
-		Property propertyCoperniciumRadiation = config.get(CATEGORY_FISSION, "copernicium_radiation", new double[] {QMDRadSources.CN_291_FISSION, QMDRadSources.CN_291_FISSION, QMDRadSources.CN_291_FISSION, QMDRadSources.CN_291_FISSION}, Lang.localise("gui.qmd.config.copernicium_radiation.comment"), 0D, 1000D);
+		Property propertyCoperniciumRadiation = config.get(CATEGORY_FISSION, "copernicium_radiation", new double[] {QMDRadSources.MIX_291, QMDRadSources.MIX_291, QMDRadSources.MIX_291, QMDRadSources.MIX_291}, Lang.localise("gui.qmd.config.copernicium_radiation.comment"), 0D, 1000D);
 		propertyCoperniciumRadiation.setLanguageKey("gui.qmd.config.copernicium_radiation");
 		
 		

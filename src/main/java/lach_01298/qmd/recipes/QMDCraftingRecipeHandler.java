@@ -70,11 +70,11 @@ public class QMDCraftingRecipeHandler
 		addShapelessOreRecipe(new ItemStack(QMDItems.chemicalDust,2,ChemicalDustType.STRONTIUM_CHLORIDE_OXALIC_ACID_BLEND.getID()), new Object[] {"dustStrontiumChloride","dustOxalicAcid"});
 		
 		//fuels
-		fissionFuelRecipe(QMDItems.pellet_copernicium,0,"Copernicium291");
-		fissionFuelRecipe(QMDItems.pellet_copernicium,1,"Copernicium291Carbide");
-		fissionFuelRecipe(QMDItems.fuel_copernicium,1,"Copernicium291Oxide");
-		fissionFuelRecipe(QMDItems.fuel_copernicium,2,"Copernicium291Nitride");
-		fissionFuelRecipe(QMDItems.fuel_copernicium,3,"Copernicium291ZA");
+		fissionFuelRecipe(QMDItems.pellet_copernicium,0,"Copernicium291","Uranium238");
+		fissionFuelRecipe(QMDItems.pellet_copernicium,1,"Copernicium291Carbide","Uranium238Carbide");
+		fissionFuelRecipe(QMDItems.fuel_copernicium,1,"Copernicium291Oxide","Uranium238Oxide");
+		fissionFuelRecipe(QMDItems.fuel_copernicium,2,"Copernicium291Nitride","Uranium238Nitride");
+		fissionFuelRecipe(QMDItems.fuel_copernicium,3,"Copernicium291ZA","Uranium238ZA");
 		
 		
 		
@@ -229,9 +229,10 @@ public class QMDCraftingRecipeHandler
 	}
 
 	
-	public static void fissionFuelRecipe(Item fuel, int meta, String fissile) {
+	public static void fissionFuelRecipe(Item fuel, int meta, String fissile, String fertile) {
 		fissile = "ingot" + fissile;
-		addShapelessOreRecipe(new ItemStack(fuel, 9, meta), new Object[] {fissile, fissile, fissile, fissile, fissile, fissile, fissile, fissile, fissile});
+		fertile = "ingot" + fertile;
+		addShapelessOreRecipe(new ItemStack(fuel, 9, meta), new Object[] {fissile, fertile, fertile, fertile, fertile, fertile, fertile, fertile, fertile});
 	}
 	
 	

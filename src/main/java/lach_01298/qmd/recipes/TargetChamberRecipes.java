@@ -440,8 +440,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				emptyParticleStack(),emptyParticleStack(),emptyParticleStack(), 1000, 1);
 		
 		// heavy ion bombardment
-		addRecipe("ingotBerkelium248", new ParticleStack(Particles.calcium_48_ion, 15360000, 40000,2), "ingotCopernicium291",
-				new ParticleStack(Particles.alpha),new ParticleStack(Particles.neutron),new ParticleStack(Particles.electron_neutrino,2), 50000, 0.005,-24400);
+		addRecipe("ingotBerkelium248", new ParticleStack(Particles.calcium_48_ion, 3840000, 40000,2), "ingotCopernicium291",
+				new ParticleStack(Particles.alpha),new ParticleStack(Particles.neutron),new ParticleStack(Particles.electron_neutrino,2), 50000, 0.01,-24400);
 		
 		// Inverse beta + decay
 		

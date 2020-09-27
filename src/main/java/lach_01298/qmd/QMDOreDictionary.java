@@ -156,7 +156,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("blockStrontium90", new ItemStack(QMDBlocks.strontium90));
 		
 		OreDictHandler.registerIsotopes(QMDItems.copernicium, "Copernicium", 291);
-		OreDictHandler.registerFuels(QMDItems.pellet_copernicium, QMDItems.fuel_copernicium, QMDItems.depleted_fuel_copernicium, "Cn291");
+		OreDictHandler.registerFuels(QMDItems.pellet_copernicium, QMDItems.fuel_copernicium, QMDItems.depleted_fuel_copernicium, "MIX291");
 	}
 
 }

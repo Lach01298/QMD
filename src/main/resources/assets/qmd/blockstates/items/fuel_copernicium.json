@@ -5,25 +5,25 @@
     },
     "variants": {
         "type": {
-            "cn_291_tr": {
+            "mix_291_tr": {
                 "model": "nuclearcraft:item/triso",
                 "textures": {
-                    "layer0": "qmd:items/copernicium/fuel/cn_291_tr"
+                    "layer0": "qmd:items/copernicium/fuel/mix_291_tr"
                 }
             },
-            "cn_291_ox": {
+            "mix_291_ox": {
                 "textures": {
-                    "layer0": "qmd:items/copernicium/fuel/cn_291_ox"
+                    "layer0": "qmd:items/copernicium/fuel/mix_291_ox"
                 }
             },
-            "cn_291_ni": {
+            "mix_291_ni": {
                 "textures": {
-                    "layer0": "qmd:items/copernicium/fuel/cn_291_ni"
+                    "layer0": "qmd:items/copernicium/fuel/mix_291_ni"
                 }
             },
-            "cn_291_za": {
+            "mix_291_za": {
                 "textures": {
-                    "layer0": "qmd:items/copernicium/fuel/cn_291_za"
+                    "layer0": "qmd:items/copernicium/fuel/mix_291_za"
                 }
             }
         }

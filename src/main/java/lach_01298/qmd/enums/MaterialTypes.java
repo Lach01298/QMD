@@ -567,8 +567,8 @@ public class MaterialTypes
 	}
 	
 	public static enum CoperniciumPelletType implements IStringSerializable, IMetaEnum {
-		CN_291("cn_291", 0),
-		CN_291_C("cn_291_c", 1);
+		MIX_291("mix_291", 0),
+		MIX_291_C("mix_291_c", 1);
 		
 		private final String name;
 		private final int id;
@@ -595,10 +595,10 @@ public class MaterialTypes
 	}
 	
 	public static enum CoperniciumFuelType implements IStringSerializable, IFissionFuelEnum {
-		CN_291_TR("cn_291_tr", 0),
-		CN_291_OX("cn_291_ox", 1),
-		CN_291_NI("cn_291_ni", 2),
-		CN_291_ZA("cn_291_za", 3);
+		MIX_291_TR("mix_291_tr", 0),
+		MIX_291_OX("mix_291_ox", 1),
+		MIX_291_NI("mix_291_ni", 2),
+		MIX_291_ZA("mix_291_za", 3);
 		
 		private final String name;
 		private final int id;
@@ -658,10 +658,10 @@ public class MaterialTypes
 	}
 	
 	public static enum CoperniciumDepletedFuelType implements IStringSerializable, IMetaEnum {
-		CN_291_TR("cn_291_tr", 0),
-		CN_291_OX("cn_291_ox", 1),
-		CN_291_NI("cn_291_ni", 2),
-		CN_291_ZA("cn_291_za", 3);
+		MIX_291_TR("mix_291_tr", 0),
+		MIX_291_OX("mix_291_ox", 1),
+		MIX_291_NI("mix_291_ni", 2),
+		MIX_291_ZA("mix_291_za", 3);
 		
 		private final String name;
 		private final int id;

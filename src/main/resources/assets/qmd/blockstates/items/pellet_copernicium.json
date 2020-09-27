@@ -5,14 +5,14 @@
     },
     "variants": {
         "type": {
-            "cn_291": {
+            "mix_291": {
                 "textures": {
-                    "layer0": "qmd:items/copernicium/fuel/cn_291"
+                    "layer0": "qmd:items/copernicium/fuel/mix_291"
                 }
             },
-            "cn_291_c": {
+            "mix_291_c": {
                 "textures": {
-                    "layer0": "qmd:items/copernicium/fuel/cn_291_c"
+                    "layer0": "qmd:items/copernicium/fuel/mix_291_c"
                 }
             }
         }

@@ -6,6 +6,12 @@ import static lach_01298.qmd.config.QMDConfig.copernicium_fuel_time;
 import static lach_01298.qmd.config.QMDConfig.copernicium_heat_generation;
 import static lach_01298.qmd.config.QMDConfig.copernicium_radiation;
 import static lach_01298.qmd.config.QMDConfig.copernicium_self_priming;
+import static nc.config.NCConfig.fission_thorium_criticality;
+import static nc.config.NCConfig.fission_thorium_efficiency;
+import static nc.config.NCConfig.fission_thorium_fuel_time;
+import static nc.config.NCConfig.fission_thorium_heat_generation;
+import static nc.config.NCConfig.fission_thorium_radiation;
+import static nc.config.NCConfig.fission_thorium_self_priming;
 import static nc.config.NCConfig.ore_dict_raw_material_recipes;
 import static nc.util.FluidStackHelper.BUCKET_VOLUME;
 
@@ -46,6 +52,7 @@ import nc.util.NCMath;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
 import nc.util.UnitHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -160,7 +167,7 @@ public class QMDRecipes
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDBlocks.dischargeLamp,1,LampType.EMPTY.getID()),fluidStack("argon", FluidStackHelper.BUCKET_VOLUME/4),new ItemStack(QMDBlocks.dischargeLamp,1,LampType.ARGON.getID()),1D,1D);
 		
 		NCRecipes.infuser.addRecipe("dustStrontium",fluidStack("hydrochloric_acid", FluidStackHelper.BUCKET_VOLUME*2),"dustStrontiumChloride",1D,1D);
-		NCRecipes.infuser.addRecipe("dustSugar",fluidStack("nitric_acid", FluidStackHelper.BUCKET_VOLUME/4),"dustOxalicAcid",1D,1D);
+		NCRecipes.infuser.addRecipe(Items.SUGAR,fluidStack("nitric_acid", FluidStackHelper.BUCKET_VOLUME/4),"dustOxalicAcid",1D,1D);
 		NCRecipes.infuser.addRecipe("dustStrontiumChlorideOxalicAcidBlend",fluidStack("titanium_tetrachloride", FluidStackHelper.BUCKET_VOLUME),"dustStrontiumTitanylDioxalate",1D,1D);
 		
 		NCRecipes.infuser.addOxidizingRecipe("dustCopper",FluidStackHelper.BUCKET_VOLUME);
@@ -310,15 +317,10 @@ public class QMDRecipes
 			NCRecipes.fission_reflector.addRecipe(new ItemStack(QMDBlocks.fissionReflector, 1, i), QMDConfig.fission_reflector_efficiency[i], QMDConfig.fission_reflector_reflectivity[i]);
 		}
 		
-		//SFR
-		
+		//Fission fuel recipes
 		addFissionFuelRecipes();
 		
-		
-		
-		
-		
-		
+
 		// Crafting
 		QMDCraftingRecipeHandler.registerCraftingRecipes();
 		
@@ -350,33 +352,31 @@ public class QMDRecipes
 	
 	private static void addFissionFuelRecipes()
 	{
-		NCRecipes.solid_fission.addFuelDepleteRecipes(copernicium_fuel_time, copernicium_heat_generation, copernicium_efficiency, copernicium_criticality, copernicium_self_priming, copernicium_radiation, "Cn291");
+		NCRecipes.solid_fission.addFuelDepleteRecipes(copernicium_fuel_time, copernicium_heat_generation, copernicium_efficiency, copernicium_criticality, copernicium_self_priming, copernicium_radiation, "MIX291");
+		NCRecipes.pebble_fission.addFuelDepleteRecipes(copernicium_fuel_time, copernicium_heat_generation, copernicium_efficiency, copernicium_criticality, copernicium_self_priming, copernicium_radiation, "MIX291");
 		
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Copernicium291", 1, "Zirconium", 1, "Copernicium291ZA", 1, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Copernicium291", 1, "Graphite", 1, "Copernicium291Carbide", 1, 1D, 1D);
 		
-		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Cn291", 1, "Zirconium", 1, "Cn291ZA", 1, 1D, 1D);
-		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Cn291", 1, "Graphite", 1, "Cn291Carbide", 1, 1D, 1D);
+		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("MIX291", 1, "Zirconium", 1, "MIX291ZA", 1, 1D, 1D);
+		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("MIX291", 1, "Graphite", 1, "MIX291Carbide", 1, 1D, 1D);
 		
 		NCRecipes.infuser.addRecipe("ingot" + "Copernicium291", fluidStack("oxygen", BUCKET_VOLUME), "ingotCopernicium291Oxide", 1D, 1D);
 		NCRecipes.infuser.addRecipe("ingot" + "Copernicium291", fluidStack("nitrogen", BUCKET_VOLUME), "ingotCopernicium291Nitride", 1D, 1D);
-		NCRecipes.infuser.addRecipe("ingot" + "Cn291", fluidStack("oxygen", BUCKET_VOLUME), "ingotCn291Oxide", 1D, 1D);
-		NCRecipes.infuser.addRecipe("ingot" + "Cn291", fluidStack("nitrogen", BUCKET_VOLUME), "ingotCn291Nitride", 1D, 1D);
+		NCRecipes.infuser.addRecipe("ingot" + "MIX291", fluidStack("oxygen", BUCKET_VOLUME), "ingotMIX291Oxide", 1D, 1D);
+		NCRecipes.infuser.addRecipe("ingot" + "MIX291", fluidStack("nitrogen", BUCKET_VOLUME), "ingotMIX291Nitride", 1D, 1D);
 		
-		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("ingotCn291Carbide", 9), "dustGraphite", "ingotPyrolyticCarbon", "ingotSiliconCarbide", AbstractRecipeHandler.oreStack("ingotCn291TRISO", 9), 1D, 1D);
+		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("ingotMIX291Carbide", 9), "dustGraphite", "ingotPyrolyticCarbon", "ingotSiliconCarbide", AbstractRecipeHandler.oreStack("ingotMIX291TRISO", 9), 1D, 1D);
 		
-		NCRecipes.fuel_reprocessor.addRecipe("ingotDepletedCn291TRISO",AbstractRecipeHandler.oreStack("dustEuropium155",3),AbstractRecipeHandler.oreStack("dustRuthenium106",3),"dustStrontium90","dustCaesium137","dustPromethium147",new EmptyItemIngredient(),AbstractRecipeHandler.oreStack("dustGraphite",2),AbstractRecipeHandler.oreStack(OreDictHelper.oreExists("dustSiliconCarbide") ? "dustSiliconCarbide" : "ingotSiliconCarbide", 1));
-		NCRecipes.fuel_reprocessor.addRecipe("ingotDepletedCn291Oxide",AbstractRecipeHandler.oreStack("dustEuropium155",3),AbstractRecipeHandler.oreStack("dustRuthenium106",3),"dustStrontium90","dustCaesium137","dustPromethium147",new EmptyItemIngredient(),new EmptyItemIngredient(),new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("ingotDepletedCn291Nitride",AbstractRecipeHandler.oreStack("dustEuropium155",3),AbstractRecipeHandler.oreStack("dustRuthenium106",3),"dustStrontium90","dustCaesium137","dustPromethium147",new EmptyItemIngredient(),new EmptyItemIngredient(),new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("ingotDepletedCn291ZA",AbstractRecipeHandler.oreStack("dustEuropium155",3),AbstractRecipeHandler.oreStack("dustRuthenium106",3),"dustStrontium90","dustCaesium137","dustPromethium147",AbstractRecipeHandler.oreStack("dustZirconium", 4),AbstractRecipeHandler.oreStack("dustNiobium", 3),AbstractRecipeHandler.oreStack("dustMolybdenum", 2));
+		NCRecipes.fuel_reprocessor.addReprocessingRecipes("MIX291", "Americium243", 4, "Curium243", 2, "Curium245", 1, "Berkelium247", 1, "Ruthenium106", "Europium155", 0.5D, 60);
 
 		NCRecipes.separator.addRecipe("ingotCopernicium291Carbide","ingotCopernicium291", "dustGraphite");
 		NCRecipes.separator.addRecipe("ingotCopernicium291ZA","ingotCopernicium291", "dustZirconium");
 		
-		NCRecipes.separator.addRecipe("ingoCn291Carbide","ingotCn291", "dustGraphite");
-		NCRecipes.separator.addRecipe("ingotCn291ZA","ingotCn291", "dustZirconium");
+		NCRecipes.separator.addRecipe("ingotMIX291Carbide","ingotMIX291", "dustGraphite");
+		NCRecipes.separator.addRecipe("ingotMIX291ZA","ingotMIX291", "dustZirconium");
 		
-		NCRecipes.separator.addRecipe("ingotCn291",AbstractRecipeHandler.oreStack("ingotCopernicium291", 9), new EmptyItemIngredient());
+		NCRecipes.separator.addRecipe("ingotMIX291","ingotCopernicium291", AbstractRecipeHandler.oreStack("ingotUranium238", 8));
 		reductionIsotopeRecipes(QMDItems.copernicium,1);
 		reductionFissionFuelRecipes(QMDItems.pellet_copernicium, QMDItems.fuel_copernicium, 1);
 	}

@@ -17,9 +17,9 @@ public class QMDRadSources
 	public static final double IRIDIUM_192 = 4.94;
 	public static final double COPERNICIUM_291 = 0.000833;
 	
-	public static final double CN_291 = RadSources.getFuelRadiation(COPERNICIUM_291, 8, COPERNICIUM_291, 1);
-	public static final double DEPLETED_CN_291 =  RadSources.getDepletedFuelRadiation(RadSources.EUROPIUM_155, 3, RadSources.RUTHENIUM_106, 3,RadSources.PROMETHIUM_147, 1, RadSources.CAESIUM_137, 2);
-	public static final double CN_291_FISSION = (CN_291 + DEPLETED_CN_291 + RadSources.CAESIUM_137) / 64D;
+	public static final double MIX_291 = RadSources.getFuelRadiation(COPERNICIUM_291, 8, COPERNICIUM_291, 1);
+	public static final double DEPLETED_MIX_291 =  RadSources.getDepletedFuelRadiation(RadSources.AMERICIUM_243, 4, RadSources.CURIUM_243, 2, RadSources.CURIUM_245, 1,  RadSources.BERKELIUM_247, 1, RadSources.RUTHENIUM_106, RadSources.EUROPIUM_155, 1.5D, 0.6D);
+	public static final double MIX_291_FISSION = (MIX_291 + DEPLETED_MIX_291) / 64D;
 	
 	public static void init() 
 	{
@@ -63,7 +63,7 @@ public class QMDRadSources
 		RadSources.putOre(RadSources.TRITIUM*RadSources.FLUID, "cellAntitritium");
 		
 		RadSources.putIsotope(COPERNICIUM_291, "Copernicium291", "copernicium_291");
-		RadSources.putFuel(CN_291, DEPLETED_CN_291, "Cn291", "cn_291");
+		RadSources.putFuel(MIX_291, DEPLETED_MIX_291, "MIX291", "mix_291");
 		
 		RadSources.addToFoodMaps(new ItemStack(QMDItems.flesh), 0, 3.0);
 	}
