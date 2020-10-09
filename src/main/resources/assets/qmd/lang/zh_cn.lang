@@ -599,9 +599,9 @@ tile.qmd.accelerator_cooling.name=加速器冷却
 tile.qmd.cell_filling.name=单元灌注与提取
 
 //标签
-itemGroup.qmd.items=量子动力丨物品
-itemGroup.qmd.blocks=量子动力丨方块
-itemGroup.qmd.multiblocks=量子动力丨结构
+itemGroup.qmd.items=量子动力学丨物品
+itemGroup.qmd.blocks=量子动力学丨方块
+itemGroup.qmd.multiblocks=量子动力学丨结构
 
 //方块设置
 qmd.block.accelerator_port_setting_toggle=调整端口红石设置至：
