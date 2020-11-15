@@ -111,8 +111,8 @@ item.qmd.chemical_dust.copper_oxide.name=氧化铜
 item.qmd.chemical_dust.hafnium_oxide.name=氧化铪
 item.qmd.chemical_dust.strontium_chloride.name=氯化锶
 item.qmd.chemical_dust.oxalic_acid.name=草酸
-item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=Strontium Chloride Oxalic Acid Blend
-item.qmd.chemical_dust.strontium_titanyl_dioxalate.name=Strontium Titanyl Dioxalate
+item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=氯化锶与草酸混合物
+item.qmd.chemical_dust.strontium_titanyl_dioxalate.name=草酸氧钛锶
 
 item.qmd.sword_tungsten_carbide.name=碳化钨剑
 item.qmd.shovel_tungsten_carbide.name=碳化钨锹
@@ -253,7 +253,7 @@ tile.qmd.containment_energy_port.name=遏制器能量接口
 tile.qmd.containment_laser.name=遏制器激光器
 tile.qmd.containment_coil.name=遏制器线圈
 tile.qmd.strontium_90_block.name=锶-90块
-tile.qmd.strontium_titanate_block.name=钛酸锶 Crystal
+tile.qmd.strontium_titanate_block.name=钛酸锶晶体
 
 //方块描述
 tile.qmd.beamline.desc=运输粒子。
@@ -644,79 +644,82 @@ qmd.block.particle_chamber_setting.3=输出 -
 
 //配置
 gui.qmd.config.processors.power=基础能量消耗
-gui.qmd.config.processors.power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：矿石洗涤器。
+gui.qmd.config.processors.power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：[矿石洗涤器]。默认：[100]。
 
 gui.qmd.config.processors.time=基础处理时间
-gui.qmd.config.processors.time.comment=每个机器的基础处理时间（单位：t）。顺序：矿石洗涤器，辐照器。
+gui.qmd.config.processors.time.comment=每个机器的基础处理时间（单位：t）。顺序：[矿石洗涤器，辐照器]。默认：[400,200]。
 
 gui.qmd.config.processors.irradiator_fuel_life_time=基础辐照器燃料时间
-gui.qmd.config.processors.irradiator_fuel_life_time.comment=辐照器燃料的基础燃烧时间（单位：秒）。
+gui.qmd.config.processors.irradiator_fuel_life_time.comment=辐照器燃料的基础燃烧时间（单位：秒）。默认：[300]。
 
 gui.qmd.config.accelerator.accelerator_linear_min_size=线性加速器最小尺寸
-gui.qmd.config.accelerator.accelerator_linear_min_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。
+gui.qmd.config.accelerator.accelerator_linear_min_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。默认：[6]。
 
 gui.qmd.config.accelerator.accelerator_linear_max_size=线性加速器最大尺寸
-gui.qmd.config.accelerator.accelerator_linear_max_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。
+gui.qmd.config.accelerator.accelerator_linear_max_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。默认：[100]。
 
 gui.qmd.config.accelerator.accelerator_ring_min_size=同步加速器最小尺寸
-gui.qmd.config.accelerator.accelerator_ring_min_size.comment=同步加速器最小的长度（包括外壳），范围：[11,255]。
+gui.qmd.config.accelerator.accelerator_ring_min_size.comment=同步加速器最小的长度（包括外壳），范围：[11,255]。默认：[11]。
 
 gui.qmd.config.accelerator.accelerator_ring_max_size=同步加速器最大尺寸
-gui.qmd.config.accelerator.accelerator_ring_max_size.comment=同步加速器最大的长度（包括外壳），范围：[11,255]。
+gui.qmd.config.accelerator.accelerator_ring_max_size.comment=同步加速器最大的长度（包括外壳），范围：[11,255]。默认：[100]。
 
 gui.qmd.config.accelerator.beam_attenuation_rate=束流衰减率
-gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子束流每经过一个方块的衰减量，范围：[0,255]。
+gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子束流每经过一个方块的衰减量，范围：[0,255]。默认：[0.04]。
 
 gui.qmd.config.accelerator.beam_diverter_radius=束流转向器半径
-gui.qmd.config.accelerator.beam_diverter_radius.comment=束流转向器在计算中有效的半径，范围：[0,1000]。
+gui.qmd.config.accelerator.beam_diverter_radius.comment=束流转向器在计算中有效的半径，范围：[0,1000]。默认：[100]。
 
 gui.qmd.config.accelerator.RF_cavity_voltage=RF腔电压
-gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个RF腔进行加速时的电压（单位：kV）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个RF腔进行加速时的电压（单位：kV）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[200,500,1000,2000,4000]。
 
 gui.qmd.config.accelerator.RF_cavity_efficiency=RF腔功率效率
-gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个RF腔的功率效率。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个RF腔的功率效率。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[0.5,0.8,0.90,0.95,0.99]。
 
 gui.qmd.config.accelerator.RF_cavity_heat_generated=RF腔热量
-gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=每个RF腔产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=每个RF腔产出的热量（单位：H/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[60,110,210,410,810]。
 
 gui.qmd.config.accelerator.RF_cavity_base_power=RF腔基础功率
-gui.qmd.config.accelerator.RF_cavity_base_power.comment=RF腔基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_base_power.comment=RF腔基础的能量消耗（单位：RF/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[250,1000,2000,4000,8000]。
 
 gui.qmd.config.accelerator.RF_cavity_max_temp=RF腔最高温度
-gui.qmd.config.accelerator.RF_cavity_max_temp.comment=每个RF腔的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_max_temp.comment=每个RF腔的最高运行温度（单位：K）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[350,39,18,10,104]。
 
 gui.qmd.config.accelerator.magnet_strength=磁铁强度
-gui.qmd.config.accelerator.magnet_strength.comment=磁铁的强度（单位：T）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_strength.comment=磁铁的强度（单位：T）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[0.2,0.5,1,2,4]。
 
 gui.qmd.config.accelerator.magnet_efficiency=磁铁功率效率
-gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[0.5,0.8,0.90,0.95,0.99]。
 
 gui.qmd.config.accelerator.magnet_heat_generated=磁铁热量
-gui.qmd.config.accelerator.magnet_heat_generated.comment=每个磁铁产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_heat_generated.comment=每个磁铁产出的热量（单位：H/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[110,210,410,810,1610]。
 
 gui.qmd.config.accelerator.magnet_base_power=磁铁基础功率
-gui.qmd.config.accelerator.magnet_base_power.comment=磁铁基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_base_power.comment=磁铁基础的能量消耗（单位：RF/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[1250,1000,2000,4000,8000]。
 
 gui.qmd.config.accelerator.magnet_max_temp=磁铁最高温度
-gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁铁的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
-
-gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=同步加速器最小粒子能量输入
-gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=一个同步加速器允许的最小粒子能量输入（单位：keV）。
-
-gui.qmd.config.particle_chamber.target_chamber_power=靶室功率
-gui.qmd.config.particle_chamber.target_chamber_power.comment=靶室基础的能量消耗（单位：RF/t）。
-
-gui.qmd.config.particle_chamber.decay_chamber_power=衰变室功率
-gui.qmd.config.particle_chamber.decay_chamber_power.comment=衰变室基础的能量消耗（单位：RF/t）。
-
-gui.qmd.config.particle_chamber.detector_efficiency=探测器效能
-gui.qmd.config.particle_chamber.detector_efficiency.comment=每个探测器的效能。顺序：气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计。
-
-gui.qmd.config.particle_chamber.detector_base_power=探测器功率使用
-gui.qmd.config.particle_chamber.detector_base_power.comment=探测器使用的能量（单位：RF/t）。顺序：气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计。
+gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁铁的最高运行温度（单位：K）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[350,39,18,10,104]。
 
 gui.qmd.config.accelerator.cooler_heat_removed=冷却器冷却
-gui.qmd.config.accelerator.cooler_heat_removed.comment=冷却器减少的热量（单位：H/t）。顺序：顺序：水，铁，红石，石英，黑曜石，地狱砖，荧石，青金石，金，海晶石，史莱姆，末地石，紫珀，钻石，绿宝石，铜，锡，铅，硼，锂，镁，锰，铝，银，氟石，氟盐，方氟钾石，砷，液氮，液氦，末影，凛冰。
+gui.qmd.config.accelerator.cooler_heat_removed.comment=冷却器减少的热量（单位：H/t）。顺序：[水，铁，红石，石英，黑曜石，地狱砖，荧石，青金石，金，海晶石，史莱姆，末地石，紫珀，钻石，绿宝石，铜，锡，铅，硼，锂，镁，锰，铝，银，氟石，氟盐，方氟钾石，砷，液氮，液氦，末影，凛冰]。默认：[60,55,115,75,70,90,110,130,95,85,165,50,100,195,135,80,120,65,125,180,105,140,175,160,155,170,150,145,185,200,190,205]。
+
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=同步加速器最小粒子能量输入
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=一个同步加速器允许的最小粒子能量输入（单位：keV）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.target_chamber_power=靶室功率
+gui.qmd.config.particle_chamber.target_chamber_power.comment=靶室基础的能量消耗（单位：RF/t）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.decay_chamber_power=衰变室功率
+gui.qmd.config.particle_chamber.decay_chamber_power.comment=衰变室基础的能量消耗（单位：RF/t）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.beam_dump_power=束流收集器功率
+gui.qmd.config.particle_chamber.beam_dump_power.comment=衰变室基础的能量消耗（单位：RF/t）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.detector_efficiency=探测器效能
+gui.qmd.config.particle_chamber.detector_efficiency.comment=每个探测器的效能。顺序：[气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计]。默认：[0.15,0.3,0.20,0.1,0.05]。
+
+gui.qmd.config.particle_chamber.detector_base_power=探测器功率使用
+gui.qmd.config.particle_chamber.detector_base_power.comment=探测器使用的能量（单位：RF/t）。顺序：[气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计]。默认：[200,5000,1000,200,100]。
 
 gui.qmd.config.fission.reflector_efficiency=反射器效能提升
 gui.qmd.config.fission.reflector_efficiency.comment=每个反射器的效能提升倍率。顺序：碳化钨。
