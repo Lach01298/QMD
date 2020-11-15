@@ -113,7 +113,7 @@ item.qmd.chemical_dust.copper_oxide.name=Copper Oxide
 item.qmd.chemical_dust.hafnium_oxide.name=Hafnium Oxide
 item.qmd.chemical_dust.strontium_chloride.name=Strontium Chloride
 item.qmd.chemical_dust.oxalic_acid.name=Oxalic Acid
-item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=Strontium Chloride Oxalic Acid Blend 
+item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=Strontium Chloride Oxalic Acid Blend
 item.qmd.chemical_dust.strontium_titanyl_dioxalate.name=Strontium Titanyl Dioxalate
 
 item.qmd.sword_tungsten_carbide.name=Tungsten Carbide Sword
@@ -256,7 +256,7 @@ tile.qmd.containment_energy_port.name=Containment Energy Port
 tile.qmd.containment_laser.name=Containment Laser
 tile.qmd.containment_coil.name=Containment Coil
 tile.qmd.strontium_90_block.name=Strontium-90 Block
-tile.qmd.strontium_titanate_block.name= Strontium Titanate Crystal
+tile.qmd.strontium_titanate_block.name=Strontium Titanate Crystal
 
 //block descriptions
 
