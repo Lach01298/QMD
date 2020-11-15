@@ -74,18 +74,17 @@ item.qmd.canister_helium_3.name=氦-3罐
 item.qmd.source_sodium_22.name=钠-22源
 item.qmd.source_cobalt_60.name=钴-60源
 item.qmd.source_iridium_192.name=铱-192源
+item.qmd.source_calcium_48.name=钙-48源
 
 item.qmd.isotope.sodium_22.name=钠-22
-item.qmd.isotope.promethium_147.name=钷-147
 item.qmd.isotope.magnesium_26.name=镁-26
 item.qmd.isotope.magnesium_24.name=镁-24
 item.qmd.isotope.beryllium_7.name=铍-7
-item.qmd.isotope.vanadium_50.name=钒-50
-item.qmd.isotope.strontium_90.name=锶-90
 item.qmd.isotope.uranium_234.name=铀-234
 item.qmd.isotope.protactinium_231.name=镤-231粉
 item.qmd.isotope.cobalt_60.name=钴-60
 item.qmd.isotope.iridium_192.name=铱-192
+item.qmd.isotope.calcium_48.name=钙-48
 
 item.qmd.part.empty_cooler.name=空冷却器
 item.qmd.part.scintillator_pwo.name=钨酸铅闪烁体
@@ -110,6 +109,10 @@ item.qmd.chemical_dust.sodium_nitrate.name=硝酸钠
 item.qmd.chemical_dust.sodium_chloride.name=氯化钠
 item.qmd.chemical_dust.copper_oxide.name=氧化铜
 item.qmd.chemical_dust.hafnium_oxide.name=氧化铪
+item.qmd.chemical_dust.strontium_chloride.name=氯化锶
+item.qmd.chemical_dust.oxalic_acid.name=草酸
+item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=Strontium Chloride Oxalic Acid Blend
+item.qmd.chemical_dust.strontium_titanyl_dioxalate.name=Strontium Titanyl Dioxalate
 
 item.qmd.sword_tungsten_carbide.name=碳化钨剑
 item.qmd.shovel_tungsten_carbide.name=碳化钨锹
@@ -125,6 +128,22 @@ item.qmd.cell.antideuterium.name=反氘单元
 item.qmd.cell.antitritium.name=反氚单元
 item.qmd.cell.antihelium3.name=反氦-3单元
 item.qmd.cell.antihelium.name=反氦单元
+
+item.qmd.copernicium.291_c.name=鎶-291 碳化物
+item.qmd.copernicium.291_ox.name=鎶-291 氧化物
+item.qmd.copernicium.291_ni.name=鎶-291 氮化物
+item.qmd.copernicium.291_za.name=鎶-291-锆合金
+
+item.qmd.pellet_copernicium.mix_291.name=混合物-291 燃料
+item.qmd.pellet_copernicium.mix_291_c.name=混合物-291 燃料 碳化物
+item.qmd.fuel_copernicium.mix_291_tr.name=混合TRISO-291 燃料颗粒
+item.qmd.fuel_copernicium.mix_291_ox.name=混合氧化物-291 燃料丸
+item.qmd.fuel_copernicium.mix_291_ni.name=混合氮化物-291 燃料丸
+item.qmd.fuel_copernicium.mix_291_za.name=混合锆合金-291 燃料丸
+item.qmd.depleted_fuel_copernicium.mix_291_tr.name=枯竭 混合TRISO-291 燃料颗粒
+item.qmd.depleted_fuel_copernicium.mix_291_ox.name=枯竭 混合氧化物-291 燃料丸
+item.qmd.depleted_fuel_copernicium.mix_291_ni.name=枯竭 混合氮化物-291 燃料丸
+item.qmd.depleted_fuel_copernicium.mix_291_za.name=枯竭 混合锆合金-291 燃料丸
 
 //方块
 tile.qmd.beamline.name=束流管道
@@ -233,6 +252,8 @@ tile.qmd.containment_vent.name=遏制器冷却液出入口
 tile.qmd.containment_energy_port.name=遏制器能量接口
 tile.qmd.containment_laser.name=遏制器激光器
 tile.qmd.containment_coil.name=遏制器线圈
+tile.qmd.strontium_90_block.name=锶-90块
+tile.qmd.strontium_titanate_block.name=钛酸锶 Crystal
 
 //方块描述
 tile.qmd.beamline.desc=运输粒子。
@@ -323,6 +344,10 @@ fluid.yag=熔融钇铝石榴石
 tile.qmd.fluid_yag.name=熔融钇铝石榴石
 fluid.nd_yag=熔融掺钕钇铝石榴石
 tile.qmd.fluid_nd_yag.name=熔融掺钕钇铝石榴石
+fluid.strontium_titanate=熔融钛酸锶
+tile.qmd.fluid_strontium_titanate.name=熔融钛酸锶
+fluid.titanium_tetrachloride=四氯化钛
+tile.qmd.fluid_titanium_tetrachloride.name=四氯化钛
 
 fluid.antihydrogen=反氢
 tile.qmd.fluid_antihydrogen.name=反氢
@@ -502,6 +527,7 @@ qmd.particle.antitriton.name=反氚核
 qmd.particle.helion.name=氦核
 qmd.particle.antihelion.name=反氦核
 qmd.particle.boron_ion.name=硼离子
+qmd.particle.calcium_48_ion.name=钙-48离子
 qmd.particle.kaon_plus.name=k介子 +
 qmd.particle.kaon_naught.name=k介子 0
 qmd.particle.antikaon_naught.name=反k介子 0
@@ -556,9 +582,11 @@ qmd.particle.pion_minus.desc=π介子是让核子组在一起的粒子。尽管�
 qmd.particle.triton.desc=氚核是氚原子的原子核。
 qmd.particle.antitriton.desc=反氚核是氚核对应的反物质。
 qmd.particle.helion.desc=氦核是氦-3原子的原子核。
-qmd.particle.antitriton.desc=反氦核是氦核对应的反物质。
+qmd.particle.antihelion.desc=反氦核是氦核对应的反物质。
+// Although this was not fixed now, I would still like to keep the key normal, because it doesn't matter that much. After fixing everyone can remove this line
 
-qmd.particle.boron_ion.desc=缺少一个电子的硼原子。
+qmd.particle.boron_ion.desc=失去了一个电子的硼原子。
+qmd.particle.calcium_48_ion.desc=失去了一个电子的钙-48原子。富含大量中子，可用于创造超重元素。
 
 qmd.particle.kaon_plus.desc=k介子 +是奇异性为1的介子。
 qmd.particle.kaon_naught.desc=k介子 0是奇异性为1的介子。
