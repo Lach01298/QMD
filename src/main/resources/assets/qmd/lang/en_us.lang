@@ -1,4 +1,3 @@
-
 //items
 item.qmd.dust.tungsten.name=Tungsten Dust
 item.qmd.dust.niobium.name=Niobium Dust
@@ -113,7 +112,7 @@ item.qmd.chemical_dust.copper_oxide.name=Copper Oxide
 item.qmd.chemical_dust.hafnium_oxide.name=Hafnium Oxide
 item.qmd.chemical_dust.strontium_chloride.name=Strontium Chloride
 item.qmd.chemical_dust.oxalic_acid.name=Oxalic Acid
-item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=Strontium Chloride Oxalic Acid Blend
+item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=Strontium Chloride Oxalic Acid Blend 
 item.qmd.chemical_dust.strontium_titanyl_dioxalate.name=Strontium Titanyl Dioxalate
 
 item.qmd.sword_tungsten_carbide.name=Tungsten Carbide Sword
@@ -256,7 +255,7 @@ tile.qmd.containment_energy_port.name=Containment Energy Port
 tile.qmd.containment_laser.name=Containment Laser
 tile.qmd.containment_coil.name=Containment Coil
 tile.qmd.strontium_90_block.name=Strontium-90 Block
-tile.qmd.strontium_titanate_block.name=Strontium Titanate Crystal
+tile.qmd.strontium_titanate_block.name= Strontium Titanate Crystal
 
 //block descriptions
 
@@ -741,7 +740,7 @@ gui.qmd.config.particle_chamber.detector_base_power.comment=The amount of RF/t e
 gui.qmd.config.containment.part_power=Containment Part Power
 gui.qmd.config.containment.part_power.comment=The amount of RF/t each type of containment part uses. Order:[Containment coil, Containment Laser]. Default:[8000,10000]
 
-gui.qmd.config.containment.part_heat=Containment Part Power
+gui.qmd.config.containment.part_heat=Containment Part Heat
 gui.qmd.config.containment.part_heat.comment=The amount of heat per tick each type of containment part makes. Order:[Containment coil, Containment Laser]. Default:[200,500]
 
 gui.qmd.config.containment.max_temp=Containment Max Temp
@@ -776,22 +775,22 @@ gui.qmd.config.fission.shield_efficiency=Shield Efficiency
 gui.qmd.config.fission.shield_efficiency.comment= The efficiency of each type of Shield. Order:[Hafnium]. Default:[1.0]
 
 gui.qmd.config.copernicium_fuel_time=Copernicium Fuel Durations
-gui.qmd.config.copernicium_fuel_time.comment=Base ticks the fuels last. Order: [MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[10000, 10000, 12004, 9001]
+gui.qmd.config.copernicium_fuel_time.comment=Base ticks the fuels last. Order: [MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[10000, 10000, 12004, 9001]
 
 gui.qmd.config.copernicium_heat_generation=Copernicium Fuel Heat Gen
-gui.qmd.config.copernicium_heat_generation.comment=Base heat the fuels produce. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[2000, 2000, 1666, 2222]
+gui.qmd.config.copernicium_heat_generation.comment=Base heat the fuels produce. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[2000, 2000, 1666, 2222]
 
 gui.qmd.config.copernicium_efficiency=Copernicium Fuel Base Efficiencies
-gui.qmd.config.copernicium_efficiency.comment=Base efficiencies of the fuels. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[5.0, 5.0, 5.0, 5.0]
+gui.qmd.config.copernicium_efficiency.comment=Base efficiencies of the fuels. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[5.0, 5.0, 5.0, 5.0]
 
 gui.qmd.config.copernicium_criticality=Copernicium Fuel Criticality Factors
-gui.qmd.config.copernicium_criticality.comment=Criticality factors of the fuels. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[20, 25, 35, 20]
+gui.qmd.config.copernicium_criticality.comment=Criticality factors of the fuels. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[20, 25, 35, 20]
 
 gui.qmd.config.copernicium_self_priming=Copernicium Fuel Self Priming
-gui.qmd.config.copernicium_self_priming.comment=Are fuel self priming. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[true,true,true,true]
+gui.qmd.config.copernicium_self_priming.comment=Are fuel self priming. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[true,true,true,true]
 
 gui.qmd.config.copernicium_radiation=Copernicium Fuel Radiation
-gui.qmd.config.copernicium_radiation.comment=Base radiation the fuels produce while processing. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[8.33E-4,8.33E-4,8.33E-4,8.33E-4]
+gui.qmd.config.copernicium_radiation.comment=Base radiation the fuels produce while processing. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[8.33E-4,8.33E-4,8.33E-4,8.33E-4]
 
 
 gui.qmd.config.other.rtg_power=RTG Power
@@ -817,4 +816,3 @@ gui.qmd.config.other.override_nc_recipes.comment=Allow QMD override NC recipes t
 
 gui.qmd.config.other.item_ticker_chunks_per_tick=Item Ticker Chunks per Tick
 gui.qmd.config.other.item_ticker_chunks_per_tick.comment= Tells how many chunks QMD will search each tick to tick items in tile entity inventories. This is used for draining power from antimatter cells in tile entity inventories. Setting this high may cause lag. Set to 0 to disable ticking. Default:5
-
