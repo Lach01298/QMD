@@ -722,46 +722,69 @@ gui.qmd.config.particle_chamber.detector_base_power=探测器功率使用
 gui.qmd.config.particle_chamber.detector_base_power.comment=探测器使用的能量（单位：RF/t）。顺序：[气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计]。默认：[200,5000,1000,200,100]。
 
 gui.qmd.config.fission.reflector_efficiency=反射器效能提升
-gui.qmd.config.fission.reflector_efficiency.comment=每个反射器的效能提升倍率。顺序：碳化钨。
+gui.qmd.config.fission.reflector_efficiency.comment=每个反射器的效能提升倍率。顺序：[碳化钨]。默认：[0.75]。
 
 gui.qmd.config.fission.reflector_reflectivity=反射器中子通量增加
-gui.qmd.config.fission.reflector_reflectivity.comment=反射器的中子通量增加倍数。顺序：碳化钨。
+gui.qmd.config.fission.reflector_reflectivity.comment=反射器的中子通量增加倍数。顺序：[碳化钨]。默认：[0.75]。
 
 gui.qmd.config.fission.shield_heat_per_flux=防护屏产热
-gui.qmd.config.fission.shield_heat_per_flux.comment=有中子通量时的单位中子通量产热（单位：H/NF）。顺序：铪。
+gui.qmd.config.fission.shield_heat_per_flux.comment=有中子通量时的单位中子通量产热（单位：H/NF）。顺序：[铪]。默认：[15.0]。
 
 gui.qmd.config.fission.shield_efficiency=防护屏效能提升
-gui.qmd.config.fission.shield_efficiency.comment=每个防护屏的效能提升倍率。顺序：铪。
+gui.qmd.config.fission.shield_efficiency.comment=每个防护屏的效能提升倍率。顺序：[铪]。默认：[1.0]。
 
 gui.qmd.config.other.rtg_power=放射性热电发电机能量产出
-gui.qmd.config.other.rtg_power.comment=放射性热电发电机的能量产出（单位：RF/t）。顺序：锶。
+gui.qmd.config.other.rtg_power.comment=放射性热电发电机的能量产出（单位：RF/t）。顺序：[锶-90]。默认：[50]。
 
 gui.qmd.config.other.processor_passive_rate=被动产出速度
-gui.qmd.config.other.processor_passive_rate.comment=被动机器的产出速度（单位：mB/t）。顺序：氦收集器，氖收集器，氩收集器。
+gui.qmd.config.other.processor_passive_rate.comment=被动机器的产出速度（单位：mB/t）。顺序：[氦收集器，氖收集器，氩收集器]。默认：[5.0,5.0,5.0]。
 
 gui.qmd.config.other.source_life_time=基础粒子源时间
 gui.qmd.config.other.source_life_time.comment=一个粒子源存在的时间（单位：秒）。
 
 gui.qmd.config.other.cell_life_time=单元时间
-gui.qmd.config.other.cell_life_time.comment=一个单元能存储物质的时间（单位：秒）。
+gui.qmd.config.other.cell_life_time.comment=一个单元能存储物质的时间（单位：秒）。默认：[300]。
 
 gui.qmd.config.other.cell_power=单元功率
-gui.qmd.config.other.cell_life_time.comment=一个单元的能量消耗（单位：RF/t）。
+gui.qmd.config.other.cell_life_time.comment=一个单元的能量消耗（单位：RF/t）。默认：[500]。
 
 gui.qmd.config.other.source_particle_amount=基础粒子源输出量
 gui.qmd.config.other.source_particle_amount.comment=粒子源输出的粒子量（单位：1/t）。
 
 gui.qmd.config.tools.tool_mining_level=挖掘等级
-gui.qmd.config.tools.tool_mining_level.comment=挖掘等级的配置。顺序：碳化钨。
+gui.qmd.config.tools.tool_mining_level.comment=挖掘等级的配置。顺序：[碳化钨]。默认：[4]。
 
 gui.qmd.config.tools.tool_durability=耐久度
-gui.qmd.config.tools.tool_durability.comment=使用次数的上限。顺序：碳化钨。
+gui.qmd.config.tools.tool_durability.comment=使用次数的上限。顺序：[碳化钨]。默认：[5784]。
 
 gui.qmd.config.tools.tool_speed=挖掘速度
-gui.qmd.config.tools.tool_speed.comment=不同方块的挖掘速度。顺序：碳化钨。
+gui.qmd.config.tools.tool_speed.comment=不同方块的挖掘速度。顺序：[碳化钨]。默认：[11.0]。
 
 gui.qmd.config.tools.tool_attack_damage=攻击伤害
-gui.qmd.config.tools.tool_attack_damage.comment=每一击造成的伤害。顺序：碳化钨。
+gui.qmd.config.tools.tool_attack_damage.comment=每一击造成的伤害。顺序：[碳化钨]。默认：[3.0]。
 
 gui.qmd.config.tools.tool_enchantability=可附魔性
-gui.qmd.config.tools.tool_enchantability.comment=附魔的品质。顺序：碳化钨。
+gui.qmd.config.tools.tool_enchantability.comment=附魔的品质。顺序：[碳化钨]。默认：[12]。
+
+gui.qmd.config.containment.max_temp.comment=遏制器结构的最大操作温度（单位：K）。默认：[104]。
+gui.qmd.config.containment.max_temp=遏制器最高温度
+gui.qmd.config.containment.part_heat.comment=遏制器各部产生的热量（单位：H/t）。顺序：[遏制器线圈，遏制器激光器]。默认：[200,500]。
+gui.qmd.config.containment.part_heat=遏制器各部热量
+gui.qmd.config.containment.part_power.comment=遏制器基础的能量消耗（单位：RF/t）。顺序：[遏制器线圈，遏制器激光器].默认：[8000,10000]。
+gui.qmd.config.containment.part_power=遏制器各部功率
+gui.qmd.config.copernicium_criticality.comment=燃料的临界系数。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[20,25,35,20]。
+gui.qmd.config.copernicium_criticality=鎶燃料临界系数
+gui.qmd.config.copernicium_efficiency.comment=燃料的基础效能。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[5.0,5.0,5.0,5.0]。
+gui.qmd.config.copernicium_efficiency=鎶燃料基础效能
+gui.qmd.config.copernicium_fuel_time.comment=燃料衰竭所需的时间。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[10000,10000,12004,9001]。
+gui.qmd.config.copernicium_fuel_time=鎶燃料衰竭时间
+gui.qmd.config.copernicium_heat_generation.comment=燃料基础的热量产出。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[2000,2000,1666,2222]。
+gui.qmd.config.copernicium_heat_generation=鎶燃料产热
+gui.qmd.config.copernicium_radiation.comment=燃料会在消耗时产生的辐射。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[8.33E-4,8.33E-4,8.33E-4,8.33E-4]。
+gui.qmd.config.copernicium_radiation=鎶燃料辐射
+gui.qmd.config.copernicium_self_priming.comment=鎶燃料是否为强中子射源。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[true,true,true,true]。
+gui.qmd.config.copernicium_self_priming=鎶燃料强中子射源设置
+gui.qmd.config.other.item_ticker_chunks_per_tick.comment=本模组在包含的方块实体中检查物品的区块数（单位：区块/t）。这被用于自存于方块实体中的反物质单元中排出能量。设定值过高会导致卡顿，设置为0以禁用。默认：[5]。
+gui.qmd.config.other.item_ticker_chunks_per_tick=每刻区块检查数
+gui.qmd.config.other.override_nc_recipes.comment=允许本模组覆盖核电工艺的配方以带来更好的游戏体验。默认：[true]。
+gui.qmd.config.other.override_nc_recipes=覆盖核电工艺配方
