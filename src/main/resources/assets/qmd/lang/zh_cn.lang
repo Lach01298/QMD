@@ -74,18 +74,17 @@ item.qmd.canister_helium_3.name=氦-3罐
 item.qmd.source_sodium_22.name=钠-22源
 item.qmd.source_cobalt_60.name=钴-60源
 item.qmd.source_iridium_192.name=铱-192源
+item.qmd.source_calcium_48.name=钙-48源
 
 item.qmd.isotope.sodium_22.name=钠-22
-item.qmd.isotope.promethium_147.name=钷-147
 item.qmd.isotope.magnesium_26.name=镁-26
 item.qmd.isotope.magnesium_24.name=镁-24
 item.qmd.isotope.beryllium_7.name=铍-7
-item.qmd.isotope.vanadium_50.name=钒-50
-item.qmd.isotope.strontium_90.name=锶-90
 item.qmd.isotope.uranium_234.name=铀-234
 item.qmd.isotope.protactinium_231.name=镤-231粉
 item.qmd.isotope.cobalt_60.name=钴-60
 item.qmd.isotope.iridium_192.name=铱-192
+item.qmd.isotope.calcium_48.name=钙-48
 
 item.qmd.part.empty_cooler.name=空冷却器
 item.qmd.part.scintillator_pwo.name=钨酸铅闪烁体
@@ -110,6 +109,10 @@ item.qmd.chemical_dust.sodium_nitrate.name=硝酸钠
 item.qmd.chemical_dust.sodium_chloride.name=氯化钠
 item.qmd.chemical_dust.copper_oxide.name=氧化铜
 item.qmd.chemical_dust.hafnium_oxide.name=氧化铪
+item.qmd.chemical_dust.strontium_chloride.name=氯化锶
+item.qmd.chemical_dust.oxalic_acid.name=草酸
+item.qmd.chemical_dust.strontium_chloride_oxalic_acid_blend.name=氯化锶与草酸混合物
+item.qmd.chemical_dust.strontium_titanyl_dioxalate.name=草酸氧钛锶
 
 item.qmd.sword_tungsten_carbide.name=碳化钨剑
 item.qmd.shovel_tungsten_carbide.name=碳化钨锹
@@ -125,6 +128,22 @@ item.qmd.cell.antideuterium.name=反氘单元
 item.qmd.cell.antitritium.name=反氚单元
 item.qmd.cell.antihelium3.name=反氦-3单元
 item.qmd.cell.antihelium.name=反氦单元
+
+item.qmd.copernicium.291_c.name=鎶-291 碳化物
+item.qmd.copernicium.291_ox.name=鎶-291 氧化物
+item.qmd.copernicium.291_ni.name=鎶-291 氮化物
+item.qmd.copernicium.291_za.name=鎶-291-锆合金
+
+item.qmd.pellet_copernicium.mix_291.name=混合物-291 燃料
+item.qmd.pellet_copernicium.mix_291_c.name=混合物-291 燃料 碳化物
+item.qmd.fuel_copernicium.mix_291_tr.name=混合TRISO-291 燃料颗粒
+item.qmd.fuel_copernicium.mix_291_ox.name=混合氧化物-291 燃料丸
+item.qmd.fuel_copernicium.mix_291_ni.name=混合氮化物-291 燃料丸
+item.qmd.fuel_copernicium.mix_291_za.name=混合锆合金-291 燃料丸
+item.qmd.depleted_fuel_copernicium.mix_291_tr.name=枯竭 混合TRISO-291 燃料颗粒
+item.qmd.depleted_fuel_copernicium.mix_291_ox.name=枯竭 混合氧化物-291 燃料丸
+item.qmd.depleted_fuel_copernicium.mix_291_ni.name=枯竭 混合氮化物-291 燃料丸
+item.qmd.depleted_fuel_copernicium.mix_291_za.name=枯竭 混合锆合金-291 燃料丸
 
 //方块
 tile.qmd.beamline.name=束流管道
@@ -233,6 +252,8 @@ tile.qmd.containment_vent.name=遏制器冷却液出入口
 tile.qmd.containment_energy_port.name=遏制器能量接口
 tile.qmd.containment_laser.name=遏制器激光器
 tile.qmd.containment_coil.name=遏制器线圈
+tile.qmd.strontium_90_block.name=锶-90块
+tile.qmd.strontium_titanate_block.name=钛酸锶晶体
 
 //方块描述
 tile.qmd.beamline.desc=运输粒子。
@@ -323,6 +344,10 @@ fluid.yag=熔融钇铝石榴石
 tile.qmd.fluid_yag.name=熔融钇铝石榴石
 fluid.nd_yag=熔融掺钕钇铝石榴石
 tile.qmd.fluid_nd_yag.name=熔融掺钕钇铝石榴石
+fluid.strontium_titanate=熔融钛酸锶
+tile.qmd.fluid_strontium_titanate.name=熔融钛酸锶
+fluid.titanium_tetrachloride=四氯化钛
+tile.qmd.fluid_titanium_tetrachloride.name=四氯化钛
 
 fluid.antihydrogen=反氢
 tile.qmd.fluid_antihydrogen.name=反氢
@@ -355,7 +380,7 @@ info.qmd.beamline.attenuation=衰减率：%s
 
 info.qmd.item.energy_used=能量使用：%s
 info.qmd.item.cell_charge_warning=警告：不要对不带电的单元进行灌注！
-info.qmd.item.cell_warning=警告：单元中含有相当易反应的物质！不要释出这些物质！
+info.qmd.item.cell_warning=警告：单元中含有相当易反应的物质，不要让这些物质离开单元！
 
 //多方块
 qmd.multiblock_validation.need_energy_ports=至少要有一个能量端口。
@@ -502,6 +527,7 @@ qmd.particle.antitriton.name=反氚核
 qmd.particle.helion.name=氦核
 qmd.particle.antihelion.name=反氦核
 qmd.particle.boron_ion.name=硼离子
+qmd.particle.calcium_48_ion.name=钙-48离子
 qmd.particle.kaon_plus.name=k介子 +
 qmd.particle.kaon_naught.name=k介子 0
 qmd.particle.antikaon_naught.name=反k介子 0
@@ -556,9 +582,11 @@ qmd.particle.pion_minus.desc=π介子是让核子组在一起的粒子。尽管�
 qmd.particle.triton.desc=氚核是氚原子的原子核。
 qmd.particle.antitriton.desc=反氚核是氚核对应的反物质。
 qmd.particle.helion.desc=氦核是氦-3原子的原子核。
-qmd.particle.antitriton.desc=反氦核是氦核对应的反物质。
+qmd.particle.antihelion.desc=反氦核是氦核对应的反物质。
+// Although this was not fixed now, I would still like to keep the key normal, because it doesn't matter that much. After fixing everyone can remove this line
 
-qmd.particle.boron_ion.desc=缺少一个电子的硼原子。
+qmd.particle.boron_ion.desc=失去了一个电子的硼原子。
+qmd.particle.calcium_48_ion.desc=失去了一个电子的钙-48原子。富含大量中子，可用于合成超重元素。
 
 qmd.particle.kaon_plus.desc=k介子 +是奇异性为1的介子。
 qmd.particle.kaon_naught.desc=k介子 0是奇异性为1的介子。
@@ -616,121 +644,147 @@ qmd.block.particle_chamber_setting.3=输出 -
 
 //配置
 gui.qmd.config.processors.power=基础能量消耗
-gui.qmd.config.processors.power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：矿石洗涤器。
+gui.qmd.config.processors.power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：[矿石洗涤器]。默认：[100]。
 
 gui.qmd.config.processors.time=基础处理时间
-gui.qmd.config.processors.time.comment=每个机器的基础处理时间（单位：t）。顺序：矿石洗涤器，辐照器。
+gui.qmd.config.processors.time.comment=每个机器的基础处理时间（单位：t）。顺序：[矿石洗涤器，辐照器]。默认：[400,200]。
 
 gui.qmd.config.processors.irradiator_fuel_life_time=基础辐照器燃料时间
-gui.qmd.config.processors.irradiator_fuel_life_time.comment=辐照器燃料的基础燃烧时间（单位：秒）。
+gui.qmd.config.processors.irradiator_fuel_life_time.comment=辐照器燃料的基础燃烧时间（单位：秒）。默认：[300]。
 
 gui.qmd.config.accelerator.accelerator_linear_min_size=线性加速器最小尺寸
-gui.qmd.config.accelerator.accelerator_linear_min_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。
+gui.qmd.config.accelerator.accelerator_linear_min_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。默认：[6]。
 
 gui.qmd.config.accelerator.accelerator_linear_max_size=线性加速器最大尺寸
-gui.qmd.config.accelerator.accelerator_linear_max_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。
+gui.qmd.config.accelerator.accelerator_linear_max_size.comment=线性加速器最小的长度（包括外壳），范围：[6,255]。默认：[100]。
 
 gui.qmd.config.accelerator.accelerator_ring_min_size=同步加速器最小尺寸
-gui.qmd.config.accelerator.accelerator_ring_min_size.comment=同步加速器最小的长度（包括外壳），范围：[11,255]。
+gui.qmd.config.accelerator.accelerator_ring_min_size.comment=同步加速器最小的长度（包括外壳），范围：[11,255]。默认：[11]。
 
 gui.qmd.config.accelerator.accelerator_ring_max_size=同步加速器最大尺寸
-gui.qmd.config.accelerator.accelerator_ring_max_size.comment=同步加速器最大的长度（包括外壳），范围：[11,255]。
+gui.qmd.config.accelerator.accelerator_ring_max_size.comment=同步加速器最大的长度（包括外壳），范围：[11,255]。默认：[100]。
 
 gui.qmd.config.accelerator.beam_attenuation_rate=束流衰减率
-gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子束流每经过一个方块的衰减量，范围：[0,255]。
+gui.qmd.config.accelerator.beam_attenuation_rate.comment=粒子束流每经过一个方块的衰减量，范围：[0,255]。默认：[0.04]。
 
 gui.qmd.config.accelerator.beam_diverter_radius=束流转向器半径
-gui.qmd.config.accelerator.beam_diverter_radius.comment=束流转向器在计算中有效的半径，范围：[0,1000]。
+gui.qmd.config.accelerator.beam_diverter_radius.comment=束流转向器在计算中有效的半径，范围：[0,1000]。默认：[100]。
 
 gui.qmd.config.accelerator.RF_cavity_voltage=RF腔电压
-gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个RF腔进行加速时的电压（单位：kV）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=每个RF腔进行加速时的电压（单位：kV）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[200,500,1000,2000,4000]。
 
 gui.qmd.config.accelerator.RF_cavity_efficiency=RF腔功率效率
-gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个RF腔的功率效率。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=每个RF腔的功率效率。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[0.5,0.8,0.90,0.95,0.99]。
 
 gui.qmd.config.accelerator.RF_cavity_heat_generated=RF腔热量
-gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=每个RF腔产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=每个RF腔产出的热量（单位：H/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[60,110,210,410,810]。
 
 gui.qmd.config.accelerator.RF_cavity_base_power=RF腔基础功率
-gui.qmd.config.accelerator.RF_cavity_base_power.comment=RF腔基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_base_power.comment=RF腔基础的能量消耗（单位：RF/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[250,1000,2000,4000,8000]。
 
 gui.qmd.config.accelerator.RF_cavity_max_temp=RF腔最高温度
-gui.qmd.config.accelerator.RF_cavity_max_temp.comment=每个RF腔的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.RF_cavity_max_temp.comment=每个RF腔的最高运行温度（单位：K）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[350,39,18,10,104]。
 
 gui.qmd.config.accelerator.magnet_strength=磁铁强度
-gui.qmd.config.accelerator.magnet_strength.comment=磁铁的强度（单位：T）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_strength.comment=磁铁的强度（单位：T）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[0.2,0.5,1,2,4]。
 
 gui.qmd.config.accelerator.magnet_efficiency=磁铁功率效率
-gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_efficiency.comment=每个磁铁的功率效率。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[0.5,0.8,0.90,0.95,0.99]。
 
 gui.qmd.config.accelerator.magnet_heat_generated=磁铁热量
-gui.qmd.config.accelerator.magnet_heat_generated.comment=每个磁铁产出的热量（单位：H/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_heat_generated.comment=每个磁铁产出的热量（单位：H/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[110,210,410,810,1610]。
 
 gui.qmd.config.accelerator.magnet_base_power=磁铁基础功率
-gui.qmd.config.accelerator.magnet_base_power.comment=磁铁基础的能量消耗（单位：RF/t）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
+gui.qmd.config.accelerator.magnet_base_power.comment=磁铁基础的能量消耗（单位：RF/t）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[1250,1000,2000,4000,8000]。
 
 gui.qmd.config.accelerator.magnet_max_temp=磁铁最高温度
-gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁铁的最高运行温度（单位：K）。顺序：铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物。
-
-gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=同步加速器最小粒子能量输入
-gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=一个同步加速器允许的最小粒子能量输入（单位：keV）。
-
-gui.qmd.config.particle_chamber.target_chamber_power=靶室功率
-gui.qmd.config.particle_chamber.target_chamber_power.comment=靶室基础的能量消耗（单位：RF/t）。
-
-gui.qmd.config.particle_chamber.decay_chamber_power=衰变室功率
-gui.qmd.config.particle_chamber.decay_chamber_power.comment=衰变室基础的能量消耗（单位：RF/t）。
-
-gui.qmd.config.particle_chamber.detector_efficiency=探测器效能
-gui.qmd.config.particle_chamber.detector_efficiency.comment=每个探测器的效能。顺序：气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计。
-
-gui.qmd.config.particle_chamber.detector_base_power=探测器功率使用
-gui.qmd.config.particle_chamber.detector_base_power.comment=探测器使用的能量（单位：RF/t）。顺序：气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计。
+gui.qmd.config.accelerator.magnet_max_temp.comment=每个磁铁的最高运行温度（单位：K）。顺序：[铜，二硼化镁，铌锡合金，铌钛合金，铋锶钙铜氧化物]。默认：[350,39,18,10,104]。
 
 gui.qmd.config.accelerator.cooler_heat_removed=冷却器冷却
-gui.qmd.config.accelerator.cooler_heat_removed.comment=冷却器减少的热量（单位：H/t）。顺序：顺序：水，铁，红石，石英，黑曜石，地狱砖，荧石，青金石，金，海晶石，史莱姆，末地石，紫珀，钻石，绿宝石，铜，锡，铅，硼，锂，镁，锰，铝，银，氟石，氟盐，方氟钾石，砷，液氮，液氦，末影，凛冰。
+gui.qmd.config.accelerator.cooler_heat_removed.comment=冷却器减少的热量（单位：H/t）。顺序：[水，铁，红石，石英，黑曜石，地狱砖，荧石，青金石，金，海晶石，史莱姆，末地石，紫珀，钻石，绿宝石，铜，锡，铅，硼，锂，镁，锰，铝，银，氟石，氟盐，方氟钾石，砷，液氮，液氦，末影，凛冰]。默认：[60,55,115,75,70,90,110,130,95,85,165,50,100,195,135,80,120,65,125,180,105,140,175,160,155,170,150,145,185,200,190,205]。
+
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=同步加速器最小粒子能量输入
+gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=一个同步加速器允许的最小粒子能量输入（单位：keV）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.target_chamber_power=靶室功率
+gui.qmd.config.particle_chamber.target_chamber_power.comment=靶室基础的能量消耗（单位：RF/t）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.decay_chamber_power=衰变室功率
+gui.qmd.config.particle_chamber.decay_chamber_power.comment=衰变室基础的能量消耗（单位：RF/t）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.beam_dump_power=束流收集器功率
+gui.qmd.config.particle_chamber.beam_dump_power.comment=衰变室基础的能量消耗（单位：RF/t）。默认：[5000]。
+
+gui.qmd.config.particle_chamber.detector_efficiency=探测器效能
+gui.qmd.config.particle_chamber.detector_efficiency.comment=每个探测器的效能。顺序：[气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计]。默认：[0.15,0.3,0.20,0.1,0.05]。
+
+gui.qmd.config.particle_chamber.detector_base_power=探测器功率使用
+gui.qmd.config.particle_chamber.detector_base_power.comment=探测器使用的能量（单位：RF/t）。顺序：[气泡室，硅追踪器，线缆室，电磁铁热量计，强子热量计]。默认：[200,5000,1000,200,100]。
 
 gui.qmd.config.fission.reflector_efficiency=反射器效能提升
-gui.qmd.config.fission.reflector_efficiency.comment=每个反射器的效能提升倍率。顺序：碳化钨。
+gui.qmd.config.fission.reflector_efficiency.comment=每个反射器的效能提升倍率。顺序：[碳化钨]。默认：[0.75]。
 
 gui.qmd.config.fission.reflector_reflectivity=反射器中子通量增加
-gui.qmd.config.fission.reflector_reflectivity.comment=反射器的中子通量增加倍数。顺序：碳化钨。
+gui.qmd.config.fission.reflector_reflectivity.comment=反射器的中子通量增加倍数。顺序：[碳化钨]。默认：[0.75]。
 
 gui.qmd.config.fission.shield_heat_per_flux=防护屏产热
-gui.qmd.config.fission.shield_heat_per_flux.comment=有中子通量时的单位中子通量产热（单位：H/NF）。顺序：铪。
+gui.qmd.config.fission.shield_heat_per_flux.comment=有中子通量时的单位中子通量产热（单位：H/NF）。顺序：[铪]。默认：[15.0]。
 
 gui.qmd.config.fission.shield_efficiency=防护屏效能提升
-gui.qmd.config.fission.shield_efficiency.comment=每个防护屏的效能提升倍率。顺序：铪。
+gui.qmd.config.fission.shield_efficiency.comment=每个防护屏的效能提升倍率。顺序：[铪]。默认：[1.0]。
 
 gui.qmd.config.other.rtg_power=放射性热电发电机能量产出
-gui.qmd.config.other.rtg_power.comment=放射性热电发电机的能量产出（单位：RF/t）。顺序：锶。
+gui.qmd.config.other.rtg_power.comment=放射性热电发电机的能量产出（单位：RF/t）。顺序：[锶-90]。默认：[50]。
 
 gui.qmd.config.other.processor_passive_rate=被动产出速度
-gui.qmd.config.other.processor_passive_rate.comment=被动机器的产出速度（单位：mB/t）。顺序：氦收集器，氖收集器，氩收集器。
+gui.qmd.config.other.processor_passive_rate.comment=被动机器的产出速度（单位：mB/t）。顺序：[氦收集器，氖收集器，氩收集器]。默认：[5.0,5.0,5.0]。
 
 gui.qmd.config.other.source_life_time=基础粒子源时间
 gui.qmd.config.other.source_life_time.comment=一个粒子源存在的时间（单位：秒）。
 
 gui.qmd.config.other.cell_life_time=单元时间
-gui.qmd.config.other.cell_life_time.comment=一个单元能存储物质的时间（单位：秒）。
+gui.qmd.config.other.cell_life_time.comment=一个单元能存储物质的时间（单位：秒）。默认：[300]。
 
 gui.qmd.config.other.cell_power=单元功率
-gui.qmd.config.other.cell_life_time.comment=一个单元的能量消耗（单位：RF/t）。
+gui.qmd.config.other.cell_life_time.comment=一个单元的能量消耗（单位：RF/t）。默认：[500]。
 
 gui.qmd.config.other.source_particle_amount=基础粒子源输出量
 gui.qmd.config.other.source_particle_amount.comment=粒子源输出的粒子量（单位：1/t）。
 
 gui.qmd.config.tools.tool_mining_level=挖掘等级
-gui.qmd.config.tools.tool_mining_level.comment=挖掘等级的配置。顺序：碳化钨。
+gui.qmd.config.tools.tool_mining_level.comment=挖掘等级的配置。顺序：[碳化钨]。默认：[4]。
 
 gui.qmd.config.tools.tool_durability=耐久度
-gui.qmd.config.tools.tool_durability.comment=使用次数的上限。顺序：碳化钨。
+gui.qmd.config.tools.tool_durability.comment=使用次数的上限。顺序：[碳化钨]。默认：[5784]。
 
 gui.qmd.config.tools.tool_speed=挖掘速度
-gui.qmd.config.tools.tool_speed.comment=不同方块的挖掘速度。顺序：碳化钨。
+gui.qmd.config.tools.tool_speed.comment=不同方块的挖掘速度。顺序：[碳化钨]。默认：[11.0]。
 
 gui.qmd.config.tools.tool_attack_damage=攻击伤害
-gui.qmd.config.tools.tool_attack_damage.comment=每一击造成的伤害。顺序：碳化钨。
+gui.qmd.config.tools.tool_attack_damage.comment=每一击造成的伤害。顺序：[碳化钨]。默认：[3.0]。
 
 gui.qmd.config.tools.tool_enchantability=可附魔性
-gui.qmd.config.tools.tool_enchantability.comment=附魔的品质。顺序：碳化钨。
+gui.qmd.config.tools.tool_enchantability.comment=附魔的品质。顺序：[碳化钨]。默认：[12]。
+
+gui.qmd.config.containment.max_temp.comment=遏制器结构的最大操作温度（单位：K）。默认：[104]。
+gui.qmd.config.containment.max_temp=遏制器最高温度
+gui.qmd.config.containment.part_heat.comment=遏制器各部产生的热量（单位：H/t）。顺序：[遏制器线圈，遏制器激光器]。默认：[200,500]。
+gui.qmd.config.containment.part_heat=遏制器各部热量
+gui.qmd.config.containment.part_power.comment=遏制器基础的能量消耗（单位：RF/t）。顺序：[遏制器线圈，遏制器激光器].默认：[8000,10000]。
+gui.qmd.config.containment.part_power=遏制器各部功率
+gui.qmd.config.copernicium_criticality.comment=燃料的临界系数。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[20,25,35,20]。
+gui.qmd.config.copernicium_criticality=鎶燃料临界系数
+gui.qmd.config.copernicium_efficiency.comment=燃料的基础效能。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[5.0,5.0,5.0,5.0]。
+gui.qmd.config.copernicium_efficiency=鎶燃料基础效能
+gui.qmd.config.copernicium_fuel_time.comment=燃料衰竭所需的时间。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[10000,10000,12004,9001]。
+gui.qmd.config.copernicium_fuel_time=鎶燃料衰竭时间
+gui.qmd.config.copernicium_heat_generation.comment=燃料基础的热量产出。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[2000,2000,1666,2222]。
+gui.qmd.config.copernicium_heat_generation=鎶燃料产热
+gui.qmd.config.copernicium_radiation.comment=燃料会在消耗时产生的辐射。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[8.33E-4,8.33E-4,8.33E-4,8.33E-4]。
+gui.qmd.config.copernicium_radiation=鎶燃料辐射
+gui.qmd.config.copernicium_self_priming.comment=鎶燃料是否为强中子射源。顺序：[混合TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291]。默认：[true,true,true,true]。
+gui.qmd.config.copernicium_self_priming=鎶燃料强中子射源设置
+gui.qmd.config.other.item_ticker_chunks_per_tick.comment=本模组在包含的方块实体中检查物品的区块数（单位：区块/t）。这被用于自存于方块实体中的反物质单元中排出能量。设定值过高会导致卡顿，设置为0以禁用。默认：[5]。
+gui.qmd.config.other.item_ticker_chunks_per_tick=每刻区块检查数
+gui.qmd.config.other.override_nc_recipes.comment=允许本模组覆盖核电工艺的配方以带来更好的游戏体验。默认：[true]。
+gui.qmd.config.other.override_nc_recipes=覆盖核电工艺配方
