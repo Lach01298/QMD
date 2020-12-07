@@ -135,17 +135,6 @@ public abstract class TileParticleChamberDetector extends TileParticleChamberPar
 	}
 
 
-	@Override
-	public void update()
-	{
-	}
-
-
-
-
-
-
-
 	
 	// NBT
 		@Override

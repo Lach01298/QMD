@@ -84,9 +84,9 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 	
 	
 	@Override
-	public void onAdded() 
+	public void onLoad() 
 	{
-		super.onAdded();
+		super.onLoad();
 		if (!world.isRemote) 
 		{
 			refreshRecipe();
@@ -97,33 +97,32 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 	}
 	
 	@Override
-	public void update() 
+	public void update()
 	{
-		super.update();
-		updateProcessor();
-	}
-	
-	public void updateProcessor() 
-	{
-		if (!world.isRemote) 
+		if (!world.isRemote)
 		{
 			boolean wasProcessing = isProcessing;
 			isProcessing = isProcessing();
 			boolean shouldUpdate = false;
-			if (isProcessing) process();
-			else {
+			if (isProcessing)
+				process();
+			else
+			{
 				getRadiationSource().setRadiationLevel(0D);
-				if (time > 0 && !isHaltedByRedstone() && (shouldLoseProgress || !canProcessInputs)) loseProgress();
+				if (time > 0 && !isHaltedByRedstone() && (shouldLoseProgress || !canProcessInputs))
+					loseProgress();
 			}
-			if (wasProcessing != isProcessing) 
+			if (wasProcessing != isProcessing)
 			{
 				shouldUpdate = true;
 				sendUpdateToAllPlayers();
 			}
 			sendUpdateToListeningPlayers();
-			if (shouldUpdate) markDirty();
+			if (shouldUpdate)
+				markDirty();
 		}
 	}
+	
 	
 	@Override
 	public void refreshRecipe() 
@@ -411,7 +410,9 @@ public class TileItemDamageFuelProcessor extends TileSidedInventory implements I
 				{
 					return false;
 				}		
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(stack, getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(stack);
+				ItemStack copy = stack.copy();
+				copy.setItemDamage(0);
+				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(copy, getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(copy);
 			}
 			else
 			{

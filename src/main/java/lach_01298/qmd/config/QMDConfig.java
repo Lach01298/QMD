@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.QMDRadSources;
+import nc.radiation.RadSources;
 import nc.util.Lang;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -20,15 +22,19 @@ public class QMDConfig {
 	public static final String CATEGORY_PROCESSORS = "processors";
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_PARTICLE_CHAMBER = "particle_chamber";
+	public static final String CATEGORY_CONTAINMENT = "containment";
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_TOOLS = "tools";
 	public static final String CATEGORY_OTHER = "other";
+
+	
 	
 	public static int accelerator_linear_min_size;
 	public static int accelerator_linear_max_size;
 	public static int accelerator_ring_min_size;
 	public static int accelerator_ring_max_size;
+	public static int minimium_accelerator_ring_input_particle_energy;
 	
 	public static int[] RF_cavity_voltage; //in keV
 	public static double[] RF_cavity_efficiency;
@@ -51,14 +57,17 @@ public class QMDConfig {
 
 	public static int target_chamber_power;
 	public static int decay_chamber_power;
+	public static int beam_dump_power;
 	public static int[] detector_base_power;
 	public static double[] detector_efficiency;
 	
-	public static int minimium_accelerator_ring_input_particle_energy;
+	public static int[] containment_part_power;
+	public static int[] containment_part_heat;
+	public static int containment_max_temp;
 	
 	public static int[] processor_power;
 	public static int[] processor_time;
-	
+	public static int irradiator_fuel_life_time;
 	
 	public static int[] tool_mining_level;
 	public static int[] tool_durability;
@@ -72,9 +81,25 @@ public class QMDConfig {
 	public static double[] fission_shield_heat_per_flux;
 	public static double[] fission_shield_efficiency;
 	
+	public static int[] copernicium_fuel_time;
+	public static int[] copernicium_heat_generation;
+	public static double[] copernicium_efficiency;
+	public static int[] copernicium_criticality;
+	public static boolean[] copernicium_self_priming;
+	public static double[] copernicium_radiation;
+	
 	public static int[] rtg_power;
 	public static double[] processor_passive_rate;
 	
+	public static int source_life_time;
+	public static int source_particle_amount;
+	
+	public static int cell_life_time;
+	public static int cell_power;
+	
+	public static boolean override_nc_recipes;
+	
+	public static int item_ticker_chunks_per_tick;
 	
 	public static Configuration getConfig()
 	{
@@ -120,6 +145,8 @@ public class QMDConfig {
 		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
 		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
 		
+		Property propertyIrradiatorFuelLifeTime = config.get(CATEGORY_PROCESSORS, "irradiator_fuel_life_time", 300, Lang.localise("gui.qmd.config.processors.irradiator_fuel_life_time.comment"), 1, Integer.MAX_VALUE);
+		propertyIrradiatorFuelLifeTime.setLanguageKey("gui.qmd.config.processors.irradiator_fuel_life_time");
 		
 		Property propertyAcceleratorLinearMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_min_size", 6, Lang.localise("gui.qmd.config.accelerator.accelerator_linear_min_size.comment"), 6, 255);
 		propertyAcceleratorLinearMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_linear_min_size");
@@ -147,7 +174,7 @@ public class QMDConfig {
 		Property propertyRFCavityMaxTemp = config.get(CATEGORY_ACCELERATOR, "RF_cavity_max_temp", new int[] {350, 39, 18, 10, 104}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_max_temp.comment"), 0, 400);
 		propertyRFCavityMaxTemp.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_max_temp");
 		
-		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 4D, 8D}, Lang.localise("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
+		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 2D, 4D}, Lang.localise("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
 		propertyMagnetStrength.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_strength");
 		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.5D, 0.8D, 0.90D, 0.95D, 0.99D}, Lang.localise("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
 		propertyMagnetEfficiency.setLanguageKey("gui.qmd.qmd.config.accelerator.magnet_efficiency");
@@ -170,11 +197,20 @@ public class QMDConfig {
 		propertyTargetChamberPower.setLanguageKey("gui.qmd.config.particle_chamber.target_chamber_power");
 		Property propertyDecayChamberPower = config.get(CATEGORY_PARTICLE_CHAMBER, "decay_chamber_power", 5000, Lang.localise("gui.qmd.config.particle_chamber.decay_chamber_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDecayChamberPower.setLanguageKey("gui.qmd.config.particle_chamber.decay_chamber_power");
+		Property propertyBeamDumpPower = config.get(CATEGORY_PARTICLE_CHAMBER, "beam_dump_power", 5000, Lang.localise("gui.qmd.config.particle_chamber.beam_dump_power.comment"), 0, Integer.MAX_VALUE);
+		propertyDecayChamberPower.setLanguageKey("gui.qmd.config.particle_chamber.beam_dump_power");
 		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {0.15D, 0.3D, 0.20D, 0.1D,0.05D}, Lang.localise("gui.qmd.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
 		propertyDetectorEfficiency.setLanguageKey("gui.qmd.config.particle_chamber.detector_efficiency");
 		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDetectorBasePower.setLanguageKey("gui.qmd.config.particle_chamber.detector_base_power");
 
+		Property propertyContainmentPartPower = config.get(CATEGORY_CONTAINMENT, "part_power", new int[] {8000, 10000}, Lang.localise("gui.qmd.config.containment.part_power.comment"), 0, Integer.MAX_VALUE);
+		propertyContainmentPartPower.setLanguageKey("gui.qmd.config.containment.part_power");
+		Property propertyContainmentPartHeat = config.get(CATEGORY_CONTAINMENT, "part_heat", new int[] {200, 500}, Lang.localise("gui.qmd.config.containment.part_power.comment"), 0, Integer.MAX_VALUE);
+		propertyContainmentPartHeat.setLanguageKey("gui.qmd.config.containment.part_heat");
+		Property propertyContainmentMaxTemp = config.get(CATEGORY_CONTAINMENT, "max_temp", 104, Lang.localise("gui.qmd.config.containment.max_temp.comment"), 0, 400);
+		propertyContainmentMaxTemp.setLanguageKey("gui.qmd.config.containment.max_temp");
+		
 		
 		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {4}, Lang.localise("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
 		propertyToolMiningLevel.setLanguageKey("gui.qmd.config.tools.tool_mining_level");
@@ -197,18 +233,49 @@ public class QMDConfig {
 		Property propertyFissionShieldEfficiency = config.get(CATEGORY_FISSION, "shield_efficiency", new double[] {1D}, Lang.localise("gui.qmd.config.fission.shield_efficiency.comment"), 0D, 255D);
 		propertyFissionShieldEfficiency.setLanguageKey("gui.qmd.config.fission.shield_efficiency");
 		
-		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {100}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyCoperniciumFuelTime = config.get(CATEGORY_FISSION, "copernicium_fuel_time", new int[] {10000, 10000, 12004, 9001}, Lang.localise("gui.qmd.config.copernicium_fuel_time.comment"), 1, Integer.MAX_VALUE);
+		propertyCoperniciumFuelTime.setLanguageKey("gui.qmd.config.copernicium_fuel_time");
+		Property propertyCoperniciumHeatGeneration = config.get(CATEGORY_FISSION, "copernicium_heat_generation", new int[] {2000, 2000, 1666, 2222}, Lang.localise("gui.qmd.config.copernicium_heat_generation.comment"), 0, 32767);
+		propertyCoperniciumHeatGeneration.setLanguageKey("gui.qmd.config.copernicium_heat_generation");
+		Property propertyCoperniciumEfficiency = config.get(CATEGORY_FISSION, "copernicium_efficiency", new double[] {5.0D, 5.0D, 5.0D, 5.0D}, Lang.localise("gui.qmd.config.copernicium_efficiency.comment"), 0D, 32767D);
+		propertyCoperniciumEfficiency.setLanguageKey("gui.qmd.config.copernicium_efficiency");
+		Property propertyCoperniciumCriticality = config.get(CATEGORY_FISSION, "copernicium_criticality", new int[] {20, 25, 35, 20}, Lang.localise("gui.qmd.config.copernicium_criticality.comment"), 0, 32767);
+		propertyCoperniciumCriticality.setLanguageKey("gui.qmd.config.copernicium_criticality");
+		Property propertyCoperniciumSelfPriming = config.get(CATEGORY_FISSION, "copernicium_self_priming", new boolean[] {true, true, true, true}, Lang.localise("gui.qmd.config.copernicium_self_priming.comment"));
+		propertyCoperniciumSelfPriming.setLanguageKey("gui.qmd.config.copernicium_self_priming");
+		Property propertyCoperniciumRadiation = config.get(CATEGORY_FISSION, "copernicium_radiation", new double[] {QMDRadSources.MIX_291, QMDRadSources.MIX_291, QMDRadSources.MIX_291, QMDRadSources.MIX_291}, Lang.localise("gui.qmd.config.copernicium_radiation.comment"), 0D, 1000D);
+		propertyCoperniciumRadiation.setLanguageKey("gui.qmd.config.copernicium_radiation");
+		
+		
+		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {50}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
 		propertyFissionReflectorEfficiency.setLanguageKey("gui.qmd.config.other.rtg_power");
 		
 		Property propertyProcessorPassiveRate = config.get(CATEGORY_OTHER, "processor_passive_rate", new double[] {5D,5D,5D}, Lang.localise("gui.qmd.config.other.processor_passive_rate.comment"), 0D, 4000D);
 		propertyProcessorPassiveRate.setLanguageKey("gui.qmd.config.other.processor_passive_rate");
 		
+		Property propertySourceLifeTime = config.get(CATEGORY_OTHER, "source_life_time", 300, Lang.localise("gui.qmd.config.other.source_life_time.comment"), 1, Integer.MAX_VALUE);
+		propertySourceLifeTime.setLanguageKey("gui.qmd.config.other.source_life_time");
+		Property propertySourceParticleAmount = config.get(CATEGORY_OTHER, "source_particle_amount", 100, Lang.localise("gui.qmd.config.other.source_particle_amount.comment"), 1, Integer.MAX_VALUE);
+		propertySourceParticleAmount.setLanguageKey("gui.qmd.config.other.source_particle_amount");
+		
+		Property propertyCellLifeTime = config.get(CATEGORY_OTHER, "cell_life_time", 300, Lang.localise("gui.qmd.config.other.cell_life_time.comment"), 1, Integer.MAX_VALUE);
+		propertyCellLifeTime.setLanguageKey("gui.qmd.config.other.cell_life_time");
+		Property propertyCellPower = config.get(CATEGORY_OTHER, "cell_power", 500, Lang.localise("gui.qmd.config.other.cell_power.comment"), 1, Integer.MAX_VALUE);
+		propertyCellPower.setLanguageKey("gui.qmd.config.other.cell_power");
 		
 		
 		
+		Property propertyOverrideNCRecipes = config.get(CATEGORY_OTHER, "override_nc_recipes", true, Lang.localise("gui.qmd.config.other.override_nc_recipes.comment"));
+		propertyOverrideNCRecipes.setLanguageKey("gui.qmd.config.other.override_nc_recipes");
+		
+		Property propertyItemTickerChunksPerTick = config.get(CATEGORY_OTHER, "item_ticker_chunks_per_tick", 5, Lang.localise("gui.qmd.config.other.item_ticker_chunks_per_tick.comment"),0,400);
+		propertyItemTickerChunksPerTick.setLanguageKey("gui.qmd.config.other.item_ticker_chunks_per_tick");
+		
+
 		List<String> propertyOrderProcessors = new ArrayList<String>();
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
+		propertyOrderProcessors.add(propertyIrradiatorFuelLifeTime.getName());
 		
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
 		
@@ -244,10 +311,18 @@ public class QMDConfig {
 		List<String> propertyOrderParticleChamber = new ArrayList<String>();
 		propertyOrderParticleChamber.add(propertyTargetChamberPower.getName());
 		propertyOrderParticleChamber.add(propertyDecayChamberPower.getName());
+		propertyOrderParticleChamber.add(propertyBeamDumpPower.getName());
 		propertyOrderParticleChamber.add(propertyDetectorEfficiency.getName());
 		propertyOrderParticleChamber.add(propertyDetectorBasePower.getName());
 		
 		config.setCategoryPropertyOrder(CATEGORY_PARTICLE_CHAMBER, propertyOrderParticleChamber);
+		
+		List<String> propertyOrderContainment = new ArrayList<String>();
+		propertyOrderContainment.add(propertyContainmentPartPower.getName());
+		propertyOrderContainment.add(propertyContainmentPartHeat.getName());
+		propertyOrderContainment.add(propertyContainmentMaxTemp.getName());
+		config.setCategoryPropertyOrder(CATEGORY_CONTAINMENT, propertyOrderContainment);
+		
 		
 		
 		List<String> propertyOrderTools = new ArrayList<String>();
@@ -265,6 +340,13 @@ public class QMDConfig {
 		propertyOrderFission.add(propertyFissionShieldHeatPerFlux.getName());
 		propertyOrderFission.add(propertyFissionShieldEfficiency.getName());
 		
+		propertyOrderFission.add(propertyCoperniciumFuelTime.getName());
+		propertyOrderFission.add(propertyCoperniciumHeatGeneration.getName());
+		propertyOrderFission.add(propertyCoperniciumEfficiency.getName());
+		propertyOrderFission.add(propertyCoperniciumCriticality.getName());
+		propertyOrderFission.add(propertyCoperniciumSelfPriming.getName());
+		propertyOrderFission.add(propertyCoperniciumRadiation.getName());
+		
 		config.setCategoryPropertyOrder(CATEGORY_FISSION, propertyOrderFission);	
 		
 		
@@ -277,7 +359,13 @@ public class QMDConfig {
 		
 		propertyOrderOther.add(propertyRTGPower.getName());
 		propertyOrderOther.add(propertyProcessorPassiveRate.getName());
-		
+		propertyOrderOther.add(propertySourceLifeTime.getName());
+		propertyOrderOther.add(propertySourceParticleAmount.getName());
+		propertyOrderOther.add(propertyCellLifeTime.getName());
+		propertyOrderOther.add(propertyCellPower.getName());
+
+		propertyOrderOther.add(propertyOverrideNCRecipes.getName());
+		propertyOrderOther.add(propertyItemTickerChunksPerTick.getName());
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
 		
@@ -285,6 +373,7 @@ public class QMDConfig {
 		{
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
+			irradiator_fuel_life_time = propertyIrradiatorFuelLifeTime.getInt();
 			
 			accelerator_linear_min_size = propertyAcceleratorLinearMinSize.getInt();
 			accelerator_linear_max_size = propertyAcceleratorLinearMaxSize.getInt();
@@ -312,8 +401,13 @@ public class QMDConfig {
 			
 			target_chamber_power = propertyTargetChamberPower.getInt();
 			decay_chamber_power = propertyDecayChamberPower.getInt();
+			beam_dump_power = propertyDecayChamberPower.getInt();
 			detector_efficiency = readDoubleArrayFromConfig(propertyDetectorEfficiency);
 			detector_base_power = readIntegerArrayFromConfig(propertyDetectorBasePower);
+			
+			containment_part_power = readIntegerArrayFromConfig(propertyContainmentPartPower);
+			containment_part_heat = readIntegerArrayFromConfig(propertyContainmentPartHeat);
+			containment_max_temp = propertyContainmentMaxTemp.getInt();
 			
 			
 			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
@@ -328,13 +422,29 @@ public class QMDConfig {
 			fission_shield_heat_per_flux = readDoubleArrayFromConfig(propertyFissionShieldHeatPerFlux);
 			fission_shield_efficiency = readDoubleArrayFromConfig(propertyFissionShieldEfficiency);
 			
+			copernicium_fuel_time = readIntegerArrayFromConfig(propertyCoperniciumFuelTime);
+			copernicium_heat_generation = readIntegerArrayFromConfig(propertyCoperniciumHeatGeneration);
+			copernicium_efficiency = readDoubleArrayFromConfig(propertyCoperniciumEfficiency);
+			copernicium_criticality = readIntegerArrayFromConfig(propertyCoperniciumCriticality);
+			copernicium_self_priming = readBooleanArrayFromConfig(propertyCoperniciumSelfPriming);
+			copernicium_radiation = readDoubleArrayFromConfig(propertyCoperniciumRadiation);
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			processor_passive_rate = readDoubleArrayFromConfig(propertyProcessorPassiveRate);
 			
+			source_life_time = propertySourceLifeTime.getInt();
+			source_particle_amount = propertySourceParticleAmount.getInt();
+
+			cell_life_time = propertyCellLifeTime.getInt();
+			cell_power = propertyCellPower.getInt();
+			
+			override_nc_recipes = propertyOverrideNCRecipes.getBoolean();
+			item_ticker_chunks_per_tick = propertyItemTickerChunksPerTick.getInt();
+			
 		}
 		propertyProcessorPower.set(processor_power);
 		propertyProcessorTime.set(processor_time);
+		propertyIrradiatorFuelLifeTime.set(irradiator_fuel_life_time);
 		
 		propertyAcceleratorLinearMinSize.set(accelerator_linear_min_size);
 		propertyAcceleratorLinearMaxSize.set(accelerator_linear_max_size);
@@ -362,8 +472,13 @@ public class QMDConfig {
 		
 		propertyTargetChamberPower.set(target_chamber_power);
 		propertyDecayChamberPower.set(decay_chamber_power);
+		propertyBeamDumpPower.set(beam_dump_power);
 		propertyDetectorEfficiency.set(detector_efficiency);
 		propertyDetectorBasePower.set(detector_base_power);
+		
+		propertyContainmentPartPower.set(containment_part_power);
+		propertyContainmentPartHeat.set(containment_part_heat);
+		propertyContainmentMaxTemp.set(containment_max_temp);
 		
 		propertyToolMiningLevel.set(tool_mining_level);
 		propertyToolDurability.set(tool_durability);
@@ -379,7 +494,13 @@ public class QMDConfig {
 		
 		propertyRTGPower.set(rtg_power);
 		propertyProcessorPassiveRate.set(processor_passive_rate);
+		propertySourceLifeTime.set(source_life_time);
+		propertySourceParticleAmount.set(source_particle_amount);
+		propertyCellLifeTime.set(cell_life_time);
+		propertyCellPower.set(cell_power);
 		
+		propertyOverrideNCRecipes.set(override_nc_recipes);
+		propertyItemTickerChunksPerTick.set(item_ticker_chunks_per_tick);
 		
 		if (config.hasChanged()) config.save();
 	}

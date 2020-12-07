@@ -2,15 +2,14 @@ package lach_01298.qmd.jei.recipe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipe.QMDRecipeHelper;
 import lach_01298.qmd.recipes.QMDRecipes;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.recipe.IStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class AcceleratorSourceRecipeMaker
 {
@@ -26,8 +25,8 @@ public class AcceleratorSourceRecipeMaker
 
 		for (QMDRecipe recipe : recipes)
 		{
-			ItemStack input = recipe.getItemIngredients().get(0).getStack();
-			ParticleStack output = recipe.getParticleProducts().get(0).getStack();
+			List<List<ItemStack>> input = QMDRecipeHelper.getItemInputLists(recipe.getItemIngredients());
+			List<List<ParticleStack>> output = QMDRecipeHelper.getParticleOutputLists(recipe.getParticleProducts());
 			AcceleratorSourceRecipe jeiRecipe = new AcceleratorSourceRecipe(input, output);
 			jeiRecipes.add(jeiRecipe);
 		}

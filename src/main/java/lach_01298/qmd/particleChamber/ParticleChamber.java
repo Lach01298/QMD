@@ -24,6 +24,7 @@ import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.energy.EnergyStorage;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -52,10 +53,12 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	
 	
 	public static final int	BASE_MAX_ENERGY = 40000;
+	public static final int BASE_MAX_INPUT = 1000, BASE_MAX_OUTPUT = 1000;
 	
 	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
 	
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
+	public List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, null), new Tank(BASE_MAX_OUTPUT, null));
 	
 	public ParticleChamber(World world)
 	{
@@ -190,13 +193,14 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	
 	public void resetStats()
 	{
-		logic.onResetStats();
+		logic.refreshChamberStats();
 	}
 	
 	
 	@Override
 	protected boolean updateServer()
 	{
+		boolean flag = refreshFlag;
 		if (refreshFlag) 
 		{
 			logic.refreshChamber();
@@ -205,45 +209,49 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 		
 		if (logic.onUpdateServer()) 
 		{
-			return true;
+			flag = true;
 		}
 		
-		sendUpdateToListeningPlayers();
+		if (controller != null) 
+		{
+			sendUpdateToListeningPlayers();
+		}
 		
-		return true;
+		return flag;
 	}
 
 	public void updateActivity()
 	{
 		boolean wasChamberOn = isChamberOn;
 		isChamberOn = isAssembled() && logic.isChamberOn();
+		
 		if (isChamberOn != wasChamberOn)
 		{
 			if (controller != null)
-			{
-				controller.updateBlockState(isChamberOn);
-			}
-			sendUpdateToAllPlayers();
+			{	
+				controller.setActivity(isChamberOn);
+				sendUpdateToAllPlayers();
+			}	
 		}
-		
 	}
 
+	// Client
+	
 	@Override
 	protected void updateClient()
 	{
 		logic.onUpdateClient();	
 	}
 
-	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
-	{
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
-	}
+	
 
+	// NBT
+	
 	@Override
 	public void syncDataTo(NBTTagCompound data, SyncReason syncReason)
 	{
 		energyStorage.writeToNBT(data,"energyStorage");
+		writeTanks(tanks,data,"tanks");
 		writeBeams(beams,data);
 		
 		data.setBoolean("isChamberOn", isChamberOn);
@@ -258,6 +266,7 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
 		energyStorage.readFromNBT(data,"energyStorage");
+		readTanks(tanks,data, "tanks");
 		readBeams(beams,data);
 		
 		isChamberOn = data.getBoolean("isChamberOn");
@@ -267,7 +276,7 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 		readLogicNBT(data, syncReason);	
 	}
 
-	
+	// Packets
 
 	@Override
 	protected ParticleChamberUpdatePacket getUpdatePacket()
@@ -280,6 +289,9 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	{
 		energyStorage.setStorageCapacity(message.energyStorage.getMaxEnergyStored());
 		energyStorage.setEnergyStored(message.energyStorage.getEnergyStored());
+		
+		for (int i = 0; i < tanks.size(); i++) tanks.get(i).readInfo(message.tanksInfo.get(i));
+		beams = message.beams;
 		
 		isChamberOn = message.isChamberOn;
 		efficiency = message.efficiency;
@@ -359,4 +371,11 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 		return logic.switchOutputs(pos);	
 	}
 
+	// Multiblock Validators
+	
+	@Override
+	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
+	{
+		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+	}
 }

@@ -65,8 +65,11 @@ public class Particles
 	public static Particle antialpha;
 	public static Particle triton;
 	public static Particle antitriton;
+	public static Particle helion;
+	public static Particle antihelion;
 	
 	public static Particle boron_ion;
+	public static Particle calcium_48_ion;
 
 	
 	//Pions
@@ -225,8 +228,11 @@ public class Particles
 		registerParticle(antialpha);
 		registerParticle(triton);
 		registerParticle(antitriton);
+		registerParticle(helion);
+		registerParticle(antihelion);
 
 		registerParticle(boron_ion);
+		registerParticle(calcium_48_ion);
 		
 		registerParticle(pion_plus);
 		registerParticle(pion_naught);
@@ -278,13 +284,21 @@ public class Particles
 		triton.addComponentParticle(neutron,2);
 		antitriton = makeAntiParticle(triton, "antitriton",Util.appendPath(particlePath, "antitriton.png"));
 		
+		helion = new Particle("helion",Util.appendPath(particlePath, "helion.png"),2810d,2,1/2,true);
+		helion.addComponentParticle(proton,2);
+		helion.addComponentParticle(neutron);
+		antihelion = makeAntiParticle(triton, "antihelion",Util.appendPath(particlePath, "antihelion.png"));
+		
 		
 		boron_ion = new Particle("boron_ion",Util.appendPath(particlePath, "boron_ion.png"),10200d,1,1/2,true);
 		boron_ion.addComponentParticle(proton,5);
 		boron_ion.addComponentParticle(neutron,5);
 		boron_ion.addComponentParticle(electron,4);
 		
-		
+		calcium_48_ion = new Particle("calcium_48_ion",Util.appendPath(particlePath, "calcium_48_ion.png"),44600d,1,0,true);
+		calcium_48_ion.addComponentParticle(proton,20);
+		calcium_48_ion.addComponentParticle(neutron,28);
+		calcium_48_ion.addComponentParticle(electron,19);
 		
 		
 		//Pions

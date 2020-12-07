@@ -1,45 +1,85 @@
 package lach_01298.qmd.particleChamber.tile;
 
+import static nc.config.NCConfig.enable_gtce_eu;
+
 import javax.annotation.Nullable;
 
+//import gregtech.api.capability.GregtechCapabilities;
+import ic2.api.energy.tile.IEnergyEmitter;
+import ic2.api.energy.tile.IEnergySink;
 import lach_01298.qmd.particleChamber.ParticleChamber;
+import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.energy.ITileEnergy;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.energy.EnergyTileWrapper;
 import nc.tile.internal.energy.EnergyTileWrapperGT;
+import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.fml.common.Optional;
 
-public class TileParticleChamberEnergyPort extends TileParticleChamberPart implements ITileEnergy
+@Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2") })
+public class TileParticleChamberEnergyPort extends TileParticleChamberPart implements ITileEnergy, IEnergySink
 {
 
 	protected final EnergyStorage backupStorage = new EnergyStorage(1);
-	
+
 	protected final EnergyConnection[] energyConnections = ITileEnergy.energyConnectionAll(EnergyConnection.IN);
 	protected final EnergyTileWrapper[] energySides = ITileEnergy.getDefaultEnergySides(this);
-	
+	protected final EnergyTileWrapperGT[] energySidesGT = ITileEnergy.getDefaultEnergySidesGT(this);
+
+	protected boolean ic2reg = false;
+
 	public TileParticleChamberEnergyPort()
 	{
-		super(CuboidalPartPositionType.WALL);
+		super(CuboidalPartPositionType.EXTERIOR);
 	}
-
 
 	@Override
 	public void onMachineAssembled(ParticleChamber controller)
 	{
+		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		
 	}
 
 	@Override
 	public void onMachineBroken()
 	{
 		super.onMachineBroken();
-		
+	}
+
+	@Override
+	public void onLoad()
+	{
+		super.onLoad();
+		if (ModCheck.ic2Loaded())
+		{
+			addTileToENet();
+		}
+	}
+
+	@Override
+	public void invalidate()
+	{
+		super.invalidate();
+		if (ModCheck.ic2Loaded())
+		{
+			removeTileFromENet();
+		}
+	}
+
+	@Override
+	public void onChunkUnload()
+	{
+		super.onChunkUnload();
+		if (ModCheck.ic2Loaded())
+		{
+			removeTileFromENet();
+		}
 	}
 
 	@Override
@@ -48,7 +88,7 @@ public class TileParticleChamberEnergyPort extends TileParticleChamberPart imple
 		if (!isMultiblockAssembled())
 		{
 			return backupStorage;
-		}	
+		}
 		return getMultiblock().energyStorage;
 	}
 
@@ -56,33 +96,6 @@ public class TileParticleChamberEnergyPort extends TileParticleChamberPart imple
 	public EnergyConnection[] getEnergyConnections()
 	{
 		return energyConnections;
-	}
-
-	@Override
-	public int getEUSourceTier()
-	{
-		return 0;
-	}
-
-	@Override
-	public int getEUSinkTier()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void addTileToENet()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeTileFromENet()
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -94,34 +107,86 @@ public class TileParticleChamberEnergyPort extends TileParticleChamberPart imple
 	@Override
 	public EnergyTileWrapperGT[] getEnergySidesGT()
 	{
-		return null;
+		return energySidesGT;
 	}
 
-	
-	// NBT
-	
+	// IC2 Energy
+
 	@Override
-	public NBTTagCompound writeAll(NBTTagCompound nbt) {
+	public boolean getIC2Reg()
+	{
+		return ic2reg;
+	}
+
+	@Override
+	public void setIC2Reg(boolean ic2reg)
+	{
+		this.ic2reg = ic2reg;
+	}
+
+	@Override
+	public int getSinkTier()
+	{
+		return 1;
+	}
+
+	@Override
+	public int getSourceTier()
+	{
+		if (!isMultiblockAssembled())
+		{
+			return 1;
+		}
+		return EnergyHelper.getEUTier(getMultiblock().requiredEnergy);
+	}
+
+	@Override
+	@Optional.Method(modid = "ic2")
+	public boolean acceptsEnergyFrom(IEnergyEmitter emitter, EnumFacing side)
+	{
+		return ITileEnergy.super.acceptsEnergyFrom(emitter, side);
+	}
+
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double getDemandedEnergy()
+	{
+		return ITileEnergy.super.getDemandedEnergy();
+	}
+
+	@Override
+	@Optional.Method(modid = "ic2")
+	public double injectEnergy(EnumFacing directionFrom, double amount, double voltage)
+	{
+		return ITileEnergy.super.injectEnergy(directionFrom, amount, voltage);
+	}
+
+	// NBT
+
+	@Override
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
+	{
 		super.writeAll(nbt);
 		writeEnergy(nbt);
 		writeEnergyConnections(nbt);
 		return nbt;
 	}
-	
+
 	@Override
-	public void readAll(NBTTagCompound nbt) {
+	public void readAll(NBTTagCompound nbt)
+	{
 		super.readAll(nbt);
 		readEnergy(nbt);
 		readEnergyConnections(nbt);
 	}
-	
-	
+
 	// Capability
-	
+
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
 	{
-		if (capability == CapabilityEnergy.ENERGY)
+		if (capability == CapabilityEnergy.ENERGY /*|| ModCheck.gregtechLoaded() && enable_gtce_eu
+				&& capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER*/)
 		{
 			return hasEnergySideCapability(side);
 		}
@@ -139,8 +204,15 @@ public class TileParticleChamberEnergyPort extends TileParticleChamberPart imple
 			}
 			return null;
 		}
+		/*else if (ModCheck.gregtechLoaded() && capability == GregtechCapabilities.CAPABILITY_ENERGY_CONTAINER)
+		{
+			if (enable_gtce_eu && hasEnergySideCapability(side))
+			{
+				return (T) getEnergySideGT(nonNullSide(side));
+			}
+			return null;
+		}*/
 		return super.getCapability(capability, side);
 	}
-	
-	
+
 }

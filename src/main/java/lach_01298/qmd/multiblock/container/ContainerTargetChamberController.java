@@ -1,7 +1,5 @@
 package lach_01298.qmd.multiblock.container;
 
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
@@ -11,12 +9,8 @@ import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.slot.SlotFurnace;
 import nc.multiblock.container.ContainerMultiblockController;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerTargetChamberController extends ContainerMultiblockController<ParticleChamber, IParticleChamberController>
 {
@@ -38,10 +32,10 @@ public class ContainerTargetChamberController extends ContainerMultiblockControl
 		this.otherSlotsSize = 0;
 		
 		
-		addSlotToContainer(new SlotQMDProcessorInput(tile,recipeHandler, 0, 47, 30));
-		addSlotToContainer(new SlotFurnace(player, tile, 1, 89, 30));
+		addSlotToContainer(new SlotQMDProcessorInput(tile,recipeHandler, 0, 47, 38));
+		addSlotToContainer(new SlotFurnace(player, tile, 1, 89, 38));
 		
-		addPlayerInventory(player,8,98);
+		addPlayerInventory(player,8,106);
 
 	}
 

@@ -1,6 +1,5 @@
 package lach_01298.qmd.enums;
 
-import lach_01298.qmd.QMDRadSources;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
@@ -10,14 +9,7 @@ import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.QMDTilePassive;
 import lach_01298.qmd.tile.QMDTileRTG;
 import nc.enumm.IBlockMetaEnum;
-import nc.tab.NCTabs;
-import nc.tile.TileBin;
-import nc.tile.dummy.TileMachineInterface;
-import nc.tile.generator.TileDecayGenerator;
-import nc.tile.generator.TileSolarPanel;
-import nc.tile.passive.TilePassive;
-import nc.tile.radiation.TileGeigerCounter;
-import nc.tile.radiation.TileRadiationScrubber;
+import nc.radiation.RadSources;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
@@ -663,7 +655,7 @@ public class BlockTypes
 	
 	public enum RTGType
 	{
-		STRONTIUM(0, QMDRadSources.STRONTIUM_90 / 8D);
+		STRONTIUM(0, RadSources.STRONTIUM_90 / 8D);
 
 		private int id;
 		private double radiation;

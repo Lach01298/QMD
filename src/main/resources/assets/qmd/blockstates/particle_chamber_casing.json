@@ -1,13 +1,20 @@
 {
     "forge_marker": 1,
     "defaults": {
-        "model":"cube_all",
+        "model": "cube_all",
         "textures": {
             "all": "qmd:blocks/particle_chamber/casing"
         }
     },
     "variants": {
         "inventory": [{}],
-        "normal": [{}]
+        "frame": {
+            "false": {},
+            "true": {
+                "textures": {
+                    "all": "qmd:blocks/particle_chamber/frame"
+                }
+            }
+        }
     }
 }

@@ -10,22 +10,21 @@ public class QMDRadSources
 	
 	
 	public static final double SODIUM_22 = 0.384;
-	public static final double PROMETHIUM_147 = 0.381;
 	public static final double BERYLLIUM_7 = 6.89;
-	public static final double STRONTIUM_90 = 0.0347;
-	public static final double LEAD_210 = 0.0448;
 	public static final double URANIUM_234 = 0.00000407;
 	public static final double PROTACTINIUM_231 = 0.0000305;
 	public static final double COBALT_60 = 0.190;
 	public static final double IRIDIUM_192 = 4.94;
+	public static final double COPERNICIUM_291 = 0.000833;
+	
+	public static final double MIX_291 = RadSources.getFuelRadiation(COPERNICIUM_291, 8, COPERNICIUM_291, 1);
+	public static final double DEPLETED_MIX_291 =  RadSources.getDepletedFuelRadiation(RadSources.AMERICIUM_243, 4, RadSources.CURIUM_243, 2, RadSources.CURIUM_245, 1,  RadSources.BERKELIUM_247, 1, RadSources.RUTHENIUM_106, RadSources.EUROPIUM_155, 1.5D, 0.6D);
+	public static final double MIX_291_FISSION = (MIX_291 + DEPLETED_MIX_291) / 64D;
 	
 	public static void init() 
 	{
 		RadSources.putMaterial(BERYLLIUM_7, "Beryllium7");
 		RadSources.putMaterial(SODIUM_22, "Sodium22");
-		RadSources.putMaterial(PROMETHIUM_147, "Promethium147");
-		RadSources.putMaterial(STRONTIUM_90, "Strontium90");
-		RadSources.putMaterial(LEAD_210, "Lead210");
 		RadSources.putMaterial(URANIUM_234, "Uranium234");
 		RadSources.putMaterial(PROTACTINIUM_231, "Protactinium231");
 		RadSources.putMaterial(COBALT_60, "Cobalt60");
@@ -35,29 +34,36 @@ public class QMDRadSources
 		RadSources.put(COBALT_60/2D, QMDItems.source_cobalt_60);
 		RadSources.put(IRIDIUM_192/2D, QMDItems.source_iridium_192);
 		
-		RadSources.put(STRONTIUM_90/4D, QMDBlocks.rtgStrontium);
+		RadSources.put(RadSources.STRONTIUM_90/4D, QMDBlocks.rtgStrontium);
 		
+		RadSources.putFluid(RadSources.TRITIUM, "antitritium");
 		
-		RadSources.put(STRONTIUM_90, "wasteFissionHeavy");
-		RadSources.put(STRONTIUM_90, "wasteFissionLight");
-		RadSources.put(STRONTIUM_90, "wasteSpallationCalfornium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationBerkelium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationCurium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationAmericium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationPlutonium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationNeptunium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationUranium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationProtactinium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationRadium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationPolonium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationBismuth");
-		RadSources.put(STRONTIUM_90, "wasteSpallationLead");
-		RadSources.put(STRONTIUM_90, "wasteSpallationGold");
-		RadSources.put(STRONTIUM_90, "wasteSpallationPlatnium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationIridium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationOsmium");
-		RadSources.put(STRONTIUM_90, "wasteSpallationTungsten");
-		RadSources.put(STRONTIUM_90, "wasteSpallationHafnium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteFissionHeavy");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteFissionLight");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationCalifornium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationBerkelium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationCurium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationAmericium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationPlutonium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationNeptunium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationUranium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationProtactinium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationThorium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationRadium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationPolonium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationBismuth");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationLead");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationGold");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationPlatinum");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationIridium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationOsmium");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationTungsten");
+		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationHafnium");
+		
+		RadSources.putOre(RadSources.TRITIUM*RadSources.FLUID, "cellAntitritium");
+		
+		RadSources.putIsotope(COPERNICIUM_291, "Copernicium291", "copernicium_291");
+		RadSources.putFuel(MIX_291, DEPLETED_MIX_291, "MIX291", "mix_291");
 		
 		RadSources.addToFoodMaps(new ItemStack(QMDItems.flesh), 0, 3.0);
 	}

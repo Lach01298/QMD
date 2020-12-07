@@ -3,13 +3,16 @@ package lach_01298.qmd.particleChamber.tile;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
+import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.block.BlockDecayChamberController;
+import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
 
 public class TileDecayChamberController extends TileParticleChamberPart implements IParticleChamberController
 {
@@ -55,17 +58,6 @@ public class TileDecayChamberController extends TileParticleChamberPart implemen
 		if (getMultiblock() != null) getMultiblock().updateActivity();
 	}
 
-	@Override
-	public void updateBlockState(boolean isActive)
-	{
-		if (getBlockType() instanceof BlockDecayChamberController)
-		{
-			((BlockDecayChamberController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
-	}
-
-
 	
 	public NBTTagCompound writeAll(NBTTagCompound nbt) 
 	{
@@ -80,6 +72,10 @@ public class TileDecayChamberController extends TileParticleChamberPart implemen
 		
 	}
 	
-	
+	@Override
+	public ContainerMultiblockController getContainer(EntityPlayer player) {
+		return new ContainerDecayChamberController(player, this);
+	}
+		
 
 }

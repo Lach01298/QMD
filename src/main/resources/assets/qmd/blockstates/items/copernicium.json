@@ -1,0 +1,36 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "291": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/291"
+                }
+            },
+            "291_c": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/291_c"
+                }
+            },
+            "291_ox": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/291_ox"
+                }
+            },
+            "291_ni": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/291_ni"
+                }
+            },
+            "291_za": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/291_za"
+                }
+            }
+        }
+    }
+}

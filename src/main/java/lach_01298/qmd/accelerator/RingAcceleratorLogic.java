@@ -1,16 +1,24 @@
 package lach_01298.qmd.accelerator;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -195,7 +203,10 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_many_synchrotron_ports", null);
 			return false;
 		}	
-		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 
 		return super.isMachineWhole(multiblock);
 	}
@@ -254,9 +265,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public void onAcceleratorFormed()
 	{
-		 Accelerator acc = getAccelerator();
+		Accelerator acc = getAccelerator();
 
-		 if (!getWorld().isRemote)
+		if (!getWorld().isRemote)
 		{
 
 			// beam
@@ -382,7 +393,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		getAccelerator().dipoleStrength = 0;
 		int energy = 0;
-		int heat = 0;
+		long heat = 0;
 		int parts= 0;
 		double efficiency =0;
 		double quadStrength =0;
@@ -627,6 +638,13 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		return new ContainerRingAcceleratorController(player, getAccelerator().controller);
 	}
-	
-	
+
+	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileAcceleratorSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"));
+
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 }

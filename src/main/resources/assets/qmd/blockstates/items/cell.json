@@ -1,0 +1,41 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "empty": {
+                "textures": {
+                    "layer0": "qmd:items/cell/empty"
+                }
+            },
+            "antihydrogen": {
+                "textures": {
+                    "layer0": "qmd:items/cell/antihydrogen"
+                }
+            },
+            "antideuterium": {
+                "textures": {
+                    "layer0": "qmd:items/cell/antideuterium"
+                }
+            },
+            "antitritium": {
+                "textures": {
+                    "layer0": "qmd:items/cell/antitritium"
+                }
+            },
+            "antihelium3": {
+                "textures": {
+                    "layer0": "qmd:items/cell/antihelium3"
+                }
+            },
+            "antihelium": {
+                "textures": {
+                    "layer0": "qmd:items/cell/antihelium"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "nuclearcraft:item/pellet"
+    },
+    "variants": {
+        "type": {
+            "mix_291_tr": {
+                "model": "nuclearcraft:item/triso",
+                "textures": {
+                    "layer0": "qmd:items/copernicium/depleted_fuel/mix_291_tr"
+                }
+            },
+            "mix_291_ox": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/depleted_fuel/mix_291_ox"
+                }
+            },
+            "mix_291_ni": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/depleted_fuel/mix_291_ni"
+                }
+            },
+            "mix_291_za": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/depleted_fuel/mix_291_za"
+                }
+            }
+        }
+    }
+}

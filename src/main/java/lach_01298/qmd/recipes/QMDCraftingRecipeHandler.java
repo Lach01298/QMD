@@ -13,9 +13,12 @@ import lach_01298.qmd.enums.BlockTypes.DetectorType;
 import lach_01298.qmd.enums.BlockTypes.LampType;
 import lach_01298.qmd.enums.BlockTypes.MagnetType;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
+import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.item.QMDItems;
 import nc.init.NCBlocks;
+import nc.init.NCItems;
+import nc.recipe.vanilla.CraftingRecipeHandler;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
 import nc.recipe.vanilla.recipe.ShapedEnergyRecipe;
 import nc.recipe.vanilla.recipe.ShapedFluidRecipe;
@@ -38,6 +41,11 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public class QMDCraftingRecipeHandler 
 {
 	
+	public static final String[] FUEL_TYPES = new String[] 
+			{
+				"",	"Carbide", "Oxide","Nitride","ZA"
+			};
+	
 	public static void registerCraftingRecipes() 
 	{
 		//misc
@@ -47,9 +55,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.fissionReflector, 2, 0), new Object[] {"TTT", "TFT", "TTT", 'T', "ingotTungstenCarbide", 'F', "steelFrame"});
 		addShapedOreRecipe(QMDBlocks.oreLeacher, new Object[] {"PRP", "CFC", "PHP", 'P', "plateElite", 'F', "chassis", 'C', NCBlocks.chemical_reactor, 'R', NCBlocks.rock_crusher, 'H', "ingotHardCarbon"});
 		addShapedOreRecipe(QMDBlocks.irradiator, new Object[] {"TPT", "PFP", "TPT", 'P', "plateDU", 'F', "chassis", 'T', "ingotTungsten"});
-		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
-		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCharcoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
-		addShapedOreRecipe(QMDBlocks.rtgStrontium, new Object[] {"AGA", "GSG", "AGA", 'S', "ingotStrontium90",'A', "plateAdvanced", 'G', "ingotGraphite"});
+		addShapedOreRecipe(QMDBlocks.rtgStrontium, new Object[] {"AGA", "GSG", "AGA", 'S', "blockStrontium90",'A', "plateAdvanced", 'G', "ingotGraphite"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', QMDItems.tungsten_filament,'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(QMDBlocks.heliumCollector, new Object[] {"ASA", "SPS", "ASA", 'A', "plateAdvanced",'S', "ingotStainlessSteel", 'P', "blockPlutonium242"});
 		addShapedOreRecipe(QMDBlocks.neonCollector, new Object[] {"ASA", "SPS", "ASA", 'A', "plateAdvanced",'S', "ingotStainlessSteel", 'P', "ingotSodium22"});
@@ -57,6 +63,20 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', QMDItems.tungsten_filament,'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', QMDItems.tungsten_filament,'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.fissionShield, 4, 0), new Object[] {"BHB", "HFH", "BHB", 'B', "plateBasic", 'F', "steelFrame", 'H', "ingotHafnium"});
+		addShapedOreRecipe(new ItemStack(QMDItems.cell), new Object[] {"WOW", "BCE", "WOW", 'W', "wireBSCCO",'O', "ingotOsmiridium", 'B', NCItems.lithium_ion_cell, 'C', QMDItems.canister, 'E', "processorElite"});
+		
+		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
+		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCharcoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
+		addShapelessOreRecipe(new ItemStack(QMDItems.chemicalDust,2,ChemicalDustType.STRONTIUM_CHLORIDE_OXALIC_ACID_BLEND.getID()), new Object[] {"dustStrontiumChloride","dustOxalicAcid"});
+		
+		//fuels
+		fissionFuelRecipe(QMDItems.pellet_copernicium,0,"Copernicium291","Uranium238");
+		fissionFuelRecipe(QMDItems.pellet_copernicium,1,"Copernicium291Carbide","Uranium238Carbide");
+		fissionFuelRecipe(QMDItems.fuel_copernicium,1,"Copernicium291Oxide","Uranium238Oxide");
+		fissionFuelRecipe(QMDItems.fuel_copernicium,2,"Copernicium291Nitride","Uranium238Nitride");
+		fissionFuelRecipe(QMDItems.fuel_copernicium,3,"Copernicium291ZA","Uranium238ZA");
+		
+		
 		
 		//Coolers
 		addShapedOreRecipe(new ItemStack(QMDItems.part,4,PartType.EMPTY_COOLER.getID()), new Object[] {"STS", "SHS", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'H', "ingotThermoconducting"});
@@ -97,7 +117,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.linearAcceleratorController, new Object[] {"PEP", "BFB", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'B', "processorBasic", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.ringAcceleratorController, new Object[] {"PEP", "AFA", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.beamDiverterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotTough", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
-
+		addShapedOreRecipe(QMDBlocks.deceleratorController, new Object[] {"PEP", "AFA", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'A', "processorElite", 'F', QMDBlocks.acceleratorCasing});
 		
 		//Accelerator Parts
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCasing,8), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame"});
@@ -129,6 +149,7 @@ public class QMDCraftingRecipeHandler
 		//particle chamber controllers
 		addShapedOreRecipe(QMDBlocks.targetChamberController, new Object[] {"PTP", "BFB", "PTP", 'P', "plateElite", 'T', "ingotTough", 'B', "processorBasic", 'F', QMDBlocks.particleChamberCasing});
 		addShapedOreRecipe(QMDBlocks.decayChamberController, new Object[] {"PTP", "BFB", "PTP", 'P', "plateElite", 'T', "ingotTough", 'B', "processorBasic", 'F', NCBlocks.decay_hastener});
+		addShapedOreRecipe(QMDBlocks.beamDumpController, new Object[] {"PTP", "BFB", "PTP", 'P', "plateElite", 'T', "ingotTough", 'B', "processorBasic", 'F', "blockCopper"});
 		
 		//particle chamber parts
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberCasing,8), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'F', "steelFrame"});
@@ -139,11 +160,13 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberBeam,3), new Object[] {"STS", "BBB", "STS", 'S', "ingotStainlessSteel", 'B', QMDBlocks.beamline, 'T', "ingotTungsten"});
 		addShapedOreRecipe(QMDBlocks.particleChamber, new Object[] {"NSN", "NCN", "NSN", 'S', "ingotStainlessSteel", 'C', "chassis", 'N', "ingotNiobiumTin"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberBeamPort, 4), new Object[] {"STS", "BFB", "STS", 'S', "ingotStainlessSteel", 'T', "ingotTungsten", 'B', QMDBlocks.beamline, 'F', "steelFrame"});
-
+		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberFluidPort,4), new Object[] {"SIS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'F', "steelFrame", 'I', "servo"});
+		
 		//sources
 		addShapedOreRecipe(new ItemStack(QMDItems.source_sodium_22), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotSodium22",'B', "bioplastic"});
 		addShapedOreRecipe(new ItemStack(QMDItems.source_cobalt_60), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "bioplastic"});
 		addShapedOreRecipe(new ItemStack(QMDItems.source_iridium_192), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "bioplastic"});
+		addShapedOreRecipe(new ItemStack(QMDItems.source_calcium_48), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCalcium48",'B', "bioplastic"});
 		
 		
 		//detectors
@@ -153,6 +176,19 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.HADRON_CALORIMETER.getID()), new Object[] {"SSS", "SCS", "SSS", 'S',  new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PLASTIC.getID()), 'C', new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.SILLICON_TRACKER.getID()), new Object[] {"BAB", "ACA", "BAB", 'B',  "processorBasic", 'A', "processorAdvanced", 'C', new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID())});
 		
+		// Containment Controllers
+		addShapedOreRecipe(QMDBlocks.neutralContainmentController, new Object[] {"PEP", "BFB", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'B', "processorElite", 'F', QMDBlocks.containmentCasing});
+		
+		//Containment Parts
+		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentCasing,8), new Object[] {"OTO", "SFS", "OTO", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame", 'O', "ingotOsmiridium"});
+		addShapelessOreRecipe(QMDBlocks.containmentCasing, new Object[] {QMDBlocks.containmentGlass});
+		addShapelessOreRecipe(QMDBlocks.containmentGlass, new Object[] {QMDBlocks.containmentCasing, "blockGlass"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentBeamPort, 4), new Object[] {"OTO", "BFB", "OTO", 'O', "ingotOsmiridium", 'T', "ingotTough", 'B', QMDBlocks.beamline, 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentVent,4), new Object[] {"OIO", "TFT", "OTO", 'O', "ingotOsmiridium",'T', "ingotTough", 'F', "steelFrame", 'I', "servo"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentEnergyPort,4), new Object[] {"OIO", "TFT", "OIO", 'O', "ingotOsmiridium",'T', "ingotTough", 'F', "steelFrame", 'I', "wireBSCCO"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentCoil,2), new Object[] {"CCC", "OOO", "CCC", 'O', "ingotOsmiridium", 'C', "wireBSCCO"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentPort, 4), new Object[] {"OHO", "VFV", "OHO", 'O', "ingotOsmiridium", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentLaser), new Object[] {"OEO", "ERR", "OEO", 'O', "ingotOsmiridium", 'R', "rodNdYAG", 'E', "processorElite"});
 		
 		
 		
@@ -192,6 +228,14 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(boots, new Object[] { "M M", "M M", 'M', material });
 	}
 
+	
+	public static void fissionFuelRecipe(Item fuel, int meta, String fissile, String fertile) {
+		fissile = "ingot" + fissile;
+		fertile = "ingot" + fertile;
+		addShapelessOreRecipe(new ItemStack(fuel, 9, meta), new Object[] {fissile, fertile, fertile, fertile, fertile, fertile, fertile, fertile, fertile});
+	}
+	
+	
 	private static final Map<String, Integer> RECIPE_COUNT_MAP = new HashMap<String, Integer>();
 
 	public static void addShapedOreRecipe(Object out, Object... inputs)
