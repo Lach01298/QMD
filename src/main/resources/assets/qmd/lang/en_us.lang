@@ -162,6 +162,7 @@ tile.qmd.beam_diverter_controller.name=Beam Diverter Controller
 tile.qmd.decelerator_controller.name=Decelerator Controller
 
 tile.qmd.accelerator_beam.name=Accelerator Beam Block
+tile.qmd.accelerator_computer_port.name=Accelerator Computer Port
 tile.qmd.accelerator_casing.name=Accelerator Casing
 tile.qmd.accelerator_glass.name=Accelerator Glass
 tile.qmd.accelerator_vent.name=Accelerator Coolant Vent

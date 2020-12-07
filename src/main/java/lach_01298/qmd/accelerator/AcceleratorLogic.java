@@ -73,12 +73,21 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		return "";
 	}
 	
-	protected Accelerator getAccelerator() 
+	public Accelerator getAccelerator()
 	{
 		return multiblock;
 	}
-	
-	
+
+	private void refreshStats() {};
+
+	public void onRFCavityUpdated()
+	{
+		refreshStats();
+	}
+
+	public void afterManageRfCavity()
+	{}
+
 	public void onResetStats() {}
 	
 	// Multiblock Size Limits
@@ -310,7 +319,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	public boolean onUpdateServer()
 	{
 
-		if (isRedstonePowered())
+		if ((isRedstonePowered() || getAccelerator().manualEnableFlag) && !getAccelerator().manualDisableFlag)
 		{
 			if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
 					true) == getAccelerator().requiredEnergy)
@@ -646,7 +655,5 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		return getAccelerator().isAssembled() ? getAccelerator().tanks : backupTanks;
 	}
-	
-
 
 }

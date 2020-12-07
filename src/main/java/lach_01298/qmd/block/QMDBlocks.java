@@ -2,6 +2,7 @@ package lach_01298.qmd.block;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDInfo;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorBeam;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorCasing;
@@ -94,7 +95,8 @@ public class QMDBlocks
 	public static Block acceleratorEnergyPort;
 	public static Block beamDiverterController;
 	public static Block deceleratorController;
-	
+	public static Block acceleratorComputerPort;
+
 	public static Block targetChamberController;
 	public static Block decayChamberController;
 	public static Block beamDumpController;
@@ -145,7 +147,8 @@ public class QMDBlocks
 		acceleratorCasing = withName(new BlockAcceleratorCasing(), "accelerator_casing");
 		acceleratorGlass = withName(new BlockAcceleratorGlass(), "accelerator_glass");
 		acceleratorVent = withName(new BlockAcceleratorVent(), "accelerator_vent");
-		
+		acceleratorComputerPort = withName(new BlockAcceleratorComputerPort(), "accelerator_computer_port");
+
 		acceleratorBeamPort = withName(new BlockAcceleratorBeamPort(), "accelerator_beam_port");
 		acceleratorSynchrotronPort = withName(new BlockAcceleratorSynchrotronPort(), "accelerator_synchrotron_port");
 		RFCavity = withName(new BlockRFCavity(), "accelerator_cavity");
@@ -209,6 +212,7 @@ public class QMDBlocks
 		registerBlock(ringAcceleratorController);
 		registerBlock(acceleratorBeam,TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(acceleratorCasing);
+		registerBlock(acceleratorComputerPort);
 		registerBlock(acceleratorGlass);
 		registerBlock(acceleratorVent);
 		registerBlock(acceleratorBeamPort);
@@ -274,6 +278,7 @@ public class QMDBlocks
 		registerRender(ringAcceleratorController);
 		registerRender(acceleratorBeam);
 		registerRender(acceleratorCasing);
+		registerRender(acceleratorComputerPort);
 		registerRender(acceleratorGlass);
 		registerRender(acceleratorVent);
 		registerRender(acceleratorBeamPort);

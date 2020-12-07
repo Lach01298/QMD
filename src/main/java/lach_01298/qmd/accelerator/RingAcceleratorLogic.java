@@ -433,7 +433,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 				if(componet instanceof TileAcceleratorRFCavity)
 				{
 					TileAcceleratorRFCavity cav = (TileAcceleratorRFCavity) componet;
-					voltage += cav.voltage/8d;
+					if(cavity.is_active) {
+						voltage += cav.voltage/8d;
+					}
 				}
 			}
 		}

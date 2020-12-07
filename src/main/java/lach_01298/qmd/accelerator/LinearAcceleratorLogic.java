@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lach_01298.qmd.containment.tile.IContainmentController;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
@@ -64,7 +65,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		return "linear_accelerator";
 	}
 	
-	
+
 	
 	// Multiblock Validation
 	
@@ -298,11 +299,121 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 		return postions;
 	}
-	
-	
-	
+
+	public void updateNumbers()
+	{
+		getAccelerator().RFCavityNumber = getAccelerator().getRFCavityMap().size();
+		getAccelerator().quadrupoleNumber = getAccelerator().getQuadrupoleMap().size();
+		getAccelerator().dipoleNumber = getAccelerator().getDipoleMap().size();
+	}
+
 	// Multiblock Methods
-	
+
+
+
+	public void afterManageRfCavity()
+	{
+
+		Axis axis;
+
+		if (multiblock.getExteriorLengthX() > multiblock.getExteriorLengthZ())
+		{
+			axis = Axis.X;
+		}
+		else
+		{
+
+			axis = Axis.Z;
+		}
+
+		// beam
+		Accelerator acc = getAccelerator();
+
+
+
+
+
+		if (!getWorld().isRemote)
+		{
+
+			// beam
+			for (BlockPos pos :getinteriorAxisPositions(axis))
+			{
+
+				if (acc.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam)
+				{
+
+					TileAcceleratorBeam beam = (TileAcceleratorBeam) getWorld().getTileEntity(pos);
+					beam.setFunctional(true);
+
+				}
+			}
+
+			// beam
+			for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
+			{
+				if(beam.isFunctional())
+				{
+					if (acc.isValidQuadrupole(beam.getPos(), Axis.X))
+					{
+						acc.getQuadrupoleMap().put(beam.getPos().toLong(), new QuadrupoleMagnet(acc, beam.getPos(), Axis.X));
+					}
+					else if (acc.isValidQuadrupole(beam.getPos(), Axis.Z))
+					{
+						acc.getQuadrupoleMap().put(beam.getPos().toLong(), new QuadrupoleMagnet(acc, beam.getPos(), Axis.Z));
+					}
+				}
+
+
+			}
+
+			updateNumbers();
+
+			for (RFCavity cavity : acc.getRFCavityMap().values())
+			{
+				for (IAcceleratorComponent componet : cavity.getComponents().values())
+				{
+					componet.setFunctional(true);
+				}
+
+			}
+
+
+			for (QuadrupoleMagnet quad : acc.getQuadrupoleMap().values())
+			{
+				for (IAcceleratorComponent componet : quad.getComponents().values())
+				{
+					componet.setFunctional(true);
+				}
+
+			}
+
+
+			//beam ports
+			for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
+			{
+				if(port.getIOType() == IOType.INPUT)
+				{
+					acc.input = port;
+				}
+
+				if(port.getIOType() == IOType.OUTPUT)
+				{
+					acc.output = port;
+				}
+			}
+
+			//source
+			for (TileAcceleratorSource source :acc.getPartMap(TileAcceleratorSource.class).values())
+			{
+				this.source = source;
+			}
+		}
+
+		refreshStats();
+		super.onAcceleratorFormed();
+	}
+
 	@Override
 	public void onAcceleratorFormed()
 	{
@@ -371,8 +482,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 					
 				}
 
-				acc.RFCavityNumber = acc.getRFCavityMap().size();
-				acc.quadrupoleNumber = acc.getQuadrupoleMap().size();
+				updateNumbers();
 
 
 			
@@ -508,7 +618,9 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				if(componet instanceof TileAcceleratorRFCavity)
 				{
 					TileAcceleratorRFCavity cav = (TileAcceleratorRFCavity) componet;
-					voltage += cav.voltage/8d;
+					if(cavity.is_active) {
+						voltage += cav.voltage/8d;
+					}
 				}
 			}
 		}
@@ -668,6 +780,9 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		return PART_BLACKLIST;
 	}
-	
-	
+
+
+	public TileAcceleratorSource getSource() {
+		return source;
+	}
 }

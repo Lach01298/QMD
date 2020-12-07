@@ -79,7 +79,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
-	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
+	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false, manualDisableFlag = false, manualEnableFlag = false;
 	
 	public static final int MAX_TEMP = 400;
 	
@@ -162,11 +162,11 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	{
 		return beamPorts;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	public void resetStats()
 	{
@@ -179,8 +179,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	}
 
 	
-	
-	
+
+
 	public boolean isValidRFCavity(BlockPos center, Axis axis)
 	{
 		if(!(this.WORLD.getTileEntity(center.up()) instanceof TileAcceleratorRFCavity) )
