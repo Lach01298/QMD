@@ -319,7 +319,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	public boolean onUpdateServer()
 	{
 
-		if ((isRedstonePowered() || getAccelerator().manualEnableFlag) && !getAccelerator().manualDisableFlag)
+		if (isRedstonePowered())
 		{
 			if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
 					true) == getAccelerator().requiredEnergy)
