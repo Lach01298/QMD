@@ -79,7 +79,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
-	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false, manualDisableFlag = false, manualEnableFlag = false;
+	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
 	public static final int MAX_TEMP = 400;
 	
