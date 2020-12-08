@@ -78,16 +78,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		return multiblock;
 	}
 
-	private void refreshStats() {};
-
-	public void onRFCavityUpdated()
-	{
-		refreshStats();
-	}
-
-	public void afterManageRfCavity()
-	{}
-
 	public void onResetStats() {}
 	
 	// Multiblock Size Limits
