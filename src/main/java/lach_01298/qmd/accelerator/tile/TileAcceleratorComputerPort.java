@@ -108,9 +108,9 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 		return new Object[] { this.isMultiblockAssembled() ? getMultiblock().quadrupoleNumber : 0 };
 	}
 	
-	@Callback(doc = "--function():int Returns accelerators temprature.")
+	@Callback(doc = "--function():int Returns accelerators temperature.")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getTemprature(Context context, Arguments args)
+	public Object[] getTemperature(Context context, Arguments args)
 	{
 		return new Object[] { isMultiblockAssembled() ? getMultiblock().getTemperature() : 0};
 	}
@@ -177,7 +177,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	}
 	
 
-	@Callback(doc = "--function():table Returns infomation about the energy and energy usage of the accelerator. (energy_required, energy_stored, energy_capacity)")
+	@Callback(doc = "--function():table Returns infomation about the energy and energy usage of the accelerator. (energy_required, energy_stored, energy_capacity, energy_efficiency)")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getEnergyInfo(Context context, Arguments args)
 	{
