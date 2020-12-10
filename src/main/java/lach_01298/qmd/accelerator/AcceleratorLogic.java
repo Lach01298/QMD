@@ -5,7 +5,6 @@ import static nc.block.property.BlockProperties.ACTIVE;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nonnull;
 
@@ -16,13 +15,11 @@ import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
@@ -32,8 +29,6 @@ import lach_01298.qmd.particle.ParticleStack;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.fission.tile.TileFissionIrradiator;
-import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
@@ -57,6 +52,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	private double excessCoolantOut =0;
 	
 	
+	
 	public AcceleratorLogic(Accelerator accelerator) 
 	{
 		super(accelerator);
@@ -73,12 +69,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		return "";
 	}
 	
-	protected Accelerator getAccelerator() 
+	public Accelerator getAccelerator()
 	{
 		return multiblock;
 	}
-	
-	
+
 	public void onResetStats() {}
 	
 	// Multiblock Size Limits
@@ -108,6 +103,25 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		onAcceleratorFormed();
 	}
+	
+	public int getBeamLength() 
+	{
+		return 0;
+	}
+	
+	public double getBeamRadius() 
+	{
+		return 0;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void onAcceleratorFormed() 
 	{
@@ -310,7 +324,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	public boolean onUpdateServer()
 	{
 
-		if (isRedstonePowered())
+		if ((isRedstonePowered() && !getAccelerator().computerControlled) || (getAccelerator().computerControlled && getAccelerator().energyPercentage > 0))
 		{
 			if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
 					true) == getAccelerator().requiredEnergy)
@@ -646,7 +660,5 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		return getAccelerator().isAssembled() ? getAccelerator().tanks : backupTanks;
 	}
-	
-
 
 }

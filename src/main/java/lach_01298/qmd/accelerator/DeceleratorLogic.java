@@ -26,11 +26,9 @@ import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.DeceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -480,13 +478,23 @@ public class DeceleratorLogic extends AcceleratorLogic
 	{
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
-			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack());
+			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
 			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
 	
 			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
 			
-			long energyTarget = (long)(getAcceleratorMaxEnergy(particle)*(1-getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+			double fraction = 1;
+			if(getAccelerator().computerControlled)
+			{
+				fraction = 1 - (getAccelerator().energyPercentage/100d);
+			}
+			else
+			{
+				fraction = (1-getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d);
+			}
+			
+			long energyTarget = (long)(getAcceleratorMaxEnergy(particle)* fraction);
 			
 			if(energyTarget > particleIn.getMeanEnergy())
 			{
@@ -498,7 +506,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 			}
 			
 			
-			particleOut.addFocus(getAccelerator().quadrupoleStrength-getLength()*QMDConfig.beamAttenuationRate);
+			particleOut.addFocus(getAccelerator().quadrupoleStrength-getBeamLength()*QMDConfig.beamAttenuationRate);
 			
 			if(particleOut.getFocus() <= 0)
 			{
@@ -517,7 +525,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 		if (particle != null && getAccelerator().acceleratingVoltage > 0)
 		{
 
-			return (long) (Math.pow(particle.getCharge() * getAccelerator().dipoleStrength * getRadius(), 2) / (2 * particle.getMass()) * 1000000);
+			return (long) (Math.pow(particle.getCharge() * getAccelerator().dipoleStrength * getBeamRadius(), 2) / (2 * particle.getMass()) * 1000000);
 		}
 		return 0;
 	}
@@ -546,7 +554,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 							int maxEnergyFromFeild = 0;
 							if(getAccelerator().acceleratingVoltage > 0)
 							{
-								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getRadius(),2)/(2*particle.getMass())*1000000);
+								maxEnergyFromFeild = (int) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getBeamRadius(),2)/(2*particle.getMass())*1000000);
 							}
 							
 							getAccelerator().beams.get(0).setMaxEnergy(maxEnergyFromFeild);
@@ -609,13 +617,14 @@ public class DeceleratorLogic extends AcceleratorLogic
 	
 	
 	
-	
-	public double getRadius()
+	@Override
+	public double getBeamRadius()
 	{
 		return (getAccelerator().getInteriorLengthX()-2)/2d;
 	}
 	
-	public int getLength()
+	@Override
+	public int getBeamLength()
 	{
 		return 4*getAccelerator().getInteriorLengthX()-12;
 	}

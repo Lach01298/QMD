@@ -69,6 +69,7 @@ public class TickItemHandler
 							if(stack.getItem() instanceof ITickItem)
 							{
 								ITickItem item = (ITickItem) stack.getItem();
+								System.out.println("tick");
 								item.updateTick(stack, tile,event.world.getTotalWorldTime());
 							}
 						}

@@ -92,6 +92,10 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	public int RFCavityNumber =0, quadrupoleNumber =0,dipoleNumber =0;
 	public double quadrupoleStrength =0, dipoleStrength =0;
 	
+	//OC computer control
+	public int energyPercentage =0;
+	public boolean  computerControlled = false;
+	
 	public int errorCode =0;
 	public static final int errorCode_Nothing = 0;
 	public static final int errorCode_ToHot = 1;
@@ -162,11 +166,11 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	{
 		return beamPorts;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	public void resetStats()
 	{
@@ -179,8 +183,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	}
 
 	
-	
-	
+
+
 	public boolean isValidRFCavity(BlockPos center, Axis axis)
 	{
 		if(!(this.WORLD.getTileEntity(center.up()) instanceof TileAcceleratorRFCavity) )
@@ -647,6 +651,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		data.setDouble("dipoleStrength", dipoleStrength);
 		data.setInteger("errorCode",errorCode);
 		data.setBoolean("cold", cold);
+		data.setBoolean("computerControlled", computerControlled);
+		data.setInteger("energyPercentage", energyPercentage);
 		
 		writeLogicNBT(data, syncReason);
 	}
@@ -677,6 +683,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		dipoleStrength = data.getDouble("dipoleStrength");
 		errorCode = data.getInteger("errorCode");
 		cold = data.getBoolean("cold");
+		computerControlled =data.getBoolean("computerControlled");
+		energyPercentage =data.getInteger("energyPercentage");
 		
 		readLogicNBT(data, syncReason);
 	}

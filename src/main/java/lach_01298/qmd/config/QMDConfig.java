@@ -206,7 +206,7 @@ public class QMDConfig {
 
 		Property propertyContainmentPartPower = config.get(CATEGORY_CONTAINMENT, "part_power", new int[] {8000, 10000}, Lang.localise("gui.qmd.config.containment.part_power.comment"), 0, Integer.MAX_VALUE);
 		propertyContainmentPartPower.setLanguageKey("gui.qmd.config.containment.part_power");
-		Property propertyContainmentPartHeat = config.get(CATEGORY_CONTAINMENT, "part_heat", new int[] {200, 500}, Lang.localise("gui.qmd.config.containment.part_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyContainmentPartHeat = config.get(CATEGORY_CONTAINMENT, "part_heat", new int[] {200, 500}, Lang.localise("gui.qmd.config.containment.part_heat.comment"), 0, Integer.MAX_VALUE);
 		propertyContainmentPartHeat.setLanguageKey("gui.qmd.config.containment.part_heat");
 		Property propertyContainmentMaxTemp = config.get(CATEGORY_CONTAINMENT, "max_temp", 104, Lang.localise("gui.qmd.config.containment.max_temp.comment"), 0, 400);
 		propertyContainmentMaxTemp.setLanguageKey("gui.qmd.config.containment.max_temp");

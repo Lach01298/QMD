@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lach_01298.qmd.containment.tile.IContainmentController;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
@@ -64,7 +65,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		return "linear_accelerator";
 	}
 	
-	
+
 	
 	// Multiblock Validation
 	
@@ -298,11 +299,15 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 		return postions;
 	}
-	
-	
-	
+
+	public void updateNumbers()
+	{
+		getAccelerator().RFCavityNumber = getAccelerator().getRFCavityMap().size();
+		getAccelerator().quadrupoleNumber = getAccelerator().getQuadrupoleMap().size();
+		getAccelerator().dipoleNumber = getAccelerator().getDipoleMap().size();
+	}
+
 	// Multiblock Methods
-	
 	@Override
 	public void onAcceleratorFormed()
 	{
@@ -371,8 +376,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 					
 				}
 
-				acc.RFCavityNumber = acc.getRFCavityMap().size();
-				acc.quadrupoleNumber = acc.getQuadrupoleMap().size();
+				updateNumbers();
 
 
 			
@@ -537,8 +541,17 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		if(getAccelerator().beams.get(1).getParticleStack() != null)
 		{
 			ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
-			particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
-			particle.addFocus(((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			
+			if(getAccelerator().computerControlled)
+			{
+				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*(getAccelerator().energyPercentage/100d)));
+			}
+			else
+			{
+				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+			}
+			
+			particle.addFocus(((getAccelerator().quadrupoleStrength))-getBeamLength()*QMDConfig.beamAttenuationRate);
 			if(particle.getFocus() <= 0)
 			{
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
@@ -553,11 +566,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		
 		ParticleStack inputBeam = getAccelerator().beams.get(0).getParticleStack();
 		
-		getAccelerator().beams.get(1).setParticleStack(inputBeam);
+		getAccelerator().beams.get(1).setParticleStack(inputBeam.copy());
 		ParticleStack outputBeam = getAccelerator().beams.get(1).getParticleStack();
 		if(outputBeam != null)
 		{
-			outputBeam.addFocus(((getAccelerator().quadrupoleStrength))-getLength()*QMDConfig.beamAttenuationRate);
+			outputBeam.addFocus(((getAccelerator().quadrupoleStrength))-getBeamLength()*QMDConfig.beamAttenuationRate);
 			outputBeam.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
 			if(outputBeam.getFocus() <= 0)
 			{
@@ -652,8 +665,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		return new ContainerLinearAcceleratorController(player, getAccelerator().controller);
 	}
 	
-	
-	public int getLength()
+	@Override
+	public int getBeamLength()
 	{
 		return getAccelerator().getExteriorLengthX() > getAccelerator().getExteriorLengthZ() ?getAccelerator().getExteriorLengthX() : getAccelerator().getExteriorLengthZ();
 	}
@@ -668,6 +681,9 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		return PART_BLACKLIST;
 	}
-	
-	
+
+
+	public TileAcceleratorSource getSource() {
+		return source;
+	}
 }

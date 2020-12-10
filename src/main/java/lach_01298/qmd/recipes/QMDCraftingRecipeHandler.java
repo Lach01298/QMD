@@ -121,6 +121,7 @@ public class QMDCraftingRecipeHandler
 		
 		//Accelerator Parts
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCasing,8), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorComputerPort,1), new Object[] {"STS", "TFT", "STS", 'S', "processorBasic",'T', "ingotGold", 'F', QMDBlocks.acceleratorCasing});
 		addShapelessOreRecipe(QMDBlocks.acceleratorCasing, new Object[] {QMDBlocks.acceleratorGlass});
 		addShapelessOreRecipe(QMDBlocks.acceleratorGlass, new Object[] {QMDBlocks.acceleratorCasing, "blockGlass"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorBeamPort, 4), new Object[] {"STS", "BFB", "STS", 'S', "ingotStainlessSteel", 'T', "ingotTough", 'B', QMDBlocks.beamline, 'F', "steelFrame"});

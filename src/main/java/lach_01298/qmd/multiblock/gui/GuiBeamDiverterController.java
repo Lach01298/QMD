@@ -65,7 +65,7 @@ public class GuiBeamDiverterController extends GuiLogicMultiblock<Accelerator, B
 		String title = Lang.localise("gui.qmd.container.beam_diverter_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.accelerator.length", 3);
+		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getBeamLength());
 		fontRenderer.drawString(length,offset+25, 25, fontColor);
 		
 		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles",1, Units.getSIFormat(multiblock.dipoleStrength,"T"));

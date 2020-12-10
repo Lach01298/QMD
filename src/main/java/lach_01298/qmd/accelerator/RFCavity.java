@@ -16,7 +16,7 @@ public class RFCavity
 	private BlockPos pos;
 	private  EnumFacing.Axis axis;
 	private  RFCavityType type;
-	
+
 	private final Long2ObjectMap<IAcceleratorComponent> components = new Long2ObjectOpenHashMap<>();
 
 	

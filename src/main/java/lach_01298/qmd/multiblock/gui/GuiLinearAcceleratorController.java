@@ -64,7 +64,7 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblock<Accelerat
 		String title = Lang.localise("gui.qmd.container.linear_accelerator_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getLength());
+		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getBeamLength());
 		fontRenderer.drawString(length,offset+25, 25, fontColor);
 		
 		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys",multiblock.RFCavityNumber, Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V")) ;

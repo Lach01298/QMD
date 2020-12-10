@@ -62,10 +62,10 @@ public class GuiRingAcceleratorController extends GuiLogicMultiblock<Accelerator
 		String title = Lang.localise("gui.qmd.container.ring_accelerator_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String radius = Lang.localise("gui.qmd.container.accelerator.radius", logic.getRadius());
+		String radius = Lang.localise("gui.qmd.container.accelerator.radius", logic.getBeamRadius());
 		fontRenderer.drawString(radius,offset+25, 20, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getLength());
+		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getBeamLength());
 		fontRenderer.drawString(length,offset+25, 30, fontColor);
 		
 		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys",multiblock.RFCavityNumber, Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V")) ;

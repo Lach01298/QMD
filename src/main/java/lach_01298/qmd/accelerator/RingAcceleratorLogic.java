@@ -473,20 +473,29 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
-			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack());
+			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
 			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
 	
 			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
-			particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
-			particleOut.addFocus(getAccelerator().quadrupoleStrength-getLength()*QMDConfig.beamAttenuationRate);
+			
+			
+			if(getAccelerator().computerControlled)
+			{
+				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getAccelerator().energyPercentage/100d)));
+			}
+			else
+			{
+				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
+			}
+			particleOut.addFocus(getAccelerator().quadrupoleStrength-getBeamLength()*QMDConfig.beamAttenuationRate);
 			
 			if(particleOut.getFocus() <= 0)
 			{
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
 			
-			long synchrotronEnergy = (long) (Math.pow(particleOut.getMeanEnergy()/(1000*particleOut.getParticle().getMass()),3)/(2*Math.PI*1000000*getRadius()));
+			long synchrotronEnergy = (long) (Math.pow(particleOut.getMeanEnergy()/(1000*particleOut.getParticle().getMass()),3)/(2*Math.PI*1000000*getBeamRadius()));
 			getAccelerator().beams.get(2).setParticleStack(new ParticleStack(Particles.photon,particleOut.getAmount(),synchrotronEnergy,particleOut.getFocus()));
 		}
 		else
@@ -500,8 +509,8 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		if(particle != null && getAccelerator().acceleratingVoltage > 0)
 		{
-			long maxEnergyFromFeild = (long)(Math.pow(particle.getCharge()*getAccelerator().dipoleStrength * getRadius(), 2)/(2 * particle.getMass()) * 1000000);
-			long maxEnergyFromRadiation =  (long)(particle.getMass() * Math.pow((3 * getAccelerator().acceleratingVoltage * getRadius())/Math.abs(particle.getCharge()), 1/4d) * 1000000);
+			long maxEnergyFromFeild = (long)(Math.pow(particle.getCharge()*getAccelerator().dipoleStrength * getBeamRadius(), 2)/(2 * particle.getMass()) * 1000000);
+			long maxEnergyFromRadiation =  (long)(particle.getMass() * Math.pow((3 * getAccelerator().acceleratingVoltage * getBeamRadius())/Math.abs(particle.getCharge()), 1/4d) * 1000000);
 		
 			if(maxEnergyFromRadiation < maxEnergyFromFeild)
 			{
@@ -620,13 +629,14 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	
 	
 	
-	
-	public double getRadius()
+	@Override
+	public double getBeamRadius()
 	{
 		return (getAccelerator().getInteriorLengthX()-2)/2d;
 	}
 	
-	public int getLength()
+	@Override
+	public int getBeamLength()
 	{
 		return 4*(getAccelerator().getInteriorLengthX()-2)-4+2;
 	}

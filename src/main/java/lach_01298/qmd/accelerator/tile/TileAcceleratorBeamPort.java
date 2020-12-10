@@ -72,7 +72,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	{
 		this.mode = type;
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		getMultiblock().checkIfMachineIsWhole();
 	}
 	
@@ -115,7 +115,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 		
 		
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, mode));
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		getMultiblock().checkIfMachineIsWhole();
 	}
 	
@@ -124,7 +124,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 		this.setting = setting;
 				
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, mode));
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		getMultiblock().checkIfMachineIsWhole();
 	}
 	

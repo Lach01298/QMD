@@ -1,4 +1,3 @@
-
 //items
 item.qmd.dust.tungsten.name=Tungsten Dust
 item.qmd.dust.niobium.name=Niobium Dust
@@ -163,6 +162,7 @@ tile.qmd.beam_diverter_controller.name=Beam Diverter Controller
 tile.qmd.decelerator_controller.name=Decelerator Controller
 
 tile.qmd.accelerator_beam.name=Accelerator Beam Block
+tile.qmd.accelerator_computer_port.name=Accelerator Computer Port
 tile.qmd.accelerator_casing.name=Accelerator Casing
 tile.qmd.accelerator_glass.name=Accelerator Glass
 tile.qmd.accelerator_vent.name=Accelerator Coolant Vent
@@ -246,7 +246,7 @@ tile.qmd.helium_collector.name=Helium Collector
 tile.qmd.neon_collector.name=Neon Collector
 tile.qmd.argon_collector.name=Argon Collector
 
-tile.qmd.neutral_containment_controller.name=Neutral Exotic Containment Controller
+tile.qmd.neutral_containment_controller.name=Neutral Containment Chamber Controller
 tile.qmd.containment_casing.name=Containment Casing
 tile.qmd.containment_glass.name=Containment Glass
 tile.qmd.containment_beam_port.name=Containment Beam Port
@@ -257,6 +257,12 @@ tile.qmd.containment_laser.name=Containment Laser
 tile.qmd.containment_coil.name=Containment Coil
 tile.qmd.strontium_90_block.name=Strontium-90 Block
 tile.qmd.strontium_titanate_block.name= Strontium Titanate Crystal
+
+//guide book
+qmd.guide_book.name=QMD Guide
+qmd.guide_book.edition=WIP
+qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics. It still WIP so for more accurate/complete info go to the QMD wiki.
+
 
 //block descriptions
 
@@ -469,7 +475,7 @@ gui.qmd.container.accelerator.external_heating=Maximum External Heating: %s
 gui.qmd.container.accelerator.coolant_stored=Coolant: %s/%s
 gui.qmd.container.accelerator.coolant_required=Coolant Usage: %s
 gui.qmd.container.accelerator.coolant_out=Hot Coolant Out: %s
-gui.qmd.container.accelerator.error.1=To hot
+gui.qmd.container.accelerator.error.1=Too hot
 gui.qmd.container.accelerator.error.2=Does not have enough power
 gui.qmd.container.accelerator.error.3=Focus to low
 gui.qmd.container.accelerator.error.4=Particle energy to low
@@ -483,7 +489,7 @@ gui.qmd.container.decay_chamber_controller.name=Decay Chamber
 gui.qmd.container.beam_dump_controller.name=Beam Dump
 gui.qmd.container.target_chamber.efficiency=Efficiency: %s%%
 
-gui.qmd.container.neutral_containment_controller.name=Neutral Exotic Containment
+gui.qmd.container.neutral_containment_controller.name=Neutral Containment Chamber
 
 
 
@@ -544,6 +550,7 @@ qmd.particle.eta.name=Eta Meson
 qmd.particle.eta_prime.name=Eta Prime Meson
 qmd.particle.charmed_eta.name=Charmed Eta Meson
 qmd.particle.bottom_eta.name=Bottom Eta Meson
+qmd.particle.glueball.name=Glueball
 
 
 //particle descriptions
@@ -562,7 +569,7 @@ qmd.particle.antibottom_quark.desc=The Anti-Bottom Quark is the antimatter partn
 qmd.particle.electron.desc=The Electron is lightest charged lepton. It is commonly found in orbitals around nuclei, forming atoms.
 qmd.particle.positron.desc=The positron is the Antimatter particle of the electron. When a electron and positron meet the annihilate resulting in all there mass being converted into energy in the form of 2 gamma rays.
 qmd.particle.electron_neutrino.desc=The Electron Neutrino is the neutrino partner of the Electron.
-qmd.particle.electron_antineutrino=The Electron Antineutrino is the antimatter partner of the Electron Neutrino.
+qmd.particle.electron_antineutrino.desc=The Electron Antineutrino is the antimatter partner of the Electron Neutrino.
 qmd.particle.muon.desc=The Muon is basically a heavy electron.
 qmd.particle.antimuon.desc=The Anti-Muon is the antimatter partner of the Muon.
 qmd.particle.muon_neutrino.desc=The Muon Neutrino is the neutrino partner of the Muon.
@@ -591,7 +598,7 @@ qmd.particle.pion_minus.desc=Pions are the particles that are responsible for ho
 qmd.particle.triton.desc=The Triton is the nucleus of a Tritium Atom.
 qmd.particle.antitriton.desc=The Anti-Triton is the antimatter partner of the Triton.
 qmd.particle.helion.desc=The Helion is the nucleus of a Helium-3 Atom.
-qmd.particle.antitriton.desc=The Anti-Helion is the antimatter partner of the Helion.
+qmd.particle.antihelion.desc=The Anti-Helion is the antimatter partner of the Helion.
 
 qmd.particle.boron_ion.desc=A Boron atom with one electron missing.
 qmd.particle.calcium_48_ion.desc=A Calcium-48 atom with one electron missing. This is a particularly neutron rich atom useful for creating Super heavy elements.
@@ -605,6 +612,7 @@ qmd.particle.eta.desc=Eta Mesons are flavourless mesons meaning their flavor num
 qmd.particle.eta_prime.desc=Eta Mesons are flavorless mesons meaning their flavor numbers like strangeness and isospin are 0.
 qmd.particle.charmed_eta.desc=Eta Mesons are flavorless mesons meaning their flavor numbers like strangeness and isospin are 0.
 qmd.particle.bottom_eta.desc=Eta Mesons are flavorless mesons meaning their flavor numbers like strangeness and isospin are 0.
+qmd.particle.glueball.desc=Glueballs are particle made entirely out of gluons.
 
 //particleStack info
 gui.qmd.particlestack.amount=Amount: %s
@@ -617,7 +625,7 @@ qmd.gui.jei.category.particle_info=Particle Information
 qmd.gui.jei.category.target_chamber=Target Chamber
 qmd.gui.jei.category.decay_chamber=Decay Chamber
 qmd.gui.jei.category.beam_dump=Beam Dump
-qmd.gui.jei.category.neutral_containment=Neutral Exotic Containment
+qmd.gui.jei.category.neutral_containment=Neutral Containment Chamber
 
 gui.qmd.jei.particle.mass=Mass: %s
 gui.qmd.jei.particle.charge=Charge: %s
@@ -741,7 +749,7 @@ gui.qmd.config.particle_chamber.detector_base_power.comment=The amount of RF/t e
 gui.qmd.config.containment.part_power=Containment Part Power
 gui.qmd.config.containment.part_power.comment=The amount of RF/t each type of containment part uses. Order:[Containment coil, Containment Laser]. Default:[8000,10000]
 
-gui.qmd.config.containment.part_heat=Containment Part Power
+gui.qmd.config.containment.part_heat=Containment Part Heat
 gui.qmd.config.containment.part_heat.comment=The amount of heat per tick each type of containment part makes. Order:[Containment coil, Containment Laser]. Default:[200,500]
 
 gui.qmd.config.containment.max_temp=Containment Max Temp
@@ -776,22 +784,22 @@ gui.qmd.config.fission.shield_efficiency=Shield Efficiency
 gui.qmd.config.fission.shield_efficiency.comment= The efficiency of each type of Shield. Order:[Hafnium]. Default:[1.0]
 
 gui.qmd.config.copernicium_fuel_time=Copernicium Fuel Durations
-gui.qmd.config.copernicium_fuel_time.comment=Base ticks the fuels last. Order: [MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[10000, 10000, 12004, 9001]
+gui.qmd.config.copernicium_fuel_time.comment=Base ticks the fuels last. Order: [MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[10000, 10000, 12004, 9001]
 
 gui.qmd.config.copernicium_heat_generation=Copernicium Fuel Heat Gen
-gui.qmd.config.copernicium_heat_generation.comment=Base heat the fuels produce. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[2000, 2000, 1666, 2222]
+gui.qmd.config.copernicium_heat_generation.comment=Base heat the fuels produce. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[2000, 2000, 1666, 2222]
 
 gui.qmd.config.copernicium_efficiency=Copernicium Fuel Base Efficiencies
-gui.qmd.config.copernicium_efficiency.comment=Base efficiencies of the fuels. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[5.0, 5.0, 5.0, 5.0]
+gui.qmd.config.copernicium_efficiency.comment=Base efficiencies of the fuels. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[5.0, 5.0, 5.0, 5.0]
 
 gui.qmd.config.copernicium_criticality=Copernicium Fuel Criticality Factors
-gui.qmd.config.copernicium_criticality.comment=Criticality factors of the fuels. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[20, 25, 35, 20]
+gui.qmd.config.copernicium_criticality.comment=Criticality factors of the fuels. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[20, 25, 35, 20]
 
 gui.qmd.config.copernicium_self_priming=Copernicium Fuel Self Priming
-gui.qmd.config.copernicium_self_priming.comment=Are fuel self priming. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[true,true,true,true]
+gui.qmd.config.copernicium_self_priming.comment=Are fuel self priming. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[true,true,true,true]
 
 gui.qmd.config.copernicium_radiation=Copernicium Fuel Radiation
-gui.qmd.config.copernicium_radiation.comment=Base radiation the fuels produce while processing. Order:[ MTRISO-291, MOX-291, MNI-239, MZA-291]. Default:[8.33E-4,8.33E-4,8.33E-4,8.33E-4]
+gui.qmd.config.copernicium_radiation.comment=Base radiation the fuels produce while processing. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291]. Default:[8.33E-4,8.33E-4,8.33E-4,8.33E-4]
 
 
 gui.qmd.config.other.rtg_power=RTG Power

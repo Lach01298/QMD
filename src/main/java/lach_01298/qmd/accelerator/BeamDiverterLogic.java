@@ -12,10 +12,9 @@ import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -263,7 +262,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		{
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
 			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
-			return (long)(Math.pow(particle.getCharge(),2)/(6*Math.pow(particle.getMass(),4)*Math.pow(QMDConfig.beamDiverterRadius,2))*particleIn.getMeanEnergy());
+			return (long)(Math.pow(particle.getCharge(),2)/(6*Math.pow(particle.getMass(),4)*Math.pow(getBeamRadius(),2))*particleIn.getMeanEnergy());
 		}
 		
 		return 0;
@@ -274,13 +273,23 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
-			return (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*QMDConfig.beamDiverterRadius,2)/(2*particle.getMass())*1000000);
+			return (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getBeamRadius(),2)/(2*particle.getMass())*1000000);
 		}
 		
 		return 0;
 	}
 	
+	@Override
+	public int getBeamLength()
+	{
+		return getAccelerator().getExteriorLengthX();
+	}
 	
+	@Override
+	public double getBeamRadius()
+	{
+		return QMDConfig.beamDiverterRadius;
+	}
 	
 	private void refreshStats()
 	{
@@ -332,8 +341,8 @@ public class BeamDiverterLogic extends AcceleratorLogic
 				ParticleStack particleStraightOut = getAccelerator().beams.get(2).getParticleStack();
 				
 				particleOut.addMeanEnergy(-getEnergyLoss());
-				particleOut.addFocus(-getAccelerator().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
-				particleStraightOut.addFocus(-getAccelerator().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+				particleOut.addFocus(-getBeamLength()*QMDConfig.beamAttenuationRate);
+				particleStraightOut.addFocus(-getBeamLength()*QMDConfig.beamAttenuationRate);
 				
 				if(particleOut.getFocus() <= 0)
 				{

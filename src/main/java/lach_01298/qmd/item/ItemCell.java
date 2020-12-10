@@ -148,6 +148,7 @@ public class ItemCell extends ItemEnergy implements ITickItem
 		}
 		else
 		{
+			
 			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
 			{
 				stack.getTagCompound().setLong("lastTickTime", tickTime);
@@ -197,8 +198,10 @@ public class ItemCell extends ItemEnergy implements ITickItem
 	@Override
 	public void updateTick(ItemStack stack, TileEntity tile, long tickTime)
 	{
+		
 		if (stack.getTagCompound() == null)
 		{
+			
 			return;
 		}
 		if(stack.getTagCompound().hasKey("lastTickTime"))
@@ -225,6 +228,7 @@ public class ItemCell extends ItemEnergy implements ITickItem
 		{
 			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
 			{
+				
 				stack.getTagCompound().setLong("lastTickTime", tickTime);
 			}
 		}
