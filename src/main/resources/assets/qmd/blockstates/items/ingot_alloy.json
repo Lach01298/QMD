@@ -30,6 +30,16 @@
                 "textures": {
                     "layer0": "qmd:items/materials/alloy/ingot_osmiridium"
                 }
+            },
+            "nichrome": {
+                "textures": {
+                    "layer0": "qmd:items/materials/alloy/ingot_nichrome"
+                }
+            },
+            "super_alloy": {
+                "textures": {
+                    "layer0": "qmd:items/materials/alloy/ingot_super_alloy"
+                }
             }
         }
     }

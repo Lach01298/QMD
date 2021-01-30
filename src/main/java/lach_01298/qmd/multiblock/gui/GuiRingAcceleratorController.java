@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.Units;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.RingAcceleratorLogic;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;

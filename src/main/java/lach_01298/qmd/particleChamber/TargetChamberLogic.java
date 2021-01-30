@@ -325,8 +325,13 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 
-	public boolean switchOutputs(BlockPos pos)
+	@Override
+	public boolean toggleSetting(BlockPos pos, int ioNumber)
 	{
+		if(ioNumber == 0 || ioNumber == 2)
+		{
+			return false;
+		}
 		
 		if (getWorld().getTileEntity(pos) instanceof TileParticleChamberBeamPort)
 		{

@@ -21,6 +21,7 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.CuboidalOrToroidalMultiblock;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
@@ -67,17 +68,12 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	public TileAcceleratorBeamPort input;
 	public TileAcceleratorBeamPort output;
 	
-	public static final int BASE_MAX_HEAT = 25000;
-	public static final int	BASE_MAX_ENERGY = 40000;
-	public static final int BASE_MAX_INPUT = 10, BASE_MAX_OUTPUT = 3200;
-	public static final double THERMAL_CONDUCTIVITY = 0.005;
 	
+	public final HeatBuffer heatBuffer = new HeatBuffer(QMDConfig.accelerator_base_heat_capacity);
+	public final EnergyStorage energyStorage = new EnergyStorage(QMDConfig.accelerator_base_energy_capacity);
+	public List<Tank> tanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(QMDConfig.accelerator_base_output_tank_capacity, null));
 	
-	public final HeatBuffer heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
-	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
-	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(Accelerator.BASE_MAX_OUTPUT, null));
-	
-	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
+	public final List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
 	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
@@ -565,12 +561,12 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	
 	public long getExternalHeating() 
 	{
-		return (long) ((ambientTemp - getTemperature()) * THERMAL_CONDUCTIVITY * getExteriorSurfaceArea());
+		return (long) ((ambientTemp - getTemperature()) * QMDConfig.accelerator_thermal_conductivity * getExteriorSurfaceArea());
 	}
 	
 	public long getMaxExternalHeating() 
 	{
-		return (long) (ambientTemp * THERMAL_CONDUCTIVITY * getExteriorSurfaceArea());
+		return (long) (ambientTemp * QMDConfig.accelerator_thermal_conductivity * getExteriorSurfaceArea());
 	}
 
 	
@@ -709,7 +705,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		energyStorage.setEnergyStored(message.energyStorage.getEnergyStored());
 		
 		for (int i = 0; i < tanks.size(); i++) tanks.get(i).readInfo(message.tanksInfo.get(i));
-		beams = message.beams;
+		for(int i = 0; i< message.beams.size(); i++) beams.set(i, message.beams.get(i));
 		
 		isAcceleratorOn = message.isAcceleratorOn;
 		cooling = message.cooling;

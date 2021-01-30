@@ -7,6 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
@@ -170,7 +171,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		 Accelerator acc = getAccelerator();
 
 		 if (!getWorld().isRemote)
-		{
+		 {
 			//beam ports
 			for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
 			{
@@ -183,8 +184,31 @@ public class BeamDiverterLogic extends AcceleratorLogic
 				{
 					acc.output = port;
 				}
-			}		
+			}	
+			
+			
+			if (acc.isValidDipole(acc.getMiddleCoord(), false) || acc.isValidDipole(acc.getMiddleCoord(), true))
+			{
+				acc.getDipoleMap().put(acc.getMiddleCoord().toLong(), new DipoleMagnet(acc,acc.getMiddleCoord()));
+			}
+			
+			
+			for (DipoleMagnet dipole : acc.getDipoleMap().values())
+			{
+				for (IAcceleratorComponent componet : dipole.getComponents().values())
+				{
+					componet.setFunctional(true);
+				}
+
+			}
+			
+			
 		}
+		 
+		 
+		 
+		 
+		 
  
 		 refreshStats();
 		 super.onAcceleratorFormed();
@@ -245,7 +269,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 					{
 						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getAccelerator().output.getExternalFacing().getOpposite());
 						otherStorage.reciveParticle(getAccelerator().output.getExternalFacing().getOpposite(), getAccelerator().beams.get(1).getParticleStack());
-						//System.out.println("Curve");
+						
 					}
 				}
 			}
@@ -279,6 +303,15 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		return 0;
 	}
 	
+	public long getAcceleratorMaxEnergy(Particle particle)
+	{
+		if(particle != null)
+		{
+			return (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getBeamRadius(),2)/(2*particle.getMass())*1000000);
+		}
+		return 0;
+	}
+	
 	@Override
 	public int getBeamLength()
 	{
@@ -291,30 +324,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		return QMDConfig.beamDiverterRadius;
 	}
 	
-	private void refreshStats()
-	{
-		int energy = 0;
-		int heat = 0;
-		int parts= 0;
-		double efficiency =0;
-		
-		double voltage = 0;
-		for(TileAcceleratorMagnet magnet :getAccelerator().getPartMap(TileAcceleratorMagnet.class).values())
-		{
-			heat += magnet.heat;
-			energy += magnet.basePower;
-			parts++;
-			efficiency += magnet.efficiency;
-			getAccelerator().dipoleStrength = magnet.strength;
-		}
-
-		efficiency /= parts;
-		getAccelerator().requiredEnergy =  (int) (energy/efficiency);
-		getAccelerator().rawHeating = heat;
-		getAccelerator().efficiency = efficiency;
-		getAccelerator().acceleratingVoltage=(int) voltage;
-		
-	}
+	
 
 	
 	// Recipe Stuff
@@ -328,12 +338,12 @@ public class BeamDiverterLogic extends AcceleratorLogic
 
 	private void produceBeam()
 	{
+		
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
 			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
 			getAccelerator().beams.get(2).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
 			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
-			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
 			
 			if(particleIn.getMeanEnergy() <= getMaxEnergy())
 			{
@@ -361,6 +371,46 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			resetBeam();
 		}
 	}
+	
+	
+	@Override
+	protected void pull()
+	{
+		if (getAccelerator().input != null && getAccelerator().input.getExternalFacing() != null)
+		{
+
+			TileEntity tile = getAccelerator().WORLD
+					.getTileEntity(getAccelerator().input.getPos().offset(getAccelerator().input.getExternalFacing()));
+			if (tile != null)
+			{
+
+				if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getAccelerator().input.getExternalFacing().getOpposite()))
+				{
+					IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getAccelerator().input.getExternalFacing().getOpposite());
+					ParticleStack stack = otherStorage.extractParticle(getAccelerator().input.getExternalFacing().getOpposite());
+
+					if (stack != null)
+					{
+						getAccelerator().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
+
+						if (!getAccelerator().beams.get(0).reciveParticle(getAccelerator().input.getExternalFacing(),
+								stack))
+						{
+							if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
+							{
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+							}
+							else if (stack.getMeanEnergy() < getAccelerator().beams.get(0).getMinEnergy())
+							{
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	
 	
 	

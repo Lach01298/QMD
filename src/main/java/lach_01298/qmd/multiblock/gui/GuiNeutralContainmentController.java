@@ -6,11 +6,11 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.Units;
 import lach_01298.qmd.containment.Containment;
 import lach_01298.qmd.containment.NeutralContainmentLogic;
 import lach_01298.qmd.containment.tile.IContainmentController;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.util.Units;
 import nc.gui.element.GuiFluidRenderer;
 import nc.gui.element.NCButton;
 import nc.multiblock.gui.GuiLogicMultiblock;

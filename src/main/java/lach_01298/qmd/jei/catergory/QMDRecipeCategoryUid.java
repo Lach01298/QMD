@@ -10,5 +10,6 @@ public class QMDRecipeCategoryUid
 	public static final String DECAY_CHAMBER = QMD.MOD_ID+".decay_chamber";
 	public static final String BEAM_DUMP = QMD.MOD_ID+".beam_dump";
 	public static final String NEUTRAL_CONTAINMENT = QMD.MOD_ID+".neutral_containment";
+	public static final String COLLISION_CHAMBER = QMD.MOD_ID+".collision_chamber";
 	
 }

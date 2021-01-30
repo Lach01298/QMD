@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.MaterialTypes.CanisterType;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
@@ -24,11 +25,11 @@ public class BeamDumpRecipes extends QMDRecipeHandler
 	{
 		//addRecipe(inputParticle(amount,minEnergy,minFocus), outputFluid(amount), maxEnergy)
 		
-		addRecipe(new ParticleStack(Particles.proton,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("hydrogen", 1));
-		addRecipe(new ParticleStack(Particles.deuteron,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("deuterium", 1));
-		addRecipe(new ParticleStack(Particles.alpha,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("helium", 1));
-		addRecipe(new ParticleStack(Particles.triton,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("tritium", 1));
-		addRecipe(new ParticleStack(Particles.helion,(QMDConfig.source_life_time*QMDConfig.source_particle_amount*20)/1000), fluidStack("helium_3", 1));
+		addRecipe(new ParticleStack(Particles.proton,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("hydrogen", 1));
+		addRecipe(new ParticleStack(Particles.deuteron,(QMDConfig.canister_capacity[CanisterType.DEUTERIUM.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("deuterium", 1));
+		addRecipe(new ParticleStack(Particles.triton,(QMDConfig.canister_capacity[CanisterType.TRITIUM.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("tritium", 1));
+		addRecipe(new ParticleStack(Particles.helion,(QMDConfig.canister_capacity[CanisterType.HELIUM3.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("helium_3", 1));
+		addRecipe(new ParticleStack(Particles.alpha,(QMDConfig.canister_capacity[CanisterType.HELIUM.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("helium", 1));
 	}
 
 

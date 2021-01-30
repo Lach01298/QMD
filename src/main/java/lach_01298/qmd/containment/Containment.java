@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.containment.tile.IContainmentController;
 import lach_01298.qmd.containment.tile.IContainmentPart;
 import lach_01298.qmd.multiblock.network.ContainmentFormPacket;
@@ -65,16 +66,13 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 
 	public IContainmentController controller;
 	
+
 	
-	public static final int BASE_MAX_HEAT = 25000;
-	public static final int	BASE_MAX_ENERGY = 40000;
-	public static final double THERMAL_CONDUCTIVITY = 0.005;
-	
-	public final HeatBuffer heatBuffer = new HeatBuffer(BASE_MAX_HEAT);
-	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
+	public final HeatBuffer heatBuffer = new HeatBuffer(QMDConfig.accelerator_base_heat_capacity);
+	public final EnergyStorage energyStorage = new EnergyStorage(QMDConfig.accelerator_base_energy_capacity);
 	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
 	
-	public List<Tank> tanks = Lists.newArrayList(new Tank(Accelerator.BASE_MAX_INPUT, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(Accelerator.BASE_MAX_OUTPUT, null),new Tank(1, null));
+	public List<Tank> tanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(QMDConfig.accelerator_base_output_tank_capacity, null),new Tank(1, null));
 	
 	public Containment(World world)
 	{
@@ -208,12 +206,12 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 	
 	public long getExternalHeating()
 	{
-		return (long) ((ambientTemp - getTemperature()) * THERMAL_CONDUCTIVITY * getExteriorSurfaceArea());
+		return (long) ((ambientTemp - getTemperature()) * QMDConfig.accelerator_thermal_conductivity * getExteriorSurfaceArea());
 	}
 	
 	public long getMaxExternalHeating()
 	{
-		return (long) (ambientTemp  * THERMAL_CONDUCTIVITY * getExteriorSurfaceArea());
+		return (long) (ambientTemp  * QMDConfig.accelerator_thermal_conductivity * getExteriorSurfaceArea());
 	}
 	
 	public int getTemperature() 

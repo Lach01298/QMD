@@ -1,5 +1,7 @@
 package lach_01298.qmd.enums;
 
+import static nc.config.NCConfig.turbine_blade_efficiency;
+
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
@@ -9,6 +11,7 @@ import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.QMDTilePassive;
 import lach_01298.qmd.tile.QMDTileRTG;
 import nc.enumm.IBlockMetaEnum;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
 import nc.radiation.RadSources;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -898,11 +901,48 @@ public class BlockTypes
 		}
 	}
 	
-	
-	
-	
-	
-	
+	public enum TurbineBladeType implements IRotorBladeType
+	{
+		SUPER_ALLOY("super_alloy",QMDConfig.turbine_blade_efficiency[0],QMDConfig.turbine_blade_expansion[0]);
+
+		
+		private final String name;
+		private final double efficiency;
+		private final double expansion;
+		
+		private TurbineBladeType(String name, double efficiency, double expansion) 
+		{
+			this.name = name;
+			this.efficiency = efficiency;
+			this.expansion = expansion;
+		}
+		
+		@Override
+		public String getName() 
+		{
+			return name;
+		}
+		
+		@Override
+		public String toString() 
+		{
+			return getName();
+		}
+		
+		@Override
+		public double getEfficiency() 
+		{
+			return efficiency;
+		}
+		
+		@Override
+		public double getExpansionCoefficient() 
+		{
+			return expansion;
+		}
+		
+	}
+
 }
 
 

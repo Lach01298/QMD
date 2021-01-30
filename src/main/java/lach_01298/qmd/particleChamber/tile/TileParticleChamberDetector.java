@@ -1,9 +1,9 @@
 package lach_01298.qmd.particleChamber.tile;
 
-import lach_01298.qmd.Util;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.BlockTypes.DetectorType;
 import lach_01298.qmd.particleChamber.ParticleChamber;
+import lach_01298.qmd.util.Util;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;

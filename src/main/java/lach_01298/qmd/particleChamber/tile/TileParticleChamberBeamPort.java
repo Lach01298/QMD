@@ -16,6 +16,7 @@ import lach_01298.qmd.io.IIOType;
 import lach_01298.qmd.particle.ITileParticleStorage;
 import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particleChamber.CollisionChamberLogic;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
@@ -75,16 +76,12 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 	
 	public boolean toggleSetting()
 	{
-		if(IONumber == 0 || IONumber == 2)
-		{
-			return false;
-		}
 		if(isMultiblockAssembled())
 		{
-			return getMultiblock().switchOutputs(this.pos);
+			return getMultiblock().toggleSetting(this.pos, IONumber);
 		}
+
 		return false;
-		
 	}
 	
 	
@@ -97,9 +94,15 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 		{
 			if(toggleSetting())
 			{
+				int inputNumberOffset = 0;
+				if (getMultiblock().getLogic() instanceof CollisionChamberLogic)
+				{
+					inputNumberOffset = 1;
+				}
+				
+				
 				player.sendMessage(new TextComponentString(Lang.localise("qmd.block.particle_chamber_port_setting_toggle") + " "
-						+ TextFormatting.LIGHT_PURPLE + Lang.localise("qmd.block.particle_chamber_setting."+ getIONumber()) + " "
-						+ TextFormatting.WHITE + Lang.localise("qmd.block.port.mode")));
+						+ TextFormatting.LIGHT_PURPLE +" " + (getIONumber()-inputNumberOffset)));
 			}
 			else
 			{
@@ -168,9 +171,9 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 		{
 			if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 			{
-				if (!getTanks().isEmpty())
+				if (!getParticleBeams().isEmpty())
 				{
-					return (T) getTanks().get(IONumber);
+					return (T) getParticleBeams().get(IONumber);
 				}
 				return null;
 			}
@@ -179,7 +182,7 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 		}
 
 		@Override
-		public List<? extends ParticleStorage> getTanks()
+		public List<? extends ParticleStorage> getParticleBeams()
 		{
 			if (!isMultiblockAssembled())
 				return backupTanks;
@@ -188,7 +191,7 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 	
 	public void setIONumber(int number)
 	{
-		if(number >= 0 && number <= 3)
+		if(number >= 0)
 		{
 			IONumber= number;
 		}

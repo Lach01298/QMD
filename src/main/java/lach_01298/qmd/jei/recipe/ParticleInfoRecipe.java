@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
-import lach_01298.qmd.Units;
+import lach_01298.qmd.util.Units;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.ingredients.IIngredients;

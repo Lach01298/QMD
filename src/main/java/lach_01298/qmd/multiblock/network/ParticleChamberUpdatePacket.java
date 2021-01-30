@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import lach_01298.qmd.ByteUtil;
+import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.util.ByteUtil;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -62,7 +63,13 @@ public class ParticleChamberUpdatePacket extends MultiblockUpdatePacket
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++)
 		{
-			beams.add(ByteUtil.readBufBeam(buf));
+			ParticleStorage storage = ByteUtil.readBufBeam(buf);
+			ParticleStorageAccelerator beam = new ParticleStorageAccelerator();
+			beam.setParticleStack(storage.getParticleStack());
+			beam.setMaxEnergy(storage.getMaxEnergy());
+			beam.setMinEnergy(storage.getMinEnergy());
+			beam.setCapacity(storage.getCapacity());
+			beams.add(beam);
 		}
 	}
 

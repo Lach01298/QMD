@@ -39,29 +39,13 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
+		doStandardNullControllerResponse(controller);
 		super.onMachineAssembled(controller);
-		super.onMachineAssembled(controller);
-		if (!getWorld().isRemote && getPartPosition().isFrame())
-		{
-			if (getWorld().getBlockState(getPos()).withProperty(BlockProperties.FRAME, false) != null)
-			{
-				getWorld().setBlockState(getPos(),
-						getWorld().getBlockState(getPos()).withProperty(BlockProperties.FRAME, true), 2);
-			}
-		}
 	}
 
 	@Override
 	public void onMachineBroken()
 	{
-		if (!getWorld().isRemote && getPartPosition().isFrame())
-		{
-			if (getWorld().getBlockState(getPos()).withProperty(BlockProperties.FRAME, false) != null)
-			{
-				getWorld().setBlockState(getPos(),
-						getWorld().getBlockState(getPos()).withProperty(BlockProperties.FRAME, false), 2);
-			}
-		}
 		super.onMachineBroken();
 	}
 
@@ -113,6 +97,13 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	public Object[] getTemperature(Context context, Arguments args)
 	{
 		return new Object[] { isMultiblockAssembled() ? getMultiblock().getTemperature() : 0};
+	}
+	
+	@Callback(doc = "--function():int Returns maximum operating temperature.")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getMaxTemperature(Context context, Arguments args)
+	{
+		return new Object[] { isMultiblockAssembled() ? getMultiblock().maxOperatingTemp : 0};
 	}
 	
 	
@@ -433,7 +424,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 		return new Object[] {false};
 	}
 	
-	@Callback(doc = "--function(x,y,z):string Returns beam port's mode. Returns invaild if invaild beam port otherwise either input, output or disabled")
+	@Callback(doc = "--function(x,y,z):string Returns beam port's mode. Returns invalid if invalid beam port otherwise either input, output or disabled")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getBeamPortMode(Context context, Arguments args) 
 	{
@@ -450,7 +441,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 		return new Object[] {"invalid"};
 	}
 	
-	@Callback(doc = "--function(x,y,z):string Returns beam port's switch mode. Returns invaild if invaild beam port otherwise either input or output")
+	@Callback(doc = "--function(x,y,z):string Returns beam port's switch mode. Returns invalid if invalid beam port otherwise either input or output")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getBeamPortSwitchMode(Context context, Arguments args) 
 	{

@@ -22,5 +22,5 @@ qmd.particle.charmed_eta.desc=Eta Mesons are flavourless mesons meaning their fl
 qmd.particle.bottom_eta.desc=Eta Mesons are flavourless mesons meaning their flavour numbers like strangeness and isospin are 0.
 
 
-gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminium, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum. Default:[60,55,115,75,70,90,110,130,95,85,165,50,100,195,135,80,120,65,125,180,105,140,175,160, 155,170,150,145,185,200,190,205]
+gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: [water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminium, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum].
 

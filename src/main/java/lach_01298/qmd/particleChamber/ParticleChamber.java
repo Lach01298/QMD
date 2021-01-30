@@ -366,9 +366,9 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 		return logic.getContainer(player);
 	}
 
-	public boolean switchOutputs(BlockPos pos)
+	public boolean toggleSetting(BlockPos pos, int ioNumber)
 	{
-		return logic.switchOutputs(pos);	
+		return logic.toggleSetting(pos,ioNumber);	
 	}
 
 	// Multiblock Validators

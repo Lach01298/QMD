@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import lach_01298.qmd.Units;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.util.Units;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.util.Lang;

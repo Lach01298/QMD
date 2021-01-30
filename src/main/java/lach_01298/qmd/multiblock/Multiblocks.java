@@ -10,9 +10,11 @@ import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
@@ -29,6 +31,7 @@ import lach_01298.qmd.containment.tile.TileContainmentLaser;
 import lach_01298.qmd.containment.tile.TileContainmentPort;
 import lach_01298.qmd.containment.tile.TileContainmentVent;
 import lach_01298.qmd.particleChamber.BeamDumpLogic;
+import lach_01298.qmd.particleChamber.CollisionChamberLogic;
 import lach_01298.qmd.particleChamber.DecayChamberLogic;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.ParticleChamberLogic;
@@ -63,6 +66,8 @@ public class Multiblocks
 		Accelerator.PART_CLASSES.add(TileAcceleratorYoke.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorRFCavity.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorSource.class);
+		Accelerator.PART_CLASSES.add(TileAcceleratorPort.class);
+		Accelerator.PART_CLASSES.add(TileAcceleratorComputerPort.class);
 		
 		Pipe.PART_CLASSES.add(IPipeController.class);
 		
@@ -95,6 +100,7 @@ public class Multiblocks
 			ParticleChamber.LOGIC_MAP.put("target_chamber",TargetChamberLogic.class.getConstructor(ParticleChamberLogic.class));
 			ParticleChamber.LOGIC_MAP.put("decay_chamber",DecayChamberLogic.class.getConstructor(ParticleChamberLogic.class));
 			ParticleChamber.LOGIC_MAP.put("beam_dump",BeamDumpLogic.class.getConstructor(ParticleChamberLogic.class));
+			ParticleChamber.LOGIC_MAP.put("collision_chamber",CollisionChamberLogic.class.getConstructor(ParticleChamberLogic.class));
 			
 			Containment.LOGIC_MAP.put("", ContainmentLogic.class.getConstructor(ContainmentLogic.class));
 			Containment.LOGIC_MAP.put("neutral_containment",NeutralContainmentLogic.class.getConstructor(ContainmentLogic.class));

@@ -3,9 +3,9 @@ package lach_01298.qmd.jei.recipe;
 import java.awt.Color;
 import java.util.List;
 
-import lach_01298.qmd.Units;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.util.Units;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;

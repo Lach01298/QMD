@@ -10,6 +10,7 @@ import lach_01298.qmd.jei.catergory.AcceleratorCoolingCategory;
 import lach_01298.qmd.jei.catergory.AcceleratorSourceCategory;
 import lach_01298.qmd.jei.catergory.BeamDumpCategory;
 import lach_01298.qmd.jei.catergory.CellFillingCategory;
+import lach_01298.qmd.jei.catergory.CollisionChamberCategory;
 import lach_01298.qmd.jei.catergory.DecayChamberCategory;
 import lach_01298.qmd.jei.catergory.IrradiatorCategory;
 import lach_01298.qmd.jei.catergory.IrradiatorFuelCategory;
@@ -24,6 +25,7 @@ import lach_01298.qmd.jei.ingredient.ParticleStackRenderer;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipeMaker;
 import lach_01298.qmd.jei.recipe.BeamDumpRecipeMaker;
+import lach_01298.qmd.jei.recipe.CollisionChamberRecipeMaker;
 import lach_01298.qmd.jei.recipe.DecayChamberRecipeMaker;
 import lach_01298.qmd.jei.recipe.NeutralContainmentRecipeMaker;
 import lach_01298.qmd.jei.recipe.ParticleInfoRecipeMaker;
@@ -79,6 +81,7 @@ public class QMDJEI implements IModPlugin
 				new ParticleInfoCategory(guiHelper),
 				new TargetChamberCategory(guiHelper),
 				new DecayChamberCategory(guiHelper),
+				new CollisionChamberCategory(guiHelper),
 				JEIProcessorHandler.ORE_LEACHER.getCategory(guiHelper),
 				JEIProcessorHandler.IRRADIATOR.getCategory(guiHelper),
 				JEIProcessorHandler.IRRADIATOR_FUEL.getCategory(guiHelper),
@@ -107,6 +110,9 @@ public class QMDJEI implements IModPlugin
 		
 		registry.addRecipes(DecayChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.DECAY_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.decayChamberController),QMDRecipeCategoryUid.DECAY_CHAMBER);
+		
+		registry.addRecipes(CollisionChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.COLLISION_CHAMBER);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.collisionChamberController),QMDRecipeCategoryUid.COLLISION_CHAMBER);
 		
 		registry.addRecipes(JEIProcessorHandler.ORE_LEACHER.getJEIRecipes(guiHelper), JEIProcessorHandler.ORE_LEACHER.getUUID());
 		registry.addRecipeCatalyst(JEIProcessorHandler.ORE_LEACHER.getCrafters().get(0),JEIProcessorHandler.ORE_LEACHER.getUUID());

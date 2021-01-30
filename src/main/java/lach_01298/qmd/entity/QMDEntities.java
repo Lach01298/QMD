@@ -13,6 +13,8 @@ public class QMDEntities
 	public static void register() 
 	{
 		registerEntity("gamma_flash", EntityGammaFlash.class, 0);
+		registerEntity("lepton_beam", EntityLeptonBeam.class, 1);
+		registerEntity("gluon_beam", EntityGluonBeam.class, 2);
 	}
 	
 	private static void registerEntity(String name, Class<? extends Entity> clazz, int entityId) {

@@ -2,6 +2,8 @@ package lach_01298.qmd.enums;
 
 
 import static lach_01298.qmd.config.QMDConfig.*;
+
+import lach_01298.qmd.config.QMDConfig;
 import nc.enumm.IFissionFuelEnum;
 import nc.enumm.IMetaEnum;
 import net.minecraft.util.IStringSerializable;
@@ -188,7 +190,9 @@ public class MaterialTypes
 		NIOBIUM_TIN("niobium_tin", 1), 
 		STAINLESS_STEEL("stainless_steel", 2),
 		NIOBIUM_TITANIUM("niobium_titanium", 3),
-		OSMIRIDIUM("osmiridium", 4);
+		OSMIRIDIUM("osmiridium", 4),
+		NICHROME("nichrome", 5),
+		SUPER_ALLOY("super_alloy", 6);
 		 
 		 
 		private String name;
@@ -274,7 +278,10 @@ public class MaterialTypes
 		WIRE_BSCCO("wire_bscco", 4),
 		ROD_ND_YAG("rod_nd_yag", 5),
 		WIRE_GOLD_TUNGSTEN("wire_gold_tungsten", 6),
-		WIRE_CHAMBER_CASING("wire_chamber_casing", 7);
+		WIRE_CHAMBER_CASING("wire_chamber_casing", 7),
+		MAGNET_ND("magnet_nd", 8),
+		ACCELERATING_BARREL("accelerating_barrel", 9),
+		LASER_ASSEMBLY("laser_assembly", 10);
 		private String name;
 		private int id;
 
@@ -350,9 +357,7 @@ public class MaterialTypes
 		COPPER_OXIDE("copper_oxide", 4),
 		HAFNIUM_OXIDE("hafnium_oxide", 5),
 		STRONTIUM_CHLORIDE("strontium_chloride", 6),
-		OXALIC_ACID("oxalic_acid", 7),
-		STRONTIUM_CHLORIDE_OXALIC_ACID_BLEND("strontium_chloride_oxalic_acid_blend", 8),
-		STRONTIUM_TITANYL_DIOXALATE("strontium_titanyl_dioxalate", 9); 
+		ZINC_SULFIDE("zinc_sulfide", 7); 
 		
 		private String name;
 		private int id;
@@ -496,22 +501,29 @@ public class MaterialTypes
 		}
 	}
 	
-	public static enum ExoticCellType implements IStringSerializable, IMetaEnum
+	
+	public static enum CellType implements IItemCapacity
 	{
-		EMPTY("empty", 0),
-		ANTIHYDROGEN("antihydrogen", 1),
-		ANTIDEUTERIUM("antideuterium",2),
-		ANTITRITIUM("antitritium", 3),
-		ANTIHELIUM3("antihelium3", 4),
-		ANTIHELIUM("antihelium", 5);
+		EMPTY("empty", 0, QMDConfig.cell_capacity[0]),
+		ANTIHYDROGEN("antihydrogen", 1, QMDConfig.cell_capacity[1]),
+		ANTIDEUTERIUM("antideuterium",2,QMDConfig.cell_capacity[2]),
+		ANTITRITIUM("antitritium", 3,QMDConfig.cell_capacity[3]),
+		ANTIHELIUM3("antihelium3", 4, QMDConfig.cell_capacity[4]),
+		ANTIHELIUM("antihelium", 5, QMDConfig.cell_capacity[5]),
+		POSITRONIUM("positronium", 6, QMDConfig.cell_capacity[6]),
+		MUONIUM("muonium",7, QMDConfig.cell_capacity[7]),
+		TAUONIUM("tauonium", 8, QMDConfig.cell_capacity[8]),
+		GLUEBALLS("glueballs", 9, QMDConfig.cell_capacity[9]);
 		 
 		private String name;
 		private int id;
+		private int capacity;
 
-		private ExoticCellType(String name, int id)
+		private CellType(String name, int id, int capacity)
 		{
 			this.name = name;
 			this.id = id;
+			this.capacity = capacity;
 		}
 
 		@Override
@@ -531,7 +543,108 @@ public class MaterialTypes
 		{
 			return id;
 		}
+		
+		@Override
+		public int getCapacity()
+		{
+			return capacity;
+		}
 	}
+	
+	public static enum CanisterType implements IItemCapacity
+	{
+		EMPTY("empty", 0, QMDConfig.canister_capacity[0]),
+		HYDROGEN("hydrogen", 1, QMDConfig.canister_capacity[1]),
+		DEUTERIUM("deuterium",2,QMDConfig.canister_capacity[2]),
+		TRITIUM("tritium", 3,QMDConfig.canister_capacity[3]),
+		HELIUM3("helium3", 4, QMDConfig.canister_capacity[4]),
+		HELIUM("helium", 5, QMDConfig.canister_capacity[5]),
+		DIBORANE("diborane", 6, QMDConfig.canister_capacity[6]);
+		 
+		private String name;
+		private int id;
+		private int capacity;
+
+		private CanisterType(String name, int id, int capacity)
+		{
+			this.name = name;
+			this.id = id;
+			this.capacity = capacity;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+		
+		@Override
+		public int getCapacity()
+		{
+			return capacity;
+		}
+	}
+	
+	
+	public static enum SourceType implements IItemCapacity
+	{
+		TUNGSTEN_FILAMENT("tungsten_filament", 0, QMDConfig.source_capacity[0]),
+		SODIUM_22("sodium_22", 1, QMDConfig.source_capacity[1]),
+		COBALT_60("cobalt_60",2,QMDConfig.source_capacity[2]),
+		IRIDIUM_192("iridium_192", 3, QMDConfig.source_capacity[3]),
+		CALCIUM_48("calcium_48", 4, QMDConfig.source_capacity[4]);
+		
+		 
+		private String name;
+		private int id;
+		private int capacity;
+
+		private SourceType(String name, int id, int capacity)
+		{
+			this.name = name;
+			this.id = id;
+			this.capacity = capacity;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+		
+		@Override
+		public int getCapacity()
+		{
+			return capacity;
+		}
+	}
+	
+	
+	
 	
 	public static enum CoperniciumType implements IStringSerializable, IMetaEnum 
 	{

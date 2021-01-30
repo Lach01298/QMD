@@ -100,12 +100,12 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 			 getMultiblock().controller = contr;
 		}
 		
-		getMultiblock().energyStorage.setStorageCapacity(Containment.BASE_MAX_ENERGY * getCapacityMultiplier());
-		getMultiblock().energyStorage.setMaxTransfer(Containment.BASE_MAX_ENERGY * getCapacityMultiplier());
-		getMultiblock().heatBuffer.setHeatCapacity(Containment.BASE_MAX_HEAT * getCapacityMultiplier());
+		getMultiblock().energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getMultiblock().energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getMultiblock().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
 		getMultiblock().ambientTemp = 273 + (int) (getWorld().getBiome(getMultiblock().getMiddleCoord()).getTemperature(getMultiblock().getMiddleCoord())*20F);
-		getMultiblock().tanks.get(0).setCapacity(Accelerator.BASE_MAX_INPUT * getCapacityMultiplier());
-		getMultiblock().tanks.get(1).setCapacity(Accelerator.BASE_MAX_OUTPUT * getCapacityMultiplier());
+		getMultiblock().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
+		getMultiblock().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
 		
 		if(!getMultiblock().cold)
 		{

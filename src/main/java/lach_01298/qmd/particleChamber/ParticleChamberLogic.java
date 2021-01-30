@@ -221,7 +221,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							getMultiblock().beams.get(0).setParticleStack(otherStorage.extractParticle(face.getOpposite()));
+							getMultiblock().beams.get(port.getIONumber()).setParticleStack(otherStorage.extractParticle(face.getOpposite()));
 						}
 					}
 				}
@@ -253,7 +253,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		}
 	}
 
-	public boolean switchOutputs(BlockPos pos)
+	public boolean toggleSetting(BlockPos pos,int ioNumber)
 	{
 		return false;	
 	}

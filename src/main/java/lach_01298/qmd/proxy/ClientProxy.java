@@ -1,5 +1,8 @@
 package lach_01298.qmd.proxy;
 
+import static lach_01298.qmd.config.QMDConfig.clientPreInit;
+
+import lach_01298.qmd.ArmPositionHandler;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.entity.EntityGammaFlash;
@@ -21,6 +24,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -33,8 +37,7 @@ public class ClientProxy extends CommonProxy
 	public void preInit(FMLPreInitializationEvent preEvent)
 	{
 		super.preInit(preEvent);
-		QMDBlocks.registerRenders();
-		QMDItems.registerRenders();
+		clientPreInit();
 		QMDRenderHandler.init();
 		
 	}
@@ -49,6 +52,7 @@ public class ClientProxy extends CommonProxy
 	public void postInit(FMLPostInitializationEvent postEvent)
 	{
 		super.postInit(postEvent);
+		MinecraftForge.EVENT_BUS.register(new ArmPositionHandler());
 	}
 
 

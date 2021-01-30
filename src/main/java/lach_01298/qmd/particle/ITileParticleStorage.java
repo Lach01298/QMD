@@ -4,9 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import nc.tile.ITile;
-
-public interface ITileParticleStorage extends ITile
+public interface ITileParticleStorage
 {
-	public @Nonnull List<? extends ParticleStorage> getTanks();
+	public @Nonnull List<? extends ParticleStorage> getParticleBeams();
 }

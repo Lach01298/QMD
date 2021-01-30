@@ -6,7 +6,7 @@ public class ParticleStorageAccelerator extends ParticleStorage
 {
 	public ParticleStorageAccelerator()
 	{
-		super(null,Integer.MAX_VALUE,Integer.MAX_VALUE);
+		super(null,Long.MAX_VALUE,Integer.MAX_VALUE);
 	
 	}
 	
@@ -15,7 +15,7 @@ public class ParticleStorageAccelerator extends ParticleStorage
 		this.maxEnergy = maxEnergy;
 	}
 	
-	public void setMinEnergy(int minEnergy)
+	public void setMinEnergy(long minEnergy)
 	{
 		this.minEnergy = minEnergy;
 	}

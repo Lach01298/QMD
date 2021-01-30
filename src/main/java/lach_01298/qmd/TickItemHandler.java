@@ -30,7 +30,7 @@ public class TickItemHandler
 	public void updateWorldTickItems(TickEvent.WorldTickEvent event)
 	{
 
-		if (event.phase != TickEvent.Phase.START || event.side == Side.CLIENT || !(event.world instanceof WorldServer))
+		/* if (event.phase != TickEvent.Phase.START || event.side == Side.CLIENT || !(event.world instanceof WorldServer))
 		{
 			return;
 		}
@@ -93,7 +93,7 @@ public class TickItemHandler
 					}
 				}
 			}
-		}
+		} */
 	}
 	
 	

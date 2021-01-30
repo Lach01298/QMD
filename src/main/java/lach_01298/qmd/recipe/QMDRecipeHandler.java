@@ -10,7 +10,7 @@ import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.Util;
+import lach_01298.qmd.util.Util;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.config.NCConfig;
 import nc.recipe.ingredient.IFluidIngredient;

@@ -41,19 +41,9 @@
                     "layer0": "qmd:items/materials/dust/chemical/strontium_chloride"
                 }
             },
-                "oxalic_acid": {
+                "zinc_sulfide": {
                 "textures": {
-                    "layer0": "qmd:items/materials/dust/chemical/oxalic_acid"
-                }
-            },
-                "strontium_chloride_oxalic_acid_blend": {
-                "textures": {
-                    "layer0": "qmd:items/materials/dust/chemical/strontium_chloride_oxalic_acid_blend"
-                }
-            },
-                "strontium_titanyl_dioxalate": {
-                "textures": {
-                    "layer0": "qmd:items/materials/dust/chemical/strontium_titanyl_dioxalate"
+                    "layer0": "qmd:items/materials/dust/chemical/zinc_sulfide"
                 }
             }
             

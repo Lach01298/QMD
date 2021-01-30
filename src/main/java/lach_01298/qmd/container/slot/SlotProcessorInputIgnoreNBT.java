@@ -1,5 +1,6 @@
 package lach_01298.qmd.container.slot;
 
+import lach_01298.qmd.item.IItemAmount;
 import nc.container.slot.SlotProcessorInput;
 import nc.recipe.ProcessorRecipeHandler;
 import net.minecraft.inventory.IInventory;
@@ -18,7 +19,6 @@ public class SlotProcessorInputIgnoreNBT extends SlotProcessorInput
 	public boolean isItemValid(ItemStack stack) {
 		
 		ItemStack copy = stack.copy();
-		copy.setTagCompound(new NBTTagCompound());
-		return recipeHandler.isValidItemInput(copy);
+		return recipeHandler.isValidItemInput(IItemAmount.cleanNBT(copy));
 	}
 }

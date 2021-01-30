@@ -19,7 +19,6 @@ public class TileAcceleratorCasing extends TileAcceleratorPart
 	public void onMachineAssembled(Accelerator controller)
 	{
 		super.onMachineAssembled(controller);
-		super.onMachineAssembled(controller);
 		if (!getWorld().isRemote && getPartPosition().isFrame())
 		{
 			if (getWorld().getBlockState(getPos()).withProperty(BlockProperties.FRAME, false) != null)

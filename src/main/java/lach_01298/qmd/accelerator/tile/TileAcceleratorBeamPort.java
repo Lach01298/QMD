@@ -218,13 +218,13 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	{
 		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			if (!getTanks().isEmpty())
+			if (!getParticleBeams().isEmpty())
 			{
-				if(mode ==EnumTypes.IOType.OUTPUT && getTanks().size() >=2)
+				if(mode ==EnumTypes.IOType.OUTPUT && getParticleBeams().size() >=2)
 				{
-					return (T) getTanks().get(1);
+					return (T) getParticleBeams().get(1);
 				}
-				return (T) getTanks().get(0);
+				return (T) getParticleBeams().get(0);
 			}
 			return null;
 		}
@@ -233,7 +233,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	}
 
 		@Override
-		public List<? extends ParticleStorage> getTanks()
+		public List<? extends ParticleStorage> getParticleBeams()
 		{
 			if (!isMultiblockAssembled())
 				return backupTanks;

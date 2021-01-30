@@ -58,6 +58,12 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		addRecipe(new ParticleStack(Particles.antitriton), new ParticleStack(Particles.positron), new ParticleStack(Particles.electron_neutrino), new ParticleStack(Particles.antihelion) ,Long.MAX_VALUE, 1, 19);
 		
 		addDecayRecipe(new ParticleStack(Particles.glueball), new ParticleStack(Particles.kaon_plus), null, new ParticleStack(Particles.kaon_minus), 0.33);
+		
+		addDecayRecipe(new ParticleStack(Particles.sigma_plus), new ParticleStack(Particles.proton), new ParticleStack(Particles.pion_naught), null, 0.52);
+		addDecayRecipe(new ParticleStack(Particles.antisigma_plus), null, new ParticleStack(Particles.pion_naught), new ParticleStack(Particles.antiproton), 0.52);
+		
+		addDecayRecipe(new ParticleStack(Particles.sigma_minus), null,  new ParticleStack(Particles.neutron), new ParticleStack(Particles.pion_minus), 0.99);
+		addDecayRecipe(new ParticleStack(Particles.antisigma_minus),  new ParticleStack(Particles.pion_plus), new ParticleStack(Particles.antineutron), null, 0.99);
 	}
 	
 	
@@ -70,7 +76,7 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		
 		if(particleOut1 != null)
 		{
-			outputMass +=  particleOut1.getParticle().getMass();
+			outputMass +=  particleOut1.getParticle().getMass() * particleOut1.getAmount();
 			p1 = new ParticleIngredient(particleOut1);
 		}
 		else
@@ -80,7 +86,7 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		
 		if(particleOut2 != null)
 		{
-			outputMass +=  particleOut2.getParticle().getMass();
+			outputMass +=  particleOut2.getParticle().getMass() * particleOut2.getAmount();
 			p2 = new ParticleIngredient(particleOut2);
 		}
 		else
@@ -90,7 +96,7 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		
 		if(particleOut3 != null)
 		{
-			outputMass +=  particleOut3.getParticle().getMass();
+			outputMass +=  particleOut3.getParticle().getMass() * particleOut3.getAmount();
 			p3 = new ParticleIngredient(particleOut3);
 		}
 		else
@@ -99,7 +105,7 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		}
 		
 		
-		long energyReleased = (long)((particleIn.getParticle().getMass() - outputMass) * 1000);
+		long energyReleased = (long)((particleIn.getParticle().getMass() * particleIn.getAmount() - outputMass) * 1000);
 		addRecipe(particleIn, p1, p2, p3, Long.MAX_VALUE, crossSection, energyReleased);	
 	}
 

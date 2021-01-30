@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import lach_01298.qmd.containment.tile.IContainmentController;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
@@ -19,13 +18,13 @@ import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
+import lach_01298.qmd.item.IItemAmount;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
@@ -51,7 +50,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	protected TileAcceleratorSource source;
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	
-	private int tick = 0;
+	
 	
 	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
@@ -419,6 +418,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				{
 					this.source = source;
 				}
+				//ports
+				for (TileAcceleratorPort port :acc.getPartMap(TileAcceleratorPort.class).values())
+				{
+					port.setSource(this);
+				}
 			}
 
 			 refreshStats();
@@ -439,6 +443,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
 		getAccelerator().beams.get(0).setParticleStack(null);
+		getAccelerator().beams.get(1).setParticleStack(null);
 		pull();		
 		
 		if (getAccelerator().isAcceleratorOn)
@@ -469,61 +474,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		return super.onUpdateServer();
 	}
 	
-	private void refreshStats()
-	{
-		int energy = 0;
-		int heat = 0;
-		int parts= 0;
-		double efficiency =0;
-		double strength =0;
-		double voltage = 0;
-		for(TileAcceleratorMagnet magnet :getAccelerator().getPartMap(TileAcceleratorMagnet.class).values())
-		{
-			heat += magnet.heat;
-			energy += magnet.basePower;
-			parts++;
-			efficiency += magnet.efficiency;
-		}
-		for(TileAcceleratorRFCavity cavity :getAccelerator().getPartMap(TileAcceleratorRFCavity.class).values())
-		{
-			heat += cavity.heat;
-			energy += cavity.basePower;
-			parts++;
-			efficiency += cavity.efficiency;
-			
-		}
-		
-		for (QuadrupoleMagnet quad : getAccelerator().getQuadrupoleMap().values())
-		{
-			for (IAcceleratorComponent componet : quad.getComponents().values())
-			{
-				if(componet instanceof TileAcceleratorMagnet)
-				{
-					TileAcceleratorMagnet magnet = (TileAcceleratorMagnet) componet;
-					strength += magnet.strength/4;
-				}
-			}
-		}
-		
-		for (RFCavity cavity : getAccelerator().getRFCavityMap().values())
-		{
-			for (IAcceleratorComponent componet : cavity.getComponents().values())
-			{
-				if(componet instanceof TileAcceleratorRFCavity)
-				{
-					TileAcceleratorRFCavity cav = (TileAcceleratorRFCavity) componet;
-					voltage += cav.voltage/8d;
-				}
-			}
-		}
-		efficiency /= parts;
-		
-		getAccelerator().requiredEnergy =  (int) (energy/efficiency);
-		getAccelerator().rawHeating = heat;
-		getAccelerator().quadrupoleStrength = strength;
-		getAccelerator().efficiency = efficiency;
-		getAccelerator().acceleratingVoltage=(int) voltage;				
-	}
+	
 	
 	
 	// Recipe Stuff
@@ -536,6 +487,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 	private void produceSourceBeam()
 	{
+		
+		
 		IParticleIngredient particleIngredient = recipeInfo.getRecipe().getParticleProducts().get(0);
 		getAccelerator().beams.get(1).setParticleStack(particleIngredient.getStack());
 		if(getAccelerator().beams.get(1).getParticleStack() != null)
@@ -544,66 +497,58 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			
 			if(getAccelerator().computerControlled)
 			{
-				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*(getAccelerator().energyPercentage/100d)));
+				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage * Math.abs(particle.getParticle().getCharge()) * (getAccelerator().energyPercentage/100d)));
 			}
 			else
 			{
-				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage * Math.abs(particle.getParticle().getCharge()) * getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
 			}
 			
-			particle.addFocus(((getAccelerator().quadrupoleStrength))-getBeamLength()*QMDConfig.beamAttenuationRate);
+			particle.addFocus(getAccelerator().quadrupoleStrength * Math.abs(particle.getParticle().getCharge())-getBeamLength() * QMDConfig.beamAttenuationRate);
 			if(particle.getFocus() <= 0)
 			{
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
 			
-			useItemDurability();
+			useItemAmount();
 		}
 	}
 
 	private void produceBeam()
 	{
-		
 		ParticleStack inputBeam = getAccelerator().beams.get(0).getParticleStack();
 		
-		getAccelerator().beams.get(1).setParticleStack(inputBeam.copy());
-		ParticleStack outputBeam = getAccelerator().beams.get(1).getParticleStack();
-		if(outputBeam != null)
+		if(inputBeam != null)
 		{
-			outputBeam.addFocus(((getAccelerator().quadrupoleStrength))-getBeamLength()*QMDConfig.beamAttenuationRate);
-			outputBeam.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(getAccelerator().beams.get(1).getParticleStack().getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
-			if(outputBeam.getFocus() <= 0)
+			getAccelerator().beams.get(1).setParticleStack(inputBeam.copy());
+			ParticleStack outputBeam = getAccelerator().beams.get(1).getParticleStack();
+			if(outputBeam != null)
 			{
-				outputBeam = null;
-				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+				outputBeam.addFocus(getAccelerator().quadrupoleStrength * Math.abs(outputBeam.getParticle().getCharge())-getBeamLength() * QMDConfig.beamAttenuationRate);
+				outputBeam.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(outputBeam.getParticle().getCharge())*getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d));
+				if(outputBeam.getFocus() <= 0)
+				{
+					outputBeam = null;
+					getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+				}
 			}
 		}
-		
-		
 	}
 
-	private void useItemDurability()
+	private void useItemAmount()
 	{
-		if(tick >= 20)
+		if(source.getInventoryStacks().get(0).getItem() instanceof IItemAmount)
 		{
-			if(source.getInventoryStacks().get(0).attemptDamageItem(1, rand, null))
-			{
-				source.getInventoryStacks().set(0, ItemStack.EMPTY);
-			}
-			tick = 0;
+			IItemAmount item = (IItemAmount) source.getInventoryStacks().get(0).getItem();
+			source.getInventoryStacks().set(0,item.empty(source.getInventoryStacks().get(0), 1));
 		}
-		else
-		{
-			tick++;
-		}	
 	}
 
 
 	protected void refreshRecipe() 
 	{
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
-		ItemStack item =source.getInventoryStacks().get(0).copy();
-		item.setItemDamage(0);
+		ItemStack item = IItemAmount.cleanNBT(source.getInventoryStacks().get(0));
 		items.add(item);
 		recipeInfo = accelerator_source.getRecipeInfoFromInputs(items, new ArrayList<Tank>(), new ArrayList<ParticleStack>());
 	}

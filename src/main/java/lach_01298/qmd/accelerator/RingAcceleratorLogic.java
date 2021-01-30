@@ -48,7 +48,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		super(oldLogic);
 		getAccelerator().beams.add(new ParticleStorageAccelerator()); // synchroton light
-		getAccelerator().beams.get(0).setMinEnergy(QMDConfig.minimium_accelerator_ring_input_particle_energy);
+		
 	}
 
 	@Override
@@ -266,10 +266,11 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public void onAcceleratorFormed()
 	{
 		Accelerator acc = getAccelerator();
-
+		
 		if (!getWorld().isRemote)
 		{
-
+			acc.beams.get(0).setMinEnergy(QMDConfig.minimium_accelerator_ring_input_particle_energy);
+			
 			// beam
 			for (BlockPos pos : getinteriorAxisPositions())
 			{
@@ -305,14 +306,14 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 					}
 					else if (acc.isValidDipole(beam.getPos(), false))
 					{
-						acc.dipoleMap.put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
+						acc.getDipoleMap().put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
 					}
 				}
 			}
 
 			acc.RFCavityNumber = acc.getRFCavityMap().size();
 			acc.quadrupoleNumber = acc.getQuadrupoleMap().size();
-			acc.dipoleNumber = acc.dipoleMap.size();
+			acc.dipoleNumber = acc.getDipoleMap().size();
 
 		
 			for (RFCavity cavity : acc.getRFCavityMap().values())
@@ -334,7 +335,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 
 			}
 
-			for (DipoleMagnet dipole : acc.dipoleMap.values())
+			for (DipoleMagnet dipole : acc.getDipoleMap().values())
 			{
 				for (IAcceleratorComponent componet : dipole.getComponents().values())
 				{
@@ -389,75 +390,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	}
 
 	
-	private void refreshStats()
-	{
-		getAccelerator().dipoleStrength = 0;
-		int energy = 0;
-		long heat = 0;
-		int parts= 0;
-		double efficiency =0;
-		double quadStrength =0;
-		double voltage = 0;
-		for(TileAcceleratorMagnet magnet :getAccelerator().getPartMap(TileAcceleratorMagnet.class).values())
-		{
-			heat += magnet.heat;
-			energy += magnet.basePower;
-			parts++;
-			efficiency += magnet.efficiency;
-		}
-		for(TileAcceleratorRFCavity cavity :getAccelerator().getPartMap(TileAcceleratorRFCavity.class).values())
-		{
-			heat += cavity.heat;
-			energy += cavity.basePower;
-			parts++;
-			efficiency += cavity.efficiency;
-			
-		}
-		
-		for (QuadrupoleMagnet quad : getAccelerator().getQuadrupoleMap().values())
-		{
-			for (IAcceleratorComponent componet : quad.getComponents().values())
-			{
-				if(componet instanceof TileAcceleratorMagnet)
-				{
-					TileAcceleratorMagnet magnet = (TileAcceleratorMagnet) componet;
-					quadStrength += magnet.strength/4;
-				}
-			}
-		}
-		
-		for (RFCavity cavity : getAccelerator().getRFCavityMap().values())
-		{
-			for (IAcceleratorComponent componet : cavity.getComponents().values())
-			{
-				if(componet instanceof TileAcceleratorRFCavity)
-				{
-					TileAcceleratorRFCavity cav = (TileAcceleratorRFCavity) componet;
-					voltage += cav.voltage/8d;
-				}
-			}
-		}
-		
-		for (DipoleMagnet dipole : getAccelerator().dipoleMap.values())
-		{
-			for (IAcceleratorComponent componet : dipole.getComponents().values())
-			{
-				if(componet instanceof TileAcceleratorMagnet)
-				{
-					TileAcceleratorMagnet magnet = (TileAcceleratorMagnet) componet;
-					getAccelerator().dipoleStrength += magnet.strength/2;
-				}
-			}
-		}
-		
-		efficiency /= parts;
-		getAccelerator().requiredEnergy =  (int) (energy/efficiency);
-		getAccelerator().rawHeating = heat;
-		getAccelerator().quadrupoleStrength = quadStrength;
-		getAccelerator().efficiency = efficiency;
-		getAccelerator().acceleratingVoltage= (int) voltage;
-		
-	}
+	
 
 	
 	// Recipe Stuff
@@ -488,7 +421,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			{
 				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
 			}
-			particleOut.addFocus(getAccelerator().quadrupoleStrength-getBeamLength()*QMDConfig.beamAttenuationRate);
+			particleOut.addFocus(getAccelerator().quadrupoleStrength * Math.abs(particle.getCharge())-getBeamLength()*QMDConfig.beamAttenuationRate);
 			
 			if(particleOut.getFocus() <= 0)
 			{
@@ -530,34 +463,33 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	protected void pull()
 	{
-		if (getAccelerator().input != null)
+		if (getAccelerator().input != null && getAccelerator().input.getExternalFacing() != null)
 		{
-			for (EnumFacing face : EnumFacing.VALUES)
-			{
-				TileEntity tile = getAccelerator().WORLD.getTileEntity(getAccelerator().input.getPos().offset(face));
-				if (tile != null)
-				{
 
-					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
+			TileEntity tile = getAccelerator().WORLD
+					.getTileEntity(getAccelerator().input.getPos().offset(getAccelerator().input.getExternalFacing()));
+			if (tile != null)
+			{
+
+				if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getAccelerator().input.getExternalFacing().getOpposite()))
+				{
+					IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getAccelerator().input.getExternalFacing().getOpposite());
+					ParticleStack stack = otherStorage.extractParticle(getAccelerator().input.getExternalFacing().getOpposite());
+
+					if (stack != null)
 					{
-						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite());
-						ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
-						
-						if(stack != null)
+						getAccelerator().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
+
+						if (!getAccelerator().beams.get(0).reciveParticle(getAccelerator().input.getExternalFacing(),
+								stack))
 						{
-							getAccelerator().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
-						
-							
-							if (!getAccelerator().beams.get(0).reciveParticle(face, stack))
+							if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
 							{
-								if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
-								{
-									getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
-								}
-								else if (stack.getMeanEnergy() < getAccelerator().beams.get(0).getMinEnergy())
-								{
-									getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
-								}
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+							}
+							else if (stack.getMeanEnergy() < getAccelerator().beams.get(0).getMinEnergy())
+							{
+								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
 							}
 						}
 					}

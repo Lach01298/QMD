@@ -1,9 +1,12 @@
 package lach_01298.qmd.network;
 
+import lach_01298.qmd.machine.network.CreativeParticleSourceGuiPacket;
+import lach_01298.qmd.machine.network.CreativeParticleSourceUpdatePacket;
 import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
 import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
 import lach_01298.qmd.multiblock.network.BeamDiverterUpdatePacket;
 import lach_01298.qmd.multiblock.network.BeamDumpUpdatePacket;
+import lach_01298.qmd.multiblock.network.CollisionChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.ContainmentFormPacket;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
 import lach_01298.qmd.multiblock.network.DecayChamberUpdatePacket;
@@ -40,6 +43,7 @@ public class QMDPacketHandler {
 		instance.registerMessage(QMDOpenSideConfigGuiPacket.Handler.class, QMDOpenSideConfigGuiPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(QMDOpenTileGuiPacket.Handler.class, QMDOpenTileGuiPacket.class, nextID(), Side.SERVER);
 		instance.registerMessage(ContainmentFormPacket.Handler.class, ContainmentFormPacket.class, nextID(), Side.SERVER);
+		instance.registerMessage(CreativeParticleSourceGuiPacket.Handler.class, CreativeParticleSourceGuiPacket.class, nextID(), Side.SERVER);
 		
 		// CLIENT
 		
@@ -53,6 +57,8 @@ public class QMDPacketHandler {
 		instance.registerMessage(BeamDumpUpdatePacket.Handler.class, BeamDumpUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(NeutralContainmentUpdatePacket.Handler.class, NeutralContainmentUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(ContainmentRenderPacket.Handler.class, ContainmentRenderPacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(CollisionChamberUpdatePacket.Handler.class, CollisionChamberUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(CreativeParticleSourceUpdatePacket.Handler.class, CreativeParticleSourceUpdatePacket.class, nextID(), Side.CLIENT);
 	}
 
 

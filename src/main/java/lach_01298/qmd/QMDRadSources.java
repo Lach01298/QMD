@@ -1,6 +1,8 @@
 package lach_01298.qmd;
 
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.enums.MaterialTypes.CanisterType;
+import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
 import nc.radiation.RadSources;
 import net.minecraft.item.ItemStack;
@@ -30,9 +32,9 @@ public class QMDRadSources
 		RadSources.putMaterial(COBALT_60, "Cobalt60");
 		RadSources.putMaterial(IRIDIUM_192, "Iridium192");
 		
-		RadSources.put(SODIUM_22/2D, QMDItems.source_sodium_22);
-		RadSources.put(COBALT_60/2D, QMDItems.source_cobalt_60);
-		RadSources.put(IRIDIUM_192/2D, QMDItems.source_iridium_192);
+		RadSources.put(SODIUM_22/2D, new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID()));
+		RadSources.put(COBALT_60/2D, new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID()));
+		RadSources.put(IRIDIUM_192/2D, new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID()));
 		
 		RadSources.put(RadSources.STRONTIUM_90/4D, QMDBlocks.rtgStrontium);
 		
@@ -61,6 +63,7 @@ public class QMDRadSources
 		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationHafnium");
 		
 		RadSources.putOre(RadSources.TRITIUM*RadSources.FLUID, "cellAntitritium");
+		RadSources.put(RadSources.TRITIUM*RadSources.FLUID, new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID()));
 		
 		RadSources.putIsotope(COPERNICIUM_291, "Copernicium291", "copernicium_291");
 		RadSources.putFuel(MIX_291, DEPLETED_MIX_291, "MIX291", "mix_291");

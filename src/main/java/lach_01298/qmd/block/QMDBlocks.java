@@ -1,16 +1,19 @@
 package lach_01298.qmd.block;
 
+import static nc.config.NCConfig.turbine_mb_per_blade;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDInfo;
-import lach_01298.qmd.accelerator.block.BlockAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorBeam;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorCasing;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorCooler1;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorCooler2;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorGlass;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorMagnet;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorSource;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorVent;
@@ -41,10 +44,12 @@ import lach_01298.qmd.enums.BlockTypes.ProcessorType;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.enums.BlockTypes.RTGType;
 import lach_01298.qmd.enums.BlockTypes.SimpleTileType;
+import lach_01298.qmd.enums.BlockTypes.TurbineBladeType;
 import lach_01298.qmd.fission.block.BlockFissionReflector;
 import lach_01298.qmd.fission.block.QMDBlockFissionShield;
 import lach_01298.qmd.machine.block.BlockQMDProcessor;
 import lach_01298.qmd.particleChamber.block.BlockBeamDumpController;
+import lach_01298.qmd.particleChamber.block.BlockCollisionChamberController;
 import lach_01298.qmd.particleChamber.block.BlockDecayChamberController;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamber;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberBeam;
@@ -60,7 +65,9 @@ import lach_01298.qmd.pipe.BlockBeamline;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
 import nc.block.tile.ITileType;
+import nc.init.NCBlocks;
 import nc.util.InfoHelper;
+import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -96,10 +103,12 @@ public class QMDBlocks
 	public static Block beamDiverterController;
 	public static Block deceleratorController;
 	public static Block acceleratorComputerPort;
+	public static Block acceleratorPort;
 
 	public static Block targetChamberController;
 	public static Block decayChamberController;
 	public static Block beamDumpController;
+	public static Block collisionChamberController;
 	public static Block particleChamberBeam;
 	public static Block particleChamberCasing;
 	public static Block particleChamberGlass;
@@ -133,7 +142,10 @@ public class QMDBlocks
 	public static Block containmentCoil;
 	public static Block containmentLaser;
 	
-	public static Block strontiumTitanate;
+	public static Block creativeParticleSource;
+	
+	public static Block turbineBladeSuperAlloy;
+	
 	public static Block strontium90;
 	
 	public static void init() 
@@ -148,6 +160,7 @@ public class QMDBlocks
 		acceleratorGlass = withName(new BlockAcceleratorGlass(), "accelerator_glass");
 		acceleratorVent = withName(new BlockAcceleratorVent(), "accelerator_vent");
 		acceleratorComputerPort = withName(new BlockAcceleratorComputerPort(), "accelerator_computer_port");
+		acceleratorPort = withName(new BlockAcceleratorPort(), "accelerator_port");
 
 		acceleratorBeamPort = withName(new BlockAcceleratorBeamPort(), "accelerator_beam_port");
 		acceleratorSynchrotronPort = withName(new BlockAcceleratorSynchrotronPort(), "accelerator_synchrotron_port");
@@ -164,6 +177,7 @@ public class QMDBlocks
 		targetChamberController = withName(new BlockTargetChamberController(), "target_chamber_controller");
 		decayChamberController = withName(new BlockDecayChamberController(), "decay_chamber_controller");
 		beamDumpController = withName(new BlockBeamDumpController(), "beam_dump_controller");
+		collisionChamberController = withName(new BlockCollisionChamberController(), "collision_chamber_controller");
 		particleChamberBeam = withName(new BlockParticleChamberBeam(), "particle_chamber_beam");
 		particleChamberCasing = withName(new BlockParticleChamberCasing(), "particle_chamber_casing");
 		particleChamberGlass = withName(new BlockParticleChamberGlass(), "particle_chamber_glass");
@@ -197,9 +211,11 @@ public class QMDBlocks
 		containmentEnergyPort = withName(new BlockContainmentEnergyPort(), "containment_energy_port");
 		containmentCoil = withName(new BlockContainmentCoil(), "containment_coil");
 		containmentLaser = withName(new BlockContainmentLaser(), "containment_laser");
-		strontiumTitanate = withName(new BlockCrystal(), "strontium_titanate_block");
 		strontium90 = withName(new BlockQMD(Material.IRON), "strontium_90_block");
 		
+		creativeParticleSource = withName(new BlockCreativeParticleSource(), "creative_particle_source");
+		
+		turbineBladeSuperAlloy = withName(new QMDBlockTurbineBlade(TurbineBladeType.SUPER_ALLOY), "turbine_blade_super_alloy");
 		
 	}
 	
@@ -213,6 +229,7 @@ public class QMDBlocks
 		registerBlock(acceleratorBeam,TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(acceleratorCasing);
 		registerBlock(acceleratorComputerPort);
+		registerBlock(acceleratorPort);
 		registerBlock(acceleratorGlass);
 		registerBlock(acceleratorVent);
 		registerBlock(acceleratorBeamPort);
@@ -230,6 +247,7 @@ public class QMDBlocks
 		registerBlock(targetChamberController);
 		registerBlock(decayChamberController);
 		registerBlock(beamDumpController);
+		registerBlock(collisionChamberController);
 		registerBlock(particleChamberBeam, TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
 		registerBlock(particleChamberCasing);
 		registerBlock(particleChamberGlass);
@@ -247,7 +265,7 @@ public class QMDBlocks
 		registerBlock(fissionShield,new ItemBlockMeta(fissionShield, NeutronShieldType.class, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, QMDInfo.neutronShieldFixedInfo(), TextFormatting.AQUA, QMDInfo.neutronShieldInfo()));
 		
 		
-		registerBlock(rtgStrontium,InfoHelper.formattedInfo(infoLine("rtg"), UnitHelper.prefix(QMDConfig.rtg_power[0], 5, "RF/t")));
+		registerBlock(rtgStrontium,InfoHelper.formattedInfo(NCBlocks.infoLine("rtg"), UnitHelper.prefix(QMDConfig.rtg_power[0], 5, "RF/t")));
 		
 		registerBlock(dischargeLamp, new ItemBlockMeta(dischargeLamp, LampType.class));	
 		
@@ -265,8 +283,11 @@ public class QMDBlocks
 		registerBlock(containmentCoil);
 		registerBlock(containmentLaser);
 		
-		registerBlock(strontiumTitanate);
 		registerBlock(strontium90);
+		
+		registerBlock(creativeParticleSource);
+		registerBlock(turbineBladeSuperAlloy, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * QMDConfig.turbine_blade_efficiency[0]) + "%"), Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * QMDConfig.turbine_blade_expansion[0]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		
 	}
 
 	public static void registerRenders() 
@@ -279,6 +300,7 @@ public class QMDBlocks
 		registerRender(acceleratorBeam);
 		registerRender(acceleratorCasing);
 		registerRender(acceleratorComputerPort);
+		registerRender(acceleratorPort);
 		registerRender(acceleratorGlass);
 		registerRender(acceleratorVent);
 		registerRender(acceleratorBeamPort);
@@ -310,6 +332,7 @@ public class QMDBlocks
 		registerRender(targetChamberController);
 		registerRender(decayChamberController);
 		registerRender(beamDumpController);
+		registerRender(collisionChamberController);
 		registerRender(particleChamberBeam);
 		registerRender(particleChamberCasing);
 		registerRender(particleChamberGlass);
@@ -359,8 +382,10 @@ public class QMDBlocks
 		registerRender(containmentCoil);
 		registerRender(containmentLaser);
 		
-		registerRender(strontiumTitanate);
 		registerRender(strontium90);
+		registerRender(creativeParticleSource);
+		
+		registerRender(turbineBladeSuperAlloy);
 	}
 
 

@@ -19,7 +19,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		//addRecipe(itemInput, particleInput [particle, amount, minEnergy minFocus], item output,
+		//addRecipe(itemInput, particleInput [particle, amount, minEnergy, minFocus], item output,
 		//particleOutput+ [particle, amount], particleOutput0 [particle, amount], particleOutput- [particle, amount], maxEnergy, crossSection, energyRelased, radiation)
 		
 		

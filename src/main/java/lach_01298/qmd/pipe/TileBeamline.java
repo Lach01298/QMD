@@ -83,9 +83,9 @@ public class TileBeamline extends TilePipePart implements IPipeController, ITile
 				if (side.getAxis() == logic.axis)
 				{
 					
-					if (!getTanks().isEmpty())
+					if (!getParticleBeams().isEmpty())
 					{
-						return (T) getTanks().get(0);
+						return (T) getParticleBeams().get(0);
 					}
 					return null;
 				}
@@ -97,7 +97,7 @@ public class TileBeamline extends TilePipePart implements IPipeController, ITile
 	}
 
 	@Override
-	public List<? extends ParticleStorage> getTanks()
+	public List<? extends ParticleStorage> getParticleBeams()
 	{
 		if (!isMultiblockAssembled())
 			return backupTanks;

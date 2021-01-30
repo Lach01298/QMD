@@ -1,7 +1,6 @@
 package lach_01298.qmd.tile;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.Util;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
@@ -10,6 +9,7 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorGlass;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
@@ -36,6 +36,7 @@ import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.fission.tile.QMDTileFissionShield;
 import lach_01298.qmd.machine.tile.TileQMDProcessor;
 import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
+import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
 import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
@@ -48,6 +49,7 @@ import lach_01298.qmd.particleChamber.tile.TileParticleChamberGlass;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.pipe.TileBeamline;
+import lach_01298.qmd.util.Util;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -73,7 +75,8 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(QMDTilePassive.HeliumCollector.class,new ResourceLocation(QMD.MOD_ID,"helium_collector"));
 		GameRegistry.registerTileEntity(QMDTilePassive.NeonCollector.class,new ResourceLocation(QMD.MOD_ID,"neon_collector"));
 		GameRegistry.registerTileEntity(QMDTilePassive.ArgonCollector.class,new ResourceLocation(QMD.MOD_ID,"argon_collector"));
-		
+		GameRegistry.registerTileEntity(TileCreativeParticleSource.class,new ResourceLocation(QMD.MOD_ID,"creative_particle_source"));
+		GameRegistry.registerTileEntity(QMDTileTurbineBlade.SuperAlloy.class,new ResourceLocation(QMD.MOD_ID,"turbine_blade_super_alloy"));
 		
 		//Accelerator parts
 		GameRegistry.registerTileEntity(TileLinearAcceleratorController.class,Util.appendPath(acceleratorPath, "linear_controller"));
@@ -90,6 +93,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorYoke.class,Util.appendPath(acceleratorPath, "yoke"));
 		GameRegistry.registerTileEntity(TileAcceleratorEnergyPort.class,Util.appendPath(acceleratorPath, "energy_port"));
 		GameRegistry.registerTileEntity(TileAcceleratorComputerPort.class,Util.appendPath(acceleratorPath, "computer_port"));
+		GameRegistry.registerTileEntity(TileAcceleratorPort.class,Util.appendPath(acceleratorPath, "port"));
 		
 		//magnets
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Copper.class, Util.appendPath(magnetPath, MagnetType.COPPER.getName()));
@@ -149,6 +153,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileTargetChamberController.class,Util.appendPath(chamberPath, "target_chamber_controller"));
 		GameRegistry.registerTileEntity(TileDecayChamberController.class,Util.appendPath(chamberPath, "decay_chamber_controller"));
 		GameRegistry.registerTileEntity(TileBeamDumpController.class,Util.appendPath(chamberPath, "beam_dump_controller"));
+		GameRegistry.registerTileEntity(TileCollisionChamberController.class,Util.appendPath(chamberPath, "collision_chamber_controller"));
 		GameRegistry.registerTileEntity(TileParticleChamberBeam.class,Util.appendPath(chamberPath, "beam"));
 		GameRegistry.registerTileEntity(TileParticleChamberCasing.class,Util.appendPath(chamberPath, "casing"));
 		GameRegistry.registerTileEntity(TileParticleChamberGlass.class,Util.appendPath(chamberPath, "glass"));;
@@ -169,6 +174,8 @@ public class QMDTiles
 		//machines
 		GameRegistry.registerTileEntity(TileQMDProcessor.TileOreLeacher.class,new ResourceLocation(QMD.MOD_ID,"ore_leacher"));
 		GameRegistry.registerTileEntity(TileQMDProcessor.TileIrradiator.class,new ResourceLocation(QMD.MOD_ID,"irradiator"));
+		
+		
 		
 		
 		

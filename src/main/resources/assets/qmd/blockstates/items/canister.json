@@ -1,0 +1,46 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "empty": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/canister"
+                }
+            },
+            "hydrogen": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/canister_hydrogen"
+                }
+            },
+            "deuterium": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/canister_deuterium"
+                }
+            },
+            "tritium": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/canister_tritium"
+                }
+            },
+            "helium3": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/canister_helium_3"
+                }
+            },
+            "helium": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/canister_helium"
+                }
+            },
+            "diborane": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/canister_diborane"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model":"cube_all",
+        "textures": {
+            "all": "qmd:blocks/other/creative_particle_source"
+        }
+    },
+    "variants": {
+        "inventory": [{}],
+        "normal": [{}]
+    }
+}

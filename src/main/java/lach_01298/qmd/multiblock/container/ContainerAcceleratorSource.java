@@ -2,6 +2,7 @@ package lach_01298.qmd.multiblock.container;
 
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
+import lach_01298.qmd.item.IItemAmount;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.ContainerTile;
@@ -62,7 +63,7 @@ public class ContainerAcceleratorSource extends ContainerTile<TileAcceleratorSou
 			}
 			else 
 			{
-				if(recipeHandler.isValidItemInput(itemstack1))
+				if(recipeHandler.isValidItemInput(IItemAmount.cleanNBT(itemstack1)))
 				{
 					if (!mergeItemStack(itemstack1, 0, inputSlotsSize, false))
 					{

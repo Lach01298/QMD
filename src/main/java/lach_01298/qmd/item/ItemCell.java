@@ -1,50 +1,31 @@
 package lach_01298.qmd.item;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.entity.EntityGammaFlash;
-import lach_01298.qmd.enums.MaterialTypes.ExoticCellType;
-import nc.capability.radiation.entity.IEntityRads;
-import nc.item.energy.ItemEnergy;
-import nc.radiation.RadiationHelper;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.util.DamageSources;
+import lach_01298.qmd.enums.MaterialTypes.CellType;
+import nc.item.NCItem;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.StackHelper;
-import nc.util.UnitHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 
 
-public class ItemCell extends ItemEnergy implements ITickItem
+public class ItemCell extends NCItem implements IItemAmount
 {
 
-	
-	private long lastUpdateTime;
-
-	public ItemCell(int capacity)
+	public ItemCell()
 	{
-		super(capacity * 20 * QMDConfig.cell_power, capacity * 20 * QMDConfig.cell_power, 6, EnergyConnection.IN);
 		setHasSubtypes(true);
-		lastUpdateTime = 0;
+		setMaxStackSize(1);
 	}
 
 	@Override
@@ -53,231 +34,135 @@ public class ItemCell extends ItemEnergy implements ITickItem
 		if (isInCreativeTab(tab))
 		{
 			items.add(new ItemStack(this, 1, 0));
-			for (int i = 1; i < ExoticCellType.values().length; i++)
+			for (int i = 1; i < CellType.values().length; i++)
 			{
 				ItemStack stack = new ItemStack(this, 1, i);
 				ItemCell cell = (ItemCell) stack.getItem();
-				setEnergyStored(stack, getMaxEnergyStored(stack));
+				setAmountStored(stack, getCapacity(stack));
 				items.add(stack);
 			}
 		}
 	}
+		
+	
+	@Override
+	public int getCapacity(ItemStack stack)
+	{
+		
+		switch(stack.getMetadata())
+		{
+			case 0:
+				return CellType.EMPTY.getCapacity();
+			case 1:
+				return CellType.ANTIHYDROGEN.getCapacity();
+			case 2:
+				return CellType.ANTIDEUTERIUM.getCapacity();
+			case 3:
+				return CellType.ANTITRITIUM.getCapacity();
+			case 4:
+				return CellType.ANTIHELIUM3.getCapacity();
+			case 5:
+				return CellType.ANTIHELIUM.getCapacity();
+			case 6:
+				return CellType.POSITRONIUM.getCapacity();
+			case 7:
+				return CellType.MUONIUM.getCapacity();
+			case 8:
+				return CellType.TAUONIUM.getCapacity();
+			case 9:
+				return CellType.GLUEBALLS.getCapacity();
+				
+			default: 
+				return 0;
+			
+		}
 
-	@Override
-	public boolean isEnchantable(ItemStack stack) 
-    {
-		return false;
 	}
-	
-	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
-    {
-        return false;
-    }
-	
-	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
-    {
-        return false;
-    }
-	
-	public boolean isRepairable()
-    {
-        return false;
-    }
 	
 	
 	
 	@Override
 	public String getTranslationKey(ItemStack stack)
 	{
-		for (int i = 0; i < ExoticCellType.values().length; i++)
+		for (int i = 0; i < CellType.values().length; i++)
 		{
 			if (StackHelper.getMetadata(stack) == i)
 			{
-				return getTranslationKey() + "." + ExoticCellType.values()[i].getName();
+				return getTranslationKey() + "." + CellType.values()[i].getName();
 			}
 			else
 			{
 				continue;
 			}
 		}
-		return getTranslationKey() + "." + ExoticCellType.values()[0].getName();
+		return getTranslationKey() + "." + CellType.values()[0].getName();
+	}
+	
+
+	@Override
+	public ItemStack fill(ItemStack stack, int amount, String type)
+	{
+		
+		
+		if(stack.getMetadata() == CellType.EMPTY.getID())
+		{
+			int meta =0;
+			for(CellType cellType : CellType.values())
+			{
+				if(cellType.getName().equals(type))
+				{
+					meta = cellType.getID();
+				}
+			}
+			ItemStack newStack = new ItemStack(QMDItems.cell,1,meta);
+			setAmountStored(newStack,amount);
+			return newStack;
+		}
+		
+		if(getAmountStored(stack) + amount <= getCapacity(stack))
+		{
+			setAmountStored(stack,getAmountStored(stack)+amount);
+		}
+		
+		
+		return stack;
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) {
-		if(stack.getMetadata() == ExoticCellType.EMPTY.getID())
+	public ItemStack empty(ItemStack stack, int amount)
+	{
+		
+		if(getAmountStored(stack) > amount)
 		{
-			InfoHelper.infoLine(tooltip, TextFormatting.RED, Lang.localise("info.qmd.item.cell_charge_warning"));
+			setAmountStored(stack,getAmountStored(stack)-amount);
 		}
-		else
+		else if (getAmountStored(stack) == amount)
 		{
-			InfoHelper.infoLine(tooltip, TextFormatting.YELLOW, Lang.localise("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.cell_power, 5, "RF/t")));
-			InfoHelper.infoLine(tooltip, TextFormatting.RED, Lang.localise("info.qmd.item.cell_warning"));
+			return new ItemStack(QMDItems.cell,1,CellType.EMPTY.getID());
 		}
 		
+		return stack;
+	}
+	
+
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack) 
+	{
+		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getCapacity(stack), 0D, 1D);
+	}
+	
+	@Override
+	public boolean showDurabilityBar(ItemStack stack) 
+	{
+		return getAmountStored(stack) > 0;
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
+	{
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", getAmountStored(stack), getCapacity(stack)));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}
-
-	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-	{
-		if (stack.getTagCompound() == null)
-		{
-			return;
-		}
-
-		Long tickTime =worldIn.getTotalWorldTime();
-		if(stack.getTagCompound().hasKey("lastTickTime"))
-		{
-			if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
-			{
-				if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
-				{
-					int timeSinceTick = (int) (tickTime - stack.getTagCompound().getLong("lastTickTime"));
-					IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
-					if (timeSinceTick*QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(timeSinceTick*QMDConfig.cell_power * stack.getCount(), false))
-					{
-						explode(worldIn, entityIn.getPosition(), stack);
-						stack.shrink(stack.getCount());
-					}
-					stack.getTagCompound().setLong("lastTickTime", worldIn.getWorldInfo().getWorldTotalTime());
-				}
-			}
-		}
-		else
-		{
-			
-			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
-			{
-				stack.getTagCompound().setLong("lastTickTime", tickTime);
-			}
-		}
-	}
-
-	@Override
-	public boolean onEntityItemUpdate(EntityItem entityItem)
-	{
-		ItemStack stack = entityItem.getItem();
-
-		if (stack.getTagCompound() == null)
-		{
-			return false;
-		}
-		Long tickTime =entityItem.world.getWorldInfo().getWorldTotalTime();
-		
-		if(stack.getTagCompound().hasKey("lastTickTime"))
-		{
-			if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
-			{
-				if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
-				{
-					int timeSinceTick = (int) (tickTime - stack.getTagCompound().getLong("lastTickTime"));
-					IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
-					if (timeSinceTick*QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(timeSinceTick*QMDConfig.cell_power * stack.getCount(), false))
-					{
-
-						explode(entityItem.world, entityItem.getPosition(), stack);
-						stack.shrink(stack.getCount());
-					}
-					stack.getTagCompound().setLong("lastTickTime", entityItem.world.getWorldInfo().getWorldTotalTime());
-				}
-			}
-		}
-		else
-		{
-			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
-			{
-				stack.getTagCompound().setLong("lastTickTime", tickTime);
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public void updateTick(ItemStack stack, TileEntity tile, long tickTime)
-	{
-		
-		if (stack.getTagCompound() == null)
-		{
-			
-			return;
-		}
-		if(stack.getTagCompound().hasKey("lastTickTime"))
-		{
-			if (tickTime != stack.getTagCompound().getLong("lastTickTime"))
-			{
-
-				if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
-				{
-					int timeSinceTick = (int) (tickTime - stack.getTagCompound().getLong("lastTickTime"));
-					IEnergyStorage energy = stack.getCapability(CapabilityEnergy.ENERGY, null);
-					if (timeSinceTick*QMDConfig.cell_power * stack.getCount() > energy.extractEnergy(timeSinceTick*QMDConfig.cell_power * stack.getCount(), false))
-					{
-
-						explode(tile.getWorld(), tile.getPos(), stack);
-						stack.shrink(stack.getCount());
-					}
-					stack.getTagCompound().setLong("lastTickTime", tickTime);
-				}
-			}
-		
-		}
-		else
-		{
-			if (stack.getMetadata() != ExoticCellType.EMPTY.getID())
-			{
-				
-				stack.getTagCompound().setLong("lastTickTime", tickTime);
-			}
-		}
-		
-		
-	}
-
-	public void explode(World world, BlockPos pos, ItemStack stack)
-	{
-		double size = 1;
-		switch (stack.getMetadata())
-		{
-		case 1:
-			size = 1;
-			break;
-		case 2:
-			size = 2;
-			break;
-		case 3:
-		case 4:
-			size = 3;
-			break;
-		case 5:
-			size = 4;
-			break;
-
-		}
-
-		 world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float)size*10f, true);
-		world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
-
-		Set<EntityLivingBase> entitylist = new HashSet();
-		double radius = 128 * Math.sqrt(size);
-
-		entitylist.addAll(world.getEntitiesWithinAABB(EntityLivingBase.class,
-				new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius,
-						pos.getY() + radius, pos.getZ() + radius)));
-
-		for (EntityLivingBase entity : entitylist)
-		{
-			double rads = (1000 * 32 * 32 * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ);
-			IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-			entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-			
-			if (rads >= entityRads.getMaxRads())
-			{
-				entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
-			}
-		}
-	}
-
+	
 }
