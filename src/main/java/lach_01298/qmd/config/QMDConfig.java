@@ -314,10 +314,10 @@ public class QMDConfig {
 		//Property propertyItemTickerChunksPerTick = config.get(CATEGORY_OTHER, "item_ticker_chunks_per_tick", 5, Lang.localise("gui.qmd.config.other.item_ticker_chunks_per_tick.comment"),0,400);
 		//propertyItemTickerChunksPerTick.setLanguageKey("gui.qmd.config.other.item_ticker_chunks_per_tick");
 		
-		Property propertyTurbineBladeEfficiency = config.get(CATEGORY_OTHER, "turbine_blade_efficiency", new double[] {1.2D}, Lang.localise("gui.qmd.config.other.turbine_blade_efficiency.comment"),  0.01D, 15D);
+		Property propertyTurbineBladeEfficiency = config.get(CATEGORY_OTHER, "turbine_blade_efficiency", new double[] {1.25D}, Lang.localise("gui.qmd.config.other.turbine_blade_efficiency.comment"),  0.01D, 15D);
 		propertyTurbineBladeEfficiency.setLanguageKey("gui.qmd.config.other.turbine_blade_efficiency");
 
-		Property propertyTurbineBladeExpansion = config.get(CATEGORY_OTHER, "turbine_blade_expansion", new double[] {1.1D}, Lang.localise("gui.qmd.config.other.turbine_blade_expansion.comment"), 1D, 15D);
+		Property propertyTurbineBladeExpansion = config.get(CATEGORY_OTHER, "turbine_blade_expansion", new double[] {1.9D}, Lang.localise("gui.qmd.config.other.turbine_blade_expansion.comment"), 1D, 15D);
 		propertyTurbineBladeExpansion.setLanguageKey("gui.qmd.config.other.turbine_blade_expansion");
 		
 		List<String> propertyOrderProcessors = new ArrayList<String>();

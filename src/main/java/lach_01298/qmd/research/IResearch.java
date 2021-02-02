@@ -59,7 +59,7 @@ public interface IResearch
 		@Override
 		public void readNBT(Capability<IResearch> capability, IResearch instance, EnumFacing side, NBTBase nbt)
 		{
-			System.out.println("beep");
+			
 			if (nbt instanceof NBTTagCompound)
 			{
 				NBTTagCompound comp = (NBTTagCompound) nbt;

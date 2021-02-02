@@ -68,7 +68,7 @@ public class RemoveQMDRecipe implements IAction
 		for (int i = itemSize + fluidSize; i < itemSize + fluidSize+particleSize; i++) 
 		{
 			IParticleIngredient ingredient = QMDCTHelper.buildRemovalParticleIngredient(ctIngredients.get(i));
-			System.out.println("hoo "+ingredient);
+			
 			if (ingredient == null) 
 			{
 				ingredientError = true;

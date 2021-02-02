@@ -1,5 +1,6 @@
 package lach_01298.qmd.sound;
 
+import lach_01298.qmd.entity.EntityGluonBeam;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.SoundCategory;
@@ -7,10 +8,11 @@ import net.minecraft.util.SoundEvent;
 
 public class MovingSoundGluonGunStart extends MovingSound
 {
-
-	public MovingSoundGluonGunStart(Entity entity)
+	private final EntityGluonBeam beam;
+	public MovingSoundGluonGunStart(EntityGluonBeam entity)
 	{
-		super(QMDSounds.gluon_gun_start, SoundCategory.PLAYERS);
+		super(QMDSounds.gluon_gun_start, SoundCategory.NEUTRAL);
+		this.beam = entity;
 		this.repeat = false;
         this.repeatDelay = 0;
         this.volume = 0.1F;
@@ -22,7 +24,16 @@ public class MovingSoundGluonGunStart extends MovingSound
 	@Override
 	public void update()
 	{
-		// TODO Auto-generated method stub
+		if (this.beam.isDead)
+		{
+			this.donePlaying = true;
+		}
+		else
+		{
+			this.xPosF = (float) this.beam.posX;
+			this.yPosF = (float) this.beam.posY;
+			this.zPosF = (float) this.beam.posZ;
+		}
 		
 	}
 

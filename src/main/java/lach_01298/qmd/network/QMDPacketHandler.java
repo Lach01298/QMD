@@ -59,6 +59,9 @@ public class QMDPacketHandler {
 		instance.registerMessage(ContainmentRenderPacket.Handler.class, ContainmentRenderPacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(CollisionChamberUpdatePacket.Handler.class, CollisionChamberUpdatePacket.class, nextID(), Side.CLIENT);
 		instance.registerMessage(CreativeParticleSourceUpdatePacket.Handler.class, CreativeParticleSourceUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(BeamProjectileUpdatePacket.Handler.class, BeamProjectileUpdatePacket.class, nextID(), Side.CLIENT);
+		instance.registerMessage(LeptonBeamUpdatePacket.Handler.class, LeptonBeamUpdatePacket.class, nextID(), Side.CLIENT);
+		
 	}
 
 

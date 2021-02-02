@@ -111,9 +111,6 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	{
 		for (RECIPE recipe : recipeList)
 		{
-			System.out.println("recipe? " +recipe.matchIngredients(itemIngredients, fluidIngredients, particleIngredients).matches());
-			System.out.println(recipe.ctParticleIngredient(0));
-			System.out.println(particleIngredients);
 			if (recipe.matchIngredients(itemIngredients, fluidIngredients, particleIngredients).matches())
 				return recipe;
 		}

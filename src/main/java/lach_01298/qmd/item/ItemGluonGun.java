@@ -1,46 +1,28 @@
 package lach_01298.qmd.item;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
 import lach_01298.qmd.DamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGluonBeam;
-import lach_01298.qmd.entity.EntityLeptonBeam;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
-import lach_01298.qmd.sound.MovingSoundGluonGun;
-import lach_01298.qmd.sound.MovingSoundGluonGunStart;
-import lach_01298.qmd.sound.QMDSounds;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.item.IInfoItem;
 import nc.radiation.RadiationHelper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class ItemGluonGun extends ItemGun implements IInfoItem
 {
-	private ISound sound;
+	
+	
 	private EntityGluonBeam beam;
 	
 	public ItemGluonGun()
@@ -51,13 +33,10 @@ public class ItemGluonGun extends ItemGun implements IInfoItem
 	@Override
 	public void setInfo()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 	
-	
-	
-	
+
 	public int getMaxItemUseDuration(ItemStack stack)
     {
         return 72000;
@@ -79,24 +58,7 @@ public class ItemGluonGun extends ItemGun implements IInfoItem
 			
 			RayTraceResult lookingAt = rayTrace(player,QMDConfig.gluon_range,1.0f,true,true);
 			
-			
 			if(!world.isRemote)
-			{
-				if(lookingAt != null)
-				{
-					double length = lookingAt.hitVec.distanceTo(player.getPositionVector().add(0, player.eyeHeight, 0));
-					if(length > QMDConfig.gluon_range)
-					{
-						length = QMDConfig.gluon_range;
-					}
-					world.spawnEntity(new EntityGluonBeam(world, player, length, hand));
-				}
-				else
-				{
-					world.spawnEntity(new EntityGluonBeam(world, player, QMDConfig.gluon_range, hand));
-				}
-			}
-			else
 			{
 				if(lookingAt != null)
 				{
@@ -157,56 +119,22 @@ public class ItemGluonGun extends ItemGun implements IInfoItem
     						entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, (EntityLivingBase) entity,
     								QMDConfig.gluon_radiation, false, false, 1));
     					}
-    					entity.attackEntityFrom(DamageSources.GLUON_GUN, (float) QMDConfig.gluon_damage);	
+    					entity.attackEntityFrom(DamageSources.causeGluonGunDamage(beam,player), (float) QMDConfig.gluon_damage);
     				}
-    			}
-    	    	else
-    	    	{
-    	    		if (count == getMaxItemUseDuration(stack))
-    	    		{
-    	    			sound = new MovingSoundGluonGunStart(user);
-    	    			Minecraft.getMinecraft().getSoundHandler().playSound(sound);
-    	    		}
-    	    		else 
-    	    		{
-    	    			if(sound == null || !Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(sound))
-    	        		{
-    	        			sound = new MovingSoundGluonGun(user);
-    	        			Minecraft.getMinecraft().getSoundHandler().playSound(sound);
-    	        		}
-    	    		}
-    	    		
-    	    		if(lookingAt != null)
-    	    		{
-    	    			beam.length = lookingAt.hitVec.distanceTo(user.getPositionVector().add(0, user.getEyeHeight(), 0));
-    	    		}
-    	    	}
-    		}
-    		else
-    		{
-    			user.stopActiveHand();
-    		}
-    	}
-    	
-    	
-    	
-    	
-    }
-	
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft)
-	{
-		if(world.isRemote)
-		{
-			
-			if(sound != null && Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(sound))
-    		{
-    			Minecraft.getMinecraft().getSoundHandler().stopSound(sound);
-    		}
-			world.playSound(entityLiving.posX, entityLiving.posY, entityLiving.posZ, QMDSounds.gluon_gun_stop, SoundCategory.PLAYERS, 0.1f, 1.0f, false);
-		}
 
-	}
-	
+					if (lookingAt != null)
+					{
+						beam.setLength(lookingAt.hitVec.distanceTo(user.getPositionVector().add(0, user.getEyeHeight(), 0)));
+					}
+				}
+			}
+			else
+			{
+				user.stopActiveHand();
+			}
+		}	
+    }
+
 	
 	private int findCell(EntityPlayer player)
 	{

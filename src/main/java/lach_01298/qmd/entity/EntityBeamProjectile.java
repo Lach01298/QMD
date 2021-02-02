@@ -1,57 +1,84 @@
 package lach_01298.qmd.entity;
 
+import lach_01298.qmd.network.BeamProjectileUpdatePacket;
+import lach_01298.qmd.network.QMDPacketHandler;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-
-
-
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 
 
 public abstract class EntityBeamProjectile extends Entity
 {
-	public double length = 1;
+	protected double length = 1;
 	protected int livingTime;
-	public EntityPlayer owner;
-	public EnumHand hand;
+	protected EntityPlayer owner;
+	protected EnumHand hand;
 	
 	public EntityBeamProjectile(World world)
 	{
 		super(world);
 		this.livingTime = 100;
+		this.setSize(0.25f,0.25f);
+		
 	}
 	public EntityBeamProjectile(World world, EntityPlayer player, double length, EnumHand hand, int lifetime)
 	{
 		super(world);
+		this.setSize(0.25f,0.25f);
+		
 		this.setLocationAndAngles(player.posX, player.posY+player.eyeHeight, player.posZ ,player.rotationYaw, player.rotationPitch);
+
 		owner = player;
+		
 		this.hand = hand;
 		this.length = length;
 		this.livingTime = lifetime;
-		this.setSize(0.25f,0.25f);
 		
-		this.motionX = (double) (-Math.sin(this.rotationYaw / 180.0F * (float) Math.PI)
-				* Math.cos(this.rotationPitch / 180.0F * (float) Math.PI) * 0.4f);
-		this.motionZ = (double) (Math.cos(this.rotationYaw / 180.0F * (float) Math.PI)
-				* Math.cos(this.rotationPitch / 180.0F * (float) Math.PI) * 0.4f);
-		this.motionY = (double) (-Math.sin((this.rotationPitch) / 180.0F * (float) Math.PI) * 0.4f);
 		
 	}
 
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() 
 	{
-		
-		Vec3d pos2 = new Vec3d(this.motionX, this.motionY, this.motionZ).normalize().scale(length);
-		return new AxisAlignedBB(this.posX, this.posY, this.posZ, this.posX+pos2.z, this.posY + pos2.y, this.posZ + pos2.z);
+		return new AxisAlignedBB(this.posX-this.length, this.posY-this.length, this.posZ-this.length, this.posX+this.length, this.posY*2+this.length, this.posZ+this.length);
 	}
 
+	
+	
+	public void setOwner(EntityPlayer owner)
+	{
+		this.owner = owner;
+	}
+
+	public void setLength(double length)
+	{
+		this.length = length;
+	}
+	public void setHand(EnumHand hand)
+	{
+		this.hand= hand;
+	}
+	
+	public EntityPlayer getOwner()
+	{
+		return owner;
+	}
+
+	public double getLength()
+	{
+		return length;
+	}
+	public EnumHand getHand()
+	{
+		return hand;
+	}
+
+	
+	
 	
 	@Override
 	protected void entityInit()
@@ -62,13 +89,13 @@ public abstract class EntityBeamProjectile extends Entity
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound)
 	{
-		
+		livingTime = compound.getInteger("livingTime");
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound compound)
 	{
-		
+		compound.setInteger("livingTime", livingTime);
 	}
 
 	@Override
@@ -76,19 +103,24 @@ public abstract class EntityBeamProjectile extends Entity
 	{
 		super.onUpdate();
 		
-		if (this.owner == null)
-        {
-            this.setDead();
-        }
-		
-		if (this.livingTime == 0)
+		if (this.livingTime <= 0)
         {
             this.setDead();
         }
 		else
 		{
 			--this.livingTime;
+			
 		}
-
+		sendUpdatePacket();
 	}
+	
+	protected void sendUpdatePacket()
+	{
+		if (!this.world.isRemote)
+		{
+			QMDPacketHandler.instance.sendToAllAround(new BeamProjectileUpdatePacket(this), new TargetPoint(this.world.provider.getDimension(), this.posX,this.posY,this.posZ, 128));
+		}
+	}
+
 }

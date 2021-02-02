@@ -1,12 +1,5 @@
 package lach_01298.qmd.item;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
 import lach_01298.qmd.DamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityLeptonBeam;
@@ -18,21 +11,13 @@ import nc.radiation.RadiationHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemLeptonCannon extends ItemGun implements IInfoItem
 {
@@ -92,8 +77,26 @@ public class ItemLeptonCannon extends ItemGun implements IInfoItem
 			player.getCooldownTracker().setCooldown(this, QMDConfig.lepton_cool_down);
 			
 			RayTraceResult lookingAt = rayTrace(player, range, 1.0f, false,true);
+			
 			if (!world.isRemote)
 			{
+				EntityLeptonBeam entityBeam;
+				if(lookingAt != null)
+				{
+					double length = lookingAt.hitVec.distanceTo(player.getPositionVector().add(0, player.eyeHeight, 0));
+					if(length > range)
+					{
+						length = range;
+					}
+					entityBeam = new EntityLeptonBeam(world, player, length, hand, color);
+				}
+				else
+				{
+					entityBeam = new EntityLeptonBeam(world, player, range, hand, color);
+				}
+				world.spawnEntity(new EntityLeptonBeam(world, player, range, hand, color));
+				
+				
 				
 				if (lookingAt != null && lookingAt.typeOfHit == RayTraceResult.Type.ENTITY)
 				{
@@ -106,34 +109,11 @@ public class ItemLeptonCannon extends ItemGun implements IInfoItem
 								radiation, false, false, 1));
 					}
 
-					entity.attackEntityFrom(DamageSources.LEPTON_CANNON, damage);
+					entity.attackEntityFrom(DamageSources.causeLeptonCannonDamage(entityBeam, player), damage);
+				}
+				world.playSound(null,player.posX, player.posY, player.posZ, QMDSounds.lepton_cannon, SoundCategory.NEUTRAL, 0.2f, 1.0f);
+			}
 
-				}
-		
-			}
-			else
-			{
-				world.playSound(player.posX, player.posY, player.posZ, QMDSounds.lepton_cannon, SoundCategory.PLAYERS, 0.2f, 1.0f, false);
-				
-			}
-			
-			EntityLeptonBeam entity;
-			if(lookingAt != null)
-			{
-				double length = lookingAt.hitVec.distanceTo(player.getPositionVector().add(0, player.eyeHeight, 0));
-				if(length > range)
-				{
-					length = range;
-				}
-				entity = new EntityLeptonBeam(world, player, length, hand, color);
-			}
-			else
-			{
-				entity = new EntityLeptonBeam(world, player, range, hand, color);
-			}
-			world.spawnEntity(entity);
-			
-			
 			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 		}
 		

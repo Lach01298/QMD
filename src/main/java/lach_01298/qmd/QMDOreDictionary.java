@@ -14,6 +14,7 @@ import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
+import lach_01298.qmd.item.IItemAmount;
 import lach_01298.qmd.item.QMDItems;
 import nc.handler.OreDictHandler;
 import net.minecraft.item.ItemStack;
@@ -142,22 +143,22 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("dustZincSulfide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.ZINC_SULFIDE.getID()));
 	
 		
-		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, CellType.ANTIHYDROGEN.getID()));
-		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, CellType.ANTIDEUTERIUM.getID()));
-		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, CellType.ANTITRITIUM.getID()));
-		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM3.getID()));
-		OreDictionary.registerOre("cellAntimatter",new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM.getID()));
+		OreDictionary.registerOre("cellAntimatter",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIHYDROGEN.getID())));
+		OreDictionary.registerOre("cellAntimatter",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIDEUTERIUM.getID())));
+		OreDictionary.registerOre("cellAntimatter",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTITRITIUM.getID())));
+		OreDictionary.registerOre("cellAntimatter",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM3.getID())));
+		OreDictionary.registerOre("cellAntimatter",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM.getID())));
 	
-		OreDictionary.registerOre("cellAntihydrogen",new ItemStack(QMDItems.cell, 1, CellType.ANTIHYDROGEN.getID()));
-		OreDictionary.registerOre("cellAntideuterium",new ItemStack(QMDItems.cell, 1, CellType.ANTIDEUTERIUM.getID()));
-		OreDictionary.registerOre("cellAntitritium",new ItemStack(QMDItems.cell, 1, CellType.ANTITRITIUM.getID()));
-		OreDictionary.registerOre("cellAntihelium3",new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM3.getID()));
-		OreDictionary.registerOre("cellAntihelium",new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM.getID()));
+		OreDictionary.registerOre("cellAntihydrogen",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIHYDROGEN.getID())));
+		OreDictionary.registerOre("cellAntideuterium",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIDEUTERIUM.getID())));
+		OreDictionary.registerOre("cellAntitritium",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTITRITIUM.getID())));
+		OreDictionary.registerOre("cellAntihelium3",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM3.getID())));
+		OreDictionary.registerOre("cellAntihelium",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIHELIUM.getID())));
 		
-		OreDictionary.registerOre("cellPositronium",new ItemStack(QMDItems.cell, 1, CellType.POSITRONIUM.getID()));
-		OreDictionary.registerOre("cellMuonium",new ItemStack(QMDItems.cell, 1, CellType.MUONIUM.getID()));
-		OreDictionary.registerOre("cellTauonium",new ItemStack(QMDItems.cell, 1, CellType.TAUONIUM.getID()));
-		OreDictionary.registerOre("cellGlueballs",new ItemStack(QMDItems.cell, 1, CellType.GLUEBALLS.getID()));
+		OreDictionary.registerOre("cellPositronium",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.POSITRONIUM.getID())));
+		OreDictionary.registerOre("cellMuonium",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.MUONIUM.getID())));
+		OreDictionary.registerOre("cellTauonium",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.TAUONIUM.getID())));
+		OreDictionary.registerOre("cellGlueballs",IItemAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.GLUEBALLS.getID())));
 		
 		OreDictionary.registerOre("blockStrontium90", new ItemStack(QMDBlocks.strontium90));
 		

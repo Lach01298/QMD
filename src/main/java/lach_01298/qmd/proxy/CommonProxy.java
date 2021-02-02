@@ -18,6 +18,7 @@ import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.sound.QMDSounds;
 import lach_01298.qmd.tile.QMDTiles;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
@@ -82,6 +83,9 @@ public class CommonProxy
 		name = name.toLowerCase(Locale.ROOT);
 	}
 	
-	
+	public EntityPlayer getPlayerClient() 
+	{
+		return null;
+	}
 	
 }

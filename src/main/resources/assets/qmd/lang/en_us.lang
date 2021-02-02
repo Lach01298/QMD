@@ -281,6 +281,11 @@ qmd.guide_book.edition=WIP
 qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics. It still WIP so for more accurate/complete info go to the QMD wiki.
 
 
+//death messages
+death.attack.gluon_gun=%1$s was vaporized by %2$s with a Gluon Gun
+death.attack.lepton_cannon=%1$s was killed by %2$s with a Lepton Cannon
+
+
 //block descriptions
 
 tile.qmd.beamline.desc=Transports particles

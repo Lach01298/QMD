@@ -2,11 +2,11 @@ package lach_01298.qmd.render.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import lach_01298.qmd.QMD;
 import lach_01298.qmd.entity.EntityGluonBeam;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -22,7 +22,7 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 {
 
 	private static final ResourceLocation Texture = new ResourceLocation("qmd:textures/entities/gluon_beam.png");
-	
+	private float previousPartialTicks =-1;
 	public RenderGluonBeam(RenderManager renderManager)
 	{
 		super(renderManager);	
@@ -39,6 +39,24 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 	@Override
 	public void doRender(EntityGluonBeam entity, double x, double y, double z, float entityYaw, float partialTicks) 
 	{
+		if(previousPartialTicks==partialTicks)
+		{
+			return;
+		}
+		else
+		{
+			previousPartialTicks =partialTicks;
+		}
+			
+		
+		
+		if(entity.getOwner() == null)
+		{
+			return;
+		}
+		
+
+		
 		float width = 0.15F;
 		float brightness = 1.0F;
 		
@@ -46,14 +64,13 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 		float timeFactor = ((float) entity.ticksExisted + partialTicks) / 0.05F;
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(entity.posX-entity.owner.posX, entity.posY-entity.owner.posY, entity.posZ-entity.owner.posZ);
+		GlStateManager.translate(entity.getOwner().posX-QMD.proxy.getPlayerClient().posX, entity.getOwner().posY+ entity.getOwner().getEyeHeight()-QMD.proxy.getPlayerClient().posY, entity.getOwner().posZ-QMD.proxy.getPlayerClient().posZ);
 		
-
-		GlStateManager.rotate(-90f-entity.owner.rotationYaw, 0.0f,1.0f,0.0f);
-	    GlStateManager.rotate(-entity.owner.rotationPitch, 0.0f,0.0f,1.0f);
+		GlStateManager.rotate(-90f-entity.getOwner().rotationYaw, 0.0f,1.0f,0.0f);
+	    GlStateManager.rotate(-entity.getOwner().rotationPitch, 0.0f,0.0f,1.0f);
 	    GlStateManager.pushMatrix();
 	    
-	    if(entity.hand == EnumHand.MAIN_HAND && entity.owner.getPrimaryHand() == EnumHandSide.RIGHT || entity.hand == EnumHand.OFF_HAND && entity.owner.getPrimaryHand() == EnumHandSide.LEFT)
+	    if(entity.getHand() == EnumHand.MAIN_HAND && entity.getOwner().getPrimaryHand() == EnumHandSide.RIGHT || entity.getHand() == EnumHand.OFF_HAND && entity.getOwner().getPrimaryHand() == EnumHandSide.LEFT)
 		{
 	    	GlStateManager.translate(0.45, -0.24, 0.3);
 		}
@@ -91,10 +108,10 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 			GlStateManager.glNormal3f(0.0F, 0.0F, 0.0125F);
 
 			bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-			bufferbuilder.pos(entity.length, -width, 0.0D).tex(0, entity.length - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
+			bufferbuilder.pos(entity.getLength(), -width, 0.0D).tex(0, entity.getLength() - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
 			bufferbuilder.pos(0d, -width, 0.0D).tex(0, 0 - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
 			bufferbuilder.pos(0d, width, 0.0D).tex(1, 0 - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
-			bufferbuilder.pos(entity.length, width, 0.0D).tex(1, entity.length - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
+			bufferbuilder.pos(entity.getLength(), width, 0.0D).tex(1, entity.getLength() - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
 			tessellator.draw();
 		}
 		

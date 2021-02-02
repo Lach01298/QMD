@@ -19,10 +19,10 @@ public class QMDSounds
 	
 	public static void init() 
 	{
-		lepton_cannon = register("player.qmd.lepton_cannon");
-		gluon_gun = register("player.qmd.gluon_gun");
-		gluon_gun_start = register("player.qmd.gluon_gun_start");
-		gluon_gun_stop = register("player.qmd.gluon_gun_stop");
+		lepton_cannon = register("neutral.qmd.lepton_cannon");
+		gluon_gun = register("neutral.qmd.gluon_gun");
+		gluon_gun_start = register("neutral.qmd.gluon_gun_start");
+		gluon_gun_stop = register("neutral.qmd.gluon_gun_stop");
 	}
 	
 	
