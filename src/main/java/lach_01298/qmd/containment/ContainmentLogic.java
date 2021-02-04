@@ -248,9 +248,21 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	public void onAssimilate(Multiblock assimilated)
 	{	
-		if (!(assimilated instanceof Containment)) return;
-		Containment assimilatedAccelerator = (Containment) assimilated;
-		getMultiblock().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+		if (assimilated instanceof Containment)
+		{
+			Containment assimilatedAccelerator = (Containment) assimilated;
+			getMultiblock().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+			getMultiblock().energyStorage.mergeEnergyStorage(assimilatedAccelerator.energyStorage);
+		}
+		
+		if (getMultiblock().isAssembled()) {
+			
+			onContainmentFormed();
+		}
+		else 
+		{
+			onContainmentBroken();
+		}
 	}
 
 	public void onAssimilated(Multiblock assimilator)

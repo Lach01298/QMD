@@ -161,10 +161,18 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	public void onAssimilate(Multiblock assimilated)
 	{	
-		if (getMultiblock().isAssembled()) {
+		if (assimilated instanceof ParticleChamber)
+		{
+			ParticleChamber assimilatedAccelerator = (ParticleChamber) assimilated;
+			getMultiblock().energyStorage.mergeEnergyStorage(assimilatedAccelerator.energyStorage);
+		}
+		
+		if (getMultiblock().isAssembled()) 
+		{
 			onChamberFormed();
 		}
-		else {
+		else 
+		{
 			onChamberBroken();
 		}
 	}

@@ -115,14 +115,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		return 0;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public void onAcceleratorFormed() 
 	{
 		for (IAcceleratorController contr : getPartMap(IAcceleratorController.class).values()) 
@@ -310,9 +303,21 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public void onAssimilate(Multiblock assimilated) 
 	{	
-		if (!(assimilated instanceof Accelerator)) return;
-		Accelerator assimilatedAccelerator = (Accelerator) assimilated;
-		getAccelerator().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+		if (assimilated instanceof Accelerator)
+		{
+			Accelerator assimilatedAccelerator = (Accelerator) assimilated;
+			getAccelerator().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+			getAccelerator().energyStorage.mergeEnergyStorage(assimilatedAccelerator.energyStorage);
+		}
+		
+		if (getAccelerator().isAssembled()) {
+			
+			onAcceleratorFormed();
+		}
+		else 
+		{
+			onAcceleratorBroken();
+		}
 	}
 	
 	public void onAssimilated(Multiblock assimilator) 

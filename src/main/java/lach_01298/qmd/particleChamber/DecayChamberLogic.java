@@ -132,6 +132,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			return false;
 		}
 		
+		System.out.println("true");
 		return true;
 	}
 	
