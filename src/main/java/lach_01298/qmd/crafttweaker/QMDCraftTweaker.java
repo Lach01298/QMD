@@ -138,7 +138,7 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputParticle, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3 , double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy) 
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.decay_chamber, Lists.newArrayList( inputParticle, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.decay_chamber, Lists.newArrayList(inputParticle, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
 		}
 		
 		@ZenMethod
@@ -151,6 +151,30 @@ public class QMDCraftTweaker
 		public static void removeAllRecipes() 
 		{
 			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.decay_chamber));
+		}
+	}
+	
+	@ZenClass("mods.qmd.collision_chamber")
+	@ZenRegister
+	public static class CollisionChamberHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient inputParticle1,IIngredient inputParticle2, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, IIngredient outputParticle4 , long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation) 
+		{
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.collision_chamber, Lists.newArrayList(inputParticle1, inputParticle2, outputParticle1, outputParticle2, outputParticle3, outputParticle4, maxEnergy, crossSection, energyReleased, processRadiation)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient inputParticle1, IIngredient inputParticle2) 
+		{
+			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.collision_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputParticle1, inputParticle2)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.collision_chamber));
 		}
 	}
 	

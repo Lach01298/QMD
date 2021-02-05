@@ -3,14 +3,8 @@ package lach_01298.qmd.accelerator.tile;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.AcceleratorLogic;
-import lach_01298.qmd.accelerator.RingAcceleratorLogic;
-import lach_01298.qmd.accelerator.block.BlockRingAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
 import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.container.ContainerSolidFissionController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,15 +55,6 @@ public class TileRingAcceleratorController extends TileAcceleratorPart implement
 		
 	}
 
-	@Override
-	public void updateBlockState(boolean isActive)
-	{
-		if (getBlockType() instanceof BlockRingAcceleratorController)
-		{
-			((BlockRingAcceleratorController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
-	}
 
 	@Override
 	public void doMeltdown()

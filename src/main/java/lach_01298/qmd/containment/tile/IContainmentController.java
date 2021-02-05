@@ -8,7 +8,6 @@ import net.minecraft.util.NonNullList;
 public interface IContainmentController extends IContainmentPart, ILogicMultiblockController<Containment> 
 {
 
-	public void updateBlockState(boolean isActive);
 
 	public NonNullList<ItemStack> getInventoryStacks();
 

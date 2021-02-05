@@ -1,0 +1,36 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "tungsten_filament": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/tungsten_filament"
+                }
+            },
+            "sodium_22": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/source_sodium_22"
+                }
+            },
+            "cobalt_60": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/source_cobalt_60"
+                }
+            },
+            "iridium_192": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/source_iridium_192"
+                }
+            },
+            "calcium_48": {
+                "textures": {
+                    "layer0": "qmd:items/particle_sources/source_calcium_48"
+                }
+            }
+        }
+    }
+}

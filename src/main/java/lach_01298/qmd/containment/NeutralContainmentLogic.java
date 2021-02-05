@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.containment.tile.IContainmentController;
 import lach_01298.qmd.containment.tile.TileContainmentBeamPort;
 import lach_01298.qmd.containment.tile.TileContainmentCoil;
@@ -15,6 +16,9 @@ import lach_01298.qmd.containment.tile.TileContainmentLaser;
 import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.EnumTypes.IOType;
+import lach_01298.qmd.enums.MaterialTypes.CellType;
+import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
 import lach_01298.qmd.multiblock.network.ContainmentUpdatePacket;
@@ -296,8 +300,13 @@ public class NeutralContainmentLogic extends ContainmentLogic
 			long heat = 0;
 			for(TileContainmentCoil magnet :getMultiblock().getPartMap(TileContainmentCoil.class).values())
 			{
-				heat += 100; //TODO
-				energy += 8000;
+				heat += QMDConfig.containment_part_heat[0];
+				energy += QMDConfig.containment_part_power[0];
+			}
+			for(TileContainmentLaser laser :getMultiblock().getPartMap(TileContainmentLaser.class).values())
+			{
+				heat += QMDConfig.containment_part_heat[1];
+				energy += QMDConfig.containment_part_power[1];
 			}
 			int io = 0;
 			for(TileContainmentBeamPort port :getMultiblock().getPartMap(TileContainmentBeamPort.class).values())
@@ -358,19 +367,12 @@ public class NeutralContainmentLogic extends ContainmentLogic
 				
 				refreshCellRecipe();
 				
+				
+				
 				if(cellRecipeInfo != null)
 				{
-					
-					if(canProduceCellProduct())
-					{		
-						
-						produceCellProduct();
-					}	
+					produceCellProduct();
 				}
-				
-				
-				
-				
 				
 				refreshRecipe();
 				if(recipeInfo != null)
@@ -389,7 +391,51 @@ public class NeutralContainmentLogic extends ContainmentLogic
 					
 					if(canProduceProduct())
 					{		
-						produceProduct();
+						boolean switchInputs = false;
+						
+						if(getMultiblock().beams.get(0).getParticleStack() != null)
+						{
+							
+							if(recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() != null)
+							{
+								if(recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getParticle() != getMultiblock().beams.get(0).getParticleStack().getParticle())
+								{
+									switchInputs = true;
+								}
+							}
+							else
+							{
+								switchInputs = true;
+							}	
+						}
+						
+						if(!switchInputs && getMultiblock().beams.get(1).getParticleStack() != null )
+						{	
+							if(recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() != null)
+							{
+								if(recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getParticle() != getMultiblock().beams.get(1).getParticleStack().getParticle())
+								{
+									switchInputs = true;
+								}
+							}
+							else
+							{
+								switchInputs = true;
+							}
+						}
+						
+						
+						if(getMultiblock().beams.get(0).getParticleStack() != null)
+						{
+							particle1WorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
+						}
+						
+						if(getMultiblock().beams.get(1).getParticleStack() != null)
+						{
+							particle2WorkDone += getMultiblock().beams.get(1).getParticleStack().getAmount();	
+						}
+						
+						produceProduct(switchInputs);
 					}	
 				}
 			}
@@ -490,48 +536,64 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		ArrayList<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
 		TileNeutralContainmentController cont = (TileNeutralContainmentController) getMultiblock().controller;
 
-		ItemStack item = cont.getInventoryStacks().get(0).copy();
-		item.setTagCompound(new NBTTagCompound());
-
-		ArrayList<Tank> fluids = new ArrayList<Tank>();
-		Tank tank = getMultiblock().tanks.get(2);
-		if (tank.getFluid() != null)
+		if (cont.getInventoryStacks().get(0).getItem() instanceof IItemAmount)
 		{
-			FluidIngredient fluidIngredient = new FluidIngredient(tank.getFluid());
-			fluidIngredients.add(fluidIngredient);
-		}
-		else
-		{
-			EmptyFluidIngredient fluidIngredient = new EmptyFluidIngredient();
-			fluidIngredients.add(fluidIngredient);
-		}
+			ItemStack itemStack = cont.getInventoryStacks().get(0);
+			IItemAmount item = (IItemAmount) itemStack.getItem();
 
-		ItemIngredient itemIngredient = new ItemIngredient(item);
-		itemIngredients.add(itemIngredient);
-
-		ProcessorRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
-		if (recipe != null)
-		{
-			RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
-			cellRecipeInfo = new RecipeInfo(recipe, matchResult);
-		}
-		else
-		{
-			cellRecipeInfo = null;
-		}
-
-		if (cellRecipeInfo == null)
-		{
-			EmptyFluidIngredient fluidIngredient = new EmptyFluidIngredient();
-			fluidIngredients = new ArrayList<IFluidIngredient>();
-			fluidIngredients.add(fluidIngredient);
-
-			recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
-
-			if (recipe != null)
+			
+			
+			
+			if (item.getAmountStored(itemStack) == item.getCapacity(itemStack) && item.getCapacity(itemStack) > 0)
 			{
-				RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
-				cellRecipeInfo = new RecipeInfo(recipe, matchResult);
+				// cell emptying
+				ItemIngredient itemIngredient = new ItemIngredient(IItemAmount.cleanNBT(cont.getInventoryStacks().get(0)));
+				itemIngredients.add(itemIngredient);
+				
+				EmptyFluidIngredient fluidIngredient = new EmptyFluidIngredient();
+				fluidIngredients = new ArrayList<IFluidIngredient>();
+				fluidIngredients.add(fluidIngredient);
+
+				ProcessorRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
+				if (recipe != null)
+				{
+					RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
+					cellRecipeInfo = new RecipeInfo(recipe, matchResult);
+				}
+			}
+			else
+			{
+				// cell filling
+				if(item.getAmountStored(itemStack) == 0)
+				{
+					//fill empty cell
+					ItemIngredient itemIngredient = new ItemIngredient(IItemAmount.cleanNBT(cont.getInventoryStacks().get(0)));
+					itemIngredients.add(itemIngredient);	
+				}
+				else
+				{
+					//fill partially full cell
+					ItemIngredient itemIngredient = new ItemIngredient(new ItemStack(QMDItems.cell, 1, CellType.EMPTY.getID()));
+					itemIngredients.add(itemIngredient);
+				}
+				
+				ArrayList<Tank> fluids = new ArrayList<Tank>();
+				Tank tank = getMultiblock().tanks.get(2);
+				if (tank.getFluid() != null)
+				{
+					FluidStack copy = tank.getFluid().copy(); 
+					copy.amount = Integer.MAX_VALUE;
+
+					FluidIngredient fluidIngredient = new FluidIngredient(copy);
+					fluidIngredients.add(fluidIngredient);
+
+					ProcessorRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
+					if (recipe != null)
+					{
+						RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
+						cellRecipeInfo = new RecipeInfo(recipe, matchResult);
+					}
+				}
 			}
 		}
 
@@ -553,165 +615,176 @@ public class NeutralContainmentLogic extends ContainmentLogic
 		return false;
 	}
 	
-	private boolean canProduceCellProduct()
-	{	
-		boolean itemAllowed = false;
-		TileNeutralContainmentController cont = (TileNeutralContainmentController) getMultiblock().controller;
-		ItemStack itemProduct = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
-		
-		if(cont.getInventoryStacks().get(1).getCount() <= 0)
-		{
-			cont.getInventoryStacks().set(1, ItemStack.EMPTY);
-		}
-		if (cont.getInventoryStacks().get(1) == ItemStack.EMPTY)
-		{	
-			itemAllowed= true;
-		}
-		else if (cont.getInventoryStacks().get(1).isItemEqual(itemProduct) && cont.getInventoryStacks().get(0).getTagCompound().getInteger("energy") == cont.getInventoryStacks().get(1).getTagCompound().getInteger("energy"))
-		{
-			int count = cont.getInventoryStacks().get(1).getCount();
-			if (count + itemProduct.getCount() <= itemProduct.getMaxStackSize())
-			{
-				itemAllowed= true;
-			}
-		}
-		FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-
-		if(fluidProduct == null)
-		{
-			return true && itemAllowed;
-		}
-		else if (fluidProduct.amount == getMultiblock().tanks.get(2).fill(fluidProduct, false))
-		{
-			return true && itemAllowed;
-		}
-		
-		return false;
-	}
 	
-	private void produceProduct()
-	{
-		recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
-		recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
-
-		boolean switchInputs = false;
-		if(getMultiblock().beams.get(0).getParticleStack() != null && recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() != null)
-		{
-			if(recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getParticle() != getMultiblock().beams.get(0).getParticleStack().getParticle())
-			{
-				switchInputs = true;
-			}
-		}
-		
-		if(getMultiblock().beams.get(1).getParticleStack() != null && recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() != null)
-		{
-			if(recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getParticle() != getMultiblock().beams.get(1).getParticleStack().getParticle())
-			{
-				switchInputs = true;
-			}
-		}
+	
+	private void produceProduct(boolean switchInputs)
+	{	
 		
 		
 		if(switchInputs)
 		{
-			long temp = recipeParticle1Work;
-			recipeParticle1Work = recipeParticle2Work;
-			recipeParticle2Work = temp;
+			if(recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() == null)
+			{
+				recipeParticle1Work = 0;
+			}
+			else
+			{	
+				recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
+			}
+			
+			if(recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() == null)
+			{
+				recipeParticle2Work = 0;
+			}
+			else
+			{
+				recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+			}	
+		}
+		else
+		{
+			if(recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() == null)
+			{
+				recipeParticle1Work = 0;
+			}
+			else
+			{
+				recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+			}
+			
+			if(recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() == null)
+			{
+				recipeParticle2Work = 0;
+			}
+			else
+			{
+				recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
+			}
+
 		}
 		
-		boolean particle1Full = false;
-		boolean particle2Full = false;
-		if (particle1WorkDone >= recipeParticle1Work)
-		{
-			particle1Full = true;
-			particle1WorkDone = recipeParticle1Work;
-		}
-		else
-		{
-			if (getMultiblock().beams.get(0).getParticleStack() != null)
-			{
-				particle1WorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
-			}
-		}
-
-		if (particle2WorkDone >= recipeParticle2Work)
-		{
-			particle2WorkDone = recipeParticle2Work;
-			particle2Full = true;
-		}
-		else
-		{
-			if (getMultiblock().beams.get(1).getParticleStack() != null)
-			{
-				particle2WorkDone += getMultiblock().beams.get(1).getParticleStack().getAmount();
-			}
-		}
-
-		if (particle1Full && particle2Full)
+		
+		particle1WorkDone=Math.min(particle1WorkDone, recipeParticle1Work);
+		particle2WorkDone=Math.min(particle2WorkDone, recipeParticle2Work);
+		
+		
+		while(particle1WorkDone >= recipeParticle1Work && particle2WorkDone >= recipeParticle2Work && canProduceProduct())
 		{
 			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
 			getMultiblock().tanks.get(2).fill(product, true);
 
-			particle1WorkDone = 0;
-			particle2WorkDone = 0;
-		}
-
+			
+			particle1WorkDone = Math.max(0, particle1WorkDone - recipeParticle1Work);
+			particle2WorkDone = Math.max(0, particle2WorkDone - recipeParticle2Work);
+		}	
+		
+		
 	}
 	
 	private void produceCellProduct()
 	{
 		TileNeutralContainmentController cont = (TileNeutralContainmentController) getMultiblock().controller;
-		ItemStack itemProduct = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		ItemStack itemInput = cont.getInventoryStacks().get(0);
+		ItemStack itemOutput = cont.getInventoryStacks().get(1);
 		
-		NBTTagCompound tag = cont.getInventoryStacks().get(0).getTagCompound();
 		
-		if (cont.getInventoryStacks().get(1) == ItemStack.EMPTY)
+		if(itemOutput.getCount() <= 0)
 		{
-			cont.getInventoryStacks().set(1, itemProduct);
-			cont.getInventoryStacks().get(1).setTagCompound(tag);
-			
-			if(cont.getInventoryStacks().get(0).getCount() -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
-			{
-				cont.getInventoryStacks().set(0, ItemStack.EMPTY);
-				
-			}
-			else
-			{
-				int inputCount = cont.getInventoryStacks().get(0).getCount();
-				cont.getInventoryStacks().get(0).setCount(inputCount -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
-				
-			}
-			cont.markDirtyAndNotify();
-			
+			 cont.getInventoryStacks().set(1, ItemStack.EMPTY); //fix weird 0xtile.air bug
 		}
-		else if (cont.getInventoryStacks().get(1).isItemEqual(itemProduct))
+		
+		if(itemOutput != ItemStack.EMPTY)
 		{
-			int count = cont.getInventoryStacks().get(1).getCount();
-			if (count + itemProduct.getCount() <= itemProduct.getMaxStackSize())
+			return;
+		}
+		
+		IItemAmount item;
+		if (itemInput.getItem() instanceof IItemAmount)
+		{
+			item = (IItemAmount) itemInput.getItem();
+		}
+		else
+		{
+			return;
+		}
+
+		ItemStack itemProduct = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		int amount = item.getAmountStored(itemInput);
+		
+		
+		if(amount == 0)
+		{
+			//fill empty cells
+			
+			if(cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
 			{
-				cont.getInventoryStacks().get(1).setCount(count + itemProduct.getCount());
-				if(cont.getInventoryStacks().get(0).getCount() -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
+				ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				int amountPerMillibuckets = item.getCapacity(output)/cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+
+				if (!getMultiblock().tanks.get(2).isEmpty())
 				{
+					int cellAmount = amountPerMillibuckets * getMultiblock().tanks.get(2).drain(cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true).amount;
+
+					item.setAmountStored(output, cellAmount);
+					cont.getInventoryStacks().set(0, output);
+
+					if (item.getAmountStored(output) == item.getCapacity(output))
+					{
+						cont.getInventoryStacks().set(1, output);
+						cont.getInventoryStacks().set(0, ItemStack.EMPTY);
+					}
+				}
+			}
+		}
+		else if(amount < item.getCapacity(itemInput))
+		{
+			//fill partially full cells
+			if(cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
+			{
+				ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				if(output.getItem() == cont.getInventoryStacks().get(0).getItem() && output.getMetadata() == cont.getInventoryStacks().get(0).getMetadata()) //make sure it the right cell type
+				{
+					int amountPerMillibuckets = item.getCapacity(output)/cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+					
+					
+					if(!getMultiblock().tanks.get(2).isEmpty())
+					{
+						
+						int recipemb = cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+						int cellAmount = amount + amountPerMillibuckets*getMultiblock().tanks.get(2).drain(recipemb-amount/amountPerMillibuckets, true).amount;
+						
+						item.setAmountStored(output, cellAmount);
+						cont.getInventoryStacks().set(0, output);
+						
+						if(item.getAmountStored(output) == item.getCapacity(output))
+						{
+							cont.getInventoryStacks().set(1, output);
+							cont.getInventoryStacks().set(0, ItemStack.EMPTY);
+						}
+					}
+				}
+			}		
+		}
+		else
+		{
+			//empty full cells
+			
+			if(cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() != null)
+			{
+				FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+				if(getMultiblock().tanks.get(2).fill(fluidProduct, false) == fluidProduct.amount)
+				{
+					getMultiblock().tanks.get(2).fill(fluidProduct, true);
 					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
 					
-					
+					ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+					item.setAmountStored(output, item.getCapacity(output));
+					cont.getInventoryStacks().set(1, output);
 				}
-				else
-				{
-					int inputCount = cont.getInventoryStacks().get(0).getCount();
-					cont.getInventoryStacks().get(0).setCount(inputCount -cellRecipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
-					
-				}
-				cont.markDirtyAndNotify();
-				
 			}
-
+			
+			
 		}
-		
-		FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-		getMultiblock().tanks.get(2).fill(fluidProduct, true);	
-		FluidStack fluidIngredient = cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
-		getMultiblock().tanks.get(2).drain(fluidIngredient, true);	
 	}
 	
 	@Override

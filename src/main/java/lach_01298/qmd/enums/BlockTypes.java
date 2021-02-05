@@ -1,6 +1,7 @@
 package lach_01298.qmd.enums;
 
-import lach_01298.qmd.QMDRadSources;
+import static nc.config.NCConfig.turbine_blade_efficiency;
+
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
@@ -10,14 +11,8 @@ import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.QMDTilePassive;
 import lach_01298.qmd.tile.QMDTileRTG;
 import nc.enumm.IBlockMetaEnum;
-import nc.tab.NCTabs;
-import nc.tile.TileBin;
-import nc.tile.dummy.TileMachineInterface;
-import nc.tile.generator.TileDecayGenerator;
-import nc.tile.generator.TileSolarPanel;
-import nc.tile.passive.TilePassive;
-import nc.tile.radiation.TileGeigerCounter;
-import nc.tile.radiation.TileRadiationScrubber;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
+import nc.radiation.RadSources;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
@@ -663,7 +658,7 @@ public class BlockTypes
 	
 	public enum RTGType
 	{
-		STRONTIUM(0, QMDRadSources.STRONTIUM_90 / 8D);
+		STRONTIUM(0, RadSources.STRONTIUM_90 / 8D);
 
 		private int id;
 		private double radiation;
@@ -906,11 +901,48 @@ public class BlockTypes
 		}
 	}
 	
-	
-	
-	
-	
-	
+	public enum TurbineBladeType implements IRotorBladeType
+	{
+		SUPER_ALLOY("super_alloy",QMDConfig.turbine_blade_efficiency[0],QMDConfig.turbine_blade_expansion[0]);
+
+		
+		private final String name;
+		private final double efficiency;
+		private final double expansion;
+		
+		private TurbineBladeType(String name, double efficiency, double expansion) 
+		{
+			this.name = name;
+			this.efficiency = efficiency;
+			this.expansion = expansion;
+		}
+		
+		@Override
+		public String getName() 
+		{
+			return name;
+		}
+		
+		@Override
+		public String toString() 
+		{
+			return getName();
+		}
+		
+		@Override
+		public double getEfficiency() 
+		{
+			return efficiency;
+		}
+		
+		@Override
+		public double getExpansionCoefficient() 
+		{
+			return expansion;
+		}
+		
+	}
+
 }
 
 

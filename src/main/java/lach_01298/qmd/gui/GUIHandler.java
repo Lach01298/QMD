@@ -7,8 +7,10 @@ import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
 import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
 import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
+import lach_01298.qmd.machine.container.ContainerCreativeParticleSource;
 import lach_01298.qmd.machine.container.ContainerIrradiator;
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
+import lach_01298.qmd.machine.gui.GuiCreativeParticleSource;
 import lach_01298.qmd.machine.gui.GuiIrradiator;
 import lach_01298.qmd.machine.gui.GuiOreLeacher;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileIrradiator;
@@ -16,6 +18,7 @@ import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
 import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
+import lach_01298.qmd.multiblock.container.ContainerCollisionChamberController;
 import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
@@ -25,6 +28,7 @@ import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
 import lach_01298.qmd.multiblock.gui.GuiBeamDiverterController;
 import lach_01298.qmd.multiblock.gui.GuiBeamDumpController;
+import lach_01298.qmd.multiblock.gui.GuiCollisionChamberController;
 import lach_01298.qmd.multiblock.gui.GuiDecayChamberController;
 import lach_01298.qmd.multiblock.gui.GuiDeceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
@@ -32,8 +36,10 @@ import lach_01298.qmd.multiblock.gui.GuiNeutralContainmentController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
 import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
+import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
 import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.tile.TileCreativeParticleSource;
 import nc.container.processor.ContainerMachineConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -104,6 +110,14 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.DECELERATOR:
 				if (tile instanceof TileDeceleratorController)
 					return new ContainerDeceleratorController(player,  (TileDeceleratorController)tile);
+				
+			case GUI_ID.COLLISION_CHAMBER:
+				if (tile instanceof TileCollisionChamberController)
+					return new ContainerCollisionChamberController(player,  (TileCollisionChamberController)tile);
+				
+			case GUI_ID.CREATIVE_SOURCE:
+				if (tile instanceof TileCreativeParticleSource)
+					return new ContainerCreativeParticleSource(player,  (TileCreativeParticleSource)tile);
 			
 			}
 		}
@@ -173,6 +187,14 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.DECELERATOR:
 				if (tile instanceof TileDeceleratorController)
 					return new GuiDeceleratorController(player, (TileDeceleratorController) tile);
+				
+			case GUI_ID.COLLISION_CHAMBER:
+				if (tile instanceof TileCollisionChamberController)
+					return new GuiCollisionChamberController(player, (TileCollisionChamberController) tile);
+			
+			case GUI_ID.CREATIVE_SOURCE:
+				if (tile instanceof TileCreativeParticleSource)
+					return new GuiCreativeParticleSource(player, (TileCreativeParticleSource) tile);
 				
 			}
 		}

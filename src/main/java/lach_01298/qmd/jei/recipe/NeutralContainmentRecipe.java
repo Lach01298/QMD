@@ -3,11 +3,9 @@ package lach_01298.qmd.jei.recipe;
 import java.awt.Color;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
-import lach_01298.qmd.Units;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.util.Units;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -19,18 +17,16 @@ import net.minecraftforge.fluids.FluidStack;
 public class NeutralContainmentRecipe implements IRecipeWrapper
 {
 
-	private final ParticleStack inputParticle1;
-	private final ParticleStack inputParticle2;
-	private final FluidStack outputFluid;
+	private final List<List<ParticleStack>> inputParticles;
+	private final List<List<FluidStack>> outputFluid;
 
 	private final long maxEnergy;
 
 
-	public NeutralContainmentRecipe(ParticleStack inputParticle1,ParticleStack inputParticle2, FluidStack outputFluid, long maxEnergy)
+	public NeutralContainmentRecipe(List<List<ParticleStack>> inputParticles, List<List<FluidStack>> outputFluid, long maxEnergy)
 	{
 		
-		this.inputParticle1 = inputParticle1;
-		this.inputParticle2 = inputParticle2;
+		this.inputParticles = inputParticles;
 		this.outputFluid = outputFluid;
 		this.maxEnergy = maxEnergy;
 	
@@ -39,9 +35,9 @@ public class NeutralContainmentRecipe implements IRecipeWrapper
 	@Override
 	public void getIngredients(IIngredients ingredients) 
 	{
-		List<ParticleStack> inputParticles = Lists.newArrayList(inputParticle1,inputParticle2);
-		ingredients.setInputs(ParticleType.Particle, inputParticles);
-		ingredients.setOutput(VanillaTypes.FLUID, outputFluid);
+		
+		ingredients.setInputLists(ParticleType.Particle, inputParticles);
+		ingredients.setOutputLists(VanillaTypes.FLUID, outputFluid);
 	}
 	
 	
@@ -51,7 +47,7 @@ public class NeutralContainmentRecipe implements IRecipeWrapper
 		FontRenderer fontRenderer = minecraft.fontRenderer;
 		if(maxEnergy != Long.MAX_VALUE)
 		{
-			String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticle1.getMeanEnergy()) + "-" + Units.getSIFormat(maxEnergy,3,"eV"));
+			String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getSIFormat(maxEnergy,3,"eV"));
 			fontRenderer.drawString(rangeString, 0, 1, Color.gray.getRGB());
 		}
 		

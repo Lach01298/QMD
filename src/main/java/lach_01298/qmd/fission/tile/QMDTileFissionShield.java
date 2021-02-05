@@ -13,7 +13,7 @@ public class QMDTileFissionShield extends TileFissionShield
 	}
 
 	@Override
-	public void updateBlockState(boolean isActive)
+	public void setActivity (boolean isActive)
 	{
 		if (getBlockType() instanceof QMDBlockFissionShield)
 		{

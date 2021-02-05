@@ -51,49 +51,57 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		this.minEnergy = 0;
 	}
 
-	public ParticleStorage readFromNBT(NBTTagCompound nbt)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
-		if (!nbt.hasKey("Empty"))
+		if (nbt.hasKey("particle_stack"))
 		{
-			ParticleStack stack = ParticleStack.loadParticleStackFromNBT(nbt);
-			setParticleStack(stack);
+			this.particleStack = ParticleStack.loadParticleStackFromNBT(nbt.getCompoundTag("particle_stack"));
 		}
 		else
 		{
-			setParticleStack(null);
+			this.particleStack = null;
 		}
-		return this;
+		
+		this.maxEnergy = nbt.getLong("maxEnergy");
+		this.capacity = nbt.getInteger("capacity");
+		this.minEnergy = nbt.getLong("minEnergy");
 	}
 
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
+		NBTTagCompound tag = new NBTTagCompound();
 		if (particleStack != null)
 		{
-			particleStack.writeToNBT(nbt);
+			particleStack.writeToNBT(tag);
 		}
 		else
 		{
-			nbt.setString("Empty", "");
+			new ParticleStack().writeToNBT(tag);
 		}
+		nbt.setTag("particle_stack", tag);
+		nbt.setLong("maxEnergy", maxEnergy);
+		nbt.setInteger("capacity", capacity);
+		nbt.setLong("minEnergy", minEnergy);
 		return nbt;
 	}
 	
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt, int id)
 	{
-		writeToNBT(nbt);
+		
 		NBTTagCompound tag = new NBTTagCompound();
+		writeToNBT(tag);
 		nbt.setTag("ParticleStorage" + id, tag);
+		
 		return nbt;
 	}
 
-	public ParticleStorage readFromNBT(NBTTagCompound nbt, int id)
+	public void readFromNBT(NBTTagCompound nbt, int id)
 	{
 		if (nbt.hasKey("ParticleStorage" + id)) 
 		{
 			NBTTagCompound tag = nbt.getCompoundTag("ParticleStorage" + id);
-			return readFromNBT(tag);
+			readFromNBT(tag);
 		}
-		return readFromNBT(nbt);
 	}
 	
 	

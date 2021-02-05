@@ -35,6 +35,26 @@
                 "textures": {
                     "layer0": "qmd:items/cell/antihelium"
                 }
+            },
+            "positronium": {
+                "textures": {
+                    "layer0": "qmd:items/cell/positronium"
+                }
+            },
+            "muonium": {
+                "textures": {
+                    "layer0": "qmd:items/cell/muonium"
+                }
+            },
+            "tauonium": {
+                "textures": {
+                    "layer0": "qmd:items/cell/tauonium"
+                }
+            },
+            "glueballs": {
+                "textures": {
+                    "layer0": "qmd:items/cell/glueballs"
+                }
             }
         }
     }

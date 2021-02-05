@@ -35,8 +35,8 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 {
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_source";
 	
-	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.IN, ItemSorption.OUT));
-	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
+	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.BOTH));
+	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	

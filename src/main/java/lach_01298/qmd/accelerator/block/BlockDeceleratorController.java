@@ -6,6 +6,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
 import lach_01298.qmd.gui.GUI_ID;
+import nc.block.tile.IActivatable;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +17,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockDeceleratorController extends BlockAcceleratorPart
+public class BlockDeceleratorController extends BlockAcceleratorPart implements IActivatable
 {
 	public BlockDeceleratorController()
 	{
@@ -120,17 +121,4 @@ public class BlockDeceleratorController extends BlockAcceleratorPart
 		return rightClickOnPart(world, pos, player, hand, facing, true);
 	}
 
-	public void setState(boolean isActive, TileEntity tile)
-	{
-		World world = tile.getWorld();
-		BlockPos pos = tile.getPos();
-		IBlockState state = world.getBlockState(pos);
-		if (!world.isRemote && state.getBlock() instanceof BlockDeceleratorController)
-		{
-			if (isActive != state.getValue(ACTIVE))
-			{
-				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
-			}
-		}
-	}
 }

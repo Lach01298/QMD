@@ -294,10 +294,14 @@ public class TargetChamberLogic extends ParticleChamberLogic
 					
 					if(canProduceProduct())
 					{
-						
+						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
 						produceProduct();
 						produceBeams();
-					}	
+					}
+					else
+					{
+						resetBeams();
+					}
 				}
 				else
 				{
@@ -321,8 +325,13 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 
-	public boolean switchOutputs(BlockPos pos)
+	@Override
+	public boolean toggleSetting(BlockPos pos, int ioNumber)
 	{
+		if(ioNumber == 0 || ioNumber == 2)
+		{
+			return false;
+		}
 		
 		if (getWorld().getTileEntity(pos) instanceof TileParticleChamberBeamPort)
 		{
@@ -392,10 +401,15 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private boolean canProduceProduct()
 	{
-		
-		
 		TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
 		ItemStack product = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		
+		
+		if(cont.getInventoryStacks().get(0).getCount() < recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount())
+		{
+			return false;
+		}
+		
 		if(cont.getInventoryStacks().get(1).getCount() <= 0)
 		{
 			cont.getInventoryStacks().set(1, ItemStack.EMPTY);
@@ -418,27 +432,35 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	private void produceProduct()
 	{
 		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
-		if (particleWorkDone >= recipeParticleWork)
+		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
+		
+		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
+			
 			TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
 			ItemStack product = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
-
+			if(product == null)
+			{
+				product = ItemStack.EMPTY;
+			}
+			
+			
 			if (cont.getInventoryStacks().get(1) == ItemStack.EMPTY)
 			{
 				cont.getInventoryStacks().set(1, product);
-				if(cont.getInventoryStacks().get(0).getCount() -recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
+				if (cont.getInventoryStacks().get(0).getCount()- recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
 				{
 					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
-					
 				}
 				else
 				{
 					int inputCount = cont.getInventoryStacks().get(0).getCount();
-					cont.getInventoryStacks().get(0).setCount(inputCount -recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
-					
+					cont.getInventoryStacks().get(0).setCount(
+							inputCount - recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
+
 				}
 				cont.markDirtyAndNotify();
-				
+
 			}
 			else if (cont.getInventoryStacks().get(1).isItemEqual(product))
 			{
@@ -446,30 +468,27 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				if (count + product.getCount() <= product.getMaxStackSize())
 				{
 					cont.getInventoryStacks().get(1).setCount(count + product.getCount());
-					if(cont.getInventoryStacks().get(0).getCount() -recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
+					if (cont.getInventoryStacks().get(0).getCount() - recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
 					{
 						cont.getInventoryStacks().set(0, ItemStack.EMPTY);
-						
-						
+
 					}
 					else
 					{
 						int inputCount = cont.getInventoryStacks().get(0).getCount();
-						cont.getInventoryStacks().get(0).setCount(inputCount -recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
-						
+						cont.getInventoryStacks().get(0).setCount(inputCount - recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
+
 					}
 					cont.markDirtyAndNotify();
-					
+
 				}
 
 			}
-
-			particleWorkDone =0;
+			particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
 		}
-		else
-		{
-			particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
-		}
+		
+		
+		
 	}
 	
 

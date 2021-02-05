@@ -245,7 +245,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 					
 					if(canProduceProduct())
 					{
-						
+						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
 						produceProduct();
 					}	
 				}
@@ -273,16 +273,13 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	private void produceProduct()
 	{
 		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
-		if (particleWorkDone >= recipeParticleWork)
+		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
+		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
 			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
 			getMultiblock().tanks.get(1).fill(product, true);	
 	
-			particleWorkDone -=recipeParticleWork;
-		}
-		else
-		{
-			particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
+			particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
 		}
 	}
 	
@@ -293,7 +290,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	public void onResetStats()
 	{
 		getMultiblock().efficiency =1;
-		getMultiblock().requiredEnergy =QMDConfig.target_chamber_power;
+		getMultiblock().requiredEnergy =QMDConfig.beam_dump_power;
 		
 	}
 

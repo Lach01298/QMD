@@ -20,7 +20,7 @@ public class TileQMDProcessor
 					QMDConfig.processor_power[0], true, QMDRecipes.ore_leacher, GUI_ID.ORE_LEACHER, 0);
 		}
 	}
-	public static class TileIrradiator extends TileItemDamageFuelProcessor
+	public static class TileIrradiator extends TileItemAmountFuelProcessor
 	{
 		public TileIrradiator()
 		{

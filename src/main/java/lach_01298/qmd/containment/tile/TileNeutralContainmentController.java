@@ -9,9 +9,7 @@ import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.containment.Containment;
-import lach_01298.qmd.containment.block.BlockNeutralContainmentController;
 import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController;
-import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -89,15 +87,6 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 		if (getMultiblock() != null) getMultiblock().updateActivity();
 	}
 
-	@Override
-	public void updateBlockState(boolean isActive)
-	{
-		if (getBlockType() instanceof BlockNeutralContainmentController)
-		{
-			((BlockNeutralContainmentController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
-	}
 
 
 	public ProcessorRecipeHandler getRecipeHandler() {

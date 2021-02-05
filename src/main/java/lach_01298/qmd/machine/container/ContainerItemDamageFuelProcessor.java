@@ -1,16 +1,16 @@
 package lach_01298.qmd.machine.container;
 
-import lach_01298.qmd.machine.tile.TileItemDamageFuelProcessor;
+import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
 import nc.container.ContainerTile;
 import nc.recipe.ProcessorRecipeHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileItemDamageFuelProcessor> extends ContainerTile<PROCESSOR> 
+public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileItemAmountFuelProcessor> extends ContainerTile<PROCESSOR> 
 {
 	
-	protected final TileItemDamageFuelProcessor tile;
+	protected final TileItemAmountFuelProcessor tile;
 	protected final ProcessorRecipeHandler recipeHandler;
 	protected final ProcessorRecipeHandler fuelHandler;
 	

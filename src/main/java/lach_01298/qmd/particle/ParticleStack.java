@@ -134,11 +134,7 @@ public class ParticleStack
 
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		if(particle == null)
-		{
-			nbt.setString("particle", "none");
-		}
-		else
+		if(particle != null)
 		{
 			nbt.setString("particle", particle.getName());
 		}
@@ -151,15 +147,22 @@ public class ParticleStack
 		return nbt;
 	}
 
-	public ParticleStack readFromNBT(NBTTagCompound nbt)
+	public void readFromNBT(NBTTagCompound nbt)
 	{
 
-		this.particle = Particles.getParticleFromName(nbt.getString("particle"));
+		if(nbt.hasKey("particle"))
+		{
+			this.particle = Particles.getParticleFromName(nbt.getString("particle"));
+		}
+		else
+		{
+			this.particle = null;
+		}
+		
 		this.amount = nbt.getInteger("amount");
 		this.meanEnergy = nbt.getLong("meanEnergy");
 		this.focus = nbt.getDouble("focus");
 		
-		return this;
 	}
 
 	
@@ -173,11 +176,11 @@ public class ParticleStack
 	{
 		if (nbt == null)
 		{
-			return new ParticleStack();
+			return null;
 		}
 		if (!nbt.hasKey("particle", Constants.NBT.TAG_STRING))
 		{
-			return new ParticleStack();
+			return null;
 		}
 
 		String particleName = nbt.getString("particle");

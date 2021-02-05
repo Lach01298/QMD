@@ -5,7 +5,6 @@ import static nc.block.property.BlockProperties.ACTIVE;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Nonnull;
 
@@ -16,24 +15,21 @@ import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.fission.tile.TileFissionIrradiator;
-import nc.multiblock.fission.tile.port.TileFissionIrradiatorPort;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
@@ -57,6 +53,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	private double excessCoolantOut =0;
 	
 	
+	
 	public AcceleratorLogic(Accelerator accelerator) 
 	{
 		super(accelerator);
@@ -73,12 +70,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		return "";
 	}
 	
-	protected Accelerator getAccelerator() 
+	public Accelerator getAccelerator()
 	{
 		return multiblock;
 	}
-	
-	
+
 	public void onResetStats() {}
 	
 	// Multiblock Size Limits
@@ -109,6 +105,17 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		onAcceleratorFormed();
 	}
 	
+	public int getBeamLength() 
+	{
+		return 0;
+	}
+	
+	public double getBeamRadius() 
+	{
+		return 0;
+	}
+	
+
 	public void onAcceleratorFormed() 
 	{
 		for (IAcceleratorController contr : getPartMap(IAcceleratorController.class).values()) 
@@ -116,13 +123,13 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			 getAccelerator().controller = contr;
 		}
 		
-		getAccelerator().energyStorage.setStorageCapacity(Accelerator.BASE_MAX_ENERGY * getCapacityMultiplier());
-		getAccelerator().energyStorage.setMaxTransfer(Accelerator.BASE_MAX_ENERGY * getCapacityMultiplier());
-		getAccelerator().heatBuffer.setHeatCapacity(Accelerator.BASE_MAX_HEAT * getCapacityMultiplier());
+		getAccelerator().energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getAccelerator().energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getAccelerator().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
 		getAccelerator().ambientTemp = 273 + (int) (getWorld().getBiome(getAccelerator().getMiddleCoord()).getTemperature(getAccelerator().getMiddleCoord())*20F);
 		
-		getAccelerator().tanks.get(0).setCapacity(Accelerator.BASE_MAX_INPUT * getCapacityMultiplier());
-		getAccelerator().tanks.get(1).setCapacity(Accelerator.BASE_MAX_OUTPUT * getCapacityMultiplier());
+		getAccelerator().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
+		getAccelerator().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
 		
 		if(!getAccelerator().cold)
 		{
@@ -136,6 +143,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		{
 			refreshConnections();
 			getAccelerator().updateActivity();	
+			
+			
+			for(ParticleStorageAccelerator beam:  getAccelerator().beams)
+			{
+			 beam.setMaxEnergy(Long.MAX_VALUE);
+			}
 		}
 		
 		
@@ -162,6 +175,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			 }
 			
 		 }
+		 
+		 
+		 
+		 
+		 
 	
 	}
 	
@@ -172,7 +190,10 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	}
 
 	@Override
-	public void onMachinePaused() {}
+	public void onMachinePaused() 
+	{
+		onAcceleratorBroken();
+	}
 	
 	public void onMachineDisassembled()
 	{
@@ -218,22 +239,22 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			beam.setFunctional(false);
 		}
 		
-		acc.resetStats();
-		if (acc.controller != null)
-		{
-			acc.controller.updateBlockState(false);
-		}
-		acc.isAcceleratorOn = false;
-		operational = false;
 		
-		if (!getWorld().isRemote)
-		{
-			refreshConnections();
-
-			acc.updateActivity();
-		}
+		
+		operational = false;
+		onAcceleratorBroken();
+		
 	}
 
+	public void onAcceleratorBroken()
+	{
+		if (!getWorld().isRemote)
+		{
+			getAccelerator().updateActivity();
+		}
+	}
+	
+	
 	public boolean isMachineWhole(Multiblock multiblock) 
 	{
 		// vents
@@ -282,9 +303,21 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public void onAssimilate(Multiblock assimilated) 
 	{	
-		if (!(assimilated instanceof Accelerator)) return;
-		Accelerator assimilatedAccelerator = (Accelerator) assimilated;
-		getAccelerator().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+		if (assimilated instanceof Accelerator)
+		{
+			Accelerator assimilatedAccelerator = (Accelerator) assimilated;
+			getAccelerator().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+			getAccelerator().energyStorage.mergeEnergyStorage(assimilatedAccelerator.energyStorage);
+		}
+		
+		if (getAccelerator().isAssembled()) {
+			
+			onAcceleratorFormed();
+		}
+		else 
+		{
+			onAcceleratorBroken();
+		}
 	}
 	
 	public void onAssimilated(Multiblock assimilator) 
@@ -297,13 +330,97 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 	}
 
+	public void refreshAccelerator()
+	{
+		
+		
+	}
+	
+	public void refreshStats()
+	{
+		int energy = 0;
+		long heat = 0;
+		int parts= 0;
+		double efficiency =0;
+		double quadStrength =0;
+		double dipoleStrength =0;
+		int voltage = 0;
+		
+		for (DipoleMagnet dipole : getAccelerator().dipoleMap.values())
+		{
+			for (IAcceleratorComponent componet : dipole.getComponents().values())
+			{
+				if(componet instanceof TileAcceleratorMagnet)
+				{
+					TileAcceleratorMagnet magnet = (TileAcceleratorMagnet) componet;
+					dipoleStrength += magnet.strength;
+					heat += magnet.heat;
+					energy += magnet.basePower;
+					parts++;
+					efficiency += magnet.efficiency;
+					break;
+				}
+			}
+		}
+		
+		for (QuadrupoleMagnet quad : getAccelerator().getQuadrupoleMap().values())
+		{
+			for (IAcceleratorComponent componet : quad.getComponents().values())
+			{
+				if(componet instanceof TileAcceleratorMagnet)
+				{
+					TileAcceleratorMagnet magnet = (TileAcceleratorMagnet) componet;
+					quadStrength += magnet.strength;
+					heat += magnet.heat;
+					energy += magnet.basePower;
+					parts++;
+					efficiency += magnet.efficiency;
+					break;
+				}
+			}
+		}
+		
+		for (RFCavity cavity : getAccelerator().getRFCavityMap().values())
+		{
+			for (IAcceleratorComponent componet : cavity.getComponents().values())
+			{
+				if(componet instanceof TileAcceleratorRFCavity)
+				{
+					TileAcceleratorRFCavity cav = (TileAcceleratorRFCavity) componet;
+					voltage += cav.voltage;
+					heat += cav.heat;
+					energy += cav.basePower;
+					parts++;
+					efficiency += cav.efficiency;
+					break;
+				}
+			}
+		}
+		
+		
+		
+		efficiency /= parts;
+		getAccelerator().requiredEnergy =  (int) (energy/efficiency);
+		getAccelerator().rawHeating = heat;
+		getAccelerator().dipoleStrength = dipoleStrength;
+		getAccelerator().quadrupoleStrength = quadStrength;
+		getAccelerator().efficiency = efficiency;
+		getAccelerator().acceleratingVoltage= voltage;
+		
+		
+	}
+	
+	
+	
+	
+	
 	
 	// Server
 	
 	public boolean onUpdateServer()
 	{
 
-		if (isRedstonePowered())
+		if ((isRedstonePowered() && !getAccelerator().computerControlled) || (getAccelerator().computerControlled && getAccelerator().energyPercentage > 0))
 		{
 			if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
 					true) == getAccelerator().requiredEnergy)
@@ -618,6 +735,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 						{
 							if (stack.getMeanEnergy() > getAccelerator().beams.get(0).getMaxEnergy())
 							{
+								
 								getAccelerator().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
 							}
 							else
@@ -639,7 +757,5 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		return getAccelerator().isAssembled() ? getAccelerator().tanks : backupTanks;
 	}
-	
-
 
 }

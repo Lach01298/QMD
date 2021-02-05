@@ -4,7 +4,7 @@ import nc.block.fluid.NCBlockFluid;
 import net.minecraftforge.fluids.Fluid;
 
 public enum QMDFluidType {
-	ANTIMATTER(FluidAntimatter.class, BlockFluidAntimatter.class);
+	EXOTIC(FluidExotic.class, BlockFluidExotic.class);
 	
 	
 	private final Class<? extends Fluid> fluidClass;

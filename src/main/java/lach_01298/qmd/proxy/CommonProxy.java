@@ -15,8 +15,10 @@ import lach_01298.qmd.multiblock.Multiblocks;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipes.QMDRecipes;
+import lach_01298.qmd.sound.QMDSounds;
 import lach_01298.qmd.tile.QMDTiles;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
@@ -31,6 +33,7 @@ public class CommonProxy
 	
 	public void preInit(FMLPreInitializationEvent preEvent) 
 	{
+		QMDSounds.init();
 		QMDBlocks.init();
 		QMDItems.init();
 		QMDFluids.init();
@@ -63,7 +66,7 @@ public class CommonProxy
 	public void postInit(FMLPostInitializationEvent postEvent) 
 	{
 		CapabilityParticleStackHandler.register();
-		MinecraftForge.EVENT_BUS.register(new TickItemHandler());
+		//MinecraftForge.EVENT_BUS.register(new TickItemHandler());
 	}
 	
 	
@@ -80,6 +83,9 @@ public class CommonProxy
 		name = name.toLowerCase(Locale.ROOT);
 	}
 	
-	
+	public EntityPlayer getPlayerClient() 
+	{
+		return null;
+	}
 	
 }

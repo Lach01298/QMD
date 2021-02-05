@@ -39,8 +39,6 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	protected TileParticleChamber mainChamber;
 	
 	
-	public long particleWorkDone = 0;
-	public long recipeParticleWork = 100;
 	public boolean outputSwitched = false;
 	
 	public DecayChamberLogic(ParticleChamberLogic oldLogic)
@@ -134,6 +132,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			return false;
 		}
 		
+		System.out.println("true");
 		return true;
 	}
 	
@@ -284,7 +283,6 @@ public class DecayChamberLogic extends ParticleChamberLogic
 				}
 				else
 				{
-					particleWorkDone= 0;
 					resetBeams();
 				}
 
@@ -311,8 +309,13 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		getMultiblock().requiredEnergy = QMDConfig.decay_chamber_power;	
 	}
 	
-	public boolean switchOutputs(BlockPos pos)
+	@Override
+	public boolean toggleSetting(BlockPos pos, int ioNumber)
 	{
+		if(ioNumber == 0 || ioNumber == 2)
+		{
+			return false;
+		}
 		
 		if (getWorld().getTileEntity(pos) instanceof TileParticleChamberBeamPort)
 		{
@@ -468,7 +471,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		return new DecayChamberUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
-				particleWorkDone,recipeParticleWork,getMultiblock().tanks,getMultiblock().beams);
+				getMultiblock().tanks,getMultiblock().beams);
 	}
 	
 	@Override
@@ -479,8 +482,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		{
 			DecayChamberUpdatePacket packet = (DecayChamberUpdatePacket) message;
 			getMultiblock().beams = packet.beams;
-			this.particleWorkDone = packet.particleWorkDone;
-			this.recipeParticleWork = packet.recipeParticleWork;
+			
 		}
 	}
 	
@@ -492,8 +494,6 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		super.writeToLogicTag(logicTag, syncReason);
 		
-		logicTag.setLong("particleCount", particleWorkDone);
-		logicTag.setLong("recipeParticleCount", recipeParticleWork);
 		logicTag.setBoolean("outputSwitched", outputSwitched);
 	}
 
@@ -502,8 +502,6 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		super.readFromLogicTag(logicTag, syncReason);
 		
-		particleWorkDone=logicTag.getLong("particleCount");
-		recipeParticleWork=logicTag.getLong("recipeParticleCount");
 		outputSwitched =logicTag.getBoolean("outputSwitched");
 	}
 	

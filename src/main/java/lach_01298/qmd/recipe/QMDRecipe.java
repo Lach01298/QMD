@@ -110,6 +110,7 @@ public class QMDRecipe  implements IQMDRecipe
 
 	/* ================================== Recipe Extras ===================================== */
 	
+	//most recipes
 	public long getMaxEnergy()
 	{
 		return (long) extras.get(0);
@@ -132,8 +133,5 @@ public class QMDRecipe  implements IQMDRecipe
 	}
 	
 
-
-
-	
 	
 }

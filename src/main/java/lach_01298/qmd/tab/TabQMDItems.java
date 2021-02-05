@@ -1,5 +1,6 @@
 package lach_01298.qmd.tab;
 
+import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -14,7 +15,7 @@ public class TabQMDItems extends CreativeTabs
 	@Override
 	public ItemStack createIcon()
 	{
-		return new ItemStack(QMDItems.source_sodium_22);
+		return new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID());
 	}
 }
 

@@ -11,11 +11,6 @@
                     "layer0": "qmd:items/materials/isotope/sodium_22"
                 }
             },
-            "promethium_147": {
-                "textures": {
-                    "layer0": "qmd:items/materials/isotope/promethium_147"
-                }
-            },
             "beryllium_7": {
                 "textures": {
                     "layer0": "qmd:items/materials/isotope/beryllium_7"
@@ -29,16 +24,6 @@
             "magnesium_26": {
                 "textures": {
                     "layer0": "qmd:items/materials/isotope/magnesium_26"
-                }
-            },
-            "lead_210": {
-                "textures": {
-                    "layer0": "qmd:items/materials/isotope/lead_210"
-                }
-            },
-            "strontium_90": {
-                "textures": {
-                    "layer0": "qmd:items/materials/isotope/strontium_90"
                 }
             },
              "uranium_234": {
@@ -59,6 +44,11 @@
             "iridium_192": {
                 "textures": {
                     "layer0": "qmd:items/materials/isotope/iridium_192"
+                }
+            },
+            "calcium_48": {
+                "textures": {
+                    "layer0": "qmd:items/materials/isotope/calcium_48"
                 }
             }
         }

@@ -16,4 +16,6 @@ public class GUI_ID
 	public final static int BEAM_DUMP = 9;
 	public final static int DECELERATOR = 10;
 	public final static int NEUTRAL_CONTAINMENT = 11;
+	public final static int COLLISION_CHAMBER = 12;
+	public final static int CREATIVE_SOURCE = 13;
 }

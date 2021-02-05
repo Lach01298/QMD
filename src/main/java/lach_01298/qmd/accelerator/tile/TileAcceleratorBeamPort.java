@@ -27,6 +27,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
@@ -34,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOType, ITileParticleStorage
+public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOType, ITileParticleStorage, ITickable
 {
 	
 	private final @Nonnull List<ParticleStorageAccelerator> backupTanks = Lists.newArrayList(new ParticleStorageAccelerator());
@@ -71,7 +72,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	{
 		this.mode = type;
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		getMultiblock().checkIfMachineIsWhole();
 	}
 	
@@ -114,7 +115,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 		
 		
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, mode));
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		getMultiblock().checkIfMachineIsWhole();
 	}
 	
@@ -123,7 +124,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 		this.setting = setting;
 				
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, mode));
-		markDirtyAndNotify();
+		markDirtyAndNotify(true);
 		getMultiblock().checkIfMachineIsWhole();
 	}
 	
@@ -217,13 +218,13 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	{
 		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			if (!getTanks().isEmpty())
+			if (!getParticleBeams().isEmpty())
 			{
-				if(mode ==EnumTypes.IOType.OUTPUT && getTanks().size() >=2)
+				if(mode ==EnumTypes.IOType.OUTPUT && getParticleBeams().size() >=2)
 				{
-					return (T) getTanks().get(1);
+					return (T) getParticleBeams().get(1);
 				}
-				return (T) getTanks().get(0);
+				return (T) getParticleBeams().get(0);
 			}
 			return null;
 		}
@@ -232,7 +233,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOT
 	}
 
 		@Override
-		public List<? extends ParticleStorage> getTanks()
+		public List<? extends ParticleStorage> getParticleBeams()
 		{
 			if (!isMultiblockAssembled())
 				return backupTanks;

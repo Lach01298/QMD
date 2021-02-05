@@ -59,13 +59,16 @@ public class QMDFluids
 			addFluidPair(FluidType.MOLTEN, "yag", 0xfffddb);
 			addFluidPair(FluidType.MOLTEN, "nd_yag", 0xe4bcf5);
 
-			//antimatter
-			addFluidPair(QMDFluidType.ANTIMATTER,"antihydrogen", 0xB37AC4);
-			addFluidPair(QMDFluidType.ANTIMATTER,"antideuterium", 0x9E6FEF);
-			addFluidPair(QMDFluidType.ANTIMATTER,"antitritium", 0x5DBBD6);
-			addFluidPair(QMDFluidType.ANTIMATTER,"antihelium3", 0xCBBB67);
-			addFluidPair(QMDFluidType.ANTIMATTER,"antihelium", 0xC57B81);
-
+			//exotic matter
+			addFluidPair(QMDFluidType.EXOTIC,"antihydrogen", 0xB37AC4);
+			addFluidPair(QMDFluidType.EXOTIC,"antideuterium", 0x9E6FEF);
+			addFluidPair(QMDFluidType.EXOTIC,"antitritium", 0x5DBBD6);
+			addFluidPair(QMDFluidType.EXOTIC,"antihelium3", 0xCBBB67);
+			addFluidPair(QMDFluidType.EXOTIC,"antihelium", 0xC57B81);
+			addFluidPair(QMDFluidType.EXOTIC,"positronium", 0xc9c9c9);
+			addFluidPair(QMDFluidType.EXOTIC,"muonium", 0x9b93ff);
+			addFluidPair(QMDFluidType.EXOTIC,"tauonium", 0xc86300);
+			addFluidPair(QMDFluidType.EXOTIC,"glueballs", 0xa6f1f2);
 			
 			
 			
@@ -115,7 +118,7 @@ public class QMDFluids
 			if (!defaultFluid)
 				fluid = FluidRegistry.getFluid(fluid.getName());
 			
-			if(!(fluidPair.getRight() instanceof BlockFluidAntimatter))
+			if(!(fluidPair.getRight() instanceof BlockFluidExotic))
 			{
 			FluidRegistry.addBucketForFluid(fluid);
 			}

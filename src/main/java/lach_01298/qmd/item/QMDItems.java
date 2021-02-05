@@ -2,10 +2,15 @@ package lach_01298.qmd.item;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.enums.MaterialTypes.CanisterType;
+import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumDepletedFuelType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumFuelType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumPelletType;
+import lach_01298.qmd.enums.MaterialTypes.CoperniciumType;
 import lach_01298.qmd.enums.MaterialTypes.DustType;
 import lach_01298.qmd.enums.MaterialTypes.DustType2;
-import lach_01298.qmd.enums.MaterialTypes.ExoticCellType;
 import lach_01298.qmd.enums.MaterialTypes.FissionWasteType;
 import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType;
@@ -13,11 +18,13 @@ import lach_01298.qmd.enums.MaterialTypes.IngotType2;
 import lach_01298.qmd.enums.MaterialTypes.IsotopeType;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
+import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
 import lach_01298.qmd.tab.QMDTabs;
 import nc.config.NCConfig;
 import nc.item.IInfoItem;
+import nc.item.ItemFissionFuel;
 import nc.item.NCItemFood;
 import nc.item.NCItemMeta;
 import nc.item.tool.NCAxe;
@@ -35,8 +42,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class QMDItems
@@ -57,17 +62,8 @@ public class QMDItems
 	public static Item spallationWaste;
 	public static Item spallationWaste2;
 	
-	
-	public static Item tungsten_filament;
 	public static Item canister;
-	public static Item canister_hydrogen;
-	public static Item canister_deuterium;
-	public static Item canister_helium;
-	public static Item canister_diborane;
-	public static Item canister_helium_3;
-	public static Item source_sodium_22;
-	public static Item source_cobalt_60;
-	public static Item source_iridium_192;
+	public static Item source;
 	
 	
 	
@@ -82,6 +78,14 @@ public class QMDItems
 	
 	public static Item flesh;
 	
+	public static Item leptonCannon;
+	public static Item gluonGun;
+	
+	public static Item copernicium;
+	public static Item pellet_copernicium;
+	public static Item fuel_copernicium;
+	public static Item depleted_fuel_copernicium;
+	
 	public static void init()
 	{
 		dust = withName(new NCItemMeta(DustType.class), "dust");
@@ -89,16 +93,11 @@ public class QMDItems
 		ingot = withName(new NCItemMeta(IngotType.class), "ingot");
 		ingot2 = withName(new NCItemMeta(IngotType2.class), "ingot2");
 		ingotAlloy = withName(new NCItemMeta(IngotAlloyType.class), "ingot_alloy");
-		tungsten_filament = withName(new ItemBrakeable(QMDConfig.source_life_time),"tungsten_filament");
-		canister = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister");
-		canister_hydrogen = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_hydrogen");
-		canister_deuterium = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_deuterium");
-		canister_helium = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_helium");
-		canister_diborane = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_diborane");
-		canister_helium_3 = withName(new ItemBrakeable(QMDConfig.source_life_time),"canister_helium_3");
-		source_sodium_22 = withName(new ItemBrakeable(QMDConfig.source_life_time),"source_sodium_22");
-		source_cobalt_60 = withName(new ItemBrakeable(QMDConfig.irradiator_fuel_life_time),"source_cobalt_60");
-		source_iridium_192 = withName(new ItemBrakeable(QMDConfig.irradiator_fuel_life_time),"source_iridium_192");
+		
+		canister = withName(new ItemCanister(),"canister");
+		source = withName(new ItemSource(),"source");
+		
+		
 		isotope = withName(new NCItemMeta(IsotopeType.class), "isotope");
 		part =  withName(new NCItemMeta(PartType.class), "part");
 		semiconductor =  withName(new NCItemMeta(SemiconductorType.class), "semiconductor");
@@ -117,7 +116,16 @@ public class QMDItems
 		
 		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
 		
-		cell = withName(new ItemCell(QMDConfig.cell_life_time),"cell");
+		leptonCannon =  withName(new ItemLeptonCannon(),"lepton_cannon");
+		gluonGun =  withName(new ItemGluonGun(),"gluon_gun");
+		
+		cell = withName(new ItemCell(),"cell");
+		
+		copernicium = withName(new NCItemMeta(CoperniciumType.class), "copernicium");
+		pellet_copernicium = withName(new NCItemMeta(CoperniciumPelletType.class), "pellet_copernicium");
+		fuel_copernicium = withName(new ItemFissionFuel(CoperniciumFuelType.class), "fuel_copernicium");
+		depleted_fuel_copernicium = withName(new NCItemMeta(CoperniciumDepletedFuelType.class), "depleted_fuel_copernicium");
+		
 		
 	}
 
@@ -129,16 +137,9 @@ public class QMDItems
 		registerItem(ingot2, QMDTabs.ITEMS);
 		registerItem(ingotAlloy, QMDTabs.ITEMS);
 		
-		registerItem(tungsten_filament, QMDTabs.ITEMS);
 		registerItem(canister, QMDTabs.ITEMS);
-		registerItem(canister_hydrogen, QMDTabs.ITEMS);
-		registerItem(canister_deuterium, QMDTabs.ITEMS);
-		registerItem(canister_helium, QMDTabs.ITEMS);
-		registerItem(canister_diborane, QMDTabs.ITEMS);
-		registerItem(canister_helium_3, QMDTabs.ITEMS);
-		registerItem(source_sodium_22, QMDTabs.ITEMS);
-		registerItem(source_cobalt_60, QMDTabs.ITEMS);
-		registerItem(source_iridium_192, QMDTabs.ITEMS);
+		registerItem(source, QMDTabs.ITEMS);
+
 		
 		registerItem(isotope, QMDTabs.ITEMS);
 		
@@ -158,6 +159,13 @@ public class QMDItems
 		
 		registerItem(flesh,QMDTabs.ITEMS);
 		registerItem(cell,QMDTabs.ITEMS);
+		registerItem(leptonCannon,QMDTabs.ITEMS);
+		registerItem(gluonGun,QMDTabs.ITEMS);
+		
+		registerItem(copernicium,QMDTabs.ITEMS);
+		registerItem(pellet_copernicium,QMDTabs.ITEMS);
+		registerItem(fuel_copernicium,QMDTabs.ITEMS);
+		registerItem(depleted_fuel_copernicium,QMDTabs.ITEMS);
 		
 		
 	}
@@ -224,16 +232,18 @@ public class QMDItems
 			registerRender(spallationWaste2, i, SpallationWasteType2.values()[i].getName());
 		}
 		
-		registerRender(tungsten_filament);
-		registerRender(canister);
-		registerRender(canister_hydrogen);
-		registerRender(canister_deuterium);
-		registerRender(canister_helium);
-		registerRender(canister_diborane);
-		registerRender(canister_helium_3);
-		registerRender(source_sodium_22);
-		registerRender(source_cobalt_60);
-		registerRender(source_iridium_192);
+		
+		
+		for (int i = 0; i < CanisterType.values().length; i++)
+		{
+			registerRender(canister, i, CanisterType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < SourceType.values().length; i++)
+		{
+			registerRender(source, i, SourceType.values()[i].getName());
+		}
+		
 		
 		
 		registerRender(sword_tungsten_carbide);
@@ -244,20 +254,30 @@ public class QMDItems
 		
 		registerRender(flesh);
 		
+		registerRender(leptonCannon);
+		registerRender(gluonGun);
 		
 		
-		for (int i = 0; i < ExoticCellType.values().length; i++)
+		for (int i = 0; i < CellType.values().length; i++)
 		{
-			registerRender(cell, i, ExoticCellType.values()[i].getName());
+			registerRender(cell, i, CellType.values()[i].getName());
+		}
+		
+		for (int i = 0; i < CoperniciumType.values().length; i++) {
+			registerRender(copernicium, i, CoperniciumType.values()[i].getName());
+		}
+		for (int i = 0; i < CoperniciumPelletType.values().length; i++) {
+			registerRender(pellet_copernicium, i, CoperniciumPelletType.values()[i].getName());
+		}
+		for (int i = 0; i < CoperniciumFuelType.values().length; i++) {
+			registerRender(fuel_copernicium, i, CoperniciumFuelType.values()[i].getName());
+		}
+		for (int i = 0; i < CoperniciumDepletedFuelType.values().length; i++) {
+			registerRender(depleted_fuel_copernicium, i, CoperniciumDepletedFuelType.values()[i].getName());
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
+
 	
 	public static <T extends Item & IInfoItem> Item withName(T item, String name)
 	{

@@ -5,7 +5,7 @@ import java.io.IOException;
 import lach_01298.qmd.machine.container.ContainerIrradiator;
 import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
 import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
-import lach_01298.qmd.machine.tile.TileItemDamageFuelProcessor;
+import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
 import lach_01298.qmd.network.QMDPacketHandler;
 import nc.container.ContainerTile;
 import nc.container.processor.ContainerMachineConfig;
@@ -20,15 +20,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiIrradiator  extends GuiItemDamageFuelMachine
+public class GuiIrradiator  extends GuiItemAmountFuelMachine
 {
 	
-	public GuiIrradiator(EntityPlayer player, TileItemDamageFuelProcessor tile)
+	public GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile)
 	{
 		this(player, tile, new ContainerIrradiator(player, tile));
 	}
 
-	private GuiIrradiator(EntityPlayer player, TileItemDamageFuelProcessor tile, ContainerTile container)
+	private GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile, ContainerTile container)
 	{
 		super("irradiator", player, tile, container);
 		xSize = 176;
@@ -98,7 +98,7 @@ public class GuiIrradiator  extends GuiItemDamageFuelMachine
 	public static class SideConfig extends GuiIrradiator
 	{
 
-		public SideConfig(EntityPlayer player, TileItemDamageFuelProcessor tile)
+		public SideConfig(EntityPlayer player, TileItemAmountFuelProcessor tile)
 		{
 			super(player, tile, new ContainerMachineConfig(player, tile));
 		}

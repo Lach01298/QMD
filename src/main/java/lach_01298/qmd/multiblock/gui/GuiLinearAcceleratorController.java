@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.Units;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
@@ -64,7 +64,7 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblock<Accelerat
 		String title = Lang.localise("gui.qmd.container.linear_accelerator_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getLength());
+		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getBeamLength());
 		fontRenderer.drawString(length,offset+25, 25, fontColor);
 		
 		String cavitys = Lang.localise("gui.qmd.container.accelerator.cavitys",multiblock.RFCavityNumber, Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V")) ;

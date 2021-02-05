@@ -55,43 +55,43 @@
                 "fluid": "neon"
             }
         },
-           "fluid_silicon": {
+        "fluid_silicon": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "silicon"
             }
         },
-           "fluid_sodium_nitrate_solution": {
+        "fluid_sodium_nitrate_solution": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "sodium_nitrate_solution"
             }
         },
-           "fluid_lead_nitrate_solution": {
+        "fluid_lead_nitrate_solution": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "lead_nitrate_solution"
             }
         },
-           "fluid_sodium_tungstate_solution": {
+        "fluid_sodium_tungstate_solution": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "sodium_tungstate_solution"
             }
         },
-           "fluid_lead_tungstate_solution": {
+        "fluid_lead_tungstate_solution": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "lead_tungstate_solution"
             }
         },
-           "fluid_chlorine": {
+        "fluid_chlorine": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "chlorine"
             }
         },
-          "fluid_nitric_oxide": {
+        "fluid_nitric_oxide": {
             "model": "forge:fluid",
             "custom": {
                 "fluid": "nitric_oxide"
@@ -144,6 +144,31 @@
             "custom": {
                 "fluid": "antihelium"
             }
+        },
+        "fluid_positronium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "positronium"
+            }
+        },
+        "fluid_muonium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "muonium"
+            }
+        },
+        "fluid_tauonium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "tauonium"
+            }
+        },
+        "fluid_glueballs": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "glueballs"
+            }
         }
     }
 }
+

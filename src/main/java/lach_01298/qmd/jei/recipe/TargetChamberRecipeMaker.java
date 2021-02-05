@@ -11,6 +11,7 @@ import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.recipe.IStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import lach_01298.qmd.recipe.QMDRecipeHelper;
 
 public class TargetChamberRecipeMaker
 {
@@ -28,18 +29,17 @@ public class TargetChamberRecipeMaker
 		for (QMDRecipe recipe : recipes)
 		{
 			
-			ItemStack inputItem = recipe.getItemIngredients().get(0).getStack();
-			ParticleStack inputParticle = recipe.getParticleIngredients().get(0).getStack();
-			ItemStack outputItem = recipe.getItemProducts().get(0).getStack();
-			ParticleStack outputParticlePlus = recipe.getParticleProducts().get(0).getStack();
-			ParticleStack outputParticleNeutral = recipe.getParticleProducts().get(1).getStack();
-			ParticleStack outputParticleMinus = recipe.getParticleProducts().get(2).getStack();
+			List<List<ItemStack>> inputItems = QMDRecipeHelper.getItemInputLists(recipe.getItemIngredients());
+			List<List<ParticleStack>> inputParticles = QMDRecipeHelper.getParticleInputLists(recipe.getParticleIngredients());
+			List<List<ItemStack>> outputItems = QMDRecipeHelper.getItemOutputLists(recipe.getItemProducts());
+			List<List<ParticleStack>> outputParticles = QMDRecipeHelper.getParticleOutputLists(recipe.getParticleProducts());
+			
 			
 			long maxEnergy = (long) recipe.getMaxEnergy();
 			double crossSection = (double) recipe.getCrossSection();
 			long energyReleased = (long) recipe.getEnergyRelased();
 			
-			TargetChamberRecipe jeiRecipe = new TargetChamberRecipe(inputItem, inputParticle, outputItem, outputParticlePlus, outputParticleNeutral, outputParticleMinus, maxEnergy, crossSection, energyReleased);
+			TargetChamberRecipe jeiRecipe = new TargetChamberRecipe(inputItems, inputParticles, outputItems, outputParticles, maxEnergy, crossSection, energyReleased);
 			jeiRecipes.add(jeiRecipe);
 		}
 

@@ -49,7 +49,7 @@ public class OreLeacherRecipes extends ProcessorRecipeHandler
 		addRecipe("oreUranium",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				chanceOreStack("dustUranium", 3, 50,2),chanceOreStack("dustThorium", 1, 10),chanceOreStack("dustNiobium", 1, 5)
+				chanceOreStack("dustUranium", 3, 50,2),chanceOreStack("dustThorium", 1, 10),chanceOreStack("dustNiobium", 1, 10)
 				);
 		addRecipe("oreThorium",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),

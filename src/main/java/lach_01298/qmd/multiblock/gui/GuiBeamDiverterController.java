@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.Units;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.BeamDiverterLogic;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.multiblock.network.ClearAllMaterialPacket;
@@ -65,7 +65,7 @@ public class GuiBeamDiverterController extends GuiLogicMultiblock<Accelerator, B
 		String title = Lang.localise("gui.qmd.container.beam_diverter_controller.name");
 		fontRenderer.drawString(title,offset, 5, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.accelerator.length", 3);
+		String length = Lang.localise("gui.qmd.container.accelerator.length", logic.getBeamLength());
 		fontRenderer.drawString(length,offset+25, 25, fontColor);
 		
 		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles",1, Units.getSIFormat(multiblock.dipoleStrength,"T"));

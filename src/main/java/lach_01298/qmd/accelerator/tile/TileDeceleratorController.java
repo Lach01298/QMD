@@ -3,8 +3,6 @@ package lach_01298.qmd.accelerator.tile;
 import static nc.block.property.BlockProperties.FACING_ALL;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.block.BlockDeceleratorController;
-import lach_01298.qmd.accelerator.block.BlockRingAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -57,15 +55,6 @@ public class TileDeceleratorController extends TileAcceleratorPart implements IA
 		
 	}
 
-	@Override
-	public void updateBlockState(boolean isActive)
-	{
-		if (getBlockType() instanceof BlockDeceleratorController)
-		{
-			((BlockDeceleratorController) getBlockType()).setState(isActive, this);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-		}
-	}
 
 	@Override
 	public void doMeltdown()

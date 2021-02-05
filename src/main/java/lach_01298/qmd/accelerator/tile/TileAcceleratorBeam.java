@@ -30,13 +30,7 @@ public class TileAcceleratorBeam extends TileAcceleratorPart implements IAcceler
 		super.onMachineBroken();
 		
 	}
-	
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
 		
-	}	
 
 	@Override
 	public boolean isFunctional()

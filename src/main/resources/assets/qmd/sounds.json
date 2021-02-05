@@ -1,0 +1,22 @@
+{
+	"neutral.qmd.lepton_cannon": {
+		"category": "neutral",
+		"subtitle": "neutral.qmd.lepton_cannon",
+		"sounds": [ { "name": "qmd:tools/lepton_cannon", "stream": false } ]
+	},
+	"neutral.qmd.gluon_gun": {
+        "category": "neutral",
+        "subtitle": "neutral.qmd.gluon_gun",
+        "sounds": [ { "name": "qmd:tools/gluon_gun", "stream": true } ]
+    },
+    "neutral.qmd.gluon_gun_start": {
+        "category": "neutral",
+        "subtitle": "neutral.qmd.gluon_gun_start",
+        "sounds": [ { "name": "qmd:tools/gluon_gun_start", "stream": true } ]
+    },
+    "neutral.qmd.gluon_gun_stop": {
+        "category": "neutral",
+        "subtitle": "neutral.qmd.gluon_gun_stop",
+        "sounds": [ { "name": "qmd:tools/gluon_gun_stop", "stream": true } ]
+    }
+}

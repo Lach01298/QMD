@@ -1,0 +1,20 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "nuclearcraft:item/pellet"
+    },
+    "variants": {
+        "type": {
+            "mix_291": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/fuel/mix_291"
+                }
+            },
+            "mix_291_c": {
+                "textures": {
+                    "layer0": "qmd:items/copernicium/fuel/mix_291_c"
+                }
+            }
+        }
+    }
+}

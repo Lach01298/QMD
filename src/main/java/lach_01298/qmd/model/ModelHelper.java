@@ -2,7 +2,7 @@ package lach_01298.qmd.model;
 
 import com.google.common.base.Charsets;
 
-import lach_01298.qmd.Util;
+import lach_01298.qmd.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ModelBlock;

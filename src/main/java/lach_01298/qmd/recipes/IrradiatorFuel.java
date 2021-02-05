@@ -3,8 +3,10 @@ package lach_01298.qmd.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
 import nc.recipe.ProcessorRecipeHandler;
+import net.minecraft.item.ItemStack;
 
 public class IrradiatorFuel extends ProcessorRecipeHandler
 {
@@ -17,8 +19,8 @@ public class IrradiatorFuel extends ProcessorRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		addRecipe(QMDItems.source_cobalt_60, 1D);
-		addRecipe(QMDItems.source_iridium_192, 10D);
+		addRecipe(new ItemStack(QMDItems.source,1, SourceType.COBALT_60.getID()), 1D);
+		addRecipe(new ItemStack(QMDItems.source,1, SourceType.IRIDIUM_192.getID()), 10D);
 		
 	}
 

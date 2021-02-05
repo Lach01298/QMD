@@ -5,6 +5,7 @@ import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.containment.Containment;
 import lach_01298.qmd.containment.tile.IContainmentController;
 import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
+import lach_01298.qmd.item.IItemAmount;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.slot.SlotFurnace;
@@ -81,7 +82,7 @@ protected final ProcessorRecipeHandler recipeHandler;
 			}
 			else 
 			{
-				if(recipeHandler.isValidItemInput(itemstack1))
+				if(recipeHandler.isValidItemInput(IItemAmount.cleanNBT(itemstack1)))
 				{
 					if (!mergeItemStack(itemstack1, 0, inputSlotsSize, false))
 					{

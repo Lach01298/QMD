@@ -1,5 +1,6 @@
 package lach_01298.qmd.container.slot;
 
+import lach_01298.qmd.item.IItemAmount;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.inventory.Slot;
@@ -21,11 +22,7 @@ public class SlotQMDProcessorInput extends Slot
 	public boolean isItemValid(ItemStack stack)
 	{
 		ItemStack item = stack.copy();
-		if (item.getItem().isDamageable())
-		{
-			item.setItemDamage(0);
-		}
-
-		return recipeHandler.isValidItemInput(item);
+		
+		return recipeHandler.isValidItemInput(IItemAmount.cleanNBT(item));
 	}
 }

@@ -43,6 +43,24 @@
             },
             "wire_chamber_casing": {
                 "model": "qmd:item/wire_chamber_casing"
+            },
+            "magnet_nd": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/magnet_nd"
+                }
+            },
+            "accelerating_barrel": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/accelerating_barrel"
+                }
+            },
+            "laser_assembly": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/laser_assembly"
+                }
             }
         }
     }

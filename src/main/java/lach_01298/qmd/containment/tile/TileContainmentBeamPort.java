@@ -161,9 +161,9 @@ public class TileContainmentBeamPort extends TileContainmentPart implements IIOT
 		{
 			if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 			{
-				if (!getTanks().isEmpty())
+				if (!getParticleBeams().isEmpty())
 				{
-					return (T) getTanks().get(IONumber);
+					return (T) getParticleBeams().get(IONumber);
 				}
 				return null;
 			}
@@ -172,7 +172,7 @@ public class TileContainmentBeamPort extends TileContainmentPart implements IIOT
 		}
 
 		@Override
-		public List<? extends ParticleStorage> getTanks()
+		public List<? extends ParticleStorage> getParticleBeams()
 		{
 			if (!isMultiblockAssembled())
 				return backupTanks;

@@ -44,9 +44,9 @@ public class TileAcceleratorSynchrotronPort extends TileAcceleratorPart implemen
 	{
 		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			if (!getTanks().isEmpty())
+			if (!getParticleBeams().isEmpty())
 			{
-				return (T) getTanks().get(0);
+				return (T) getParticleBeams().get(0);
 			}
 
 			return null;
@@ -56,7 +56,7 @@ public class TileAcceleratorSynchrotronPort extends TileAcceleratorPart implemen
 	}
 
 		@Override
-		public List<? extends ParticleStorage> getTanks()
+		public List<? extends ParticleStorage> getParticleBeams()
 		{
 			if (!isMultiblockAssembled())
 				return backupTanks;

@@ -14,6 +14,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.containment.tile.IContainmentController;
 import lach_01298.qmd.containment.tile.IContainmentPart;
 import lach_01298.qmd.containment.tile.TileContainmentBeamPort;
@@ -99,12 +100,12 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 			 getMultiblock().controller = contr;
 		}
 		
-		getMultiblock().energyStorage.setStorageCapacity(Containment.BASE_MAX_ENERGY * getCapacityMultiplier());
-		getMultiblock().energyStorage.setMaxTransfer(Containment.BASE_MAX_ENERGY * getCapacityMultiplier());
-		getMultiblock().heatBuffer.setHeatCapacity(Containment.BASE_MAX_HEAT * getCapacityMultiplier());
+		getMultiblock().energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getMultiblock().energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getMultiblock().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
 		getMultiblock().ambientTemp = 273 + (int) (getWorld().getBiome(getMultiblock().getMiddleCoord()).getTemperature(getMultiblock().getMiddleCoord())*20F);
-		getMultiblock().tanks.get(0).setCapacity(Accelerator.BASE_MAX_INPUT * getCapacityMultiplier());
-		getMultiblock().tanks.get(1).setCapacity(Accelerator.BASE_MAX_OUTPUT * getCapacityMultiplier());
+		getMultiblock().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
+		getMultiblock().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
 		
 		if(!getMultiblock().cold)
 		{
@@ -119,11 +120,8 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 			getMultiblock().updateActivity();	
 		}
 	
-		//TODO this temp thing
-		getMultiblock().maxOperatingTemp = 104;
-		 
-		
-		
+		getMultiblock().maxOperatingTemp = QMDConfig.containment_max_temp;
+	
 	}
 
 	@Override
@@ -143,18 +141,22 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	@Override
 	public void onMachinePaused()
 	{
-		
+		onContainmentBroken();
 	}
 
 	@Override
 	public void onMachineDisassembled()
 	{	
 		operational = false;
-		if (getMultiblock().controller != null)
+		onContainmentBroken();
+	}
+	
+	public void onContainmentBroken()
+	{
+		if (!getWorld().isRemote)
 		{
-			getMultiblock().controller.updateBlockState(false);
+			getMultiblock().updateActivity();
 		}
-		getMultiblock().isContainmentOn = false;	
 	}
 
 	@Override
@@ -246,9 +248,21 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	public void onAssimilate(Multiblock assimilated)
 	{	
-		if (!(assimilated instanceof Containment)) return;
-		Containment assimilatedAccelerator = (Containment) assimilated;
-		getMultiblock().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+		if (assimilated instanceof Containment)
+		{
+			Containment assimilatedAccelerator = (Containment) assimilated;
+			getMultiblock().heatBuffer.mergeHeatBuffers(assimilatedAccelerator.heatBuffer);
+			getMultiblock().energyStorage.mergeEnergyStorage(assimilatedAccelerator.energyStorage);
+		}
+		
+		if (getMultiblock().isAssembled()) {
+			
+			onContainmentFormed();
+		}
+		else 
+		{
+			onContainmentBroken();
+		}
 	}
 
 	public void onAssimilated(Multiblock assimilator)
@@ -401,8 +415,7 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	public void onUpdateClient()
 	{
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 
@@ -493,7 +506,6 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 
 	public void refreshMultiblock()
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
