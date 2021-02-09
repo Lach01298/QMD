@@ -260,7 +260,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	}
 	
 	
-	@Callback(doc = "--function():table Returns infomation about the particle type.(type, mass, energy, charge, spin, interacts_with_em, interacts_with_weak, interacts_with_stong)")
+	@Callback(doc = "--function():table Returns infomation about the particle type.(type, mass, energy, charge, spin, interacts_with_em, interacts_with_weak, interacts_with_strong)")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getParticleInfo(Context context, Arguments args)
 	{
@@ -273,7 +273,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 			infoData.put("spin", getMultiblock().beams.get(1).getParticleStack().getParticle().getSpin());
 			infoData.put("interacts_with_em", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithEM());
 			infoData.put("interacts_with_weak", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithWeak());
-			infoData.put("interacts_with_stong", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithStrong());
+			infoData.put("interacts_with_strong", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithStrong());
 		}
 		
 		
