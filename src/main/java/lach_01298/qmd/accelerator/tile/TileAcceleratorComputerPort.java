@@ -406,7 +406,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function(x,y,z):bool Returns if beam port mode was switched")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] swichBeamPort(Context context, Arguments args) 
+	public Object[] switchBeamPort(Context context, Arguments args) 
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		BlockPos pos = new BlockPos(args.checkInteger(0),args.checkInteger(1),args.checkInteger(2));
