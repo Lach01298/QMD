@@ -387,6 +387,40 @@ public class MaterialTypes
 		}
 	}
 	
+	public static enum LuminousPaintType implements IStringSerializable, IMetaEnum
+	{
+		GREEN("green", 0),
+		BLUE("blue",1), 
+		ORANGE("orange", 2);
+		
+		private String name;
+		private int id;
+
+		private LuminousPaintType(String name, int id)
+		{
+			this.name = name;
+			this.id = id;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+	}
+	
 	public static enum FissionWasteType implements IStringSerializable, IMetaEnum
 	{
 		LIGHT("light", 0),

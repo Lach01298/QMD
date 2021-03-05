@@ -17,41 +17,6 @@ public interface IAcceleratorComponent extends IAcceleratorPart
 	
 	public void setFunctional(boolean func);
 	
-	public void resetStats();
-	
-	
-	
-	// Helper methods
-	
-	public default boolean isBeam(BlockPos pos)
-	{
-		TileAcceleratorBeam beam = getMultiblock().getPartMap(TileAcceleratorBeam.class).get(pos.toLong());
-		return beam == null ? false : beam.isFunctional();
-	}
-
-	public default boolean isActiveRFCavity(BlockPos pos, String name)
-	{
-		TileAcceleratorRFCavity cavity =  getMultiblock().getPartMap(TileAcceleratorRFCavity.class).get(pos.toLong());
-		return cavity == null ? false : (cavity.isFunctional() && (cavity.name.equals(name))||(cavity.isFunctional() && name == null));
-	}
-
-	public default boolean isActiveCooler(BlockPos pos, String name)
-	{
-		TileAcceleratorCooler cooler =  getMultiblock().getPartMap(TileAcceleratorCooler.class).get(pos.toLong());
-		
-		if(cooler != null)
-		{
-			if(cooler.name.equals(name)||name == null)
-			{
-				return  cooler.isFunctional();
-			}
-		
-		}
-		
-		
-		return false;
-	}
-
 	public default boolean isToHot()
 	{
 		if (getMultiblock().getTemperature() > this.getMaxOperatingTemp())
@@ -61,20 +26,5 @@ public interface IAcceleratorComponent extends IAcceleratorPart
 		return false;
 	}
 	
-	
-	
-	public default boolean isActiveMagnet(BlockPos pos, String name)
-	{
-		TileAcceleratorMagnet magnet = getMultiblock().getPartMap(TileAcceleratorMagnet.class).get(pos.toLong());
-		return magnet == null ? false : (magnet.isFunctional() && magnet.name.equals(name))||(magnet.isFunctional() && name == null);
-	}
 
-	public default boolean isActiveYoke(BlockPos pos)
-	{
-		TileAcceleratorYoke yoke  = getMultiblock().getPartMap(TileAcceleratorYoke.class).get(pos.toLong());
-		return yoke == null ? false : yoke.isFunctional();
-	}
-
-
-	
 }

@@ -15,16 +15,6 @@
                 "textures": {
                     "layer0": "qmd:items/materials/ingot/neodymium"
                 }
-            },
-             "holmium": {
-                "textures": {
-                    "layer0": "qmd:items/materials/ingot/holmium"
-                }
-            },
-            "germanium": {
-                "textures": {
-                    "layer0": "qmd:items/materials/ingot/germanium"
-                }
             }
         }
     }

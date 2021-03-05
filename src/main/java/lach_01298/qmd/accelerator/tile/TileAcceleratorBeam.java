@@ -62,12 +62,6 @@ public class TileAcceleratorBeam extends TileAcceleratorPart implements IAcceler
 	}
 
 	@Override
-	public void resetStats()
-	{
-		isFunctional = false;
-	}
-
-	@Override
 	public int getMaxOperatingTemp()
 	{
 		return Accelerator.MAX_TEMP;

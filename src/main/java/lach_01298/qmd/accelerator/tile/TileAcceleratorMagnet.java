@@ -111,11 +111,6 @@ public abstract class TileAcceleratorMagnet extends TileAcceleratorPart implemen
 		return maxTemp;
 	}
 	
-	@Override
-	public void resetStats() 
-	{
-		isFunctional = false;
-	}
 	
 	// NBT
 		@Override

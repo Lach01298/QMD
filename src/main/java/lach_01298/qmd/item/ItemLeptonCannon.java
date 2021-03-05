@@ -19,21 +19,15 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class ItemLeptonCannon extends ItemGun implements IInfoItem
+public class ItemLeptonCannon extends ItemGun
 {
 	
 	
-	public ItemLeptonCannon()
+	public ItemLeptonCannon(String... tooltip)
 	{
-		super();
+		super(tooltip);
 	}
 
-	@Override
-	public void setInfo()
-	{
-		// TODO Auto-generated method stub
-
-	}
 
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{

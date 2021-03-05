@@ -8,7 +8,9 @@ import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
+import lach_01298.qmd.item.IItemAmount;
 import lach_01298.qmd.particleChamber.ParticleChamber;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
@@ -145,6 +147,23 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 
 		}
 		return super.getCapability(capability, side);
+	}
+	
+	@Override
+	public int getInventoryStackLimit() 
+	{
+		return 1;
+	}
+	
+	@Override
+	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
+	{
+		System.out.println(inventoryStacks.get(0));
+		if(getInventoryStacks().get(0).getCount() > 0)
+		{
+			return false;
+		}
+		return QMDRecipes.accelerator_source.isValidItemInput(IItemAmount.cleanNBT(stack));
 	}
 
 }

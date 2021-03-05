@@ -43,7 +43,6 @@ import lach_01298.qmd.enums.BlockTypes.NeutronShieldType;
 import lach_01298.qmd.enums.BlockTypes.ProcessorType;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.enums.BlockTypes.RTGType;
-import lach_01298.qmd.enums.BlockTypes.SimpleTileType;
 import lach_01298.qmd.enums.BlockTypes.TurbineBladeType;
 import lach_01298.qmd.fission.block.BlockFissionReflector;
 import lach_01298.qmd.fission.block.QMDBlockFissionShield;
@@ -121,14 +120,11 @@ public class QMDBlocks
 	
 	public static Block oreLeacher;
 	public static Block irradiator;
+	public static Block atmosphereCollector;
 
 	public static Block fissionReflector;
 	public static Block fissionShield;
 	public static Block rtgStrontium;
-	
-	public static Block heliumCollector;
-	public static Block neonCollector;
-	public static Block argonCollector;
 	
 	public static Block dischargeLamp;
 	
@@ -147,6 +143,9 @@ public class QMDBlocks
 	public static Block turbineBladeSuperAlloy;
 	
 	public static Block strontium90;
+	public static Block greenLuminousPaint;
+	public static Block blueLuminousPaint;
+	public static Block orangeLuminousPaint;
 	
 	public static void init() 
 	{
@@ -190,17 +189,14 @@ public class QMDBlocks
 
 		oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
 		irradiator = withName(new BlockQMDProcessor(ProcessorType.IRRADIATOR));
-
+		atmosphereCollector = withName(new BlockAtmosphereCollector());
+		
 		fissionReflector = withName(new BlockFissionReflector(), "fission_reflector");
 		fissionShield = withName(new QMDBlockFissionShield(), "fission_shield");
 
 		rtgStrontium = withName(new QMDBlockRTG(RTGType.STRONTIUM), "rtg_strontium");
 
 		dischargeLamp = withName(new BlockLamp(), "discharge_lamp");
-
-		heliumCollector = withName(new QMDBlockSimpleTile(SimpleTileType.HELIUM_COLLECTOR), "helium_collector");
-		neonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.NEON_COLLECTOR), "neon_collector");
-		argonCollector = withName(new QMDBlockSimpleTile(SimpleTileType.ARGON_COLLECTOR), "argon_collector");
 
 		neutralContainmentController = withName(new BlockNeutralContainmentController(), "neutral_containment_controller");
 		containmentCasing = withName(new BlockContainmentCasing(), "containment_casing");
@@ -212,6 +208,9 @@ public class QMDBlocks
 		containmentCoil = withName(new BlockContainmentCoil(), "containment_coil");
 		containmentLaser = withName(new BlockContainmentLaser(), "containment_laser");
 		strontium90 = withName(new BlockQMD(Material.IRON), "strontium_90_block");
+		greenLuminousPaint = withName(new BlockLuminousPaint(), "block_green_luminous_paint");
+		blueLuminousPaint = withName(new BlockLuminousPaint(), "block_blue_luminous_paint");
+		orangeLuminousPaint = withName(new BlockLuminousPaint(), "block_orange_luminous_paint");
 		
 		creativeParticleSource = withName(new BlockCreativeParticleSource(), "creative_particle_source");
 		
@@ -237,8 +236,8 @@ public class QMDBlocks
 		registerBlock(RFCavity, new ItemBlockMeta(RFCavity, RFCavityType.class,TextFormatting.GREEN ,QMDInfo.RFCavityFixedInfo(),TextFormatting.AQUA,QMDInfo.RFCavityInfo()));
 		registerBlock(acceleratorMagnet, new ItemBlockMeta(acceleratorMagnet, MagnetType.class,TextFormatting.GREEN ,QMDInfo.magnetFixedInfo(),TextFormatting.AQUA,QMDInfo.magnetInfo()));
 		registerBlock(acceleratorYoke);
-		registerBlock(acceleratorCooler1, new ItemBlockMeta(acceleratorCooler1, CoolerType1.class,TextFormatting.BLUE, QMDInfo.cooler1FixedInfo(),TextFormatting.AQUA,QMDInfo.cooler1Info()));
-		registerBlock(acceleratorCooler2, new ItemBlockMeta(acceleratorCooler2, CoolerType2.class,TextFormatting.BLUE, QMDInfo.cooler2FixedInfo(),TextFormatting.AQUA,QMDInfo.cooler2Info()));
+		registerBlock(acceleratorCooler1, new ItemBlockMeta(acceleratorCooler1, CoolerType1.class,TextFormatting.BLUE, QMDInfo.cooler1FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
+		registerBlock(acceleratorCooler2, new ItemBlockMeta(acceleratorCooler2, CoolerType2.class,TextFormatting.BLUE, QMDInfo.cooler2FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
 		registerBlock(acceleratorSource);
 		registerBlock(acceleratorEnergyPort);
 		registerBlock(beamDiverterController);
@@ -260,6 +259,7 @@ public class QMDBlocks
 		
 		registerBlock(oreLeacher);
 		registerBlock(irradiator);
+		registerBlock(atmosphereCollector, Lang.localise("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.processor_power[1], 5, "RF/t")),TextFormatting.GRAY+Lang.localise(infoLine("atmosphere_collector")));
 		
 		registerBlock(fissionReflector, new ItemBlockMeta(fissionReflector, NeutronReflectorType.class, TextFormatting.AQUA));	
 		registerBlock(fissionShield,new ItemBlockMeta(fissionShield, NeutronShieldType.class, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, QMDInfo.neutronShieldFixedInfo(), TextFormatting.AQUA, QMDInfo.neutronShieldInfo()));
@@ -268,10 +268,6 @@ public class QMDBlocks
 		registerBlock(rtgStrontium,InfoHelper.formattedInfo(NCBlocks.infoLine("rtg"), UnitHelper.prefix(QMDConfig.rtg_power[0], 5, "RF/t")));
 		
 		registerBlock(dischargeLamp, new ItemBlockMeta(dischargeLamp, LampType.class));	
-		
-		registerBlock(heliumCollector);
-		registerBlock(neonCollector);
-		registerBlock(argonCollector);
 		
 		registerBlock(neutralContainmentController);
 		registerBlock(containmentCasing);
@@ -284,6 +280,9 @@ public class QMDBlocks
 		registerBlock(containmentLaser);
 		
 		registerBlock(strontium90);
+		registerBlock(greenLuminousPaint);
+		registerBlock(blueLuminousPaint);
+		registerBlock(orangeLuminousPaint);
 		
 		registerBlock(creativeParticleSource);
 		registerBlock(turbineBladeSuperAlloy, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * QMDConfig.turbine_blade_efficiency[0]) + "%"), Lang.localise(NCBlocks.fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * QMDConfig.turbine_blade_expansion[0]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
@@ -348,6 +347,7 @@ public class QMDBlocks
 	
 		registerRender(oreLeacher);
 		registerRender(irradiator);
+		registerRender(atmosphereCollector);
 		
 		for (int i = 0; i < NeutronReflectorType.values().length; i++) 
 		{
@@ -364,13 +364,7 @@ public class QMDBlocks
 		{
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dischargeLamp), i, new ModelResourceLocation(new ResourceLocation(QMD.MOD_ID, dischargeLamp.getRegistryName().getPath()), "active=true,type=" + LampType.values()[i].getName()));
 		}
-		
-		registerRender(heliumCollector);
-		registerRender(neonCollector);
-		registerRender(argonCollector);
-		
-		
-		
+
 		
 		registerRender(neutralContainmentController);
 		registerRender(containmentCasing);
@@ -383,6 +377,9 @@ public class QMDBlocks
 		registerRender(containmentLaser);
 		
 		registerRender(strontium90);
+		registerRender(greenLuminousPaint);
+		registerRender(blueLuminousPaint);
+		registerRender(orangeLuminousPaint);
 		registerRender(creativeParticleSource);
 		
 		registerRender(turbineBladeSuperAlloy);

@@ -3,7 +3,7 @@
     "defaults": {
         "model":"cube_all",
         "textures": {
-            "all": "qmd:blocks/machine/neon_collector"
+            "all": "qmd:blocks/machine/atmosphere_collector"
         }
     },
     "variants": {

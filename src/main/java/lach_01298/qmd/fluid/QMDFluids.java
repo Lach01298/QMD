@@ -53,6 +53,7 @@ public class QMDFluids
 			addFluidPair(FluidType.GAS, "chlorine", 0xffff8f);
 			addFluidPair(FluidType.GAS, "nitric_oxide", 0xc9eeff);
 			addFluidPair(FluidType.GAS, "nitrogen_dioxide", 0x782a10);
+			addFluidPair(FluidType.GAS, "compressed_air", 0xD4D4D4);
 			
 			//molten
 			addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);

@@ -6,6 +6,7 @@ import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.entity.EntityGluonBeam;
 import lach_01298.qmd.entity.EntityLeptonBeam;
+import lach_01298.qmd.item.QMDArmour;
 import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.render.entity.RenderGammaFlash;
 import lach_01298.qmd.render.entity.RenderGluonBeam;
@@ -26,6 +27,7 @@ public class QMDRenderHandler
 	{
 		QMDBlocks.registerRenders();
 		QMDItems.registerRenders();
+		QMDArmour.registerRenders();
 		
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileNeutralContainmentController.class, new RenderContainmentMaterial());

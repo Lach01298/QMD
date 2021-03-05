@@ -1,15 +1,13 @@
 package lach_01298.qmd.enums;
 
-import static nc.config.NCConfig.turbine_blade_efficiency;
-
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileIrradiator;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
 import lach_01298.qmd.tab.QMDTabs;
-import lach_01298.qmd.tile.QMDTilePassive;
 import lach_01298.qmd.tile.QMDTileRTG;
+import lach_01298.qmd.tile.TileAtmosphereCollector;
 import nc.enumm.IBlockMetaEnum;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
 import nc.radiation.RadSources;
@@ -863,9 +861,7 @@ public class BlockTypes
 	
 	public enum SimpleTileType implements IStringSerializable 
 	{
-		HELIUM_COLLECTOR("helium_collector", QMDTabs.BLOCKS),
-		NEON_COLLECTOR("neon_collector", QMDTabs.BLOCKS),
-		ARGON_COLLECTOR("argon_collector", QMDTabs.BLOCKS);
+		ATMOSPHERE_COLLECTOR("atmosphere_collector", QMDTabs.BLOCKS);
 		
 		
 		private final String name;
@@ -878,18 +874,16 @@ public class BlockTypes
 		}
 		
 		@Override
-		public String getName() {
+		public String getName() 
+		{
 			return name;
 		}
 		
-		public TileEntity getTile() {
+		public TileEntity getTile() 
+		{
 			switch (this) {
-				case HELIUM_COLLECTOR:
-					return new QMDTilePassive.HeliumCollector();
-				case NEON_COLLECTOR:
-					return new QMDTilePassive.NeonCollector();
-				case ARGON_COLLECTOR:
-					return new QMDTilePassive.ArgonCollector();
+				case ATMOSPHERE_COLLECTOR:
+					return new TileAtmosphereCollector();
 				default:
 					return null;
 			}

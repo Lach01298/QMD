@@ -33,7 +33,7 @@ public class ContainerAcceleratorSource extends ContainerTile<TileAcceleratorSou
 		this.otherSlotsSize = 0;
 		
 		
-		addSlotToContainer(new SlotQMDProcessorInput(source, recipeHandler, 0, 80, 30));
+		addSlotToContainer(new SlotQMDProcessorInput(source, recipeHandler, 0, 80, 30, 1));
 		
 		addPlayerInventory(player,8,84);
 

@@ -86,7 +86,7 @@ public class NeutralContainmentCategory implements IRecipeCategory<NeutralContai
 		
 		guiParticleStacks.init(0, true, 3, 19);
 		guiParticleStacks.init(1, true, 107, 19);
-		guiFluidStacks.init(2, false, 47, 11, 32, 32, fluidOutputs.get(0)== null ? 1000 : Math.max(1, fluidOutputs.get(0).size()), true, null);
+		guiFluidStacks.init(2, false, 47, 11, 32, 32, fluidOutputs.get(0)== null ? 1000 : Math.max(1, fluidOutputs.get(0).size()), false, null);
 		
 		if(particleInputs.get(0) != null)
 		{

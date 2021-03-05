@@ -1,5 +1,9 @@
 package lach_01298.qmd.item;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import lach_01298.qmd.DamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGluonBeam;
@@ -7,6 +11,8 @@ import lach_01298.qmd.enums.MaterialTypes.CellType;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.item.IInfoItem;
 import nc.radiation.RadiationHelper;
+import nc.util.InfoHelper;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,24 +23,25 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemGluonGun extends ItemGun implements IInfoItem
+public class ItemGluonGun extends ItemGun
 {
 	
 	
 	private EntityGluonBeam beam;
-	
-	public ItemGluonGun()
-	{
-		super(); 
-	}
 
-	@Override
-	public void setInfo()
+	
+	public ItemGluonGun(String... tooltip)
 	{
+		super(tooltip); 
 		
 	}
+
+
 	
 
 	public int getMaxItemUseDuration(ItemStack stack)

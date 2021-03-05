@@ -151,8 +151,8 @@ public class GuiLinearAcceleratorController extends GuiLogicMultiblock<Accelerat
 	{
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.coolant_stored",Units.getSIFormat(multiblock.tanks.get(0).getFluidAmount(), -3,"B"),Units.getSIFormat(multiblock.tanks.get(0).getCapacity(), -3,"B")));
-		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.coolant_required",Units.getSIFormat(multiblock.maxCoolantIn , -3,"B/t")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.coolant_out",Units.getSIFormat(multiblock.maxCoolantOut, -3,"B/t")));
+		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.coolant_required",Units.getSIFormat(multiblock.maxCoolantIn , -6,"B/t")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.coolant_out",Units.getSIFormat(multiblock.maxCoolantOut, -6,"B/t")));
 		return info;
 	}
 	

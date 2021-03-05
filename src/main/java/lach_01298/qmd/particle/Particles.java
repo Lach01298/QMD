@@ -288,7 +288,7 @@ public class Particles
 		
 		
 		//nuclei
-		deuteron = new Particle("deuteron",Util.appendPath(particlePath, "deuteron.png"),1876d,1,0,true,true);
+		deuteron = new Particle("deuteron",Util.appendPath(particlePath, "deuteron.png"),1876d,1,1,true,true);
 		deuteron.addComponentParticle(proton);
 		deuteron.addComponentParticle(neutron);
 		antideuteron = makeAntiParticle(deuteron, "antideuteron",Util.appendPath(particlePath, "antideuteron.png"));

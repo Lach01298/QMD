@@ -20,7 +20,7 @@ public class MovingSoundGluonGun extends MovingSound
 	{
 		super(QMDSounds.gluon_gun, SoundCategory.NEUTRAL);
 		this.beam = entity;
-		this.repeat = true;
+		this.repeat = false;
         this.repeatDelay = 0;
         this.volume = 0.1F;
         this.xPosF = (float) entity.posX;

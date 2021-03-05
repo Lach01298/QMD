@@ -16,6 +16,7 @@ import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType2;
 import lach_01298.qmd.enums.MaterialTypes.IsotopeType;
+import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
@@ -32,6 +33,7 @@ import nc.item.tool.NCHoe;
 import nc.item.tool.NCPickaxe;
 import nc.item.tool.NCShovel;
 import nc.item.tool.NCSword;
+import nc.util.InfoHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -47,8 +49,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 public class QMDItems
 {
 
-	
-	
 	public static Item dust;
 	public static Item dust2;
 	public static Item ingot;
@@ -77,6 +77,7 @@ public class QMDItems
 	public static Item cell;
 	
 	public static Item flesh;
+	public static Item luminousPaint;
 	
 	public static Item leptonCannon;
 	public static Item gluonGun;
@@ -115,6 +116,7 @@ public class QMDItems
 		hoe_tungsten_carbide = withName(new NCHoe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "hoe_tungsten_carbide");
 		
 		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
+		luminousPaint = withName(new ItemLuminousPaint(), "luminous_paint");
 		
 		leptonCannon =  withName(new ItemLeptonCannon(),"lepton_cannon");
 		gluonGun =  withName(new ItemGluonGun(),"gluon_gun");
@@ -158,6 +160,7 @@ public class QMDItems
 		registerItem(hoe_tungsten_carbide,QMDTabs.ITEMS);
 		
 		registerItem(flesh,QMDTabs.ITEMS);
+		registerItem(luminousPaint,QMDTabs.ITEMS);
 		registerItem(cell,QMDTabs.ITEMS);
 		registerItem(leptonCannon,QMDTabs.ITEMS);
 		registerItem(gluonGun,QMDTabs.ITEMS);
@@ -253,6 +256,11 @@ public class QMDItems
 		registerRender(hoe_tungsten_carbide);
 		
 		registerRender(flesh);
+		
+		for (int i = 0; i < LuminousPaintType.values().length; i++)
+		{
+			registerRender(luminousPaint, i, LuminousPaintType.values()[i].getName());
+		}
 		
 		registerRender(leptonCannon);
 		registerRender(gluonGun);

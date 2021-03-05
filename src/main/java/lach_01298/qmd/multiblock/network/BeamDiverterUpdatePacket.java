@@ -16,11 +16,12 @@ public class BeamDiverterUpdatePacket extends AcceleratorUpdatePacket
 {
 
 	
-	public BeamDiverterUpdatePacket() {
+	public BeamDiverterUpdatePacket() 
+	{
 		super();
 	}
 	
-	public BeamDiverterUpdatePacket(BlockPos pos, boolean isAcceleratorOn, long cooling, long rawHeating, double maxCoolantIn, double maxCoolantOut, int maxOperatingTemp,
+	public BeamDiverterUpdatePacket(BlockPos pos, boolean isAcceleratorOn, long cooling, long rawHeating, int maxCoolantIn, int maxCoolantOut, int maxOperatingTemp,
 			int requiredEnergy, double efficiency, int acceleratingVoltage, int RFCavityNumber, int quadrupoleNumber,
 			double quadrupoleStrength, int dipoleNumber, double dipoleStrength, int errorCode ,HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks,List<ParticleStorageAccelerator> beams)
 	{
@@ -43,7 +44,8 @@ public class BeamDiverterUpdatePacket extends AcceleratorUpdatePacket
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<BeamDiverterUpdatePacket, Accelerator, TileBeamDiverterController> {
 		
-		public Handler() {
+		public Handler() 
+		{
 			super(TileBeamDiverterController.class);
 		}
 	}

@@ -113,12 +113,6 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 	{
 		return maxTemp;
 	}
-	
-	@Override
-	public void resetStats() 
-	{
-		isFunctional = false;
-	}
 
 	// NBT
 	@Override

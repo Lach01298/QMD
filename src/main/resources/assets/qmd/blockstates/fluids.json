@@ -168,6 +168,12 @@
             "custom": {
                 "fluid": "glueballs"
             }
+        },
+        "fluid_compressed_air": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "compressed_air"
+            }
         }
     }
 }

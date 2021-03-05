@@ -22,7 +22,7 @@ public class RingAcceleratorUpdatePacket extends AcceleratorUpdatePacket
 	}
 
 	public RingAcceleratorUpdatePacket(BlockPos pos, boolean isAcceleratorOn, long cooling, long rawHeating,
-			double maxCoolantIn, double maxCoolantOut,int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
+			int maxCoolantIn, int maxCoolantOut,int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
 			int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength, int dipoleNumber, double dipoleStrength,
 			int errorCode, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks,
 			List<ParticleStorageAccelerator> beams)

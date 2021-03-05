@@ -24,7 +24,7 @@ public class NeutralContainmentUpdatePacket extends ContainmentUpdatePacket
 	}
 
 	public NeutralContainmentUpdatePacket(BlockPos pos, boolean isContainmentOn, long heating,
-			double maxCoolantIn, double maxCoolantOut,int maxOperatingTemp, int requiredEnergy, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks,
+			int maxCoolantIn, int maxCoolantOut,int maxOperatingTemp, int requiredEnergy, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks,
 			List<ParticleStorageAccelerator> beams, long particle1WorkDone, long particle2WorkDone, long recipeParticle1Work,  long recipeParticle2Work)
 	{
 		super(pos, isContainmentOn, heating, maxCoolantIn, maxCoolantOut, maxOperatingTemp, requiredEnergy ,heatBuffer, energyStorage,tanks, beams);

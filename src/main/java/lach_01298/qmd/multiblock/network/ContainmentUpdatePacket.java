@@ -19,8 +19,8 @@ public abstract class ContainmentUpdatePacket extends MultiblockUpdatePacket
 
 	public boolean isContainmentOn;
 	public long heating;
-	public double maxCoolantIn;
-	public double maxCoolantOut;
+	public int maxCoolantIn;
+	public int maxCoolantOut;
 	public int maxOperatingTemp;
 	public int requiredEnergy;
 	
@@ -38,7 +38,7 @@ public abstract class ContainmentUpdatePacket extends MultiblockUpdatePacket
 		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
 
-	public ContainmentUpdatePacket(BlockPos pos,boolean isContainmentOn, long heating, double maxCoolantIn, double maxCoolantOut, int maxOperatingTemp, int requiredEnergy, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
+	public ContainmentUpdatePacket(BlockPos pos,boolean isContainmentOn, long heating, int maxCoolantIn, int maxCoolantOut, int maxOperatingTemp, int requiredEnergy, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
 		this.pos = pos;
 		this.isContainmentOn = isContainmentOn;
@@ -67,8 +67,8 @@ public abstract class ContainmentUpdatePacket extends MultiblockUpdatePacket
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isContainmentOn = buf.readBoolean();
 		heating = buf.readLong();
-		maxCoolantIn = buf.readDouble();
-		maxCoolantOut = buf.readDouble();
+		maxCoolantIn = buf.readInt();
+		maxCoolantOut = buf.readInt();
 		maxOperatingTemp = buf.readInt();
 		requiredEnergy = buf.readInt();
 		
@@ -98,8 +98,8 @@ public abstract class ContainmentUpdatePacket extends MultiblockUpdatePacket
 		buf.writeInt(pos.getZ());
 		buf.writeBoolean(isContainmentOn);
 		buf.writeLong(heating);
-		buf.writeDouble(maxCoolantIn);
-		buf.writeDouble(maxCoolantOut);
+		buf.writeInt(maxCoolantIn);
+		buf.writeInt(maxCoolantOut);
 		buf.writeInt(maxOperatingTemp);
 		buf.writeInt(requiredEnergy);
 		

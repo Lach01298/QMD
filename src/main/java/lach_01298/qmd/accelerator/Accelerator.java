@@ -82,7 +82,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	public int ambientTemp = 290, maxOperatingTemp = 0;
 
 	public long cooling = 0L, rawHeating = 0L;
-	public double maxCoolantIn =0, maxCoolantOut=0;
+	public int maxCoolantIn =0, maxCoolantOut=0; // micro buckets per tick
 	public double efficiency = 0D;
 	public int requiredEnergy = 0, acceleratingVoltage =0;
 	public int RFCavityNumber =0, quadrupoleNumber =0,dipoleNumber =0;
@@ -521,7 +521,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		
 		if (refreshFlag) 
 		{
-			logic.refreshAccelerator();
+			//logic.refreshAccelerator();
 		}
 		updateActivity();
 		
@@ -634,8 +634,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		data.setBoolean("isAcceleratorOn", isAcceleratorOn);
 		data.setLong("cooling", cooling);
 		data.setLong("rawHeating", rawHeating);
-		data.setDouble("coolantIn", maxCoolantIn);
-		data.setDouble("coolantOut", maxCoolantOut);
+		data.setInteger("coolantIn", maxCoolantIn);
+		data.setInteger("coolantOut", maxCoolantOut);
 		data.setDouble("maxOperatingTemp", maxOperatingTemp);
 		data.setLong("requiredEnergy", requiredEnergy);
 		data.setDouble("efficiency",efficiency);
@@ -666,8 +666,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		isAcceleratorOn = data.getBoolean("isAcceleratorOn");
 		cooling = data.getLong("cooling");
 		rawHeating = data.getLong("rawHeating");
-		maxCoolantIn = data.getDouble("coolantIn");
-		maxCoolantOut = data.getDouble("coolantOut");
+		maxCoolantIn = data.getInteger("coolantIn");
+		maxCoolantOut = data.getInteger("coolantOut");
 		maxOperatingTemp =data.getInteger("maxOperatingTemp");
 		requiredEnergy = data.getInteger("requiredEnergy");
 		efficiency = data.getDouble("efficiency");

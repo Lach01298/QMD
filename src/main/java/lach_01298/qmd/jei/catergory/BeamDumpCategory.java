@@ -85,7 +85,7 @@ public class BeamDumpCategory implements IRecipeCategory<BeamDumpRecipe>
 		
 		
 		guiParticleStacks.init(0, true, 1, 1);
-		guiFluidStacks.init(1, false, 45, 1, 16, 16, fluidOutputs.get(0)== null ? 1000 : Math.max(1, fluidOutputs.get(0).size()), true, null);
+		guiFluidStacks.init(1, false, 45, 1, 16, 16, fluidOutputs.get(0)== null ? 1000 : Math.max(1, fluidOutputs.get(0).size()), false, null);
 		
 		
 		guiParticleStacks.set(0,particleInput.get(0));

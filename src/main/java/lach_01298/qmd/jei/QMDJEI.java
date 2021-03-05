@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.catergory.AcceleratorCoolingCategory;
 import lach_01298.qmd.jei.catergory.AcceleratorSourceCategory;
+import lach_01298.qmd.jei.catergory.AtmosphereCollectorCategory;
 import lach_01298.qmd.jei.catergory.BeamDumpCategory;
 import lach_01298.qmd.jei.catergory.CellFillingCategory;
 import lach_01298.qmd.jei.catergory.CollisionChamberCategory;
@@ -24,6 +25,7 @@ import lach_01298.qmd.jei.ingredient.ParticleStackListFactory;
 import lach_01298.qmd.jei.ingredient.ParticleStackRenderer;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipeMaker;
+import lach_01298.qmd.jei.recipe.AtmosphereCollectorRecipeMaker;
 import lach_01298.qmd.jei.recipe.BeamDumpRecipeMaker;
 import lach_01298.qmd.jei.recipe.CollisionChamberRecipeMaker;
 import lach_01298.qmd.jei.recipe.DecayChamberRecipeMaker;
@@ -79,6 +81,7 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipeCategories(
 				new AcceleratorSourceCategory(guiHelper),
 				new ParticleInfoCategory(guiHelper),
+				
 				new TargetChamberCategory(guiHelper),
 				new DecayChamberCategory(guiHelper),
 				new CollisionChamberCategory(guiHelper),
@@ -88,7 +91,8 @@ public class QMDJEI implements IModPlugin
 				JEIProcessorHandler.ACCELERATOR_COOLING.getCategory(guiHelper),
 				new BeamDumpCategory(guiHelper),
 				new NeutralContainmentCategory(guiHelper),
-				JEIProcessorHandler.CELL_FILLING.getCategory(guiHelper)
+				JEIProcessorHandler.CELL_FILLING.getCategory(guiHelper),
+				new AtmosphereCollectorCategory(guiHelper)
 				);
 		
 	}
@@ -138,6 +142,9 @@ public class QMDJEI implements IModPlugin
 		
 		registry.addRecipes(JEIProcessorHandler.CELL_FILLING.getJEIRecipes(guiHelper), JEIProcessorHandler.CELL_FILLING.getUUID());
 		registry.addRecipeCatalyst(JEIProcessorHandler.CELL_FILLING.getCrafters().get(0),JEIProcessorHandler.CELL_FILLING.getUUID());
+		
+		registry.addRecipes(AtmosphereCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.atmosphereCollector),QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
 	}
 
 	

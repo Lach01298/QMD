@@ -6,7 +6,6 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particle.ParticleStorageSource;
 import lach_01298.qmd.util.ByteUtil;
 import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
@@ -20,8 +19,8 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 
 	public boolean isAcceleratorOn;
 	public long cooling,rawHeating;
-	public double maxCoolantIn;
-	public double maxCoolantOut;
+	public int maxCoolantIn;
+	public int maxCoolantOut;
 	public int maxOperatingTemp;
 	public int requiredEnergy;
 	public double efficiency, quadrupoleStrength, dipoleStrength;
@@ -41,7 +40,7 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
 
-	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating,double maxCoolantIn, double maxCoolantOut, int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
+	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating, int maxCoolantIn, int maxCoolantOut, int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
 int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNumber, double dipoleStrength ,int errorCode, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
 		this.pos = pos;
@@ -80,8 +79,8 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		isAcceleratorOn = buf.readBoolean();
 		cooling = buf.readLong();
 		rawHeating = buf.readLong();
-		maxCoolantIn = buf.readDouble();
-		maxCoolantOut = buf.readDouble();
+		maxCoolantIn = buf.readInt();
+		maxCoolantOut = buf.readInt();
 		maxOperatingTemp = buf.readInt();
 		requiredEnergy = buf.readInt();
 		efficiency = buf.readDouble();
@@ -121,8 +120,8 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		buf.writeBoolean(isAcceleratorOn);
 		buf.writeLong(cooling);
 		buf.writeLong(rawHeating);
-		buf.writeDouble(maxCoolantIn);
-		buf.writeDouble(maxCoolantOut);
+		buf.writeInt(maxCoolantIn);
+		buf.writeInt(maxCoolantOut);
 		buf.writeInt(maxOperatingTemp);
 		buf.writeInt(requiredEnergy);
 		buf.writeDouble(efficiency);

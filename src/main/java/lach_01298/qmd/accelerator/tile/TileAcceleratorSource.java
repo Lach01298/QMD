@@ -10,7 +10,9 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.gui.GUI_ID;
+import lach_01298.qmd.item.IItemAmount;
 import lach_01298.qmd.network.QMDTileUpdatePacket;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.network.tile.TileUpdatePacket;
 import nc.tile.ITileGui;
@@ -195,7 +197,16 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 		
 	}
 
-	
+	@Override
+	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
+	{
+		System.out.println(getInventoryStacks().get(0));
+		if(getInventoryStacks().get(0).getCount() > 0)
+		{
+			return false;
+		}
+		return QMDRecipes.accelerator_source.isValidItemInput(IItemAmount.cleanNBT(stack));
+	}
 	
 	
 	

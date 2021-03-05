@@ -4,12 +4,17 @@ import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
 import static nc.block.property.BlockProperties.ACTIVE;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
 import lach_01298.qmd.accelerator.tile.IAcceleratorController;
@@ -44,13 +49,14 @@ import net.minecraft.world.World;
 public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket> 
 { 
 
-	
-	
+	public boolean searchFlag = false;
+	public final ObjectSet<TileAcceleratorCooler> coolerCache = new ObjectOpenHashSet<>();
+	public final Long2ObjectMap<TileAcceleratorCooler> componentFailCache = new Long2ObjectOpenHashMap<>(), assumedValidCache = new Long2ObjectOpenHashMap<>();
 	
 	public static final int thickness = 5;
 	private boolean operational = false;
-	private double excessCoolantIn =0;
-	private double excessCoolantOut =0;
+	private int excessCoolant =0; // in mirco buckets
+	
 	
 	
 	
@@ -122,68 +128,123 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		{
 			 getAccelerator().controller = contr;
 		}
-		
-		getAccelerator().energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
-		getAccelerator().energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
-		getAccelerator().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
-		getAccelerator().ambientTemp = 273 + (int) (getWorld().getBiome(getAccelerator().getMiddleCoord()).getTemperature(getAccelerator().getMiddleCoord())*20F);
-		
-		getAccelerator().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
-		getAccelerator().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
-		
-		if(!getAccelerator().cold)
-		{
-			getAccelerator().heatBuffer.setHeatStored(getAccelerator().ambientTemp*getAccelerator().heatBuffer.getHeatCapacity()/getAccelerator().MAX_TEMP);
-		}
-		getAccelerator().cold = true;
-		
-		
-		
 		if (!getWorld().isRemote) 
 		{
-			refreshConnections();
+			getAccelerator().energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+			getAccelerator().energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+			getAccelerator().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
+			getAccelerator().ambientTemp = 273 + (int) (getWorld().getBiome(getAccelerator().getMiddleCoord()).getTemperature(getAccelerator().getMiddleCoord())*20F);
+			
+			getAccelerator().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
+			getAccelerator().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
+			
+			if(!getAccelerator().cold)
+			{
+				getAccelerator().heatBuffer.setHeatStored(getAccelerator().ambientTemp*getAccelerator().heatBuffer.getHeatCapacity()/getAccelerator().MAX_TEMP);
+			}
+			getAccelerator().cold = true;
+
 			getAccelerator().updateActivity();	
 			
 			
 			for(ParticleStorageAccelerator beam:  getAccelerator().beams)
 			{
-			 beam.setMaxEnergy(Long.MAX_VALUE);
+				beam.setMaxEnergy(Long.MAX_VALUE);
 			}
-		}
-		
-		
-		
-		 //Coolers
-		getAccelerator().cooling = 0;
-		getAccelerator().maxOperatingTemp = getAccelerator().MAX_TEMP;
-		 for (IAcceleratorComponent part :getAccelerator().getPartMap(IAcceleratorComponent.class).values())
-		 {
-			 if(part instanceof TileAcceleratorCooler)
-			 { 
-				 TileAcceleratorCooler cooler = (TileAcceleratorCooler) part;
-				if(part.isFunctional())
-				{
-					getAccelerator().cooling += cooler.coolingRate;
-				}
-			 }
-			 else if(part instanceof TileAcceleratorMagnet ||part instanceof TileAcceleratorRFCavity)
+			
+			
+			//Coolers
+			getAccelerator().cooling = 0;
+			getAccelerator().maxOperatingTemp = getAccelerator().MAX_TEMP;
+			 
+			
+			
+			componentFailCache.clear();
+			do {
+				assumedValidCache.clear();
+				refreshCoolers();
+			}
+			while (searchFlag);
+			
+						
+			for (IAcceleratorComponent part :getAccelerator().getPartMap(IAcceleratorComponent.class).values())
 			 {
-				 if(part.getMaxOperatingTemp() < getAccelerator().maxOperatingTemp)
+				 if(part instanceof TileAcceleratorCooler)
+				 { 
+					TileAcceleratorCooler cooler = (TileAcceleratorCooler) part;
+					if(part.isFunctional())
+					{
+						getAccelerator().cooling += cooler.coolingRate;
+					}
+				 }
+				 else if(part instanceof TileAcceleratorMagnet ||part instanceof TileAcceleratorRFCavity)
 				 {
-					 getAccelerator().maxOperatingTemp = part.getMaxOperatingTemp();
+					 if(part.getMaxOperatingTemp() < getAccelerator().maxOperatingTemp)
+					 {
+						 getAccelerator().maxOperatingTemp = part.getMaxOperatingTemp();
+					 }
 				 }
 			 }
-			
-		 }
-		 
-		 
-		 
-		 
-		 
-	
+		}
 	}
 	
 	
+	private void refreshCoolers()
+	{
+		searchFlag = false;
+		
+		if (getPartMap(TileAcceleratorCooler.class).isEmpty()) 
+		{
+			return;
+		}
+		
+		for (TileAcceleratorCooler cooler : getParts(TileAcceleratorCooler.class)) 
+		{
+			cooler.isSearched = cooler.isInValidPosition = false;
+		}
+		
+		coolerCache.clear();
+		
+		for (TileAcceleratorCooler cooler : getParts(TileAcceleratorCooler.class)) 
+		{
+			if (cooler.isSearchRoot()) 
+			{
+				iterateCoolerSearch(cooler, coolerCache);
+			}
+		}
+		
+		for (TileAcceleratorCooler cooler : assumedValidCache.values()) 
+		{
+			if (!cooler.isInValidPosition) 
+			{
+				componentFailCache.put(cooler.getPos().toLong(), cooler);
+				searchFlag = true;
+			}
+		}
+		
+	}
+
+	private void iterateCoolerSearch(TileAcceleratorCooler rootCooler, ObjectSet<TileAcceleratorCooler> coolerCache)
+	{
+		final ObjectSet<TileAcceleratorCooler> searchCache = new ObjectOpenHashSet<>();
+		rootCooler.coolerSearch(coolerCache, searchCache, componentFailCache, assumedValidCache);
+		
+		do 
+		{
+			final Iterator<TileAcceleratorCooler> searchIterator = searchCache.iterator();
+			final ObjectSet<TileAcceleratorCooler> searchSubCache = new ObjectOpenHashSet<>();
+			while (searchIterator.hasNext()) 
+			{
+				TileAcceleratorCooler component = searchIterator.next();
+				searchIterator.remove();
+				component.coolerSearch(coolerCache, searchSubCache, componentFailCache, assumedValidCache);
+			}
+			searchCache.addAll(searchSubCache);
+		}
+		while (!searchCache.isEmpty());
+	}
+	
+
 	public int getCapacityMultiplier() 
 	{
 		return getAccelerator().getInteriorVolume();
@@ -237,6 +298,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
 		{
 			beam.setFunctional(false);
+		}
+		
+		for (TileAcceleratorCooler cooler :acc.getPartMap(TileAcceleratorCooler.class).values())
+		{
+			cooler.setFunctional(false);
 		}
 		
 		
@@ -325,16 +391,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 	}
 	
-	public void refreshConnections()
-	{
-		
-	}
-
-	public void refreshAccelerator()
-	{
-		
-		
-	}
 	
 	public void refreshStats()
 	{
@@ -419,7 +475,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public boolean onUpdateServer()
 	{
-
+		
 		if ((isRedstonePowered() && !getAccelerator().computerControlled) || (getAccelerator().computerControlled && getAccelerator().energyPercentage > 0))
 		{
 			if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
@@ -435,7 +491,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 				{
 					if(operational)
 					{
-						quenchMagnets();
+						quenchMagnets(); 
 					}
 					operational = false;
 					getAccelerator().errorCode = Accelerator.errorCode_ToHot;
@@ -453,7 +509,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		{
 			operational = false;
 		}
-
+		
 		externalHeating();
 		refreshFluidRecipe();
 		if (canProcessFluidInputs())
@@ -466,18 +522,15 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 
 
-	protected void refreshFluidRecipe() 
+	protected void refreshFluidRecipe()
 	{
-		
-	
-		getAccelerator().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getAccelerator().tanks.subList(0, 1));
-		if(getAccelerator().coolingRecipeInfo != null)
+		getAccelerator().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getAccelerator().tanks.subList(0, 1));
+		if (getAccelerator().coolingRecipeInfo != null)
 		{
-			getAccelerator().maxCoolantIn =   (double)(getAccelerator().cooling* getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))/ (double)(getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-			getAccelerator().maxCoolantOut =  (double)(getAccelerator().cooling* getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0))/ (double)(getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+			getAccelerator().maxCoolantIn = 1000 / getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (getAccelerator().cooling * getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0));
+			getAccelerator().maxCoolantOut = 1000 / getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (getAccelerator().cooling * getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0));
 		}
 	}
-
 	
 	
 	protected boolean canProcessFluidInputs() 
@@ -503,12 +556,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			{
 				return false;
 			}
-			else if (getAccelerator().tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getAccelerator().tanks.get(1).getCapacity())
+			else if (getAccelerator().tanks.get(1).getFluidAmount() + (getAccelerator().maxCoolantIn/1000 +1)*fluidProduct.getNextStack(0).amount > getAccelerator().tanks.get(1).getCapacity())
 			{
 				return false;
 			}
 			
-			else if (getAccelerator().heatBuffer.getHeatStored() < getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB())
+			else if (getAccelerator().heatBuffer.getHeatStored() < 1)
 			{
 				return false;
 			}
@@ -518,61 +571,53 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	private void produceFluidProducts()
 	{
-		int fluidIngredientStackSize =(int) getAccelerator().maxCoolantIn;
-		excessCoolantIn += getAccelerator().maxCoolantIn - Math.floor(getAccelerator().maxCoolantIn);
+		int uBConsumed = getAccelerator().maxCoolantIn;
 		
-		int fluidOutputStackSize = (int) getAccelerator().maxCoolantOut;
-		excessCoolantOut += getAccelerator().maxCoolantOut - Math.floor(getAccelerator().maxCoolantOut);
-		
-		
-		if(excessCoolantIn >= 1)
+		if(uBConsumed > getAccelerator().tanks.get(0).getFluidAmount() *1000)
 		{
-			fluidIngredientStackSize += Math.floor(excessCoolantIn);
-			excessCoolantIn -= Math.floor(excessCoolantIn);
-		
+			uBConsumed = getAccelerator().tanks.get(0).getFluidAmount() *1000;
+		}
+		if(uBConsumed > getAccelerator().heatBuffer.getHeatStored())
+		{
+			uBConsumed = (int) getAccelerator().heatBuffer.getHeatStored();
 		}
 		
-		if(excessCoolantOut >= 1)
+		
+		int mBConsumed =0;
+		if(uBConsumed%1000 != 0)
 		{
-			fluidOutputStackSize += Math.floor(excessCoolantOut);
-			excessCoolantOut -= Math.floor(excessCoolantOut);
+			mBConsumed = (uBConsumed + (1000-(uBConsumed%1000)))/1000;
+			excessCoolant += (1000-(uBConsumed%1000));
+		}
+		else
+		{
+			mBConsumed = uBConsumed/1000;
 		}
 		
-		if(fluidIngredientStackSize > 0)
+		if(excessCoolant > 1000)
 		{
-			int heatUsed = (int) ((fluidIngredientStackSize/getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-			
-			double recipeRatio =getAccelerator().tanks.get(0).getFluidAmount()/fluidIngredientStackSize;
-			
-			if(recipeRatio >(getAccelerator().tanks.get(1).getCapacity()-getAccelerator().tanks.get(1).getFluidAmount()/fluidOutputStackSize))
-			{
-				 recipeRatio =(getAccelerator().tanks.get(1).getCapacity()-getAccelerator().tanks.get(1).getFluidAmount())/fluidOutputStackSize;
-			}
-			if(recipeRatio > getAccelerator().heatBuffer.getHeatStored()/heatUsed)
-			{
-				 recipeRatio =getAccelerator().heatBuffer.getHeatStored()/heatUsed;
-			}
-			
-			if(recipeRatio > 1)
-			{
-				recipeRatio = 1;
-			}
-			IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
-			
-			if (getAccelerator().tanks.get(1).isEmpty())
-			{
-				getAccelerator().tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
-				getAccelerator().tanks.get(1).setFluidAmount((int) (fluidOutputStackSize * recipeRatio));
-			}
-			else
-			{
-				getAccelerator().tanks.get(1).changeFluidAmount((int) (fluidOutputStackSize * recipeRatio));
-			}
-			
-			getAccelerator().tanks.get(0).changeFluidAmount(-(int)(fluidIngredientStackSize*recipeRatio));
-			getAccelerator().heatBuffer.changeHeatStored(-(int)(heatUsed*recipeRatio));
-			if (getAccelerator().tanks.get(0).getFluidAmount() <= 0) getAccelerator().tanks.get(0).setFluidStored(null);
-		}	
+			mBConsumed -= excessCoolant/1000;
+			excessCoolant = excessCoolant%1000;
+		}
+		
+		
+		getAccelerator().tanks.get(0).changeFluidAmount(-mBConsumed);
+		if (getAccelerator().tanks.get(0).getFluidAmount() <= 0) getAccelerator().tanks.get(0).setFluidStored(null);
+		
+		getAccelerator().heatBuffer.changeHeatStored(-mBConsumed*getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+		
+		
+		IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		int producedCoolant = mBConsumed* fluidProduct.getNextStack(0).amount;
+		if (getAccelerator().tanks.get(1).isEmpty())
+		{
+			getAccelerator().tanks.get(1).changeFluidStored(fluidProduct.getNextStack(0).getFluid(),producedCoolant);
+		}
+		else
+		{
+			getAccelerator().tanks.get(1).changeFluidAmount(producedCoolant);	
+		}
+		
 	}
 	
 
@@ -652,13 +697,13 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	@Override
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-		
+		logicTag.setInteger("excessCoolant", excessCoolant);
 	}
 
 	@Override
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-	
+		excessCoolant = logicTag.getInteger("excessCoolant");
 		
 	}
 	

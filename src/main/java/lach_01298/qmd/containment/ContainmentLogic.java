@@ -47,8 +47,7 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	public static final int minSize = 5;
 	
 	
-	private double excessCoolantIn =0;
-	private double excessCoolantOut =0;
+	private int excessCoolant =0; // in mirco buckets
 	protected boolean operational = false;
 	
 	public ContainmentLogic(Containment multiblock)
@@ -202,13 +201,13 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	@Override
 	public void writeToLogicTag(NBTTagCompound data, SyncReason syncReason)
 	{
-		
+		data.setInteger("excessCoolant", excessCoolant);
 	}
 
 	@Override
 	public void readFromLogicTag(NBTTagCompound data, SyncReason syncReason)
 	{
-		
+		excessCoolant = data.getInteger("excessCoolant");
 	}
 
 	@Override
@@ -304,15 +303,12 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	protected void refreshFluidRecipe() 
 	{
-		
-	
 		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(0, 1));
 		if(getMultiblock().coolingRecipeInfo != null)
 		{
-			getMultiblock().maxCoolantIn =   (double)(2 * getMultiblock().heating* getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))/ (double)(getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-			getMultiblock().maxCoolantOut =  (double)(2 * getMultiblock().heating* getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0))/ (double)(getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-		}
-		
+			getMultiblock().maxCoolantIn = 1000 / getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (2*getMultiblock().heating * getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0));
+			getMultiblock().maxCoolantOut = 1000 / getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (2*getMultiblock().heating * getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0));
+		}	
 	}
 	
 	protected boolean canProcessFluidInputs() 
@@ -338,12 +334,12 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 			{
 				return false;
 			}
-			else if (getMultiblock().tanks.get(1).getFluidAmount() + fluidProduct.getMaxStackSize(0) > getMultiblock().tanks.get(1).getCapacity())
+			else if (getMultiblock().tanks.get(1).getFluidAmount() + (getMultiblock().maxCoolantIn/1000 +1)*fluidProduct.getNextStack(0).amount > getMultiblock().tanks.get(1).getCapacity())			
 			{
 				return false;
 			}
 			
-			else if (getMultiblock().heatBuffer.getHeatStored() < getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB())
+			else if (getMultiblock().heatBuffer.getHeatStored() < 1)
 			{
 				return false;
 			}
@@ -354,61 +350,53 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	private void produceFluidProducts()
 	{
-		int fluidIngredientStackSize =(int) getMultiblock().maxCoolantIn;
-		excessCoolantIn += getMultiblock().maxCoolantIn - Math.floor(getMultiblock().maxCoolantIn);
+		int uBConsumed = getMultiblock().maxCoolantIn;
 		
-		int fluidOutputStackSize = (int) getMultiblock().maxCoolantOut;
-		excessCoolantOut += getMultiblock().maxCoolantOut - Math.floor(getMultiblock().maxCoolantOut);
-		
-		
-		if(excessCoolantIn >= 1)
+		if(uBConsumed > getMultiblock().tanks.get(0).getFluidAmount() *1000)
 		{
-			fluidIngredientStackSize += Math.floor(excessCoolantIn);
-			excessCoolantIn -= Math.floor(excessCoolantIn);
-		
+			uBConsumed = getMultiblock().tanks.get(0).getFluidAmount() *1000;
+		}
+		if(uBConsumed > getMultiblock().heatBuffer.getHeatStored())
+		{
+			uBConsumed = (int) getMultiblock().heatBuffer.getHeatStored();
 		}
 		
-		if(excessCoolantOut >= 1)
+		
+		int mBConsumed =0;
+		if(uBConsumed%1000 != 0)
 		{
-			fluidOutputStackSize += Math.floor(excessCoolantOut);
-			excessCoolantOut -= Math.floor(excessCoolantOut);
+			mBConsumed = (uBConsumed + (1000-(uBConsumed%1000)))/1000;
+			excessCoolant += (1000-(uBConsumed%1000));
+		}
+		else
+		{
+			mBConsumed = uBConsumed/1000;
 		}
 		
-		if(fluidIngredientStackSize > 0)
+		if(excessCoolant > 1000)
 		{
-			int heatUsed = (int) ((fluidIngredientStackSize/getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+			mBConsumed -= excessCoolant/1000;
+			excessCoolant = excessCoolant%1000;
+		}
+		
+		
+		getMultiblock().tanks.get(0).changeFluidAmount(-mBConsumed);
+		if (getMultiblock().tanks.get(0).getFluidAmount() <= 0) getMultiblock().tanks.get(0).setFluidStored(null);
+		
+		getMultiblock().heatBuffer.changeHeatStored(-mBConsumed*getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
+		
+		
+		IFluidIngredient fluidProduct = getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		int producedCoolant = mBConsumed* fluidProduct.getNextStack(0).amount;
+		if (getMultiblock().tanks.get(1).isEmpty())
+		{
+			getMultiblock().tanks.get(1).changeFluidStored(fluidProduct.getNextStack(0).getFluid(),producedCoolant);
+		}
+		else
+		{
+			getMultiblock().tanks.get(1).changeFluidAmount(producedCoolant);	
+		}
 			
-			double recipeRatio =getMultiblock().tanks.get(0).getFluidAmount()/fluidIngredientStackSize;
-			
-			if(recipeRatio >(getMultiblock().tanks.get(1).getCapacity()-getMultiblock().tanks.get(1).getFluidAmount()/fluidOutputStackSize))
-			{
-				 recipeRatio =(getMultiblock().tanks.get(1).getCapacity()-getMultiblock().tanks.get(1).getFluidAmount())/fluidOutputStackSize;
-			}
-			if(recipeRatio > getMultiblock().heatBuffer.getHeatStored()/heatUsed)
-			{
-				 recipeRatio =getMultiblock().heatBuffer.getHeatStored()/heatUsed;
-			}
-			
-			if(recipeRatio > 1)
-			{
-				recipeRatio = 1;
-			}
-			IFluidIngredient fluidProduct = getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
-			
-			if (getMultiblock().tanks.get(1).isEmpty())
-			{
-				getMultiblock().tanks.get(1).setFluidStored(fluidProduct.getNextStack(0));
-				getMultiblock().tanks.get(1).setFluidAmount((int) (fluidOutputStackSize * recipeRatio));
-			}
-			else
-			{
-				getMultiblock().tanks.get(1).changeFluidAmount((int) (fluidOutputStackSize * recipeRatio));
-			}
-			
-			getMultiblock().tanks.get(0).changeFluidAmount(-(int)(fluidIngredientStackSize*recipeRatio));
-			getMultiblock().heatBuffer.changeHeatStored(-(int)(heatUsed*recipeRatio));
-			if (getMultiblock().tanks.get(0).getFluidAmount() <= 0) getMultiblock().tanks.get(0).setFluidStored(null);
-		}	
 	}
 	
 	

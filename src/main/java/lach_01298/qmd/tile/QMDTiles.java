@@ -1,10 +1,10 @@
 package lach_01298.qmd.tile;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCasing;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorGlass;
@@ -72,9 +72,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileBeamline.class,new ResourceLocation(QMD.MOD_ID,"beamline"));
 		GameRegistry.registerTileEntity(QMDTileRTG.Strontium.class,new ResourceLocation(QMD.MOD_ID,"rtg_strontium"));
 		GameRegistry.registerTileEntity(QMDTileFissionShield.Hafnium.class,new ResourceLocation(QMD.MOD_ID,"fission_shield_hafnium"));
-		GameRegistry.registerTileEntity(QMDTilePassive.HeliumCollector.class,new ResourceLocation(QMD.MOD_ID,"helium_collector"));
-		GameRegistry.registerTileEntity(QMDTilePassive.NeonCollector.class,new ResourceLocation(QMD.MOD_ID,"neon_collector"));
-		GameRegistry.registerTileEntity(QMDTilePassive.ArgonCollector.class,new ResourceLocation(QMD.MOD_ID,"argon_collector"));
+		GameRegistry.registerTileEntity(TileAtmosphereCollector.class,new ResourceLocation(QMD.MOD_ID,"atmosphere_collector"));
 		GameRegistry.registerTileEntity(TileCreativeParticleSource.class,new ResourceLocation(QMD.MOD_ID,"creative_particle_source"));
 		GameRegistry.registerTileEntity(QMDTileTurbineBlade.SuperAlloy.class,new ResourceLocation(QMD.MOD_ID,"turbine_blade_super_alloy"));
 		

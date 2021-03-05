@@ -12,7 +12,6 @@ import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;

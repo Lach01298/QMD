@@ -2,14 +2,16 @@ package lach_01298.qmd.proxy;
 
 import java.util.Locale;
 
+import lach_01298.qmd.ArmourBonusHandler;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDOreDictionary;
 import lach_01298.qmd.QMDRadSources;
-import lach_01298.qmd.TickItemHandler;
+import lach_01298.qmd.accelerator.CoolerPlacement;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.entity.QMDEntities;
 import lach_01298.qmd.fluid.QMDFluids;
+import lach_01298.qmd.item.QMDArmour;
 import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.multiblock.Multiblocks;
 import lach_01298.qmd.network.QMDPacketHandler;
@@ -36,16 +38,19 @@ public class CommonProxy
 		QMDSounds.init();
 		QMDBlocks.init();
 		QMDItems.init();
+		QMDArmour.init();
 		QMDFluids.init();
 		Particles.init();
 		
 		QMDBlocks.register();
 		QMDItems.register();
+		QMDArmour.register();
 		QMDFluids.register();
 		QMDTiles.register();
 		Particles.register();
 		
 		Multiblocks.init();
+		CoolerPlacement.preInit();
 		
 		QMDOreDictionary.register();
 		
@@ -61,12 +66,17 @@ public class CommonProxy
 		QMDRecipes.init();
 		QMDRadSources.init();
 		QMDEntities.register();
+		CoolerPlacement.init();
+		MinecraftForge.EVENT_BUS.register(new ArmourBonusHandler());
 	}
 	
 	public void postInit(FMLPostInitializationEvent postEvent) 
 	{
 		CapabilityParticleStackHandler.register();
 		//MinecraftForge.EVENT_BUS.register(new TickItemHandler());
+		
+		QMDArmour.addRadResistance();
+		CoolerPlacement.postInit();
 	}
 	
 	
@@ -75,6 +85,8 @@ public class CommonProxy
 	{
 		QMDRecipes.refreshRecipeCaches();
 		QMDRadSources.init();
+		QMDArmour.addRadResistance();
+		CoolerPlacement.tooltip_recipe_handler.refreshCache();
 	}
 	
 	

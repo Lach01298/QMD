@@ -2,6 +2,7 @@ package lach_01298.qmd;
 
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.enums.MaterialTypes.CanisterType;
+import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
 import nc.radiation.RadSources;
@@ -64,6 +65,14 @@ public class QMDRadSources
 		
 		RadSources.putOre(RadSources.TRITIUM*RadSources.FLUID, "cellAntitritium");
 		RadSources.put(RadSources.TRITIUM*RadSources.FLUID, new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID()));
+		
+		RadSources.put(RadSources.RADIUM/16D, new ItemStack(QMDItems.luminousPaint,1,LuminousPaintType.GREEN.getID()));
+		RadSources.put(RadSources.RADIUM/16D, new ItemStack(QMDItems.luminousPaint,1,LuminousPaintType.BLUE.getID()));
+		RadSources.put(RadSources.RADIUM/16D, new ItemStack(QMDItems.luminousPaint,1,LuminousPaintType.ORANGE.getID()));
+		RadSources.put(RadSources.RADIUM/16D, QMDBlocks.greenLuminousPaint);
+		RadSources.put(RadSources.RADIUM/16D, QMDBlocks.blueLuminousPaint);
+		RadSources.put(RadSources.RADIUM/16D, QMDBlocks.orangeLuminousPaint);
+		
 		
 		RadSources.putIsotope(COPERNICIUM_291, "Copernicium291", "copernicium_291");
 		RadSources.putFuel(MIX_291, DEPLETED_MIX_291, "MIX291", "mix_291");

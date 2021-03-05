@@ -59,7 +59,7 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 	public static final int MAX_TEMP = 400;
 	public int ambientTemp = 290, maxOperatingTemp = 0;
 	public long heating = 0L;
-	public double maxCoolantIn =0, maxCoolantOut=0;
+	public int maxCoolantIn =0, maxCoolantOut=0; // micro buckets per tick
 	public RecipeInfo<ProcessorRecipe> coolingRecipeInfo;
 	
 	public int requiredEnergy;
@@ -287,8 +287,8 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 		
 		data.setBoolean("isContainmentOn", isContainmentOn);
 		data.setLong("heating", heating);
-		data.setDouble("coolantIn", maxCoolantIn);
-		data.setDouble("coolantOut", maxCoolantOut);
+		data.setInteger("coolantIn", maxCoolantIn);
+		data.setInteger("coolantOut", maxCoolantOut);
 		data.setDouble("maxOperatingTemp", maxOperatingTemp);
 		data.setLong("requiredEnergy", requiredEnergy);
 		data.setBoolean("cold", cold);
@@ -307,8 +307,8 @@ public class Containment extends CuboidalMultiblock<IContainmentPart, Containmen
 		
 		isContainmentOn = data.getBoolean("isContainmentOn");
 		heating = data.getLong("rawHeating");
-		maxCoolantIn = data.getDouble("coolantIn");
-		maxCoolantOut = data.getDouble("coolantOut");
+		maxCoolantIn = data.getInteger("coolantIn");
+		maxCoolantOut = data.getInteger("coolantOut");
 		maxOperatingTemp =data.getInteger("maxOperatingTemp");
 		requiredEnergy = data.getInteger("requiredEnergy");
 		cold = data.getBoolean("cold");
