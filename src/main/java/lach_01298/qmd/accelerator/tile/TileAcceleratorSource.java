@@ -200,7 +200,6 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 	@Override
 	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
 	{
-		System.out.println(getInventoryStacks().get(0));
 		if(getInventoryStacks().get(0).getCount() > 0)
 		{
 			return false;
