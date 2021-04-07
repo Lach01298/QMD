@@ -14,6 +14,7 @@ import nc.multiblock.Multiblock;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements ILogicMultiblock<PipeLogic, IPipePart>
@@ -132,10 +133,10 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 	}
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock)
+	protected boolean isMachineWhole()
 	{
 		
-		return setLogic(multiblock) && super.isMachineWhole(multiblock) && logic.isMachineWhole(multiblock);
+		return setLogic(this) && super.isMachineWhole() && logic.isMachineWhole();
 	}
 	
 
@@ -146,9 +147,9 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 	}
 
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos)
 	{
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+		return logic.isBlockGoodForInterior(world,pos);
 	}
 
 	@Override

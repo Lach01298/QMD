@@ -4,12 +4,12 @@ import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEIMethods.RecipeFluidMapper;
-import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIHelper.RecipeFluidMapper;
+import nc.integration.jei.JEIHelper.RecipeItemMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class CellFillingCategory extends JEICategoryQMDProcessor<QMDRecipeWrapper.CellFilling> 
+public class CellFillingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.CellFilling> 
 {
 	
 	public CellFillingCategory(IGuiHelper guiHelper, IJEIHandler handler) 

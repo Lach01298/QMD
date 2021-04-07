@@ -4,8 +4,6 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 import lach_01298.qmd.containment.Containment;
 import lach_01298.qmd.containment.tile.TileContainmentLaser;
-import lach_01298.qmd.multiblock.network.ContainmentResendFormPacket;
-import lach_01298.qmd.network.QMDPacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,22 +31,19 @@ public class RenderContainmentLaser extends TileEntitySpecialRenderer<TileContai
 	public void render(TileContainmentLaser laser, double posX, double posY, double posZ, float partialTicks,
 			int destroyStage, float alpha)
 	{
+		
+		
 		if (!laser.isRenderer || !laser.isMultiblockAssembled())
 			return;
+		
 		Containment containment = laser.getMultiblock();
 		if (containment == null)
 			return;
-
+		
 		if (!containment.isContainmentOn)
 			return;
 		
-		if (containment.tanks == null)
-		{
-
-			QMDPacketHandler.instance.sendToServer(new ContainmentResendFormPacket(laser.getPos()));
-			return;
-
-		}
+		
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(posX + 0.5f, posY + 0.5f, posZ + 0.5f);
 

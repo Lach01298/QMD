@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 public class QMDRadSources
 {
 	
-	
+	private static final double FLUID_MULTIPLIER = 125D / 18D;
 	public static final double SODIUM_22 = 0.384;
 	public static final double BERYLLIUM_7 = 6.89;
 	public static final double URANIUM_234 = 0.00000407;
@@ -63,8 +63,8 @@ public class QMDRadSources
 		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationTungsten");
 		RadSources.putOre(RadSources.CAESIUM_137, "wasteSpallationHafnium");
 		
-		RadSources.putOre(RadSources.TRITIUM*RadSources.FLUID, "cellAntitritium");
-		RadSources.put(RadSources.TRITIUM*RadSources.FLUID, new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID()));
+		RadSources.putOre(RadSources.TRITIUM*FLUID_MULTIPLIER*0.1, "cellAntitritium");
+		RadSources.put(RadSources.TRITIUM*FLUID_MULTIPLIER*0.1, new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID()));
 		
 		RadSources.put(RadSources.RADIUM/16D, new ItemStack(QMDItems.luminousPaint,1,LuminousPaintType.GREEN.getID()));
 		RadSources.put(RadSources.RADIUM/16D, new ItemStack(QMDItems.luminousPaint,1,LuminousPaintType.BLUE.getID()));

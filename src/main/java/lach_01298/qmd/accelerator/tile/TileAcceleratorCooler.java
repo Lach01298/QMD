@@ -16,7 +16,7 @@ import nc.multiblock.turbine.tile.TileTurbineDynamoPart;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 
-public abstract class TileAcceleratorCooler extends TileAcceleratorPart implements IAcceleratorComponent
+public class TileAcceleratorCooler extends TileAcceleratorPart implements IAcceleratorComponent
 {
 	
 	public String name;

@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
-import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.util.math.BlockPos;
@@ -14,43 +14,45 @@ import net.minecraft.util.math.BlockPos;
 public class BeamDumpUpdatePacket extends ParticleChamberUpdatePacket
 {
 	public long particleWorkDone, recipeParticleWork;
-	
-	public BeamDumpUpdatePacket() 
+
+	public BeamDumpUpdatePacket()
 	{
 		super();
 	}
 
 	public BeamDumpUpdatePacket(BlockPos pos, boolean isAcceleratorOn, int requiredEnergy, double efficiency,
-			EnergyStorage energyStorage, long particleCount, long particleRecipeCount, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
+			EnergyStorage energyStorage, long particleCount, long particleRecipeCount, List<Tank> tanks,
+			List<ParticleStorageAccelerator> beams)
 	{
 		super(pos, isAcceleratorOn, requiredEnergy, efficiency, energyStorage, tanks, beams);
-		
-		this.particleWorkDone =particleCount;
-		this.recipeParticleWork=particleRecipeCount;
+
+		this.particleWorkDone = particleCount;
+		this.recipeParticleWork = particleRecipeCount;
 	}
 
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
-		super.readMessage(buf);
+		super.fromBytes(buf);
 
 		particleWorkDone = buf.readLong();
 		recipeParticleWork = buf.readLong();
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
-		super.writeMessage(buf);
-		
+		super.toBytes(buf);
+
 		buf.writeLong(particleWorkDone);
 		buf.writeLong(recipeParticleWork);
 	}
-	
-	public static class Handler extends MultiblockUpdatePacket.Handler<BeamDumpUpdatePacket, ParticleChamber, TileBeamDumpController> 
+
+	public static class Handler
+			extends MultiblockUpdatePacket.Handler<BeamDumpUpdatePacket, ParticleChamber, TileBeamDumpController>
 	{
-		
-		public Handler() 
+
+		public Handler()
 		{
 			super(TileBeamDumpController.class);
 		}

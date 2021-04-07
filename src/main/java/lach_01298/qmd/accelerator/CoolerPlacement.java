@@ -27,10 +27,8 @@ import nc.multiblock.PlacementRule;
 import nc.multiblock.PlacementRule.AdjacencyType;
 import nc.multiblock.PlacementRule.CountType;
 import nc.multiblock.PlacementRule.PlacementMap;
-import nc.multiblock.tile.ITileMultiblockPart;
 import nc.util.I18nHelper;
 import nc.util.Lang;
-import nc.util.PosHelper;
 import nc.util.StringHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -51,7 +49,7 @@ public class CoolerPlacement
 	/** List of all defined tooltip builders. Earlier entries are prioritised! */
 	public static final List<PlacementRule.TooltipBuilder<IAcceleratorPart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
 	
-	public static PlacementRule.TooltipRecipeHandler tooltip_recipe_handler;
+	public static PlacementRule.RecipeHandler recipe_handler;
 	
 	/** Map of all localised tooltips. */
 	public static final Object2ObjectMap<String, String> TOOLTIP_MAP = new Object2ObjectOpenHashMap<>();
@@ -63,7 +61,7 @@ public class CoolerPlacement
 	}
 	
 	public static void init() {
-		tooltip_recipe_handler = new TooltipRecipeHandler();
+		recipe_handler = new RecipeHandler();
 		
 		RULE_MAP.put("", new PlacementRule.Or<>(new ArrayList<>()));
 		
@@ -109,7 +107,7 @@ public class CoolerPlacement
 		RULE_MAP.put(id, parse(rule));
 		for (Object block : blocks) 
 		{
-			tooltip_recipe_handler.addRecipe(block, id);
+			recipe_handler.addRecipe(block, id);
 		}
 	}
 	
@@ -537,10 +535,10 @@ public class CoolerPlacement
 	
 	// Tooltip Recipes
 	
-	public static class TooltipRecipeHandler extends PlacementRule.TooltipRecipeHandler 
+	public static class RecipeHandler extends PlacementRule.RecipeHandler 
 	{
 		
-		public TooltipRecipeHandler() 
+		public RecipeHandler() 
 		{
 			super("accelerator");
 		}

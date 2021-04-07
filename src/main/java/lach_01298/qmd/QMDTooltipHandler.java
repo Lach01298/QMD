@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import lach_01298.qmd.accelerator.CoolerPlacement;
-import nc.recipe.ProcessorRecipe;
+import nc.recipe.BasicRecipe;
 import nc.recipe.RecipeInfo;
 import nc.util.FontRenderHelper;
 import nc.util.InfoHelper;
@@ -38,8 +38,8 @@ public class QMDTooltipHandler
 		@SideOnly(Side.CLIENT)
 		private static void addPlacementRuleTooltip(List<String> tooltip, ItemStack stack) 
 		{
-			RecipeInfo<ProcessorRecipe> recipeInfo = CoolerPlacement.tooltip_recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
-			ProcessorRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
+			RecipeInfo<BasicRecipe> recipeInfo = CoolerPlacement.recipe_handler.getRecipeInfoFromInputs(Lists.newArrayList(stack), new ArrayList<>());
+			BasicRecipe recipe = recipeInfo == null ? null : recipeInfo.getRecipe();
 			if (recipe != null) 
 			{
 				String rule = CoolerPlacement.TOOLTIP_MAP.get(recipe.getPlacementRuleID());

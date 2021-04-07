@@ -6,13 +6,10 @@ import java.util.List;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.particleChamber.CollisionChamberLogic;
-import lach_01298.qmd.particleChamber.DecayChamberLogic;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
-import nc.multiblock.network.ClearAllMaterialPacket;
-import nc.network.PacketHandler;
 import nc.util.Lang;
 import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
@@ -21,7 +18,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiCollisionChamberController extends GuiLogicMultiblock<ParticleChamber, CollisionChamberLogic, IParticleChamberController>
+public class GuiCollisionChamberController
+		extends GuiLogicMultiblock<ParticleChamber, CollisionChamberLogic, IParticleChamberController>
 {
 
 	protected final ResourceLocation gui_texture;
@@ -44,147 +42,154 @@ public class GuiCollisionChamberController extends GuiLogicMultiblock<ParticleCh
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) 
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		
+
 		int offset = 8;
 		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.collision_chamber_controller.name");
 		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 4, fontColor);
-		
-		String efficiency = Lang.localise("gui.qmd.container.target_chamber.efficiency",String.format("%.2f", multiblock.efficiency*100));
-		fontRenderer.drawString(efficiency,offset, 97, fontColor);
-		
-		if(multiblock.beams.get(0).getParticleStack() != null && multiblock.beams.get(1).getParticleStack() != null)
+
+		String efficiency = Lang.localise("gui.qmd.container.target_chamber.efficiency",
+				String.format("%.2f", multiblock.efficiency * 100));
+		fontRenderer.drawString(efficiency, offset, 97, fontColor);
+
+		if (multiblock.beams.get(0).getParticleStack() != null && multiblock.beams.get(1).getParticleStack() != null)
 		{
-			String collsionEnergy = Lang.localise("gui.qmd.container.collison_chamber.energy",Units.getSIFormat(2*Math.sqrt(multiblock.beams.get(0).getParticleStack().getMeanEnergy()*multiblock.beams.get(1).getParticleStack().getMeanEnergy()),3, "eV"));
-			fontRenderer.drawString(collsionEnergy,offset, 110, fontColor);
+			String collsionEnergy = Lang
+					.localise(
+							"gui.qmd.container.collison_chamber.energy", Units
+									.getSIFormat(
+											2 * Math.sqrt(multiblock.beams.get(0).getParticleStack().getMeanEnergy()
+													* multiblock.beams.get(1).getParticleStack().getMeanEnergy()),
+											3, "eV"));
+			fontRenderer.drawString(collsionEnergy, offset, 110, fontColor);
 		}
-		
-		
-		
-		
-		
-		
-		if (!NCUtil.isModifierKeyDown())  
+
+		if (!NCUtil.isModifierKeyDown())
 		{
-			
+
 		}
 	}
-	
+
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
-		
+
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(getGuiTexture());
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int power = (int)Math.round((double)multiblock.energyStorage.getEnergyStored()/(double)multiblock.energyStorage.getMaxEnergyStored()*74);
+		int power = (int) Math.round((double) multiblock.energyStorage.getEnergyStored()
+				/ (double) multiblock.energyStorage.getMaxEnergyStored() * 74);
 
-		drawTexturedModalRect(guiLeft + 161, guiTop + 87-power, 176, 74-power, 6, power);
-		
-		//input 1
-		if(multiblock.beams.get(0).getParticleStack() != null)
+		drawTexturedModalRect(guiLeft + 161, guiTop + 87 - power, 176, 74 - power, 6, power);
+
+		// input 1
+		if (multiblock.beams.get(0).getParticleStack() != null)
 		{
 			drawTexturedModalRect(guiLeft + 63, guiTop + 50, 182, 19, 16, 6);
 		}
-		
-		//input 2
-		if(multiblock.beams.get(1).getParticleStack() != null)
+
+		// input 2
+		if (multiblock.beams.get(1).getParticleStack() != null)
 		{
 			drawTexturedModalRect(guiLeft + 97, guiTop + 50, 216, 19, 16, 6);
 		}
-		
-		
-		//collision 
-		if(multiblock.beams.get(2).getParticleStack() != null || multiblock.beams.get(3).getParticleStack() != null || multiblock.beams.get(4).getParticleStack() != null || multiblock.beams.get(5).getParticleStack() != null)
+
+		// collision
+		if (multiblock.beams.get(2).getParticleStack() != null || multiblock.beams.get(3).getParticleStack() != null
+				|| multiblock.beams.get(4).getParticleStack() != null
+				|| multiblock.beams.get(5).getParticleStack() != null)
 		{
 			drawTexturedModalRect(guiLeft + 79, guiTop + 52, 198, 21, 18, 2);
 			drawTexturedModalRect(guiLeft + 87, guiTop + 50, 206, 19, 2, 6);
 			drawTexturedModalRect(guiLeft + 86, guiTop + 51, 205, 20, 4, 4);
 		}
-		
-		
+
 		// output 1
-		if(multiblock.beams.get(2).getParticleStack() != null)
+		if (multiblock.beams.get(2).getParticleStack() != null)
 		{
 			drawTexturedModalRect(guiLeft + 66, guiTop + 31, 185, 0, 21, 21);
 		}
-		
+
 		// output 2
-		if(multiblock.beams.get(3).getParticleStack() != null)
+		if (multiblock.beams.get(3).getParticleStack() != null)
 		{
 			drawTexturedModalRect(guiLeft + 89, guiTop + 31, 208, 0, 21, 21);
 		}
-		
+
 		// output 3
-		if(multiblock.beams.get(4).getParticleStack() != null)
+		if (multiblock.beams.get(4).getParticleStack() != null)
 		{
 			drawTexturedModalRect(guiLeft + 66, guiTop + 54, 185, 23, 21, 21);
 		}
 		// output 4
-		if(multiblock.beams.get(5).getParticleStack() != null)
+		if (multiblock.beams.get(5).getParticleStack() != null)
 		{
 			drawTexturedModalRect(guiLeft + 89, guiTop + 54, 208, 23, 21, 21);
 		}
-		
-		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft+46, guiTop+45);
-		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft+114, guiTop+45);
-		
-		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft+49, guiTop+14);
-		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft+111, guiTop+14);
-		guiParticle.drawParticleStack(multiblock.beams.get(4).getParticleStack(), guiLeft+49, guiTop+76);
-		guiParticle.drawParticleStack(multiblock.beams.get(5).getParticleStack(), guiLeft+111, guiTop+76);
-		
-		
+
+		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft + 46, guiTop + 45);
+		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft + 114, guiTop + 45);
+
+		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft + 49, guiTop + 14);
+		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft + 111, guiTop + 14);
+		guiParticle.drawParticleStack(multiblock.beams.get(4).getParticleStack(), guiLeft + 49, guiTop + 76);
+		guiParticle.drawParticleStack(multiblock.beams.get(5).getParticleStack(), guiLeft + 111, guiTop + 76);
 
 	}
-	
+
 	@Override
-	public void renderTooltips(int mouseX, int mouseY) {
-		//if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
-		
-		
-		drawTooltip(energyInfo(), mouseX, mouseY, 160, 4, 8, 76);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(0).getParticleStack(), guiLeft+46, guiTop+45, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(1).getParticleStack(), guiLeft+114, guiTop+45, mouseX, mouseY);
-		
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(2).getParticleStack(), guiLeft+49, guiTop+14, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(3).getParticleStack(), guiLeft+111, guiTop+14, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(4).getParticleStack(), guiLeft+49, guiTop+76, mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(5).getParticleStack(), guiLeft+111, guiTop+76, mouseX, mouseY);
-		
-	}
-	
+	public void renderTooltips(int mouseX, int mouseY)
+	{
+		// if (NCUtil.isModifierKeyDown()) drawTooltip(clearAllInfo(), mouseX, mouseY,
+		// 153, 81, 18, 18);
 
-	
-	
-	public List<String> energyInfo() 
+		drawTooltip(energyInfo(), mouseX, mouseY, 160, 4, 8, 76);
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(0).getParticleStack(), guiLeft + 46, guiTop + 45,
+				mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(1).getParticleStack(), guiLeft + 114, guiTop + 45,
+				mouseX, mouseY);
+
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(2).getParticleStack(), guiLeft + 49, guiTop + 14,
+				mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(3).getParticleStack(), guiLeft + 111, guiTop + 14,
+				mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(4).getParticleStack(), guiLeft + 49, guiTop + 76,
+				mouseX, mouseY);
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(5).getParticleStack(), guiLeft + 111, guiTop + 76,
+				mouseX, mouseY);
+
+	}
+
+	public List<String> energyInfo()
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.energy_stored",Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(),"RF")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.required_energy",Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.energy_stored",
+				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
+				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.required_energy",
+				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));
 		return info;
 	}
-	
+
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) 
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		GuiParticle guiParticle = new GuiParticle(this);
 
 		renderTooltips(mouseX, mouseY);
 	}
-	
-	
+
 	@Override
-	public void initGui() 
+	public void initGui()
 	{
 		super.initGui();
-		
+
 	}
-	
+
 	@Override
 	protected void actionPerformed(GuiButton guiButton)
 	{
@@ -192,7 +197,8 @@ public class GuiCollisionChamberController extends GuiLogicMultiblock<ParticleCh
 		{
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
 			{
-				//PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+				// PacketHandler.instance.sendToServer(new
+				// ClearAllMaterialPacket(tile.getTilePos()));
 			}
 		}
 	}

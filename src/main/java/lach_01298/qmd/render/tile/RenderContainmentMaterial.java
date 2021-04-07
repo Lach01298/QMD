@@ -4,8 +4,6 @@ import java.util.List;
 
 import lach_01298.qmd.containment.Containment;
 import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
-import lach_01298.qmd.multiblock.network.ContainmentResendFormPacket;
-import lach_01298.qmd.network.QMDPacketHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelRenderer;
@@ -51,6 +49,7 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 		
 		
 		FluidStack fluidStack = containment.tanks.get(2).getFluid();
+		
 		
 		if (fluidStack != null)
 		{
@@ -101,16 +100,7 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 			//renderer.renderBlockBrightness(blockstate, bright);
 		
 			

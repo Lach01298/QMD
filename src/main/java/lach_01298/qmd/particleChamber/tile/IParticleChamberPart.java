@@ -8,4 +8,5 @@ import nc.multiblock.tile.ITileLogicMultiblockPart;
 
 public interface IParticleChamberPart extends ITileLogicMultiblockPart<ParticleChamber,ParticleChamberLogic,IParticleChamberPart,ParticleChamberUpdatePacket> 
 {
+	
 }

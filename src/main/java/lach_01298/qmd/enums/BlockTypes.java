@@ -553,11 +553,6 @@ public class BlockTypes
 			}
 		}
 
-		public SoundEvent getSound()
-		{
-			return null;
-		}
-
 		public String getParticle1()
 		{
 			return particle1;

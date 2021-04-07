@@ -5,21 +5,21 @@ import java.util.List;
 
 import lach_01298.qmd.config.QMDConfig;
 import mezz.jei.api.IGuiHelper;
-import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEIRecipeWrapperAbstract;
-import nc.integration.jei.JEIRecipeWrapperProcessor;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.integration.jei.JEIBasicRecipeWrapper;
+import nc.integration.jei.JEIMachineRecipeWrapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
+import nc.recipe.BasicRecipe;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.Lang;
 import net.minecraft.util.text.TextFormatting;
 
 public class QMDRecipeWrapper
 {
 
-	public static class OreLeacher extends JEIRecipeWrapperProcessor<OreLeacher>
+	public static class OreLeacher extends JEIMachineRecipeWrapper
 	{
 
-		public OreLeacher(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe)
+		public OreLeacher(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 30, 7, 0, 0, 0, 0, 0, 0, 94, 42, 16, 16);
 		}
@@ -41,10 +41,10 @@ public class QMDRecipeWrapper
 		}
 	}
 	
-	public static class Irradiator extends JEIRecipeWrapperProcessor<Irradiator>
+	public static class Irradiator extends JEIMachineRecipeWrapper
 	{
 
-		public Irradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe)
+		public Irradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 41, 38, 0, 0, 0, 0, 0, 0, 62, 57, 52, 10);
 		}
@@ -65,10 +65,10 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class IrradiatorFuel extends JEIRecipeWrapperAbstract<IrradiatorFuel>
+	public static class IrradiatorFuel extends JEIBasicRecipeWrapper
 	{
 
-		public IrradiatorFuel(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe)
+		public IrradiatorFuel(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 62, 5, 0, 0, 0, 0, 0, 0);
 		}
@@ -103,11 +103,11 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class AcceleratorCooling extends JEIRecipeWrapperAbstract<AcceleratorCooling>
+	public static class AcceleratorCooling extends JEIBasicRecipeWrapper
 	{
 
-		public AcceleratorCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler,
-				ProcessorRecipe recipe)
+		public AcceleratorCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler,
+				BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 27, 6);
 		}
@@ -142,10 +142,10 @@ public class QMDRecipeWrapper
 		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 	
-	public static class CellFilling extends JEIRecipeWrapperProcessor<CellFilling>
+	public static class CellFilling extends JEIMachineRecipeWrapper
 	{
 
-		public CellFilling(IGuiHelper guiHelper, IJEIHandler jeiHandler, ProcessorRecipeHandler recipeHandler, ProcessorRecipe recipe)
+		public CellFilling(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		}

@@ -33,7 +33,7 @@ import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.recipe.ProcessorRecipe;
+import nc.recipe.BasicRecipe;
 import nc.recipe.RecipeInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
@@ -103,7 +103,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	private static final int thickness = 5;
 	
 	
-	public RecipeInfo<ProcessorRecipe> coolingRecipeInfo;
+	public RecipeInfo<BasicRecipe> coolingRecipeInfo;
 	
 	
 	
@@ -474,9 +474,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	}
 
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock)
+	protected boolean isMachineWhole()
 	{
-		return setLogic(multiblock)  && super.isMachineWhole(multiblock) && logic.isMachineWhole(multiblock);
+		return setLogic(this)  && super.isMachineWhole() && logic.isMachineWhole();
 	}
 
 	public boolean setLogic(Multiblock multiblock)
@@ -741,9 +741,9 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	// Multiblock Validators
 
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos)
 	{
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+		return logic.isBlockGoodForInterior(world, pos);
 	}
 
 

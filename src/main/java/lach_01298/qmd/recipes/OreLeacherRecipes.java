@@ -3,11 +3,11 @@ package lach_01298.qmd.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
 
-public class OreLeacherRecipes extends ProcessorRecipeHandler
+public class OreLeacherRecipes extends BasicRecipeHandler
 {
 
 	public OreLeacherRecipes()

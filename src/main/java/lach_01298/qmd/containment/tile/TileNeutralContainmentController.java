@@ -13,7 +13,7 @@ import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
@@ -42,7 +42,7 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 	
-	public ProcessorRecipeHandler recipe_handler = QMDRecipes.cell_filling;
+	public BasicRecipeHandler recipe_handler = QMDRecipes.cell_filling;
 	
 	public boolean isRenderer = false;
 	
@@ -89,7 +89,7 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 
 
 
-	public ProcessorRecipeHandler getRecipeHandler() {
+	public BasicRecipeHandler getRecipeHandler() {
 		return recipe_handler;
 	}
 	
@@ -150,14 +150,14 @@ public class TileNeutralContainmentController extends TileContainmentPart implem
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.saveAllItems(nbt, inventoryStacks);
+		NBTHelper.writeAllItems(nbt, inventoryStacks);
 		return nbt;
 	}
 
 	@Override
 	public void readInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.loadAllItems(nbt, inventoryStacks);
+		NBTHelper.readAllItems(nbt, inventoryStacks);
 	}
 	
 	@Override

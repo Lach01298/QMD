@@ -33,7 +33,7 @@ public class BeamlineLogic extends PipeLogic
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		return true;
 	}

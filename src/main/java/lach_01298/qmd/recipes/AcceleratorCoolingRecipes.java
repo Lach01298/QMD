@@ -3,9 +3,9 @@ package lach_01298.qmd.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
-public class AcceleratorCoolingRecipes extends ProcessorRecipeHandler
+public class AcceleratorCoolingRecipes extends BasicRecipeHandler
 {
 
 	public AcceleratorCoolingRecipes()

@@ -163,9 +163,9 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 
 	
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock)
+	protected boolean isMachineWhole()
 	{
-		return setLogic(multiblock)  && super.isMachineWhole(multiblock) && logic.isMachineWhole(multiblock);
+		return setLogic(this)  && super.isMachineWhole() && logic.isMachineWhole();
 	}
 	
 	public boolean setLogic(Multiblock multiblock)
@@ -374,8 +374,8 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	// Multiblock Validators
 	
 	@Override
-	protected boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
+	protected boolean isBlockGoodForInterior(World world, BlockPos pos)
 	{
-		return logic.isBlockGoodForInterior(world, x, y, z, multiblock);
+		return logic.isBlockGoodForInterior(world, pos);
 	}
 }

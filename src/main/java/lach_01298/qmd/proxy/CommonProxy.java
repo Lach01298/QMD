@@ -2,6 +2,7 @@ package lach_01298.qmd.proxy;
 
 import java.util.Locale;
 
+import crafttweaker.CraftTweakerAPI;
 import lach_01298.qmd.ArmourBonusHandler;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDOreDictionary;
@@ -9,6 +10,8 @@ import lach_01298.qmd.QMDRadSources;
 import lach_01298.qmd.accelerator.CoolerPlacement;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.crafttweaker.QMDCTRegistration;
+import lach_01298.qmd.crafttweaker.QMDCTRegistration.QMDRegistrationInfo;
 import lach_01298.qmd.entity.QMDEntities;
 import lach_01298.qmd.fluid.QMDFluids;
 import lach_01298.qmd.item.QMDArmour;
@@ -19,6 +22,7 @@ import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.sound.QMDSounds;
 import lach_01298.qmd.tile.QMDTiles;
+import nc.ModCheck;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -35,6 +39,10 @@ public class CommonProxy
 	
 	public void preInit(FMLPreInitializationEvent preEvent) 
 	{
+		if (ModCheck.craftTweakerLoaded()) {
+			CraftTweakerAPI.tweaker.loadScript(false, "qmd_preinit");
+		}
+		
 		QMDSounds.init();
 		QMDBlocks.init();
 		QMDItems.init();
@@ -59,6 +67,11 @@ public class CommonProxy
 		
 		MinecraftForge.EVENT_BUS.register(new QMDRecipes());
 		
+		for (QMDRegistrationInfo info : QMDCTRegistration.INFO_LIST) 
+		{
+			info.preInit();
+		}
+		
 	}
 	
 	public void init(FMLInitializationEvent event) 
@@ -68,6 +81,11 @@ public class CommonProxy
 		QMDEntities.register();
 		CoolerPlacement.init();
 		MinecraftForge.EVENT_BUS.register(new ArmourBonusHandler());
+		
+		for (QMDRegistrationInfo info : QMDCTRegistration.INFO_LIST) 
+		{
+			info.init();
+		}
 	}
 	
 	public void postInit(FMLPostInitializationEvent postEvent) 
@@ -77,6 +95,11 @@ public class CommonProxy
 		
 		QMDArmour.addRadResistance();
 		CoolerPlacement.postInit();
+		
+		for (QMDRegistrationInfo info : QMDCTRegistration.INFO_LIST) 
+		{
+			info.postInit();
+		}
 	}
 	
 	
@@ -86,7 +109,7 @@ public class CommonProxy
 		QMDRecipes.refreshRecipeCaches();
 		QMDRadSources.init();
 		QMDArmour.addRadResistance();
-		CoolerPlacement.tooltip_recipe_handler.refreshCache();
+		CoolerPlacement.recipe_handler.refreshCache();
 	}
 	
 	

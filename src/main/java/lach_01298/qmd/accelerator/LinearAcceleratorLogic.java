@@ -69,7 +69,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	// Multiblock Validation
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		Axis axis;
 		Accelerator acc = getAccelerator();
@@ -91,7 +91,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			}
 			if(acc.getExteriorLengthZ() != thickness)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.must_be_5_wide", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_5_wide", null);
 				return false;
 			}
 			
@@ -268,7 +268,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			return false;
 		}
 		
-		return super.isMachineWhole(multiblock);
+		return super.isMachineWhole();
 	}
 	
 	public Set<BlockPos> getinteriorAxisPositions(EnumFacing.Axis axis)

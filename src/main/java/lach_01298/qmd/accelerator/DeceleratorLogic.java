@@ -170,7 +170,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 			return false;
 		}
 		
-		return super.isMachineWhole(multiblock);
+		return super.isMachineWhole();
 	}
 	
 	public Set<BlockPos> getinteriorAxisPositions()

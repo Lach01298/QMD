@@ -11,7 +11,6 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang3.tuple.Pair;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
@@ -21,7 +20,6 @@ import lach_01298.qmd.containment.tile.TileContainmentBeamPort;
 import lach_01298.qmd.containment.tile.TileContainmentEnergyPort;
 import lach_01298.qmd.containment.tile.TileContainmentVent;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.ContainmentFormPacket;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
 import lach_01298.qmd.multiblock.network.ContainmentUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
@@ -72,7 +70,7 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 		return multiblock;
 	}
 	
-	
+	// Multiblock Size Limits
 	
 	@Override
 	public int getMinimumInteriorLength()
@@ -86,12 +84,20 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 		return maxSize;
 	}
 
+	// Multiblock Methods
+	
 	@Override
 	public void onMachineAssembled()
 	{
 		onContainmentFormed();
 	}
 
+	@Override
+	public void onMachineRestored()
+	{
+		onContainmentFormed();
+	}
+	
 	public void onContainmentFormed()
 	{
 		for (IContainmentController contr : getPartMap(IContainmentController.class).values()) 
@@ -123,12 +129,7 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	}
 
-	@Override
-	public void onMachineRestored()
-	{
-		onContainmentFormed();
-		
-	}
+	
 
 	
 	public int getCapacityMultiplier() 
@@ -152,14 +153,14 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	
 	public void onContainmentBroken()
 	{
-		if (!getWorld().isRemote)
+		if (getMultiblock().controller != null)
 		{
-			getMultiblock().updateActivity();
+			getMultiblock().controller.setActivity(false);
 		}
 	}
 
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		// vents
 		boolean inlet = false;
@@ -197,53 +198,12 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 
 		return true;
 	}
-
-	@Override
-	public void writeToLogicTag(NBTTagCompound data, SyncReason syncReason)
-	{
-		data.setInteger("excessCoolant", excessCoolant);
-	}
-
-	@Override
-	public void readFromLogicTag(NBTTagCompound data, SyncReason syncReason)
-	{
-		excessCoolant = data.getInteger("excessCoolant");
-	}
-
-	@Override
-	public ContainmentUpdatePacket getUpdatePacket()
-	{
-		return null;
-	}
-
-	
 	
 	@Override
-	public void onPacket(ContainmentUpdatePacket message)
+	public List<Pair<Class<? extends IContainmentPart>, String>> getPartBlacklist()
 	{
-		
+		return new ArrayList<>();
 	}
-
-	public ContainmentRenderPacket getRenderPacket() 
-	{
-		return new ContainmentRenderPacket(getMultiblock().controller.getTilePos(), getMultiblock().isContainmentOn, getMultiblock().tanks);
-	}
-	
-	public void onRenderPacket(ContainmentRenderPacket message) 
-	{
-		
-	}
-	
-	public ContainmentFormPacket getFormPacket() 
-	{	
-		return new ContainmentFormPacket(getMultiblock().controller.getTilePos());
-	}
-	
-	public void onFormPacket(ContainmentFormPacket message)
-	{
-	
-	}
-	
 	
 	public void onAssimilate(Multiblock assimilated)
 	{	
@@ -268,38 +228,92 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	{	
 	}
 
-
-
+	// Server
+	
 	public boolean onUpdateServer()
 	{
 
 		externalHeating();
 		refreshFluidRecipe();
 		if (canProcessFluidInputs())
-		{
-			
+		{	
 			produceFluidProducts();
 		}
-		getMultiblock().sendUpdateToListeningPlayers();
+		
+
 		return true;
 	}
-
-	public boolean isMultiblockOn()
+	
+	protected void pull()
 	{
-		return false;
+		for(TileContainmentBeamPort port : getPartMap(TileContainmentBeamPort.class).values())
+		{
+		
+			if(port.getIOType() == IOType.INPUT)
+			{
+				for(EnumFacing face : EnumFacing.HORIZONTALS)
+				{
+					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
+					if(tile != null)
+					{
+						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
+						{
+							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+							getMultiblock().beams.get(port.getIONumber()).setParticleStack(otherStorage.extractParticle(face.getOpposite()));
+						}
+					}
+				}
+			}
+		}
+		
 	}
 	
+	protected void push()
+	{
+		for(TileContainmentBeamPort port : getPartMap(TileContainmentBeamPort.class).values())
+		{
+		
+			if(port.getIOType() == IOType.OUTPUT)
+			{
+				for(EnumFacing face : EnumFacing.HORIZONTALS)
+				{
+					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
+					if(tile != null)
+					{
+						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
+						{
+							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+							otherStorage.reciveParticle(face.getOpposite(), getMultiblock().beams.get(port.getIONumber()).getParticleStack());
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks)
+	{
+		return getMultiblock().isAssembled() ? getMultiblock().tanks.subList(0, 2) : backupTanks;
+	}
+	
+	
+
 	protected void externalHeating()
 	{
 		getMultiblock().heatBuffer.addHeat(getMultiblock().getExternalHeating(),false);
 	}
-
+	
 	protected void internalHeating()
 	{
 		getMultiblock().heatBuffer.addHeat(getMultiblock().heating,false);
 	}
 	
+	public boolean isMultiblockOn()
+	{
+		return operational;
+	}
 	
+	// Recipes
 	
 	protected void refreshFluidRecipe() 
 	{
@@ -399,29 +413,54 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 			
 	}
 	
-	
+	// Client
 	
 	public void onUpdateClient()
 	{
 	
 	}
 
-
 	
-	public ContainerMultiblockController<Containment, IContainmentController> getContainer(EntityPlayer player)
+	// NBT
+	
+	@Override
+	public void writeToLogicTag(NBTTagCompound data, SyncReason syncReason)
+	{
+		data.setInteger("excessCoolant", excessCoolant);
+	}
+
+	@Override
+	public void readFromLogicTag(NBTTagCompound data, SyncReason syncReason)
+	{
+		excessCoolant = data.getInteger("excessCoolant");
+	}
+
+	// Packets
+	
+	@Override
+	public ContainmentUpdatePacket getUpdatePacket()
 	{
 		return null;
 	}
 
-	
-	
-	
-
 	@Override
-	public List<Pair<Class<? extends IContainmentPart>, String>> getPartBlacklist()
+	public void onPacket(ContainmentUpdatePacket message)
 	{
-		return new ArrayList<>();
+		
 	}
+
+	public ContainmentRenderPacket getRenderPacket() 
+	{
+		return null;
+	}
+	
+	public void onRenderPacket(ContainmentRenderPacket message) 
+	{
+		
+	}
+	
+	
+	
 	
 	public void clearAllMaterial()
 	{
@@ -432,70 +471,39 @@ public class ContainmentLogic extends MultiblockLogic<Containment, ContainmentLo
 	}
 	
 	
+	
+	// Multiblock Validators
+	
 	@Override
-	public boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
+	public boolean isBlockGoodForInterior(World world, BlockPos pos)
 	{
-		BlockPos pos = new BlockPos(x, y, z);
+		
 		if (MaterialHelper.isReplaceable(world.getBlockState(pos).getMaterial()) || world.getTileEntity(pos) instanceof TileAcceleratorPart) return true;
-		else return getMultiblock().standardLastError(x, y, z, multiblock);
-	}
-
-	protected void pull()
-	{
-		for(TileContainmentBeamPort port : getPartMap(TileContainmentBeamPort.class).values())
-		{
-		
-			if(port.getIOType() == IOType.INPUT)
-			{
-				for(EnumFacing face : EnumFacing.HORIZONTALS)
-				{
-					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
-					if(tile != null)
-					{
-						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
-						{
-							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							getMultiblock().beams.get(port.getIONumber()).setParticleStack(otherStorage.extractParticle(face.getOpposite()));
-						}
-					}
-				}
-			}
-		}
-		
+		else return getMultiblock().standardLastError(pos);
 	}
 	
-	protected void push()
-	{
-		for(TileContainmentBeamPort port : getPartMap(TileContainmentBeamPort.class).values())
-		{
-		
-			if(port.getIOType() == IOType.OUTPUT)
-			{
-				for(EnumFacing face : EnumFacing.HORIZONTALS)
-				{
-					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
-					if(tile != null)
-					{
-						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
-						{
-							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							otherStorage.reciveParticle(face.getOpposite(), getMultiblock().beams.get(port.getIONumber()).getParticleStack());
-						}
-					}
-				}
-			}
-		}
-	}
 	
-	public @Nonnull List<Tank> getVentTanks(List<Tank> backupTanks)
+	
+	
+	public ContainerMultiblockController<Containment, IContainmentController> getContainer(EntityPlayer player)
 	{
-		return getMultiblock().isAssembled() ? getMultiblock().tanks.subList(0, 2) : backupTanks;
+		return null;
 	}
 
-	public void refreshMultiblock()
-	{
-		
-	}
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+
+	
+
+	
 
 	
 

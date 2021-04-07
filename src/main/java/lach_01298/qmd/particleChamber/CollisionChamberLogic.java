@@ -67,7 +67,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		
 		Axis axis;

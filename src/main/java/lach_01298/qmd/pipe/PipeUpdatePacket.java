@@ -1,7 +1,8 @@
 package lach_01298.qmd.pipe;
 
 import io.netty.buffer.ByteBuf;
-import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.network.multiblock.MultiblockUpdatePacket;
+
 
 public class PipeUpdatePacket extends MultiblockUpdatePacket
 {
@@ -10,13 +11,13 @@ public class PipeUpdatePacket extends MultiblockUpdatePacket
 	
 	
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
 		
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
 		
 	}

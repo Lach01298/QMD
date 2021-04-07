@@ -66,7 +66,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		
 		//sizing

@@ -154,14 +154,14 @@ public class TileTargetChamberController extends TileParticleChamberPart impleme
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.saveAllItems(nbt, inventoryStacks);
+		NBTHelper.writeAllItems(nbt, inventoryStacks);
 		return nbt;
 	}
 
 	@Override
 	public void readInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.loadAllItems(nbt, inventoryStacks);
+		NBTHelper.readAllItems(nbt, inventoryStacks);
 	}
 	
 	@Override

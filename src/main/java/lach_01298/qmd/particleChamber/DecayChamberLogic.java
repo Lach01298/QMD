@@ -57,7 +57,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		
 		//sizing

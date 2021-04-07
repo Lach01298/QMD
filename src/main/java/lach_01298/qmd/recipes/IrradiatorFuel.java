@@ -5,10 +5,10 @@ import java.util.List;
 
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import net.minecraft.item.ItemStack;
 
-public class IrradiatorFuel extends ProcessorRecipeHandler
+public class IrradiatorFuel extends BasicRecipeHandler
 {
 
 	public IrradiatorFuel()

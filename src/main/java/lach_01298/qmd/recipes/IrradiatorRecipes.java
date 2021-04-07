@@ -5,12 +5,12 @@ import java.util.List;
 
 import lach_01298.qmd.item.QMDItems;
 import nc.init.NCBlocks;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-public class IrradiatorRecipes extends ProcessorRecipeHandler
+public class IrradiatorRecipes extends BasicRecipeHandler
 {
 
 	public IrradiatorRecipes()

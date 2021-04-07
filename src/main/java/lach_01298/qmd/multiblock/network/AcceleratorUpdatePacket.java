@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.util.ByteUtil;
-import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
@@ -36,7 +36,6 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 	
 	public AcceleratorUpdatePacket()
 	{
-		messageValid = false;
 		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
 
@@ -67,13 +66,11 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		tanksInfo = TankInfo.infoList(tanks);
 		
 		this.beams = beams;
-		
-		messageValid = true;
 	}
 
 
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isAcceleratorOn = buf.readBoolean();
@@ -112,7 +109,7 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());

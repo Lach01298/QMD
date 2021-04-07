@@ -4,11 +4,11 @@ import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEIMethods.RecipeItemMapper;
+import nc.integration.jei.JEIHelper.RecipeItemMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class IrradiatorFuelCategory extends JEICategoryQMDProcessor<QMDRecipeWrapper.IrradiatorFuel> 
+public class IrradiatorFuelCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.IrradiatorFuel> 
 {
 	
 	public IrradiatorFuelCategory(IGuiHelper guiHelper, IJEIHandler handler) 

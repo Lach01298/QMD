@@ -159,7 +159,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			return false;
 		}
 
-		return super.isMachineWhole(multiblock);
+		return super.isMachineWhole();
 	}
 	
 	// Multiblock Methods

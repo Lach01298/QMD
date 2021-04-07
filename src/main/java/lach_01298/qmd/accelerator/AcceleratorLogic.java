@@ -60,7 +60,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	
 	
-	public AcceleratorLogic(Accelerator accelerator) 
+	public AcceleratorLogic(Accelerator accelerator)
 	{
 		super(accelerator);
 	}
@@ -321,7 +321,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	}
 	
 	
-	public boolean isMachineWhole(Multiblock multiblock) 
+	public boolean isMachineWhole() 
 	{
 		// vents
 		boolean inlet = false;
@@ -738,11 +738,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	
 	@Override
-	public boolean isBlockGoodForInterior(World world, int x, int y, int z, Multiblock multiblock)
+	public boolean isBlockGoodForInterior(World world, BlockPos pos)
 	{
-		BlockPos pos = new BlockPos(x, y, z);
+		
 		if (MaterialHelper.isReplaceable(world.getBlockState(pos).getMaterial()) || world.getTileEntity(pos) instanceof TileAcceleratorPart) return true;
-		else return getAccelerator().standardLastError(x, y, z, multiblock);
+		else return getAccelerator().standardLastError(pos);
 	}
 
 	

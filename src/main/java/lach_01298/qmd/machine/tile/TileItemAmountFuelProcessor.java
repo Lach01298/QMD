@@ -12,8 +12,8 @@ import lach_01298.qmd.item.IItemAmount;
 import nc.config.NCConfig;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipe;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.ITileGui;
@@ -44,11 +44,11 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	public final int processorID, sideConfigYOffset;
 	
 	
-	public final ProcessorRecipeHandler fuelHandler;
-	public final ProcessorRecipeHandler recipeHandler;
+	public final BasicRecipeHandler fuelHandler;
+	public final BasicRecipeHandler recipeHandler;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
-	protected RecipeInfo<ProcessorRecipe> fuelInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> fuelInfo;
 	
 	
 	protected Set<EntityPlayer> playersToUpdate;
@@ -56,7 +56,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	public Random rand = new Random();
 	
 	
-	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, boolean shouldLoseProgress, @Nonnull ProcessorRecipeHandler recipeHandler,@Nonnull ProcessorRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
+	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler,@Nonnull BasicRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
 	{
 		super(name, itemInSize + itemFuelSize+ itemOutSize, ITileInventory.inventoryConnectionAll(itemSorptions));
 		itemInputSize = itemInSize;

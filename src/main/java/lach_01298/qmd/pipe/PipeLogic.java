@@ -79,7 +79,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	}
 
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		return false;
 	}
@@ -132,6 +132,12 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	public List<Pair<Class<? extends IPipePart>, String>> getPartBlacklist()
 	{
 		return new ArrayList<>();
+	}
+
+	@Override
+	public void clearAllMaterial()
+	{
+		
 	}
 
 }

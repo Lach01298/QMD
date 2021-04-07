@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -30,15 +30,15 @@ public class LinearAcceleratorUpdatePacket extends AcceleratorUpdatePacket
 	}
 	
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
-		super.readMessage(buf);
+		super.fromBytes(buf);
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
-		super.writeMessage(buf);
+		super.toBytes(buf);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<LinearAcceleratorUpdatePacket, Accelerator, TileLinearAcceleratorController> {

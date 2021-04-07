@@ -8,46 +8,39 @@ import net.minecraft.util.math.BlockPos;
 public class QMDTileUpdatePacket extends TileUpdatePacket
 {
 
-	public QMDTileUpdatePacket() 
+	public QMDTileUpdatePacket()
 	{
-		messageValid = false;
+
 	}
-	
-	
-	public QMDTileUpdatePacket(BlockPos pos) 
+
+	public QMDTileUpdatePacket(BlockPos pos)
 	{
 		this.pos = pos;
-	
-		
-		messageValid = true;
+
 	}
-	
-	
-	
-	
+
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
 	}
 
-	
-	public static class Handler extends TileUpdatePacket.Handler<QMDTileUpdatePacket, ITileGui> {
-		
+	public static class Handler extends TileUpdatePacket.Handler<QMDTileUpdatePacket, ITileGui>
+	{
+
 		@Override
-		protected void onPacket(QMDTileUpdatePacket message, ITileGui processor) {
+		protected void onPacket(QMDTileUpdatePacket message, ITileGui processor)
+		{
 			processor.onGuiPacket(message);
 		}
 	}
-	
-	
-	
+
 }

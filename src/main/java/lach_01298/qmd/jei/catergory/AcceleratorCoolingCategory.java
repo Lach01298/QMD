@@ -4,13 +4,13 @@ import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEIMethods.RecipeFluidMapper;
+import nc.integration.jei.JEIHelper.RecipeFluidMapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.util.text.TextFormatting;
 
-public class AcceleratorCoolingCategory extends JEICategoryQMDProcessor<QMDRecipeWrapper.AcceleratorCooling> 
+public class AcceleratorCoolingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.AcceleratorCooling> 
 {
 	
 	public AcceleratorCoolingCategory(IGuiHelper guiHelper, IJEIHandler handler) 

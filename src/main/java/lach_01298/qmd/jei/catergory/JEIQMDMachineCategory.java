@@ -5,9 +5,9 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
-import nc.integration.jei.JEIRecipeWrapperAbstract;
+import nc.integration.jei.JEIBasicCategory;
+import nc.integration.jei.JEIBasicRecipeWrapper;
+import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.ingredient.ChanceFluidIngredient;
 import nc.recipe.ingredient.ChanceItemIngredient;
 import nc.util.Lang;
@@ -16,19 +16,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEICategoryQMDProcessor<WRAPPER extends JEIRecipeWrapperAbstract> extends JEICategoryAbstract<WRAPPER> 
+public abstract class JEIQMDMachineCategory<WRAPPER extends JEIBasicRecipeWrapper> extends JEIBasicCategory<WRAPPER> 
 {
 	
 	private final IDrawable background;
 	protected String recipeTitle;
 	protected final int backPosX, backPosY;
 	
-	public JEICategoryQMDProcessor(IGuiHelper guiHelper, IJEIHandler handler, String title, int backX, int backY, int backWidth, int backHeight) 
+	public JEIQMDMachineCategory(IGuiHelper guiHelper, IJEIHandler handler, String title, int backX, int backY, int backWidth, int backHeight) 
 	{
 		this(guiHelper, handler, title, "", backX, backY, backWidth, backHeight);
 	}
 	
-	public JEICategoryQMDProcessor(IGuiHelper guiHelper, IJEIHandler handler, String title, String guiExtra, int backX, int backY, int backWidth, int backHeight) 
+	public JEIQMDMachineCategory(IGuiHelper guiHelper, IJEIHandler handler, String title, String guiExtra, int backX, int backY, int backWidth, int backHeight) 
 	{
 		super(handler);
 		ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/" + handler.getTextureName() + guiExtra + ".png");

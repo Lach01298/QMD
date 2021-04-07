@@ -14,31 +14,24 @@ public class CreativeParticleSourceUpdatePacket extends TileUpdatePacket
 {
 
 	public List<ParticleStorageSource> beams;
-	
-	
-	public CreativeParticleSourceUpdatePacket() 
+
+	public CreativeParticleSourceUpdatePacket()
 	{
-		messageValid = false;
 		beams = new ArrayList<ParticleStorageSource>();
 	}
-	
-	
-	public CreativeParticleSourceUpdatePacket(BlockPos pos, List<ParticleStorageSource> tanks) 
+
+	public CreativeParticleSourceUpdatePacket(BlockPos pos, List<ParticleStorageSource> tanks)
 	{
 		this.pos = pos;
 		this.beams = tanks;
-		
-		messageValid = true;
+
 	}
-	
-	
-	
-	
+
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-		
+
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++)
 		{
@@ -48,25 +41,26 @@ public class CreativeParticleSourceUpdatePacket extends TileUpdatePacket
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
-		
+
 		buf.writeInt(beams.size());
-		for(ParticleStorageSource beam : beams)
+		for (ParticleStorageSource beam : beams)
 		{
 			ByteUtil.writeBufBeam(beam, buf);
 		}
 
 	}
-	
-	
-public static class Handler extends TileUpdatePacket.Handler<CreativeParticleSourceUpdatePacket, ITileGui> {
-		
+
+	public static class Handler extends TileUpdatePacket.Handler<CreativeParticleSourceUpdatePacket, ITileGui>
+	{
+
 		@Override
-		protected void onPacket(CreativeParticleSourceUpdatePacket message, ITileGui processor) {
+		protected void onPacket(CreativeParticleSourceUpdatePacket message, ITileGui processor)
+		{
 			processor.onGuiPacket(message);
 		}
 	}

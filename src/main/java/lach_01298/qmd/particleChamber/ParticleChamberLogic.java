@@ -129,7 +129,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", null);
 		return false;

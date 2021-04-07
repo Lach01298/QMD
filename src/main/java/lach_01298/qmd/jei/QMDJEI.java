@@ -44,11 +44,11 @@ import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientRegistry;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
-import nc.integration.jei.IJEIHandler;
-import nc.integration.jei.JEICategoryAbstract;
-import nc.integration.jei.JEIMethods;
-import nc.integration.jei.JEIRecipeWrapperAbstract;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.integration.jei.JEIBasicCategory;
+import nc.integration.jei.JEIBasicRecipeWrapper;
+import nc.integration.jei.JEIHelper;
+import nc.integration.jei.NCJEI.IJEIHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.util.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -85,13 +85,13 @@ public class QMDJEI implements IModPlugin
 				new TargetChamberCategory(guiHelper),
 				new DecayChamberCategory(guiHelper),
 				new CollisionChamberCategory(guiHelper),
-				JEIProcessorHandler.ORE_LEACHER.getCategory(guiHelper),
-				JEIProcessorHandler.IRRADIATOR.getCategory(guiHelper),
-				JEIProcessorHandler.IRRADIATOR_FUEL.getCategory(guiHelper),
-				JEIProcessorHandler.ACCELERATOR_COOLING.getCategory(guiHelper),
+				JEIHandler.ORE_LEACHER.getCategory(guiHelper),
+				JEIHandler.IRRADIATOR.getCategory(guiHelper),
+				JEIHandler.IRRADIATOR_FUEL.getCategory(guiHelper),
+				JEIHandler.ACCELERATOR_COOLING.getCategory(guiHelper),
 				new BeamDumpCategory(guiHelper),
 				new NeutralContainmentCategory(guiHelper),
-				JEIProcessorHandler.CELL_FILLING.getCategory(guiHelper),
+				JEIHandler.CELL_FILLING.getCategory(guiHelper),
 				new AtmosphereCollectorCategory(guiHelper)
 				);
 		
@@ -118,20 +118,20 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipes(CollisionChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.COLLISION_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.collisionChamberController),QMDRecipeCategoryUid.COLLISION_CHAMBER);
 		
-		registry.addRecipes(JEIProcessorHandler.ORE_LEACHER.getJEIRecipes(guiHelper), JEIProcessorHandler.ORE_LEACHER.getUUID());
-		registry.addRecipeCatalyst(JEIProcessorHandler.ORE_LEACHER.getCrafters().get(0),JEIProcessorHandler.ORE_LEACHER.getUUID());
+		registry.addRecipes(JEIHandler.ORE_LEACHER.getJEIRecipes(guiHelper), JEIHandler.ORE_LEACHER.getUid());
+		registry.addRecipeCatalyst(JEIHandler.ORE_LEACHER.getCrafters().get(0),JEIHandler.ORE_LEACHER.getUid());
 		
-		registry.addRecipes(JEIProcessorHandler.IRRADIATOR.getJEIRecipes(guiHelper), JEIProcessorHandler.IRRADIATOR.getUUID());
-		registry.addRecipeCatalyst(JEIProcessorHandler.IRRADIATOR.getCrafters().get(0),JEIProcessorHandler.IRRADIATOR.getUUID());
+		registry.addRecipes(JEIHandler.IRRADIATOR.getJEIRecipes(guiHelper), JEIHandler.IRRADIATOR.getUid());
+		registry.addRecipeCatalyst(JEIHandler.IRRADIATOR.getCrafters().get(0),JEIHandler.IRRADIATOR.getUid());
 		
-		registry.addRecipes(JEIProcessorHandler.IRRADIATOR_FUEL.getJEIRecipes(guiHelper), JEIProcessorHandler.IRRADIATOR_FUEL.getUUID());
-		registry.addRecipeCatalyst(JEIProcessorHandler.IRRADIATOR_FUEL.getCrafters().get(0),JEIProcessorHandler.IRRADIATOR_FUEL.getUUID());
+		registry.addRecipes(JEIHandler.IRRADIATOR_FUEL.getJEIRecipes(guiHelper), JEIHandler.IRRADIATOR_FUEL.getUid());
+		registry.addRecipeCatalyst(JEIHandler.IRRADIATOR_FUEL.getCrafters().get(0),JEIHandler.IRRADIATOR_FUEL.getUid());
 		
-		registry.addRecipes(JEIProcessorHandler.ACCELERATOR_COOLING.getJEIRecipes(guiHelper), JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
-		for (int i = 0; i < JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().size(); i++)
+		registry.addRecipes(JEIHandler.ACCELERATOR_COOLING.getJEIRecipes(guiHelper), JEIHandler.ACCELERATOR_COOLING.getUid());
+		for (int i = 0; i < JEIHandler.ACCELERATOR_COOLING.getCrafters().size(); i++)
 		{
-			registry.addRecipeCatalyst(JEIProcessorHandler.ACCELERATOR_COOLING.getCrafters().get(i),
-					JEIProcessorHandler.ACCELERATOR_COOLING.getUUID());
+			registry.addRecipeCatalyst(JEIHandler.ACCELERATOR_COOLING.getCrafters().get(i),
+					JEIHandler.ACCELERATOR_COOLING.getUid());
 		}
 
 		registry.addRecipes(BeamDumpRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.BEAM_DUMP);
@@ -140,15 +140,15 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipes(NeutralContainmentRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.NEUTRAL_CONTAINMENT);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.neutralContainmentController),QMDRecipeCategoryUid.NEUTRAL_CONTAINMENT);
 		
-		registry.addRecipes(JEIProcessorHandler.CELL_FILLING.getJEIRecipes(guiHelper), JEIProcessorHandler.CELL_FILLING.getUUID());
-		registry.addRecipeCatalyst(JEIProcessorHandler.CELL_FILLING.getCrafters().get(0),JEIProcessorHandler.CELL_FILLING.getUUID());
+		registry.addRecipes(JEIHandler.CELL_FILLING.getJEIRecipes(guiHelper), JEIHandler.CELL_FILLING.getUid());
+		registry.addRecipeCatalyst(JEIHandler.CELL_FILLING.getCrafters().get(0),JEIHandler.CELL_FILLING.getUid());
 		
 		registry.addRecipes(AtmosphereCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.atmosphereCollector),QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
 	}
 
 	
-	public enum JEIProcessorHandler implements IJEIHandler 
+	public enum JEIHandler implements IJEIHandler 
 	{
 		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
 		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
@@ -156,19 +156,19 @@ public class QMDJEI implements IModPlugin
 		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController,QMDBlocks.deceleratorController,QMDBlocks.neutralContainmentController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class),
 		CELL_FILLING(QMDRecipes.cell_filling, QMDBlocks.neutralContainmentController, "jei/cell_filling", QMDRecipeWrapper.CellFilling.class);
 		
-		private ProcessorRecipeHandler recipeHandler;
-		private Class<? extends JEIRecipeWrapperAbstract> recipeWrapper;
+		private BasicRecipeHandler recipeHandler;
+		private Class<? extends JEIBasicRecipeWrapper> recipeWrapper;
 		private boolean enabled;
 		private List<ItemStack> crafters;
 		private String textureName;
 		
-		JEIProcessorHandler(ProcessorRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) 
+		JEIHandler(BasicRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper) 
 		{
 			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper);
 		}
 		
 
-		JEIProcessorHandler(ProcessorRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIRecipeWrapperAbstract> recipeWrapper) 
+		JEIHandler(BasicRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper) 
 		{
 			this.recipeHandler = recipeHandler;
 			this.recipeWrapper = recipeWrapper;
@@ -178,7 +178,7 @@ public class QMDJEI implements IModPlugin
 		}
 		
 		@Override
-		public JEICategoryAbstract getCategory(IGuiHelper guiHelper) 
+		public JEIBasicCategory getCategory(IGuiHelper guiHelper) 
 		{
 			switch (this) 
 			{
@@ -198,28 +198,28 @@ public class QMDJEI implements IModPlugin
 		}
 		
 		@Override
-		public ProcessorRecipeHandler getRecipeHandler() 
+		public BasicRecipeHandler getRecipeHandler() 
 		{
 			return recipeHandler;
 		}
 		
 		@Override
-		public Class<? extends JEIRecipeWrapperAbstract> getJEIRecipeWrapper() 
+		public Class getRecipeWrapperClass() 
 		{
 			return recipeWrapper;
 		}
 		
 		@Override
-		public ArrayList<JEIRecipeWrapperAbstract> getJEIRecipes(IGuiHelper guiHelper) 
+		public List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) 
 		{
-			return JEIMethods.getJEIRecipes(guiHelper, this, getRecipeHandler(), getJEIRecipeWrapper());
+			return JEIHelper.getJEIRecipes(guiHelper, this, getRecipeHandler(), getRecipeWrapperClass());
 		}
 
 		
 		@Override
-		public String getUUID() 
+		public String getUid()
 		{
-			return getRecipeHandler().getRecipeName();
+			return getRecipeHandler().getName();
 		}
 		
 		@Override

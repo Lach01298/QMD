@@ -108,6 +108,7 @@ public class QMDConfig {
 	public static int[] copernicium_heat_generation;
 	public static double[] copernicium_efficiency;
 	public static int[] copernicium_criticality;
+	public static double[] copernicium_decay_factor;
 	public static boolean[] copernicium_self_priming;
 	public static double[] copernicium_radiation;
 	
@@ -317,7 +318,9 @@ public class QMDConfig {
 		propertyCoperniciumEfficiency.setLanguageKey("gui.qmd.config.copernicium_efficiency");
 		Property propertyCoperniciumCriticality = config.get(CATEGORY_FISSION, "copernicium_criticality", new int[] {20, 25, 35, 20}, Lang.localise("gui.qmd.config.copernicium_criticality.comment"), 0, 32767);
 		propertyCoperniciumCriticality.setLanguageKey("gui.qmd.config.copernicium_criticality");
-		Property propertyCoperniciumSelfPriming = config.get(CATEGORY_FISSION, "copernicium_self_priming", new boolean[] {true, true, true, true}, Lang.localise("gui.qmd.config.copernicium_self_priming.comment"));
+		Property propertyCoperniciumDecayFactor = config.get(CATEGORY_FISSION, "copernicium_decay_factor", new double[] {0.11D, 0.11D, 0.11D, 0.11D}, Lang.localise("gui.qmd.config.copernicium_criticality.comment"), 0, 32767);
+		propertyCoperniciumDecayFactor.setLanguageKey("gui.qmd.config.copernicium_decay_factor");
+		Property propertyCoperniciumSelfPriming = config.get(CATEGORY_FISSION, "copernicium_self_priming", new boolean[] {true, true, true, true}, Lang.localise("gui.qmd.config.copernicium_decay_factor.comment"));
 		propertyCoperniciumSelfPriming.setLanguageKey("gui.qmd.config.copernicium_self_priming");
 		Property propertyCoperniciumRadiation = config.get(CATEGORY_FISSION, "copernicium_radiation", new double[] {QMDRadSources.MIX_291, QMDRadSources.MIX_291, QMDRadSources.MIX_291, QMDRadSources.MIX_291}, Lang.localise("gui.qmd.config.copernicium_radiation.comment"), 0D, 1000D);
 		propertyCoperniciumRadiation.setLanguageKey("gui.qmd.config.copernicium_radiation");
@@ -450,6 +453,7 @@ public class QMDConfig {
 		propertyOrderFission.add(propertyCoperniciumHeatGeneration.getName());
 		propertyOrderFission.add(propertyCoperniciumEfficiency.getName());
 		propertyOrderFission.add(propertyCoperniciumCriticality.getName());
+		propertyOrderFission.add(propertyCoperniciumDecayFactor.getName());
 		propertyOrderFission.add(propertyCoperniciumSelfPriming.getName());
 		propertyOrderFission.add(propertyCoperniciumRadiation.getName());
 		
@@ -565,6 +569,7 @@ public class QMDConfig {
 			copernicium_heat_generation = readIntegerArrayFromConfig(propertyCoperniciumHeatGeneration);
 			copernicium_efficiency = readDoubleArrayFromConfig(propertyCoperniciumEfficiency);
 			copernicium_criticality = readIntegerArrayFromConfig(propertyCoperniciumCriticality);
+			copernicium_decay_factor = readDoubleArrayFromConfig(propertyCoperniciumDecayFactor);
 			copernicium_self_priming = readBooleanArrayFromConfig(propertyCoperniciumSelfPriming);
 			copernicium_radiation = readDoubleArrayFromConfig(propertyCoperniciumRadiation);
 			
@@ -659,6 +664,15 @@ public class QMDConfig {
 		propertyFissionShieldHeatPerFlux.set(fission_shield_heat_per_flux);
 		propertyFissionShieldEfficiency.set(fission_shield_efficiency);
 		
+		
+		propertyCoperniciumFuelTime.set(copernicium_fuel_time);
+		propertyCoperniciumHeatGeneration.set(copernicium_heat_generation);
+		propertyCoperniciumEfficiency.set(copernicium_efficiency);
+		propertyCoperniciumCriticality.set(copernicium_criticality);
+		propertyCoperniciumDecayFactor.set(copernicium_decay_factor);
+		propertyCoperniciumSelfPriming.set(copernicium_self_priming);
+		propertyCoperniciumRadiation.set(copernicium_radiation);
+	
 		
 		propertyRTGPower.set(rtg_power);
 		

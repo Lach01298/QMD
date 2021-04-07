@@ -1,21 +1,19 @@
 package lach_01298.qmd.multiblock.network;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
-import lach_01298.qmd.util.ByteUtil;
-import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.util.math.BlockPos;
 
 public class DecayChamberUpdatePacket extends ParticleChamberUpdatePacket
-{	
-	public DecayChamberUpdatePacket() 
+{
+	public DecayChamberUpdatePacket()
 	{
 		super();
 	}
@@ -24,27 +22,28 @@ public class DecayChamberUpdatePacket extends ParticleChamberUpdatePacket
 			EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
 		super(pos, isAcceleratorOn, requiredEnergy, efficiency, energyStorage, tanks, beams);
-		
+
 	}
 
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
-		super.readMessage(buf);
-	
+		super.fromBytes(buf);
+
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
-		super.writeMessage(buf);
-			
+		super.toBytes(buf);
+
 	}
-	
-	public static class Handler extends MultiblockUpdatePacket.Handler<DecayChamberUpdatePacket, ParticleChamber, TileDecayChamberController> 
+
+	public static class Handler extends
+			MultiblockUpdatePacket.Handler<DecayChamberUpdatePacket, ParticleChamber, TileDecayChamberController>
 	{
-		
-		public Handler() 
+
+		public Handler()
 		{
 			super(TileDecayChamberController.class);
 		}

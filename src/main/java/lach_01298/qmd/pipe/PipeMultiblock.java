@@ -1,11 +1,12 @@
 package lach_01298.qmd.pipe;
 
 import nc.multiblock.Multiblock;
-import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import net.minecraft.world.World;
 
-public abstract class PipeMultiblock<T extends ITileMultiblockPart,PACKET extends MultiblockUpdatePacket> extends Multiblock<T,PACKET>
+public abstract class PipeMultiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket>
+		extends Multiblock<T, PACKET>
 {
 
 	protected PipeMultiblock(World world)
@@ -13,7 +14,6 @@ public abstract class PipeMultiblock<T extends ITileMultiblockPart,PACKET extend
 		super(world);
 	}
 
-	
 	@Override
 	protected int getMinimumNumberOfBlocksForAssembledMachine()
 	{
@@ -22,7 +22,7 @@ public abstract class PipeMultiblock<T extends ITileMultiblockPart,PACKET extend
 
 	@Override
 	protected int getMaximumXSize()
-	{	
+	{
 		return Integer.MAX_VALUE;
 	}
 
@@ -37,8 +37,7 @@ public abstract class PipeMultiblock<T extends ITileMultiblockPart,PACKET extend
 	{
 		return Integer.MAX_VALUE;
 	}
-	
-	
+
 	public int getLengthX()
 	{
 		return Math.abs(getMaximumCoord().getX() - getMinimumCoord().getX()) + 1;
@@ -56,7 +55,7 @@ public abstract class PipeMultiblock<T extends ITileMultiblockPart,PACKET extend
 
 	public int length()
 	{
-		if(this.getLengthX() > this.getLengthZ())
+		if (this.getLengthX() > this.getLengthZ())
 		{
 			return this.getLengthX();
 		}
@@ -65,13 +64,11 @@ public abstract class PipeMultiblock<T extends ITileMultiblockPart,PACKET extend
 			return this.getLengthZ();
 		}
 	}
-	
-	
+
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock)
+	protected boolean isMachineWhole()
 	{
 		return true;
 	}
-	
-	
+
 }
