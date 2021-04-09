@@ -32,7 +32,7 @@ public class QMDBlockFissionShield extends BlockFissionMetaPart<NeutronShieldTyp
 	{
 		super(NeutronShieldType.class, TYPE);
 		setDefaultState(getDefaultState().withProperty(ACTIVE, Boolean.valueOf(false)));
-		setCreativeTab(QMDTabs.BLOCKS);
+		setCreativeTab(QMDTabs.MULTIBLOCKS);
 	}
 
 	@Override

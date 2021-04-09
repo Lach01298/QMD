@@ -53,7 +53,7 @@ public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer)
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState();
 	}

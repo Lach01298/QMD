@@ -7,6 +7,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.gui.GUI_ID;
+import nc.util.BlockHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -57,12 +58,19 @@ public class BlockAcceleratorSource extends BlockAcceleratorPart
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer).getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 
 
+	@Override
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state)
+	{
+		super.onBlockAdded(world, pos, state);
+		BlockHelper.setDefaultFacing(world, pos, state,FACING_ALL);
+	}
+	
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)

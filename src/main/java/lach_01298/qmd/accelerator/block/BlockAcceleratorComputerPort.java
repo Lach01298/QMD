@@ -1,6 +1,7 @@
 package lach_01298.qmd.accelerator.block;
 
 import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
+import nc.util.BlockHelper;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -55,7 +56,7 @@ public class BlockAcceleratorComputerPort extends BlockAcceleratorPart
 	}
 
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer)).withProperty(ACTIVE, Boolean.valueOf(true));
 	}
@@ -64,35 +65,9 @@ public class BlockAcceleratorComputerPort extends BlockAcceleratorPart
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state)
 	{
 		super.onBlockAdded(world, pos, state);
-		setDefaultDirection(world, pos, state);
+		BlockHelper.setDefaultFacing(world, pos, state,FACING_ALL);
 	}
 
-	private static void setDefaultDirection(World world, BlockPos pos, IBlockState state)
-	{
-		if (!world.isRemote)
-		{
-			EnumFacing enumfacing = state.getValue(FACING_ALL);
-			boolean flag = world.getBlockState(pos.north()).isFullBlock();
-			boolean flag1 = world.getBlockState(pos.south()).isFullBlock();
-
-			if (enumfacing == EnumFacing.NORTH && flag && !flag1)
-				enumfacing = EnumFacing.SOUTH;
-			else if (enumfacing == EnumFacing.SOUTH && flag1 && !flag)
-				enumfacing = EnumFacing.NORTH;
-
-			else
-			{
-				boolean flag2 = world.getBlockState(pos.west()).isFullBlock();
-				boolean flag3 = world.getBlockState(pos.east()).isFullBlock();
-
-				if (enumfacing == EnumFacing.WEST && flag2 && !flag3)
-					enumfacing = EnumFacing.EAST;
-				else if (enumfacing == EnumFacing.EAST && flag3 && !flag2)
-					enumfacing = EnumFacing.WEST;
-			}
-			world.setBlockState(pos,state.withProperty(FACING_ALL, enumfacing).withProperty(ACTIVE, Boolean.valueOf(true)), 2);
-		}
-	}
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
