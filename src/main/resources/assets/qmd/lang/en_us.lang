@@ -972,20 +972,21 @@ gui.qmd.config.tools.gluon_radiation.comment=The amount of rads the gluon gun do
 gui.qmd.config.tools.gluon_range=Gluon Gun Range
 gui.qmd.config.tools.gluon_range.comment=The range in blocks of the gluon gun.
 
-gui.qmd.config.tools.armor_durability=Armor Durability
-gui.qmd.config.tools.armor_durability.comment=The base durability of each armor type. Order:[HEV].
 
-gui.qmd.config.tools.armor_enchantability=Armor Enchantability
-gui.qmd.config.tools.armor_enchantability.comment=The enchantability of each armor type. Order:[HEV].
+gui.qmd.config.tools.hev_toughness=HEV Toughness
+gui.qmd.config.tools.hev_toughness.comment=The toughness of the HEV SUIT type. Order:[Charged, Uncharged].
 
-gui.qmd.config.tools.armor_toughness=Armor Toughness
-gui.qmd.config.tools.armor_toughness.comment=The toughness of each armor type. Order:[HEV].
+gui.qmd.config.tools.hev_armour=HEV Armor Amount
+gui.qmd.config.tools.hev_armour.comment=The amount of armor each piece of the HEV Suit has. Order:[Charged Boots, Charged Leggings, Charged  Chestplate, Charged  Helmet, Uncharged Boots, Uncharged Leggings, Uncharged  Chestplate, Uncharged  Helmet].
 
-gui.qmd.config.tools.armor_hev=HEV Armor Amount
-gui.qmd.config.tools.armor_hev.comment=The amount of armor each piece of the HEV Suit has. Order:[Boots, Leggings, Chestplate, Helmet].
+gui.qmd.config.tools.hev_rad_res=HEV Radiation Resistance
+gui.qmd.config.tools.hev_rad_res.comment=The amount of radiation resistance each piece of the HEV Suit has. Order:[Boots, Leggings, Chestplate, Helmet].
 
-gui.qmd.config.tools.rad_res_hev=HEV Radiation Resistance
-gui.qmd.config.tools.rad_res_hev.comment=The amount of radiation resistance each piece of the HEV Suit has. Order:[Boots, Leggings, Chestplate, Helmet].
+gui.qmd.config.tools.hev_energy=HEV Energy Capacity
+gui.qmd.config.tools.hev_energy.comment=The RF capacity of each piece of the HEV Suit has. Order:[Boots, Leggings, Chestplate, Helmet].
+
+gui.qmd.config.tools.hev_power=HEV Power Consumption
+gui.qmd.config.tools.hev_power.comment=The amount of RF certain operations of the HEV Suit take. Order:[per damage taken, per jump boost, per long jump, per fall damage reduction, per wither/poison reduction].
 
 gui.qmd.config.fission.reflector_efficiency=Neutron Reflector Efficiency
 gui.qmd.config.fission.reflector_efficiency.comment= The efficiency of each type of neutron reflector. Order:[Tungsten Carbide].

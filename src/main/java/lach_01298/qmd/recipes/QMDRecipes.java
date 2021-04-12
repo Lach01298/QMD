@@ -247,18 +247,23 @@ public class QMDRecipes
 			NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, helium));
 			NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, nitrogen));
 			
-			NCRecipes.supercooler.addRecipe(fluidStack("helium", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_helium", 125), 1D, 10D);
-			NCRecipes.supercooler.addRecipe(fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_nitrogen", 125), 1D, 5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("helium", 64), fluidStack("liquid_helium", 1), 1D/150D, 10D);
+			NCRecipes.supercooler.addRecipe(fluidStack("nitrogen", 64), fluidStack("liquid_nitrogen", 1), 1D/150D, 5D);
+			
+			NCRecipes.supercooler.addRecipe(fluidStack("hydrogen", 64), fluidStack("liquid_hydrogen", 1), 1D/150D, 7.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("neon", 64), fluidStack("liquid_neon", 1), 1D/150D, 7.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("argon", 64), fluidStack("liquid_argon", 1), 1D/150D, 5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("oxygen", 64), fluidStack("liquid_oxygen", 1), 1D/150D, 5D);
+			
 		}
-		
-		
-		NCRecipes.supercooler.addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_hydrogen", 125), 1D, 7.5D);
-		
-		NCRecipes.supercooler.addRecipe(fluidStack("neon", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_neon", 125), 1D, 7.5D);
-		
-		NCRecipes.supercooler.addRecipe(fluidStack("argon", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_argon", 125), 1D, 5D);
-		NCRecipes.supercooler.addRecipe(fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_oxygen", 125), 1D, 5D);
-		
+		else
+		{
+			NCRecipes.supercooler.addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_hydrogen", 25), 1D, 1D);
+			NCRecipes.supercooler.addRecipe(fluidStack("neon", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_neon", 25), 1D, 1D);
+			NCRecipes.supercooler.addRecipe(fluidStack("argon", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_argon", 25), 0.5D, 0.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*8), fluidStack("liquid_oxygen", 25), 0.5D, 0.5D);
+		}
+
 		
 		// Decay Hastener
 		if(QMDConfig.override_nc_recipes)

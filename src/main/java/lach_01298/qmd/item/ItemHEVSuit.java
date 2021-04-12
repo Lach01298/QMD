@@ -2,16 +2,14 @@ package lach_01298.qmd.item;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Multimap;
-
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.IHazmatLike;
 import ic2.api.item.ISpecialElectricItem;
+import lach_01298.qmd.config.QMDConfig;
 import nc.ModCheck;
 import nc.item.armor.NCItemArmor;
 import nc.item.energy.ElectricItemManager;
@@ -19,12 +17,10 @@ import nc.item.energy.IChargableItem;
 import nc.item.energy.ItemEnergyCapabilityProvider;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.InfoHelper;
+import nc.util.NCMath;
 import nc.util.UnitHelper;
-import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -36,13 +32,13 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.item.IHazmatLike", modid = "ic2"),@Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "ic2") })
 public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLike, IChargableItem, ISpecialElectricItem
 {
-    private static final UUID[] ARMOR_MODIFIERS = new UUID[] {UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
-
 	
 	public final double radiationProtection;
 	private final long capacity;
@@ -57,27 +53,29 @@ public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLi
 		super(materialIn, renderIndexIn, equipmentSlotIn, infoColor, tooltip);
 		this.radiationProtection = radiationProtection;
 		
+		switch(equipmentSlotIn)
+		{
+		case FEET:
+			this.capacity = QMDConfig.hev_energy[0];
+			break;
+		case LEGS:
+			this.capacity = QMDConfig.hev_energy[1];
+			break;
+		case CHEST:
+			this.capacity = QMDConfig.hev_energy[2];
+			break;
+		case HEAD:
+			this.capacity = QMDConfig.hev_energy[3];
+			break;
+		default:
+			this.capacity = QMDConfig.hev_energy[0];	
+		}
 		
-		this.capacity = 100000;
-		this.maxTransfer = 100000;
+		this.maxTransfer = NCMath.toInt(this.capacity);
 		this.energyConnection = EnergyConnection.BOTH;
-		this.energyTier = 3;
-		
-		
+		this.energyTier = 3;	
 	}
 
-	
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
-    {
-        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
-
-        if (equipmentSlot == this.armorType && this.armorType == EntityEquipmentSlot.LEGS)
-        {
-        	multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(ARMOR_MODIFIERS[equipmentSlot.getIndex()], "Movement speed", 0.25D, 1));
-        }
-
-        return multimap;
-    }
 	
 	
 	
@@ -91,18 +89,41 @@ public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLi
 		{
 			return new ArmorProperties(0, radiationProtection, Integer.MAX_VALUE);
 		}
-		return new ArmorProperties(0, 0, Integer.MAX_VALUE);
+		
+		
+		ArmorProperties armourProp = new ArmorProperties(0, 0, Integer.MAX_VALUE);
+		
+		if(armor.hasCapability(CapabilityEnergy.ENERGY, null))
+		{
+			IEnergyStorage energy = armor.getCapability(CapabilityEnergy.ENERGY, null);
+			if(energy.getEnergyStored() > 0)
+			{
+				// adds the additional stats when charged
+				armourProp.Toughness= QMDConfig.hev_toughness[0]-QMDConfig.hev_toughness[1];
+				armourProp.Armor = QMDConfig.hev_armour[slot]-QMDConfig.hev_armour[slot+4];
+				energy.extractEnergy((int) (QMDConfig.hev_power[0]*damage), false);
+			}
+		}
+
+		return armourProp;
 	}
 
 	@Override
 	public int getArmorDisplay(EntityPlayer player, @Nonnull ItemStack armor, int slot)
 	{
+		if(armor.hasCapability(CapabilityEnergy.ENERGY, null))
+		{
+			IEnergyStorage energy = armor.getCapability(CapabilityEnergy.ENERGY, null);
+			if(energy.getEnergyStored() > 0)
+			{
+				return QMDConfig.hev_armour[slot]-QMDConfig.hev_armour[slot+4];
+			}
+		}
 		return 0;
 	}
 
 	@Override
-	public void damageArmor(EntityLivingBase entity, @Nonnull ItemStack stack, DamageSource source, int damage,
-			int slot)
+	public void damageArmor(EntityLivingBase entity, @Nonnull ItemStack stack, DamageSource source, int damage, int slot)
 	{
 		if (ModCheck.ic2Loaded())
 		{

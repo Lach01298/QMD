@@ -80,6 +80,7 @@ public class CommonProxy
 		QMDRadSources.init();
 		QMDEntities.register();
 		CoolerPlacement.init();
+		QMDArmour.blacklistShielding();
 		MinecraftForge.EVENT_BUS.register(new ArmourBonusHandler());
 		
 		for (QMDRegistrationInfo info : QMDCTRegistration.INFO_LIST) 

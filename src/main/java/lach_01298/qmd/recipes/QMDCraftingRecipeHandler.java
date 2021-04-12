@@ -73,10 +73,10 @@ public class QMDCraftingRecipeHandler
 		
 		addShapedOreRecipe(QMDItems.leptonCannon, new Object[] {"EL ", "OBS", "T  ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'S', "solenoidCopper", 'T', "ingotSuperAlloy"});
 		addShapedOreRecipe(QMDItems.gluonGun, new Object[] {"TT ", "OBB", "EL ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'T', "ingotSuperAlloy"});
-		addShapedOreRecipe(QMDArmour.helm_hev, new Object[] {"SSS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.helm_boron_nitride});
-		addShapedOreRecipe(QMDArmour.chest_hev, new Object[] {"SSS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.chest_boron_nitride});
-		addShapedOreRecipe(QMDArmour.legs_hev, new Object[] {"SSS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.legs_boron_nitride});
-		addShapedOreRecipe(QMDArmour.boots_hev, new Object[] {"SSS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.boots_boron_nitride});
+		addShapedOreRecipe(QMDArmour.helm_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.helm_boron_nitride, 'B', NCItems.lithium_ion_cell});
+		addShapedOreRecipe(QMDArmour.chest_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.chest_boron_nitride, 'B', NCItems.lithium_ion_cell});
+		addShapedOreRecipe(QMDArmour.legs_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.legs_boron_nitride, 'B', NCItems.lithium_ion_cell});
+		addShapedOreRecipe(QMDArmour.boots_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.boots_boron_nitride, 'B', NCItems.lithium_ion_cell});
 		
 		
 		

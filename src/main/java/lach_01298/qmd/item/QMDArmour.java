@@ -1,17 +1,18 @@
 package lach_01298.qmd.item;
 
-import static lach_01298.qmd.config.QMDConfig.armor_durability;
-import static lach_01298.qmd.config.QMDConfig.armor_enchantability;
-import static lach_01298.qmd.config.QMDConfig.armor_hev;
-import static lach_01298.qmd.config.QMDConfig.armor_toughness;
 
+
+import static lach_01298.qmd.config.QMDConfig.hev_armour;
+import static lach_01298.qmd.config.QMDConfig.hev_toughness;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
 import lach_01298.qmd.tab.QMDTabs;
 import nc.item.IInfoItem;
 import nc.radiation.RadArmor;
@@ -24,7 +25,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.util.EnumHelper;
@@ -32,9 +32,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class QMDArmour
 {
-
-	public static final ArmorMaterial HEV = armorMaterial("hev", 0, armor_hev, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.SUPER_ALLOY.getID()));
-	
+		
+	public static final ArmorMaterial HEV = EnumHelper.addArmorMaterial("hev", QMD.MOD_ID + ":" + "hev", 0, new int[] {hev_armour[4], hev_armour[5], hev_armour[6], hev_armour[7]}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, (float) hev_toughness[1]);
 	
 	public static Item helm_hev;
 	public static Item chest_hev;
@@ -71,22 +70,38 @@ public class QMDArmour
 		
 		
 		Map<ItemStack,Double> radAmours =  new HashMap<ItemStack,Double>();
-		radAmours.put(new ItemStack(helm_hev), QMDConfig.rad_res_hev[0]);
-		radAmours.put(new ItemStack(chest_hev), QMDConfig.rad_res_hev[1]);
-		radAmours.put(new ItemStack(legs_hev), QMDConfig.rad_res_hev[2]);
-		radAmours.put(new ItemStack(boots_hev), QMDConfig.rad_res_hev[3]);
+		radAmours.put(new ItemStack(helm_hev), QMDConfig.hev_rad_res[0]);
+		radAmours.put(new ItemStack(chest_hev), QMDConfig.hev_rad_res[1]);
+		radAmours.put(new ItemStack(legs_hev), QMDConfig.hev_rad_res[2]);
+		radAmours.put(new ItemStack(boots_hev), QMDConfig.hev_rad_res[3]);
 		
 		
 		for(Entry<ItemStack, Double> entry : radAmours.entrySet())
 		{
 			int packed = RecipeItemHelper.pack(entry.getKey());
 			double resistance = entry.getValue();
+			
 			RadArmor.ARMOR_RAD_RESISTANCE_MAP.put(packed,resistance);
 		}
 		
 		
 		
 		
+	}
+	
+	public static void blacklistShielding() 
+	{
+		List<ItemStack> radAmours =  new ArrayList<ItemStack>();
+		radAmours.add(new ItemStack(helm_hev));
+		radAmours.add(new ItemStack(chest_hev));
+		radAmours.add(new ItemStack(legs_hev));
+		radAmours.add(new ItemStack(boots_hev));
+		
+		for(ItemStack stack : radAmours)
+		{
+			int packed = RecipeItemHelper.pack(stack);
+			RadArmor.ARMOR_STACK_SHIELDING_BLACKLIST.add(packed);
+		}
 	}
 	
 	
@@ -110,9 +125,5 @@ public class QMDArmour
 	{
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
-	
-	
-	public static ArmorMaterial armorMaterial(String name, int id, int[] durability, SoundEvent equipSound, ItemStack repairStack) {
-		return EnumHelper.addArmorMaterial(name, QMD.MOD_ID + ":" + name, armor_durability[id], new int[] {durability[0], durability[1], durability[2], durability[3]}, armor_enchantability[id], equipSound, (float) armor_toughness[id]).setRepairItem(repairStack);
-	}
+
 }

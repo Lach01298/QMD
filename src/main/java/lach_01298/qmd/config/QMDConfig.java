@@ -92,11 +92,11 @@ public class QMDConfig {
 	public static double gluon_radiation;
 	public static double gluon_range;
 	
-	public static int[] armor_hev;
-	public static double[] rad_res_hev;
-	public static int[] armor_durability;
-	public static int[] armor_enchantability;
-	public static double[] armor_toughness;
+	public static int[] hev_armour;
+	public static double[] hev_rad_res;
+	public static double [] hev_toughness;
+	public static int[] hev_energy;
+	public static int[] hev_power;
 	
 	public static double[] fission_reflector_efficiency;
 	public static double[] fission_reflector_reflectivity;
@@ -289,16 +289,16 @@ public class QMDConfig {
 		propertyGluonRange.setLanguageKey("gui.qmd.config.tools.gluon_range");
 		
 		
-		Property propertyArmorHEV = config.get(CATEGORY_TOOLS, "armor_hev", new int[] {3, 6, 8, 3}, Lang.localise("gui.qmd.config.tools.armor_hev.comment"), 1, 25);
-		propertyArmorHEV.setLanguageKey("gui.qmd.config.tools.armor_hev");
-		Property propertyRadResHEV = config.get(CATEGORY_TOOLS, "rad_res_hev", new double[] {20.0, 30.0, 20.0, 20.0}, Lang.localise("gui.qmd.config.tools.rad_res_hev.comment"), 0.0, 1000.0);
-		propertyRadResHEV.setLanguageKey("gui.qmd.config.tools.rad_res_hev");
-		Property propertyArmorDurability = config.get(CATEGORY_TOOLS, "armor_durability", new int[] {0}, Lang.localise("gui.qmd.config.tools.armor_durability.comment"), 1, 127);
-		propertyArmorDurability.setLanguageKey("gui.qmd.config.tools.armor_durability");
-		Property propertyArmorEnchantability = config.get(CATEGORY_TOOLS, "armor_enchantability", new int[] {5}, Lang.localise("gui.qmd.config.tools.armor_enchantability.comment"), 1, 255);
-		propertyArmorEnchantability.setLanguageKey("gui.qmd.config.tools.armor_enchantability");
-		Property propertyArmorToughness = config.get(CATEGORY_TOOLS, "armor_toughness", new double[] {3D}, Lang.localise("gui.qmd.config.tools.armor_toughness.comment"), 0D, 8D);
-		propertyArmorToughness.setLanguageKey("gui.qmd.config.tools.armor_toughness");
+		Property propertyHEVArmour = config.get(CATEGORY_TOOLS, "hev_armour", new int[] {4, 7, 9, 4, 1, 3, 4, 1}, Lang.localise("gui.qmd.config.tools.hev_armour.comment"), 1, 25);
+		propertyHEVArmour.setLanguageKey("gui.qmd.config.tools.hev_armour");
+		Property propertyHEVRadRes = config.get(CATEGORY_TOOLS, "hev_rad_res", new double[] {20.0, 30.0, 20.0, 20.0}, Lang.localise("gui.qmd.config.tools.hev_rad_res.comment"), 0.0, 1000.0);
+		propertyHEVRadRes.setLanguageKey("gui.qmd.config.tools.hev_rad_res");
+		Property propertyHEVToughness = config.get(CATEGORY_TOOLS, "hev_toughness", new double[] {4D, 0D}, Lang.localise("gui.qmd.config.tools.hev_toughness.comment"), 0D, 8D);
+		propertyHEVToughness.setLanguageKey("gui.qmd.config.tools.hev_toughness");
+		Property propertyHEVEnergy = config.get(CATEGORY_TOOLS, "hev_energy", new int[] {1000000,1000000,1000000,1000000}, Lang.localise("gui.qmd.config.tools.hev_energy.comment"), 0, Integer.MAX_VALUE);
+		propertyHEVEnergy.setLanguageKey("gui.qmd.config.tools.hev_energy");
+		Property propertyHEVPower = config.get(CATEGORY_TOOLS, "hev_power", new int[] {100,100,250,100, 1000}, Lang.localise("gui.qmd.config.tools.hev_power.comment"), 0, Integer.MAX_VALUE);
+		propertyHEVPower.setLanguageKey("gui.qmd.config.tools.hev_power");//damage,jump boost,long jump, fall reduction, posion/wither
 		
 		
 		Property propertyFissionReflectorEfficiency = config.get(CATEGORY_FISSION, "reflector_efficiency", new double[] {0.75D}, Lang.localise("gui.qmd.config.fission.reflector_efficiency.comment"), 0D, 255D);
@@ -435,10 +435,12 @@ public class QMDConfig {
 		propertyOrderTools.add(propertyGluonRadiation.getName());
 		propertyOrderTools.add(propertyGluonRange.getName());
 		
-		propertyOrderTools.add(propertyArmorDurability.getName());
-		propertyOrderTools.add(propertyArmorHEV.getName());
-		propertyOrderTools.add(propertyArmorEnchantability.getName());
-		propertyOrderTools.add(propertyArmorToughness.getName());
+		propertyOrderTools.add(propertyHEVArmour.getName());
+		
+		propertyOrderTools.add(propertyHEVToughness.getName());
+		propertyOrderTools.add(propertyHEVEnergy.getName());
+		propertyOrderTools.add(propertyHEVPower.getName());
+		
 		
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
 		
@@ -554,11 +556,11 @@ public class QMDConfig {
 			gluon_range = propertyGluonRange.getDouble();
 			
 			
-			armor_hev = readIntegerArrayFromConfig(propertyArmorHEV);
-			rad_res_hev = readDoubleArrayFromConfig(propertyRadResHEV);
-			armor_durability = readIntegerArrayFromConfig(propertyArmorDurability);
-			armor_enchantability = readIntegerArrayFromConfig(propertyArmorEnchantability);
-			armor_toughness = readDoubleArrayFromConfig(propertyArmorToughness);
+			hev_armour = readIntegerArrayFromConfig(propertyHEVArmour);
+			hev_rad_res = readDoubleArrayFromConfig(propertyHEVRadRes);
+			hev_toughness = readDoubleArrayFromConfig(propertyHEVToughness);
+			hev_energy = readIntegerArrayFromConfig(propertyHEVEnergy);
+			hev_power =  readIntegerArrayFromConfig(propertyHEVPower);
 			
 			fission_reflector_efficiency = readDoubleArrayFromConfig(propertyFissionReflectorEfficiency);
 			fission_reflector_reflectivity = readDoubleArrayFromConfig(propertyFissionReflectorReflectivity);
@@ -653,11 +655,11 @@ public class QMDConfig {
 		propertyGluonRange.set(gluon_range);
 		
 		
-		propertyArmorHEV.set(armor_hev);
-		propertyRadResHEV.set(rad_res_hev);
-		propertyArmorDurability.set(armor_durability);
-		propertyArmorEnchantability.set(armor_enchantability);
-		propertyArmorToughness.set(armor_toughness);
+		propertyHEVArmour.set(hev_armour);
+		propertyHEVRadRes.set(hev_rad_res);
+		propertyHEVToughness.set(hev_toughness); 
+		propertyHEVEnergy.set(hev_energy);
+		propertyHEVPower.set(hev_power);
 		
 		propertyFissionReflectorEfficiency.set(fission_reflector_efficiency);
 		propertyFissionReflectorReflectivity.set(fission_reflector_reflectivity);
