@@ -20,6 +20,11 @@
                 "textures": {
                     "layer0": "qmd:items/waste/spallation/hafnium"
                 }
+            },
+            "mercury": {
+                "textures": {
+                    "layer0": "qmd:items/waste/spallation/mercury"
+                }
             }
         }
     }

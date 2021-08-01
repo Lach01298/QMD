@@ -8,11 +8,13 @@ import nc.block.tile.ITileType;
 import nc.tile.ITileGui;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
@@ -23,6 +25,8 @@ public class BlockCreativeParticleSource extends BlockTile implements ITileType
 	{
 		super(Material.IRON);
 		setCreativeTab(QMDTabs.BLOCKS);
+		setBlockUnbreakable();
+		setResistance(6000000.0F);
 	}
 
 	
@@ -39,6 +43,12 @@ public class BlockCreativeParticleSource extends BlockTile implements ITileType
 		return "creative_particle_source";
 	}
 	
+	@Override
+	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
+    {
+		return false;	
+    }
+	
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
@@ -48,6 +58,7 @@ public class BlockCreativeParticleSource extends BlockTile implements ITileType
 		TileEntity tile = world.getTileEntity(pos);
 		
 		if (player.isSneaking()) return false;
+		if (!player.isCreative()) return false;
 		
 		if (tile instanceof ITileGui) 
 		{

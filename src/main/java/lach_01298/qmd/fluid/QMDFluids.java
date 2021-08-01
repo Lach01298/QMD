@@ -47,6 +47,11 @@ public class QMDFluids
 			addFluidPair(FluidType.LIQUID, "liquid_neon",false, 0xff9f7a,1207,27,170,0);
 			addFluidPair(FluidType.LIQUID, "liquid_oxygen",false, 0x7E8CC8,1141,90,170,0);
 			
+			//liquids
+			addFluidPair(FluidType.LIQUID, "mercury", true,0xC6C6C6,13540,300,1000,0);
+			addFluidPair(FluidType.LIQUID, "hot_mercury", true, 0xAAAAAA, 13540, 630,1000,0);
+			addFluidPair(FluidType.LIQUID, "iodine",false, 0x7400B3,3960,387,1000,0);
+			
 			//gases
 			addFluidPair(FluidType.GAS, "argon", 0xff75dd);
 			addFluidPair(FluidType.GAS, "neon", 0xff9f7a);
@@ -59,6 +64,30 @@ public class QMDFluids
 			addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);
 			addFluidPair(FluidType.MOLTEN, "yag", 0xfffddb);
 			addFluidPair(FluidType.MOLTEN, "nd_yag", 0xe4bcf5);
+			addFluidPair(FluidType.MOLTEN, "tungsten", 0x4E564F);
+			addFluidPair(FluidType.MOLTEN, "niobium", 0xCCCCC0);
+			addFluidPair(FluidType.MOLTEN, "chromium", 0xC9C9C9);
+			addFluidPair(FluidType.MOLTEN, "titanium", 0x8E7E8D);
+			addFluidPair(FluidType.MOLTEN, "cobalt", 0x364F70);
+			addFluidPair(FluidType.MOLTEN, "nickel", 0xA3A998);
+			addFluidPair(FluidType.MOLTEN, "hafnium", 0x948484);
+			addFluidPair(FluidType.MOLTEN, "zinc", 0xE0E0E0);
+			addFluidPair(FluidType.MOLTEN, "osmium", 0x6F89A9);
+			addFluidPair(FluidType.MOLTEN, "iridium", 0xDDD5DD);
+			addFluidPair(FluidType.MOLTEN, "platinum", 0x71A4A9);
+			addFluidPair(FluidType.MOLTEN, "calcium", 0xF4F3EA);
+			addFluidPair(FluidType.MOLTEN, "strontium", 0xC4CB97);
+			addFluidPair(FluidType.MOLTEN, "yttrium", 0xD1C375);
+			addFluidPair(FluidType.MOLTEN, "neodymium", 0x818A97);
+			
+			
+			addFluidPair(FluidType.MOLTEN, "samarium", 0xa4d95f);
+			addFluidPair(FluidType.MOLTEN, "terbium", 0x5ba694);
+			addFluidPair(FluidType.MOLTEN, "erbium", 0x5a7a45);
+			addFluidPair(FluidType.MOLTEN, "ytterbium", 0x7a4552);
+			addFluidPair(FluidType.MOLTEN, "bismuth", 0x827e73);
+			addFluidPair(FluidType.MOLTEN, "polonium", 0x5c7c78);
+			addFluidPair(FluidType.MOLTEN, "radium", 0x6e607b);
 
 			//exotic matter
 			addFluidPair(QMDFluidType.EXOTIC,"antihydrogen", 0xB37AC4);

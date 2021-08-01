@@ -3,8 +3,8 @@ package lach_01298.qmd.multiblock.network;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import lach_01298.qmd.containment.Containment;
-import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
+import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
@@ -53,16 +53,16 @@ public class ContainmentRenderPacket extends MultiblockUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<ContainmentRenderPacket, Containment, TileNeutralContainmentController>
+			MultiblockUpdatePacket.Handler<ContainmentRenderPacket, VacuumChamber, TileExoticContainmentController>
 	{
 
 		public Handler()
 		{
-			super(TileNeutralContainmentController.class);
+			super(TileExoticContainmentController.class);
 		}
 
 		@Override
-		protected void onPacket(ContainmentRenderPacket message, Containment multiblock)
+		protected void onPacket(ContainmentRenderPacket message, VacuumChamber multiblock)
 		{
 			multiblock.onRenderPacket(message);
 		}

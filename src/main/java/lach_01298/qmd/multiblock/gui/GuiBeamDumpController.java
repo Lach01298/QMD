@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL11;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.ClearTankPacket;
+import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particleChamber.BeamDumpLogic;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
@@ -14,6 +16,7 @@ import lach_01298.qmd.util.Units;
 import nc.gui.element.GuiFluidRenderer;
 import nc.gui.element.NCButton;
 import nc.multiblock.gui.GuiLogicMultiblock;
+import nc.multiblock.gui.element.MultiblockButton;
 import nc.network.PacketHandler;
 import nc.network.multiblock.ClearAllMaterialPacket;
 import nc.util.Lang;
@@ -102,7 +105,7 @@ public class GuiBeamDumpController
 	public void renderTooltips(int mouseX, int mouseY)
 	{
 		if (NCUtil.isModifierKeyDown())
-			drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
+			drawTooltip(clearAllInfo(), mouseX, mouseY, 60, 80, 18, 18);
 
 		drawFluidTooltip(multiblock.tanks.get(1), mouseX, mouseY, 81, 37, 16, 16);
 		drawTooltip(energyInfo(), mouseX, mouseY, 122, 4, 8, 76);
@@ -134,7 +137,8 @@ public class GuiBeamDumpController
 	public void initGui()
 	{
 		super.initGui();
-		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 81, guiTop + 37, 16, 16));
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 80, guiTop + 60));
+		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 81, guiTop + 37, 16, 16));
 	}
 
 	@Override
@@ -142,9 +146,18 @@ public class GuiBeamDumpController
 	{
 		if (multiblock.WORLD.isRemote)
 		{
-			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
+			if(NCUtil.isModifierKeyDown())
 			{
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+			
+				switch(guiButton.id)
+				{
+				case 0:
+					PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+					break;
+				case 1:
+					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),1));
+					break;
+				}
 			}
 		}
 	}

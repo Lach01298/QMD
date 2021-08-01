@@ -22,6 +22,7 @@ import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.sound.QMDSounds;
 import lach_01298.qmd.tile.QMDTiles;
+import lach_01298.qmd.vacuumChamber.HeaterPlacement;
 import nc.ModCheck;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -59,6 +60,7 @@ public class CommonProxy
 		
 		Multiblocks.init();
 		CoolerPlacement.preInit();
+		HeaterPlacement.preInit();
 		
 		QMDOreDictionary.register();
 		
@@ -80,6 +82,7 @@ public class CommonProxy
 		QMDRadSources.init();
 		QMDEntities.register();
 		CoolerPlacement.init();
+		HeaterPlacement.init();
 		QMDArmour.blacklistShielding();
 		MinecraftForge.EVENT_BUS.register(new ArmourBonusHandler());
 		
@@ -92,10 +95,11 @@ public class CommonProxy
 	public void postInit(FMLPostInitializationEvent postEvent) 
 	{
 		CapabilityParticleStackHandler.register();
-		//MinecraftForge.EVENT_BUS.register(new TickItemHandler());
+		
 		
 		QMDArmour.addRadResistance();
 		CoolerPlacement.postInit();
+		HeaterPlacement.postInit();
 		
 		for (QMDRegistrationInfo info : QMDCTRegistration.INFO_LIST) 
 		{
@@ -111,6 +115,7 @@ public class CommonProxy
 		QMDRadSources.init();
 		QMDArmour.addRadResistance();
 		CoolerPlacement.recipe_handler.refreshCache();
+		HeaterPlacement.recipe_handler.refreshCache();
 	}
 	
 	

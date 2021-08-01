@@ -28,6 +28,7 @@ import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -35,10 +36,18 @@ import net.minecraft.tileentity.TileEntity;
 public class BeamDiverterLogic extends AcceleratorLogic
 {
 
+	
+	
 	public BeamDiverterLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator()); //output straight
+		/*
+		beam 0 = input particle
+		beam 1 = output particle
+		beam 2 = output  particle straight
+		tank 0 = input coolant
+		tank 1 = output coolant
+		*/
 	}
 
 	@Override
@@ -50,8 +59,8 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	// Multiblock Validation
 	
 	
-	
-	public boolean isMachineWhole(Multiblock multiblock) 
+	@Override
+	public boolean isMachineWhole() 
 	{
 		Accelerator acc = getAccelerator();
 		
@@ -149,6 +158,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			
 		}
 		
+		
 		if(inputs != 1 || outputs != 1)
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
@@ -171,7 +181,8 @@ public class BeamDiverterLogic extends AcceleratorLogic
 
 		 if (!getWorld().isRemote)
 		 {
-			//beam ports
+			 acc.beams.get(0).setMinEnergy(0);
+			 //beam ports
 			for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
 			{
 				if(port.getIOType() == IOType.INPUT)
@@ -418,7 +429,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	public BeamDiverterUpdatePacket getUpdatePacket()
 	{
 		return new BeamDiverterUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);

@@ -81,6 +81,7 @@ public class QMDItems
 	
 	public static Item leptonCannon;
 	public static Item gluonGun;
+	public static Item antimatterLauncher;
 	
 	public static Item copernicium;
 	public static Item pellet_copernicium;
@@ -120,6 +121,7 @@ public class QMDItems
 		
 		leptonCannon =  withName(new ItemLeptonCannon(),"lepton_cannon");
 		gluonGun =  withName(new ItemGluonGun(),"gluon_gun");
+		//antimatterLauncher =  withName(new ItemAntimatterLauncher(),"antimatter_launcher");
 		
 		cell = withName(new ItemCell(),"cell");
 		
@@ -164,6 +166,7 @@ public class QMDItems
 		registerItem(cell,QMDTabs.ITEMS);
 		registerItem(leptonCannon,QMDTabs.ITEMS);
 		registerItem(gluonGun,QMDTabs.ITEMS);
+		//registerItem(antimatterLauncher,QMDTabs.ITEMS);
 		
 		registerItem(copernicium,QMDTabs.ITEMS);
 		registerItem(pellet_copernicium,QMDTabs.ITEMS);
@@ -264,6 +267,7 @@ public class QMDItems
 		
 		registerRender(leptonCannon);
 		registerRender(gluonGun);
+		//registerRender(antimatterLauncher);
 		
 		
 		for (int i = 0; i < CellType.values().length; i++)

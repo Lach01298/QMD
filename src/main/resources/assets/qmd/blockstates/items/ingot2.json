@@ -15,6 +15,11 @@
                 "textures": {
                     "layer0": "qmd:items/materials/ingot/neodymium"
                 }
+            },
+            "mercury": {
+                "textures": {
+                    "layer0": "qmd:items/materials/ingot/mercury"
+                }
             }
         }
     }

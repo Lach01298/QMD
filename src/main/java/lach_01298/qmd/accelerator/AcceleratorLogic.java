@@ -25,6 +25,7 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorRedstonePort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
@@ -68,6 +69,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	public AcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
 		super(oldLogic);
+		
 	}
 	
 	@Override
@@ -128,21 +130,24 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		{
 			 getAccelerator().controller = contr;
 		}
+	
+		getAccelerator().energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getAccelerator().energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
+		getAccelerator().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
+		getAccelerator().ambientTemp = 273 + (int) (getWorld().getBiome(getAccelerator().getMiddleCoord()).getTemperature(getAccelerator().getMiddleCoord())*20F);
+		getAccelerator().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
+		getAccelerator().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
+		
 		if (!getWorld().isRemote) 
 		{
-			getAccelerator().energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
-			getAccelerator().energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
-			getAccelerator().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
-			getAccelerator().ambientTemp = 273 + (int) (getWorld().getBiome(getAccelerator().getMiddleCoord()).getTemperature(getAccelerator().getMiddleCoord())*20F);
 			
-			getAccelerator().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
-			getAccelerator().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
 			
 			if(!getAccelerator().cold)
 			{
 				getAccelerator().heatBuffer.setHeatStored(getAccelerator().ambientTemp*getAccelerator().heatBuffer.getHeatCapacity()/getAccelerator().MAX_TEMP);
 			}
 			getAccelerator().cold = true;
+			getAccelerator().currentHeating = 0;
 
 			getAccelerator().updateActivity();	
 			
@@ -305,6 +310,10 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			cooler.setFunctional(false);
 		}
 		
+		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
+		{
+			port.setRedstoneLevel(0);	
+		}
 		
 		
 		operational = false;
@@ -475,7 +484,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public boolean onUpdateServer()
 	{
-		
+		getAccelerator().currentHeating = 0;
 		if ((isRedstonePowered() && !getAccelerator().computerControlled) || (getAccelerator().computerControlled && getAccelerator().energyPercentage > 0))
 		{
 			if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
@@ -512,10 +521,13 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 		externalHeating();
 		refreshFluidRecipe();
+		
 		if (canProcessFluidInputs())
 		{
 			produceFluidProducts();
 		}
+		updateRedstone();
+		
 		getAccelerator().sendUpdateToListeningPlayers();
 		return true;
 	}
@@ -582,7 +594,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			uBConsumed = (int) getAccelerator().heatBuffer.getHeatStored();
 		}
 		
-		
 		int mBConsumed =0;
 		if(uBConsumed%1000 != 0)
 		{
@@ -628,12 +639,15 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	private void externalHeating()
 	{
 		getAccelerator().heatBuffer.addHeat(getAccelerator().getExternalHeating(),false);
+		getAccelerator().currentHeating +=getAccelerator().getExternalHeating();
 	}
 
 	private void internalHeating()
 	{
 		getAccelerator().heatBuffer.addHeat(getAccelerator().rawHeating,false);
+		getAccelerator().currentHeating +=getAccelerator().rawHeating;
 	}
+	
 
 	public boolean isAcceleratorOn() 
 	{
@@ -643,9 +657,54 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	protected boolean isRedstonePowered() 
 	{
+		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
+		{
+			if(!getWorld().getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
+			{
+				if(port.checkIsRedstonePowered(getWorld(), port.getPos()))
+				{
+					return true;
+				}
+			}
+		}
+		
+		
 		if (getAccelerator().controller != null && getAccelerator().controller.checkIsRedstonePowered(getWorld(), getAccelerator().controller.getTilePos())) return true;
 		return false;
 	}
+	
+	protected int getRedstoneLevel()
+	{
+		int level = getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos());
+		
+		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
+		{
+			if(!getWorld().getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
+			{
+				if( getWorld().getRedstonePowerFromNeighbors(port.getPos()) > level)
+				{
+					level = getWorld().getRedstonePowerFromNeighbors(port.getPos());
+				}
+			}
+		}
+		return level;	
+	}
+	
+	
+	
+	
+	protected void updateRedstone() 
+	{
+		
+		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
+		{
+			if(getAccelerator().WORLD.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
+			{		
+				port.setRedstoneLevel((int) (15 *(getAccelerator().getTemperature()/(double)getAccelerator().maxOperatingTemp)));	
+			}
+		}
+	}
+	
 	
 	
 	public void quenchMagnets() 

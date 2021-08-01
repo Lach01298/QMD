@@ -39,6 +39,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class CollisionChamberLogic extends ParticleChamberLogic
 {
+	
+
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	
 	
@@ -51,13 +53,16 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 	public CollisionChamberLogic(ParticleChamberLogic oldLogic)
 	{
-		super(oldLogic);
+		super(oldLogic);	
+		/*
+		beam 0 = input particle 1
+		beam 1 = input particle 2
+		beam 2 = output particle 1
+		beam 3 = output particle 2
+		beam 4 = output particle 3
+		beam 5 = output particle 4
 		
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
+		*/
 	}
 	
 	@Override

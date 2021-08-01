@@ -91,9 +91,9 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 		
 		guiItemStacks.init(2, false, 84, 25);
 		
-		guiParticleStacks.init(3, true, 76, 3);
-		guiParticleStacks.init(4, true, 122, 26);
-		guiParticleStacks.init(5, true, 76, 49);
+		guiParticleStacks.init(3, false, 76, 3);
+		guiParticleStacks.init(4, false, 122, 26);
+		guiParticleStacks.init(5, false, 76, 49);
 		
 		
 		guiItemStacks.set(0,itemInput.get(0));
@@ -102,20 +102,11 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 		
 		guiItemStacks.set(2,itemOutput.get(0));
 		
-		if(particleOutputs.get(0) != null)
-		{
-			guiParticleStacks.set(3,particleOutputs.get(0));
-		}
+
+		guiParticleStacks.set(3,particleOutputs.get(0));
+		guiParticleStacks.set(4,particleOutputs.get(1));
+		guiParticleStacks.set(5,particleOutputs.get(2));
 		
-		if(particleOutputs.get(1) != null)
-		{
-			guiParticleStacks.set(4,particleOutputs.get(1));
-		}
-		
-		if(particleOutputs.get(2) != null)
-		{
-			guiParticleStacks.set(5,particleOutputs.get(2));
-		}
 	}
 	
 

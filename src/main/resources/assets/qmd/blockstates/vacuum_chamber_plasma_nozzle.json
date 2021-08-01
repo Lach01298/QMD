@@ -1,0 +1,21 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:machine",
+		"textures": {
+			"top": "qmd:blocks/containment/beam",
+			"bottom": "qmd:blocks/containment/beam",
+			"front": "qmd:blocks/containment/nozzle",
+			"side": "qmd:blocks/containment/beam",
+			"back": "qmd:blocks/containment/nozzle"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"axis": {
+			"x": {"y": 90},
+			"y": {"x": 270},
+			"z": {}			
+		}
+	}
+}

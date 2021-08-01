@@ -3,10 +3,10 @@ package lach_01298.qmd.gui;
 
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
+import lach_01298.qmd.accelerator.tile.TileBeamSplitterController;
 import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
 import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
-import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
 import lach_01298.qmd.machine.container.ContainerCreativeParticleSource;
 import lach_01298.qmd.machine.container.ContainerIrradiator;
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
@@ -18,21 +18,25 @@ import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
 import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
 import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
+import lach_01298.qmd.multiblock.container.ContainerBeamSplitterController;
 import lach_01298.qmd.multiblock.container.ContainerCollisionChamberController;
 import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
-import lach_01298.qmd.multiblock.container.ContainerNeutralContainmentController;
+import lach_01298.qmd.multiblock.container.ContainerNucleosynthesisChamberController;
+import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
 import lach_01298.qmd.multiblock.gui.GuiBeamDiverterController;
 import lach_01298.qmd.multiblock.gui.GuiBeamDumpController;
+import lach_01298.qmd.multiblock.gui.GuiBeamSplitterController;
 import lach_01298.qmd.multiblock.gui.GuiCollisionChamberController;
 import lach_01298.qmd.multiblock.gui.GuiDecayChamberController;
 import lach_01298.qmd.multiblock.gui.GuiDeceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiNeutralContainmentController;
+import lach_01298.qmd.multiblock.gui.GuiNucleosynthesisChamberController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
 import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
@@ -40,6 +44,8 @@ import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
 import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.tile.TileCreativeParticleSource;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
+import lach_01298.qmd.vacuumChamber.tile.TileNucleosynthesisChamberController;
 import nc.container.processor.ContainerMachineConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -91,6 +97,10 @@ public class GUIHandler implements IGuiHandler
 				if (tile instanceof TileBeamDiverterController)
 					return new ContainerBeamDiverterController(player,  (TileBeamDiverterController) tile);
 				
+			case GUI_ID.BEAM_SPLITTER:
+				if (tile instanceof TileBeamSplitterController)
+					return new ContainerBeamSplitterController(player,  (TileBeamSplitterController) tile);
+				
 			case GUI_ID.IRRADIATOR:
 				if (tile instanceof TileIrradiator)
 					return new ContainerIrradiator(player,  (TileIrradiator)tile);
@@ -104,8 +114,8 @@ public class GUIHandler implements IGuiHandler
 					return new ContainerBeamDumpController(player,  (TileBeamDumpController)tile);
 			
 			case GUI_ID.NEUTRAL_CONTAINMENT:
-				if (tile instanceof TileNeutralContainmentController)
-					return new ContainerNeutralContainmentController(player,  (TileNeutralContainmentController)tile);
+				if (tile instanceof TileExoticContainmentController)
+					return new ContainerExoticContainmentController(player,  (TileExoticContainmentController)tile);
 				
 			case GUI_ID.DECELERATOR:
 				if (tile instanceof TileDeceleratorController)
@@ -119,6 +129,10 @@ public class GUIHandler implements IGuiHandler
 				if (tile instanceof TileCreativeParticleSource)
 					return new ContainerCreativeParticleSource(player,  (TileCreativeParticleSource)tile);
 			
+			case GUI_ID.NUCLEOSYNTHESIS_CHAMBER:
+				if (tile instanceof TileNucleosynthesisChamberController)
+					return new ContainerNucleosynthesisChamberController(player,  (TileNucleosynthesisChamberController)tile);	
+				
 			}
 		}
 
@@ -167,6 +181,10 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.BEAM_DIVERTER:
 				if (tile instanceof TileBeamDiverterController)
 					return new GuiBeamDiverterController(player, (TileBeamDiverterController) tile);
+				
+			case GUI_ID.BEAM_SPLITTER:
+				if (tile instanceof TileBeamSplitterController)
+					return new GuiBeamSplitterController(player, (TileBeamSplitterController) tile);
 			
 			case GUI_ID.IRRADIATOR:
 				if (tile instanceof TileIrradiator)
@@ -181,8 +199,8 @@ public class GUIHandler implements IGuiHandler
 					return new GuiBeamDumpController(player, (TileBeamDumpController) tile);
 			
 			case GUI_ID.NEUTRAL_CONTAINMENT:
-				if (tile instanceof TileNeutralContainmentController)
-					return new GuiNeutralContainmentController(player, (TileNeutralContainmentController) tile);
+				if (tile instanceof TileExoticContainmentController)
+					return new GuiNeutralContainmentController(player, (TileExoticContainmentController) tile);
 				
 			case GUI_ID.DECELERATOR:
 				if (tile instanceof TileDeceleratorController)
@@ -195,6 +213,11 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.CREATIVE_SOURCE:
 				if (tile instanceof TileCreativeParticleSource)
 					return new GuiCreativeParticleSource(player, (TileCreativeParticleSource) tile);
+				
+			case GUI_ID.NUCLEOSYNTHESIS_CHAMBER:
+				if (tile instanceof TileNucleosynthesisChamberController)
+					return new GuiNucleosynthesisChamberController(player, (TileNucleosynthesisChamberController) tile);	
+				
 				
 			}
 		}

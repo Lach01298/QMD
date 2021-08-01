@@ -50,7 +50,7 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 			list.add(categoryElement(QMDConfig.CATEGORY_PROCESSORS, CategoryEntryProcessors.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_PARTICLE_CHAMBER, CategoryEntryParticleChamber.class));
-			list.add(categoryElement(QMDConfig.CATEGORY_CONTAINMENT, CategoryEntryContainment.class));
+			list.add(categoryElement(QMDConfig.CATEGORY_VACUUM_CHAMBER, CategoryEntryContainment.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_FISSION, CategoryEntryFission.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_TOOLS, CategoryEntryTools.class));
@@ -126,7 +126,7 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 			@Override
 			protected GuiScreen buildChildScreen()
 			{
-				return buildChildScreen(QMDConfig.CATEGORY_CONTAINMENT, owningScreen, configElement);
+				return buildChildScreen(QMDConfig.CATEGORY_VACUUM_CHAMBER, owningScreen, configElement);
 			}
 		}
 

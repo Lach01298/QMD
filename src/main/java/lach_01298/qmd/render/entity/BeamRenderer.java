@@ -24,7 +24,7 @@ public class BeamRenderer
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void renderBeamEffects(RenderWorldLastEvent event)
 	{
-		double length = 256.0;
+		double length = 128.0;
 
 		AxisAlignedBB box = new AxisAlignedBB(QMD.proxy.getPlayerClient().posX - length,
 				QMD.proxy.getPlayerClient().posY - length, 
@@ -49,9 +49,5 @@ public class BeamRenderer
 			Render<Entity> render = Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(entity);
 			render.doRender(entity, d0 - d3, d1 - d4, d2 - d5, f, partialTicks);
 		}
-		
-		
-	
 	}
-
 }

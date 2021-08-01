@@ -25,8 +25,11 @@ public class CollisionChamberRecipes extends QMDRecipeHandler
 	{
 		
 		
-		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.higgs_boson,2),new ParticleStack(Particles.sigma_plus),new ParticleStack(Particles.kaon_plus),null,0.01);
-		addCollisionRecipe(new ParticleStack(Particles.antiproton,1,0,5),new ParticleStack(Particles.antiproton,1,0,5), new ParticleStack(Particles.higgs_boson,2),new ParticleStack(Particles.antisigma_plus),new ParticleStack(Particles.kaon_minus),null,0.01);
+		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.higgs_boson,2),new ParticleStack(Particles.delta_plus_plus),new ParticleStack(Particles.kaon_plus),new ParticleStack(Particles.sigma_minus),0.01);
+		addCollisionRecipe(new ParticleStack(Particles.antiproton,1,0,5),new ParticleStack(Particles.antiproton,1,0,5), new ParticleStack(Particles.higgs_boson,2),new ParticleStack(Particles.antidelta_plus_plus),new ParticleStack(Particles.kaon_minus),new ParticleStack(Particles.antisigma_minus),0.01);
+		
+		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.delta_minus,1),new ParticleStack(Particles.sigma_plus),new ParticleStack(Particles.kaon_plus),new ParticleStack(Particles.pion_plus),0.01);
+		addCollisionRecipe(new ParticleStack(Particles.antiproton,1,0,5),new ParticleStack(Particles.antiproton,1,0,5), new ParticleStack(Particles.antidelta_minus,1),new ParticleStack(Particles.antisigma_plus),new ParticleStack(Particles.kaon_minus),new ParticleStack(Particles.pion_minus),0.01);
 		
 		addCollisionRecipe(new ParticleStack(Particles.electron,1,0,5),new ParticleStack(Particles.positron,1,0,5), new ParticleStack(Particles.tau),new ParticleStack(Particles.antitau),new ParticleStack(Particles.z_boson),null,0.015);
 
@@ -46,6 +49,11 @@ public class CollisionChamberRecipes extends QMDRecipeHandler
 		addCollisionRecipe(new ParticleStack(Particles.antideuteron,1,0,5),new ParticleStack(Particles.antideuteron,1,0,5), new ParticleStack(Particles.antialpha),new ParticleStack(Particles.photon),null,null,0.5,1400, 23845,10000);
 		addCollisionRecipe(new ParticleStack(Particles.helion,1,0,5),new ParticleStack(Particles.neutron,1,0,5), new ParticleStack(Particles.alpha),new ParticleStack(Particles.photon),null,null,0.5,0, 20577,10000);
 		addCollisionRecipe(new ParticleStack(Particles.antihelion,1,0,5),new ParticleStack(Particles.antineutron,1,0,5), new ParticleStack(Particles.antialpha),new ParticleStack(Particles.photon),null,null,0.5,0, 20577,10000);
+		addCollisionRecipe(new ParticleStack(Particles.deuteron,1,0,5),new ParticleStack(Particles.neutron,1,0,5), new ParticleStack(Particles.triton),new ParticleStack(Particles.photon),null,null,0.5,0, 5990,10000);
+		addCollisionRecipe(new ParticleStack(Particles.antideuteron,1,0,5),new ParticleStack(Particles.antineutron,1,0,5), new ParticleStack(Particles.antitriton),new ParticleStack(Particles.photon),null,null,0.5,0, 5990,10000);
+
+		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.neutron),new ParticleStack(Particles.photon),null,null,0.5,0, 5990,10000);
+
 		
 	}
 	

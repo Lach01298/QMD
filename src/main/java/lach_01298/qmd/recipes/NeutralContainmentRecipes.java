@@ -22,7 +22,6 @@ public class NeutralContainmentRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		
 		addRecipe(new ParticleStack(Particles.antiproton,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antihydrogen", 1), 1l);
 		addRecipe(new ParticleStack(Particles.antideuteron,(QMDConfig.canister_capacity[CanisterType.DEUTERIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,(QMDConfig.canister_capacity[CanisterType.DEUTERIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antideuterium", 1), 1l);
 		addRecipe(new ParticleStack(Particles.antitriton,(QMDConfig.canister_capacity[CanisterType.TRITIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,(QMDConfig.canister_capacity[CanisterType.TRITIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antitritium", 1), 1l);

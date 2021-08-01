@@ -11,6 +11,8 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.multiblock.IMultiBlockTank;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
@@ -31,7 +33,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, ParticleChamberUpdatePacket> implements ILogicMultiblock<ParticleChamberLogic, IParticleChamberPart>
+public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, ParticleChamberUpdatePacket> implements ILogicMultiblock<ParticleChamberLogic, IParticleChamberPart>, IMultiBlockTank 
 { 
 
 	public static final ObjectSet<Class<? extends IParticleChamberPart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -51,14 +53,10 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	
 	public IParticleChamberController controller;
 	
+	public final EnergyStorage energyStorage = new EnergyStorage(QMDConfig.particle_chamber_base_energy_capacity);
 	
-	public static final int	BASE_MAX_ENERGY = 40000;
-	public static final int BASE_MAX_INPUT = 1000, BASE_MAX_OUTPUT = 1000;
-	
-	public final EnergyStorage energyStorage = new EnergyStorage(BASE_MAX_ENERGY);
-	
-	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator());
-	public List<Tank> tanks = Lists.newArrayList(new Tank(BASE_MAX_INPUT, null), new Tank(BASE_MAX_OUTPUT, null));
+	public List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
+	public List<Tank> tanks = Lists.newArrayList(new Tank(QMDConfig.particle_chamber_input_tank_capacity,null), new Tank(QMDConfig.particle_chamber_output_tank_capacity,null));
 	
 	public ParticleChamber(World world)
 	{
@@ -377,5 +375,11 @@ public class ParticleChamber extends CuboidalMultiblock<IParticleChamberPart, Pa
 	protected boolean isBlockGoodForInterior(World world, BlockPos pos)
 	{
 		return logic.isBlockGoodForInterior(world, pos);
+	}
+
+	@Override
+	public List<Tank> getTanks()
+	{
+		return tanks;
 	}
 }

@@ -22,7 +22,7 @@ public class QMDConfig {
 	public static final String CATEGORY_PROCESSORS = "processors";
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_PARTICLE_CHAMBER = "particle_chamber";
-	public static final String CATEGORY_CONTAINMENT = "containment";
+	public static final String CATEGORY_VACUUM_CHAMBER = "vacuum_chamber";
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_TOOLS = "tools";
@@ -69,9 +69,21 @@ public class QMDConfig {
 	public static int[] detector_base_power;
 	public static double[] detector_efficiency;
 	
-	public static int[] containment_part_power;
-	public static int[] containment_part_heat;
-	public static int containment_max_temp;
+	
+	public static int particle_chamber_base_energy_capacity = 40000;//TODO
+	public static int particle_chamber_input_tank_capacity = 1000; //TODO
+	public static int particle_chamber_output_tank_capacity = 1000; //TODO
+	
+	public static int[] vacuum_chamber_part_power;
+	public static int[] vacuum_chamber_part_heat;
+	public static int[] vacuum_chamber_part_max_temp;
+	
+	public static int vacuum_chamber_base_energy_capacity = 40000;//TODO
+	public static int vacuum_chamber_input_tank_capacity = 1000; //TODO
+	public static int vacuum_chamber_output_tank_capacity = 1000; //TODO
+	
+	public static int[] heater_heat_removed;
+	public static String[]heater_rule;
 	
 	public static int[] processor_power;
 	public static int[] processor_time;
@@ -253,12 +265,35 @@ public class QMDConfig {
 		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDetectorBasePower.setLanguageKey("gui.qmd.config.particle_chamber.detector_base_power");
 
-		Property propertyContainmentPartPower = config.get(CATEGORY_CONTAINMENT, "part_power", new int[] {800, 1000}, Lang.localise("gui.qmd.config.containment.part_power.comment"), 0, Integer.MAX_VALUE);
-		propertyContainmentPartPower.setLanguageKey("gui.qmd.config.containment.part_power");
-		Property propertyContainmentPartHeat = config.get(CATEGORY_CONTAINMENT, "part_heat", new int[] {200, 500}, Lang.localise("gui.qmd.config.containment.part_heat.comment"), 0, Integer.MAX_VALUE);
-		propertyContainmentPartHeat.setLanguageKey("gui.qmd.config.containment.part_heat");
-		Property propertyContainmentMaxTemp = config.get(CATEGORY_CONTAINMENT, "max_temp", 104, Lang.localise("gui.qmd.config.containment.max_temp.comment"), 0, 400);
-		propertyContainmentMaxTemp.setLanguageKey("gui.qmd.config.containment.max_temp");
+		
+		Property propertyParticleChamberBaseEnergyCapacity = config.get(CATEGORY_PARTICLE_CHAMBER, "particle_chamber_base_energy_capacity", 40000, Lang.localise("gui.qmd.config.particle_chamber.particle_chamber_base_energy_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyParticleChamberBaseEnergyCapacity.setLanguageKey("gui.qmd.config.particle_chamber.particle_chamber_base_energy_capacity");
+		Property propertyParticleChamberInputTankCapacity = config.get(CATEGORY_PARTICLE_CHAMBER, "particle_chamber_base_input_tank_capacity", 1000, Lang.localise("gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyParticleChamberInputTankCapacity.setLanguageKey("gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity");
+		Property propertyParticleChamberOutputTankCapacity = config.get(CATEGORY_PARTICLE_CHAMBER, "particle_chamber_base_output_tank_capacity", 1000, Lang.localise("gui.qmd.config.particle_chamber.particle_chamber_base_output_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyParticleChamberOutputTankCapacity.setLanguageKey("gui.qmd.config.particle_chamber.particle_chamber_base_output_tank_capacity");
+		
+		
+		
+		Property propertyContainmentPartPower = config.get(CATEGORY_VACUUM_CHAMBER, "part_power", new int[] {800, 1000,1000,1000,5000}, Lang.localise("gui.qmd.config.vacuum_chamber.part_power.comment"), 0, Integer.MAX_VALUE);
+		propertyContainmentPartPower.setLanguageKey("gui.qmd.config.vacuum_chamber.part_power");
+		Property propertyContainmentPartHeat = config.get(CATEGORY_VACUUM_CHAMBER, "part_heat", new int[] {200, 500,100,100,500}, Lang.localise("gui.qmd.config.vacuum_chamber.part_heat.comment"), 0, Integer.MAX_VALUE);
+		propertyContainmentPartHeat.setLanguageKey("gui.qmd.config.vacuum_chamber.part_heat");
+		Property propertyContainmentMaxTemp = config.get(CATEGORY_VACUUM_CHAMBER, "part_max_temp", new int[] {104,104,104,104,104}, Lang.localise("gui.qmd.config.vacuum_chamber.part_max_temp.comment"), 0, 400);
+		propertyContainmentMaxTemp.setLanguageKey("gui.qmd.config.vacuum_chamber.part_max_temp");
+		
+		Property propertyVacuumChamberBaseEnergyCapacity = config.get(CATEGORY_VACUUM_CHAMBER, "vacuum_chamber_base_energy_capacity", 40000, Lang.localise("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyVacuumChamberBaseEnergyCapacity.setLanguageKey("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity");
+		Property propertyVacuumChamberInputTankCapacity = config.get(CATEGORY_VACUUM_CHAMBER, "vacuum_chamber_base_input_tank_capacity", 1000, Lang.localise("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_input_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyVacuumChamberInputTankCapacity.setLanguageKey("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_input_tank_capacity");
+		Property propertyVacuumChamberOutputTankCapacity = config.get(CATEGORY_VACUUM_CHAMBER, "vacuum_chamber_base_output_tank_capacity", 1000, Lang.localise("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyVacuumChamberOutputTankCapacity.setLanguageKey("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity");
+		
+		Property propertyHeaterHeatRemoved = config.get(CATEGORY_VACUUM_CHAMBER, "heater_heat_removed", new int[] {5,10,20,40,80,160,320,640}, Lang.localise("gui.qmd.config.vacuum_chamber.heater_heat_removed.comment"), 0, Integer.MAX_VALUE);
+		propertyHeaterHeatRemoved.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_heat_removed");
+		Property propertyHeaterRule = config.get(CATEGORY_VACUUM_CHAMBER, "heater_rule", new String[] {"one casing","one beam", "two glass", "exactly one quartz heater && exactly one redstone heater", "two axil obsidian heaters", "exactly one redstone heater && three iron heaters", "one obsidian heater && one quartz heater", "one nozzle"},
+				Lang.localise("gui.qmd.config.vacuum_chamber.heater_rule.comment"));
+		propertyHeaterRule.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_rule");
 		
 		
 		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {4}, Lang.localise("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
@@ -276,7 +311,7 @@ public class QMDConfig {
 		propertyLeptonDamage.setLanguageKey("gui.qmd.config.tools.lepton_damage");
 		Property propertyLeptonRadiation = config.get(CATEGORY_TOOLS, "lepton_radiation", new double[] {10.0, 20.0, 40.0}, Lang.localise("gui.qmd.config.tools.lepton_radiation.comment"), 0, Double.MAX_VALUE);
 		propertyLeptonRadiation.setLanguageKey("gui.qmd.config.tools.lepton_radiation");
-		Property propertyLeptonRange = config.get(CATEGORY_TOOLS, "lepton_range", new double[] {30.0, 60.0, 90.0}, Lang.localise("gui.qmd.config.tools.lepton_range.comment"), 0, 256.0);
+		Property propertyLeptonRange = config.get(CATEGORY_TOOLS, "lepton_range", new double[] {30.0, 60.0, 90.0}, Lang.localise("gui.qmd.config.tools.lepton_range.comment"), 0, 128.0);
 		propertyLeptonRange.setLanguageKey("gui.qmd.config.tools.lepton_range");
 		Property propertyLeptonCoolDown = config.get(CATEGORY_TOOLS, "lepton_cool_down", 8, Lang.localise("gui.qmd.config.tools.lepton_cool_down.comment"), 0, 10000);
 		propertyLeptonCoolDown.setLanguageKey("gui.qmd.config.tools.lepton_cool_down");
@@ -285,7 +320,7 @@ public class QMDConfig {
 		propertyGluonDamage.setLanguageKey("gui.qmd.config.tools.gluon_damage");
 		Property propertyGluonRadiation = config.get(CATEGORY_TOOLS, "gluon_radiation", 10.0, Lang.localise("gui.qmd.config.tools.gluon_radiation.comment"), 0, Double.MAX_VALUE);
 		propertyGluonRadiation.setLanguageKey("gui.qmd.config.tools.gluon_radiation");
-		Property propertyGluonRange = config.get(CATEGORY_TOOLS, "gluon_range", 40.0, Lang.localise("gui.qmd.config.tools.gluon_range.comment"), 0, 256.0);
+		Property propertyGluonRange = config.get(CATEGORY_TOOLS, "gluon_range", 40.0, Lang.localise("gui.qmd.config.tools.gluon_range.comment"), 0, 128.0);
 		propertyGluonRange.setLanguageKey("gui.qmd.config.tools.gluon_range");
 		
 		
@@ -395,6 +430,7 @@ public class QMDConfig {
 		propertyOrderAccelerator.add(propertyMagnetMaxTemp.getName());
 		
 		propertyOrderAccelerator.add(propertyCoolerHeatRemoved.getName());
+		propertyOrderAccelerator.add(propertyCoolerRule.getName());
 		
 		
 		
@@ -408,6 +444,9 @@ public class QMDConfig {
 		propertyOrderParticleChamber.add(propertyCollisionChamberPower.getName());
 		propertyOrderParticleChamber.add(propertyDetectorEfficiency.getName());
 		propertyOrderParticleChamber.add(propertyDetectorBasePower.getName());
+		propertyOrderParticleChamber.add(propertyParticleChamberBaseEnergyCapacity.getName());
+		propertyOrderParticleChamber.add(propertyParticleChamberInputTankCapacity.getName());
+		propertyOrderParticleChamber.add(propertyParticleChamberOutputTankCapacity.getName());
 		
 		config.setCategoryPropertyOrder(CATEGORY_PARTICLE_CHAMBER, propertyOrderParticleChamber);
 		
@@ -415,7 +454,13 @@ public class QMDConfig {
 		propertyOrderContainment.add(propertyContainmentPartPower.getName());
 		propertyOrderContainment.add(propertyContainmentPartHeat.getName());
 		propertyOrderContainment.add(propertyContainmentMaxTemp.getName());
-		config.setCategoryPropertyOrder(CATEGORY_CONTAINMENT, propertyOrderContainment);
+		propertyOrderContainment.add(propertyVacuumChamberBaseEnergyCapacity.getName());
+		propertyOrderContainment.add(propertyVacuumChamberInputTankCapacity.getName());
+		propertyOrderContainment.add(propertyVacuumChamberOutputTankCapacity.getName());
+		propertyOrderContainment.add(propertyHeaterHeatRemoved.getName());
+		propertyOrderContainment.add(propertyHeaterRule.getName());
+		
+		config.setCategoryPropertyOrder(CATEGORY_VACUUM_CHAMBER, propertyOrderContainment);
 		
 		
 		
@@ -535,10 +580,21 @@ public class QMDConfig {
 			detector_efficiency = readDoubleArrayFromConfig(propertyDetectorEfficiency);
 			detector_base_power = readIntegerArrayFromConfig(propertyDetectorBasePower);
 			
-			containment_part_power = readIntegerArrayFromConfig(propertyContainmentPartPower);
-			containment_part_heat = readIntegerArrayFromConfig(propertyContainmentPartHeat);
-			containment_max_temp = propertyContainmentMaxTemp.getInt();
+			particle_chamber_base_energy_capacity = propertyParticleChamberBaseEnergyCapacity.getInt();
+			particle_chamber_input_tank_capacity = propertyParticleChamberInputTankCapacity.getInt();
+			particle_chamber_output_tank_capacity = propertyParticleChamberOutputTankCapacity.getInt();
 			
+			
+			vacuum_chamber_part_power = readIntegerArrayFromConfig(propertyContainmentPartPower);
+			vacuum_chamber_part_heat = readIntegerArrayFromConfig(propertyContainmentPartHeat);
+			vacuum_chamber_part_max_temp = readIntegerArrayFromConfig(propertyContainmentMaxTemp);
+			
+			vacuum_chamber_base_energy_capacity = propertyVacuumChamberBaseEnergyCapacity.getInt();
+			vacuum_chamber_input_tank_capacity = propertyVacuumChamberInputTankCapacity.getInt();
+			vacuum_chamber_output_tank_capacity = propertyVacuumChamberOutputTankCapacity.getInt();
+			
+			heater_heat_removed = readIntegerArrayFromConfig(propertyHeaterHeatRemoved);
+			heater_rule = propertyHeaterRule.getStringList();
 			
 			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
 			tool_durability = readIntegerArrayFromConfig(propertyToolDurability);
@@ -634,10 +690,18 @@ public class QMDConfig {
 		propertyCollisionChamberPower.set(collision_chamber_power);
 		propertyDetectorEfficiency.set(detector_efficiency);
 		propertyDetectorBasePower.set(detector_base_power);
+		propertyParticleChamberBaseEnergyCapacity.set(particle_chamber_base_energy_capacity);
+		propertyParticleChamberInputTankCapacity.set(particle_chamber_input_tank_capacity);
+		propertyParticleChamberOutputTankCapacity.set(particle_chamber_output_tank_capacity);
 		
-		propertyContainmentPartPower.set(containment_part_power);
-		propertyContainmentPartHeat.set(containment_part_heat);
-		propertyContainmentMaxTemp.set(containment_max_temp);
+		propertyContainmentPartPower.set(vacuum_chamber_part_power);
+		propertyContainmentPartHeat.set(vacuum_chamber_part_heat);
+		propertyContainmentMaxTemp.set(vacuum_chamber_part_max_temp);
+		propertyVacuumChamberBaseEnergyCapacity.set(vacuum_chamber_base_energy_capacity);
+		propertyVacuumChamberInputTankCapacity.set(vacuum_chamber_input_tank_capacity);
+		propertyVacuumChamberOutputTankCapacity.set(vacuum_chamber_output_tank_capacity);
+		propertyHeaterHeatRemoved.set(heater_heat_removed);
+		propertyHeaterRule.set(heater_rule);
 		
 		propertyToolMiningLevel.set(tool_mining_level);
 		propertyToolDurability.set(tool_durability);

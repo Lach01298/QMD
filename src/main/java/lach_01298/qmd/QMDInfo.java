@@ -4,6 +4,7 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
 import lach_01298.qmd.enums.BlockTypes.DetectorType;
+import lach_01298.qmd.enums.BlockTypes.HeaterType;
 import lach_01298.qmd.enums.BlockTypes.MagnetType;
 import lach_01298.qmd.enums.BlockTypes.NeutronShieldType;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
@@ -25,10 +26,10 @@ public class QMDInfo
 		for (int i = 0; i < values.length; i++) {
 			info[i] = new String[] {
 					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.voltage", values[i].getVoltage()),
-					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
-					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.heat", values[i].getHeatGenerated()),
-					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.power", values[i].getBasePower()),
-					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.max_temp", values[i].getMaxOperatingTemp())
+					Lang.localise("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
+					Lang.localise("info." + QMD.MOD_ID + ".item.heat", values[i].getHeatGenerated()),
+					Lang.localise("info." + QMD.MOD_ID + ".item.power", values[i].getBasePower()),
+					Lang.localise("info." + QMD.MOD_ID + ".item.max_temp", values[i].getMaxOperatingTemp())
 					};
 		}
 		return info;
@@ -57,10 +58,10 @@ public class QMDInfo
 		for (int i = 0; i < values.length; i++) {
 			info[i] = new String[] {
 					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.strength", values[i].getStrength()),
-					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
-					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.heat", values[i].getHeatGenerated()),
-					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.power", values[i].getBasePower()),
-					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.max_temp", values[i].getMaxOperatingTemp())
+					Lang.localise("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
+					Lang.localise("info." + QMD.MOD_ID + ".item.heat", values[i].getHeatGenerated()),
+					Lang.localise("info." + QMD.MOD_ID + ".item.power", values[i].getBasePower()),
+					Lang.localise("info." + QMD.MOD_ID + ".item.max_temp", values[i].getMaxOperatingTemp())
 					};
 		}
 		return info;
@@ -203,5 +204,23 @@ public class QMDInfo
 		}
 		return info;
 	}
+	
+	
+	
+	// Heater info
+	public static String[][] heaterFixedInfo()
+	{
+		return heaterFixedInfo(HeaterType.values());
+	}
+	
+	private static <T extends Enum<T> & IStringSerializable & ICoolerEnum> String[][] heaterFixedInfo(T[] values) {
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++) {
+			info[i] = new String[] {coolerCoolingRateString(values[i])};
+		}
+		return info;
+	}
+	
+	
 	
 }

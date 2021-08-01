@@ -18,9 +18,8 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 {
 
 	public boolean isAcceleratorOn;
-	public long cooling,rawHeating;
-	public int maxCoolantIn;
-	public int maxCoolantOut;
+	public long cooling, rawHeating, currentHeating;
+	public int maxCoolantIn, maxCoolantOut;
 	public int maxOperatingTemp;
 	public int requiredEnergy;
 	public double efficiency, quadrupoleStrength, dipoleStrength;
@@ -39,13 +38,14 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
 
-	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating, int maxCoolantIn, int maxCoolantOut, int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
+	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating,long currentHeating, int maxCoolantIn, int maxCoolantOut, int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
 int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNumber, double dipoleStrength ,int errorCode, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
 		this.pos = pos;
 		this.isAcceleratorOn = isAcceleratorOn;
 		this.cooling = cooling;
 		this.rawHeating = rawHeating;
+		this.currentHeating = currentHeating;
 		this.maxCoolantIn = maxCoolantIn;
 		this.maxCoolantOut = maxCoolantOut;
 		this.maxOperatingTemp = maxOperatingTemp;
@@ -76,6 +76,7 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		isAcceleratorOn = buf.readBoolean();
 		cooling = buf.readLong();
 		rawHeating = buf.readLong();
+		currentHeating = buf.readLong();
 		maxCoolantIn = buf.readInt();
 		maxCoolantOut = buf.readInt();
 		maxOperatingTemp = buf.readInt();
@@ -117,6 +118,7 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		buf.writeBoolean(isAcceleratorOn);
 		buf.writeLong(cooling);
 		buf.writeLong(rawHeating);
+		buf.writeLong(currentHeating);
 		buf.writeInt(maxCoolantIn);
 		buf.writeInt(maxCoolantOut);
 		buf.writeInt(maxOperatingTemp);

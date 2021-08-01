@@ -46,6 +46,7 @@ public class QMDOreDictionary
 		
 		OreDictionary.registerOre("ingotYttrium",new ItemStack(QMDItems.ingot2, 1, IngotType2.YTTRIUM.getID()));
 		OreDictionary.registerOre("ingotNeodymium",new ItemStack(QMDItems.ingot2, 1, IngotType2.NEODYMIUM.getID()));
+		OreDictionary.registerOre("ingotMercury",new ItemStack(QMDItems.ingot2, 1, IngotType2.MERCURY.getID()));
 		
 		
 		
@@ -68,7 +69,12 @@ public class QMDOreDictionary
 		
 		OreDictionary.registerOre("dustYttrium",new ItemStack(QMDItems.dust2, 1, DustType2.YTTRIUM.getID()));
 		OreDictionary.registerOre("dustNeodymium",new ItemStack(QMDItems.dust2, 1, DustType2.NEODYMIUM.getID()));
-		
+		OreDictionary.registerOre("dustIodine",new ItemStack(QMDItems.dust2, 1, DustType2.IODINE.getID()));
+		OreDictionary.registerOre("dustSamarium",new ItemStack(QMDItems.dust2, 1, DustType2.SAMARIUM.getID()));
+		OreDictionary.registerOre("dustTerbium",new ItemStack(QMDItems.dust2, 1, DustType2.TERBIUM.getID()));
+		OreDictionary.registerOre("dustErbium",new ItemStack(QMDItems.dust2, 1, DustType2.ERBIUM.getID()));
+		OreDictionary.registerOre("dustYtterbium",new ItemStack(QMDItems.dust2, 1, DustType2.YTTERBIUM.getID()));
+
 		
 		OreDictionary.registerOre("wasteFissionLight",new ItemStack(QMDItems.fissionWaste, 1, FissionWasteType.LIGHT.getID()));
 		OreDictionary.registerOre("wasteFissionHeavy",new ItemStack(QMDItems.fissionWaste, 1, FissionWasteType.HEAVY.getID()));
@@ -93,6 +99,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("wasteSpallationOsmium",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.OSMIUM.getID()));
 		OreDictionary.registerOre("wasteSpallationTungsten",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.TUNGSTEN.getID()));
 		OreDictionary.registerOre("wasteSpallationHafnium",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.HAFNIUM.getID()));
+		OreDictionary.registerOre("wasteSpallationMercury",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.MERCURY.getID()));
 	
 		
 		

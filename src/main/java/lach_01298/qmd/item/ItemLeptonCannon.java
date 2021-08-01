@@ -1,6 +1,6 @@
 package lach_01298.qmd.item;
 
-import lach_01298.qmd.DamageSources;
+import lach_01298.qmd.QMDDamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityLeptonBeam;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
@@ -103,7 +103,7 @@ public class ItemLeptonCannon extends ItemGun
 								radiation, false, false, 1));
 					}
 
-					entity.attackEntityFrom(DamageSources.causeLeptonCannonDamage(entityBeam, player), damage);
+					entity.attackEntityFrom(QMDDamageSources.causeLeptonCannonDamage(entityBeam, player), damage);
 				}
 				world.playSound(null,player.posX, player.posY, player.posZ, QMDSounds.lepton_cannon, SoundCategory.NEUTRAL, 0.2f, 1.0f);
 			}

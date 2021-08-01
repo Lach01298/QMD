@@ -63,13 +63,6 @@ public class BlockAcceleratorSource extends BlockAcceleratorPart
 		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer).getOpposite()).withProperty(ACTIVE, Boolean.valueOf(false));
 	}
 
-
-	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state)
-	{
-		super.onBlockAdded(world, pos, state);
-		BlockHelper.setDefaultFacing(world, pos, state,FACING_ALL);
-	}
 	
 	
 	@Override

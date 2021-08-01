@@ -30,6 +30,7 @@ import lach_01298.qmd.particle.Particles;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -43,8 +44,15 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public RingAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator()); // synchroton light
 		
+		/*
+		beam 0 = input particle
+		beam 1 = output particle
+		beam 2 = synchrotron output particle
+		tank 0 = input coolant
+		tank 1 = output coolant
+		*/
+
 	}
 
 	@Override
@@ -56,8 +64,8 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	// Multiblock Validation
 	
 	
-	
-	public boolean isMachineWhole(Multiblock multiblock) 
+	@Override
+	public boolean isMachineWhole() 
 	{
 		Accelerator acc = getAccelerator();
 		
@@ -415,7 +423,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			}
 			else
 			{
-				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
+				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getRedstoneLevel()/15d)));
 			}
 			particleOut.addFocus(getAccelerator().quadrupoleStrength * Math.abs(particle.getCharge())-getBeamLength()*QMDConfig.beamAttenuationRate);
 			
@@ -525,7 +533,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public RingAcceleratorUpdatePacket getUpdatePacket()
 	{
 		return new RingAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);

@@ -82,28 +82,19 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 		guiParticleStacks.init(1, true, 49, 31);
 		
 		
-		guiParticleStacks.init(3, true, 82, 8);
-		guiParticleStacks.init(4, true, 82, 31);
-		guiParticleStacks.init(5, true, 82, 54);
+		guiParticleStacks.init(3, false, 82, 8);
+		guiParticleStacks.init(4, false, 82, 31);
+		guiParticleStacks.init(5, false, 82, 54);
 			
 		
 		guiParticleStacks.set(1,particleInput.get(0));
 		
 		
-		if(particleOutputs.get(0) != null)
-		{
-			guiParticleStacks.set(3,particleOutputs.get(0));
-		}
+	
+		guiParticleStacks.set(3, particleOutputs.get(0));
+		guiParticleStacks.set(4, particleOutputs.get(1));
+		guiParticleStacks.set(5, particleOutputs.get(2));
 		
-		if(particleOutputs.get(1) != null)
-		{
-			guiParticleStacks.set(4,particleOutputs.get(1));
-		}
-		
-		if(particleOutputs.get(2) != null)
-		{
-			guiParticleStacks.set(5,particleOutputs.get(2));
-		}
 	}
 	
 

@@ -29,9 +29,11 @@ import lach_01298.qmd.multiblock.network.DeceleratorUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -42,12 +44,22 @@ import net.minecraft.util.math.BlockPos;
 public class DeceleratorLogic extends AcceleratorLogic
 {
 	
+	
+	
 	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
 
 	
 	public DeceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
+		
+		/*
+		beam 0 = input particle
+		beam 1 = output particle
+		tank 0 = input coolant
+		tank 1 = output coolant
+		*/
+
 	}
 
 	@Override
@@ -59,8 +71,8 @@ public class DeceleratorLogic extends AcceleratorLogic
 	// Multiblock Validation
 	
 	
-	
-	public boolean isMachineWhole(Multiblock multiblock) 
+	@Override
+	public boolean isMachineWhole() 
 	{
 		Accelerator acc = getAccelerator();
 		
@@ -231,7 +243,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 
 		if (!getWorld().isRemote)
 		{
-
+			acc.beams.get(0).setMinEnergy(0);
 			// beam
 			for (BlockPos pos : getinteriorAxisPositions())
 			{
@@ -419,7 +431,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 			}
 			else
 			{
-				fraction = (1-getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d);
+				fraction = 1-(getRedstoneLevel()/15d);
 			}
 			
 			long energyTarget = (long)(getAcceleratorMaxEnergy(particle)* fraction);
@@ -503,11 +515,11 @@ public class DeceleratorLogic extends AcceleratorLogic
 	public DeceleratorUpdatePacket getUpdatePacket()
 	{
 		return new DeceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
-	}
+	} 
 	
 	@Override
 	public void onPacket(AcceleratorUpdatePacket message)

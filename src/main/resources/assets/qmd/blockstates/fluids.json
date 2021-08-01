@@ -174,7 +174,158 @@
             "custom": {
                 "fluid": "compressed_air"
             }
+        },
+        "fluid_tungsten": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "tungsten"
+            }
+        },
+        "fluid_niobium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "niobium"
+            }
+        },
+        "fluid_chromium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "chromium"
+            }
+        },
+        "fluid_titanium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "titanium"
+            }
+        },
+        "fluid_cobalt": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "cobalt"
+            }
+        },
+        "fluid_nickel": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "nickel"
+            }
+        },
+        "fluid_hafnium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "hafnium"
+            }
+        },
+        "fluid_zinc": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "zinc"
+            }
+        },
+        "fluid_osmium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "osmium"
+            }
+        },
+        "fluid_iridium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "iridium"
+            }
+        },
+        "fluid_platinum": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "platinum"
+            }
+        },
+        "fluid_calcium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "calcium"
+            }
+        },
+        "fluid_strontium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "strontium"
+            }
+        },
+        "fluid_yttrium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "yttrium"
+            }
+        },
+        "fluid_neodymium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "neodymium"
+            }
+        },
+        "fluid_mercury": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "mercury"
+            }
+        },
+        "fluid_hot_mercury": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "hot_mercury"
+            }
+        },
+        "fluid_iodine": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "iodine"
+            }
+        },
+        "fluid_samarium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "samarium"
+            }
+        },
+        "fluid_terbium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "terbium"
+            }
+        },
+        "fluid_erbium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "erbium"
+            }
+        },
+        "fluid_ytterbium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "ytterbium"
+            }
+        },
+        "fluid_bismuth": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "bismuth"
+            }
+        },
+        "fluid_polonium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "polonium"
+            }
+        },
+        "fluid_radium": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "radium"
+            }
         }
+        
     }
 }
 

@@ -76,7 +76,7 @@ public class GuiLinearAcceleratorController
 				Units.getSIFormat(multiblock.getTemperature(), "K"));
 		fontRenderer.drawString(temperature, offset, 70, fontColor);
 
-		String maxTemperature = Lang.localise("gui.qmd.container.accelerator.max_temperature",
+		String maxTemperature = Lang.localise("gui.qmd.container.max_temperature",
 				Units.getSIFormat(multiblock.maxOperatingTemp, "K"));
 		fontRenderer.drawString(maxTemperature, offset, 80, fontColor);
 
@@ -136,11 +136,13 @@ public class GuiLinearAcceleratorController
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.heat_stored",
 				Units.getSIFormat(multiblock.heatBuffer.getHeatStored(), "H"),
 				Units.getSIFormat(multiblock.heatBuffer.getHeatCapacity(), "H")));
-		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.cooling",
+		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.cooling",
 				Units.getSIFormat(-multiblock.cooling, "H/t")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.heating",
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.heating",
+				Units.getSIFormat(multiblock.currentHeating, "H/t")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.max_heating",
 				Units.getSIFormat(multiblock.rawHeating + multiblock.getMaxExternalHeating(), "H/t")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.external_heating",
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.external_heating",
 				Units.getSIFormat(multiblock.getMaxExternalHeating(), "H/t")));
 		return info;
 	}
@@ -162,13 +164,14 @@ public class GuiLinearAcceleratorController
 	public List<String> coolantInfo()
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.coolant_stored",
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.coolant_stored",
 				Units.getSIFormat(multiblock.tanks.get(0).getFluidAmount(), -3, "B"),
 				Units.getSIFormat(multiblock.tanks.get(0).getCapacity(), -3, "B")));
-		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.coolant_required",
+		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.max_coolant_in",
 				Units.getSIFormat(multiblock.maxCoolantIn, -6, "B/t")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.coolant_out",
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.max_coolant_out",
 				Units.getSIFormat(multiblock.maxCoolantOut, -6, "B/t")));
+
 		return info;
 	}
 

@@ -402,7 +402,7 @@ public class TileAcceleratorCooler extends TileAcceleratorPart implements IAccel
 	public NBTTagCompound writeAll(NBTTagCompound nbt) 
 	{
 		super.writeAll(nbt);
-		nbt.setString("sinkname", name);
+		nbt.setString("name", name);
 		nbt.setInteger("coolingRate", coolingRate);
 		nbt.setString("ruleID", ruleID);
 		

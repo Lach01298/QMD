@@ -6,12 +6,15 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.containment.Containment;
-import lach_01298.qmd.containment.NeutralContainmentLogic;
-import lach_01298.qmd.containment.tile.IContainmentController;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.ClearTankPacket;
+import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.util.Units;
+import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.ExoticContainmentLogic;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
 import nc.gui.element.GuiFluidRenderer;
+import nc.gui.element.NCButton;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
 import nc.network.PacketHandler;
@@ -25,14 +28,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiNeutralContainmentController
-		extends GuiLogicMultiblock<Containment, NeutralContainmentLogic, IContainmentController>
+		extends GuiLogicMultiblock<VacuumChamber, ExoticContainmentLogic, IVacuumChamberController>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiNeutralContainmentController(EntityPlayer player, IContainmentController controller)
+	public GuiNeutralContainmentController(EntityPlayer player, IVacuumChamberController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png");
@@ -53,11 +56,11 @@ public class GuiNeutralContainmentController
 	{
 
 		int offset = 22;
-		int fontColor = multiblock.isContainmentOn ? -1 : 15641088;
-		String title = Lang.localise("gui.qmd.container.neutral_containment_controller.name");
+		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
+		String title = Lang.localise("gui.qmd.container.exotic_containment_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 
-		String maxTemperature = Lang.localise("gui.qmd.container.accelerator.max_temperature",
+		String maxTemperature = Lang.localise("gui.qmd.container.max_temperature",
 				Units.getSIFormat(multiblock.maxOperatingTemp, "K"));
 		fontRenderer.drawString(maxTemperature, offset, 84, fontColor);
 
@@ -144,9 +147,11 @@ public class GuiNeutralContainmentController
 				Units.getSIFormat(multiblock.heatBuffer.getHeatStored(), "H"),
 				Units.getSIFormat(multiblock.heatBuffer.getHeatCapacity(), "H")));
 		info.add(Lang.localise("gui.qmd.container.temperature", Units.getSIFormat(multiblock.getTemperature(), "K")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.heating",
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.heating",
+				Units.getSIFormat(multiblock.currentHeating, "H/t")));
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.max_heating",
 				Units.getSIFormat(multiblock.heating + multiblock.getMaxExternalHeating(), "H/t")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.external_heating",
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.external_heating",
 				Units.getSIFormat(multiblock.getMaxExternalHeating(), "H/t")));
 
 		return info;
@@ -166,12 +171,12 @@ public class GuiNeutralContainmentController
 	public List<String> coolantInfo()
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.accelerator.coolant_stored",
+		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.cryo.coolant_stored",
 				Units.getSIFormat(multiblock.tanks.get(0).getFluidAmount(), -3, "B"),
 				Units.getSIFormat(multiblock.tanks.get(0).getCapacity(), -3, "B")));
-		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.accelerator.coolant_required",
+		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.max_coolant_in",
 				Units.getSIFormat(multiblock.maxCoolantIn, -6, "B/t")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.accelerator.coolant_out",
+		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.max_coolant_out",
 				Units.getSIFormat(multiblock.maxCoolantOut, -6, "B/t")));
 		return info;
 	}
@@ -189,7 +194,7 @@ public class GuiNeutralContainmentController
 	{
 		super.initGui();
 		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 130, guiTop + 59));
-		// buttonList.add(new NCButton.EmptyTank(1, guiLeft + 81, guiTop + 37, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 71, guiTop + 20, 32, 32));
 	}
 
 	@Override
@@ -197,9 +202,18 @@ public class GuiNeutralContainmentController
 	{
 		if (multiblock.WORLD.isRemote)
 		{
-			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
+			if(NCUtil.isModifierKeyDown())
 			{
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+			
+				switch(guiButton.id)
+				{
+				case 0:
+					PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+					break;
+				case 1:
+					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),2));
+					break;
+				}
 			}
 		}
 	}

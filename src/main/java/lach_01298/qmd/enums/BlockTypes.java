@@ -102,7 +102,11 @@ public class BlockTypes
 		@Override
 		public int getLightValue()
 		{
-			return 0;
+			if(this == GLOWSTONE)
+			{
+				return 15;
+			}
+			return 0;	
 		}
 		
 
@@ -853,6 +857,83 @@ public class BlockTypes
 		}
 	}
 	
+	public static enum LampType2 implements IStringSerializable, IBlockMetaEnum 
+	{
+		SODIUM("sodium", 0, 0, "pickaxe", 2, 15, 15),
+		MERCURY("mercury", 1, 0, "pickaxe", 2, 15, 15);
+		
+		
+		
+		private final String name;
+		private final int id;
+		private final int harvestLevel;
+		private final String harvestTool;
+		private final float hardness;
+		private final float resistance;
+		private final int lightValue;
+		
+		private LampType2(String name, int id, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue)
+		{
+			this.name = name;
+			this.id = id;
+			
+			this.harvestLevel = harvestLevel;
+			this.harvestTool = harvestTool;
+			this.hardness = hardness;
+			this.resistance = resistance;
+			this.lightValue = lightValue;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		@Override
+		public int getID()
+		{
+			return id;
+		}
+
+
+		@Override
+		public int getHarvestLevel()
+		{
+			return harvestLevel;
+		}
+
+		@Override
+		public String getHarvestTool()
+		{
+			return harvestTool;
+		}
+
+		@Override
+		public float getHardness()
+		{
+			return hardness;
+		}
+
+		@Override
+		public float getResistance()
+		{
+			return resistance;
+		}
+
+		@Override
+		public int getLightValue()
+		{
+			return lightValue;
+		}
+	}
+	
 	
 	public enum SimpleTileType implements IStringSerializable 
 	{
@@ -931,6 +1012,99 @@ public class BlockTypes
 		}
 		
 	}
+	
+	
+	
+	public enum HeaterType implements IStringSerializable, IBlockMetaEnum, ICoolerEnum 
+	{
+		
+		IRON("iron", 0, QMDConfig.heater_heat_removed[0]),
+		REDSTONE("redstone", 1, QMDConfig.heater_heat_removed[1]),
+		QUARTZ("quartz", 2, QMDConfig.heater_heat_removed[2]),
+		OBSIDIAN("obsidian", 3, QMDConfig.heater_heat_removed[3]),
+		GLOWSTONE("glowstone", 4, QMDConfig.heater_heat_removed[4]),
+		LAPIS("lapis", 5, QMDConfig.heater_heat_removed[5]),
+		GOLD("gold", 6, QMDConfig.heater_heat_removed[6]),	
+		DIAMOND("diamond", 7, QMDConfig.heater_heat_removed[7]);
+		
+		
+		
+		private String name;
+		private int id;
+		private int heat;
+		
+
+		private HeaterType(String name, int id,  int heat)
+		{
+			this.name = name;
+			this.id = id;
+			this.heat = heat;
+			
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		public int getID()
+		{
+			return id;
+		}
+
+
+		@Override
+		public int getHeatRemoved()
+		{
+			return heat;
+		}
+		@Override
+		public int getHarvestLevel()
+		{
+			return 0;
+		}
+
+		@Override
+		public String getHarvestTool()
+		{
+			return "pickaxe";
+		}
+
+		@Override
+		public float getHardness()
+		{
+			return 2;
+		}
+
+		@Override
+		public float getResistance()
+		{
+			return 10;
+		}
+
+		@Override
+		public int getLightValue()
+		{
+			if(this == GLOWSTONE)
+			{
+				return 15;
+			}
+			return 0;	
+		}
+		
+
+	}
+	
+	
+	
+	
 
 }
 

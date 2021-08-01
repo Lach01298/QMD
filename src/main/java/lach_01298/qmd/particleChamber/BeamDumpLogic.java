@@ -50,7 +50,11 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	{
 		super(oldLogic);
 		
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
+		/*
+		beam 0 = input particle
+		tank 0 = other
+		tank 1 = output fluid
+		*/
 	}
 	
 	@Override
@@ -181,6 +185,9 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	public void onChamberFormed()
 	{
 		onResetStats();
+		
+		getMultiblock().tanks.get(1).setCapacity(QMDConfig.particle_chamber_output_tank_capacity * getCapacityMultiplier());
+		
 		if (!getWorld().isRemote)
 		{
 			for (TileParticleChamber target : getPartMap(TileParticleChamber.class).values())

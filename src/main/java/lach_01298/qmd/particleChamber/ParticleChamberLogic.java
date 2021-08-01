@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
@@ -80,11 +81,8 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 			 getMultiblock().controller = contr;
 		}
 		
-		getMultiblock().energyStorage.setStorageCapacity(getMultiblock().BASE_MAX_ENERGY * getCapacityMultiplier());
-		getMultiblock().energyStorage.setMaxTransfer(getMultiblock().BASE_MAX_ENERGY * getCapacityMultiplier());
-		
-		getMultiblock().tanks.get(0).setCapacity(getMultiblock().BASE_MAX_INPUT * getCapacityMultiplier());
-		getMultiblock().tanks.get(1).setCapacity(getMultiblock().BASE_MAX_OUTPUT * getCapacityMultiplier());
+		getMultiblock().energyStorage.setStorageCapacity(QMDConfig.particle_chamber_base_energy_capacity * getCapacityMultiplier());
+		getMultiblock().energyStorage.setMaxTransfer(QMDConfig.particle_chamber_base_energy_capacity * getCapacityMultiplier());
 		
 		if (!getWorld().isRemote) 
 		{

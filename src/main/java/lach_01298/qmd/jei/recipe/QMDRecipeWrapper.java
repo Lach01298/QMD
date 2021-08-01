@@ -164,5 +164,44 @@ public class QMDRecipeWrapper
 
 
 	}
+	
+	public static class VacuumChamberHeating extends JEIBasicRecipeWrapper
+	{
+
+		public VacuumChamberHeating(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler,
+				BasicRecipe recipe)
+		{
+			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 27, 6);
+		}
+
+		@Override
+		protected int getProgressArrowTime()
+		{
+			return getFissionHeatingHeatPerInputMB() / 4;
+		}
+
+		protected int getFissionHeatingHeatPerInputMB()
+		{
+			if (recipe == null)
+				return 64;
+			return recipe.getFissionHeatingHeatPerInputMB();
+		}
+
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY)
+		{
+			List<String> tooltip = new ArrayList<>();
+
+			if (mouseX >= 73 - 47 && mouseY >= 34 - 30 && mouseX < 73 - 47 + 37 + 1 && mouseY < 34 - 30 + 18 + 1)
+			{
+				tooltip.add(TextFormatting.YELLOW + HEAT_PER_MB + " " + TextFormatting.WHITE
+						+ getFissionHeatingHeatPerInputMB() + " H/mB");
+			}
+
+			return tooltip;
+		}
+
+		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
+	}
 
 }

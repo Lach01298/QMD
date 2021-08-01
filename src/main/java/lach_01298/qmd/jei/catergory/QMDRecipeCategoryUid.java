@@ -12,5 +12,6 @@ public class QMDRecipeCategoryUid
 	public static final String NEUTRAL_CONTAINMENT = QMD.MOD_ID+".neutral_containment";
 	public static final String COLLISION_CHAMBER = QMD.MOD_ID+".collision_chamber";
 	public static final String ATMOSPHERE_COLLECTOR = QMD.MOD_ID+".atmosphere_collector";
+	public static final String NUCLEOSYNTHESIS_CHAMBER = QMD.MOD_ID+".nucleosynthesis_chamber";
 	
 }

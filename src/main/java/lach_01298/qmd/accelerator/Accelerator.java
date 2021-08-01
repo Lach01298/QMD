@@ -24,6 +24,7 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.CuboidalOrToroidalMultiblock;
+import lach_01298.qmd.multiblock.IMultiBlockTank;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipes.QMDRecipes;
@@ -44,7 +45,7 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, AcceleratorUpdatePacket> implements ILogicMultiblock<AcceleratorLogic, IAcceleratorPart>
+public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, AcceleratorUpdatePacket> implements ILogicMultiblock<AcceleratorLogic, IAcceleratorPart>, IMultiBlockTank
 {
 
 	public static final ObjectSet<Class<? extends IAcceleratorPart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -72,8 +73,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	public final HeatBuffer heatBuffer = new HeatBuffer(QMDConfig.accelerator_base_heat_capacity);
 	public final EnergyStorage energyStorage = new EnergyStorage(QMDConfig.accelerator_base_energy_capacity);
 	public List<Tank> tanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(QMDConfig.accelerator_base_output_tank_capacity, null));
-	
-	public final List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
+	public final List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
 	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
 	
@@ -81,7 +81,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	
 	public int ambientTemp = 290, maxOperatingTemp = 0;
 
-	public long cooling = 0L, rawHeating = 0L;
+	public long cooling = 0L, rawHeating = 0L, currentHeating=0L;
 	public int maxCoolantIn =0, maxCoolantOut=0; // micro buckets per tick
 	public double efficiency = 0D;
 	public int requiredEnergy = 0, acceleratingVoltage =0;
@@ -171,11 +171,11 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 	public void resetStats()
 	{
 		logic.onResetStats();
-		cooling = rawHeating  = 0L;
+		cooling = rawHeating =  currentHeating  = 0L;
 		quadrupoleStrength = efficiency= dipoleStrength = 0D;
 		RFCavityNumber = quadrupoleNumber = dipoleNumber = acceleratingVoltage = requiredEnergy = 0;
 		coolingRecipeInfo = null;
-		maxCoolantIn = maxCoolantOut =0;
+		maxCoolantIn = maxCoolantOut=0;
 	}
 
 	
@@ -710,6 +710,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		isAcceleratorOn = message.isAcceleratorOn;
 		cooling = message.cooling;
 		rawHeating = message.rawHeating;
+		currentHeating = message.currentHeating;
 		maxCoolantIn = message.maxCoolantIn;
 		maxCoolantOut = message.maxCoolantOut;
 		maxOperatingTemp = message.maxOperatingTemp;
@@ -776,6 +777,12 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<IAcceleratorPart, 
 		{
 			beams.get(i).readFromNBT(data, i);
 		}
+	}
+
+	@Override
+	public List<Tank> getTanks()
+	{
+		return tanks;
 	}
 
 

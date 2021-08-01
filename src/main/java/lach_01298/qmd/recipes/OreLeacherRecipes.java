@@ -31,6 +31,11 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
 				oreStack("dustGold", 3),chanceOreStack("dustSilver", 1, 10),new EmptyItemIngredient()
 				);
+		addRecipe("oreRedstone",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
+				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
+				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
+				oreStack("dustRedstone", 12),oreStack("ingotMercury", 3),new EmptyItemIngredient()
+				);
 		addRecipe("oreCopper",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
@@ -54,7 +59,7 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 		addRecipe("oreThorium",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustThorium", 3),chanceOreStack("dustTitanium", 1, 10),chanceOreStack("dustHafnium", 1, 5)
+				oreStack("dustThorium", 3),chanceOreStack("dustTitanium", 1, 15),chanceOreStack("dustHafnium", 1, 10)
 				);
 		addRecipe("oreLithium",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
@@ -71,6 +76,12 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
 				oreStack("dustBoron", 3),new EmptyItemIngredient(),new EmptyItemIngredient()
 				);
+		addRecipe("dustRedstone",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
+				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
+				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
+				chanceOreStack("ingotMercury", 1,50),chanceOreStack("dustSulfur", 1,50),new EmptyItemIngredient()
+				);
+		
 	}
 
 	@Override

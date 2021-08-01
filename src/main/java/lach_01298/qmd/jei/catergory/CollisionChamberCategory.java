@@ -83,34 +83,20 @@ public class CollisionChamberCategory implements IRecipeCategory<CollisionChambe
 		guiParticleStacks.init(2, true, 111, 33);
 		
 		
-		guiParticleStacks.init(3, true, 46, 2);
-		guiParticleStacks.init(4, true, 108, 2);
-		guiParticleStacks.init(5, true, 46, 64);
-		guiParticleStacks.init(6, true, 108, 64);
+		guiParticleStacks.init(3, false, 46, 2);
+		guiParticleStacks.init(4, false, 108, 2);
+		guiParticleStacks.init(5, false, 46, 64);
+		guiParticleStacks.init(6, false, 108, 64);
 			
 		
 		guiParticleStacks.set(1,particleInput.get(0));
 		guiParticleStacks.set(2,particleInput.get(1));
-		
-		
-		if(particleOutputs.get(0) != null)
-		{
-			guiParticleStacks.set(3,particleOutputs.get(0));
-		}
-		
-		if(particleOutputs.get(1) != null)
-		{
-			guiParticleStacks.set(4,particleOutputs.get(1));
-		}
-		
-		if(particleOutputs.get(2) != null)
-		{
-			guiParticleStacks.set(5,particleOutputs.get(2));
-		}
-		if(particleOutputs.get(3) != null)
-		{
-			guiParticleStacks.set(6,particleOutputs.get(3));
-		}
+
+		guiParticleStacks.set(3, particleOutputs.get(0));
+		guiParticleStacks.set(4, particleOutputs.get(1));
+		guiParticleStacks.set(5, particleOutputs.get(2));
+		guiParticleStacks.set(6, particleOutputs.get(3));
+
 	}
 	
 

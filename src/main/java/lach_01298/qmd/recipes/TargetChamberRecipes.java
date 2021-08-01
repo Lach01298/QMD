@@ -629,6 +629,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotLead", new ParticleStack(Particles.proton, 240000, 6580000), "wasteSpallationLead",
 				new ParticleStack(Particles.proton), emptyParticleStack(), new ParticleStack(Particles.antiproton), 20000000, 0.1, -6580000);
 		
+		addRecipe("ingotMercury", new ParticleStack(Particles.proton, 240000, 6580000), "wasteSpallationMercury",
+				new ParticleStack(Particles.proton), emptyParticleStack(), new ParticleStack(Particles.antiproton), 20000000, 0.1, -6580000);
+		
 		addRecipe("ingotGold", new ParticleStack(Particles.proton, 240000, 6580000), "wasteSpallationGold",
 				new ParticleStack(Particles.proton), emptyParticleStack(), new ParticleStack(Particles.antiproton), 20000000, 0.1, -6580000);
 		
@@ -747,6 +750,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotLead", new ParticleStack(Particles.proton, 240000, 1540000), "wasteSpallationLead",
 				new ParticleStack(Particles.pion_plus),emptyParticleStack(),new ParticleStack(Particles.pion_minus), 5000000, 0.1, -1540000);
 		
+		addRecipe("ingotMercury", new ParticleStack(Particles.proton, 240000, 1540000), "wasteSpallationMercury",
+				new ParticleStack(Particles.pion_plus),emptyParticleStack(),new ParticleStack(Particles.pion_minus), 5000000, 0.1, -1540000);
+		
 		addRecipe("ingotGold", new ParticleStack(Particles.proton, 240000, 1540000), "wasteSpallationGold",
 				new ParticleStack(Particles.pion_plus),emptyParticleStack(),new ParticleStack(Particles.pion_minus), 5000000, 0.1, -1540000);
 		
@@ -861,6 +867,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),new ParticleStack(Particles.pion_minus), 10000000, 1, 1460000);
 		
 		addRecipe("ingotLead", new ParticleStack(Particles.antiproton, 120000), "wasteSpallationLead",
+				new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),new ParticleStack(Particles.pion_minus), 10000000, 1, 1460000);
+		
+		addRecipe("ingotMercury", new ParticleStack(Particles.antiproton, 120000), "wasteSpallationMercury",
 				new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),new ParticleStack(Particles.pion_minus), 10000000, 1, 1460000);
 		
 		addRecipe("ingotGold", new ParticleStack(Particles.antiproton, 120000), "wasteSpallationGold",
@@ -979,6 +988,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotLead", new ParticleStack(Particles.deuteron, 480000, 13100000), "wasteSpallationLead",
 				new ParticleStack(Particles.deuteron), emptyParticleStack(), new ParticleStack(Particles.antideuteron), 20000000, 0.01, -13100000);
 		
+		addRecipe("ingotMercury", new ParticleStack(Particles.deuteron, 480000, 13100000), "wasteSpallationMercury",
+				new ParticleStack(Particles.deuteron), emptyParticleStack(), new ParticleStack(Particles.antideuteron), 20000000, 0.01, -13100000);
+		
 		addRecipe("ingotGold", new ParticleStack(Particles.deuteron, 480000, 13100000), "wasteSpallationGold",
 				new ParticleStack(Particles.deuteron), emptyParticleStack(), new ParticleStack(Particles.antideuteron), 20000000, 0.01, -13100000);
 		
@@ -1091,6 +1103,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 						new ParticleStack(Particles.pion_plus,4),new ParticleStack(Particles.pion_naught,4),new ParticleStack(Particles.pion_minus,4), 10000000, 1, 2090000);
 				
 				addRecipe("ingotLead", new ParticleStack(Particles.antideuteron, 120000), "wasteSpallationLead",
+						new ParticleStack(Particles.pion_plus,4),new ParticleStack(Particles.pion_naught,4),new ParticleStack(Particles.pion_minus,4), 10000000, 1, 2090000);
+				
+				addRecipe("ingotMercury", new ParticleStack(Particles.antideuteron, 120000), "wasteSpallationMercury",
 						new ParticleStack(Particles.pion_plus,4),new ParticleStack(Particles.pion_naught,4),new ParticleStack(Particles.pion_minus,4), 10000000, 1, 2090000);
 				
 				addRecipe("ingotGold", new ParticleStack(Particles.antideuteron, 120000), "wasteSpallationGold",

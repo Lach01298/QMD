@@ -1,0 +1,50 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "cube_all"
+	},
+	"variants": {
+		"type": {
+			"iron": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/iron"
+				}
+			},
+			"redstone": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/redstone"
+				}
+			},
+			"quartz": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/quartz"
+				}
+			},
+			"obsidian": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/obsidian"
+				}
+			},
+			"glowstone": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/glowstone"
+				}
+			},
+			"lapis": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/lapis"
+				}
+			},
+			"gold": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/gold"
+				}
+			},
+			"diamond": {
+				"textures": {
+					"all": "qmd:blocks/containment/heater/diamond"
+				}
+			}
+		}
+	}
+}

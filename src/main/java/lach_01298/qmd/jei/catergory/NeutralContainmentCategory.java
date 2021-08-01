@@ -34,7 +34,7 @@ public class NeutralContainmentCategory implements IRecipeCategory<NeutralContai
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png");
 		background = guiHelper.createDrawable(gui_texture, 24, 9, 126, 47);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.neutralContainmentController));
+		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.exoticContainmentController));
 		
 	}
 	

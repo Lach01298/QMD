@@ -34,6 +34,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class DecayChamberLogic extends ParticleChamberLogic
 {
+
+	
+	
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	
 	protected TileParticleChamber mainChamber;
@@ -45,9 +48,15 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		super(oldLogic);
 		
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
+		
+		/*
+		beam 0 = input particle 1
+		beam 1 = output particle 1
+		beam 2 = output particle 2
+		beam 3 = output particle 3
+
+		*/
+
 	}
 	
 	@Override

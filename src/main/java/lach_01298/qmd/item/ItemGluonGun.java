@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import lach_01298.qmd.DamageSources;
+import lach_01298.qmd.QMDDamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGluonBeam;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
@@ -126,7 +126,7 @@ public class ItemGluonGun extends ItemGun
     						entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, (EntityLivingBase) entity,
     								QMDConfig.gluon_radiation, false, false, 1));
     					}
-    					entity.attackEntityFrom(DamageSources.causeGluonGunDamage(beam,player), (float) QMDConfig.gluon_damage);
+    					entity.attackEntityFrom(QMDDamageSources.causeGluonGunDamage(beam,player), (float) QMDConfig.gluon_damage);
     				}
 
 					if (lookingAt != null)

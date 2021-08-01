@@ -22,5 +22,16 @@ public class ParticleStorageSource extends ParticleStorage
 		return false;
 	}
 	
+	
+	@Override
+	public ParticleStack extractParticle(EnumFacing side)
+	{
+		if (canExtractParticle(side))
+		{
+			ParticleStack stack = this.particleStack;
+			return stack;
+		}
+		return null;
+	}
 
 }

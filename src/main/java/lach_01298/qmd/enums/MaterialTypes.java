@@ -67,10 +67,12 @@ public class MaterialTypes
 	public static enum DustType2 implements IStringSerializable, IMetaEnum
 	{
 		YTTRIUM("yttrium", 0), 
-		NEODYMIUM("neodymium", 1);
-		
-		
-		
+		NEODYMIUM("neodymium", 1),
+		IODINE("iodine",2),
+		SAMARIUM("samarium",3),
+		TERBIUM("terbium",4),
+		ERBIUM("erbium",5),
+		YTTERBIUM("ytterbium",6);
 		
 		 
 		private String name;
@@ -153,8 +155,8 @@ public class MaterialTypes
 	public static enum IngotType2 implements IStringSerializable, IMetaEnum
 	{
 		YTTRIUM("yttrium", 0), 
-		NEODYMIUM("neodymium", 1);
-		
+		NEODYMIUM("neodymium", 1),
+		MERCURY("mercury", 2);
 		 
 		private String name;
 		private int id;
@@ -505,7 +507,8 @@ public class MaterialTypes
 	{
 		OSMIUM("osmium", 0),
 		TUNGSTEN("tungsten",1),
-		HAFNIUM("hafnium", 2);
+		HAFNIUM("hafnium", 2),
+		MERCURY("mercury",3);
 		 
 		private String name;
 		private int id;

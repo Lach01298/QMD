@@ -116,7 +116,6 @@ public class TileBeamline extends TilePipePart implements IPipeController, ITile
 	public <TILE extends IMultiblockGuiPart<Pipe>> ContainerMultiblockController<Pipe, TILE> getContainer(
 			EntityPlayer player)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
