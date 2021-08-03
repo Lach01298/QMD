@@ -701,7 +701,7 @@ qmd.particle.antisigma_naught.name=Anti-Sigma 0
 qmd.particle.sigma_minus.name=Sigma -
 qmd.particle.antisigma_minus.name=Anti-Sigma -
 qmd.particle.delta_plus_plus.name=Delta ++
-qmd.particle.antidelta_plus_plus.name=Anti-Delta -
+qmd.particle.antidelta_plus_plus.name=Anti-Delta ++
 qmd.particle.delta_minus.name=Delta -
 qmd.particle.antidelta_minus.name=Anti-Delta -
 
