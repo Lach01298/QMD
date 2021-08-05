@@ -895,7 +895,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					operational = false;
 				}
 			}
-			else
+			else if(plasmaOn)
 			{
 				containmentFaliure();
 			}

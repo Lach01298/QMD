@@ -42,8 +42,8 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 		addRecipe(fluidStack("helium", 100),fluidStack("helium", 200), new ParticleStack(Particles.muon,19060,0,1),fluidStack("coal", 100), new EmptyFluidIngredient(), 7160L, 1000L);
 		addRecipe(fluidStack("helium", 100),fluidStack("coal", 100), new ParticleStack(Particles.muon,20780,0,1),fluidStack("oxygen", 100), new EmptyFluidIngredient(), 4730L, 1000L);
 		addRecipe(fluidStack("helium", 100),fluidStack("oxygen", 100), new ParticleStack(Particles.muon,28620,0,1),fluidStack("neon", 100), new EmptyFluidIngredient(), 9320L, 1000L);
-		addRecipe(fluidStack("helium", 100),fluidStack("neon", 100), new ParticleStack(Particles.muon,36510,0,1),fluidStack("magnesium_24", 100), new EmptyFluidIngredient(), 6980L, 1000L);
-		addRecipe(fluidStack("helium", 100),fluidStack("magnesium_24", 100), new ParticleStack(Particles.muon,44440,0,1),fluidStack("silicon", 100), new EmptyFluidIngredient(), 6980L, 1000L);
+		addRecipe(fluidStack("helium", 100),fluidStack("neon", 100), new ParticleStack(Particles.muon,36510,0,1),fluidStack("magnesium", 100), new EmptyFluidIngredient(), 6980L, 1000L);
+		addRecipe(fluidStack("helium", 100),fluidStack("magnesium", 100), new ParticleStack(Particles.muon,44440,0,1),fluidStack("silicon", 100), new EmptyFluidIngredient(), 6980L, 1000L);
 		addRecipe(fluidStack("helium", 100),fluidStack("silicon", 100), new ParticleStack(Particles.muon,52380,0,1),fluidStack("sulfur", 100), new EmptyFluidIngredient(), 6950L, 1000L);
 		addRecipe(fluidStack("helium", 100),fluidStack("sulfur", 100), new ParticleStack(Particles.muon,60340,0,1),fluidStack("argon", 100), new EmptyFluidIngredient(), 6640L, 1000L);
 		addRecipe(fluidStack("helium", 100),fluidStack("argon", 100), new ParticleStack(Particles.muon,68310,0,1),fluidStack("calcium", 100), new EmptyFluidIngredient(), 7040L, 1000L);
@@ -80,7 +80,7 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 		addRecipe(fluidStack("tungsten", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,4176000,0,1),fluidStack("osmium", 1000), new EmptyFluidIngredient(), 53700L, 10000L);
 		addRecipe(fluidStack("osmium", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,526300,0,1),fluidStack("iridium", 1000), new EmptyFluidIngredient(), 6210L, 10000L);
 		addRecipe(fluidStack("iridium", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,1054000,0,1),fluidStack("platinum", 1000), new EmptyFluidIngredient(), 13900L, 10000L);
-		addRecipe(fluidStack("platinum", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,1056000,0,1),fluidStack("gold", 1000), new EmptyFluidIngredient(), 14000, 10000L);
+		addRecipe(fluidStack("platinum", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,1056000,0,1),fluidStack("gold", 1000), new EmptyFluidIngredient(), 14000L, 10000L);
 		addRecipe(fluidStack("gold", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,2644000,0,1),fluidStack("mercury", 1000), new EmptyFluidIngredient(), 36100L, 10000L);
 		addRecipe(fluidStack("mercury", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,3188000,0,1),fluidStack("lead", 1000), new EmptyFluidIngredient(), 41800L, 10000L);
 		addRecipe(fluidStack("lead", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,534200,0,1),fluidStack("bismuth", 1000), new EmptyFluidIngredient(), 4070L, 10000L);

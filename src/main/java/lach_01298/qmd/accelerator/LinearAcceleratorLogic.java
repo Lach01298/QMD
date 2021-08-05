@@ -116,7 +116,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			}
 			if(acc.getExteriorLengthX() != thickness)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.must_be_5_wide", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_5_wide", null);
 				return false;
 			}
 		}

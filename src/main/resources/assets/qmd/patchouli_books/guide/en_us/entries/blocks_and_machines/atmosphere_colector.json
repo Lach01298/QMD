@@ -1,0 +1,20 @@
+{
+	"name": "Atmospher Collector",
+	"icon": "qmd:atmosphere_collector",
+	"category": "qmd:blocks_and_machines",
+	"sortnum": 1,
+	"pages": [
+		{
+			
+			"type": "text",
+			"text": "Atmosphere Collectors are used to collect the surrounding atmosphere. They require RF and work better in open spaces. Right clicking on the block will tell you the gas and what rate it is collecting at."
+		},
+		
+		{
+			
+			"type": "text",
+			"text": "Atmosphere Collectors are used to collect the surrounding atmosphere. They require RF and work better in open spaces. Right clicking on the block will tell you the gas and what rate it is collecting at."
+		}
+
+	]
+}

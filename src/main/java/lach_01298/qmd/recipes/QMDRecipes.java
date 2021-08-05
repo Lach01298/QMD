@@ -208,7 +208,7 @@ public class QMDRecipes
 		NCRecipes.enricher.addRecipe("ingotYttrium",fluidStack("alumina", 120),fluidStack("yag", 48), 2D, 2D);	
 		NCRecipes.enricher.addRecipe("ingotNeodymium",fluidStack("yag", FluidStackHelper.INGOT_BLOCK_VOLUME),fluidStack("nd_yag", FluidStackHelper.INGOT_BLOCK_VOLUME), 2D, 2D);	
 			
-		NCRecipes.enricher.addRecipe("dustSalt",fluidStack("water", FluidStackHelper.BUCKET_VOLUME),fluidStack("sodium_chloride_solution", FluidStackHelper.BUCKET_VOLUME), 1D, 1D);
+		NCRecipes.enricher.addRecipe("dustSalt",fluidStack("water", FluidStackHelper.GEM_VOLUME),fluidStack("sodium_chloride_solution", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		
 		
 			
@@ -232,7 +232,7 @@ public class QMDRecipes
 		NCRecipes.centrifuge.addRecipe(fluidStack("compressed_air", FluidStackHelper.BUCKET_VOLUME*10), fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME*7), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("argon", 750),  fluidStack("neon", 200),  fluidStack("helium", 50), new EmptyFluidIngredient(), 0.1D, 1D);
 		
 		//Electrolyzer
-		NCRecipes.electrolyzer.addRecipe(fluidStack("sodium_chloride_solution", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient(), 1D, 1D);
+		NCRecipes.electrolyzer.addRecipe(fluidStack("sodium_chloride_solution", 2*FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME*2), new EmptyFluidIngredient(), 1D, 1D);
 		
 		
 		// Manufactory
@@ -248,7 +248,9 @@ public class QMDRecipes
 		NCRecipes.melter.addRecipe("dustErbium", fluidStack("erbium", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustYtterbium", fluidStack("ytterbium", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustMolybdenum", fluidStack("molybdenum", FluidStackHelper.INGOT_VOLUME));
-		
+		NCRecipes.melter.addRecipe("dustBismuth", fluidStack("bismuth", FluidStackHelper.INGOT_VOLUME));
+		NCRecipes.melter.addRecipe("dustPolonium", fluidStack("polonium", FluidStackHelper.INGOT_VOLUME));
+		NCRecipes.melter.addRecipe("dustRadium", fluidStack("radium", FluidStackHelper.INGOT_VOLUME));
 		
 		
 		// Crystallizer
@@ -258,14 +260,25 @@ public class QMDRecipes
 		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_chloride_solution", FluidStackHelper.GEM_VOLUME), "dustSodiumChloride", 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("nd_yag", FluidStackHelper.INGOT_VOLUME*3), "rodNdYAG", 2D, 2D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME*10), "dustSodiumChloride", 1D, 4D);	//TODO temporary recipe
-		NCRecipes.crystallizer.addRecipe(fluidStack("strontium_90", FluidStackHelper.INGOT_BLOCK_VOLUME), "blockStrontium90", 2D, 2D);
 		
-		NCRecipes.crystallizer.addRecipe(fluidStack("iodine", FluidStackHelper.INGOT_BLOCK_VOLUME), "dustIodine", 0.5D, 0D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("samarium", FluidStackHelper.INGOT_BLOCK_VOLUME), "dustSamarium", 0.5D, 0D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("terbium", FluidStackHelper.INGOT_BLOCK_VOLUME), "dustTerbium", 0.5D, 0D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("erbium", FluidStackHelper.INGOT_BLOCK_VOLUME), "dustErbium", 0.5D, 0D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("ytterbium", FluidStackHelper.INGOT_BLOCK_VOLUME), "dustYtterbium", 0.5D, 0D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("molybdenum", FluidStackHelper.INGOT_BLOCK_VOLUME), "dustMolybdenum", 0.5D, 0D);
+		
+		NCRecipes.crystallizer.addRecipe(fluidStack("iodine", FluidStackHelper.INGOT_VOLUME), "dustIodine", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("samarium", FluidStackHelper.INGOT_VOLUME), "dustSamarium", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("terbium", FluidStackHelper.INGOT_VOLUME), "dustTerbium", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("erbium", FluidStackHelper.INGOT_VOLUME), "dustErbium", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("ytterbium", FluidStackHelper.INGOT_VOLUME), "dustYtterbium", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("molybdenum", FluidStackHelper.INGOT_VOLUME), "dustMolybdenum", 0.25D, 0D);
+		
+		NCRecipes.crystallizer.addRecipe(fluidStack("bismuth", FluidStackHelper.INGOT_VOLUME), "dustbismuth", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("radium", FluidStackHelper.INGOT_VOLUME), "dustRadium", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("polonium", FluidStackHelper.INGOT_VOLUME), "dustPolonium", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("europium_155", FluidStackHelper.INGOT_VOLUME), "dustEuropium155", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("ruthenium_106", FluidStackHelper.INGOT_VOLUME), "dustRuthenium106", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("strontium_90", FluidStackHelper.INGOT_VOLUME), "dustStrontium90", 0.25D, 0D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("promethium_147", FluidStackHelper.INGOT_VOLUME), "dustPromethium147", 0.25D, 0D);
+		
+		// Pressurizer
+		NCRecipes.pressurizer.addRecipe((AbstractRecipeHandler.oreStack("dustStrontium90",9)), "blockStrontium90", 1D, 2D);
 		
 		// SuperCooler
 		if(QMDConfig.override_nc_recipes)

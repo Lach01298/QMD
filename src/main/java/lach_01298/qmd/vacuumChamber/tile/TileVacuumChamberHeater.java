@@ -200,7 +200,7 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 	{
 		for (String dep : placementRule.getDependencies()) 
 		{
-			if (dep.equals("beam")||dep.equals("vaccuum_chamber_casing")||dep.equals("plasma_glass")||dep.equals("nozzle"))
+			if (dep.equals("beam")||dep.equals("vacuum_chamber_casing")||dep.equals("plasma_glass")||dep.equals("nozzle"))
 				return true;
 		}
 		return false;

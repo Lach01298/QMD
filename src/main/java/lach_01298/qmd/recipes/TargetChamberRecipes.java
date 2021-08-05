@@ -216,6 +216,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotCopernicium291All", new ParticleStack(Particles.neutron, 1000, 60000), "wasteFissionHeavy",
 				emptyParticleStack(), new ParticleStack(Particles.neutron,8), emptyParticleStack(), 1000000, 1, 0);
 		
+		addRecipe("dustTerbium", new ParticleStack(Particles.neutron, 364000, 20800), "dustEuropium155",
+				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), emptyParticleStack(), 34000, 0.025, 883);
+		
 		
 		//deuteron reactions
 		
@@ -404,6 +407,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotPlutonium239", new ParticleStack(Particles.alpha, 1206000, 28000), "ingotAmericium242",
 				new ParticleStack(Particles.proton), emptyParticleStack(), emptyParticleStack(), 30000, 0.01, -12300);	
 		
+		addRecipe("dustYtterbium", new ParticleStack(Particles.alpha, 141000, 21200), "ingotHafnium",
+				emptyParticleStack(), new ParticleStack(Particles.neutron,2), emptyParticleStack(), 26600, 0.58, -15800);	
+		
+		
 		//Helion reactions
 		addRecipe("ingotLithium6", new ParticleStack(Particles.helion, 189000, 11000), "ingotBerylium7",
 				new ParticleStack(Particles.deuteron), emptyParticleStack(), emptyParticleStack(), 30000, 0.22, -397);	
@@ -432,8 +439,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotNeptunium237", new ParticleStack(Particles.helion, 1260000, 23500), "ingotPlutonium238",
 				new ParticleStack(Particles.proton), new ParticleStack(Particles.neutron), emptyParticleStack(), 30000, 0.01, -2230);
 		
-		
-		
+	
 		
 		// Doping
 		addRecipe("siliconWafer", new ParticleStack(Particles.boron_ion, 120000, 600,2), "siliconPDoped",
@@ -536,6 +542,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotCopernicium291All", new ParticleStack(Particles.proton, 50000, 60000), "wasteFissionHeavy",
 				emptyParticleStack(), new ParticleStack(Particles.neutron,8), emptyParticleStack(), 1000000, 1, 0);
 		
+		addRecipe("ingotMercury", new ParticleStack(Particles.proton, 487000, 200000), "wasteFissionLight",
+				emptyParticleStack(), new ParticleStack(Particles.neutron), emptyParticleStack(), 1000000, 0.01, 0);
 		
 		
 		// antiproton production 

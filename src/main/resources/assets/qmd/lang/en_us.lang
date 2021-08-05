@@ -498,6 +498,9 @@ message.qmd.atmosphere_collector_no_fluid=Collecting no gas
 
 
 //multiblock validation
+zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part=This block position cannot be part of the multiblock.
+
+
 qmd.multiblock_validation.need_energy_ports=There must be at least 1 Energy Port.
 qmd.multiblock_validation.no_inlet=There must be at least 1 Coolant Vent INPUT.
 qmd.multiblock_validation.no_outlet=There must be at least 1 Coolant Vent OUTPUT.
@@ -701,7 +704,7 @@ qmd.particle.antisigma_naught.name=Anti-Sigma 0
 qmd.particle.sigma_minus.name=Sigma -
 qmd.particle.antisigma_minus.name=Anti-Sigma -
 qmd.particle.delta_plus_plus.name=Delta ++
-qmd.particle.antidelta_plus_plus.name=Anti-Delta -
+qmd.particle.antidelta_plus_plus.name=Anti-Delta ++
 qmd.particle.delta_minus.name=Delta -
 qmd.particle.antidelta_minus.name=Anti-Delta -
 
@@ -938,10 +941,10 @@ gui.qmd.config.category.accelerator=Accelerators
 gui.qmd.config.category.accelerator.tooltip=Accelerator and accelerator parts configs
 
 gui.qmd.config.category.particle_chamber=Particle Chambers
-gui.qmd.config.category.particle_chamber,tooltip=Particle chamber and particle chamber parts configs
+gui.qmd.config.category.particle_chamber.tooltip=Particle chamber and particle chamber parts configs
 
-gui.qmd.config.category.containment=Containment Chambers
-gui.qmd.config.category.containment.tooltip=Containment chamber and containment chamber parts configs
+gui.qmd.config.category.vacuum_chamber=Vacuum Chambers
+gui.qmd.config.category.containment.tooltip=Vacuum chamber and Vacuum chamber parts configs
 
 gui.qmd.config.category.fission=Fission
 gui.qmd.config.category.fission.tooltip=Fission parts and fuels configs

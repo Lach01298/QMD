@@ -208,7 +208,7 @@ public class QMDConfig {
 		
 		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.04D, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
 		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
-		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 100, Lang.localise("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
+		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 160, Lang.localise("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
 		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
 		
 		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
@@ -291,7 +291,7 @@ public class QMDConfig {
 		
 		Property propertyHeaterHeatRemoved = config.get(CATEGORY_VACUUM_CHAMBER, "heater_heat_removed", new int[] {5,10,20,40,80,160,320,640}, Lang.localise("gui.qmd.config.vacuum_chamber.heater_heat_removed.comment"), 0, Integer.MAX_VALUE);
 		propertyHeaterHeatRemoved.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_heat_removed");
-		Property propertyHeaterRule = config.get(CATEGORY_VACUUM_CHAMBER, "heater_rule", new String[] {"one casing","one beam", "two glass", "exactly one quartz heater && exactly one redstone heater", "two axil obsidian heaters", "exactly one redstone heater && three iron heaters", "one obsidian heater && one quartz heater", "one nozzle"},
+		Property propertyHeaterRule = config.get(CATEGORY_VACUUM_CHAMBER, "heater_rule", new String[] {"one casing","one beam", "two glass", "exactly one quartz heater && exactly one redstone heater", "two axial obsidian heaters", "exactly one redstone heater && two iron heaters", "one obsidian heater && one quartz heater", "one nozzle"},
 				Lang.localise("gui.qmd.config.vacuum_chamber.heater_rule.comment"));
 		propertyHeaterRule.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_rule");
 		
