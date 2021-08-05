@@ -70,17 +70,17 @@ public class QMDConfig {
 	public static double[] detector_efficiency;
 	
 	
-	public static int particle_chamber_base_energy_capacity = 40000;//TODO
-	public static int particle_chamber_input_tank_capacity = 1000; //TODO
-	public static int particle_chamber_output_tank_capacity = 1000; //TODO
+	public static int particle_chamber_base_energy_capacity;
+	public static int particle_chamber_input_tank_capacity; 
+	public static int particle_chamber_output_tank_capacity;
 	
 	public static int[] vacuum_chamber_part_power;
 	public static int[] vacuum_chamber_part_heat;
 	public static int[] vacuum_chamber_part_max_temp;
 	
-	public static int vacuum_chamber_base_energy_capacity = 40000;//TODO
-	public static int vacuum_chamber_input_tank_capacity = 1000; //TODO
-	public static int vacuum_chamber_output_tank_capacity = 1000; //TODO
+	public static int vacuum_chamber_base_energy_capacity;
+	public static int vacuum_chamber_input_tank_capacity; 
+	public static int vacuum_chamber_output_tank_capacity; 
 	
 	public static int[] heater_heat_removed;
 	public static String[]heater_rule;
