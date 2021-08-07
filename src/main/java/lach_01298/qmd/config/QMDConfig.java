@@ -217,7 +217,7 @@ public class QMDConfig {
 		propertyRFCavityEfficiency.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_efficiency");
 		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {300, 580, 1140, 2260, 4500}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_heat_generated");
-		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {2000, 4000, 8000, 16000, 32000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {500, 1000, 2000, 4000, 8000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityBasePower.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_base_power");
 		Property propertyRFCavityMaxTemp = config.get(CATEGORY_ACCELERATOR, "RF_cavity_max_temp", new int[] {350, 39, 18, 10, 104}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_max_temp.comment"), 0, 400);
 		propertyRFCavityMaxTemp.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_max_temp");
@@ -262,7 +262,7 @@ public class QMDConfig {
 		
 		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {0.15D, 0.3D, 0.20D, 0.1D,0.05D}, Lang.localise("gui.qmd.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
 		propertyDetectorEfficiency.setLanguageKey("gui.qmd.config.particle_chamber.detector_efficiency");
-		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 5000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 2000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDetectorBasePower.setLanguageKey("gui.qmd.config.particle_chamber.detector_base_power");
 
 		
@@ -275,7 +275,7 @@ public class QMDConfig {
 		
 		
 		
-		Property propertyContainmentPartPower = config.get(CATEGORY_VACUUM_CHAMBER, "part_power", new int[] {800, 1000,1000,1000,5000}, Lang.localise("gui.qmd.config.vacuum_chamber.part_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyContainmentPartPower = config.get(CATEGORY_VACUUM_CHAMBER, "part_power", new int[] {400, 500,500,500,1000}, Lang.localise("gui.qmd.config.vacuum_chamber.part_power.comment"), 0, Integer.MAX_VALUE);
 		propertyContainmentPartPower.setLanguageKey("gui.qmd.config.vacuum_chamber.part_power");
 		Property propertyContainmentPartHeat = config.get(CATEGORY_VACUUM_CHAMBER, "part_heat", new int[] {200, 500,100,100,500}, Lang.localise("gui.qmd.config.vacuum_chamber.part_heat.comment"), 0, Integer.MAX_VALUE);
 		propertyContainmentPartHeat.setLanguageKey("gui.qmd.config.vacuum_chamber.part_heat");

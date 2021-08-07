@@ -903,6 +903,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		else if (plasmaOn)
 		{
 			setPlasma(false);
+			operational = false;
 		}
 		
 		

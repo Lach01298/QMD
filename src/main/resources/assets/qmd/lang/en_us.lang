@@ -811,6 +811,7 @@ gui.qmd.jei.reaction.range=Range: %s
 gui.qmd.jei.reaction.energy_released=Released Energy: %s
 gui.qmd.jei.reaction.cross_section=Cross Section: %s%%
 gui.qmd.jei.reaction.heat_released=Heat Released: %s
+gui.qmd.jei.reaction.max_energy=Maximum Energy: %s
 
 //jei trick
 tile.qmd.irradiator_fuel.name=Irradiator Fuel

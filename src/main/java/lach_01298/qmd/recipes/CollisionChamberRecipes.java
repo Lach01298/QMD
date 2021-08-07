@@ -35,9 +35,15 @@ public class CollisionChamberRecipes extends QMDRecipeHandler
 
 		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.antiproton,1,0,5), new ParticleStack(Particles.glueball),new ParticleStack(Particles.w_plus_boson),new ParticleStack(Particles.w_minus_boson),new ParticleStack(Particles.charmed_eta),0.02);
 		
+		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.proton,2),new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_minus),new ParticleStack(Particles.pion_naught),0.10);
+		addCollisionRecipe(new ParticleStack(Particles.antiproton,1,0,5),new ParticleStack(Particles.antiproton,1,0,5), new ParticleStack(Particles.antiproton,2),new ParticleStack(Particles.pion_minus),new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),0.10);
+		
+		addCollisionRecipe(new ParticleStack(Particles.electron,1,0,5),new ParticleStack(Particles.positron,1,0,5), new ParticleStack(Particles.muon),new ParticleStack(Particles.antimuon),null,null,0.10);
+
+		
 		//fusion recipes
 		
-		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.deuteron),new ParticleStack(Particles.positron),new ParticleStack(Particles.electron_neutrino),null,0.5,1400,421,10000);
+		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.deuteron),new ParticleStack(Particles.positron),new ParticleStack(Particles.electron_neutrino),null,0.25,1400,421,10000);
 		addCollisionRecipe(new ParticleStack(Particles.antiproton,1,0,5),new ParticleStack(Particles.antiproton,1,0,5), new ParticleStack(Particles.antideuteron),new ParticleStack(Particles.electron),new ParticleStack(Particles.electron_antineutrino),null,0.5,1400,421,10000);
 		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.neutron,1,0,5), new ParticleStack(Particles.deuteron),new ParticleStack(Particles.photon),null,null,0.5,0,2225,10000);
 		addCollisionRecipe(new ParticleStack(Particles.antiproton,1,0,5),new ParticleStack(Particles.antineutron,1,0,5), new ParticleStack(Particles.antideuteron),new ParticleStack(Particles.photon),null,null,0.5,0,2225,10000);
@@ -52,7 +58,7 @@ public class CollisionChamberRecipes extends QMDRecipeHandler
 		addCollisionRecipe(new ParticleStack(Particles.deuteron,1,0,5),new ParticleStack(Particles.neutron,1,0,5), new ParticleStack(Particles.triton),new ParticleStack(Particles.photon),null,null,0.5,0, 5990,10000);
 		addCollisionRecipe(new ParticleStack(Particles.antideuteron,1,0,5),new ParticleStack(Particles.antineutron,1,0,5), new ParticleStack(Particles.antitriton),new ParticleStack(Particles.photon),null,null,0.5,0, 5990,10000);
 
-		addCollisionRecipe(new ParticleStack(Particles.proton,1,0,5),new ParticleStack(Particles.proton,1,0,5), new ParticleStack(Particles.neutron),new ParticleStack(Particles.photon),null,null,0.5,0, 5990,10000);
+		
 
 		
 	}
@@ -168,7 +174,7 @@ public class CollisionChamberRecipes extends QMDRecipeHandler
 			out4 = new EmptyParticleIngredient();
 		}
 		
-	
+		
 		inputMass = particleIn1.getParticle().getMass() * particleIn1.getAmount()+ particleIn2.getParticle().getMass() * particleIn2.getAmount();
 		long energyReleased = (long)((inputMass - outputMass) * 1000);
 		long recipeEnergy = (long) (Math.abs(energyReleased)*1.1); //just an arbitrary amount more energy than the minimum possible

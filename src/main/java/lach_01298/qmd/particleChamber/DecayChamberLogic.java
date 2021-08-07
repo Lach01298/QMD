@@ -464,7 +464,6 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		{
 			ArrayList<ParticleStack> particles = new ArrayList<ParticleStack>();
 			ParticleStack input =getMultiblock().beams.get(0).getParticleStack().copy();
-			input.setMeanEnergy(0);
 			particles.add(input);
 			
 			recipeInfo = decay_chamber.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);	
