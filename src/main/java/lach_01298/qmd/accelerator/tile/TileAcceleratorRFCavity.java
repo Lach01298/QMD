@@ -35,7 +35,7 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 
 		public Copper()
 		{
-			super(QMDConfig.RF_cavity_voltage[0], QMDConfig.RF_cavity_efficiency[0], QMDConfig.RF_cavity_heat_generated[0], QMDConfig.magnet_base_power[0], QMDConfig.magnet_max_temp[0], "copper");
+			super(QMDConfig.RF_cavity_voltage[0], QMDConfig.RF_cavity_efficiency[0], QMDConfig.RF_cavity_heat_generated[0], QMDConfig.RF_cavity_base_power[0], QMDConfig.RF_cavity_max_temp[0], "copper");
 		}
 	}
 
@@ -44,7 +44,7 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 
 		public MagnesiumDiboride()
 		{
-			super(QMDConfig.RF_cavity_voltage[1], QMDConfig.RF_cavity_efficiency[1], QMDConfig.RF_cavity_heat_generated[1], QMDConfig.magnet_base_power[1], QMDConfig.magnet_max_temp[1], "magnesium_diboride");
+			super(QMDConfig.RF_cavity_voltage[1], QMDConfig.RF_cavity_efficiency[1], QMDConfig.RF_cavity_heat_generated[1], QMDConfig.RF_cavity_base_power[1], QMDConfig.RF_cavity_max_temp[1], "magnesium_diboride");
 		}
 
 	}
@@ -54,7 +54,7 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 
 		public NiobiumTin()
 		{
-			super(QMDConfig.RF_cavity_voltage[2], QMDConfig.RF_cavity_efficiency[2], QMDConfig.RF_cavity_heat_generated[2], QMDConfig.magnet_base_power[2], QMDConfig.magnet_max_temp[2], "niobium_tin");
+			super(QMDConfig.RF_cavity_voltage[2], QMDConfig.RF_cavity_efficiency[2], QMDConfig.RF_cavity_heat_generated[2], QMDConfig.RF_cavity_base_power[2], QMDConfig.RF_cavity_max_temp[2], "niobium_tin");
 		}
 	}
 	
@@ -63,7 +63,7 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 
 		public NiobiumTitanium()
 		{
-			super(QMDConfig.RF_cavity_voltage[3], QMDConfig.RF_cavity_efficiency[3], QMDConfig.RF_cavity_heat_generated[3], QMDConfig.magnet_base_power[3], QMDConfig.magnet_max_temp[3], "niobium_titanium");
+			super(QMDConfig.RF_cavity_voltage[3], QMDConfig.RF_cavity_efficiency[3], QMDConfig.RF_cavity_heat_generated[3], QMDConfig.RF_cavity_base_power[3], QMDConfig.RF_cavity_max_temp[3], "niobium_titanium");
 		}
 	}
 	
@@ -72,7 +72,7 @@ public abstract class TileAcceleratorRFCavity extends TileAcceleratorPart implem
 
 		public BSCCO()
 		{
-			super(QMDConfig.RF_cavity_voltage[4], QMDConfig.RF_cavity_efficiency[4], QMDConfig.RF_cavity_heat_generated[4], QMDConfig.magnet_base_power[4], QMDConfig.magnet_max_temp[4], "bscco");
+			super(QMDConfig.RF_cavity_voltage[4], QMDConfig.RF_cavity_efficiency[4], QMDConfig.RF_cavity_heat_generated[4], QMDConfig.RF_cavity_base_power[4], QMDConfig.RF_cavity_max_temp[4], "bscco");
 		}
 	}
 

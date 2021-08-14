@@ -59,6 +59,7 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 		
 		addRecipe(fluidStack("iron", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,1213000,0,1),fluidStack("cobalt", 1000), new EmptyFluidIngredient(), 25300L, 10000L);
 		addRecipe(fluidStack("cobalt", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,1638000,0,1),fluidStack("copper", 1000), new EmptyFluidIngredient(), 34600L, 10000L);
+		addRecipe(fluidStack("nickel", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,1233000,0,1),fluidStack("copper", 1000), new EmptyFluidIngredient(), 24800L, 10000L);
 		addRecipe(fluidStack("copper", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,415900,0,1),fluidStack("zinc", 1000), new EmptyFluidIngredient(), 7980L, 10000L);
 		addRecipe(fluidStack("zinc", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,4592000,0,1),fluidStack("arsenic", 1000), new EmptyFluidIngredient(), 94300L, 10000L);
 		addRecipe(fluidStack("arsenic", 1000), new EmptyFluidIngredient(), new ParticleStack(Particles.neutron,5630000,0,1),fluidStack("strontium", 1000), new EmptyFluidIngredient(), 117000L, 10000L);

@@ -172,6 +172,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorMagnet,2,MagnetType.NIOBIUM_TITANIUM.getID()), new Object[] {"CCC", "STS", "CCC", 'S', "ingotStainlessSteel",'T', "ingotTough", 'C', "ingotNiobiumTitanium"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorMagnet,2,MagnetType.BSCCO.getID()), new Object[] {"CCC", "STS", "CCC", 'S', "ingotStainlessSteel",'T', "ingotTough", 'C', "wireBSCCO"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorYoke,4), new Object[] {"IBI", "IBI", "IBI", 'I', "ingotIron",'B', "bioplastic"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorYoke,4), new Object[] {"IBI", "IBI", "IBI", 'I', "ingotIron",'B', "sheetPlastic"});
 		
 		//Accelerator Cavities
 		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,4,RFCavityType.COPPER.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotCopper"});
@@ -202,6 +203,11 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "bioplastic"});
 		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "bioplastic"});
 		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCalcium48",'B', "bioplastic"});
+		
+		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotSodium22",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCalcium48",'B', "sheetPlastic"});
 		
 		
 		//detectors

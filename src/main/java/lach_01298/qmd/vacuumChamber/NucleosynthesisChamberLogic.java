@@ -359,7 +359,15 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		}
 		if(plasmaOn)
 		{
-			containmentFaliure();
+			if(getMultiblock().WORLD.isRemote)
+			{
+				plasmaOn = false;
+			}
+			else
+			{
+				containmentFaliure();
+			}
+			
 		}
 		
 		super.onMachineDisassembled();

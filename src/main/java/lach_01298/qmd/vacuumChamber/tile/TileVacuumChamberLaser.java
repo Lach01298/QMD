@@ -1,5 +1,7 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -23,10 +25,15 @@ public class TileVacuumChamberLaser extends TileVacuumChamberPart implements IVa
 
 
 	@Override
-	public void onMachineAssembled(VacuumChamber controller)
+	public void onMachineAssembled(VacuumChamber multiblock)
 	{
-		super.onMachineAssembled(controller);
-		
+		doStandardNullControllerResponse(multiblock);
+		super.onMachineAssembled(multiblock);
+		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
+		{
+			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing().getOpposite()), 2);
+		}
+
 	}
 
 	@Override
