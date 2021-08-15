@@ -91,9 +91,10 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	public @Nullable QMDRecipeInfo<RECIPE> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs, List<ParticleStack> particleInputs)
 	{
 		List<RECIPE> matchingRecipes = recipeCache.get(QMDRecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs,particleInputs));
-
+		
 		if (matchingRecipes != null)
 		{	
+			
 			for(RECIPE recipe : matchingRecipes)
 			{
 				QMDRecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs,particleInputs,recipe.getExtras());
@@ -104,6 +105,7 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 			}
 	
 		}
+		
 		return null;
 	}
 	

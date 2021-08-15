@@ -32,8 +32,8 @@ public class NucleosynthesisChamberRecipeMaker
 			 List<List<FluidStack>> inputFluid = QMDRecipeHelper.getFluidInputLists(recipe.getFluidIngredients());
 			 List<List<FluidStack>> outputFluid = QMDRecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
 			
-			 long heat = (long) recipe.getExtras().get(0);
-			 long maxEnergy = (long) recipe.getExtras().get(1);
+			 long maxEnergy = (long) recipe.getExtras().get(0);
+			 long heat = (long) recipe.getExtras().get(1);
 			
 			
 			NucleosynthesisChamberRecipe jeiRecipe = new NucleosynthesisChamberRecipe(inputParticle, inputFluid, outputFluid, heat, maxEnergy);

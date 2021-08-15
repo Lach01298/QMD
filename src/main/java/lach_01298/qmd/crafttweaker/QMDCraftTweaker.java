@@ -257,9 +257,9 @@ public class QMDCraftTweaker
 	{
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient inputFluid1, IIngredient inputFluid2, IIngredient inputParticle, IIngredient outputFluid1, IIngredient outputFluid2, long heatRelased, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy) 
+		public static void addRecipe(IIngredient inputFluid1, IIngredient inputFluid2, IIngredient inputParticle, IIngredient outputFluid1, IIngredient outputFluid2, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy, @Optional(valueLong = 0L)long heatRelased) 
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.nucleosynthesis_chamber, Lists.newArrayList(inputFluid1, inputFluid2, inputParticle, outputFluid1, outputFluid2, heatRelased, maxEnergy)));
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.nucleosynthesis_chamber, Lists.newArrayList(inputFluid1, inputFluid2, inputParticle, outputFluid1, outputFluid2, maxEnergy,heatRelased)));
 		}
 		
 		@ZenMethod

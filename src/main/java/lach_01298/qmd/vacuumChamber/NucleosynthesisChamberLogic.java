@@ -863,9 +863,10 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					{
 						setPlasma(true);
 					}
-
+					
 					if (recipeInfo != null)
 					{
+						
 						if (rememberedRecipeInfo != null)
 						{
 							if (rememberedRecipeInfo.getRecipe() != recipeInfo.getRecipe())
@@ -1001,7 +1002,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	{
 		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
 		particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
-		Long totalHeat = (Long) recipeInfo.getRecipe().getExtras().get(0);
+		Long totalHeat = (Long) recipeInfo.getRecipe().getHeatReleased();
 		casingHeating = totalHeat/(double)(recipeParticleWork) * getMultiblock().beams.get(0).getParticleStack().getAmount();
 		
 		casingHeatBuffer.addHeat((long)casingHeating, false);
@@ -1044,6 +1045,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		tanks.add(getMultiblock().tanks.get(4));
 		tanks.add(getMultiblock().tanks.get(5));
 		recipeInfo = nucleosynthesis_chamber.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), tanks, particles);
+
 	}
 
 
