@@ -337,9 +337,9 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	
 	//accelerator control
-	@Callback(doc = "--function(int energy_percetage):int changes output particle energy to this percentage of the max energy (For decelerators it outputs the opposite percentage e.g. 15% -> 85% output energy). Can only be between 5 and 100 inclusive or 0 to turn of accelerator entirely. For beam diverters this only turns it on/off. Returns what it was set to")
+	@Callback(doc = "--function(int energy_percentage):int changes output particle energy to this percentage of the max energy (For decelerators it outputs the opposite percentage e.g. 15% -> 85% output energy). Can only be between 5 and 100 inclusive or 0 to turn of accelerator entirely. For beam diverters this only turns it on/off. Returns what it was set to")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] setEnergyPercetage(Context context, Arguments args) 
+	public Object[] setEnergyPercentage(Context context, Arguments args) 
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		getMultiblock().computerControlled = true;
@@ -372,7 +372,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function():int Returns the energyPercentage set.")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getEnergyPercetage(Context context, Arguments args) 
+	public Object[] getEnergyPercentage(Context context, Arguments args) 
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		return new Object[] {getMultiblock().energyPercentage};

@@ -1,6 +1,7 @@
 package lach_01298.qmd.particle;
 
 import lach_01298.qmd.config.QMDConfig;
+import nc.util.NCMath;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 
@@ -25,8 +26,8 @@ public class ParticleStack
 	public ParticleStack(Particle particle, int amount, long meanEnergy, double focus)
 	{
 		this.particle =particle;
-		this.amount = amount;
-		this.meanEnergy = meanEnergy;
+		this.amount = (int) NCMath.clamp(amount,0, Integer.MAX_VALUE);
+		this.meanEnergy = NCMath.clamp(meanEnergy,0, Long.MAX_VALUE);
 		this.focus= focus;
 		
 	}
@@ -34,8 +35,8 @@ public class ParticleStack
 	public ParticleStack(Particle particle, int amount, long meanEnergy)
 	{
 		this.particle =particle;
-		this.meanEnergy = meanEnergy;
-		this.amount = amount;
+		this.meanEnergy = NCMath.clamp(meanEnergy,0, Long.MAX_VALUE);
+		this.amount = (int) NCMath.clamp(amount,0, Integer.MAX_VALUE);
 		this.focus= 0;
 		
 	}
@@ -43,7 +44,7 @@ public class ParticleStack
 	public ParticleStack(Particle particle, int amount)
 	{
 		this.particle =particle;
-		this.amount = amount;
+		this.amount = (int) NCMath.clamp(amount,0, Integer.MAX_VALUE);
 		this.meanEnergy = 0;
 		this.focus= 0;
 		

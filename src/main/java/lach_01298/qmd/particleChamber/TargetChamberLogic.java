@@ -284,8 +284,8 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		{
 			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
 			{
-				getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
-			
+				
+				
 				refreshRecipe();
 				
 				if(recipeInfo != null)
@@ -301,6 +301,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 					
 					if(canProduceProduct())
 					{
+						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
 						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
 						produceProduct();
 						produceBeams();

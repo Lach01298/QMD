@@ -502,12 +502,13 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		{
 			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
 			{
-				getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
+			
 			
 				refreshRecipe();
 				
 				if(recipeInfo != null)
 				{
+					getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
 					produceBeams();
 	
 				}
