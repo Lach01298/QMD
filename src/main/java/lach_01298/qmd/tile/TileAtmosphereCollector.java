@@ -98,7 +98,7 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 	public void process() 
 	{
 		FluidStack fluidStack = AtmosphereCollectorRecipes.getRecipe(world.provider.getDimension());
-		if(fluidStack != null)
+		if(fluidStack != null && !getTanks().get(0).isFull())
 		{
 			getEnergyStorage().changeEnergyStored((int) -QMDConfig.processor_power[1]);
 			

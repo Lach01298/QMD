@@ -552,21 +552,32 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			double size = 1;
 			switch (fluid.getFluid().getName())
 			{
-			case "antiHydrogen":
+			case "antihydrogen":
 				size = 1;
 				break;
-			case "antiDeuterium":
+			case "antideuterium":
 				size = 2;
 				break;
-			case "antiTritium":
-			case "antiHelium3":
+			case "antitritium":
+			case "antihelium3":
 				size = 3;
 				break;
 			case "antiHelium":
 				size = 4;
-
+				break;
+			case "positronium":
+				size = 0.00054;
+			case "muonium":
+				size = 0.11;
+				break;
+			case "tauonium":
+				size = 1.9;
+				break;
+			case "glueballs":
+				size = 1.8;
 			}
 			size *= fluid.amount / 1000d;
+			
 			BlockPos middle = new BlockPos(getMultiblock().getMiddleX(), getMultiblock().getMiddleY(),
 					getMultiblock().getMiddleZ());
 

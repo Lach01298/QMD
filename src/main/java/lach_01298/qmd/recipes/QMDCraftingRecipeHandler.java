@@ -139,7 +139,6 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.ARSENIC.getID()), new Object[] {"III", "ICI", "III", 'I', "dustArsenic", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.LIQUID_NITROGEN.getID()), new Object[] {new BucketIngredient("liquid_nitrogen"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.LIQUID_HELIUM.getID()), new Object[] {new BucketIngredient("liquid_helium"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
-		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.ENDERIUM.getID()), new Object[] {new BucketIngredient("enderium"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.CRYOTHEUM.getID()), new Object[] {new BucketIngredient("cryotheum"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 
 		// Accelerator Controllers

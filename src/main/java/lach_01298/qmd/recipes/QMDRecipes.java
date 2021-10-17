@@ -61,7 +61,10 @@ import nc.util.StringHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -191,7 +194,7 @@ public class QMDRecipes
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()),fluidStack("liquid_helium", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.LIQUID_HELIUM.getID()),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()),fluidStack("liquid_nitrogen", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.LIQUID_NITROGEN.getID()),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()),fluidStack("cryotheum", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.CRYOTHEUM.getID()),1D,1D);
-		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()),fluidStack("enderium", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.ENDERIUM.getID()),1D,1D);
+		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()),fluidStack("enderium", FluidStackHelper.INGOT_VOLUME*4),new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.ENDERIUM.getID()),1D,1D);
 		
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDBlocks.dischargeLamp,1,LampType.EMPTY.getID()),fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME/4),new ItemStack(QMDBlocks.dischargeLamp,1,LampType.HYDROGEN.getID()),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDBlocks.dischargeLamp,1,LampType.EMPTY.getID()),fluidStack("helium", FluidStackHelper.BUCKET_VOLUME/4),new ItemStack(QMDBlocks.dischargeLamp,1,LampType.HELIUM.getID()),1D,1D);
@@ -209,13 +212,8 @@ public class QMDRecipes
 		NCRecipes.infuser.addOxidizingRecipe("dustTungsten",FluidStackHelper.BUCKET_VOLUME);
 		NCRecipes.infuser.addOxidizingRecipe("dustHafnium",FluidStackHelper.BUCKET_VOLUME);
 		
-		//extractor
-		NCRecipes.extractor.addRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.HYDROGEN.getID())),new ItemStack(QMDItems.canister),fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME),1D,1D);
-		NCRecipes.extractor.addRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.DEUTERIUM.getID())),new ItemStack(QMDItems.canister),fluidStack("deuterium", FluidStackHelper.BUCKET_VOLUME),1D,1D);
-		NCRecipes.extractor.addRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID())),new ItemStack(QMDItems.canister),fluidStack("tritium", FluidStackHelper.BUCKET_VOLUME),1D,1D);
-		NCRecipes.extractor.addRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM3.getID())),new ItemStack(QMDItems.canister),fluidStack("helium_3", FluidStackHelper.BUCKET_VOLUME),1D,1D);
-		NCRecipes.extractor.addRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM.getID())),new ItemStack(QMDItems.canister),fluidStack("helium", FluidStackHelper.BUCKET_VOLUME),1D,1D);
-		NCRecipes.extractor.addRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.DIBORANE.getID())),new ItemStack(QMDItems.canister),fluidStack("diborane", FluidStackHelper.BUCKET_VOLUME),1D,1D);
+		
+		
 		
 		// Fluid Enricher		
 		NCRecipes.enricher.addRecipe("dustTungstenOxide",fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME*2),fluidStack("sodium_tungstate_solution", FluidStackHelper.GEM_VOLUME), 1D, 1D);	
@@ -229,7 +227,7 @@ public class QMDRecipes
 			
 		
 		// Chemical reactor
-		NCRecipes.chemical_reactor.addRecipe(fluidStack("sodium_tungstate_solution", FluidStackHelper.GEM_VOLUME), fluidStack("lead_nitrate_solution", FluidStackHelper.GEM_VOLUME), fluidStack("lead_tungstate_solution", FluidStackHelper.GEM_VOLUME),fluidStack("sodium_nitrate_solution", FluidStackHelper.GEM_VOLUME), 1D, 0.5D);
+		NCRecipes.chemical_reactor.addRecipe(fluidStack("sodium_tungstate_solution", FluidStackHelper.GEM_VOLUME), fluidStack("lead_nitrate_solution", FluidStackHelper.GEM_VOLUME), fluidStack("lead_tungstate_solution", FluidStackHelper.GEM_VOLUME),fluidStack("sodium_nitrate_solution", FluidStackHelper.GEM_VOLUME), 1D, 1D);
 		
 		
 		NCRecipes.chemical_reactor.addRecipe(fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("hydrochloric_acid", 2*FluidStackHelper.BUCKET_VOLUME),new EmptyFluidIngredient(), 1D, 1D);
@@ -366,9 +364,8 @@ public class QMDRecipes
 		NCRecipes.fission_irradiator.addRecipe("ingotUranium234", "ingotUranium235",1920000,0d,QMDRadSources.URANIUM_234);
 		NCRecipes.fission_irradiator.addRecipe("dustProtactinium231", "dustProtactinium233",3840000,0d,QMDRadSources.PROTACTINIUM_231);
 		NCRecipes.fission_irradiator.addRecipe("ingotCobalt", "ingotCobalt60",1920000,0d,0);
-		NCRecipes.fission_irradiator.addRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.DEUTERIUM.getID())), IItemAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID())),1920000,0d,0);
-		
-		
+		//NCRecipes.fission_irradiator.addRecipe(FluidUtil.getFilledBucket(fluidStack("deuterium", 1000).getStack()), FluidUtil.getFilledBucket(fluidStack("tritium", 1000).getStack()),60000,0d,0); //1920000
+
 		
 		//fuel reprocessor
 		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionLight",AbstractRecipeHandler.chanceOreStack("dustStrontium", 1, 20),AbstractRecipeHandler.chanceOreStack("dustStrontium90", 1, 5),AbstractRecipeHandler.chanceOreStack("dustYttrium", 1, 5),AbstractRecipeHandler.chanceOreStack("dustZirconium", 1, 20),AbstractRecipeHandler.chanceOreStack("dustNiobium", 1, 5),AbstractRecipeHandler.chanceOreStack("dustMolybdenum", 1, 30),AbstractRecipeHandler.chanceOreStack("dustRuthenium106", 1, 5),AbstractRecipeHandler.chanceOreStack("dustSilver", 1, 10));

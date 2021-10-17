@@ -120,7 +120,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		// neutron reactions
 			
-		addRecipe("ingotBerylium9", new ParticleStack(Particles.neutron, 345000, 15000), "ingotLithium7",
+		addRecipe("ingotBeryllium", new ParticleStack(Particles.neutron, 345000, 15000), "ingotLithium7",
 				new ParticleStack(Particles.triton), emptyParticleStack(), emptyParticleStack(), 26000, 0.03, -9930);
 		
 		addRecipe("ingotBoron11", new ParticleStack(Particles.neutron, 396000, 12500), "ingotBeryllium9",
@@ -129,7 +129,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("dustGraphite", new ParticleStack(Particles.neutron, 240000, 29500), "ingotBoron11",
 				new ParticleStack(Particles.deuteron), emptyParticleStack(), emptyParticleStack(), 60000, 0.1, -13200);
 		
-		addRecipe("dustGraphite", new ParticleStack(Particles.neutron, 434000, 105000), "ingotBerylium7",
+		addRecipe("dustGraphite", new ParticleStack(Particles.neutron, 434000, 105000), "ingotBeryllium7",
 				new ParticleStack(Particles.helion), new ParticleStack(Particles.neutron,3), emptyParticleStack(), 150000, 0.014, -45800);
 		
 		addRecipe("ingotSodium", new ParticleStack(Particles.neutron, 233100, 17000), "ingotSodium22",
@@ -279,7 +279,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addRecipe("ingotPlutonium238",new ParticleStack(Particles.deuteron, 243600, 11000), "ingotPlutonium239",
 				new ParticleStack(Particles.proton), emptyParticleStack(), emptyParticleStack(), 17000, 0.095, 3420);
 		
-		addRecipe("ingotPutonium241",new ParticleStack(Particles.deuteron, 189300, 10500), "ingotAmericium241",
+		addRecipe("ingotPlutonium241",new ParticleStack(Particles.deuteron, 189300, 10500), "ingotAmericium241",
 				emptyParticleStack(), new ParticleStack(Particles.neutron,2), emptyParticleStack(), 19500, 0.22, -3500);
 		
 		addRecipe("ingotPlutonium242", new ParticleStack(Particles.deuteron,182100,12000), "ingotAmericium242",
@@ -412,7 +412,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		
 		//Helion reactions
-		addRecipe("ingotLithium6", new ParticleStack(Particles.helion, 189000, 11000), "ingotBerylium7",
+		addRecipe("ingotLithium6", new ParticleStack(Particles.helion, 189000, 11000), "ingotBeryllium7",
 				new ParticleStack(Particles.deuteron), emptyParticleStack(), emptyParticleStack(), 30000, 0.22, -397);	
 		
 		addRecipe("ingotLithium6", new ParticleStack(Particles.helion, 176000, 30000), emptyItemStack(),
