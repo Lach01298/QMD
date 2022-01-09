@@ -541,16 +541,16 @@ public class MaterialTypes
 	
 	public static enum CellType implements IItemCapacity
 	{
-		EMPTY("empty", 0, QMDConfig.cell_capacity[0]),
-		ANTIHYDROGEN("antihydrogen", 1, QMDConfig.cell_capacity[1]),
-		ANTIDEUTERIUM("antideuterium",2,QMDConfig.cell_capacity[2]),
-		ANTITRITIUM("antitritium", 3,QMDConfig.cell_capacity[3]),
-		ANTIHELIUM3("antihelium3", 4, QMDConfig.cell_capacity[4]),
-		ANTIHELIUM("antihelium", 5, QMDConfig.cell_capacity[5]),
-		POSITRONIUM("positronium", 6, QMDConfig.cell_capacity[6]),
-		MUONIUM("muonium",7, QMDConfig.cell_capacity[7]),
-		TAUONIUM("tauonium", 8, QMDConfig.cell_capacity[8]),
-		GLUEBALLS("glueballs", 9, QMDConfig.cell_capacity[9]);
+		EMPTY("empty", 0, 0),
+		ANTIHYDROGEN("antihydrogen", 1, 100000),
+		ANTIDEUTERIUM("antideuterium",2,100000),
+		ANTITRITIUM("antitritium", 3,100000),
+		ANTIHELIUM3("antihelium3", 4, 100000),
+		ANTIHELIUM("antihelium", 5, 100000),
+		POSITRONIUM("positronium", 6, 100000),
+		MUONIUM("muonium",7, 10000),
+		TAUONIUM("tauonium", 8, 100000),
+		GLUEBALLS("glueballs", 9, 100000);
 		 
 		private String name;
 		private int id;
@@ -590,13 +590,13 @@ public class MaterialTypes
 	
 	public static enum CanisterType implements IItemCapacity
 	{
-		EMPTY("empty", 0, QMDConfig.canister_capacity[0]),
-		HYDROGEN("hydrogen", 1, QMDConfig.canister_capacity[1]),
-		DEUTERIUM("deuterium",2,QMDConfig.canister_capacity[2]),
-		TRITIUM("tritium", 3,QMDConfig.canister_capacity[3]),
-		HELIUM3("helium3", 4, QMDConfig.canister_capacity[4]),
-		HELIUM("helium", 5, QMDConfig.canister_capacity[5]),
-		DIBORANE("diborane", 6, QMDConfig.canister_capacity[6]);
+		EMPTY("empty", 0, 0),
+		HYDROGEN("hydrogen", 1, 10000000),
+		DEUTERIUM("deuterium",2, 10000000),
+		TRITIUM("tritium", 3, 10000000),
+		HELIUM3("helium3", 4, 10000000),
+		HELIUM("helium", 5, 10000000),
+		DIBORANE("diborane", 6, 10000000);
 		 
 		private String name;
 		private int id;
@@ -637,11 +637,11 @@ public class MaterialTypes
 	
 	public static enum SourceType implements IItemCapacity
 	{
-		TUNGSTEN_FILAMENT("tungsten_filament", 0, QMDConfig.source_capacity[0]),
-		SODIUM_22("sodium_22", 1, QMDConfig.source_capacity[1]),
-		COBALT_60("cobalt_60",2,QMDConfig.source_capacity[2]),
-		IRIDIUM_192("iridium_192", 3, QMDConfig.source_capacity[3]),
-		CALCIUM_48("calcium_48", 4, QMDConfig.source_capacity[4]);
+		TUNGSTEN_FILAMENT("tungsten_filament", 0, 50000000),
+		SODIUM_22("sodium_22", 1, 5000000),
+		COBALT_60("cobalt_60",2,1000000),
+		IRIDIUM_192("iridium_192", 3, 1000000),
+		CALCIUM_48("calcium_48", 4, 5000000);
 		
 		 
 		private String name;

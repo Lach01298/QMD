@@ -1,6 +1,6 @@
 package lach_01298.qmd.machine.container;
 
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
 import nc.container.ContainerTile;
 import nc.recipe.BasicRecipeHandler;
@@ -73,7 +73,7 @@ public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileIte
 					}
 				}
 
-				if (fuelHandler.isValidItemInput(IItemAmount.cleanNBT(itemstack1)))
+				if (fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(itemstack1)))
 				{
 
 					if (!mergeItemStack(itemstack1, tile.itemInputSize, tile.itemInputSize + tile.itemFuelSize, false))

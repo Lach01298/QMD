@@ -1,7 +1,7 @@
 package lach_01298.qmd.multiblock.container;
 
 import lach_01298.qmd.container.slot.SlotProcessorInputIgnoreNBT;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
@@ -75,7 +75,7 @@ public class ContainerExoticContainmentController
 			}
 			else
 			{
-				if (recipeHandler.isValidItemInput(IItemAmount.cleanNBT(itemstack1)))
+				if (recipeHandler.isValidItemInput(IItemParticleAmount.cleanNBT(itemstack1)))
 				{
 					if (!mergeItemStack(itemstack1, 0, inputSlotsSize, false))
 					{

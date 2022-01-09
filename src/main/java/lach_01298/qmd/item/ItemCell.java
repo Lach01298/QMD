@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 
 
 
-public class ItemCell extends NCItem implements IItemAmount
+public class ItemCell extends NCItem implements IItemParticleAmount
 {
 
 	public ItemCell()
@@ -140,7 +140,7 @@ public class ItemCell extends NCItem implements IItemAmount
 	}
 	
 	@Override
-	public ItemStack empty(ItemStack stack, int amount)
+	public ItemStack use(ItemStack stack, int amount)
 	{
 		
 		if(getAmountStored(stack) > amount)
@@ -201,57 +201,60 @@ public class ItemCell extends NCItem implements IItemAmount
 	
 	public void explode(World world, BlockPos pos, ItemStack stack)
 	{
-		double size = 1;
-		switch (stack.getMetadata())
+		if (!world.isRemote)
 		{
-		case 1:
-			size = 1;
-			break;
-		case 2:
-			size = 2;
-			break;
-		case 3:
-		case 4:
-			size = 3;
-			break;
-		case 5:
-			size = 4;
-			break;
-		case 6:
-			size = 0.00054;
-			break;
-		case 7:
-			size = 0.11;
-			break;
-		case 8:
-			size = 1.9;
-			break;
-		case 9:
-			size = 1.8;
 
-
-		}
-		
-		
-		 world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float)size, true);
-		world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
-
-		Set<EntityLivingBase> entitylist = new HashSet();
-		double radius = 128 * Math.sqrt(size);
-
-		entitylist.addAll(world.getEntitiesWithinAABB(EntityLivingBase.class,
-				new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius,
-						pos.getY() + radius, pos.getZ() + radius)));
-
-		for (EntityLivingBase entity : entitylist)
-		{
-			double rads = (1000 * 16 * 16 * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ);
-			IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-			entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-			
-			if (rads >= entityRads.getMaxRads())
+			double size = 1;
+			switch (stack.getMetadata())
 			{
-				entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+			case 1:
+				size = 1;
+				break;
+			case 2:
+				size = 2;
+				break;
+			case 3:
+			case 4:
+				size = 3;
+				break;
+			case 5:
+				size = 4;
+				break;
+			case 6:
+				size = 0.00054;
+				break;
+			case 7:
+				size = 0.11;
+				break;
+			case 8:
+				size = 1.9;
+				break;
+			case 9:
+				size = 1.8;
+
+			}
+
+			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*5f), true);
+			world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
+
+			Set<EntityLivingBase> entitylist = new HashSet();
+			double radius = 128 * Math.sqrt(size);
+
+			entitylist.addAll(world.getEntitiesWithinAABB(EntityLivingBase.class,
+					new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius,
+							pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius)));
+
+			for (EntityLivingBase entity : entitylist)
+			{
+				double rads = (100 * 32 * 32 * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ);
+				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
+				entityRads
+						.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
+
+				if (rads >= entityRads.getMaxRads())
+				{
+					entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+				}
 			}
 		}
 	}

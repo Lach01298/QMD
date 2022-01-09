@@ -18,7 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 
-public class ItemCanister extends NCItem implements IItemAmount
+public class ItemCanister extends NCItem implements IItemParticleAmount
 {
 
 	public ItemCanister()
@@ -120,7 +120,7 @@ public class ItemCanister extends NCItem implements IItemAmount
 	}
 	
 	@Override
-	public ItemStack empty(ItemStack stack, int amount)
+	public ItemStack use(ItemStack stack, int amount)
 	{
 		
 		if(getAmountStored(stack) > amount)

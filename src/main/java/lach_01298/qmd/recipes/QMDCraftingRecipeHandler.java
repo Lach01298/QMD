@@ -17,7 +17,7 @@ import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.item.QMDArmour;
 import lach_01298.qmd.item.QMDItems;
 import nc.ModCheck;
@@ -62,11 +62,11 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.oreLeacher, new Object[] {"PRP", "CFC", "PHP", 'P', "plateElite", 'F', "chassis", 'C', NCBlocks.chemical_reactor, 'R', NCBlocks.rock_crusher, 'H', "ingotHardCarbon"});
 		addShapedOreRecipe(QMDBlocks.irradiator, new Object[] {"TPT", "PFP", "TPT", 'P', "plateDU", 'F', "chassis", 'T', "ingotTungsten"});
 		addShapedOreRecipe(QMDBlocks.rtgStrontium, new Object[] {"AGA", "GSG", "AGA", 'S', "blockStrontium90",'A', "plateAdvanced", 'G', "ingotGraphite"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(QMDBlocks.atmosphereCollector, new Object[] {"ASA", "BMB", "ASA", 'A', "plateAdvanced",'S', "ingotSteel", 'B', Items.BUCKET, 'M', "motor"});
 		
-		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.fissionShield, 4, 0), new Object[] {"BHB", "HFH", "BHB", 'B', "plateBasic", 'F', "steelFrame", 'H', "ingotHafnium"});
 		addShapedOreRecipe(new ItemStack(QMDItems.cell), new Object[] {"WEW", "O O", "WRW", 'W', "wireBSCCO",'O', "ingotOsmiridium", 'R', NCBlocks.rtg_californium, 'E', "processorElite"});
 		addShapedOreRecipe(new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), new Object[] {"WMW", "BEB", "WMW", 'W', new ItemStack(QMDBlocks.RFCavity,1,RFCavityType.BSCCO.getID()),'M', "magnetNeodymium", 'B', QMDBlocks.beamline, 'E', "processorElite"});
@@ -74,6 +74,7 @@ public class QMDCraftingRecipeHandler
 		
 		addShapedOreRecipe(QMDItems.leptonCannon, new Object[] {"EL ", "OBS", "T  ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'S', "solenoidCopper", 'T', "ingotSuperAlloy"});
 		addShapedOreRecipe(QMDItems.gluonGun, new Object[] {"TT ", "OBB", "EL ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'T', "ingotSuperAlloy"});
+		addShapedOreRecipe(QMDItems.antimatterLauncher, new Object[] {"TT ", "LBB", "EO ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'T', "ingotSuperAlloy"});
 		addShapedOreRecipe(QMDArmour.helm_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.helm_boron_nitride, 'B', NCItems.lithium_ion_cell});
 		addShapedOreRecipe(QMDArmour.chest_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.chest_boron_nitride, 'B', NCItems.lithium_ion_cell});
 		addShapedOreRecipe(QMDArmour.legs_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.legs_boron_nitride, 'B', NCItems.lithium_ion_cell});
@@ -198,15 +199,15 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberFluidPort,4), new Object[] {"SIS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'F', "steelFrame", 'I', "servo"});
 		
 		//sources
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotSodium22",'B', "bioplastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "bioplastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "bioplastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCalcium48",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotSodium22",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotCalcium48",'B', "bioplastic"});
 		
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotSodium22",'B', "sheetPlastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "sheetPlastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "sheetPlastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCalcium48",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotSodium22",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotCalcium48",'B', "sheetPlastic"});
 		
 		
 		//detectors

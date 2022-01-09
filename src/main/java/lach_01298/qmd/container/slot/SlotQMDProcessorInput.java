@@ -1,6 +1,6 @@
 package lach_01298.qmd.container.slot;
 
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.inventory.Slot;
@@ -31,7 +31,7 @@ public class SlotQMDProcessorInput extends Slot
 	{
 		ItemStack item = stack.copy();
 		
-		return recipeHandler.isValidItemInput(IItemAmount.cleanNBT(item));
+		return recipeHandler.isValidItemInput(IItemParticleAmount.cleanNBT(item));
 	}
 
 	public int getSlotStackLimit()

@@ -7,6 +7,7 @@ import nc.tile.internal.energy.EnergyConnection;
 import nc.util.MaterialHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraftforge.fluids.Fluid;
@@ -54,10 +55,12 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 			{
 				markDirty();
 			}
+			
+			pushFluid();
+			
 		}
 	}
 
-	
 	@Override
 	public boolean setRecipeStats()
 	{

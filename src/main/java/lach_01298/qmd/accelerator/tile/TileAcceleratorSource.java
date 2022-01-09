@@ -10,7 +10,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.gui.GUI_ID;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.network.QMDTileUpdatePacket;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -204,7 +204,7 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 		{
 			return false;
 		}
-		return QMDRecipes.accelerator_source.isValidItemInput(IItemAmount.cleanNBT(stack));
+		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 	}
 	
 	

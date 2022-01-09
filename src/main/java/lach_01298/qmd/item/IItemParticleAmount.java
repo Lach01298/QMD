@@ -23,7 +23,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public interface IItemAmount 
+public interface IItemParticleAmount 
 {	
 
 	
@@ -40,7 +40,7 @@ public interface IItemAmount
 		return stack;
 	}
 	
-	public default ItemStack empty(ItemStack stack, int amount)
+	public default ItemStack use(ItemStack stack, int amount)
 	{
 		if(getAmountStored(stack) > amount)
 		{
@@ -66,9 +66,9 @@ public interface IItemAmount
 	
 	public static ItemStack fullItem(ItemStack stack)
 	{
-		if(stack.getItem() instanceof IItemAmount)
+		if(stack.getItem() instanceof IItemParticleAmount)
 		{
-			IItemAmount item = (IItemAmount) stack.getItem();
+			IItemParticleAmount item = (IItemParticleAmount) stack.getItem();
 			item.setAmountStored(stack, item.getCapacity(stack));
 		}
 		return stack;
@@ -82,24 +82,24 @@ public interface IItemAmount
 		if (nbt == null) {
 			return 0;
 		}
-		return nbt.getInteger("amount");
+		return nbt.getInteger("particle_amount");
 	}
 
 	public default void setAmountStored(ItemStack stack, int amount) 
 	{
 		
-		if(stack.getItem() instanceof IItemAmount)
+		if(stack.getItem() instanceof IItemParticleAmount)
 		{
 			NBTTagCompound nbt = getStorageNBT(stack);
-			if (nbt != null && nbt.hasKey("amount")) 
+			if (nbt != null && nbt.hasKey("particle_amount")) 
 			{
 				if(amount< getCapacity(stack))
 				{
-					nbt.setInteger("amount", amount);
+					nbt.setInteger("particle_amount", amount);
 				}
 				else
 				{
-					nbt.setInteger("amount", getCapacity(stack));
+					nbt.setInteger("particle_amount", getCapacity(stack));
 				}
 			}
 			else
@@ -108,13 +108,13 @@ public interface IItemAmount
 				NBTTagCompound storage =  new NBTTagCompound();
 				if(amount< getCapacity(stack))
 				{
-					storage.setInteger("amount", amount);
+					storage.setInteger("particle_amount", amount);
 				}
 				else
 				{
-					storage.setInteger("amount", getCapacity(stack));
+					storage.setInteger("particle_amount", getCapacity(stack));
 				}
-				nbt.setTag("storage",storage);
+				nbt.setTag("particle_storage",storage);
 				stack.setTagCompound(nbt);
 			}
 		}	
@@ -123,11 +123,11 @@ public interface IItemAmount
 	public static NBTTagCompound getStorageNBT(ItemStack stack) 
 	{
 		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt == null || !nbt.hasKey("storage")) 
+		if (nbt == null || !nbt.hasKey("particle_storage")) 
 		{
 			return null;
 		}
-		return nbt.getCompoundTag("storage");
+		return nbt.getCompoundTag("particle_storage");
 	}
 	
 }

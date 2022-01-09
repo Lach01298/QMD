@@ -16,7 +16,7 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
@@ -581,7 +581,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			BlockPos middle = new BlockPos(getMultiblock().getMiddleX(), getMultiblock().getMiddleY(),
 					getMultiblock().getMiddleZ());
 
-			getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) size * 10f,
+			getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) size * 50f,
 					true);
 			getMultiblock().WORLD.spawnEntity(
 					new EntityGammaFlash(getMultiblock().WORLD, middle.getX(), middle.getY(), middle.getZ(), size));
@@ -635,11 +635,11 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		ArrayList<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
 		TileExoticContainmentController cont = (TileExoticContainmentController) getMultiblock().controller;
 
-		if (cont.getInventoryStacks().get(0).getItem() instanceof IItemAmount)
+		if (cont.getInventoryStacks().get(0).getItem() instanceof IItemParticleAmount)
 		{
 
 			ItemStack itemStack = cont.getInventoryStacks().get(0);
-			IItemAmount item = (IItemAmount) itemStack.getItem();
+			IItemParticleAmount item = (IItemParticleAmount) itemStack.getItem();
 
 			if (item.getAmountStored(itemStack) == item.getCapacity(itemStack) && item.getCapacity(itemStack) > 0)
 			{
@@ -666,7 +666,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				{
 					// fill empty cell
 					ItemIngredient itemIngredient = new ItemIngredient(
-							IItemAmount.cleanNBT(cont.getInventoryStacks().get(0)));
+							IItemParticleAmount.cleanNBT(cont.getInventoryStacks().get(0)));
 					itemIngredients.add(itemIngredient);
 				}
 				else
@@ -789,10 +789,10 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			return;
 		}
 
-		IItemAmount item;
-		if (itemInput.getItem() instanceof IItemAmount)
+		IItemParticleAmount item;
+		if (itemInput.getItem() instanceof IItemParticleAmount)
 		{
-			item = (IItemAmount) itemInput.getItem();
+			item = (IItemParticleAmount) itemInput.getItem();
 		}
 		else
 		{
@@ -869,6 +869,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
 				if (getMultiblock().tanks.get(2).fill(fluidProduct, false) == fluidProduct.amount)
 				{
+					System.out.println("hi");
 					getMultiblock().tanks.get(2).fill(fluidProduct, true);
 					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
 

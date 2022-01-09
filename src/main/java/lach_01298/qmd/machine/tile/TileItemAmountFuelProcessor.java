@@ -8,7 +8,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import nc.config.NCConfig;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.AbstractRecipeHandler;
@@ -136,7 +136,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		List<ItemStack> stacks = new ArrayList();
 		for(ItemStack stack : getItemFuels())
 		{
-			stacks.add(IItemAmount.cleanNBT(stack));
+			stacks.add(IItemParticleAmount.cleanNBT(stack));
 		}
 		
 		fuelInfo = fuelHandler.getRecipeInfoFromInputs(stacks,new ArrayList<Tank>());
@@ -267,10 +267,10 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		
 		private void useFuel(int slot)
 		{
-			if(getInventoryStacks().get(slot).getItem() instanceof IItemAmount)
+			if(getInventoryStacks().get(slot).getItem() instanceof IItemParticleAmount)
 			{
-				IItemAmount item = (IItemAmount) getInventoryStacks().get(slot).getItem();
-				getInventoryStacks().set(slot,item.empty(getInventoryStacks().get(slot), 1));	
+				IItemParticleAmount item = (IItemParticleAmount) getInventoryStacks().get(slot).getItem();
+				getInventoryStacks().set(slot,item.use(getInventoryStacks().get(slot), 1000));	//TODO
 			}
 		}
 
@@ -412,7 +412,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 					return false;
 				}		
 				
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(IItemAmount.cleanNBT(stack), getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(IItemAmount.cleanNBT(stack));
+				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack), getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 			}
 			else
 			{

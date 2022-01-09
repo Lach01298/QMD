@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 
-public class ItemSource extends NCItem implements IItemAmount
+public class ItemSource extends NCItem implements IItemParticleAmount
 {
 
 	public ItemSource()
@@ -100,7 +100,7 @@ public class ItemSource extends NCItem implements IItemAmount
 	}
 	
 	@Override
-	public ItemStack empty(ItemStack stack, int amount)
+	public ItemStack use(ItemStack stack, int amount)
 	{
 		
 		if(getAmountStored(stack) > amount)

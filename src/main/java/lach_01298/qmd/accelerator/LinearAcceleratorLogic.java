@@ -24,16 +24,15 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import nc.multiblock.Multiblock;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
@@ -497,31 +496,46 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 	private void produceSourceBeam()
 	{
-		
-		
-		IParticleIngredient particleIngredient = recipeInfo.getRecipe().getParticleProducts().get(0);
-		getAccelerator().beams.get(1).setParticleStack(particleIngredient.getStack());
-		if(getAccelerator().beams.get(1).getParticleStack() != null)
+		if (source.getInventoryStacks().get(0).getItem() instanceof IItemParticleAmount)
 		{
-			ParticleStack particle = getAccelerator().beams.get(1).getParticleStack();
-			
-			if(getAccelerator().computerControlled)
+			IItemParticleAmount item = (IItemParticleAmount) source.getInventoryStacks().get(0).getItem();
+			IParticleIngredient particleProduct = recipeInfo.getRecipe().getParticleProducts().get(0);
+			if (particleProduct.getStack() != null)
 			{
-				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage * Math.abs(particle.getParticle().getCharge()) * (getAccelerator().energyPercentage/100d)));
+				int outputAmount = particleProduct.getStack().getAmount();
+				if (item.getAmountStored(source.getInventoryStacks().get(0)) < outputAmount)
+				{
+					outputAmount = item.getAmountStored(source.getInventoryStacks().get(0));
+				}
+
+				ParticleStack outputStack = particleProduct.getStack();
+				outputStack.setAmount(outputAmount);
+				getAccelerator().beams.get(1).setParticleStack(outputStack);
+
+				ParticleStack beam = getAccelerator().beams.get(1).getParticleStack();
+
+				if (getAccelerator().computerControlled)
+				{
+					beam.addMeanEnergy((long) (Equations.linacEnergyGain(getAccelerator().acceleratingVoltage, beam)
+							* (getAccelerator().energyPercentage / 100d)));
+				}
+				else
+				{
+					beam.addMeanEnergy((long) (Equations.linacEnergyGain(getAccelerator().acceleratingVoltage, beam)
+							* getRedstoneLevel() / 15d));
+				}
+
+				beam.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, beam)
+						- Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), beam));
+				if (beam.getFocus() <= 0)
+				{
+					getAccelerator().errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
+				}
+				source.getInventoryStacks().set(0, item.use(source.getInventoryStacks().get(0), outputAmount));
+
 			}
-			else
-			{
-				particle.addMeanEnergy((long) (getAccelerator().acceleratingVoltage * Math.abs(particle.getParticle().getCharge()) * getRedstoneLevel()/15d));
-			}
-			
-			particle.addFocus(getAccelerator().quadrupoleStrength * Math.abs(particle.getParticle().getCharge())-getBeamLength() * QMDConfig.beamAttenuationRate);
-			if(particle.getFocus() <= 0)
-			{
-				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
-			}
-			
-			useItemAmount();
 		}
+
 	}
 
 	private void produceBeam()
@@ -534,15 +548,15 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			ParticleStack outputBeam = getAccelerator().beams.get(1).getParticleStack();
 			if(outputBeam != null)
 			{
-				outputBeam.addFocus(getAccelerator().quadrupoleStrength * Math.abs(outputBeam.getParticle().getCharge())-getBeamLength() * QMDConfig.beamAttenuationRate);
+				outputBeam.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, outputBeam) - Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), outputBeam));
 				
 				if(getAccelerator().computerControlled)
 				{
-					outputBeam.addMeanEnergy((long) (getAccelerator().acceleratingVoltage * Math.abs(outputBeam.getParticle().getCharge()) * (getAccelerator().energyPercentage/100d)));
+					outputBeam.addMeanEnergy((long) (Equations.linacEnergyGain(getAccelerator().acceleratingVoltage,outputBeam) * (getAccelerator().energyPercentage/100d)));
 				}
 				else
 				{
-					outputBeam.addMeanEnergy((long) (getAccelerator().acceleratingVoltage*Math.abs(outputBeam.getParticle().getCharge())*getRedstoneLevel()/15d));
+					outputBeam.addMeanEnergy((long) (Equations.linacEnergyGain(getAccelerator().acceleratingVoltage,outputBeam)*getRedstoneLevel()/15d));
 				}
 				
 				
@@ -556,30 +570,18 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 	}
 
-	private void useItemAmount()
-	{
-		if(source.getInventoryStacks().get(0).getItem() instanceof IItemAmount)
-		{
-			IItemAmount item = (IItemAmount) source.getInventoryStacks().get(0).getItem();
-			source.getInventoryStacks().set(0,item.empty(source.getInventoryStacks().get(0), 1));
-		}
-	}
+
 
 
 	protected void refreshRecipe() 
 	{
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
-		ItemStack item = IItemAmount.cleanNBT(source.getInventoryStacks().get(0));
+		ItemStack item = IItemParticleAmount.cleanNBT(source.getInventoryStacks().get(0));
 		items.add(item);
 		recipeInfo = accelerator_source.getRecipeInfoFromInputs(items, new ArrayList<Tank>(), new ArrayList<ParticleStack>());
 	}
 	
-	
-	
 
-
-	
-	
 	// Network
 	
 	@Override
@@ -605,8 +607,6 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	
-	
-	
 	// NBT
 	
 	@Override
@@ -622,8 +622,6 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		super.readFromLogicTag(logicTag, syncReason);
 	}
 
-	
-	
 	
 	@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player)
@@ -649,7 +647,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	}
 
 
-	public TileAcceleratorSource getSource() {
+	public TileAcceleratorSource getSource() 
+	{
 		return source;
 	}
 }

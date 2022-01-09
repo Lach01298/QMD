@@ -23,20 +23,20 @@ public class AcceleratorSourceRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		addRecipe(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID()),new ParticleStack(Particles.electron,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID()),new ParticleStack(Particles.positron,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID()),new ParticleStack(Particles.calcium_48_ion,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.HYDROGEN.getID()),new ParticleStack(Particles.proton,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.DEUTERIUM.getID()),new ParticleStack(Particles.deuteron,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID()),new ParticleStack(Particles.triton,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM3.getID()),new ParticleStack(Particles.helion,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM.getID()),new ParticleStack(Particles.alpha,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.DIBORANE.getID()),new ParticleStack(Particles.boron_ion,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIHYDROGEN.getID()),new ParticleStack(Particles.antiproton,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIDEUTERIUM.getID()),new ParticleStack(Particles.antideuteron,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTITRITIUM.getID()),new ParticleStack(Particles.antitriton,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIHELIUM3.getID()),new ParticleStack(Particles.antihelion,QMDConfig.source_particle_amount,0,0.2));
-		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIHELIUM.getID()),new ParticleStack(Particles.antialpha,QMDConfig.source_particle_amount,0,0.2));
+		addRecipe(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID()),new ParticleStack(Particles.electron,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID()),new ParticleStack(Particles.positron,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID()),new ParticleStack(Particles.calcium_48_ion,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.HYDROGEN.getID()),new ParticleStack(Particles.proton,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.DEUTERIUM.getID()),new ParticleStack(Particles.deuteron,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID()),new ParticleStack(Particles.triton,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM3.getID()),new ParticleStack(Particles.helion,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM.getID()),new ParticleStack(Particles.alpha,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.canister,1,CanisterType.DIBORANE.getID()),new ParticleStack(Particles.boron_ion,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIHYDROGEN.getID()),new ParticleStack(Particles.antiproton,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIDEUTERIUM.getID()),new ParticleStack(Particles.antideuteron,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTITRITIUM.getID()),new ParticleStack(Particles.antitriton,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIHELIUM3.getID()),new ParticleStack(Particles.antihelion,QMDConfig.ion_source_output,0,0.2));
+		addRecipe(new ItemStack(QMDItems.cell,1,CellType.ANTIHELIUM.getID()),new ParticleStack(Particles.antialpha,QMDConfig.ion_source_output,0,0.2));
 		
 		
 		

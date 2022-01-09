@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -162,7 +162,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 		{
 			return false;
 		}
-		return QMDRecipes.accelerator_source.isValidItemInput(IItemAmount.cleanNBT(stack));
+		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 	}
 
 }

@@ -58,7 +58,7 @@ public class GuiNeutralContainmentController
 		int offset = 22;
 		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.exotic_containment_controller.name");
-		fontRenderer.drawString(title, offset, 5, fontColor);
+		fontRenderer.drawString(title, offset+22, 5, fontColor);
 
 		String maxTemperature = Lang.localise("gui.qmd.container.max_temperature",
 				Units.getSIFormat(multiblock.maxOperatingTemp, "K"));

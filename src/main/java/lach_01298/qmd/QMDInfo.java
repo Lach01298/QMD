@@ -142,7 +142,7 @@ public class QMDInfo
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++) {
 			info[i] = new String[] {
-					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
+					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(1000D*values[i].getEfficiency())/10d + "%"),
 					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.power", values[i].getBasePower())
 					};
 		}

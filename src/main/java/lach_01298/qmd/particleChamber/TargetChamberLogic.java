@@ -302,7 +302,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 					if(canProduceProduct())
 					{
 						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
-						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
+						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
 						produceProduct();
 						produceBeams();
 					}
@@ -439,7 +439,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private void produceProduct()
 	{
-		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+		recipeParticleWork = (long) Math.max(1000000,recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount()/getMultiblock().efficiency);
 		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
 		
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())

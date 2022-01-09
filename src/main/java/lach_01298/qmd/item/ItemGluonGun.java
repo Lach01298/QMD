@@ -61,6 +61,13 @@ public class ItemGluonGun extends ItemGun
 		ItemStack itemstack = player.getHeldItem(hand);
 		if(findCell(player) >=0 )
 		{
+			ItemStack cell = player.inventory.getStackInSlot(findCell(player));
+			ItemCell itemCell = (ItemCell) cell.getItem();
+			if(itemCell.getAmountStored(cell) < QMDConfig.gluon_particle_usage)
+			{
+				return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
+			}
+			
 			player.setActiveHand(hand);
 			
 			RayTraceResult lookingAt = rayTrace(player,QMDConfig.gluon_range,1.0f,true,true);
@@ -98,7 +105,13 @@ public class ItemGluonGun extends ItemGun
     		{
     			ItemStack cell = player.inventory.getStackInSlot(findCell(player));
     			ItemCell itemCell = (ItemCell) cell.getItem();
-    			player.inventory.setInventorySlotContents(findCell(player),itemCell.empty(cell, 1));
+    			if(itemCell.getAmountStored(cell) < QMDConfig.gluon_particle_usage)
+    			{
+    				user.stopActiveHand();
+    				return;
+    			}
+    			
+    			player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.gluon_particle_usage));
     			
     			World world = user.getEntityWorld();
     	    	RayTraceResult lookingAt = rayTrace(user,QMDConfig.gluon_range,1.0f,true,true);

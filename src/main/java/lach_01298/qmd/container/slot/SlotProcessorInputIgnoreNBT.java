@@ -1,6 +1,6 @@
 package lach_01298.qmd.container.slot;
 
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import nc.container.slot.SlotProcessorInput;
 import nc.recipe.BasicRecipeHandler;
 import net.minecraft.inventory.IInventory;

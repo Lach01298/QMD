@@ -27,6 +27,7 @@ import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
@@ -410,30 +411,31 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
-			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
-			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
-			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
+			ParticleStack beam = getAccelerator().beams.get(0).getParticleStack();
+			getAccelerator().beams.get(1).setParticleStack(beam.copy());
+			
+			Particle particle = beam.getParticle();
 	
-			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
+			ParticleStack beamOut = getAccelerator().beams.get(1).getParticleStack();
 			
 			
 			if(getAccelerator().computerControlled)
 			{
-				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getAccelerator().energyPercentage/100d)));
+				beamOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getAccelerator().energyPercentage/100d)));
 			}
 			else
 			{
-				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getRedstoneLevel()/15d)));
+				beamOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getRedstoneLevel()/15d)));
 			}
-			particleOut.addFocus(getAccelerator().quadrupoleStrength * Math.abs(particle.getCharge())-getBeamLength()*QMDConfig.beamAttenuationRate);
+			beamOut.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, beamOut) - Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), beamOut));
 			
-			if(particleOut.getFocus() <= 0)
+			if(beamOut.getFocus() <= 0)
 			{
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
 			
-			long synchrotronEnergy = (long) (Math.pow(particleOut.getMeanEnergy()/(1000*particleOut.getParticle().getMass()),3)/(2*Math.PI*1000000*getBeamRadius()));
-			getAccelerator().beams.get(2).setParticleStack(new ParticleStack(Particles.photon,particleOut.getAmount(),synchrotronEnergy,particleOut.getFocus()));
+			long synchrotronEnergy = Equations.synchrotronRadiationEnergy(getBeamRadius(),beamOut);
+			getAccelerator().beams.get(2).setParticleStack(new ParticleStack(Particles.photon,beamOut.getAmount(),synchrotronEnergy,beamOut.getFocus()));
 		}
 		else
 		{
@@ -446,17 +448,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		if(particle != null && getAccelerator().acceleratingVoltage > 0)
 		{
-			long maxEnergyFromFeild = (long)(Math.pow(particle.getCharge()*getAccelerator().dipoleStrength * getBeamRadius(), 2)/(2 * particle.getMass()) * 1000000);
-			long maxEnergyFromRadiation =  (long)(particle.getMass() * Math.pow((3 * getAccelerator().acceleratingVoltage * getBeamRadius())/Math.abs(particle.getCharge()), 1/4d) * 1000000);
-		
-			if(maxEnergyFromRadiation < maxEnergyFromFeild)
-			{
-				return maxEnergyFromRadiation;
-			}
-			else
-			{
-				return maxEnergyFromFeild;
-			}
+			return  Math.min(Equations.ringEnergyMaxEnergyFromDipole(getAccelerator().dipoleStrength, getBeamRadius(), particle.getCharge(), particle.getMass()), Equations.ringEnergyMaxEnergyFromRadiation(getAccelerator().acceleratingVoltage, getBeamRadius(), particle.getCharge(), particle.getMass()));
 		}
 		return 0;	
 	}

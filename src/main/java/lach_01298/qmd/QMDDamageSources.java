@@ -2,6 +2,7 @@ package lach_01298.qmd;
 
 import javax.annotation.Nullable;
 
+import lach_01298.qmd.entity.EntityAntimatterProjectile;
 import lach_01298.qmd.entity.EntityGluonBeam;
 import lach_01298.qmd.entity.EntityLeptonBeam;
 import net.minecraft.entity.Entity;
@@ -22,4 +23,9 @@ public class QMDDamageSources
 		return (new EntityDamageSourceIndirect("gluon_gun", beam, indirectEntityIn)).setDamageBypassesArmor();
 	}
 	
+	public static DamageSource causeAntimatterLauncherDamage(EntityAntimatterProjectile projectile, @Nullable Entity indirectEntityIn)
+	{
+		return (new EntityDamageSourceIndirect("antimatter_launcher", projectile, indirectEntityIn)).setDamageBypassesArmor();
+	}
+
 }

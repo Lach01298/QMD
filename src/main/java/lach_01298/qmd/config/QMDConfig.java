@@ -43,6 +43,7 @@ public class QMDConfig {
 	
 	public static double accelerator_thermal_conductivity;
 	public static int minimium_accelerator_ring_input_particle_energy;
+	public static int ion_source_output;
 	
 	public static int[] RF_cavity_voltage; //in keV
 	public static double[] RF_cavity_efficiency;
@@ -87,7 +88,9 @@ public class QMDConfig {
 	
 	public static int[] processor_power;
 	public static int[] processor_time;
+	public static double irradiator_rad_res;
 	public static String[] atmosphere_collector_recipes;
+	
 	
 	public static int[] tool_mining_level;
 	public static int[] tool_durability;
@@ -99,10 +102,15 @@ public class QMDConfig {
 	public static double[] lepton_radiation;
 	public static double[] lepton_range;
 	public static int lepton_cool_down;
+	public static int lepton_particle_usage;
 	
 	public static double gluon_damage;
 	public static double gluon_radiation;
 	public static double gluon_range;
+	public static int gluon_particle_usage;
+	
+	public static int antimatter_launcher_particle_usage;
+	public static int antimatter_launcher_cool_down;
 	
 	public static int[] hev_armour;
 	public static double[] hev_rad_res;
@@ -128,10 +136,7 @@ public class QMDConfig {
 
 	
 	
-	public static int source_particle_amount;
-	public static int[] source_capacity;
-	public static int[] canister_capacity;
-	public static int[] cell_capacity;
+
 	
 	public static boolean override_nc_recipes;
 	
@@ -175,8 +180,12 @@ public class QMDConfig {
 		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
 		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
 		
+		Property propertyIrradiatorRadRes = config.get(CATEGORY_PROCESSORS, "irradiator_rad_res", 10000.0D, Lang.localise("gui.qmd.config.processors.irradiator_rad_res.comment"), 0.0D, Double.MAX_VALUE);
+		propertyIrradiatorRadRes.setLanguageKey("gui.qmd.config.processors.irradiator_rad_res");
+		
 		Property propertyAtmosphereCollectorRecipes = config.get(CATEGORY_PROCESSORS, "atmosphere_collector_recipes", new String[] {"0:compressed_air:1000","-1:compressed_air:1000","1:compressed_air:1000"}, Lang.localise("gui.qmd.config.processors.atmosphere_collector_recipes.comment"));
 		propertyAtmosphereCollectorRecipes.setLanguageKey("gui.qmd.config.processors.atmosphere_collector_recipes");
+		
 		
 		
 		
@@ -206,7 +215,10 @@ public class QMDConfig {
 		Property propertyAcceleratorRingInputEnergy = config.get(CATEGORY_ACCELERATOR, "minimium_accelerator_ring_input_particle_energy", 5000, Lang.localise("gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorRingInputEnergy.setLanguageKey("gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy");
 		
-		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.04D, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
+		Property propertyIonSourceOutput = config.get(CATEGORY_ACCELERATOR, "ion_source_output", 10000, Lang.localise("gui.qmd.config.accelerator.ion_source_output.comment"), 1, 100000);
+		propertyIonSourceOutput.setLanguageKey("gui.qmd.config.accelerator.ion_source_output");
+		
+		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.02D, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
 		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
 		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 160, Lang.localise("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
 		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
@@ -260,7 +272,7 @@ public class QMDConfig {
 		Property propertyCollisionChamberPower = config.get(CATEGORY_PARTICLE_CHAMBER, "collision_chamber_power", 5000, Lang.localise("gui.qmd.config.particle_chamber.collision_chamber_power.comment"), 0, Integer.MAX_VALUE);
 		propertyCollisionChamberPower.setLanguageKey("gui.qmd.config.particle_chamber.collision_chamber_power");
 		
-		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {0.15D, 0.3D, 0.20D, 0.1D,0.05D}, Lang.localise("gui.qmd.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
+		Property propertyDetectorEfficiency = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_efficiency", new double[] {0.075D, 0.15D, 0.1D, 0.05D,0.025D}, Lang.localise("gui.qmd.config.particle_chamber.detector_efficiency.comment"), 0D, 100D);
 		propertyDetectorEfficiency.setLanguageKey("gui.qmd.config.particle_chamber.detector_efficiency");
 		Property propertyDetectorBasePower = config.get(CATEGORY_PARTICLE_CHAMBER, "detector_base_power", new int[] {200, 2000, 1000,200,100}, Lang.localise("gui.qmd.config.particle_chamber.detector_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyDetectorBasePower.setLanguageKey("gui.qmd.config.particle_chamber.detector_base_power");
@@ -315,6 +327,9 @@ public class QMDConfig {
 		propertyLeptonRange.setLanguageKey("gui.qmd.config.tools.lepton_range");
 		Property propertyLeptonCoolDown = config.get(CATEGORY_TOOLS, "lepton_cool_down", 8, Lang.localise("gui.qmd.config.tools.lepton_cool_down.comment"), 0, 10000);
 		propertyLeptonCoolDown.setLanguageKey("gui.qmd.config.tools.lepton_cool_down");
+		Property propertyLeptonParticleUsage = config.get(CATEGORY_TOOLS, "lepton_particle_usage", 500, Lang.localise("gui.qmd.config.tools.lepton_particle_usage.comment"), 0, 100000);
+		propertyLeptonParticleUsage.setLanguageKey("gui.qmd.config.tools.lepton_particle_usage");
+		
 		
 		Property propertyGluonDamage = config.get(CATEGORY_TOOLS, "gluon_damage", 10.0, Lang.localise("gui.qmd.config.tools.gluon_damage.comment"), 0, Float.MAX_VALUE);
 		propertyGluonDamage.setLanguageKey("gui.qmd.config.tools.gluon_damage");
@@ -322,7 +337,13 @@ public class QMDConfig {
 		propertyGluonRadiation.setLanguageKey("gui.qmd.config.tools.gluon_radiation");
 		Property propertyGluonRange = config.get(CATEGORY_TOOLS, "gluon_range", 40.0, Lang.localise("gui.qmd.config.tools.gluon_range.comment"), 0, 128.0);
 		propertyGluonRange.setLanguageKey("gui.qmd.config.tools.gluon_range");
+		Property propertyGluonParticleUsage = config.get(CATEGORY_TOOLS, "gluon_particle_usage", 100, Lang.localise("gui.qmd.config.tools.gluon_particle_usage.comment"), 0, 100000);
+		propertyGluonParticleUsage.setLanguageKey("gui.qmd.config.tools.gluon_particle_usage");
 		
+		Property propertyAntimatterLauncherParticleUsage = config.get(CATEGORY_TOOLS, "antimatter_launcher_particle_usage", 5000, Lang.localise("gui.qmd.config.tools.antimatter_launcher_particle_usage.comment"), 0, 100000);
+		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_particle_usage");
+		Property propertyAntimatterLauncherCoolDown = config.get(CATEGORY_TOOLS, "antimatter_launcher_cool_down", 30, Lang.localise("gui.qmd.config.tools.antimatter_launcher_cool_down.comment"), 0, 10000);
+		propertyAntimatterLauncherCoolDown.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_cool_down");
 		
 		Property propertyHEVArmour = config.get(CATEGORY_TOOLS, "hev_armour", new int[] {4, 7, 9, 4, 1, 3, 4, 1}, Lang.localise("gui.qmd.config.tools.hev_armour.comment"), 1, 25);
 		propertyHEVArmour.setLanguageKey("gui.qmd.config.tools.hev_armour");
@@ -394,6 +415,7 @@ public class QMDConfig {
 		List<String> propertyOrderProcessors = new ArrayList<String>();
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
+		propertyOrderProcessors.add(propertyIrradiatorRadRes.getName());
 		propertyOrderProcessors.add(propertyAtmosphereCollectorRecipes.getName());
 		
 		
@@ -413,6 +435,7 @@ public class QMDConfig {
 		
 		propertyOrderAccelerator.add(propertyAcceleratorThermalConductivity.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorRingInputEnergy.getName());
+		propertyOrderAccelerator.add(propertyIonSourceOutput.getName());
 		
 		propertyOrderAccelerator.add(propertyBeamAttenuationRate.getName());
 		propertyOrderAccelerator.add(propertyBeamDiverterRadius.getName());
@@ -475,10 +498,15 @@ public class QMDConfig {
 		propertyOrderTools.add(propertyLeptonRadiation.getName());
 		propertyOrderTools.add(propertyLeptonRange.getName());
 		propertyOrderTools.add(propertyLeptonCoolDown.getName());
+		propertyOrderTools.add(propertyLeptonParticleUsage.getName());
 		
 		propertyOrderTools.add(propertyGluonDamage.getName());
 		propertyOrderTools.add(propertyGluonRadiation.getName());
 		propertyOrderTools.add(propertyGluonRange.getName());
+		propertyOrderTools.add(propertyGluonParticleUsage.getName());
+		
+		propertyOrderTools.add(propertyAntimatterLauncherParticleUsage.getName());
+		propertyOrderTools.add(propertyAntimatterLauncherCoolDown.getName());
 		
 		propertyOrderTools.add(propertyHEVArmour.getName());
 		
@@ -537,6 +565,7 @@ public class QMDConfig {
 		{
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
+			irradiator_rad_res = propertyIrradiatorRadRes.getDouble();
 			atmosphere_collector_recipes = propertyAtmosphereCollectorRecipes.getStringList();
 			
 			
@@ -552,6 +581,7 @@ public class QMDConfig {
 			
 			accelerator_thermal_conductivity= propertyAcceleratorThermalConductivity.getDouble();
 			minimium_accelerator_ring_input_particle_energy= propertyAcceleratorRingInputEnergy.getInt();
+			ion_source_output= propertyIonSourceOutput.getInt();
 			
 			beamAttenuationRate = propertyBeamAttenuationRate.getDouble();
 			beamDiverterRadius = propertyBeamDiverterRadius.getInt();
@@ -606,11 +636,15 @@ public class QMDConfig {
 			lepton_radiation = readDoubleArrayFromConfig(propertyLeptonRadiation);
 			lepton_range = readDoubleArrayFromConfig(propertyLeptonRange);
 			lepton_cool_down = propertyLeptonCoolDown.getInt();
+			lepton_particle_usage = propertyLeptonParticleUsage.getInt();
 			
 			gluon_damage = propertyGluonDamage.getDouble();
 			gluon_radiation = propertyGluonRadiation.getDouble();
 			gluon_range = propertyGluonRange.getDouble();
+			gluon_particle_usage = propertyGluonParticleUsage.getInt();
 			
+			antimatter_launcher_particle_usage = propertyAntimatterLauncherParticleUsage.getInt();
+			antimatter_launcher_cool_down = propertyAntimatterLauncherCoolDown.getInt();
 			
 			hev_armour = readIntegerArrayFromConfig(propertyHEVArmour);
 			hev_rad_res = readDoubleArrayFromConfig(propertyHEVRadRes);
@@ -635,10 +669,7 @@ public class QMDConfig {
 			
 			
 			
-			source_particle_amount = propertySourceParticleAmount.getInt();
-			source_capacity = readIntegerArrayFromConfig(propertySourceCapacity);
-			canister_capacity = readIntegerArrayFromConfig(propertyCanisterCapacity);
-			cell_capacity = readIntegerArrayFromConfig(propertyCellCapacity);
+			
 			
 			
 			override_nc_recipes = propertyOverrideNCRecipes.getBoolean();
@@ -649,6 +680,7 @@ public class QMDConfig {
 		}
 		propertyProcessorPower.set(processor_power);
 		propertyProcessorTime.set(processor_time);
+		propertyIrradiatorRadRes.set(irradiator_rad_res);
 		propertyAtmosphereCollectorRecipes.set(atmosphere_collector_recipes);
 		
 		
@@ -664,6 +696,7 @@ public class QMDConfig {
 		
 		propertyAcceleratorBaseHeatCapacity.set(accelerator_base_heat_capacity);
 		propertyAcceleratorRingInputEnergy.set(minimium_accelerator_ring_input_particle_energy);
+		propertyIonSourceOutput.set(ion_source_output);
 		
 		propertyBeamAttenuationRate.set(beamAttenuationRate);
 		propertyBeamDiverterRadius.set(beamDiverterRadius);
@@ -713,11 +746,15 @@ public class QMDConfig {
 		propertyLeptonRadiation.set(lepton_radiation);
 		propertyLeptonRange.set(lepton_range);
 		propertyLeptonCoolDown.set(lepton_cool_down);
+		propertyLeptonParticleUsage.set(lepton_particle_usage);
 		
 		propertyGluonDamage.set(gluon_damage);
 		propertyGluonRadiation.set(gluon_radiation);
 		propertyGluonRange.set(gluon_range);
+		propertyGluonParticleUsage.set(gluon_particle_usage);
 		
+		propertyAntimatterLauncherParticleUsage.set(antimatter_launcher_particle_usage);
+		propertyAntimatterLauncherCoolDown.set(antimatter_launcher_cool_down);
 		
 		propertyHEVArmour.set(hev_armour);
 		propertyHEVRadRes.set(hev_rad_res);
@@ -743,10 +780,7 @@ public class QMDConfig {
 		propertyRTGPower.set(rtg_power);
 		
 		
-		propertySourceParticleAmount.set(source_particle_amount);
-		propertySourceCapacity.set(source_capacity);
-		propertyCanisterCapacity.set(canister_capacity);
-		propertyCellCapacity.set(cell_capacity);
+	
 		
 		propertyOverrideNCRecipes.set(override_nc_recipes);
 		//propertyItemTickerChunksPerTick.set(item_ticker_chunks_per_tick);

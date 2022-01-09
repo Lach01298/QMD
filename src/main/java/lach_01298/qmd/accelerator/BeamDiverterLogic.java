@@ -24,11 +24,9 @@ import lach_01298.qmd.multiblock.network.BeamDiverterUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import nc.multiblock.Multiblock;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -215,10 +213,6 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			
 		}
 		 
-		 
-		 
-		 
-		 
  
 		 refreshStats();
 		 super.onAcceleratorFormed();
@@ -289,25 +283,14 @@ public class BeamDiverterLogic extends AcceleratorLogic
 
 	}
 	
-	
-	public long getEnergyLoss()
-	{
-		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
-		{
-			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
-			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
-			return (long)(Math.pow(particle.getCharge(),2)/(6*Math.pow(particle.getMass(),4)*Math.pow(getBeamRadius(),2))*particleIn.getMeanEnergy());
-		}
-		
-		return 0;
-	}
-	
+
 	public long getMaxEnergy()
 	{
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
-			return (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getBeamRadius(),2)/(2*particle.getMass())*1000000);
+
+			return Equations.ringEnergyMaxEnergyFromDipole(getAccelerator().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());
 		}
 		
 		return 0;
@@ -315,10 +298,13 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	
 	public long getAcceleratorMaxEnergy(Particle particle)
 	{
+		
 		if(particle != null)
 		{
-			return (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getBeamRadius(),2)/(2*particle.getMass())*1000000);
+			
+			return Equations.ringEnergyMaxEnergyFromDipole(getAccelerator().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());	
 		}
+		
 		return 0;
 	}
 	
@@ -334,6 +320,11 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		return QMDConfig.beamDiverterRadius;
 	}
 	
+	
+	public long getEnergyLoss()
+	{
+		return Equations.cornerEnergyLoss(getAccelerator().beams.get(0).getParticleStack(),getBeamRadius());
+	}
 	
 
 	
@@ -351,18 +342,19 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
-			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
-			getAccelerator().beams.get(2).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
-			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
+			ParticleStack stackIn = getAccelerator().beams.get(0).getParticleStack();
+			getAccelerator().beams.get(1).setParticleStack(stackIn.copy());
+			getAccelerator().beams.get(2).setParticleStack(stackIn.copy());
 			
-			if(particleIn.getMeanEnergy() <= getMaxEnergy())
+			
+			if(stackIn.getMeanEnergy() <= getMaxEnergy())
 			{
 				ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
 				ParticleStack particleStraightOut = getAccelerator().beams.get(2).getParticleStack();
 				
-				particleOut.addMeanEnergy(-getEnergyLoss());
-				particleOut.addFocus(-getBeamLength()*QMDConfig.beamAttenuationRate);
-				particleStraightOut.addFocus(-getBeamLength()*QMDConfig.beamAttenuationRate);
+				particleOut.addMeanEnergy(-Equations.cornerEnergyLoss(stackIn,getBeamRadius()));
+				particleOut.addFocus(-Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), stackIn));
+				particleStraightOut.addFocus(-Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), stackIn));
 				
 				if(particleOut.getFocus() <= 0)
 				{

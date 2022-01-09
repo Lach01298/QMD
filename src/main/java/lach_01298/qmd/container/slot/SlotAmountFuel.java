@@ -1,6 +1,6 @@
 package lach_01298.qmd.container.slot;
 
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import nc.recipe.BasicRecipeHandler;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.inventory.Slot;
@@ -26,9 +26,9 @@ public class SlotAmountFuel extends Slot
 			return false;
 		}
 
-		if (stack.getItem() instanceof IItemAmount)
+		if (stack.getItem() instanceof IItemParticleAmount)
 		{
-			return recipeHandler.isValidItemInput(IItemAmount.cleanNBT(stack));
+			return recipeHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 		}
 
 		return false;

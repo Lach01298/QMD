@@ -6,7 +6,6 @@ import lach_01298.qmd.entity.EntityLeptonBeam;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.sound.QMDSounds;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.item.IInfoItem;
 import nc.radiation.RadiationHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -65,9 +64,12 @@ public class ItemLeptonCannon extends ItemGun
 			
 			
 			ItemCell itemCell = (ItemCell) cell.getItem();
-			player.inventory.setInventorySlotContents(findCell(player),itemCell.empty(cell, 1));
+			if(itemCell.getAmountStored(cell) < QMDConfig.lepton_particle_usage)
+			{
+				return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
+			}
 			
-			
+			player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.lepton_particle_usage));
 			player.getCooldownTracker().setCooldown(this, QMDConfig.lepton_cool_down);
 			
 			RayTraceResult lookingAt = rayTrace(player, range, 1.0f, false,true);
