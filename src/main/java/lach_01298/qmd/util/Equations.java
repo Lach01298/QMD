@@ -11,7 +11,7 @@ public class Equations
 		if (stack != null)
 		{
 			Particle particle = stack.getParticle();
-			return attenuationRate*distance*(1+particle.getCharge()*Math.sqrt(stack.getAmount()/10000d));
+			return attenuationRate*distance*(1+Math.abs(particle.getCharge())*Math.sqrt(stack.getAmount()/10000d));
 		}
 		return 0;
 	}
@@ -90,7 +90,7 @@ public class Equations
 	
 	public static long particleOutputAmountCollisionChamber(long inputAmount1,long inputAmount2, long energy1,long energy2, long recipeAmount, double crossSection, double efficency)
 	{
-		return  (long) (recipeAmount*Math.min(inputAmount1, inputAmount2)* Math.min(crossSection*efficency*(1-Math.abs(energy1-energy2)/(energy1+energy1)), 1.0));
+		return  (long) (recipeAmount*Math.min(inputAmount1, inputAmount2)* Math.min(crossSection*efficency*(1-Math.abs(energy1-energy2)/(energy1+energy2)), 1.0));
 	}
 	
 	
