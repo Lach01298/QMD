@@ -186,7 +186,8 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 		
 		if(stack.getMetadata() != 0)
 		{
-			if(entityItem.getAge()> 120 || entityItem.isInLava() ||entityItem.isBurning()||entityItem.isDead)
+
+			if(entityItem.ticksExisted > 120 || entityItem.isInLava() ||entityItem.isBurning()||entityItem.isDead)
 			{
 				explode(entityItem.world, entityItem.getPosition(), stack);
 				stack.shrink(stack.getCount());
