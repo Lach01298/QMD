@@ -1,4 +1,4 @@
-package lach_01298.qmd.jei.catergory;
+package lach_01298.qmd.jei.category;
 
 import lach_01298.qmd.QMD;
 

@@ -1,4 +1,4 @@
-package lach_01298.qmd.jei.catergory;
+package lach_01298.qmd.jei.category;
 
 import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
@@ -10,16 +10,16 @@ import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.util.text.TextFormatting;
 
-public class VacuumChamberHeatingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.VacuumChamberHeating> 
+public class AcceleratorCoolingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.AcceleratorCooling> 
 {
 	
-	public VacuumChamberHeatingCategory(IGuiHelper guiHelper, IJEIHandler handler) 
+	public AcceleratorCoolingCategory(IGuiHelper guiHelper, IJEIHandler handler) 
 	{
-		super(guiHelper, handler, "vacuum_chamber_heating", 0, 0, 90, 26);
+		super(guiHelper, handler, "accelerator_cooling", 0, 0, 90, 26);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.VacuumChamberHeating recipeWrapper, IIngredients ingredients) 
+	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.AcceleratorCooling recipeWrapper, IIngredients ingredients) 
 	{
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		

@@ -3,14 +3,21 @@ package lach_01298.qmd.jei.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IDrawableAnimated;
+import mezz.jei.api.gui.IDrawableStatic;
+import nc.Global;
 import nc.integration.jei.JEIBasicRecipeWrapper;
 import nc.integration.jei.JEIMachineRecipeWrapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.BasicRecipe;
 import nc.recipe.BasicRecipeHandler;
 import nc.util.Lang;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class QMDRecipeWrapper
@@ -18,12 +25,35 @@ public class QMDRecipeWrapper
 
 	public static class OreLeacher extends JEIMachineRecipeWrapper
 	{
-
+		private static int arrowX = 176;
+		private static int arrowY = 12;
+		private static int arrowWidth = 16;
+		private static int arrowHeight = 8;
+		private static int arrowPosX = 94;
+		private static int arrowPosY = 46;
+		private static int backX = 30;
+		private static int backY = 7;
+	
+		public final IDrawable arrow;
+		public final int arrowDrawPosX, arrowDrawPosY;
+		
 		public OreLeacher(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 30, 7, 0, 0, 0, 0, 0, 0, 94, 42, 16, 16);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY, 94, 42, 16, 16);
+			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/ore_leacher.png");
+			IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
+			arrow = staticArrow() ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
+			arrowDrawPosX = arrowPosX - backX;
+			arrowDrawPosY = arrowPosY - backY;
 		}
 
+		@Override
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		{
+				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
+		}
+		
+		
 		@Override
 		protected double getBaseProcessTime()
 		{
@@ -44,11 +74,37 @@ public class QMDRecipeWrapper
 	public static class Irradiator extends JEIMachineRecipeWrapper
 	{
 
+		private static int arrowX = 176;
+		private static int arrowY = 0;
+		private static int arrowWidth = 52;
+		private static int arrowHeight = 10;
+		private static int arrowPosX = 62;
+		private static int arrowPosY = 57;
+		private static int backX = 41;
+		private static int backY = 38;
+	
+		public final IDrawable arrow;
+		public final int arrowDrawPosX, arrowDrawPosY;
+		
+		
 		public Irradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 41, 38, 0, 0, 0, 0, 0, 0, 62, 57, 52, 10);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY, 62, 57, 52, 10);
+			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/irradiator.png");
+			IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
+			arrow = staticArrow() ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
+			arrowDrawPosX = arrowPosX - backX;
+			arrowDrawPosY = arrowPosY - backY;
 		}
 
+		@Override
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		{
+				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
+		}
+		
+		
+		
 		@Override
 		protected double getBaseProcessTime()
 		{
@@ -68,15 +124,39 @@ public class QMDRecipeWrapper
 	public static class IrradiatorFuel extends JEIBasicRecipeWrapper
 	{
 
+		private static int arrowX = 176;
+		private static int arrowY = 10;
+		private static int arrowWidth = 40;
+		private static int arrowHeight = 19;
+		private static int arrowPosX = 68;
+		private static int arrowPosY = 38;
+		private static int backX = 62;
+		private static int backY = 5;
+		
+		public final IDrawable arrow;
+		public final int arrowDrawPosX, arrowDrawPosY;
+		
+		
 		public IrradiatorFuel(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 62, 5, 0, 0, 0, 0, 0, 0);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
+			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/irradiator.png");
+			IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
+			arrow = staticArrow() ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.TOP, false);
+			arrowDrawPosX = arrowPosX - backX;
+			arrowDrawPosY = arrowPosY - backY;
+		}
+		
+		@Override
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		{
+				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 		}
 
 		@Override
 		protected int getProgressArrowTime()
 		{
-			return (int) (getIrradatorSpeed()/2D);
+			return (int) (100/getIrradatorSpeed());
 		}
 
 		protected double getIrradatorSpeed() 
@@ -106,16 +186,42 @@ public class QMDRecipeWrapper
 	public static class AcceleratorCooling extends JEIBasicRecipeWrapper
 	{
 
+		private static int arrowX = 90;
+		private static int arrowY = 0;
+		private static int arrowWidth = 36;
+		private static int arrowHeight = 15;
+		private static int arrowPosX = 27;
+		private static int arrowPosY = 6;
+		private static int backX = 0;
+		private static int backY = 0;
+		
+		public final IDrawable arrow;
+		public final int arrowDrawPosX, arrowDrawPosY;
+		
 		public AcceleratorCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler,
 				BasicRecipe recipe)
 		{
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 27, 6);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
+			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/accelerator_cooling.png");
+			IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
+			arrow = staticArrow() ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
+			arrowDrawPosX = arrowPosX - backX;
+			arrowDrawPosY = arrowPosY - backY;
 		}
 
+		
+		@Override
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		{
+				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
+		}
+		
+		
+		
 		@Override
 		protected int getProgressArrowTime()
 		{
-			return getFissionHeatingHeatPerInputMB() / 4;
+			return getFissionHeatingHeatPerInputMB() / 100;
 		}
 
 		protected int getFissionHeatingHeatPerInputMB()

@@ -1,11 +1,11 @@
-package lach_01298.qmd.jei.catergory;
+package lach_01298.qmd.jei.category;
 
 import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.jei.recipe.NeutralContainmentRecipe;
+import lach_01298.qmd.jei.recipe.BeamDumpRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -22,7 +22,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 
 
-public class NeutralContainmentCategory implements IRecipeCategory<NeutralContainmentRecipe>
+public class BeamDumpCategory implements IRecipeCategory<BeamDumpRecipe>
 {
 	private final IDrawable background;
 	protected final ResourceLocation gui_texture;
@@ -30,11 +30,11 @@ public class NeutralContainmentCategory implements IRecipeCategory<NeutralContai
 	
 
 	
-	public NeutralContainmentCategory(IGuiHelper guiHelper) 
+	public BeamDumpCategory(IGuiHelper guiHelper) 
 	{
-		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png");
-		background = guiHelper.createDrawable(gui_texture, 24, 9, 126, 47);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.exoticContainmentController));
+		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/beam_dump_controller.png");
+		background = guiHelper.createDrawable(gui_texture, 36, 36, 62, 25);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.beamDumpController));
 		
 	}
 	
@@ -43,14 +43,14 @@ public class NeutralContainmentCategory implements IRecipeCategory<NeutralContai
 	public String getUid()
 	{
 		
-		return QMDRecipeCategoryUid.NEUTRAL_CONTAINMENT;
+		return QMDRecipeCategoryUid.BEAM_DUMP;
 	}
 
 	@Override
 	public String getTitle()
 	{
 		
-		return Lang.localise("qmd.gui.jei.category.neutral_containment");
+		return Lang.localise("qmd.gui.jei.category.beam_dump");
 	}
 
 	@Override
@@ -73,31 +73,23 @@ public class NeutralContainmentCategory implements IRecipeCategory<NeutralContai
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, NeutralContainmentRecipe recipeWrapper, IIngredients ingredients)
+	public void setRecipe(IRecipeLayout recipeLayout, BeamDumpRecipe recipeWrapper, IIngredients ingredients)
 	{
 		
 		IGuiIngredientGroup<ParticleStack> guiParticleStacks = recipeLayout.getIngredientsGroup(ParticleType.Particle);
 		
 		IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 		
-		List<List<ParticleStack>> particleInputs =ingredients.getInputs(ParticleType.Particle);
+		List<List<ParticleStack>> particleInput =ingredients.getInputs(ParticleType.Particle);
 		List<List<FluidStack>> fluidOutputs =ingredients.getOutputs(VanillaTypes.FLUID);
 		
 		
-		guiParticleStacks.init(0, true, 3, 19);
-		guiParticleStacks.init(1, true, 107, 19);
-		guiFluidStacks.init(2, false, 47, 11, 32, 32, fluidOutputs.get(0)== null ? 1000 : Math.max(1, fluidOutputs.get(0).size()), false, null);
+		guiParticleStacks.init(0, true, 1, 1);
+		guiFluidStacks.init(1, false, 45, 1, 16, 16, fluidOutputs.get(0)== null ? 1000 : Math.max(1, fluidOutputs.get(0).size()), false, null);
 		
-		if(particleInputs.get(0) != null)
-		{
-			guiParticleStacks.set(0,particleInputs.get(0));
-		}
-		if(particleInputs.get(1) != null)
-		{
-			guiParticleStacks.set(1,particleInputs.get(1));
-		}
-
-		guiFluidStacks.set(2, fluidOutputs.get(0));
+		
+		guiParticleStacks.set(0,particleInput.get(0));
+		guiFluidStacks.set(1, fluidOutputs.get(0));
 		
 		
 		

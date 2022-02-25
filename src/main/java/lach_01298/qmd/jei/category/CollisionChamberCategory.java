@@ -1,11 +1,11 @@
-package lach_01298.qmd.jei.catergory;
+package lach_01298.qmd.jei.category;
 
 import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.jei.recipe.DecayChamberRecipe;
+import lach_01298.qmd.jei.recipe.CollisionChamberRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IDrawable;
@@ -19,7 +19,7 @@ import net.minecraft.util.ResourceLocation;
 
 
 
-public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
+public class CollisionChamberCategory implements IRecipeCategory<CollisionChamberRecipe>
 {
 	private final IDrawable background;
 	protected final ResourceLocation gui_texture;
@@ -27,11 +27,11 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 	
 
 	
-	public DecayChamberCategory(IGuiHelper guiHelper) 
+	public CollisionChamberCategory(IGuiHelper guiHelper) 
 	{
-		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/decay_chamber.png");
-		background = guiHelper.createDrawable(gui_texture, 0, 0, 150, 100);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.decayChamberController));
+		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/collision_chamber.png");
+		background = guiHelper.createDrawable(gui_texture, 0, 0, 160, 112);
+		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.collisionChamberController));
 		
 	}
 	
@@ -40,14 +40,14 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 	public String getUid()
 	{
 		
-		return QMDRecipeCategoryUid.DECAY_CHAMBER;
+		return QMDRecipeCategoryUid.COLLISION_CHAMBER;
 	}
 
 	@Override
 	public String getTitle()
 	{
 		
-		return Lang.localise("qmd.gui.jei.category.decay_chamber");
+		return Lang.localise("qmd.gui.jei.category.collision_chamber");
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, DecayChamberRecipe recipeWrapper, IIngredients ingredients)
+	public void setRecipe(IRecipeLayout recipeLayout, CollisionChamberRecipe recipeWrapper, IIngredients ingredients)
 	{
 		
 		IGuiIngredientGroup<ParticleStack> guiParticleStacks = recipeLayout.getIngredientsGroup(ParticleType.Particle);
@@ -79,22 +79,24 @@ public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
 		List<List<ParticleStack>> particleOutputs =ingredients.getOutputs(ParticleType.Particle);
 		
 		
-		guiParticleStacks.init(1, true, 49, 31);
+		guiParticleStacks.init(1, true, 43, 33);
+		guiParticleStacks.init(2, true, 111, 33);
 		
 		
-		guiParticleStacks.init(3, false, 82, 8);
-		guiParticleStacks.init(4, false, 82, 31);
-		guiParticleStacks.init(5, false, 82, 54);
+		guiParticleStacks.init(3, false, 46, 2);
+		guiParticleStacks.init(4, false, 108, 2);
+		guiParticleStacks.init(5, false, 46, 64);
+		guiParticleStacks.init(6, false, 108, 64);
 			
 		
 		guiParticleStacks.set(1,particleInput.get(0));
-		
-		
-	
+		guiParticleStacks.set(2,particleInput.get(1));
+
 		guiParticleStacks.set(3, particleOutputs.get(0));
 		guiParticleStacks.set(4, particleOutputs.get(1));
 		guiParticleStacks.set(5, particleOutputs.get(2));
-		
+		guiParticleStacks.set(6, particleOutputs.get(3));
+
 	}
 	
 
