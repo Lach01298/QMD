@@ -13,18 +13,33 @@
 			
 			"title": "Construction",
 			"type": "text",
-			"text": "Linear Accelerators are a cuboid of Accelerator Casings or Glass that must be 5 wide and tall. Like all $(l:accelerators/general)accelerators$(/l) they require coolant vent in input and output modes and an energy port. There must be a continuous line of Accelerator Beams down the centre. Where the beams meet the casing there must be an Accelerator Ion source (or Accelerator Beam Port in input mode for using an existing beam) at one end and an Accelerator Beam Port at the other."
+			"text": "Linear Accelerators are a cuboid of Accelerator Casings or Glass that must be 5 wide. Like all Accelerators they require Coolant vent in input and output modes and an Energy Port. There must be a continuous line of Accelerator Beams down the centre. Where the beams meet the casing there must be an Accelerator Ion source (or Accelerator Beam Port in input mode for using an existing beam) at one end and an Accelerator Beam Port at the other."
+		},
+		{
+			
+			"type": "text",
+			"text": "Pic here!"
 		},
 		{
 			
 			"title": "Ion source",
 			"type": "text",
-			"text": "Linear Accelerators are the start of any accelerator system. They are used to create new particle beams with an ion source. The ion souce must be supplied with a source item to create the particles canister of hydrogen. The item will be used up after a certain amount of time (default 300 seconds) while the accelerator is running so it must be continually replaced for the accelerator to continue functioning."
+			"text": "Linear Accelerators are the start of any accelerator system. They are used to create new particle beams with an ion source. The Ion source must be placed at one end of the beam pointing inwards. Its job is to create particles from items and put them into the accelerator. Items can be piped in and out of the ion source  either directly or through an Accelarator Item Port. It also has a gui for manual access. For more infomation on ion sources."
 		},
         {
-            "title": "Starting",
+            "title": "Operation",
             "type": "text",
-            "text": "To Start the Linear Accelerator just give the controller a redstone signal. Note: this will start the power usage which can be quite high and increase the heating to the max heating."
+            "text": "Linear Accelerators function and have the same requirments as all Accelarators needing energy and coolant to operate."
+        },
+        {
+            "title": "Particle Energy",
+            "type": "text",
+            "text": "The maxium outputed Particle Energy is calculated using Emax= E0 +|q|V where E0 is the starting energy (normally 0 for an Ion source), q is the particles charge and V is the accelerators voltage which is the sum of all the RF Cavities (the structure not the block) voltages."
+        },
+        {
+            "title": "Redstone Control",
+            "type": "text",
+            "text": "The output particle energy can be controlled with the strength of the redstone signal according to E=Emax*Sr/15 where Sr is the redstone strength. If a redstone strength of 15 (max) is applied to the controller it will output the maximum energy anything less than 15 it will output the corresponding fraction of the maximum energy for example a redstone strength of 2 is 2/15= 13.3% of the max energy."
         }
 	]
 }

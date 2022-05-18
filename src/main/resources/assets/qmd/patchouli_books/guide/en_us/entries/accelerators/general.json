@@ -1,21 +1,35 @@
 {
-    "name": "General Info",
+    "name": "Accelerators",
     "icon": "qmd:accelerator_casing",
     "category": "qmd:accelerators",
     "sortnum": 0,
     "pages": [
         {
             "type": "text",
-            "text": "At the core of QMD are the Accelerator Multiblocks. There are many different types: $(l:accelerators/linear_accelerator)Linear$(/l), $(l:accelerators/ring_accelerator)Synchratron$(/l), $(l:accelerators/Beam_diverter)Beam diverter$(/l) and $(l:accelerators/decelerator)Decelerator$(/l). All these do different things, but use the same basic principles and materials."
+            "text": "At the core of QMD are the Accelerator Multiblocks. There are many different types: $(l:accelerators/linear_accelerator)Linear$(/l), $(l:accelerators/ring_accelerator)Synchrotron$(/l), $(l:accelerators/Beam_diverter)Beam Diverter$(/l) and $(l:accelerators/decelerator)Decelerator$(/l) and (l:accelerators/beam_splitter)Beam Splitter$(/l). All these do different things, but use the same basic principles and materials. Here we go into the basic principles."
+        },
+		{
+			"type": "text",
+			"text": ""
+        },
+
+		{
+            "type": "text",
+            "title": "Cooling",
+            "text": "Accelerators need to be cooled as they and the enviroment produce heat. If they overheat while operating, some of the overheating components will explode. To cool an accelerator you need to pipe in a cold coolant and pipe out a hot coolant. Each coolant has a different temperature, this determines the minimum temperature your accelerator can reach."
+        },
+		{
+            "type": "text",
+            "text": "For example, Liquid helium is 4 Kelvin (K), Liquid Nitrogen is 70 K. The valid coolants and their temperatures can be seen in JEI. To pipe coolant in and out of an accelerator you need at least 2 Accelerator Coolant Vents, one in input mode and one in output mode. The mode can be switched using the Nuclearcraft multitool."
         },
         {
             "type": "text",
             "title": "Construction",
-            "text": "All Accelerators are made out of Accelerator Casing and/or Accelerator Glass. They require an Energy Port for RF power and at least two Accelerator Coolant Vents, one set to input and the other to output. Switching the setting of the vent is done by right clicking with the NC multitool."
+            "text": "All Accelerators are made out of Accelerator Casing or Accelerator Glass, and also require an energy port, an input and an output coolant vent. Inside each accelerator, is a connected line of Beam Blocks that the particles will travel through. Around this beam can be 3 different types of component structures: Radio Frequency (RF) Cavities, Dipole Magnets and Quadrupole Magnets."
         },
-        {
+		{
             "type": "text",
-            "text": " Inside each accelerator is a connected line of Beam Blocks that the particles will travel through. Around this beam can be 3 different types of component structures: Radio Frequency (RF) Cavities, Quadrupole Magnets and Dipole Magnets. Around these component structures there are coolers to cool the whole accelerator."
+            "text": "Around these component structures there are coolers to cool the whole accelerator. Each structure contributes to a difrent stat of the acceleartor: RF Cavities add voltage, Dipole Magnets add dipole strength and Quadrupole Magnets add quadrupole strength. The amout each structure adds can be seen on the tooltip of the block that makes it."
         },
         {
             "anchor": "rf_cavity",
@@ -42,14 +56,14 @@
                         "CCC",
                         "   "
                     ]
-                ]
+                ],
+				"offset": [0,-2,0]
             },
-            "enable_visualize": false,
-            "text": "RF Cavities are constructed from RF Cavity blocks of the same type around the Accelerator Beam as shown."
+            "text": "A RF cavity is constructed from RF Cavity blocks of the same type in a ring around the accelerator beam as shown. "
         },
         {
             "type": "text",
-            "text": " RF cavities increase the accelerating voltage of the accelerator and thus the energy of the resulting particle out the end. The accelerating voltage of each Rf Cavity is determined by the type of cavity block the are made of."
+            "text": "RF Cavities cannot be directly next to each other, requiring at least a block of space between them. RF cavities increase the accelerating voltage of the accelerator and thus the energy of the resulting particle out the end. The accelerating voltage of each RF Cavity is determined by the material of the cavity's blocks."
         },
         {
             "anchor": "quadrupole",
@@ -70,16 +84,16 @@
                     [
                         " M "
                     ]
-                ]
+                ],
+				"offset": [0,-2,0]
             },
-            "enable_visualize": false,
-            "text": "Quadrupole Magnets are constructed from 4 Accelerator Electromagnets of the same type around a Accelerator Beam as shown."
+            "text": "Quadrupole Magnets are constructed from 4 Accelerator Electromagnets of the same type around a Accelerator-"
         },
         {
             "type": "text",
-            "text": " Quadrupoles increase the focus of the particle beam. The focus is used to tell how far a beam can travel. If the beam travels to far in an accelerator it will not output. So more quadrupoles need to be added to compensate the loss in focus. The strength of a quadrupole is determined by the type of electromagnet used to create it."
+            "text": "Beam as shown. Quadrupoles increase the focus (basically the confinement) of the particle beam. The focus is used to tell how far a beam can travel. If the beam travels too far in a accelerator it will not output. So more quadrupoles are need to be added to compensate for the loss in focus. The strength of a quadrupole is determined by the type of electromagnet used to create it."
         },
-        {
+		{
             "anchor": "dipole",
             "type": "multiblock",
             "name": "Dipole Magnet",
@@ -106,30 +120,27 @@
                         "YMY",
                         "YYY"
                     ]
-                ]
+                ],
+				"offset": [0,-2,0]
             },
-            "enable_visualize": false,
-            "text": "Corner dipole example with only 2 outputs."
+            "text": "Example: a Corner Copper dipole magnet with only 2 beam conections."
+        },
+		{
+            "type": "text",
+            "text": "Dipole Magnets are created by placing an Accelerator Electromagnet of the same type above and below a beam and the filling the rest of the 3x3x3 space around that beam with Accelerator yokes. An example of corner dipole is shown on the previous page. Dipoles in $(l:accelerators/Beam_diverter)Beam diverter$(/l) can also be oriented with the magets horizontal to allow the beam to be outputed up and down. Dipoles can not be used in $(l:accelerators/linear_accelerator)Linear Accelerators$(/l)."
+        },        
+        {
+            "type": "text",
+            "text": " The strength of each dipole is the strength of the electromagnet used to create it. Dipoles bend the path of beams so  must be placed at beam corners and intersections."
         },
         {
             "type": "text",
-            "text": "Dipole Magnets are created by placing an Accelerator Electromagnet of the same type above and below a beam and the filling the rest of the 3x3x3 space around that beam with Accelerator yokes. An example of corner dipole is shown on the previous page. Dipoles in $(l:accelerators/Beam_diverter)Beam diverter$(/l) can also be oriented with the magets horizontal to allow the beam to be outputet up and down. Dipoles can not be used in $(l:accelerators/linear_accelerator)Linear Accelerators$(/l)."
-        },
-        {
-            "type": "text",
-            "text": "The strength of each dipole is the strength of the electromagnet used to create it. Dipoles bend the path of beams so one must be placed in each corner."
-        },
-        {
-            "type": "image",
-            "images": [
-                "qmd:textures/gui/book_images/dipoles.png"
-            ],
-            "text": "Dipoles in an empty $(l:accelerators/ring_accelerator)Synchratron Accelerator$(/l)."
+            "text": "" 
         },
         {
             "type": "text",
             "title": "Coolers",
-            "text": "Each RF cavity and electromagnet blocks produce heat while operating. To get rid of this heat coolers are placed inside the accelerator. They only work if their required rules are met. These rules are shown on the tool tips of each cooler."
+            "text": "Each RF cavity block and electromagnet produce heat while operating. To get rid of this heat coolers are placed inside the accelerator. They only work if their required rules are met. These rules are shown on the tool tips of each cooler."
         },
         {
             "type": "image",
@@ -138,18 +149,61 @@
             ],
             "text": "Example of a $(l:accelerators/linear_accelerator)Linear Accelerator$(/l) with coolers."
         },
+		
         {
             "type": "text",
-            "title": "Cooling",
-            "text": "Accelerators need to be cooled as they produce heat. If they overheat while operating, some of the overheating components will explode. To cool an accelerator you need to pipe in a cold coolant and pipe out a hot coolant. Each coolant has a different temperature this determines the minimum temperature your accelerator can reach. Example Liquid helium is 4 Kelvin (K), Liquid Nitrogen is 70 K."
+			"title": "Operation",
+            "text": "There are a few things one should know about how to opertate acceleartors before building or turing them on. They are Power, Heating, Coolant, Focus and Control" 
         },
+		
         {
             "type": "text",
-            "text": "The valid coolants and their temperatures can be seen in JEI. To pipe coolant in and out of an accelerator you need at least 2 Accelerator Coolant Vents, one in input mode and one in output mode. The mode can be switched using the nuclearcraft multitool. Hovering over the coolant bar (right) of the accelerators gui will show you the amount of coolant stored, the maximum rate coolant will be used and the maximum rate hot coolant is produced."
+			"title": "Power",
+            "text": "Hovering over the Power bar (left) of the gui will show you the power stored in the accelerator and the power used by the accelerator when on. The power used is P=p/ε where p is sum of all the components base power and ε is the average component efficiency. The percentage in brackets is 1/ε which is how much of the base power is used."
         },
-        {
+		{
             "type": "text",
-            "text": " The Accelerators coolant tanks (both input and output) can be cleared by holding shift in the gui and pressing the button that appears."
+			"title": "Heating",
+            "text": "There are 2 sources of heating in an accelerator. External heating from the warm environment, which depends on where the accelerator is and is always present, and internal heating. This heat comes from the components in the accelerator and is only present when the accelerator is turned on."
+        },
+		{
+            "type": "text",
+            "text": "Hovering over the heat bar (middle) of the gui will show you the heat stored in the accelerator, the Cooling: the amount of cooling the coolers provide, the Current Heating: the amount of heat currently generated, the Maxium Heating: the max amount of heat the accelerator can possibly generated (if your coolling is greater than this and the accelerator has a constant supply of coolant then it will never overheat),"
+        },
+		{
+			"type": "text",
+			"text": "the Maxium Extrenal Heating: the max amount of external heat from the enviroment (this is already included in Maxium Heating)."
+        },
+		{
+			"type": "text",
+			"text": "To calculate the maximum heating it is the sum of the internal and external heating. The external heating is He=0.0025A(Te-Ta) where Te is the environment temperature usually around 300 K, Ta is the accelerators temperature and A is the surface area of the accelerator. The maximum External heating is therefore when Ta = 0 K. The Internal Heating is the sum of all the component blocks' heat generation values."
+        },
+		{
+            "type": "text",
+			"title": "Coolant",
+            "text": "Hovering over the coolant bar (right) of the gui will show you the amount of coolant stored, the maximum rate coolant can be used and the maximum amount of hot coolant that can be produced. The Accelerators coolant tanks (both input and output) can be cleared by holding shift in the gui and pressing the button that appears. The type of components you use in the acceleartor deterimeins its maximum operating temprature."
+        },
+		{
+            "type": "text",
+            "text": "The temprature of the coolant used must be below this for the accelerator to cool down below its operating temprature. If the accelerator temprature rises above it operating temprate while runing then the overheating componets will explode."
+        },
+		{
+            "type": "text",
+			"title": "Focus",
+            "text": "The output focus can be calculated using f = f0 - (α * (1 + |q|*sqrt(pu/t / 10000)))*L + |q|*Bq where f0 is the input beam's focus. For a new beam created from an Ion Source the starting focus is shown in the recipe (normally it is 0.2). "
+        },
+		{
+            "type": "text",
+            "text": "α is the beam attenuation rate (this can be seen on Beamline's tool tip, by default 0.02), pu/t is the pu/t of the beam, L is the length of the accelerator, q is the particle's charge and Bq is the Quadrupole strength of the accelerator which is the sum of the strength of each quadrupole."
+        },
+		{
+            "type": "text",
+			"title": "Control",
+            "text": "You can control accelerators in 2 ways either with redstone signals or if Open Comupters is installed with a computer. For redstone control a redstone signal to the controller or a Redstone Port will try to turn the accelaerator on if it can. If it can't there will be an error mesage in the gui. For computer control the coputer needs to be connected to the accelerator through a Accelerator Computer port."
+        },
+		{
+            "type": "text",
+            "text": "You can find out more details about specific accelerator control in their sections. You can also see more about computer control in the open computers section."
         }
        
     ]
