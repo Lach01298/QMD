@@ -16,6 +16,7 @@ import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
+import nc.multiblock.IPacketMultiblockLogic;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.container.ContainerMultiblockController;
@@ -27,7 +28,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic,IParticleChamberPart,ParticleChamberUpdatePacket>
+public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart>
+		implements IPacketMultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket>
 { 
 
 	public static final int maxSize = 7;
@@ -146,18 +148,18 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	}
 
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return null;
 	}
 
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
 		
 	}
 
-	public void onAssimilate(Multiblock assimilated)
+	public void onAssimilate(ParticleChamber assimilated)
 	{	
 		if (assimilated instanceof ParticleChamber)
 		{
@@ -175,7 +177,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		}
 	}
 
-	public void onAssimilated(Multiblock assimilator)
+	public void onAssimilated(ParticleChamber assimilator)
 	{	
 	}
 
@@ -206,10 +208,10 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		return getMultiblock().beams.get(0).getParticleStack() != null;
 	}
 
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		return null;
-	}
+	}*/
 
 	
 	protected void pull()

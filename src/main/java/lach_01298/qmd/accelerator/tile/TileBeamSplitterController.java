@@ -12,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileBeamSplitterController extends TileAcceleratorPart implements IAcceleratorController
+public class TileBeamSplitterController extends TileAcceleratorPart implements IAcceleratorController<TileBeamSplitterController>
 {
 
 	public TileBeamSplitterController()

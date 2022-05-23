@@ -5,6 +5,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.ParticleChamber;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
@@ -40,12 +41,17 @@ public class DecayChamberUpdatePacket extends ParticleChamberUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<DecayChamberUpdatePacket, ParticleChamber, TileDecayChamberController>
+			MultiblockUpdatePacket.Handler<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileDecayChamberController, DecayChamberUpdatePacket>
 	{
 
 		public Handler()
 		{
 			super(TileDecayChamberController.class);
+		}
+		
+		@Override
+		protected void onPacket(DecayChamberUpdatePacket message, ParticleChamber multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 }

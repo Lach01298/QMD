@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.util.ByteUtil;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileNucleosynthesisChamberController;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
@@ -72,12 +73,17 @@ public class NucleosynthesisChamberUpdatePacket extends VacuumChamberUpdatePacke
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<NucleosynthesisChamberUpdatePacket, VacuumChamber, TileNucleosynthesisChamberController>
+			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileNucleosynthesisChamberController, NucleosynthesisChamberUpdatePacket>
 	{
 
 		public Handler()
 		{
 			super(TileNucleosynthesisChamberController.class);
+		}
+		
+		@Override
+		protected void onPacket(NucleosynthesisChamberUpdatePacket message, VacuumChamber multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 

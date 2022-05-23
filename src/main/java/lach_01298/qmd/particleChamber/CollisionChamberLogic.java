@@ -735,7 +735,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 
 	
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new CollisionChamberUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
@@ -743,9 +743,9 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	}
 
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof CollisionChamberUpdatePacket)
 		{
 			CollisionChamberUpdatePacket packet = (CollisionChamberUpdatePacket) message;
@@ -779,11 +779,11 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 	
 	
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		
 		return new ContainerCollisionChamberController(player, (TileCollisionChamberController) getMultiblock().controller);
-	}
+	}*/
 	
 	
 }

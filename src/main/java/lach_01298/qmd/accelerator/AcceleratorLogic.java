@@ -33,6 +33,7 @@ import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import nc.multiblock.IPacketMultiblockLogic;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.container.ContainerMultiblockController;
@@ -47,7 +48,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket> 
+public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLogic, IAcceleratorPart>
+		implements IPacketMultiblockLogic<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket>
 { 
 
 	public boolean searchFlag = false;
@@ -376,7 +378,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	}
 	
 	
-	public void onAssimilate(Multiblock assimilated) 
+	public void onAssimilate(Accelerator assimilated) 
 	{	
 		if (assimilated instanceof Accelerator)
 		{
@@ -395,7 +397,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		}
 	}
 	
-	public void onAssimilated(Multiblock assimilator) 
+	public void onAssimilated(Accelerator assimilator) 
 	{
 		
 	}
@@ -528,7 +530,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		}
 		updateRedstone();
 		
-		getAccelerator().sendUpdateToListeningPlayers();
+		getAccelerator().sendMultiblockUpdatePacketToListeners();
 		return true;
 	}
 	
@@ -769,21 +771,21 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	// Packets
 	
 	@Override
-	public AcceleratorUpdatePacket getUpdatePacket() 
+	public AcceleratorUpdatePacket getMultiblockUpdatePacket() 
 	{
 		return null;
 	}
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message) 
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message) 
 	{
 		
 	}
 	
-	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
+	/*public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return null;
-	}
+	}*/
 	
 	public void clearAllMaterial()
 	{

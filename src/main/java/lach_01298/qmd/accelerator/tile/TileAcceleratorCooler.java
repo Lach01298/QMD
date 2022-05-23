@@ -23,7 +23,7 @@ public class TileAcceleratorCooler extends TileAcceleratorPart implements IAccel
 	public int coolingRate;
 	
 	public String ruleID;
-	public PlacementRule<IAcceleratorPart> placementRule;
+	public PlacementRule<Accelerator, IAcceleratorPart> placementRule;
 	
 	public boolean isSearched = false, isInValidPosition = false;
 

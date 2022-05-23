@@ -585,7 +585,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	// Network
 	
 	@Override
-	public AcceleratorUpdatePacket getUpdatePacket() 
+	public AcceleratorUpdatePacket getMultiblockUpdatePacket() 
 	{
 
 		return new LinearAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
@@ -596,9 +596,9 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message)
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof LinearAcceleratorUpdatePacket)
 		{
 			LinearAcceleratorUpdatePacket packet = (LinearAcceleratorUpdatePacket) message;
@@ -623,11 +623,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	}
 
 	
-	@Override
+	/*@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player)
 	{
 		return new ContainerLinearAcceleratorController(player, getAccelerator().controller);
-	}
+	}*/
 	
 	@Override
 	public int getBeamLength()

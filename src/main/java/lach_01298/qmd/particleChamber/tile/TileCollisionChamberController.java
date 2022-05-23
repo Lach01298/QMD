@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 
-public class TileCollisionChamberController extends TileParticleChamberPart implements IParticleChamberController
+public class TileCollisionChamberController extends TileParticleChamberPart implements IParticleChamberController<TileCollisionChamberController>
 {
 
 	public TileCollisionChamberController()

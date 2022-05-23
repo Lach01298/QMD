@@ -23,7 +23,7 @@ import net.minecraft.util.text.TextFormatting;
 public class QMDRecipeWrapper
 {
 
-	public static class OreLeacher extends JEIMachineRecipeWrapper
+	public static class OreLeacher extends JEIMachineRecipeWrapper<OreLeacher>
 	{
 		private static int arrowX = 176;
 		private static int arrowY = 12;
@@ -71,7 +71,7 @@ public class QMDRecipeWrapper
 		}
 	}
 	
-	public static class Irradiator extends JEIMachineRecipeWrapper
+	public static class Irradiator extends JEIMachineRecipeWrapper<Irradiator>
 	{
 
 		private static int arrowX = 176;
@@ -121,7 +121,7 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class IrradiatorFuel extends JEIBasicRecipeWrapper
+	public static class IrradiatorFuel extends JEIBasicRecipeWrapper<IrradiatorFuel>
 	{
 
 		private static int arrowX = 176;
@@ -183,7 +183,7 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class AcceleratorCooling extends JEIBasicRecipeWrapper
+	public static class AcceleratorCooling extends JEIBasicRecipeWrapper<AcceleratorCooling>
 	{
 
 		private static int arrowX = 90;
@@ -248,7 +248,7 @@ public class QMDRecipeWrapper
 		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 	
-	public static class CellFilling extends JEIMachineRecipeWrapper
+	public static class CellFilling extends JEIMachineRecipeWrapper<CellFilling>
 	{
 
 		public CellFilling(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
@@ -271,7 +271,7 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class VacuumChamberHeating extends JEIBasicRecipeWrapper
+	public static class VacuumChamberHeating extends JEIBasicRecipeWrapper<VacuumChamberHeating>
 	{
 
 		public VacuumChamberHeating(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler,

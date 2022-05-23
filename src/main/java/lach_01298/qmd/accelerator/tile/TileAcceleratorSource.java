@@ -33,7 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory,ITileGui<TileUpdatePacket>
+public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory,ITileGui<QMDTileUpdatePacket>
 {
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_source";
 	
@@ -179,20 +179,20 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 	}
 
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate()
+	public Set<EntityPlayer> getTileUpdatePacketListeners()
 	{
 		
 		return playersToUpdate;
 	}
 
 	@Override
-	public TileUpdatePacket getGuiUpdatePacket()
+	public QMDTileUpdatePacket getTileUpdatePacket()
 	{
 		return new QMDTileUpdatePacket();
 	}
 
 	@Override
-	public void onGuiPacket(TileUpdatePacket message)
+	public void onTileUpdatePacket(QMDTileUpdatePacket message)
 	{	
 		
 	}

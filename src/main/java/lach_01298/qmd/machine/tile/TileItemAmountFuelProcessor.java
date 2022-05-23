@@ -16,20 +16,20 @@ import nc.recipe.BasicRecipe;
 import nc.recipe.BasicRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IItemIngredient;
-import nc.tile.ITileGui;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.tile.inventory.TileSidedInventory;
 import nc.tile.processor.IItemProcessor;
+import nc.tile.processor.ITileSideConfigGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 
-public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessor, ITileGui<ProcessorUpdatePacket>
+public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessor, ITileSideConfigGui<ProcessorUpdatePacket>
 {
 
 	public final int defaultProcessTime;
@@ -116,9 +116,9 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			if (wasProcessing != isProcessing)
 			{
 				shouldUpdate = true;
-				sendUpdateToAllPlayers();
+				sendTileUpdatePacketToAll();
 			}
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 			if (shouldUpdate)
 				markDirty();
 		}
@@ -412,11 +412,11 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 					return false;
 				}		
 				
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack), getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
+				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(slot, IItemParticleAmount.cleanNBT(stack), recipeInfo, getItemInputs(), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 			}
 			else
 			{
-				return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+				return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(slot, stack, recipeInfo, getItemInputs(), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
 			}
 			
 		}
@@ -481,24 +481,30 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public Set<EntityPlayer> getPlayersToUpdate() 
+		public Set<EntityPlayer> getTileUpdatePacketListeners() 
 		{
 			return playersToUpdate;
 		}
 		
 		@Override
-		public ProcessorUpdatePacket getGuiUpdatePacket() 
+		public ProcessorUpdatePacket getTileUpdatePacket() 
 		{
 			return new ProcessorUpdatePacket(pos,isProcessing ,time, tick, baseProcessTime, 0, new ArrayList<Tank>());
 		}
 		
 		@Override
-		public void onGuiPacket(ProcessorUpdatePacket message) 
+		public void onTileUpdatePacket(ProcessorUpdatePacket message) 
 		{
 			time = message.time;
 			tick = (int) message.energyStored;
 			baseProcessTime = message.baseProcessTime;
 			
+		}
+		
+		@Override
+		public int getSideConfigXOffset() 
+		{
+			return 0;
 		}
 		
 		@Override

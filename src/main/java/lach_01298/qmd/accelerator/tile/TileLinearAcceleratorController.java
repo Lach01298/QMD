@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileLinearAcceleratorController extends TileAcceleratorPart implements IAcceleratorController
+public class TileLinearAcceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileLinearAcceleratorController>
 {
 
 	public TileLinearAcceleratorController()

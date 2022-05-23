@@ -106,7 +106,7 @@ public class ContainerAcceleratorSource extends ContainerTile<TileAcceleratorSou
 	public void onContainerClosed(EntityPlayer player) 
 	{
 		super.onContainerClosed(player);
-		source.stopUpdatingPlayer(player);
+		source.removeTileUpdatePacketListener(player);
 	}
 	
 

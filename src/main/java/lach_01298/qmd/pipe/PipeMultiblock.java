@@ -5,13 +5,13 @@ import nc.multiblock.tile.ITileMultiblockPart;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import net.minecraft.world.World;
 
-public abstract class PipeMultiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket>
-		extends Multiblock<T, PACKET>
+public abstract class PipeMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>>
+		extends Multiblock<MULTIBLOCK, T>
 {
 
-	protected PipeMultiblock(World world)
+	protected PipeMultiblock(World world, Class<MULTIBLOCK> multiblockClass, Class<T> tClass)
 	{
-		super(world);
+		super(world, multiblockClass, tClass);
 	}
 
 	@Override

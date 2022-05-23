@@ -161,8 +161,8 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	public Object[] getBeamInfo(Context context, Arguments args)
 	{
 		Map<String, Object> statsData = new HashMap<String, Object>();
-		statsData.put("beam_length",isMultiblockAssembled() ? getMultiblock().controller.getLogic().getBeamLength(): 0);
-		statsData.put("beam_radius",isMultiblockAssembled() ? getMultiblock().controller.getLogic().getBeamRadius(): 0);
+		statsData.put("beam_length",isMultiblockAssembled() ? getLogic().getBeamLength(): 0);
+		statsData.put("beam_radius",isMultiblockAssembled() ? getLogic().getBeamRadius(): 0);
 
 		return new Object[] { statsData };
 	}

@@ -14,15 +14,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 
-public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket>
-		extends Multiblock<T, PACKET>
+public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOrToroidalMultiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>>
+		extends Multiblock<MULTIBLOCK, T>
 {
 
 	private int thickness;
 
-	protected CuboidalOrToroidalMultiblock(World world, int thickness)
+	protected CuboidalOrToroidalMultiblock(World world, Class<MULTIBLOCK> multiblockClass, Class<T> tClass, int thickness)
 	{
-		super(world);
+		super(world, multiblockClass, tClass);
 		this.thickness = thickness;
 	}
 
@@ -119,7 +119,7 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 
 						// Ensure this part should actually be allowed within a cube of this
 						// multiblock's type
-						if (!myClass.equals(part.getMultiblockType()))
+						if (!multiblockClass.equals(part.getMultiblockClass()))
 						{
 
 							setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x,
@@ -709,43 +709,6 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 			return BlockPos.getAllInBoxMutable(getExtremeInteriorCoord(false, false, false),
 					getExtremeInteriorCoord(false, false, false));
 		}
-	}
-
-	public void sendUpdateToAllPlayers()
-	{
-		PACKET packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		QMDPacketHandler.instance.sendToAll(getUpdatePacket());
-	}
-
-	public void sendUpdateToListeningPlayers()
-	{
-		PACKET packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		for (EntityPlayer player : playersToUpdate)
-		{
-			QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
-		}
-	}
-
-	public void sendIndividualUpdate(EntityPlayer player)
-	{
-		if (WORLD.isRemote)
-		{
-			return;
-		}
-		PACKET packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
@@ -57,12 +58,18 @@ public class NeutralContainmentUpdatePacket extends VacuumChamberUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<NeutralContainmentUpdatePacket, VacuumChamber, TileExoticContainmentController>
+			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, NeutralContainmentUpdatePacket>
 	{
 
 		public Handler()
 		{
 			super(TileExoticContainmentController.class);
+		}
+
+		@Override
+		protected void onPacket(NeutralContainmentUpdatePacket message, VacuumChamber multiblock)
+		{
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 

@@ -3,8 +3,10 @@ package lach_01298.qmd.multiblock.network;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
+import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.ParticleChamber;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
@@ -49,12 +51,17 @@ public class BeamDumpUpdatePacket extends ParticleChamberUpdatePacket
 	}
 
 	public static class Handler
-			extends MultiblockUpdatePacket.Handler<BeamDumpUpdatePacket, ParticleChamber, TileBeamDumpController>
+			extends MultiblockUpdatePacket.Handler<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileBeamDumpController, BeamDumpUpdatePacket>
 	{
 
 		public Handler()
 		{
 			super(TileBeamDumpController.class);
+		}
+		
+		@Override
+		protected void onPacket(BeamDumpUpdatePacket message, ParticleChamber multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 }

@@ -38,16 +38,16 @@ public class CoolerPlacement
 {
 
 	/** List of all defined rule parsers. Earlier entries are prioritised! */
-	public static final List<PlacementRule.RuleParser<IAcceleratorPart>> RULE_PARSER_LIST = new LinkedList<>();
+	public static final List<PlacementRule.RuleParser<Accelerator, IAcceleratorPart>> RULE_PARSER_LIST = new LinkedList<>();
 	
 	/** Map of all placement rule IDs to unparsed rule strings, used for ordered iterations. */
 	public static final Object2ObjectMap<String, String> RULE_MAP_RAW = new Object2ObjectArrayMap<>();
 	
 	/** Map of all defined placement rules. */
-	public static final Object2ObjectMap<String, PlacementRule<IAcceleratorPart>> RULE_MAP = new PlacementMap<>();
+	public static final Object2ObjectMap<String, PlacementRule<Accelerator, IAcceleratorPart>> RULE_MAP = new PlacementMap<>();
 	
 	/** List of all defined tooltip builders. Earlier entries are prioritised! */
-	public static final List<PlacementRule.TooltipBuilder<IAcceleratorPart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
+	public static final List<PlacementRule.TooltipBuilder<Accelerator, IAcceleratorPart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
 	
 	public static PlacementRule.RecipeHandler recipe_handler;
 	
@@ -113,8 +113,8 @@ public class CoolerPlacement
 	
 	public static void postInit() 
 	{
-		for (Object2ObjectMap.Entry<String, PlacementRule<IAcceleratorPart>> entry : RULE_MAP.object2ObjectEntrySet()) {
-			for (PlacementRule.TooltipBuilder<IAcceleratorPart> builder : TOOLTIP_BUILDER_LIST) 
+		for (Object2ObjectMap.Entry<String, PlacementRule<Accelerator, IAcceleratorPart>> entry : RULE_MAP.object2ObjectEntrySet()) {
+			for (PlacementRule.TooltipBuilder<Accelerator, IAcceleratorPart> builder : TOOLTIP_BUILDER_LIST) 
 			{
 				String tooltip = builder.buildTooltip(entry.getValue());
 				if (tooltip != null)
@@ -125,17 +125,17 @@ public class CoolerPlacement
 	
 	// Default Rule Parser
 	
-	public static PlacementRule<IAcceleratorPart> parse(String string) 
+	public static PlacementRule<Accelerator, IAcceleratorPart> parse(String string) 
 	{
 		return PlacementRule.parse(string, RULE_PARSER_LIST);
 	}
 	
 	/** Rule parser for all rule types available in base NC. */
-	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<IAcceleratorPart> 
+	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<Accelerator, IAcceleratorPart> 
 	{
 		
 		@Override
-		protected @Nullable PlacementRule<IAcceleratorPart> partialParse(String s) 
+		protected @Nullable PlacementRule<Accelerator, IAcceleratorPart> partialParse(String s) 
 		{
 			s = s.toLowerCase(Locale.ROOT);
 			
@@ -244,7 +244,7 @@ public class CoolerPlacement
 	
 	// Adjacent
 	
-	public static abstract class Adjacent extends PlacementRule.Adjacent<IAcceleratorPart> 
+	public static abstract class Adjacent extends PlacementRule.Adjacent<Accelerator, IAcceleratorPart> 
 	{
 		
 		public Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) 
@@ -531,7 +531,7 @@ public class CoolerPlacement
 	
 	// Default Tooltip Builder
 	
-	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<IAcceleratorPart> {}
+	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<Accelerator, IAcceleratorPart> {}
 	
 	// Tooltip Recipes
 	

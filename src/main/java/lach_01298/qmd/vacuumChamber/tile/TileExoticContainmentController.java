@@ -35,7 +35,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileExoticContainmentController extends TileVacuumChamberPart implements IVacuumChamberController, ITileInventory
+public class TileExoticContainmentController extends TileVacuumChamberPart implements IVacuumChamberController<TileExoticContainmentController>, ITileInventory
 {
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.neutral_containment_controller";

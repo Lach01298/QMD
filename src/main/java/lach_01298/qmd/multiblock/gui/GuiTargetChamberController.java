@@ -5,9 +5,12 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particleChamber.ParticleChamber;
+import lach_01298.qmd.particleChamber.ParticleChamberLogic;
 import lach_01298.qmd.particleChamber.TargetChamberLogic;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
+import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.network.PacketHandler;
@@ -21,14 +24,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiTargetChamberController
-		extends GuiLogicMultiblock<ParticleChamber, TargetChamberLogic, IParticleChamberController>
+		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileTargetChamberController, TargetChamberLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiTargetChamberController(EntityPlayer player, IParticleChamberController controller)
+	public GuiTargetChamberController(EntityPlayer player, TileTargetChamberController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png");
@@ -101,7 +104,7 @@ public class GuiTargetChamberController
 
 		// draw progress bar
 		int progress = Math
-				.min((int) Math.round((double) logic.particleWorkDone / (double) logic.recipeParticleWork * 21), 21);
+				.min((int) Math.round((double) getLogic().particleWorkDone / (double) getLogic().recipeParticleWork * 21), 21);
 		drawTexturedModalRect(guiLeft + 65, guiTop + 40, 182, 0, progress, 12);
 
 		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft + 12, guiTop + 38);

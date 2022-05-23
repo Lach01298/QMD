@@ -418,7 +418,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	
 	// Network
 	@Override
-	public BeamSplitterUpdatePacket getUpdatePacket()
+	public BeamSplitterUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new BeamSplitterUpdatePacket(getAccelerator().controller.getTilePos(),
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
@@ -428,9 +428,9 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	}
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message)
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof BeamSplitterUpdatePacket)
 		{
 			BeamSplitterUpdatePacket packet = (BeamSplitterUpdatePacket) message;
@@ -454,11 +454,11 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	
 	
 
-	@Override
+	/*@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return new ContainerBeamSplitterController(player, getAccelerator().controller);
-	}
+	}*/
 
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorSynchrotronPort.class,

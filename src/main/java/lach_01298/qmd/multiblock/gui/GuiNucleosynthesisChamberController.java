@@ -8,11 +8,14 @@ import org.lwjgl.opengl.GL11;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.ClearTankPacket;
+import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.util.Units;
 import lach_01298.qmd.vacuumChamber.NucleosynthesisChamberLogic;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
+import lach_01298.qmd.vacuumChamber.VacuumChamberLogic;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
+import lach_01298.qmd.vacuumChamber.tile.TileNucleosynthesisChamberController;
 import nc.gui.element.GuiFluidRenderer;
 import nc.gui.element.NCButton;
 import nc.multiblock.gui.GuiLogicMultiblock;
@@ -28,14 +31,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiNucleosynthesisChamberController
-		extends GuiLogicMultiblock<VacuumChamber, NucleosynthesisChamberLogic, IVacuumChamberController>
+		extends GuiLogicMultiblock<VacuumChamber, VacuumChamberLogic, IVacuumChamberPart, VacuumChamberUpdatePacket, TileNucleosynthesisChamberController, NucleosynthesisChamberLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiNucleosynthesisChamberController(EntityPlayer player, IVacuumChamberController controller)
+	public GuiNucleosynthesisChamberController(EntityPlayer player, TileNucleosynthesisChamberController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/nucleosynthesis_chamber_controller.png");
@@ -61,7 +64,7 @@ public class GuiNucleosynthesisChamberController
 		fontRenderer.drawString(title, offset, 5, fontColor);
 		
 		String efficiency = Lang.localise("gui.qmd.container.nucleosynthesis_chamber.efficiency",
-				String.format("%.2f", logic.getCoolingEfficiency() * 100));
+				String.format("%.2f", getLogic().getCoolingEfficiency() * 100));
 		fontRenderer.drawString(efficiency, offset, 90, fontColor);
 
 		
@@ -94,7 +97,7 @@ public class GuiNucleosynthesisChamberController
 		drawTexturedModalRect(guiLeft + 22, guiTop + 82 - coolant, 184, 74 - coolant, 4, coolant);
 
 		// casing heat bar
-		int casingHeat = (int) Math.round((double) logic.casingHeatBuffer.getHeatStored() / (double) logic.casingHeatBuffer.getHeatCapacity() * 74);
+		int casingHeat = (int) Math.round((double) getLogic().casingHeatBuffer.getHeatStored() / (double) getLogic().casingHeatBuffer.getHeatCapacity() * 74);
 		drawTexturedModalRect(guiLeft + 156, guiTop + 82 - casingHeat, 180, 74 - casingHeat, 4, casingHeat);
 
 		// casing coolant bar
@@ -109,7 +112,7 @@ public class GuiNucleosynthesisChamberController
 			drawTexturedModalRect(guiLeft + 49, guiTop + 37, 188, 0, 59, 2);
 		}
 
-		int bar = (int) Math.min(Math.round((double) logic.particleWorkDone / (double) logic.recipeParticleWork * 62), 62);
+		int bar = (int) Math.min(Math.round((double) getLogic().particleWorkDone / (double) getLogic().recipeParticleWork * 62), 62);
 		drawTexturedModalRect(guiLeft + 71, guiTop + 24, 188, 2, bar, 28);
 
 
@@ -175,13 +178,13 @@ public class GuiNucleosynthesisChamberController
 		List<String> info = new ArrayList<String>();
 		
 		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.heat_stored",
-				Units.getSIFormat(logic.casingHeatBuffer.getHeatStored(), "H"),
-				Units.getSIFormat(logic.casingHeatBuffer.getHeatCapacity(), "H")));
-		info.add(Lang.localise("gui.qmd.container.temperature", Units.getSIFormat(logic.getCasingTemperature(), "K")));
+				Units.getSIFormat(getLogic().casingHeatBuffer.getHeatStored(), "H"),
+				Units.getSIFormat(getLogic().casingHeatBuffer.getHeatCapacity(), "H")));
+		info.add(Lang.localise("gui.qmd.container.temperature", Units.getSIFormat(getLogic().getCasingTemperature(), "K")));
 		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.cooling",
-				Units.getSIFormat(-logic.casingCooling, "H/t")));
+				Units.getSIFormat(-getLogic().casingCooling, "H/t")));
 		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.heating",
-				Units.getSIFormat(logic.casingHeating, "H/t")));
+				Units.getSIFormat(getLogic().casingHeating, "H/t")));
 
 		return info;
 	}
@@ -217,9 +220,9 @@ public class GuiNucleosynthesisChamberController
 				Units.getSIFormat(multiblock.tanks.get(2).getFluidAmount(), -3, "B"),
 				Units.getSIFormat(multiblock.tanks.get(2).getCapacity(), -3, "B")));
 		info.add(TextFormatting.BLUE + Lang.localise("gui.qmd.container.max_coolant_in",
-				Units.getSIFormat(logic.maxCasingCoolantIn, -6, "B/t")));
+				Units.getSIFormat(getLogic().maxCasingCoolantIn, -6, "B/t")));
 		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.max_coolant_out",
-				Units.getSIFormat(logic.maxCasingCoolantOut, -6, "B/t")));
+				Units.getSIFormat(getLogic().maxCasingCoolantOut, -6, "B/t")));
 
 		return info;
 	}
