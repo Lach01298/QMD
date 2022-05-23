@@ -8,10 +8,13 @@ import org.lwjgl.opengl.GL11;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.ClearTankPacket;
+import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particleChamber.BeamDumpLogic;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
+import lach_01298.qmd.particleChamber.ParticleChamberLogic;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
+import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
 import lach_01298.qmd.util.Units;
 import nc.gui.element.GuiFluidRenderer;
 import nc.gui.element.NCButton;
@@ -28,14 +31,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiBeamDumpController
-		extends GuiLogicMultiblock<ParticleChamber, BeamDumpLogic, IParticleChamberController>
+		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileBeamDumpController, BeamDumpLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiBeamDumpController(EntityPlayer player, IParticleChamberController controller)
+	public GuiBeamDumpController(EntityPlayer player, TileBeamDumpController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/beam_dump_controller.png");
@@ -92,7 +95,7 @@ public class GuiBeamDumpController
 
 		// draw progress bar
 		int progress = Math
-				.min((int) Math.round((double) logic.particleWorkDone / (double) logic.recipeParticleWork * 26), 26);
+				.min((int) Math.round((double) getLogic().particleWorkDone / (double) getLogic().recipeParticleWork * 26), 26);
 		drawTexturedModalRect(guiLeft + 54, guiTop + 38, 143, 6, progress, 14);
 
 		GuiFluidRenderer.renderGuiTank(multiblock.tanks.get(1), guiLeft + 81, guiTop + 37, zLevel, 16, 16);

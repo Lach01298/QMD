@@ -5,9 +5,12 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particleChamber.CollisionChamberLogic;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
+import lach_01298.qmd.particleChamber.ParticleChamberLogic;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
+import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
 import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.util.Lang;
@@ -19,14 +22,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiCollisionChamberController
-		extends GuiLogicMultiblock<ParticleChamber, CollisionChamberLogic, IParticleChamberController>
+		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, CollisionChamberLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiCollisionChamberController(EntityPlayer player, IParticleChamberController controller)
+	public GuiCollisionChamberController(EntityPlayer player, TileCollisionChamberController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/collision_chamber_controller.png");

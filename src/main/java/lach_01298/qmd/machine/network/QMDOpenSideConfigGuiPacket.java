@@ -77,7 +77,7 @@ public class QMDOpenSideConfigGuiPacket implements IMessage
 			{
 				FMLNetworkHandler.openGui(player, QMD.instance, ((ITileGui) tile).getGuiID() + 1000,
 						player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
-				((ITileGui) tile).beginUpdatingPlayer(player);
+				((ITileGui) tile).addTileUpdatePacketListener(player);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package lach_01298.qmd.pipe;
 
 import java.lang.reflect.Constructor;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -8,16 +9,19 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import lach_01298.qmd.multiblock.IQMDPacketMultiblock;
 import nc.Global;
 import nc.multiblock.ILogicMultiblock;
 import nc.multiblock.Multiblock;
 import nc.multiblock.tile.ITileMultiblockPart;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements ILogicMultiblock<PipeLogic, IPipePart>
+public class Pipe extends PipeMultiblock<Pipe, IPipePart>
+		implements ILogicMultiblock<Pipe, PipeLogic, IPipePart>, IQMDPacketMultiblock<Pipe, IPipePart, PipeUpdatePacket>
 {
 	 
 	public static final ObjectSet<Class<? extends IPipePart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -25,16 +29,19 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 	
 	protected @Nonnull PipeLogic logic = new PipeLogic(this);
 	
-	protected final PartSuperMap<IPipePart> partSuperMap = new PartSuperMap<>();
+	protected final PartSuperMap<Pipe, IPipePart> partSuperMap = new PartSuperMap<>();
 	public IPipeController controller;
+	
+	protected final Set<EntityPlayer> updatePacketListeners;
 	
 	public Pipe(World world)
 	{
-		super(world);
+		super(world, Pipe.class, IPipePart.class);
 		for (Class<? extends IPipePart> clazz : PART_CLASSES)
 		{
 			partSuperMap.equip(clazz);
 		}
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 
 	
@@ -53,28 +60,28 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 	}
 	
 	@Override
-	public PartSuperMap<IPipePart> getPartSuperMap()
+	public PartSuperMap<Pipe, IPipePart> getPartSuperMap()
 	{
 		return partSuperMap;
 	}
 	
 
 	@Override
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data)
+	public void onAttachedPartWithMultiblockData(IPipePart part, NBTTagCompound data)
 	{
 		logic.onAttachedPartWithMultiblockData(part, data);
 		syncDataFrom(data, SyncReason.FullSync);
 	}
 
 	@Override
-	protected void onBlockAdded(ITileMultiblockPart newPart)
+	protected void onBlockAdded(IPipePart newPart)
 	{
 		onPartAdded(newPart);
 		logic.onBlockAdded(newPart);
 	}
 
 	@Override
-	protected void onBlockRemoved(ITileMultiblockPart oldPart)
+	protected void onBlockRemoved(IPipePart oldPart)
 	{
 		onPartRemoved(oldPart);
 		logic.onBlockRemoved(oldPart);
@@ -108,13 +115,13 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 	
 
 	@Override
-	protected void onAssimilate(Multiblock assimilated)
+	protected void onAssimilate(Pipe assimilated)
 	{
 		logic.onAssimilate(assimilated);
 	}
 
 	@Override
-	protected void onAssimilated(Multiblock assimilator)
+	protected void onAssimilated(Pipe assimilator)
 	{
 		logic.onAssimilated(assimilator);
 	}
@@ -127,7 +134,7 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 			return true;
 		}
 		
-		sendUpdateToListeningPlayers();
+		sendMultiblockUpdatePacketToListeners();
 		
 		return true;
 	}
@@ -165,18 +172,23 @@ public class Pipe extends PipeMultiblock<IPipePart, PipeUpdatePacket> implements
 		
 		logic.writeToLogicTag(data, syncReason);
 	}
-
+	
 	@Override
-	protected PipeUpdatePacket getUpdatePacket()
-	{
-		
-		return logic.getUpdatePacket();
+	public Set<EntityPlayer> getMultiblockUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 
 	@Override
-	public void onPacket(PipeUpdatePacket message)
+	public PipeUpdatePacket getMultiblockUpdatePacket()
 	{
-		logic.onPacket(message);
+		
+		return logic.getMultiblockUpdatePacket();
+	}
+
+	@Override
+	public void onMultiblockUpdatePacket(PipeUpdatePacket message)
+	{
+		logic.onMultiblockUpdatePacket(message);
 	}
 
 	

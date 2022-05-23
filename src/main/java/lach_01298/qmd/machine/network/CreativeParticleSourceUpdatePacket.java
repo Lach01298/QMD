@@ -55,13 +55,13 @@ public class CreativeParticleSourceUpdatePacket extends TileUpdatePacket
 
 	}
 
-	public static class Handler extends TileUpdatePacket.Handler<CreativeParticleSourceUpdatePacket, ITileGui>
+	public static class Handler extends TileUpdatePacket.Handler<CreativeParticleSourceUpdatePacket, ITileGui<CreativeParticleSourceUpdatePacket>>
 	{
 
 		@Override
-		protected void onPacket(CreativeParticleSourceUpdatePacket message, ITileGui processor)
+		protected void onTileUpdatePacket(CreativeParticleSourceUpdatePacket message, ITileGui<CreativeParticleSourceUpdatePacket> processor)
 		{
-			processor.onGuiPacket(message);
+			processor.onTileUpdatePacket(message);
 		}
 	}
 

@@ -313,7 +313,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new BeamDumpUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
@@ -321,9 +321,9 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof BeamDumpUpdatePacket)
 		{
 			BeamDumpUpdatePacket packet = (BeamDumpUpdatePacket) message;
@@ -358,11 +358,11 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	
 	
 	
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		
 		return new ContainerBeamDumpController(player, (TileBeamDumpController) getMultiblock().controller);
-	}
+	}*/
 	
 	
 }

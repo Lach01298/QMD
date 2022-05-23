@@ -8,11 +8,14 @@ import org.lwjgl.opengl.GL11;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.ClearTankPacket;
+import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.util.Units;
-import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.ExoticContainmentLogic;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
+import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.VacuumChamberLogic;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import nc.gui.element.GuiFluidRenderer;
 import nc.gui.element.NCButton;
 import nc.multiblock.gui.GuiLogicMultiblock;
@@ -28,14 +31,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiNeutralContainmentController
-		extends GuiLogicMultiblock<VacuumChamber, ExoticContainmentLogic, IVacuumChamberController>
+		extends GuiLogicMultiblock<VacuumChamber, VacuumChamberLogic, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, ExoticContainmentLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiNeutralContainmentController(EntityPlayer player, IVacuumChamberController controller)
+	public GuiNeutralContainmentController(EntityPlayer player, TileExoticContainmentController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png");
@@ -100,7 +103,7 @@ public class GuiNeutralContainmentController
 		}
 
 		int left = (int) Math
-				.min(Math.round((double) logic.particle1WorkDone / (double) logic.recipeParticle1Work * 10), 10);
+				.min(Math.round((double) getLogic().particle1WorkDone / (double) getLogic().recipeParticle1Work * 10), 10);
 		drawTexturedModalRect(guiLeft + 60, guiTop + 33, 206, 0, left, 6);
 
 		// input right
@@ -109,7 +112,7 @@ public class GuiNeutralContainmentController
 			drawTexturedModalRect(guiLeft + 114, guiTop + 33, 190, 6, 16, 6);
 		}
 		int right = (int) Math
-				.min(Math.round((double) logic.particle2WorkDone / (double) logic.recipeParticle2Work * 10), 10);
+				.min(Math.round((double) getLogic().particle2WorkDone / (double) getLogic().recipeParticle2Work * 10), 10);
 
 		drawTexturedModalRect(guiLeft + 114 - right, guiTop + 33, 216 - right, 6, right, 6);
 

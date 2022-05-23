@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.network.multiblock.MultiblockUpdatePacket;
@@ -47,12 +48,17 @@ public class RingAcceleratorUpdatePacket extends AcceleratorUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<RingAcceleratorUpdatePacket, Accelerator, TileRingAcceleratorController>
+			MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileRingAcceleratorController, RingAcceleratorUpdatePacket>
 	{
 
 		public Handler()
 		{
 			super(TileRingAcceleratorController.class);
+		}
+		
+		@Override
+		protected void onPacket(RingAcceleratorUpdatePacket message, Accelerator multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 

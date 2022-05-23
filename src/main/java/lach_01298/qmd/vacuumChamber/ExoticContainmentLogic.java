@@ -139,7 +139,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				}
 				
 				
-				getMultiblock().sendUpdateToAllPlayers();
+				getMultiblock().sendMultiblockUpdatePacketToAll();
 				getMultiblock().markReferenceCoordForUpdate();
 			}
 			
@@ -535,7 +535,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		if (getMultiblock().controller != null)
 		{
 			QMDPacketHandler.instance.sendToAll(getMultiblock().getRenderPacket());
-			getMultiblock().sendUpdateToListeningPlayers();
+			getMultiblock().sendMultiblockUpdatePacketToListeners();
 			getMultiblock().sendRenderToAllPlayers();
 		}
 
@@ -953,7 +953,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	// Packets
 
 	@Override
-	public VacuumChamberUpdatePacket getUpdatePacket()
+	public VacuumChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new NeutralContainmentUpdatePacket(getMultiblock().controller.getTilePos(),
 				getMultiblock().isChamberOn, getMultiblock().heating,getMultiblock().currentHeating, getMultiblock().maxCoolantIn,
@@ -963,9 +963,9 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	}
 
 	@Override
-	public void onPacket(VacuumChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(VacuumChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof NeutralContainmentUpdatePacket)
 		{
 			NeutralContainmentUpdatePacket packet = (NeutralContainmentUpdatePacket) message;
@@ -993,11 +993,11 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 	
 
-	@Override
+	/*@Override
 	public ContainerMultiblockController<VacuumChamber, IVacuumChamberController> getContainer(EntityPlayer player)
 	{
 		return new ContainerExoticContainmentController(player,
 				(TileExoticContainmentController) getMultiblock().controller);
-	}
+	}*/
 
 }

@@ -522,7 +522,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	
 	// Network
 	@Override
-	public RingAcceleratorUpdatePacket getUpdatePacket()
+	public RingAcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new RingAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
@@ -532,9 +532,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message)
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof RingAcceleratorUpdatePacket)
 		{
 			RingAcceleratorUpdatePacket packet = (RingAcceleratorUpdatePacket) message;
@@ -571,11 +571,11 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	
 	
 	
-	@Override
+	/*@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return new ContainerRingAcceleratorController(player, getAccelerator().controller);
-	}
+	}*/
 
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"));

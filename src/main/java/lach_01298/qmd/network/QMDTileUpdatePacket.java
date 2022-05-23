@@ -2,7 +2,7 @@ package lach_01298.qmd.network;
 
 import io.netty.buffer.ByteBuf;
 import nc.network.tile.TileUpdatePacket;
-import nc.tile.ITileGui;
+import nc.tile.ITilePacket;
 import net.minecraft.util.math.BlockPos;
 
 public class QMDTileUpdatePacket extends TileUpdatePacket
@@ -33,13 +33,13 @@ public class QMDTileUpdatePacket extends TileUpdatePacket
 		buf.writeInt(pos.getZ());
 	}
 
-	public static class Handler extends TileUpdatePacket.Handler<QMDTileUpdatePacket, ITileGui>
+	public static class Handler extends TileUpdatePacket.Handler<QMDTileUpdatePacket, ITilePacket<QMDTileUpdatePacket>>
 	{
 
 		@Override
-		protected void onPacket(QMDTileUpdatePacket message, ITileGui processor)
+		protected void onTileUpdatePacket(QMDTileUpdatePacket message, ITilePacket<QMDTileUpdatePacket> processor)
 		{
-			processor.onGuiPacket(message);
+			processor.onTileUpdatePacket(message);
 		}
 	}
 

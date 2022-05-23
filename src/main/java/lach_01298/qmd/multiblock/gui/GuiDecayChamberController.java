@@ -5,9 +5,12 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particleChamber.DecayChamberLogic;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
+import lach_01298.qmd.particleChamber.ParticleChamberLogic;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
+import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.network.PacketHandler;
@@ -21,14 +24,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiDecayChamberController
-		extends GuiLogicMultiblock<ParticleChamber, DecayChamberLogic, IParticleChamberController>
+		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileDecayChamberController, DecayChamberLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiDecayChamberController(EntityPlayer player, IParticleChamberController controller)
+	public GuiDecayChamberController(EntityPlayer player, TileDecayChamberController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/decay_chamber_controller.png");

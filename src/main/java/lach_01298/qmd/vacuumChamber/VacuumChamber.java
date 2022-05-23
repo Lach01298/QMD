@@ -2,6 +2,7 @@ package lach_01298.qmd.vacuumChamber;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -13,6 +14,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.IMultiBlockTank;
+import lach_01298.qmd.multiblock.IQMDPacketMultiblock;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
 import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
@@ -38,8 +40,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, VacuumChamberUpdatePacket>
-		implements ILogicMultiblock<VacuumChamberLogic, IVacuumChamberPart>, IMultiBlockTank
+public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumChamberPart>
+		implements ILogicMultiblock<VacuumChamber, VacuumChamberLogic, IVacuumChamberPart>, IQMDPacketMultiblock<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket>, IMultiBlockTank
 {
 
 	public static final ObjectSet<Class<? extends IVacuumChamberPart>> PART_CLASSES = new ObjectOpenHashSet<>();
@@ -48,7 +50,7 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 	protected @Nonnull VacuumChamberLogic logic = new VacuumChamberLogic(this);
 	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 
-	protected final PartSuperMap<IVacuumChamberPart> partSuperMap = new PartSuperMap<>();
+	protected final PartSuperMap<VacuumChamber, IVacuumChamberPart> partSuperMap = new PartSuperMap<>();
 
 	public float materialXOffset = 0F, materialYOffset = 0F, materialZOffset = 0F;
 	public float materialAngle = 0F;
@@ -76,13 +78,16 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 			new Tank(QMDConfig.accelerator_base_output_tank_capacity, null), new Tank(1, null), new Tank(1, null),
 			new Tank(1, null), new Tank(1, null), new Tank(1, null), new Tank(1, null));
 
+	protected final Set<EntityPlayer> updatePacketListeners;
+	
 	public VacuumChamber(World world)
 	{
-		super(world);
+		super(world, VacuumChamber.class, IVacuumChamberPart.class);
 		for (Class<? extends IVacuumChamberPart> clazz : PART_CLASSES)
 		{
 			partSuperMap.equip(clazz);
 		}
+		updatePacketListeners = new ObjectOpenHashSet<>();
 	}
 
 	@Override
@@ -102,7 +107,7 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 	// Multiblock Part Getters
 
 	@Override
-	public PartSuperMap<IVacuumChamberPart> getPartSuperMap()
+	public PartSuperMap<VacuumChamber, IVacuumChamberPart> getPartSuperMap()
 	{
 		return partSuperMap;
 	}
@@ -124,7 +129,7 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 	// Multiblock Methods
 
 	@Override
-	public void onAttachedPartWithMultiblockData(ITileMultiblockPart part, NBTTagCompound data)
+	public void onAttachedPartWithMultiblockData(IVacuumChamberPart part, NBTTagCompound data)
 	{
 		logic.onAttachedPartWithMultiblockData(part, data);
 		syncDataFrom(data, SyncReason.FullSync);
@@ -132,7 +137,7 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 	}
 
 	@Override
-	protected void onBlockAdded(ITileMultiblockPart newPart)
+	protected void onBlockAdded(IVacuumChamberPart newPart)
 	{
 		onPartAdded(newPart);
 		logic.onBlockAdded(newPart);
@@ -140,7 +145,7 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 	}
 
 	@Override
-	protected void onBlockRemoved(ITileMultiblockPart oldPart)
+	protected void onBlockRemoved(IVacuumChamberPart oldPart)
 	{
 		onPartRemoved(oldPart);
 		logic.onBlockRemoved(oldPart);
@@ -202,13 +207,13 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 	}
 
 	@Override
-	protected void onAssimilate(Multiblock assimilated)
+	protected void onAssimilate(VacuumChamber assimilated)
 	{
 		logic.onAssimilate(assimilated);
 	}
 
 	@Override
-	protected void onAssimilated(Multiblock assimilator)
+	protected void onAssimilated(VacuumChamber assimilator)
 	{
 		logic.onAssimilated(assimilator);
 	}
@@ -254,7 +259,7 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 			if (controller != null)
 			{
 				controller.setActivity(isChamberOn);
-				sendUpdateToAllPlayers();
+				sendMultiblockUpdatePacketToAll();
 			}
 		}
 
@@ -329,15 +334,20 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 	}
 
 	// Packets
-
+	
 	@Override
-	protected VacuumChamberUpdatePacket getUpdatePacket()
-	{
-		return logic.getUpdatePacket();
+	public Set<EntityPlayer> getMultiblockUpdatePacketListeners() {
+		return updatePacketListeners;
 	}
 
 	@Override
-	public void onPacket(VacuumChamberUpdatePacket message)
+	public VacuumChamberUpdatePacket getMultiblockUpdatePacket()
+	{
+		return logic.getMultiblockUpdatePacket();
+	}
+
+	@Override
+	public void onMultiblockUpdatePacket(VacuumChamberUpdatePacket message)
 	{
 		heatBuffer.setHeatCapacity(message.heatBuffer.getHeatCapacity());
 		heatBuffer.setHeatStored(message.heatBuffer.getHeatStored());
@@ -356,7 +366,7 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 		maxOperatingTemp = message.maxOperatingTemp;
 		requiredEnergy = message.requiredEnergy;
 
-		logic.onPacket(message);
+		logic.onMultiblockUpdatePacket(message);
 	}
 
 	protected ContainmentRenderPacket getRenderPacket()
@@ -398,52 +408,10 @@ public class VacuumChamber extends CuboidalMultiblock<IVacuumChamberPart, Vacuum
 
 	}
 
-	public void sendUpdateToListeningPlayers()
-	{
-		VacuumChamberUpdatePacket packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		for (EntityPlayer player : playersToUpdate)
-		{
-			QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
-		}
-	}
-
-	public void sendIndividualUpdate(EntityPlayer player)
-	{
-		if (WORLD.isRemote)
-		{
-			return;
-		}
-		VacuumChamberUpdatePacket packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
-	}
-
-	public void sendUpdateToAllPlayers()
-	{
-		if (WORLD.isRemote)
-		{
-			return;
-		}
-		VacuumChamberUpdatePacket packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		QMDPacketHandler.instance.sendToAll(getUpdatePacket());
-	}
-
-
-	public ContainerMultiblockController<VacuumChamber, IVacuumChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<VacuumChamber, IVacuumChamberController> getContainer(EntityPlayer player)
 	{
 		return logic.getContainer(player);
-	}
+	}*/
 
 	@Override
 	public void clearAllMaterial()

@@ -593,7 +593,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new TargetChamberUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
@@ -601,9 +601,9 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof TargetChamberUpdatePacket)
 		{
 			TargetChamberUpdatePacket packet = (TargetChamberUpdatePacket) message;
@@ -639,11 +639,11 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	
 	
 	
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		
 		return new ContainerTargetChamberController(player, (TileTargetChamberController) getMultiblock().controller);
-	}
+	}*/
 	
 	
 }

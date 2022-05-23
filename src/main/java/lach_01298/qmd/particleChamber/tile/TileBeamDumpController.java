@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileBeamDumpController extends TileParticleChamberPart implements IParticleChamberController
+public class TileBeamDumpController extends TileParticleChamberPart implements IParticleChamberController<TileBeamDumpController>
 {
 
 	public TileBeamDumpController()

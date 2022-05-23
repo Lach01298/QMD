@@ -68,13 +68,13 @@ public class TargetChamberControllerUpdatePacket extends TileUpdatePacket
 		buf.writeDouble(baseProcessTime);
 	}
 
-	public static class Handler extends TileUpdatePacket.Handler<TargetChamberControllerUpdatePacket, ITileGui>
+	public static class Handler extends TileUpdatePacket.Handler<TargetChamberControllerUpdatePacket, ITileGui<TargetChamberControllerUpdatePacket>>
 	{
 
 		@Override
-		protected void onPacket(TargetChamberControllerUpdatePacket message, ITileGui processor)
+		protected void onTileUpdatePacket(TargetChamberControllerUpdatePacket message, ITileGui<TargetChamberControllerUpdatePacket> processor)
 		{
-			processor.onGuiPacket(message);
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

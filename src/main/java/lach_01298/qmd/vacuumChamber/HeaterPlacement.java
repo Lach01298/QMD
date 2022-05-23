@@ -42,16 +42,16 @@ public class HeaterPlacement
 {
 
 	/** List of all defined rule parsers. Earlier entries are prioritised! */
-	public static final List<PlacementRule.RuleParser<IVacuumChamberPart>> RULE_PARSER_LIST = new LinkedList<>();
+	public static final List<PlacementRule.RuleParser<VacuumChamber, IVacuumChamberPart>> RULE_PARSER_LIST = new LinkedList<>();
 	
 	/** Map of all placement rule IDs to unparsed rule strings, used for ordered iterations. */
 	public static final Object2ObjectMap<String, String> RULE_MAP_RAW = new Object2ObjectArrayMap<>();
 	
 	/** Map of all defined placement rules. */
-	public static final Object2ObjectMap<String, PlacementRule<IVacuumChamberPart>> RULE_MAP = new PlacementMap<>();
+	public static final Object2ObjectMap<String, PlacementRule<VacuumChamber, IVacuumChamberPart>> RULE_MAP = new PlacementMap<>();
 	
 	/** List of all defined tooltip builders. Earlier entries are prioritised! */
-	public static final List<PlacementRule.TooltipBuilder<IVacuumChamberPart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
+	public static final List<PlacementRule.TooltipBuilder<VacuumChamber, IVacuumChamberPart>> TOOLTIP_BUILDER_LIST = new LinkedList<>();
 	
 	public static PlacementRule.RecipeHandler recipe_handler;
 	
@@ -95,8 +95,8 @@ public class HeaterPlacement
 	
 	public static void postInit() 
 	{
-		for (Object2ObjectMap.Entry<String, PlacementRule<IVacuumChamberPart>> entry : RULE_MAP.object2ObjectEntrySet()) {
-			for (PlacementRule.TooltipBuilder<IVacuumChamberPart> builder : TOOLTIP_BUILDER_LIST) 
+		for (Object2ObjectMap.Entry<String, PlacementRule<VacuumChamber, IVacuumChamberPart>> entry : RULE_MAP.object2ObjectEntrySet()) {
+			for (PlacementRule.TooltipBuilder<VacuumChamber, IVacuumChamberPart> builder : TOOLTIP_BUILDER_LIST) 
 			{
 				String tooltip = builder.buildTooltip(entry.getValue());
 				if (tooltip != null)
@@ -107,17 +107,17 @@ public class HeaterPlacement
 	
 	// Default Rule Parser
 	
-	public static PlacementRule<IVacuumChamberPart> parse(String string) 
+	public static PlacementRule<VacuumChamber, IVacuumChamberPart> parse(String string) 
 	{
 		return PlacementRule.parse(string, RULE_PARSER_LIST);
 	}
 	
 	/** Rule parser for all rule types available in base NC. */
-	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<IVacuumChamberPart> 
+	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<VacuumChamber, IVacuumChamberPart> 
 	{
 		
 		@Override
-		protected @Nullable PlacementRule<IVacuumChamberPart> partialParse(String s) 
+		protected @Nullable PlacementRule<VacuumChamber, IVacuumChamberPart> partialParse(String s) 
 		{
 			s = s.toLowerCase(Locale.ROOT);
 			
@@ -215,7 +215,7 @@ public class HeaterPlacement
 	
 	// Adjacent
 	
-	public static abstract class Adjacent extends PlacementRule.Adjacent<IVacuumChamberPart> 
+	public static abstract class Adjacent extends PlacementRule.Adjacent<VacuumChamber, IVacuumChamberPart> 
 	{
 		
 		public Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) 
@@ -355,7 +355,7 @@ public class HeaterPlacement
 	
 	// Default Tooltip Builder
 	
-	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<IVacuumChamberPart> {}
+	public static class DefaultTooltipBuilder extends PlacementRule.DefaultTooltipBuilder<VacuumChamber, IVacuumChamberPart> {}
 	
 	// Tooltip Recipes
 	

@@ -5,9 +5,12 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.accelerator.AcceleratorLogic;
 import lach_01298.qmd.accelerator.DeceleratorLogic;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
+import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
@@ -21,14 +24,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiDeceleratorController extends GuiLogicMultiblock<Accelerator, DeceleratorLogic, IAcceleratorController>
+public class GuiDeceleratorController extends GuiLogicMultiblock<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileDeceleratorController, DeceleratorLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiDeceleratorController(EntityPlayer player, IAcceleratorController controller)
+	public GuiDeceleratorController(EntityPlayer player, TileDeceleratorController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/accelerator_controller.png");

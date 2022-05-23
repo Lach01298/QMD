@@ -512,7 +512,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 	
 	// Network
 	@Override
-	public DeceleratorUpdatePacket getUpdatePacket()
+	public DeceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new DeceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
 				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
@@ -522,9 +522,9 @@ public class DeceleratorLogic extends AcceleratorLogic
 	} 
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message)
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof DeceleratorUpdatePacket)
 		{
 			DeceleratorUpdatePacket packet = (DeceleratorUpdatePacket) message;
@@ -561,11 +561,11 @@ public class DeceleratorLogic extends AcceleratorLogic
 	
 	
 	
-	@Override
+	/*@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return new ContainerDeceleratorController(player, getAccelerator().controller);
-	}
+	}*/
 	
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.source"),

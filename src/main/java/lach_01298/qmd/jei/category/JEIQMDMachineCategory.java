@@ -16,7 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIQMDMachineCategory<WRAPPER extends JEIBasicRecipeWrapper> extends JEIBasicCategory<WRAPPER> 
+public abstract class JEIQMDMachineCategory<WRAPPER extends JEIBasicRecipeWrapper<WRAPPER>> extends JEIBasicCategory<WRAPPER> 
 {
 	
 	private final IDrawable background;

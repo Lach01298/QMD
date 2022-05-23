@@ -37,12 +37,17 @@ public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
 	}
 
 	
-public static class Handler extends MultiblockUpdatePacket.Handler<PipeBeamlineUpdatePacket, Pipe, TileBeamline> 
+public static class Handler extends MultiblockUpdatePacket.Handler<Pipe, IPipePart, PipeUpdatePacket, TileBeamline, PipeBeamlineUpdatePacket> 
 {
 		
 		public Handler() 
 		{
 			super(TileBeamline.class);
+		}
+
+		@Override
+		protected void onPacket(PipeBeamlineUpdatePacket message, Pipe multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 	

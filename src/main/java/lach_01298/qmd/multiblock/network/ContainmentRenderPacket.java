@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.fluid.Tank;
@@ -53,7 +54,7 @@ public class ContainmentRenderPacket extends MultiblockUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<ContainmentRenderPacket, VacuumChamber, TileExoticContainmentController>
+			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, ContainmentRenderPacket>
 	{
 
 		public Handler()

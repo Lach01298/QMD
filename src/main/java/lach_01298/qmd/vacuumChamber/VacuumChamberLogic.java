@@ -26,6 +26,7 @@ import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberEnergyPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
+import nc.multiblock.IPacketMultiblockLogic;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.container.ContainerMultiblockController;
@@ -41,7 +42,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumChamberLogic,IVacuumChamberPart,VacuumChamberUpdatePacket>
+public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumChamberLogic,IVacuumChamberPart>
+		implements IPacketMultiblockLogic<VacuumChamber, VacuumChamberLogic,IVacuumChamberPart,VacuumChamberUpdatePacket>
 { 
 
 	public static final int maxSize = 7;
@@ -228,7 +230,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 		return new ArrayList<>();
 	}
 	
-	public void onAssimilate(Multiblock assimilated)
+	public void onAssimilate(VacuumChamber assimilated)
 	{	
 		if (assimilated instanceof VacuumChamber)
 		{
@@ -247,7 +249,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 		}
 	}
 
-	public void onAssimilated(Multiblock assimilator)
+	public void onAssimilated(VacuumChamber assimilator)
 	{	
 	}
 
@@ -504,13 +506,13 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	// Packets
 	
 	@Override
-	public VacuumChamberUpdatePacket getUpdatePacket()
+	public VacuumChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return null;
 	}
 
 	@Override
-	public void onPacket(VacuumChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(VacuumChamberUpdatePacket message)
 	{
 		
 	}
@@ -551,10 +553,10 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	
 	
 	
-	public ContainerMultiblockController<VacuumChamber, IVacuumChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<VacuumChamber, IVacuumChamberController> getContainer(EntityPlayer player)
 	{
 		return null;
-	}
+	}*/
 
 	
 	

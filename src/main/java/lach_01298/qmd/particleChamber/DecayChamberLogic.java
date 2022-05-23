@@ -476,7 +476,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new DecayChamberUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
@@ -484,9 +484,9 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof DecayChamberUpdatePacket)
 		{
 			DecayChamberUpdatePacket packet = (DecayChamberUpdatePacket) message;
@@ -517,11 +517,11 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	
 	
 	
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		
 		return new ContainerDecayChamberController(player, (TileDecayChamberController) getMultiblock().controller);
-	}
+	}*/
 	
 	
 }

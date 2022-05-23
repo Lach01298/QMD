@@ -2,9 +2,11 @@ package lach_01298.qmd.multiblock.container;
 
 import lach_01298.qmd.container.slot.SlotProcessorInputIgnoreNBT;
 import lach_01298.qmd.item.IItemParticleAmount;
+import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import nc.container.slot.SlotFurnace;
 import nc.multiblock.container.ContainerMultiblockController;
@@ -14,7 +16,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerExoticContainmentController
-		extends ContainerMultiblockController<VacuumChamber, IVacuumChamberController>
+		extends ContainerMultiblockController<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController>
 {
 	protected final BasicRecipeHandler recipeHandler;
 

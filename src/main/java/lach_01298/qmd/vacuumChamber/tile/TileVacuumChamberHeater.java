@@ -21,7 +21,7 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 	public int coolingRate;
 	
 	public String ruleID;
-	public PlacementRule<IVacuumChamberPart> placementRule;
+	public PlacementRule<VacuumChamber, IVacuumChamberPart> placementRule;
 	
 	public boolean isSearched = false, isInValidPosition = false;
 

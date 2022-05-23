@@ -5,9 +5,12 @@ import java.util.List;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.accelerator.AcceleratorLogic;
 import lach_01298.qmd.accelerator.BeamDiverterLogic;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
+import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.util.Units;
 import nc.multiblock.gui.GuiLogicMultiblock;
 import nc.multiblock.gui.element.MultiblockButton;
@@ -22,14 +25,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiBeamDiverterController
-		extends GuiLogicMultiblock<Accelerator, BeamDiverterLogic, IAcceleratorController>
+		extends GuiLogicMultiblock<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileBeamDiverterController, BeamDiverterLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiBeamDiverterController(EntityPlayer player, IAcceleratorController controller)
+	public GuiBeamDiverterController(EntityPlayer player, TileBeamDiverterController controller)
 	{
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/accelerator_controller.png");
@@ -69,10 +72,10 @@ public class GuiBeamDiverterController
 		fontRenderer.drawString(dipoles, offset, 40, fontColor);
 
 		String energyLoss = Lang.localise("gui.qmd.container.beam_dirverter.energy_loss",
-				Units.getParticleEnergy(logic.getEnergyLoss()));
+				Units.getParticleEnergy(getLogic().getEnergyLoss()));
 		fontRenderer.drawString(energyLoss, offset, 50, fontColor);
 		String maxEnergy = Lang.localise("gui.qmd.container.beam_dirverter.max_energy",
-				Units.getParticleEnergy(logic.getMaxEnergy()));
+				Units.getParticleEnergy(getLogic().getMaxEnergy()));
 		fontRenderer.drawString(maxEnergy, offset, 60, fontColor);
 
 		String temperature = Lang.localise("gui.qmd.container.temperature",

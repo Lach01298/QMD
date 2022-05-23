@@ -17,7 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 
-public class TileBeamline extends TilePipePart implements IPipeController, ITileParticleStorage
+public class TileBeamline extends TilePipePart implements IPipeController<TileBeamline>, ITileParticleStorage
 {
 	private final @Nonnull List<ParticleStorageBeamline> backupTanks = Lists.newArrayList(new ParticleStorageBeamline(1));
 	
@@ -113,7 +113,7 @@ public class TileBeamline extends TilePipePart implements IPipeController, ITile
 
 
 	@Override
-	public <TILE extends IMultiblockGuiPart<Pipe>> ContainerMultiblockController<Pipe, TILE> getContainer(
+	public ContainerMultiblockController<Pipe, IPipePart, PipeUpdatePacket, TileBeamline> getContainer(
 			EntityPlayer player)
 	{
 		return null;

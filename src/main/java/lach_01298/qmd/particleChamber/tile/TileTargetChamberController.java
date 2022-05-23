@@ -34,7 +34,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController, ITileInventory
+public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController<TileTargetChamberController>, ITileInventory
 {
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";

@@ -165,7 +165,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 
 			if (getMultiblock().controller != null)
 			{
-				getMultiblock().sendUpdateToAllPlayers();
+				getMultiblock().sendMultiblockUpdatePacketToAll();
 				getMultiblock().markReferenceCoordForUpdate();
 			}
 
@@ -923,7 +923,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		}
 
 		updateRedstone();
-		getMultiblock().sendUpdateToListeningPlayers();
+		getMultiblock().sendMultiblockUpdatePacketToListeners();
 		return super.onUpdateServer();
 	}
 
@@ -1306,7 +1306,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	// Packets
 
 	@Override
-	public VacuumChamberUpdatePacket getUpdatePacket()
+	public VacuumChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new NucleosynthesisChamberUpdatePacket(getMultiblock().controller.getTilePos(),
 				getMultiblock().isChamberOn, getMultiblock().heating,getMultiblock().currentHeating, getMultiblock().maxCoolantIn,
@@ -1316,9 +1316,9 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	}
 
 	@Override
-	public void onPacket(VacuumChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(VacuumChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		
 		if (message instanceof NucleosynthesisChamberUpdatePacket)
 		{
@@ -1351,11 +1351,11 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 
 	
 
-	@Override
+	/*@Override
 	public ContainerMultiblockController<VacuumChamber, IVacuumChamberController> getContainer(EntityPlayer player)
 	{
 		return new ContainerNucleosynthesisChamberController(player, getMultiblock().controller);
-	}
+	}*/
 
 
 

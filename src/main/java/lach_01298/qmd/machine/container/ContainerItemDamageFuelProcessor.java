@@ -24,7 +24,7 @@ public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileIte
 		this.recipeHandler = recipeHandler;
 		this.fuelHandler = fuelHandler;
 
-		tileEntity.beginUpdatingPlayer(player);
+		tileEntity.addTileUpdatePacketListener(player);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileIte
 	public void onContainerClosed(EntityPlayer player)
 	{
 		super.onContainerClosed(player);
-		tile.stopUpdatingPlayer(player);
+		tile.removeTileUpdatePacketListener(player);
 	}
 
 	@Override
