@@ -2,7 +2,7 @@
 	"name": "Decelerator",
 	"icon": "qmd:decelerator_controller",
 	"category": "qmd:accelerators",
-	"sortnum": 4,
+	"sortnum": 5,
 	"pages": [
 		{
 			"type": "text",

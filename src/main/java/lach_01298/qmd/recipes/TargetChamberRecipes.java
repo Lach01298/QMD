@@ -221,7 +221,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				emptyParticleStack(), new ParticleStack(Particles.neutron, 3), emptyParticleStack(), 23500,  0.625, -12100);	
 		
 		addRecipe("ingotUranium238", new ParticleStack(Particles.neutron, 1000000, 26000), "ingotUranium235",
-				emptyParticleStack(), new ParticleStack(Particles.neutron, 4), emptyParticleStack(), 34000, 0.0, -17800);
+				emptyParticleStack(), new ParticleStack(Particles.neutron, 4), emptyParticleStack(), 34000, 0.55, -17800);
 		
 		addRecipe("ingotNeptunium236",new ParticleStack(Particles.neutron, 1000000, 10000), "ingotNeptunium237",
 				emptyParticleStack(), new ParticleStack(Particles.photon), emptyParticleStack(), 14000, 1, 6580);

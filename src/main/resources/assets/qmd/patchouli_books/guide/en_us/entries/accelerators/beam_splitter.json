@@ -1,0 +1,12 @@
+{
+    "name": "Beam Splitter",
+    "icon": "qmd:beam_splitter_controller",
+    "category": "qmd:accelerators",
+    "sortnum": 4,
+    "pages": [
+        {
+            "type": "text",
+            "text": ""
+        }
+    ]
+}

@@ -89,7 +89,7 @@ public class GuiBeamSplitterController
 		if (multiblock.errorCode != Accelerator.errorCode_Nothing)
 		{
 			String error = Lang.localise("gui.qmd.container.accelerator.error." + multiblock.errorCode);
-			fontRenderer.drawString(error, offset, 90, 15641088);
+			fontRenderer.drawString(error, offset, 90, 16711680);
 		}
 
 		if (!NCUtil.isModifierKeyDown())
