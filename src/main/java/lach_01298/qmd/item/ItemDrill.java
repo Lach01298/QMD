@@ -41,7 +41,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.Optional;
 
 
-
+@Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "ic2") })
 public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectricItem
 {
 
