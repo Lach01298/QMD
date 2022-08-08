@@ -6,9 +6,8 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particle.ParticleStorageSource;
 import lach_01298.qmd.util.ByteUtil;
-import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
@@ -19,9 +18,8 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 {
 
 	public boolean isAcceleratorOn;
-	public long cooling,rawHeating;
-	public double maxCoolantIn;
-	public double maxCoolantOut;
+	public long cooling, rawHeating, currentHeating;
+	public int maxCoolantIn, maxCoolantOut;
 	public int maxOperatingTemp;
 	public int requiredEnergy;
 	public double efficiency, quadrupoleStrength, dipoleStrength;
@@ -37,17 +35,17 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 	
 	public AcceleratorUpdatePacket()
 	{
-		messageValid = false;
 		beams = new ArrayList<ParticleStorageAccelerator>();
 	}
 
-	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating,double maxCoolantIn, double maxCoolantOut, int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
+	public AcceleratorUpdatePacket(BlockPos pos,boolean isAcceleratorOn, long cooling, long rawHeating,long currentHeating, int maxCoolantIn, int maxCoolantOut, int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage,
 int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNumber, double dipoleStrength ,int errorCode, HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
 		this.pos = pos;
 		this.isAcceleratorOn = isAcceleratorOn;
 		this.cooling = cooling;
 		this.rawHeating = rawHeating;
+		this.currentHeating = currentHeating;
 		this.maxCoolantIn = maxCoolantIn;
 		this.maxCoolantOut = maxCoolantOut;
 		this.maxOperatingTemp = maxOperatingTemp;
@@ -68,20 +66,19 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		tanksInfo = TankInfo.infoList(tanks);
 		
 		this.beams = beams;
-		
-		messageValid = true;
 	}
 
 
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isAcceleratorOn = buf.readBoolean();
 		cooling = buf.readLong();
 		rawHeating = buf.readLong();
-		maxCoolantIn = buf.readDouble();
-		maxCoolantOut = buf.readDouble();
+		currentHeating = buf.readLong();
+		maxCoolantIn = buf.readInt();
+		maxCoolantOut = buf.readInt();
 		maxOperatingTemp = buf.readInt();
 		requiredEnergy = buf.readInt();
 		efficiency = buf.readDouble();
@@ -113,7 +110,7 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
@@ -121,8 +118,9 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		buf.writeBoolean(isAcceleratorOn);
 		buf.writeLong(cooling);
 		buf.writeLong(rawHeating);
-		buf.writeDouble(maxCoolantIn);
-		buf.writeDouble(maxCoolantOut);
+		buf.writeLong(currentHeating);
+		buf.writeInt(maxCoolantIn);
+		buf.writeInt(maxCoolantOut);
 		buf.writeInt(maxOperatingTemp);
 		buf.writeInt(requiredEnergy);
 		buf.writeDouble(efficiency);

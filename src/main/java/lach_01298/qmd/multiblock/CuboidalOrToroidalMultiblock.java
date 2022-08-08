@@ -1,11 +1,10 @@
 package lach_01298.qmd.multiblock;
 
-
 import lach_01298.qmd.network.QMDPacketHandler;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockValidationError;
-import nc.multiblock.network.MultiblockUpdatePacket;
 import nc.multiblock.tile.ITileMultiblockPart;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.util.NCMath;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,13 +14,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 
-public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart, PACKET extends MultiblockUpdatePacket> extends Multiblock<T,PACKET>
+public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOrToroidalMultiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>>
+		extends Multiblock<MULTIBLOCK, T>
 {
 
 	private int thickness;
-	protected CuboidalOrToroidalMultiblock(World world, int thickness)
+
+	protected CuboidalOrToroidalMultiblock(World world, Class<MULTIBLOCK> multiblockClass, Class<T> tClass, int thickness)
 	{
-		super(world);
+		super(world, multiblockClass, tClass);
 		this.thickness = thickness;
 	}
 
@@ -30,12 +31,12 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 	 *         otherwise.
 	 */
 	@Override
-	protected boolean isMachineWhole(Multiblock multiblock)
+	protected boolean isMachineWhole()
 	{
-		
+
 		if (connectedParts.size() < getMinimumNumberOfBlocksForAssembledMachine())
 		{
-			multiblock.setLastError(MultiblockValidationError.VALIDATION_ERROR_TOO_FEW_PARTS);
+			setLastError(MultiblockValidationError.VALIDATION_ERROR_TOO_FEW_PARTS);
 			return false;
 		}
 
@@ -65,38 +66,32 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 
 		if (maxXSize > 0 && deltaX > maxXSize)
 		{
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxXSize,
-					"X");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxXSize, "X");
 			return false;
 		}
 		if (maxYSize > 0 && deltaY > maxYSize)
 		{
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxYSize,
-					"Y");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxYSize, "Y");
 			return false;
 		}
 		if (maxZSize > 0 && deltaZ > maxZSize)
 		{
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxZSize,
-					"Z");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxZSize, "Z");
 			return false;
 		}
 		if (deltaX < minXSize)
 		{
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minXSize,
-					"X");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minXSize, "X");
 			return false;
 		}
 		if (deltaY < minYSize)
 		{
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minYSize,
-					"Y");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minYSize, "Y");
 			return false;
 		}
 		if (deltaZ < minZSize)
 		{
-			multiblock.setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minZSize,
-					"Z");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minZSize, "Z");
 			return false;
 		}
 
@@ -115,18 +110,20 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 				for (int z = minZ; z <= maxZ; z++)
 				{
 					// Okay, figure out what sort of block this should be.
-					te = WORLD.getTileEntity(new BlockPos(x, y, z));
+					BlockPos pos = new BlockPos(x, y, z);
+					te = WORLD.getTileEntity(pos);
 					if (te instanceof TileCuboidalOrToroidalMultiblockPart)
 					{
-						
+
 						part = (TileCuboidalOrToroidalMultiblockPart) te;
 
 						// Ensure this part should actually be allowed within a cube of this
 						// multiblock's type
-						if (!myClass.equals(part.getMultiblockType()))
+						if (!multiblockClass.equals(part.getMultiblockClass()))
 						{
-							
-							multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x, y, z);
+
+							setLastError("zerocore.api.nc.multiblock.validation.invalid_part", new BlockPos(x, y, z), x,
+									y, z);
 							return false;
 						}
 					}
@@ -136,21 +133,22 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 						// inside interiors
 						part = null;
 					}
-					
-					
-					
-					//don't check the hole
-					if(z > minInCoord.getZ() && z < maxInCoord.getZ() && x > minInCoord.getX() && x < maxInCoord.getX())
+
+					// don't check the hole
+					if (z > minInCoord.getZ() && z < maxInCoord.getZ() && x > minInCoord.getX()
+							&& x < maxInCoord.getX())
 					{
-						if(z > minInCoord.getZ()+1 && z < maxInCoord.getZ()-1 && x > minInCoord.getX()+1 && x < maxInCoord.getX()-1)
+						if (z > minInCoord.getZ() + 1 && z < maxInCoord.getZ() - 1 && x > minInCoord.getX() + 1
+								&& x < maxInCoord.getX() - 1)
 						{
 							continue;
 						}
-						
-						if(part != null) // check inner edge isn't a multiblock part
+
+						if (part != null) // check inner edge isn't a multiblock part
 						{
-							
-							multiblock.setLastError("zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part", new BlockPos(x, y, z), x, y, z);
+
+							setLastError("zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part",
+									new BlockPos(x, y, z), x, y, z);
 							return false;
 						}
 						else
@@ -158,8 +156,6 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 							continue;
 						}
 					}
-					
-					
 
 					// Validate block type against both part-level and material-level validators.
 					extremes = 0;
@@ -170,25 +166,23 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 						extremes++;
 					if (z == minZ || (z == maxInCoord.getZ() && x > minInCoord.getX() && x < maxInCoord.getX()))
 						extremes++;
-					if (x == maxX  || (x == minInCoord.getX() && z > minInCoord.getZ() && z < maxInCoord.getZ()))
+					if (x == maxX || (x == minInCoord.getX() && z > minInCoord.getZ() && z < maxInCoord.getZ()))
 						extremes++;
 					if (y == maxY)
 						extremes++;
 					if (z == maxZ || (z == minInCoord.getZ() && x > minInCoord.getX() && x < maxInCoord.getX()))
 						extremes++;
 
-					if (extremes >= 2 )
+					if (extremes >= 2)
 					{
 
-						isPartValid = part != null ? part.isGoodForFrame(multiblock)
-								: isBlockGoodForFrame(WORLD, x, y, z, multiblock);
+						isPartValid = part != null ? part.isGoodForFrame(this) : isBlockGoodForFrame(WORLD, pos);
 
 						if (!isPartValid)
 						{
-							if (null == multiblock.getLastError())
+							if (null == getLastError())
 							{
-								multiblock.setLastError(
-										"zerocore.api.nc.multiblock.validation.invalid_part_for_frame",
+								setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_frame",
 										new BlockPos(x, y, z), x, y, z);
 							}
 							return false;
@@ -199,15 +193,13 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 						if (y == maxY)
 						{
 
-							isPartValid = part != null ? part.isGoodForTop(multiblock)
-									: isBlockGoodForTop(WORLD, x, y, z, multiblock);
+							isPartValid = part != null ? part.isGoodForTop(this) : isBlockGoodForTop(WORLD, pos);
 
 							if (!isPartValid)
 							{
-								if (null == multiblock.getLastError())
+								if (null == getLastError())
 								{
-									multiblock.setLastError(
-											"zerocore.api.nc.multiblock.validation.invalid_part_for_top",
+									setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_top",
 											new BlockPos(x, y, z), x, y, z);
 								}
 								return false;
@@ -216,15 +208,13 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 						else if (y == minY)
 						{
 
-							isPartValid = part != null ? part.isGoodForBottom(multiblock)
-									: isBlockGoodForBottom(WORLD, x, y, z, multiblock);
+							isPartValid = part != null ? part.isGoodForBottom(this) : isBlockGoodForBottom(WORLD, pos);
 
 							if (!isPartValid)
 							{
-								if (null == multiblock.getLastError())
+								if (null == getLastError())
 								{
-									multiblock.setLastError(
-											"zerocore.api.nc.multiblock.validation.invalid_part_for_bottom",
+									setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_bottom",
 											new BlockPos(x, y, z), x, y, z);
 								}
 								return false;
@@ -233,15 +223,13 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 						else
 						{
 							// Side
-							isPartValid = part != null ? part.isGoodForSides(multiblock)
-									: isBlockGoodForSides(WORLD, x, y, z, multiblock);
+							isPartValid = part != null ? part.isGoodForSides(this) : isBlockGoodForSides(WORLD, pos);
 
 							if (!isPartValid)
 							{
-								if (null == multiblock.getLastError())
+								if (null == getLastError())
 								{
-									multiblock.setLastError(
-											"zerocore.api.nc.multiblock.validation.invalid_part_for_sides",
+									setLastError("zerocore.api.nc.multiblock.validation.invalid_part_for_sides",
 											new BlockPos(x, y, z), x, y, z);
 								}
 								return false;
@@ -251,15 +239,13 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 					else
 					{
 
-						isPartValid = part != null ? part.isGoodForInterior(multiblock)
-								: isBlockGoodForInterior(WORLD, x, y, z, multiblock);
+						isPartValid = part != null ? part.isGoodForInterior(this) : isBlockGoodForInterior(WORLD, pos);
 
 						if (!isPartValid)
 						{
-							if (null == multiblock.getLastError())
+							if (null == getLastError())
 							{
-								multiblock.setLastError(
-										"zerocore.api.nc.multiblock.validation.reactor.invalid_part_for_interior",
+								setLastError("zerocore.api.nc.multiblock.validation.reactor.invalid_part_for_interior",
 										new BlockPos(x, y, z), x, y, z);
 							}
 							return false;
@@ -273,13 +259,15 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 
 	private BlockPos getMinInCoord()
 	{
-		
-		return new BlockPos(getMinimumCoord().getX()+ thickness-1,getMinimumCoord().getY(),getMinimumCoord().getZ()+ thickness-1);
+
+		return new BlockPos(getMinimumCoord().getX() + thickness - 1, getMinimumCoord().getY(),
+				getMinimumCoord().getZ() + thickness - 1);
 	}
 
 	private BlockPos getMaxInCoord()
 	{
-		return new BlockPos(getMaximumCoord().getX()- thickness+1,getMaximumCoord().getY(),getMaximumCoord().getZ()- thickness+1);
+		return new BlockPos(getMaximumCoord().getX() - thickness + 1, getMaximumCoord().getY(),
+				getMaximumCoord().getZ() - thickness + 1);
 	}
 
 	protected BlockPos getMinimumInteriorCoord()
@@ -360,16 +348,18 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 
 	public int getExteriorVolume()
 	{
-		if(isToroidal())
+		if (isToroidal())
 		{
-			return (getExteriorLengthX() * getExteriorLengthZ()- (getExteriorLengthX()-2*thickness)*(getExteriorLengthZ() -2*thickness))*getExteriorLengthY();
+			return (getExteriorLengthX() * getExteriorLengthZ()
+					- (getExteriorLengthX() - 2 * thickness) * (getExteriorLengthZ() - 2 * thickness))
+					* getExteriorLengthY();
 		}
 		return getExteriorLengthX() * getExteriorLengthY() * getExteriorLengthZ();
 	}
 
 	private boolean isToroidal()
 	{
-		if(getMaxInCoord().getX() <= getMinInCoord().getX() || getMaxInCoord().getZ() <= getMinInCoord().getZ())
+		if (getMaxInCoord().getX() <= getMinInCoord().getX() || getMaxInCoord().getZ() <= getMinInCoord().getZ())
 		{
 			return false;
 		}
@@ -378,28 +368,33 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 
 	public int getInteriorVolume()
 	{
-		if(isToroidal())
+		if (isToroidal())
 		{
-			return ((getExteriorLengthX()-1) * (getExteriorLengthZ()-1)- (getExteriorLengthX()-2*(thickness+1))*(getExteriorLengthZ() -2*(thickness+1)))* getInteriorLengthY();
+			return ((getExteriorLengthX() - 1) * (getExteriorLengthZ() - 1)
+					- (getExteriorLengthX() - 2 * (thickness + 1)) * (getExteriorLengthZ() - 2 * (thickness + 1)))
+					* getInteriorLengthY();
 		}
-		
+
 		return getInteriorLengthX() * getInteriorLengthY() * getInteriorLengthZ();
 	}
 
 	public int getExteriorSurfaceArea()
 	{
-		if(isToroidal())
+		if (isToroidal())
 		{
-			return 4*(thickness+ getExteriorLengthY())*(getExteriorLengthX()+getExteriorLengthZ()-2*thickness);
+			return 4 * (thickness + getExteriorLengthY())
+					* (getExteriorLengthX() + getExteriorLengthZ() - 2 * thickness);
 		}
-		return 2 * (getExteriorLengthX() * getExteriorLengthY() + getExteriorLengthY() * getExteriorLengthZ()+ getExteriorLengthZ() * getExteriorLengthX());
+		return 2 * (getExteriorLengthX() * getExteriorLengthY() + getExteriorLengthY() * getExteriorLengthZ()
+				+ getExteriorLengthZ() * getExteriorLengthX());
 	}
 
 	public int getInteriorSurfaceArea()
 	{
-		if(isToroidal())
+		if (isToroidal())
 		{
-			return 4*(thickness-2+ getInteriorLengthY())*(getInteriorLengthX()+getInteriorLengthZ()-2*(thickness-2));
+			return 4 * (thickness - 2 + getInteriorLengthY())
+					* (getInteriorLengthX() + getInteriorLengthZ() - 2 * (thickness - 2));
 		}
 		return 2 * (getInteriorLengthX() * getInteriorLengthY() + getInteriorLengthY() * getInteriorLengthZ()
 				+ getInteriorLengthZ() * getInteriorLengthX());
@@ -538,11 +533,13 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 		switch (axis)
 		{
 		case X:
-			return pos.getX() == getMinX() || (pos.getX() == getMaxInCoord().getX() && pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
+			return pos.getX() == getMinX() || (pos.getX() == getMaxInCoord().getX()
+					&& pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
 		case Y:
 			return pos.getY() == getMinY();
 		case Z:
-			return pos.getZ() == getMinZ() || (pos.getZ() == getMaxInCoord().getZ() && pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
+			return pos.getZ() == getMinZ() || (pos.getZ() == getMaxInCoord().getZ()
+					&& pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
 		default:
 			return false;
 		}
@@ -553,11 +550,13 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 		switch (axis)
 		{
 		case X:
-			return pos.getX() == getMaxX() ||(pos.getX() == getMinInCoord().getX() && pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
+			return pos.getX() == getMaxX() || (pos.getX() == getMinInCoord().getX()
+					&& pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
 		case Y:
 			return pos.getY() == getMaxY();
 		case Z:
-			return pos.getZ() == getMaxZ() || (pos.getZ() == getMinInCoord().getZ() && pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
+			return pos.getZ() == getMaxZ() || (pos.getZ() == getMinInCoord().getZ()
+					&& pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
 		default:
 			return false;
 		}
@@ -572,13 +571,17 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 		case UP:
 			return pos.getY() == getMaxY();
 		case NORTH:
-			return pos.getZ() == getMinZ() || (pos.getZ() == getMaxInCoord().getZ() && pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
+			return pos.getZ() == getMinZ() || (pos.getZ() == getMaxInCoord().getZ()
+					&& pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
 		case SOUTH:
-			return pos.getZ() == getMaxZ() || (pos.getZ() == getMinInCoord().getZ() && pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
+			return pos.getZ() == getMaxZ() || (pos.getZ() == getMinInCoord().getZ()
+					&& pos.getX() > getMinInCoord().getX() && pos.getX() < getMaxInCoord().getX());
 		case WEST:
-			return pos.getX() == getMinX() || (pos.getX() == getMaxInCoord().getX() && pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
+			return pos.getX() == getMinX() || (pos.getX() == getMaxInCoord().getX()
+					&& pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
 		case EAST:
-			return pos.getX() == getMaxX() ||(pos.getX() == getMinInCoord().getX() && pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
+			return pos.getX() == getMaxX() || (pos.getX() == getMinInCoord().getX()
+					&& pos.getZ() > getMinInCoord().getZ() && pos.getZ() < getMaxInCoord().getZ());
 		default:
 			return false;
 		}
@@ -707,46 +710,5 @@ public abstract class CuboidalOrToroidalMultiblock<T extends ITileMultiblockPart
 					getExtremeInteriorCoord(false, false, false));
 		}
 	}
-	
-	
-	
-	
-	public void sendUpdateToAllPlayers()
-	{
-		PACKET packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		QMDPacketHandler.instance.sendToAll(getUpdatePacket());
-	}
-	
-	public void sendUpdateToListeningPlayers()
-	{
-		PACKET packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		for (EntityPlayer player : playersToUpdate)
-		{
-			QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
-		}
-	}
-	
-	public void sendIndividualUpdate(EntityPlayer player)
-	{
-		if (WORLD.isRemote)
-		{
-			return;
-		}
-		PACKET packet = getUpdatePacket();
-		if (packet == null)
-		{
-			return;
-		}
-		QMDPacketHandler.instance.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
-	}
-	
-	
+
 }

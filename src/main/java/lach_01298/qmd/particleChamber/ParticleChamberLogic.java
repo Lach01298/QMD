@@ -9,12 +9,14 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
+import nc.multiblock.IPacketMultiblockLogic;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.container.ContainerMultiblockController;
@@ -26,7 +28,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic,IParticleChamberPart,ParticleChamberUpdatePacket>
+public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart>
+		implements IPacketMultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket>
 { 
 
 	public static final int maxSize = 7;
@@ -72,6 +75,11 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	{
 		onChamberFormed();
 	}
+	
+	public int getBeamLength()
+	{
+		return getMultiblock().getExteriorLengthX();
+	}
 
 	public void onChamberFormed()
 	{
@@ -80,11 +88,8 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 			 getMultiblock().controller = contr;
 		}
 		
-		getMultiblock().energyStorage.setStorageCapacity(getMultiblock().BASE_MAX_ENERGY * getCapacityMultiplier());
-		getMultiblock().energyStorage.setMaxTransfer(getMultiblock().BASE_MAX_ENERGY * getCapacityMultiplier());
-		
-		getMultiblock().tanks.get(0).setCapacity(getMultiblock().BASE_MAX_INPUT * getCapacityMultiplier());
-		getMultiblock().tanks.get(1).setCapacity(getMultiblock().BASE_MAX_OUTPUT * getCapacityMultiplier());
+		getMultiblock().energyStorage.setStorageCapacity(QMDConfig.particle_chamber_base_energy_capacity * getCapacityMultiplier());
+		getMultiblock().energyStorage.setMaxTransfer(QMDConfig.particle_chamber_base_energy_capacity * getCapacityMultiplier());
 		
 		if (!getWorld().isRemote) 
 		{
@@ -129,7 +134,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", null);
 		return false;
@@ -148,18 +153,18 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	}
 
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return null;
 	}
 
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
 		
 	}
 
-	public void onAssimilate(Multiblock assimilated)
+	public void onAssimilate(ParticleChamber assimilated)
 	{	
 		if (assimilated instanceof ParticleChamber)
 		{
@@ -177,7 +182,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		}
 	}
 
-	public void onAssimilated(Multiblock assimilator)
+	public void onAssimilated(ParticleChamber assimilator)
 	{	
 	}
 
@@ -208,10 +213,10 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		return getMultiblock().beams.get(0).getParticleStack() != null;
 	}
 
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		return null;
-	}
+	}*/
 
 	
 	protected void pull()

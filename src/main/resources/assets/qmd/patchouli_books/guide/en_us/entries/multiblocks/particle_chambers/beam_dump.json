@@ -1,0 +1,26 @@
+{
+	"name": "Beam Dump",
+	"icon": "qmd:beam_dump_controller",
+	"category": "qmd:particle_chambers",
+	"sortnum": 3,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Beam Dumps collect stray particles like protons and turn them into their respective fluids like Hydrogen."
+		},
+		{
+			"title": "Construction",
+			"type": "text",
+			"text": "Beam Dumps are constructed the same as $(l:multiblocks/particle_chambers/target_chamber#construction)target chambers$(/l) but since detectors don't do anything in them there is little point in making them any bigger than a 3x3x3. They require one Particle Chamber Beam Port in input mode and a Particle Chamber Fluid Port in output mode."
+		},
+		{
+			"title": "Operation",
+			"type": "text",
+			"text": "Beam dumps simply work by piping in particles and supplying power. The recipes can be seen in JEI. Where the amount is the is the total pu supplied to finish the recipe i.e at 10 kpu/t a 1 kpu recipe will take 0.1 ticks to complete (so 10 recipes are completed a tick). The energy and focus in the recipe are both the minimum required. Normally for recipes this is 0 for both. If there is a maximum energy the recipe will say."
+		},
+		{
+			"type": "text",
+			"text": "The output fluid is extracted from the particle chamber fluid port with any pipe or fluid handling system.$(br2)The beam dump's output tank can also be voided manual by holding shift in the gui and clicking on the tank."
+		}
+	]
+}

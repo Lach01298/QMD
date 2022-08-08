@@ -1,0 +1,20 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "qmd:block_luminous_paint",
+		"textures": {
+            "main": "qmd:blocks/other/orange_luminous_paint"
+        }
+	},
+	"variants": {
+		"inventory": [{}],
+		"facing": {
+			"down": {"x": 180},
+			"up": {},
+			"north": {"x": 90},
+			"east": {"x": 90, "y": 90},
+			"south": {"x": 270},
+			"west": {"x": 90, "y": 270}
+		}
+	}
+}

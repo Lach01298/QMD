@@ -64,6 +64,15 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		
 		addDecayRecipe(new ParticleStack(Particles.sigma_minus), null,  new ParticleStack(Particles.neutron), new ParticleStack(Particles.pion_minus), 0.99);
 		addDecayRecipe(new ParticleStack(Particles.antisigma_minus),  new ParticleStack(Particles.pion_plus), new ParticleStack(Particles.antineutron), null, 0.99);
+		
+		addDecayRecipe(new ParticleStack(Particles.delta_plus_plus),  new ParticleStack(Particles.proton), null,  new ParticleStack(Particles.pion_plus), 1.0);
+		addDecayRecipe(new ParticleStack(Particles.antidelta_plus_plus),  new ParticleStack(Particles.antiproton), null,  new ParticleStack(Particles.pion_minus), 1.0);
+		
+		addDecayRecipe(new ParticleStack(Particles.delta_minus),  new ParticleStack(Particles.neutron), null,  new ParticleStack(Particles.pion_minus), 1.0);
+		addDecayRecipe(new ParticleStack(Particles.antidelta_minus),  new ParticleStack(Particles.antineutron), null,  new ParticleStack(Particles.pion_plus), 1.0);
+		
+		addRecipe(new ParticleStack(Particles.photon,1,1124),  new ParticleStack(Particles.electron), new EmptyParticleIngredient(),  new ParticleStack(Particles.positron), 230000L,1.0, -1022L);
+		addRecipe(new ParticleStack(Particles.photon,1,233200),  new ParticleStack(Particles.muon), new EmptyParticleIngredient(),  new ParticleStack(Particles.antimuon), Long.MAX_VALUE,0.5, -212000L);
 	}
 	
 	

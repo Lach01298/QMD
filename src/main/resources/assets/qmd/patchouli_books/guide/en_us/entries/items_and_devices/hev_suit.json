@@ -1,0 +1,33 @@
+{
+	"name": "HEV Suit",
+	"icon": "qmd:helm_hev",
+	"category": "qmd:items_and_devices",
+	"sortnum": 4,
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Hazardous EnViroment (HEV) suit is an advanced armor and hazmat suit. It is powered with RF and has no durability. Each piece also has a unique ability. The armor can also be dyed like leather armor for customization"
+		},
+		{
+			 "type": "spotlight",
+            "item": "qmd:helm_hev",
+			"text": "The helmet negates all poison effects and reduces any amount of wither to wither I for 4 seconds."
+		},
+		{
+			"type": "spotlight",
+            "item": "qmd:chest_hev",
+			"text": "The chestplate allows the wearer to have 'long jump'. This is a boosted jump distance while sprinting."
+		},
+		{
+			"type": "spotlight",
+            "item": "qmd:legs_hev",
+			"text": "The leggings allows the wearer to jump 2.5 blocks and gives a 25% speed boost."
+		},
+		{
+			"type": "spotlight",
+            "item": "qmd:boots_hev",
+			"text": "The boots gives the wearer step assist, reduces fall damage by 50% and reduces fall height by 4 blocks meaning the wearer can fall 7 blocks (instead of 3) without tacking damage."
+		}
+
+	]
+}

@@ -1,0 +1,14 @@
+{
+	"name": "Gluon Gun",
+	"icon": "qmd:gluon_gun",
+	"category": "qmd:items_and_devices",
+	"sortnum": 7,
+	"pages": [
+		{
+			"type": "spotlight",
+			"item": "qmd:gluon_gun",
+			"text": "The Gluon Gun is not just a weapon but can be used as an instant mining tool. It shoots beams of Glueballs which destroy anything in its way. It uses Glueball Cells for ammo. "
+		}
+
+	]
+}

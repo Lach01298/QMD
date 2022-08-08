@@ -161,8 +161,8 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	public Object[] getBeamInfo(Context context, Arguments args)
 	{
 		Map<String, Object> statsData = new HashMap<String, Object>();
-		statsData.put("beam_length",isMultiblockAssembled() ? getMultiblock().controller.getLogic().getBeamLength(): 0);
-		statsData.put("beam_radius",isMultiblockAssembled() ? getMultiblock().controller.getLogic().getBeamRadius(): 0);
+		statsData.put("beam_length",isMultiblockAssembled() ? getLogic().getBeamLength(): 0);
+		statsData.put("beam_radius",isMultiblockAssembled() ? getLogic().getBeamRadius(): 0);
 
 		return new Object[] { statsData };
 	}
@@ -260,7 +260,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	}
 	
 	
-	@Callback(doc = "--function():table Returns infomation about the particle type.(type, mass, energy, charge, spin, interacts_with_em, interacts_with_weak, interacts_with_stong)")
+	@Callback(doc = "--function():table Returns infomation about the particle type.(type, mass, energy, charge, spin, interacts_with_em, interacts_with_weak, interacts_with_strong)")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getParticleInfo(Context context, Arguments args)
 	{
@@ -273,7 +273,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 			infoData.put("spin", getMultiblock().beams.get(1).getParticleStack().getParticle().getSpin());
 			infoData.put("interacts_with_em", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithEM());
 			infoData.put("interacts_with_weak", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithWeak());
-			infoData.put("interacts_with_stong", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithStrong());
+			infoData.put("interacts_with_strong", getMultiblock().beams.get(1).getParticleStack().getParticle().interactsWithStrong());
 		}
 		
 		
@@ -337,9 +337,9 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	
 	//accelerator control
-	@Callback(doc = "--function(int energy_percetage):int changes output particle energy to this percentage of the max energy (For decelerators it outputs the opposite percentage e.g. 15% -> 85% output energy). Can only be between 5 and 100 inclusive or 0 to turn of accelerator entirely. For beam diverters this only turns it on/off. Returns what it was set to")
+	@Callback(doc = "--function(int energy_percentage):int changes output particle energy to this percentage of the max energy (For decelerators it outputs the opposite percentage e.g. 15% -> 85% output energy). Can only be between 5 and 100 inclusive or 0 to turn of accelerator entirely. For beam diverters this only turns it on/off. Returns what it was set to")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] setEnergyPercetage(Context context, Arguments args) 
+	public Object[] setEnergyPercentage(Context context, Arguments args) 
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		getMultiblock().computerControlled = true;
@@ -372,7 +372,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function():int Returns the energyPercentage set.")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getEnergyPercetage(Context context, Arguments args) 
+	public Object[] getEnergyPercentage(Context context, Arguments args) 
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		return new Object[] {getMultiblock().energyPercentage};
@@ -406,7 +406,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function(x,y,z):bool Returns if beam port mode was switched")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] swichBeamPort(Context context, Arguments args) 
+	public Object[] switchBeamPort(Context context, Arguments args) 
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		BlockPos pos = new BlockPos(args.checkInteger(0),args.checkInteger(1),args.checkInteger(2));

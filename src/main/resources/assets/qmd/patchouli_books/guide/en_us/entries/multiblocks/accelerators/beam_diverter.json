@@ -1,0 +1,49 @@
+{
+    "name": "Beam Diverter",
+    "icon": "qmd:beam_diverter_controller",
+    "category": "qmd:accelerators",
+    "sortnum": 3,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Beam Diverters can change the direction of a charged particle beam. Doing so the particle beam losses a small amount of energy to synchrotron radiation."
+        },
+		{
+            "header": "Constuction",
+			"type": "diagram",
+			"image":"qmd:textures/gui/book_images/beam_diverter.png",
+            "text": "Beam Diverters are a 5x5x5 cube of accelerator casing that has a dipole filling the centre. The dipole can also be in the vertical direction. They have all the same requirements as $(l:multiblocks/accelerators/general#construction)accelerator$(/l). The Beam Diverters does not need coolers in them."
+        },
+		{
+			"type": "diagram_high",
+			"image":"qmd:textures/gui/book_images/beam_diverter2.png",
+            "text": "Example of 2 vertical beam diverters."
+        },
+		{
+            "title": "Operation",
+			"type": "text",
+            "text": "To start the beam diverter just give the controller a redstone signal. A beam diverter functions the same as any other $(l:multiblocks/accelerators/general#operation)accelerator$(/l) requiring power and coolant. They can have multiple beam ports but only one can be an input and output at any given time. Switching beam ports can be down automatically with redstone or open computers."
+        },
+		{     
+			"anchor": "switching",
+			"type": "text",
+			"title": "Beam Port Switching",
+			"text": "A redstone pulse applied to a disabled beam port will make that beam port the 'active' beam port and disable the current 'active' beam port. What it switches to (either output or input) can be controlled by shift right clicking the beam port with the multitool."
+        },
+		{     
+			"type": "text",
+			
+			"text": "Beam port switch can be done on Beam diverters, $(l:multiblocks/accelerators/ring_accelerator)synchrotrons$(/l), and $(l:multiblocks/accelerators/decelerator)decelerators$(/l). $(br2)Go to Open Computers section to find out about how it can do beam port switching."
+        },
+		{
+            "anchor": "energy",
+			"title": "Particle Energy",
+			"type": "text",
+            "text": "The maximum particle energy (in GeV) the Beam Diverter can bend is  $(l)Eᵩ=(qB₂dR)²/(2m)$() same as a $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) form max dipole strength except in this case $(l)R$() is the beam diverters effective radius (this by default is 160 but can be set in the configs)."
+        },
+		{
+			"type": "text",
+            "text": "The amount of energy lost by a particle bent in the beam diverter can be seen in the gui and is $(l)Eᵥ= Eq²/(6m⁴R²)$() $(br2)Note: the energy loss only occurs when the beam is bent if it goes straight through no energy is lost."
+        }
+    ]
+}

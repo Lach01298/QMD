@@ -29,9 +29,12 @@ import lach_01298.qmd.multiblock.network.DeceleratorUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -42,12 +45,22 @@ import net.minecraft.util.math.BlockPos;
 public class DeceleratorLogic extends AcceleratorLogic
 {
 	
+	
+	
 	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
 
 	
 	public DeceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
+		
+		/*
+		beam 0 = input particle
+		beam 1 = output particle
+		tank 0 = input coolant
+		tank 1 = output coolant
+		*/
+
 	}
 
 	@Override
@@ -59,8 +72,8 @@ public class DeceleratorLogic extends AcceleratorLogic
 	// Multiblock Validation
 	
 	
-	
-	public boolean isMachineWhole(Multiblock multiblock) 
+	@Override
+	public boolean isMachineWhole() 
 	{
 		Accelerator acc = getAccelerator();
 		
@@ -170,7 +183,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 			return false;
 		}
 		
-		return super.isMachineWhole(multiblock);
+		return super.isMachineWhole();
 	}
 	
 	public Set<BlockPos> getinteriorAxisPositions()
@@ -231,7 +244,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 
 		if (!getWorld().isRemote)
 		{
-
+			acc.beams.get(0).setMinEnergy(0);
 			// beam
 			for (BlockPos pos : getinteriorAxisPositions())
 			{
@@ -372,11 +385,9 @@ public class DeceleratorLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
-		getAccelerator().beams.get(0).setParticleStack(null);
-		pull();
+		super.onUpdateServer();
 		
-		if (getAccelerator().isAcceleratorOn)
+		if (getAccelerator().isControllorOn)
 		{
 			produceBeam();
 		}
@@ -386,10 +397,27 @@ public class DeceleratorLogic extends AcceleratorLogic
 		}
 		
 		push();
-
-		return super.onUpdateServer();
+		getAccelerator().sendMultiblockUpdatePacketToListeners();
+		return true;
 	}
 
+	@Override
+	protected void refreshBeams()
+	{
+		getAccelerator().beams.get(0).setParticleStack(null);
+		pull();	
+	}
+	
+	@Override
+	protected boolean shouldUseEnergy()
+	{
+		if (getAccelerator().beams.get(0).getParticleStack() != null)
+		{
+			return true;
+		}
+
+		return false;
+	}
 	
 
 
@@ -406,11 +434,11 @@ public class DeceleratorLogic extends AcceleratorLogic
 	{
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
-			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
-			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
-			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
+			ParticleStack beam = getAccelerator().beams.get(0).getParticleStack();
+			getAccelerator().beams.get(1).setParticleStack(beam.copy());
+			Particle particle = beam.getParticle();
 	
-			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
+			ParticleStack beamOut = getAccelerator().beams.get(1).getParticleStack();
 			
 			double fraction = 1;
 			if(getAccelerator().computerControlled)
@@ -419,24 +447,24 @@ public class DeceleratorLogic extends AcceleratorLogic
 			}
 			else
 			{
-				fraction = (1-getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d);
+				fraction = 1-(getRedstoneLevel()/15d);
 			}
 			
 			long energyTarget = (long)(getAcceleratorMaxEnergy(particle)* fraction);
 			
-			if(energyTarget > particleIn.getMeanEnergy())
+			if(energyTarget > beam.getMeanEnergy())
 			{
-				particleOut.setMeanEnergy(particleIn.getMeanEnergy());
+				beamOut.setMeanEnergy(beam.getMeanEnergy());
 			}
 			else
 			{
-				particleOut.setMeanEnergy(energyTarget);
+				beamOut.setMeanEnergy(energyTarget);
 			}
 			
 			
-			particleOut.addFocus(getAccelerator().quadrupoleStrength * Math.abs(particle.getCharge())-getBeamLength()*QMDConfig.beamAttenuationRate);
+			beamOut.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, beamOut));
 			
-			if(particleOut.getFocus() <= 0)
+			if(beamOut.getFocus() <= 0)
 			{
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
@@ -450,12 +478,11 @@ public class DeceleratorLogic extends AcceleratorLogic
 	
 	public long getAcceleratorMaxEnergy(Particle particle)
 	{
-		if (particle != null && getAccelerator().acceleratingVoltage > 0)
+		if(particle != null && getAccelerator().acceleratingVoltage > 0)
 		{
-
-			return (long) (Math.pow(particle.getCharge() * getAccelerator().dipoleStrength * getBeamRadius(), 2) / (2 * particle.getMass()) * 1000000);
+			return  Equations.ringEnergyMaxEnergyFromDipole(getAccelerator().dipoleStrength, getBeamRadius(), particle.getCharge(), particle.getMass());
 		}
-		return 0;
+		return 0;	
 	}
 	
 	
@@ -500,19 +527,19 @@ public class DeceleratorLogic extends AcceleratorLogic
 	
 	// Network
 	@Override
-	public DeceleratorUpdatePacket getUpdatePacket()
+	public DeceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new DeceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isControllorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
-	}
+	} 
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message)
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof DeceleratorUpdatePacket)
 		{
 			DeceleratorUpdatePacket packet = (DeceleratorUpdatePacket) message;
@@ -544,16 +571,16 @@ public class DeceleratorLogic extends AcceleratorLogic
 	@Override
 	public int getBeamLength()
 	{
-		return 4*getAccelerator().getInteriorLengthX()-12;
+		return 4*(getAccelerator().getInteriorLengthX()-2);
 	}
 	
 	
 	
-	@Override
+	/*@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return new ContainerDeceleratorController(player, getAccelerator().controller);
-	}
+	}*/
 	
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.source"),

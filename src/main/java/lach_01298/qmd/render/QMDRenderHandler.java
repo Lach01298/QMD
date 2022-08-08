@@ -1,19 +1,20 @@
 package lach_01298.qmd.render;
 
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.containment.tile.TileContainmentLaser;
-import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
+import lach_01298.qmd.entity.EntityAntimatterProjectile;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.entity.EntityGluonBeam;
 import lach_01298.qmd.entity.EntityLeptonBeam;
+import lach_01298.qmd.item.QMDArmour;
 import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.render.entity.RenderAntimatterProjectile;
 import lach_01298.qmd.render.entity.RenderGammaFlash;
 import lach_01298.qmd.render.entity.RenderGluonBeam;
 import lach_01298.qmd.render.entity.RenderLeptonBeam;
-import lach_01298.qmd.render.tile.RenderContainmentLaser;
 import lach_01298.qmd.render.tile.RenderContainmentMaterial;
-import nc.multiblock.turbine.tile.TileTurbineController;
-import nc.render.tile.RenderTurbineRotor;
+import lach_01298.qmd.render.tile.RenderVacuumChamberLaser;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
 import nc.util.NCUtil;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -26,14 +27,16 @@ public class QMDRenderHandler
 	{
 		QMDBlocks.registerRenders();
 		QMDItems.registerRenders();
+		QMDArmour.registerRenders();
 		
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileNeutralContainmentController.class, new RenderContainmentMaterial());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileContainmentLaser.class, new RenderContainmentLaser());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileExoticContainmentController.class, new RenderContainmentMaterial());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileVacuumChamberLaser.class, new RenderVacuumChamberLaser());
 		
 		registerEntityRender(EntityGammaFlash.class, RenderGammaFlash.class);
 		registerEntityRender(EntityLeptonBeam.class, RenderLeptonBeam.class);
 		registerEntityRender(EntityGluonBeam.class, RenderGluonBeam.class);
+		registerEntityRender(EntityAntimatterProjectile.class, RenderAntimatterProjectile.class);
 	}
 
 	private static <E extends Entity, R extends Render<E>> void registerEntityRender(Class<E> entityClass, Class<R> renderClass) {

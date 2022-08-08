@@ -1,12 +1,18 @@
 package lach_01298.qmd.item;
 
-import lach_01298.qmd.DamageSources;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import lach_01298.qmd.QMDDamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGluonBeam;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.item.IInfoItem;
 import nc.radiation.RadiationHelper;
+import nc.util.InfoHelper;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,24 +23,25 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemGluonGun extends ItemGun implements IInfoItem
+public class ItemGluonGun extends ItemGun
 {
 	
 	
 	private EntityGluonBeam beam;
-	
-	public ItemGluonGun()
-	{
-		super(); 
-	}
 
-	@Override
-	public void setInfo()
+	
+	public ItemGluonGun(String... tooltip)
 	{
+		super(tooltip); 
 		
 	}
+
+
 	
 
 	public int getMaxItemUseDuration(ItemStack stack)
@@ -54,6 +61,13 @@ public class ItemGluonGun extends ItemGun implements IInfoItem
 		ItemStack itemstack = player.getHeldItem(hand);
 		if(findCell(player) >=0 )
 		{
+			ItemStack cell = player.inventory.getStackInSlot(findCell(player));
+			ItemCell itemCell = (ItemCell) cell.getItem();
+			if(itemCell.getAmountStored(cell) < QMDConfig.gluon_particle_usage)
+			{
+				return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
+			}
+			
 			player.setActiveHand(hand);
 			
 			RayTraceResult lookingAt = rayTrace(player,QMDConfig.gluon_range,1.0f,true,true);
@@ -91,7 +105,13 @@ public class ItemGluonGun extends ItemGun implements IInfoItem
     		{
     			ItemStack cell = player.inventory.getStackInSlot(findCell(player));
     			ItemCell itemCell = (ItemCell) cell.getItem();
-    			player.inventory.setInventorySlotContents(findCell(player),itemCell.empty(cell, 1));
+    			if(itemCell.getAmountStored(cell) < QMDConfig.gluon_particle_usage)
+    			{
+    				user.stopActiveHand();
+    				return;
+    			}
+    			
+    			player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.gluon_particle_usage));
     			
     			World world = user.getEntityWorld();
     	    	RayTraceResult lookingAt = rayTrace(user,QMDConfig.gluon_range,1.0f,true,true);
@@ -119,7 +139,7 @@ public class ItemGluonGun extends ItemGun implements IInfoItem
     						entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, (EntityLivingBase) entity,
     								QMDConfig.gluon_radiation, false, false, 1));
     					}
-    					entity.attackEntityFrom(DamageSources.causeGluonGunDamage(beam,player), (float) QMDConfig.gluon_damage);
+    					entity.attackEntityFrom(QMDDamageSources.causeGluonGunDamage(beam,player), (float) QMDConfig.gluon_damage);
     				}
 
 					if (lookingAt != null)

@@ -754,8 +754,8 @@ public class QMDRecipeHelper
 
 	public static List<List<String>> validFluids(QMDRecipeHandler recipes, List<String> exceptions)
 	{
-		int fluidInputSize = recipes.fluidInputSize;
-		int fluidOutputSize = recipes.fluidOutputSize;
+		int fluidInputSize = recipes.getFluidInputSize();
+		int fluidOutputSize = recipes.getFluidOutputSize();
 
 		List<FluidStack> fluidStackList = new ArrayList<FluidStack>();
 		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values())

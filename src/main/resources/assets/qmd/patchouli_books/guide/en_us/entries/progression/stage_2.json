@@ -1,0 +1,31 @@
+{
+	"name": "Stage 2: Synchrotrons",
+	"icon": "qmd:ring_accelerator_controller",
+	"category": "qmd:progression",
+	"sortnum": 3,
+	"pages": [
+		{
+			"type": "text",
+			"text": "In this stage, you gain access to synchrotrons and more specialized accelerators and particle chambers. This will give you access to a variety of recipes and new materials."
+		},
+		{
+			"type": "text",
+			"title": "Synchrotron",
+			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate particles in a ring, to high energies $(l:multiblocks/accelerators/linear_accelerator)linear accelerators$(/l) can't easily  achieve. Synchrotrons will be able to accelerate particles to very high energies, required for several recipes that either aid progression, or are required to progress to the next stage."
+		},
+		{
+			"type": "text",
+			"text": "Synchrotrons are needed to produce materials such as:$(li)Strontium need to make BSCCO superconductor for advanced components and recipes $(li)Yttrium for YAG used in lasers$(br2)They also provide an alternative way to make many elements such as Titanium, Neodymium, Hafnium, Tungsten, Osmium, Iridium, Platinum, Mercury, Bismuth and Polonium."
+		},
+		{
+			"type": "text",
+			"title": "Other Stuff",
+			"text": "Also in this stage though not required to progress you have access to $(l:multiblocks/accelerators/beam_diverter)beam diverters$(/l) and $(l:multiblocks/accelerators/beam_splitter)beam splitter$(/l) for manipulation of particle beams, $(l:multiblocks/accelerators/decelerator)decelerators$(/l) to slow down particles and $(l:multiblocks/particle_chambers/collision_chamber)collision chambers$(/l) to smash particles into each other and truly make a large hadron collider!$(br2)There is also the $(l:items_and_devices/hev_suit)HEV suit$(/l) which is a good power armor with ability that is also a better hazmat suit."
+		},
+		{
+			"type": "text",
+			"title": "Next Stage Materials",
+			"text": "For the next stage you will need a bunch of BSCCO (Bismuth Strontium Calcium Copper Oxide, pronounced 'bisko') wire, osmium and iridium for osmiridium. These are used a lot in $(l:multiblocks/vacuum_chambers/general)vacuum chambers$(/l). You will also need a little bit of yttrium and neodymium for neodymium YAG lasers."
+		}
+	]
+}

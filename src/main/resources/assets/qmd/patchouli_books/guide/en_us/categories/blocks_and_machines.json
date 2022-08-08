@@ -1,6 +1,6 @@
 {
 	"name": "Blocks and Machines",
-	"description": "TODO",
+	"description": "Special blocks and single block machines",
 	"icon": "qmd:ore_leacher",
-	"sortnum": 1
+	"sortnum": 2
 }

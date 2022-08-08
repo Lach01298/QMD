@@ -1,0 +1,32 @@
+{
+	"name": "Units",
+	"icon": "qmd:beam_meter",
+	"category": "qmd:basics",
+	"sortnum": 3,
+	"pages": [
+		{
+			"type": "text",
+			"text": "This chapter goes over general information like units and prefixes, and the default recipe balancing."
+		},
+		{
+			"type": "text",
+			"text": "Units are used extensively throughout QMD and modded minecraft in general. Your probably familiar with some like $(l)millibuckets$(): mB or $(l)Redstone flux$(): RF. Nuclearcraft adds more units like $(l)heat$(): H or $(l)Rads per tick$(): Rad/t and so does QMD.$(br2)An important thing to know is units can have prefixes. We have already one $(l)milli$() : m in millibuckets. Prefixes are the symbol that comes before the unit that tells you how to scale the unit."
+		},
+		{
+			"type": "text",
+			"text": "QMD, Nuclearcraft and many other mods use a system of prefixes called SI prefixes. They are used extensively in science and engineering around the world. Each SI prefix is a certain power of 10. $(br)For example milli is 10^-3 = 0.001, this is a thousandth, so there is 10^3 = 1000 mB 'millibuckets' in a B 'bucket'.$(br2)Here is a list of all the SI Prefixes."
+		},
+		{
+			"type": "text",
+			"text": "$(li)yotta: Y = 10^24$(li)zetta: Z = 10^21$(li)exa: E = 10^18$(li)peta: P = 10^15$(li)tera: T = 10^12$(li)giga: G = 10^9$(li)mega: M = 10^6$(li)kilo: k = 10^3$(li)milli: m = 10^-3$(li)micro: μ or u = 10^-6$(li)nano: n = 10^-9$(li)pico: p = 10^-12$(li)femto: f = 10^-15$(li)atto: a = 10^-18$(li)zepto: z = 10^-21 $(li)yocto: y = 10^-24"
+		},
+		{
+			"type": "text",
+			"text": "There a few units introduced into QMD you may not know: $(li)pu: particle units. This is an amount of particles by default each 'mole' item or bucket of fluid is 1 Mpu = 1000000 pu$(br)This unit was made up for QMD, it is $(l)not a real unit$()$(li)eV: electron volt. This is the amount of energy a individual particle has. Since particles are very small this is a very small amount of energy (1.602x10^-19 joules if your wondering). "
+		},
+		{
+			"type": "text",
+			"text": "$(li)eV/c^2: electron volt per c squared. This is a mass of a particle, this is very small since particles are very small (1.783x10^-36 kilograms if your wondering)$(li)T: Tesla. The strength of a magnetic field$(li)K: Kelvin. A unit of temperature. 0 K is -273.15 Celsius or -459.67 Fahrenheit."
+		}
+	]
+}

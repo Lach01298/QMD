@@ -25,11 +25,11 @@ public class BeamDumpRecipes extends QMDRecipeHandler
 	{
 		//addRecipe(inputParticle(amount,minEnergy,minFocus), outputFluid(amount), maxEnergy)
 		
-		addRecipe(new ParticleStack(Particles.proton,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("hydrogen", 1));
-		addRecipe(new ParticleStack(Particles.deuteron,(QMDConfig.canister_capacity[CanisterType.DEUTERIUM.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("deuterium", 1));
-		addRecipe(new ParticleStack(Particles.triton,(QMDConfig.canister_capacity[CanisterType.TRITIUM.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("tritium", 1));
-		addRecipe(new ParticleStack(Particles.helion,(QMDConfig.canister_capacity[CanisterType.HELIUM3.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("helium_3", 1));
-		addRecipe(new ParticleStack(Particles.alpha,(QMDConfig.canister_capacity[CanisterType.HELIUM.getID()]*QMDConfig.source_particle_amount)/1000), fluidStack("helium", 1));
+		addRecipe(new ParticleStack(Particles.proton,1000), fluidStack("hydrogen", 1));
+		addRecipe(new ParticleStack(Particles.deuteron,1000), fluidStack("deuterium", 1));
+		addRecipe(new ParticleStack(Particles.triton,1000), fluidStack("tritium", 1));
+		addRecipe(new ParticleStack(Particles.helion,1000), fluidStack("helium_3", 1));
+		addRecipe(new ParticleStack(Particles.alpha,1000), fluidStack("helium", 1));
 	}
 
 

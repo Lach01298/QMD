@@ -24,3 +24,10 @@ qmd.particle.bottom_eta.desc=Eta Mesons are flavourless mesons meaning their fla
 
 gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: [water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminium, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum].
 
+gui.qmd.config.tools.hev_armour=HEV Armour Amount
+gui.qmd.config.tools.hev_armour.comment=The amount of armour each piece of the HEV Suit has. Order:[Charged Boots, Charged Leggings, Charged  Chestplate, Charged  Helmet, Uncharged Boots, Uncharged Leggings, Uncharged  Chestplate, Uncharged  Helmet].
+
+nc.sf.aluminum_cooler0=%s valid aluminium cooler
+nc.sf.aluminum_cooler1=%s valid aluminium coolers
+
+item.qmd.lepton_cannon.desc=A powerful beam weapon that can go through blocks and armour.

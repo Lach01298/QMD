@@ -8,6 +8,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -69,7 +70,8 @@ public class BlockParticleChamberDetector extends BlockMetaQMDPart<DetectorType>
 	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) 
-	{
+	{		
+		
 		if(state.getValue(TYPE) == DetectorType.SILLICON_TRACKER || state.getValue(TYPE) == DetectorType.WIRE_CHAMBER)
 		{
 			return true;
@@ -84,19 +86,23 @@ public class BlockParticleChamberDetector extends BlockMetaQMDPart<DetectorType>
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getRenderLayer() 
 	{
-		return BlockRenderLayer.TRANSLUCENT;
+		return Minecraft.getMinecraft().gameSettings.fancyGraphics ?  BlockRenderLayer.TRANSLUCENT : BlockRenderLayer.SOLID;	
 	}
+	
 	
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) 
 	{
-
+		
 		IBlockState otherState = blockAccess.getBlockState(pos.offset(side));
 		Block block = otherState.getBlock();
+		if(Minecraft.getMinecraft().gameSettings.fancyGraphics)
+		{
+			if (blockState != otherState) return true;
+		}
 		
-		if (blockState != otherState) return true;
 		
 		return block == this ? false : super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 	}

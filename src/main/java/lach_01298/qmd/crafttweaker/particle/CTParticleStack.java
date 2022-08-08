@@ -189,7 +189,6 @@ public class CTParticleStack implements IParticleStack
 	@Override
 	public IIngredient transformNew(IItemTransformerNew transformer)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -197,7 +196,6 @@ public class CTParticleStack implements IParticleStack
 	@Override
 	public IItemStack applyNewTransform(IItemStack item)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -205,7 +203,6 @@ public class CTParticleStack implements IParticleStack
 	@Override
 	public boolean hasNewTransformers()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -213,7 +210,6 @@ public class CTParticleStack implements IParticleStack
 	@Override
 	public String toCommandString()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,0 +1,26 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "type": {
+            "green": {
+                "textures": {
+                    "layer0": "qmd:items/misc/green_luminous_paint"
+                }
+            },
+            "blue": {
+                "textures": {
+                    "layer0": "qmd:items/misc/blue_luminous_paint"
+                }
+            },
+             "orange": {
+                "textures": {
+                    "layer0": "qmd:items/misc/orange_luminous_paint"
+                }
+            }
+        }
+    }
+}

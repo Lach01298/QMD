@@ -16,14 +16,29 @@
                     "layer0": "qmd:items/materials/dust/neodymium"
                 }
             },
-             "holmium": {
+             "iodine": {
                 "textures": {
-                    "layer0": "qmd:items/materials/dust/holmium"
+                    "layer0": "qmd:items/materials/dust/iodine"
                 }
             },
-            "germanium": {
+            "samarium": {
                 "textures": {
-                    "layer0": "qmd:items/materials/dust/germanium"
+                    "layer0": "qmd:items/materials/dust/samarium"
+                }
+            },
+            "terbium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/terbium"
+                }
+            },
+            "erbium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/erbium"
+                }
+            },
+            "ytterbium": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/ytterbium"
                 }
             }
         }

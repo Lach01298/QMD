@@ -1,0 +1,10 @@
+{
+	"ctm": {
+		"ctm_version": 1,
+		"type":"ctm",
+		"layer":"TRANSLUCENT",
+		"textures":[
+			"qmd:blocks/containment/plasma_glass_ctm"
+		]
+	}
+}

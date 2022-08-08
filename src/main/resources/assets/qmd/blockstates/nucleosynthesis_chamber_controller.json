@@ -1,0 +1,32 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:machine",
+		"textures": {
+			"top": "qmd:blocks/containment/casing",
+			"bottom": "qmd:blocks/containment/casing",
+			"front": "qmd:blocks/containment/nucleosynthesis_chamber_controller_front_off",
+			"side": "qmd:blocks/containment/casing",
+			"back": "qmd:blocks/containment/casing"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"front": "qmd:blocks/containment/nucleosynthesis_chamber_controller_front_on"
+				}
+			}
+		},
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		}
+	}
+}

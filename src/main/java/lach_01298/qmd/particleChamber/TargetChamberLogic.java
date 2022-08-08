@@ -8,12 +8,9 @@ import java.util.ArrayList;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
@@ -22,11 +19,9 @@ import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -34,6 +29,8 @@ import net.minecraft.util.math.BlockPos;
 
 public class TargetChamberLogic extends ParticleChamberLogic
 {
+
+	
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	
 	public QMDRecipeInfo<QMDRecipe> rememberedRecipeInfo;
@@ -49,9 +46,14 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	{
 		super(oldLogic);
 		
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
+		/*
+		beam 0 = input particle 1
+		beam 1 = output particle 1
+		beam 2 = output particle 2
+		beam 3 = output particle 3
+
+		*/
+
 	}
 	
 	@Override
@@ -61,7 +63,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		
 		//sizing
@@ -266,19 +268,24 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	@Override
 	public boolean onUpdateServer() 
 	{
+		
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
 		
+//		if(getMultiblock().beams.get(0).getParticleStack() != null)
+//		{
+//			
+//			System.out.println("particles: " + getMultiblock().beams.get(0).getParticleStack().getAmount());
+//
+//		}
 		
-		
-		isChamberOn();
-		
-		if (getMultiblock().isChamberOn)
+		if (isChamberOn())
 		{
+			//System.out.println("bing");
 			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
 			{
-				getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
-			
+				
+				
 				refreshRecipe();
 				
 				if(recipeInfo != null)
@@ -294,7 +301,11 @@ public class TargetChamberLogic extends ParticleChamberLogic
 					
 					if(canProduceProduct())
 					{
-						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
+						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
+						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
+//						System.out.println("PWD: " + particleWorkDone);
+						//System.out.println("RPW: " + recipeParticleWork);
+						
 						produceProduct();
 						produceBeams();
 					}
@@ -431,7 +442,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private void produceProduct()
 	{
-		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+		recipeParticleWork = (long) Math.max(recipeInfo.getRecipe().getCrossSection()*recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount(),recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount()/getMultiblock().efficiency);
 		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
 		
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
@@ -512,7 +523,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		ParticleStack outputNeutral = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
 		ParticleStack outputMinus = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyRelased();
+		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
 		double crossSection = recipeInfo.getRecipe().getCrossSection();
 		double outputFactor = crossSection * getMultiblock().efficiency;
 		if(outputFactor >= 1)
@@ -539,26 +550,28 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(1).setParticleStack(outputPlus);
 		if(outputPlus != null)
 		{
-			getMultiblock().beams.get(1).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
-			getMultiblock().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(1).getParticleStack().setFocus(input.getFocus()-getMultiblock().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(1).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
+			getMultiblock().beams.get(1).getParticleStack().setAmount((int) Math.round(outputPlus.getAmount() * outputFactor * input.getAmount()));
+			getMultiblock().beams.get(1).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(1).getParticleStack()));
 		}
 		
 		
 		getMultiblock().beams.get(2).setParticleStack(outputNeutral);
 		if(outputNeutral != null)
 		{
-			getMultiblock().beams.get(2).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
-			getMultiblock().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(2).getParticleStack().setFocus(input.getFocus()-getMultiblock().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+			
+			
+			getMultiblock().beams.get(2).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
+			getMultiblock().beams.get(2).getParticleStack().setAmount((int) Math.round(outputNeutral.getAmount() * outputFactor * input.getAmount()));
+			getMultiblock().beams.get(2).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(2).getParticleStack()));
 		}
 		
 		getMultiblock().beams.get(3).setParticleStack(outputMinus);
 		if(outputMinus != null)
 		{
-			getMultiblock().beams.get(3).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
-			getMultiblock().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(3).getParticleStack().setFocus(input.getFocus()-getMultiblock().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(3).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
+			getMultiblock().beams.get(3).getParticleStack().setAmount((int) Math.round(outputMinus.getAmount() * outputFactor * input.getAmount()));
+			getMultiblock().beams.get(3).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(3).getParticleStack()));
 		}
 	}
 
@@ -585,7 +598,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new TargetChamberUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
@@ -593,9 +606,9 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof TargetChamberUpdatePacket)
 		{
 			TargetChamberUpdatePacket packet = (TargetChamberUpdatePacket) message;
@@ -631,11 +644,11 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	
 	
 	
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		
 		return new ContainerTargetChamberController(player, (TileTargetChamberController) getMultiblock().controller);
-	}
+	}*/
 	
 	
 }

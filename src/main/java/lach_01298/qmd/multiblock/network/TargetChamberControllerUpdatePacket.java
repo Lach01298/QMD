@@ -9,19 +9,24 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
-public class TargetChamberControllerUpdatePacket extends TileUpdatePacket {
-	
+public class TargetChamberControllerUpdatePacket extends TileUpdatePacket
+{
+
 	public BlockPos masterPortPos;
 	public ItemStack filterStack;
 	public long clusterHeatStored, clusterHeatCapacity;
 	public boolean isProcessing;
 	public double time, baseProcessTime;
-	
-	public TargetChamberControllerUpdatePacket() {
-		messageValid = false;
+
+	public TargetChamberControllerUpdatePacket()
+	{
+
 	}
-	
-	public TargetChamberControllerUpdatePacket(BlockPos pos, BlockPos masterPortPos, NonNullList<ItemStack> filterStacks, FissionCluster cluster, boolean isProcessing, double time, double baseProcessTime) {
+
+	public TargetChamberControllerUpdatePacket(BlockPos pos, BlockPos masterPortPos,
+			NonNullList<ItemStack> filterStacks, FissionCluster cluster, boolean isProcessing, double time,
+			double baseProcessTime)
+	{
 		this.pos = pos;
 		this.masterPortPos = masterPortPos;
 		filterStack = filterStacks.get(0);
@@ -30,12 +35,12 @@ public class TargetChamberControllerUpdatePacket extends TileUpdatePacket {
 		this.isProcessing = isProcessing;
 		this.time = time;
 		this.baseProcessTime = baseProcessTime;
-		
-		messageValid = true;
+
 	}
-	
+
 	@Override
-	public void readMessage(ByteBuf buf) {
+	public void fromBytes(ByteBuf buf)
+	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		masterPortPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		filterStack = ByteBufUtils.readItemStack(buf);
@@ -45,9 +50,10 @@ public class TargetChamberControllerUpdatePacket extends TileUpdatePacket {
 		time = buf.readDouble();
 		baseProcessTime = buf.readDouble();
 	}
-	
+
 	@Override
-	public void writeMessage(ByteBuf buf) {
+	public void toBytes(ByteBuf buf)
+	{
 		buf.writeInt(pos.getX());
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
@@ -61,12 +67,14 @@ public class TargetChamberControllerUpdatePacket extends TileUpdatePacket {
 		buf.writeDouble(time);
 		buf.writeDouble(baseProcessTime);
 	}
-	
-	public static class Handler extends TileUpdatePacket.Handler<TargetChamberControllerUpdatePacket, ITileGui> {
-		
+
+	public static class Handler extends TileUpdatePacket.Handler<TargetChamberControllerUpdatePacket, ITileGui<TargetChamberControllerUpdatePacket>>
+	{
+
 		@Override
-		protected void onPacket(TargetChamberControllerUpdatePacket message, ITileGui processor) {
-			processor.onGuiPacket(message);
+		protected void onTileUpdatePacket(TargetChamberControllerUpdatePacket message, ITileGui<TargetChamberControllerUpdatePacket> processor)
+		{
+			processor.onTileUpdatePacket(message);
 		}
 	}
 }

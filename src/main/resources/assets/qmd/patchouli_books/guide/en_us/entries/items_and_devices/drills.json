@@ -1,0 +1,14 @@
+{
+	"name": "Electric Mining Drills",
+	"icon": "qmd:drill_basic",
+	"category": "qmd:items_and_devices",
+	"sortnum": 3,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Electric Mining Drills are useful mining tools for clearing out large areas. There are 2 types: the normal and the advanced. By default the normal mines a 3x3 area and the advanced a 5x5."
+		}
+		
+
+	]
+}

@@ -14,11 +14,8 @@ import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -30,13 +27,14 @@ import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.Multiblock;
 import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.internal.fluid.Tank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 
@@ -47,8 +45,15 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public RingAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator()); // synchroton light
 		
+		/*
+		beam 0 = input particle
+		beam 1 = output particle
+		beam 2 = synchrotron output particle
+		tank 0 = input coolant
+		tank 1 = output coolant
+		*/
+
 	}
 
 	@Override
@@ -60,8 +65,8 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	// Multiblock Validation
 	
 	
-	
-	public boolean isMachineWhole(Multiblock multiblock) 
+	@Override
+	public boolean isMachineWhole() 
 	{
 		Accelerator acc = getAccelerator();
 		
@@ -208,7 +213,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			return false;
 		}
 
-		return super.isMachineWhole(multiblock);
+		return super.isMachineWhole();
 	}
 	
 	public Set<BlockPos> getinteriorAxisPositions()
@@ -371,11 +376,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
-		getAccelerator().beams.get(0).setParticleStack(null);
-		pull();
+		super.onUpdateServer();
 		
-		if (getAccelerator().isAcceleratorOn)
+		if (getAccelerator().isControllorOn)
 		{
 			produceBeam();
 		}
@@ -385,11 +388,27 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		}
 		
 		push();
-
-		return super.onUpdateServer();
+		getAccelerator().sendMultiblockUpdatePacketToListeners();
+		return true;
 	}
 
+	@Override
+	protected void refreshBeams()
+	{
+		getAccelerator().beams.get(0).setParticleStack(null);
+		pull();	
+	}
 	
+	@Override
+	protected boolean shouldUseEnergy()
+	{
+		if (getAccelerator().beams.get(0).getParticleStack() != null)
+		{
+			return true;
+		}
+
+		return false;
+	}
 	
 
 	
@@ -406,30 +425,31 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
-			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
-			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
-			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
+			ParticleStack beam = getAccelerator().beams.get(0).getParticleStack();
+			getAccelerator().beams.get(1).setParticleStack(beam.copy());
+			
+			Particle particle = beam.getParticle();
 	
-			ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
+			ParticleStack beamOut = getAccelerator().beams.get(1).getParticleStack();
 			
 			
 			if(getAccelerator().computerControlled)
 			{
-				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getAccelerator().energyPercentage/100d)));
+				beamOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getAccelerator().energyPercentage/100d)));
 			}
 			else
 			{
-				particleOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getWorld().getRedstonePowerFromNeighbors(getAccelerator().controller.getTilePos())/15d)));
+				beamOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getRedstoneLevel()/15d)));
 			}
-			particleOut.addFocus(getAccelerator().quadrupoleStrength * Math.abs(particle.getCharge())-getBeamLength()*QMDConfig.beamAttenuationRate);
+			beamOut.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, beamOut) - Equations.focusLoss(getBeamLength(), beamOut));
 			
-			if(particleOut.getFocus() <= 0)
+			if(beamOut.getFocus() <= 0)
 			{
 				getAccelerator().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
 			
-			long synchrotronEnergy = (long) (Math.pow(particleOut.getMeanEnergy()/(1000*particleOut.getParticle().getMass()),3)/(2*Math.PI*1000000*getBeamRadius()));
-			getAccelerator().beams.get(2).setParticleStack(new ParticleStack(Particles.photon,particleOut.getAmount(),synchrotronEnergy,particleOut.getFocus()));
+			long synchrotronEnergy = Equations.synchrotronRadiationEnergy(getBeamRadius(),beamOut);
+			getAccelerator().beams.get(2).setParticleStack(new ParticleStack(Particles.photon,beamOut.getAmount(),synchrotronEnergy,beamOut.getFocus()));
 		}
 		else
 		{
@@ -442,17 +462,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		if(particle != null && getAccelerator().acceleratingVoltage > 0)
 		{
-			long maxEnergyFromFeild = (long)(Math.pow(particle.getCharge()*getAccelerator().dipoleStrength * getBeamRadius(), 2)/(2 * particle.getMass()) * 1000000);
-			long maxEnergyFromRadiation =  (long)(particle.getMass() * Math.pow((3 * getAccelerator().acceleratingVoltage * getBeamRadius())/Math.abs(particle.getCharge()), 1/4d) * 1000000);
-		
-			if(maxEnergyFromRadiation < maxEnergyFromFeild)
-			{
-				return maxEnergyFromRadiation;
-			}
-			else
-			{
-				return maxEnergyFromFeild;
-			}
+			return  Math.min(Equations.ringEnergyMaxEnergyFromDipole(getAccelerator().dipoleStrength, getBeamRadius(), particle.getCharge(), particle.getMass()), Equations.ringEnergyMaxEnergyFromRadiation(getAccelerator().acceleratingVoltage, getBeamRadius(), particle.getCharge(), particle.getMass()));
 		}
 		return 0;	
 	}
@@ -526,19 +536,19 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	
 	// Network
 	@Override
-	public RingAcceleratorUpdatePacket getUpdatePacket()
+	public RingAcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new RingAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isControllorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
 	}
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message)
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof RingAcceleratorUpdatePacket)
 		{
 			RingAcceleratorUpdatePacket packet = (RingAcceleratorUpdatePacket) message;
@@ -570,16 +580,16 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public int getBeamLength()
 	{
-		return 4*(getAccelerator().getInteriorLengthX()-2)-4+2;
+		return 4*(getAccelerator().getInteriorLengthX()-2);
 	}
 	
 	
 	
-	@Override
+	/*@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return new ContainerRingAcceleratorController(player, getAccelerator().controller);
-	}
+	}*/
 
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"));

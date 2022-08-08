@@ -26,7 +26,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 
-public class TileCreativeParticleSource extends NCTile implements ITileParticleStorage, ITickable, ITileGui
+public class TileCreativeParticleSource extends NCTile implements ITileParticleStorage, ITickable, ITileGui<CreativeParticleSourceUpdatePacket>
 {
 	private final @Nonnull List<ParticleStorageSource> particleBeams;
 
@@ -168,19 +168,19 @@ public class TileCreativeParticleSource extends NCTile implements ITileParticleS
 	}
 
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate()
+	public Set<EntityPlayer> getTileUpdatePacketListeners()
 	{
 		return playersToUpdate;
 	}
 
 	@Override
-	public TileUpdatePacket getGuiUpdatePacket()
+	public CreativeParticleSourceUpdatePacket getTileUpdatePacket()
 	{
 		return new CreativeParticleSourceUpdatePacket(pos, particleBeams);
 	}
 
 	@Override
-	public void onGuiPacket(TileUpdatePacket message)
+	public void onTileUpdatePacket(CreativeParticleSourceUpdatePacket message)
 	{
 		if(message instanceof CreativeParticleSourceUpdatePacket)
 		{

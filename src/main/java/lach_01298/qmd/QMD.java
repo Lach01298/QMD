@@ -1,7 +1,6 @@
 package lach_01298.qmd;
 
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
-import lach_01298.qmd.commands.CommandQMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUIHandler;
 import lach_01298.qmd.proxy.CommonProxy;
@@ -65,7 +64,7 @@ public class QMD
 	public void serverLoad(FMLServerStartingEvent event)
 	{
 		Util.getLogger().info("Server Load");
-		event.registerServerCommand(new CommandQMD());
+		
 	}
 
 	@EventHandler

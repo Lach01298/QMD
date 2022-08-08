@@ -34,7 +34,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController, ITileInventory
+public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController<TileTargetChamberController>, ITileInventory
 {
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
@@ -154,14 +154,14 @@ public class TileTargetChamberController extends TileParticleChamberPart impleme
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.saveAllItems(nbt, inventoryStacks);
+		NBTHelper.writeAllItems(nbt, inventoryStacks);
 		return nbt;
 	}
 
 	@Override
 	public void readInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.loadAllItems(nbt, inventoryStacks);
+		NBTHelper.readAllItems(nbt, inventoryStacks);
 	}
 	
 	@Override

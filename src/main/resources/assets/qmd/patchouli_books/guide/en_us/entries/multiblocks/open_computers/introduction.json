@@ -1,0 +1,12 @@
+{
+	"name": "Introduction",
+	"icon": "qmd:accelerator_computer_port",
+	"category": "qmd:open_computers",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Currently Open Computers (OC) only has special integration with accelerators. It can be used to read information from and control accelerators. To use OC with accelerators simply place a Accelerator Computer Port in the wall of the accelerator and hook a computer up to it. All commands are component commands. You can test them out in the lua prompt using component.qmd_accelerator."
+		}
+	]
+}

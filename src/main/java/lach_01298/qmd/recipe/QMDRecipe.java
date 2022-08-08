@@ -121,7 +121,12 @@ public class QMDRecipe  implements IQMDRecipe
 		return (double) extras.get(1);
 	}
 	
-	public long getEnergyRelased()
+	public long getHeatReleased()
+	{
+		return (long) extras.get(1);
+	}
+	
+	public long getEnergyReleased()
 	{
 		return (long) extras.get(2);
 	}

@@ -1,0 +1,44 @@
+{
+	"name": "Geting Started",
+	"icon": "minecraft:book",
+	"category": "qmd:basics",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "The is a lot of chapters in this guide some are more important than others and should probably read first. This chapter tells you what those important sections are."
+		},
+		{
+			"type": "text",
+			"text": "A good place to start is $(l:particles/introduction)General information on particles$(/l) since they are the main feature of this mod about particle accelerators.$(br2)If you are unfamiliar with units and specifically SI prefixes like th 'k' in kRF or the 'm' in mB then $(l:basics/units)Units$(/l) is a good place to look.$(br2)If you want to know more about the default survival progression look at the general progression guide section in Introduction to QMD."
+		},
+		{
+			"type": "text",
+			"title": "Accelerators",
+			"text": "After learning about particles you may wonder how do we make, manipulate and move them? This is where $(l:multiblocks/accelerators/general)accelerators$(/l) come in. Each type of accelerator does different things to particles. $(l:multiblocks/accelerators/linear_accelerator)Linear Accelerators$(/l) are the start of any accelerator system, they are used to create particle beams and accelerate them to a relatively low energy."
+		},
+		{
+			"type": "text",
+			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate existing particle beams to much higher energies and $(l:multiblocks/accelerators/decelerator)Decelerators$(/l) decelerate particles to lower energies.$(l:multiblocks/accelerators/beam_diverter)Beam diverters$(/l) turn particle beams and $(l:multiblocks/accelerators/beam_splitter)Beam Splitters$(/l) split them into two.$(br2)$(l:blocks_and_machines/beamlines)Beamline Pipes$(/l) are used to transport particle beams between machines and accelerators."
+		},
+		{
+			"type": "text",
+			"title": "Using Particles",
+			"text": "So why are we even manipulating particles? Well they can be used to make things like transmute elements, create new elements and create exotic forms of matter. This is where Particle Chambers and Vacuum Chambers come in."
+		},
+		{
+			"type": "text",
+			"title": "Particle Chambers",
+			"text": "The most common $(l:multiblocks/particle_chambers/general)particle chamber$(/l) is the $(l:multiblocks/particle_chambers/target_chamber)Target Chamber$(/l) which can transmute or irradiate items with particles. There is also $(l:multiblocks/particle_chambers/decay_chamber)Decay Chambers$(/l) and $(l:multiblocks/particle_chambers/collision_chamber)Collision Chambers$(/l) that change particles into other types of particles. Finally there are $(l:multiblocks/particle_chambers/beam_dump)Beam Dumps$(/l) where particles are collected into fluids."
+		},
+		{
+			"type": "text",
+			"title": "Vacuum Chambers",
+			"text": "$(l:multiblocks/vacuum_chambers/general)Vacuum chambers$(/l) are advanced multiblock machines that use particles. The $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) makes and stores exotic forms of matter like antimatter. These forms of matter can be used in a variety of weapons and tools. There is also the $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chamber$(/l) which can turn simpler lighter elements into more complex heavier ones. It is even possible to extract energy form some of these processes."
+		},
+		{
+			"type": "text",
+			"text": "This just about covers all the important chapters in this guide. There are others you can look at to find additional information on other things in the mod like weapons, tools, items, blocks, machines and particles."
+		}
+	]
+}

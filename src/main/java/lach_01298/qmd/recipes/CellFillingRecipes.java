@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.item.QMDItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.IItemIngredient;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
-public class CellFillingRecipes extends ProcessorRecipeHandler
+public class CellFillingRecipes extends BasicRecipeHandler
 {
 
 	public CellFillingRecipes()

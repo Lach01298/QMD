@@ -1,0 +1,19 @@
+{
+	"name": "Multitool",
+	"icon": "nuclearcraft:multitool",
+	"category": "qmd:multiblocks",
+	"sortnum": 5,
+	"pages": [
+		{
+			
+			"type": "spotlight",
+			"item": "nuclearcraft:multitool",
+			"text": "The Nuclearcraft multitool is a tool that is used extensively in the configuration of NC and QMD multiblocks."
+		},
+		{
+			
+			"type": "text",
+			"text": "In QMD it used to switch modes of Beam Port blocks and Fluid Port blocks with a right click. It also has on some Beam Port blocks like accelerator and particle chamber, special configuration mode switching with a shift right click. More on those special configuration mode switching in multiblocks respective chapters."
+		}
+	]
+}

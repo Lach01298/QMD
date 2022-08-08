@@ -2,10 +2,8 @@ package lach_01298.qmd.render.tile;
 
 import java.util.List;
 
-import lach_01298.qmd.containment.Containment;
-import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
-import lach_01298.qmd.multiblock.network.ContainmentResendFormPacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelRenderer;
@@ -26,7 +24,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderContainmentMaterial extends TileEntitySpecialRenderer<TileNeutralContainmentController>
+public class RenderContainmentMaterial extends TileEntitySpecialRenderer<TileExoticContainmentController>
 {
 private static final Minecraft MC = Minecraft.getMinecraft();
 	
@@ -35,22 +33,22 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 	
 	
 	@Override
-	public boolean isGlobalRenderer(TileNeutralContainmentController tile) {
+	public boolean isGlobalRenderer(TileExoticContainmentController tile) {
 		return tile.isRenderer && tile.isMultiblockAssembled();
 	}
 	
 	@Override
-	public void render(TileNeutralContainmentController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) 
+	public void render(TileExoticContainmentController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) 
 	{
 		if (!controller.isRenderer || !controller.isMultiblockAssembled()) return;
-		Containment containment = controller.getMultiblock();
+		VacuumChamber containment = controller.getMultiblock();
 		if (containment == null) return;
-		
 		
 		BlockPos pos = controller.getPos();
 		
 		
 		FluidStack fluidStack = containment.tanks.get(2).getFluid();
+		
 		
 		if (fluidStack != null)
 		{
@@ -101,16 +99,7 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 			GlStateManager.enableLighting();
 			GlStateManager.popMatrix();
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
 			//renderer.renderBlockBrightness(blockstate, bright);
 		
 			

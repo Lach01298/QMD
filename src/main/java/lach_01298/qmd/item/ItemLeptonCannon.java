@@ -1,12 +1,11 @@
 package lach_01298.qmd.item;
 
-import lach_01298.qmd.DamageSources;
+import lach_01298.qmd.QMDDamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityLeptonBeam;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.sound.QMDSounds;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.item.IInfoItem;
 import nc.radiation.RadiationHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,21 +18,15 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class ItemLeptonCannon extends ItemGun implements IInfoItem
+public class ItemLeptonCannon extends ItemGun
 {
 	
 	
-	public ItemLeptonCannon()
+	public ItemLeptonCannon(String... tooltip)
 	{
-		super();
+		super(tooltip);
 	}
 
-	@Override
-	public void setInfo()
-	{
-		// TODO Auto-generated method stub
-
-	}
 
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
 	{
@@ -71,9 +64,12 @@ public class ItemLeptonCannon extends ItemGun implements IInfoItem
 			
 			
 			ItemCell itemCell = (ItemCell) cell.getItem();
-			player.inventory.setInventorySlotContents(findCell(player),itemCell.empty(cell, 1));
+			if(itemCell.getAmountStored(cell) < QMDConfig.lepton_particle_usage)
+			{
+				return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
+			}
 			
-			
+			player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.lepton_particle_usage));
 			player.getCooldownTracker().setCooldown(this, QMDConfig.lepton_cool_down);
 			
 			RayTraceResult lookingAt = rayTrace(player, range, 1.0f, false,true);
@@ -109,7 +105,7 @@ public class ItemLeptonCannon extends ItemGun implements IInfoItem
 								radiation, false, false, 1));
 					}
 
-					entity.attackEntityFrom(DamageSources.causeLeptonCannonDamage(entityBeam, player), damage);
+					entity.attackEntityFrom(QMDDamageSources.causeLeptonCannonDamage(entityBeam, player), damage);
 				}
 				world.playSound(null,player.posX, player.posY, player.posZ, QMDSounds.lepton_cannon, SoundCategory.NEUTRAL, 0.2f, 1.0f);
 			}

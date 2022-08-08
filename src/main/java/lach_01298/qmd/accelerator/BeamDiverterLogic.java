@@ -8,38 +8,40 @@ import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.BeamDiverterUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class BeamDiverterLogic extends AcceleratorLogic
 {
 
+	
+	
 	public BeamDiverterLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
-		getAccelerator().beams.add(new ParticleStorageAccelerator()); //output straight
+		/*
+		beam 0 = input particle
+		beam 1 = output particle
+		beam 2 = output  particle straight
+		tank 0 = input coolant
+		tank 1 = output coolant
+		*/
 	}
 
 	@Override
@@ -51,8 +53,8 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	// Multiblock Validation
 	
 	
-	
-	public boolean isMachineWhole(Multiblock multiblock) 
+	@Override
+	public boolean isMachineWhole() 
 	{
 		Accelerator acc = getAccelerator();
 		
@@ -150,6 +152,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			
 		}
 		
+		
 		if(inputs != 1 || outputs != 1)
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
@@ -160,7 +163,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			return false;
 		}
 
-		return super.isMachineWhole(multiblock);
+		return super.isMachineWhole();
 	}
 	
 	// Multiblock Methods
@@ -172,7 +175,8 @@ public class BeamDiverterLogic extends AcceleratorLogic
 
 		 if (!getWorld().isRemote)
 		 {
-			//beam ports
+			 acc.beams.get(0).setMinEnergy(0);
+			 //beam ports
 			for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
 			{
 				if(port.getIOType() == IOType.INPUT)
@@ -205,10 +209,6 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			
 		}
 		 
-		 
-		 
-		 
-		 
  
 		 refreshStats();
 		 super.onAcceleratorFormed();
@@ -224,11 +224,9 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
-		getAccelerator().beams.get(0).setParticleStack(null);
-		pull();
+		super.onUpdateServer();
 		
-		if (getAccelerator().isAcceleratorOn)
+		if (getAccelerator().isControllorOn)
 		{
 			produceBeam();
 		}
@@ -238,8 +236,26 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		}
 		
 		push();
+		getAccelerator().sendMultiblockUpdatePacketToListeners();
+		return true;
+	}
+	
+	@Override
+	protected void refreshBeams()
+	{
+		getAccelerator().beams.get(0).setParticleStack(null);
+		pull();	
+	}
+	
+	@Override
+	protected boolean shouldUseEnergy()
+	{
+		if (getAccelerator().beams.get(0).getParticleStack() != null)
+		{
+			return true;
+		}
 
-		return super.onUpdateServer();
+		return false;
 	}
 	
 	@Override
@@ -279,25 +295,14 @@ public class BeamDiverterLogic extends AcceleratorLogic
 
 	}
 	
-	
-	public long getEnergyLoss()
-	{
-		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
-		{
-			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
-			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
-			return (long)(Math.pow(particle.getCharge(),2)/(6*Math.pow(particle.getMass(),4)*Math.pow(getBeamRadius(),2))*particleIn.getMeanEnergy());
-		}
-		
-		return 0;
-	}
-	
+
 	public long getMaxEnergy()
 	{
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
 			Particle particle = this.getAccelerator().beams.get(0).getParticleStack().getParticle();
-			return (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getBeamRadius(),2)/(2*particle.getMass())*1000000);
+
+			return Equations.ringEnergyMaxEnergyFromDipole(getAccelerator().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());
 		}
 		
 		return 0;
@@ -305,10 +310,13 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	
 	public long getAcceleratorMaxEnergy(Particle particle)
 	{
+		
 		if(particle != null)
 		{
-			return (long) (Math.pow(particle.getCharge()*getAccelerator().dipoleStrength*getBeamRadius(),2)/(2*particle.getMass())*1000000);
+			
+			return Equations.ringEnergyMaxEnergyFromDipole(getAccelerator().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());	
 		}
+		
 		return 0;
 	}
 	
@@ -324,6 +332,11 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		return QMDConfig.beamDiverterRadius;
 	}
 	
+	
+	public long getEnergyLoss()
+	{
+		return Equations.cornerEnergyLoss(getAccelerator().beams.get(0).getParticleStack(),getBeamRadius());
+	}
 	
 
 	
@@ -341,18 +354,19 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		
 		if(this.getAccelerator().beams.get(0).getParticleStack() != null)
 		{
-			getAccelerator().beams.get(1).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
-			getAccelerator().beams.get(2).setParticleStack(this.getAccelerator().beams.get(0).getParticleStack().copy());
-			ParticleStack particleIn = getAccelerator().beams.get(0).getParticleStack();
+			ParticleStack stackIn = getAccelerator().beams.get(0).getParticleStack();
+			getAccelerator().beams.get(1).setParticleStack(stackIn.copy());
+			getAccelerator().beams.get(2).setParticleStack(stackIn.copy());
 			
-			if(particleIn.getMeanEnergy() <= getMaxEnergy())
+			
+			if(stackIn.getMeanEnergy() <= getMaxEnergy())
 			{
 				ParticleStack particleOut = getAccelerator().beams.get(1).getParticleStack();
 				ParticleStack particleStraightOut = getAccelerator().beams.get(2).getParticleStack();
 				
-				particleOut.addMeanEnergy(-getEnergyLoss());
-				particleOut.addFocus(-getBeamLength()*QMDConfig.beamAttenuationRate);
-				particleStraightOut.addFocus(-getBeamLength()*QMDConfig.beamAttenuationRate);
+				particleOut.addMeanEnergy(-Equations.cornerEnergyLoss(stackIn,getBeamRadius()));
+				particleOut.addFocus(-Equations.focusLoss(getBeamLength(), stackIn));
+				particleStraightOut.addFocus(-Equations.focusLoss(getBeamLength(), stackIn));
 				
 				if(particleOut.getFocus() <= 0)
 				{
@@ -416,19 +430,19 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	
 	// Network
 	@Override
-	public BeamDiverterUpdatePacket getUpdatePacket()
+	public BeamDiverterUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new BeamDiverterUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isControllorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
 	}
 	
 	@Override
-	public void onPacket(AcceleratorUpdatePacket message)
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof BeamDiverterUpdatePacket)
 		{
 			BeamDiverterUpdatePacket packet = (BeamDiverterUpdatePacket) message;
@@ -452,11 +466,11 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	
 	
 
-	@Override
+	/*@Override
 	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
 	{
 		return new ContainerBeamDiverterController(player, getAccelerator().controller);
-	}
+	}*/
 
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorSynchrotronPort.class,

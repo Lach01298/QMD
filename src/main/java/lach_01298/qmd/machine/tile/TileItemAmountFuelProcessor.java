@@ -8,28 +8,28 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
 import nc.config.NCConfig;
 import nc.network.tile.ProcessorUpdatePacket;
 import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.ProcessorRecipe;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipe;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.RecipeInfo;
 import nc.recipe.ingredient.IItemIngredient;
-import nc.tile.ITileGui;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
 import nc.tile.inventory.TileSidedInventory;
 import nc.tile.processor.IItemProcessor;
+import nc.tile.processor.ITileSideConfigGui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
 
-public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessor, ITileGui<ProcessorUpdatePacket>
+public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessor, ITileSideConfigGui<ProcessorUpdatePacket>
 {
 
 	public final int defaultProcessTime;
@@ -44,11 +44,11 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	public final int processorID, sideConfigYOffset;
 	
 	
-	public final ProcessorRecipeHandler fuelHandler;
-	public final ProcessorRecipeHandler recipeHandler;
+	public final BasicRecipeHandler fuelHandler;
+	public final BasicRecipeHandler recipeHandler;
 	
-	protected RecipeInfo<ProcessorRecipe> recipeInfo;
-	protected RecipeInfo<ProcessorRecipe> fuelInfo;
+	protected RecipeInfo<BasicRecipe> recipeInfo;
+	protected RecipeInfo<BasicRecipe> fuelInfo;
 	
 	
 	protected Set<EntityPlayer> playersToUpdate;
@@ -56,7 +56,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	public Random rand = new Random();
 	
 	
-	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, boolean shouldLoseProgress, @Nonnull ProcessorRecipeHandler recipeHandler,@Nonnull ProcessorRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
+	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler,@Nonnull BasicRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
 	{
 		super(name, itemInSize + itemFuelSize+ itemOutSize, ITileInventory.inventoryConnectionAll(itemSorptions));
 		itemInputSize = itemInSize;
@@ -116,9 +116,9 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			if (wasProcessing != isProcessing)
 			{
 				shouldUpdate = true;
-				sendUpdateToAllPlayers();
+				sendTileUpdatePacketToAll();
 			}
-			sendUpdateToListeningPlayers();
+			sendTileUpdatePacketToListeners();
 			if (shouldUpdate)
 				markDirty();
 		}
@@ -136,7 +136,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		List<ItemStack> stacks = new ArrayList();
 		for(ItemStack stack : getItemFuels())
 		{
-			stacks.add(IItemAmount.cleanNBT(stack));
+			stacks.add(IItemParticleAmount.cleanNBT(stack));
 		}
 		
 		fuelInfo = fuelHandler.getRecipeInfoFromInputs(stacks,new ArrayList<Tank>());
@@ -267,10 +267,10 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		
 		private void useFuel(int slot)
 		{
-			if(getInventoryStacks().get(slot).getItem() instanceof IItemAmount)
+			if(getInventoryStacks().get(slot).getItem() instanceof IItemParticleAmount)
 			{
-				IItemAmount item = (IItemAmount) getInventoryStacks().get(slot).getItem();
-				getInventoryStacks().set(slot,item.empty(getInventoryStacks().get(slot), 1));	
+				IItemParticleAmount item = (IItemParticleAmount) getInventoryStacks().get(slot).getItem();
+				getInventoryStacks().set(slot,item.use(getInventoryStacks().get(slot), 1000));	//TODO
 			}
 		}
 
@@ -412,11 +412,11 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 					return false;
 				}		
 				
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(IItemAmount.cleanNBT(stack), getInventoryStacks().get(slot), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(IItemAmount.cleanNBT(stack));
+				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(slot, IItemParticleAmount.cleanNBT(stack), recipeInfo, getItemInputs(), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 			}
 			else
 			{
-				return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, getInventoryStacks().get(slot), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+				return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(slot, stack, recipeInfo, getItemInputs(), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
 			}
 			
 		}
@@ -481,24 +481,30 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public Set<EntityPlayer> getPlayersToUpdate() 
+		public Set<EntityPlayer> getTileUpdatePacketListeners() 
 		{
 			return playersToUpdate;
 		}
 		
 		@Override
-		public ProcessorUpdatePacket getGuiUpdatePacket() 
+		public ProcessorUpdatePacket getTileUpdatePacket() 
 		{
 			return new ProcessorUpdatePacket(pos,isProcessing ,time, tick, baseProcessTime, 0, new ArrayList<Tank>());
 		}
 		
 		@Override
-		public void onGuiPacket(ProcessorUpdatePacket message) 
+		public void onTileUpdatePacket(ProcessorUpdatePacket message) 
 		{
 			time = message.time;
 			tick = (int) message.energyStored;
 			baseProcessTime = message.baseProcessTime;
 			
+		}
+		
+		@Override
+		public int getSideConfigXOffset() 
+		{
+			return 0;
 		}
 		
 		@Override

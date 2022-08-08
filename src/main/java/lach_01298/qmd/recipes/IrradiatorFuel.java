@@ -5,10 +5,11 @@ import java.util.List;
 
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
-import nc.recipe.ProcessorRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
-public class IrradiatorFuel extends ProcessorRecipeHandler
+public class IrradiatorFuel extends BasicRecipeHandler
 {
 
 	public IrradiatorFuel()
@@ -21,7 +22,7 @@ public class IrradiatorFuel extends ProcessorRecipeHandler
 	{
 		addRecipe(new ItemStack(QMDItems.source,1, SourceType.COBALT_60.getID()), 1D);
 		addRecipe(new ItemStack(QMDItems.source,1, SourceType.IRIDIUM_192.getID()), 10D);
-		
+			
 	}
 
 	@Override

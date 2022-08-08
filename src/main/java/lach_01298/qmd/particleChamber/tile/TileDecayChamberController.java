@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 
-public class TileDecayChamberController extends TileParticleChamberPart implements IParticleChamberController
+public class TileDecayChamberController extends TileParticleChamberPart implements IParticleChamberController<TileDecayChamberController>
 {
 
 	public TileDecayChamberController()

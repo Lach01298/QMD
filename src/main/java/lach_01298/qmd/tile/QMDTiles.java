@@ -1,36 +1,30 @@
 package lach_01298.qmd.tile;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCasing;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorGlass;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorRedstonePort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
+import lach_01298.qmd.accelerator.tile.TileBeamSplitterController;
 import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
 import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
-import lach_01298.qmd.containment.tile.TileContainmentBeamPort;
-import lach_01298.qmd.containment.tile.TileContainmentCasing;
-import lach_01298.qmd.containment.tile.TileContainmentCoil;
-import lach_01298.qmd.containment.tile.TileContainmentEnergyPort;
-import lach_01298.qmd.containment.tile.TileContainmentGlass;
-import lach_01298.qmd.containment.tile.TileContainmentLaser;
-import lach_01298.qmd.containment.tile.TileContainmentPort;
-import lach_01298.qmd.containment.tile.TileContainmentVent;
-import lach_01298.qmd.containment.tile.TileNeutralContainmentController;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
 import lach_01298.qmd.enums.BlockTypes.DetectorType;
+import lach_01298.qmd.enums.BlockTypes.HeaterType;
 import lach_01298.qmd.enums.BlockTypes.MagnetType;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.fission.tile.QMDTileFissionShield;
@@ -50,6 +44,23 @@ import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.pipe.TileBeamline;
 import lach_01298.qmd.util.Util;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
+import lach_01298.qmd.vacuumChamber.tile.TileNucleosynthesisChamberController;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCasing;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberEnergyPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberGlass;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -63,6 +74,7 @@ public class QMDTiles
 	private static ResourceLocation chamberPath = new ResourceLocation(QMD.MOD_ID,"particle_chamber_");
 	private static ResourceLocation detectorPath = new ResourceLocation(QMD.MOD_ID,"particle_chamber_detector_");
 	private static ResourceLocation containmentPath = new ResourceLocation(QMD.MOD_ID,"containment_");
+	private static ResourceLocation heaterPath = new ResourceLocation(QMD.MOD_ID,"containment_heater");
 
 	
 	public static void register() 
@@ -72,9 +84,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileBeamline.class,new ResourceLocation(QMD.MOD_ID,"beamline"));
 		GameRegistry.registerTileEntity(QMDTileRTG.Strontium.class,new ResourceLocation(QMD.MOD_ID,"rtg_strontium"));
 		GameRegistry.registerTileEntity(QMDTileFissionShield.Hafnium.class,new ResourceLocation(QMD.MOD_ID,"fission_shield_hafnium"));
-		GameRegistry.registerTileEntity(QMDTilePassive.HeliumCollector.class,new ResourceLocation(QMD.MOD_ID,"helium_collector"));
-		GameRegistry.registerTileEntity(QMDTilePassive.NeonCollector.class,new ResourceLocation(QMD.MOD_ID,"neon_collector"));
-		GameRegistry.registerTileEntity(QMDTilePassive.ArgonCollector.class,new ResourceLocation(QMD.MOD_ID,"argon_collector"));
+		GameRegistry.registerTileEntity(TileAtmosphereCollector.class,new ResourceLocation(QMD.MOD_ID,"atmosphere_collector"));
 		GameRegistry.registerTileEntity(TileCreativeParticleSource.class,new ResourceLocation(QMD.MOD_ID,"creative_particle_source"));
 		GameRegistry.registerTileEntity(QMDTileTurbineBlade.SuperAlloy.class,new ResourceLocation(QMD.MOD_ID,"turbine_blade_super_alloy"));
 		
@@ -82,6 +92,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileLinearAcceleratorController.class,Util.appendPath(acceleratorPath, "linear_controller"));
 		GameRegistry.registerTileEntity(TileRingAcceleratorController.class,Util.appendPath(acceleratorPath, "ring_controller"));
 		GameRegistry.registerTileEntity(TileBeamDiverterController.class,Util.appendPath(acceleratorPath, "beam_diverter_controller"));
+		GameRegistry.registerTileEntity(TileBeamSplitterController.class,Util.appendPath(acceleratorPath, "beam_splitter_controller"));
 		GameRegistry.registerTileEntity(TileDeceleratorController.class,Util.appendPath(acceleratorPath, "decelerator_controller"));
 		GameRegistry.registerTileEntity(TileAcceleratorBeam.class,Util.appendPath(acceleratorPath, "beam"));
 		GameRegistry.registerTileEntity(TileAcceleratorCasing.class,Util.appendPath(acceleratorPath, "casing"));
@@ -94,6 +105,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorEnergyPort.class,Util.appendPath(acceleratorPath, "energy_port"));
 		GameRegistry.registerTileEntity(TileAcceleratorComputerPort.class,Util.appendPath(acceleratorPath, "computer_port"));
 		GameRegistry.registerTileEntity(TileAcceleratorPort.class,Util.appendPath(acceleratorPath, "port"));
+		GameRegistry.registerTileEntity(TileAcceleratorRedstonePort.class,Util.appendPath(acceleratorPath, "redstone_port"));
 		
 		//magnets
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Copper.class, Util.appendPath(magnetPath, MagnetType.COPPER.getName()));
@@ -181,14 +193,33 @@ public class QMDTiles
 		
 		//contaiment parts
 		
-		GameRegistry.registerTileEntity(TileNeutralContainmentController.class,Util.appendPath(containmentPath, "neutral_containment_controller"));
-		GameRegistry.registerTileEntity(TileContainmentCasing.class,Util.appendPath(containmentPath, "casing"));
-		GameRegistry.registerTileEntity(TileContainmentGlass.class,Util.appendPath(containmentPath, "glass"));;
-		GameRegistry.registerTileEntity(TileContainmentBeamPort.class,Util.appendPath(containmentPath, "beam_port"));
-		GameRegistry.registerTileEntity(TileContainmentEnergyPort.class,Util.appendPath(containmentPath, "energy_port"));
-		GameRegistry.registerTileEntity(TileContainmentPort.class,Util.appendPath(containmentPath, "port"));
-		GameRegistry.registerTileEntity(TileContainmentVent.class,Util.appendPath(containmentPath, "vent"));
-		GameRegistry.registerTileEntity(TileContainmentCoil.class,Util.appendPath(containmentPath, "coil"));
-		GameRegistry.registerTileEntity(TileContainmentLaser.class,Util.appendPath(containmentPath, "laser"));
+		GameRegistry.registerTileEntity(TileExoticContainmentController.class,Util.appendPath(containmentPath, "neutral_containment_controller"));
+		GameRegistry.registerTileEntity(TileNucleosynthesisChamberController.class,Util.appendPath(containmentPath, "neucleosynthesis_chamber_controller"));
+		GameRegistry.registerTileEntity(TileVacuumChamberCasing.class,Util.appendPath(containmentPath, "casing"));
+		GameRegistry.registerTileEntity(TileVacuumChamberGlass.class,Util.appendPath(containmentPath, "glass"));;
+		GameRegistry.registerTileEntity(TileVacuumChamberBeamPort.class,Util.appendPath(containmentPath, "beam_port"));
+		GameRegistry.registerTileEntity(TileVacuumChamberEnergyPort.class,Util.appendPath(containmentPath, "energy_port"));
+		GameRegistry.registerTileEntity(TileVacuumChamberPort.class,Util.appendPath(containmentPath, "port"));
+		GameRegistry.registerTileEntity(TileVacuumChamberVent.class,Util.appendPath(containmentPath, "vent"));
+		GameRegistry.registerTileEntity(TileVacuumChamberCoil.class,Util.appendPath(containmentPath, "coil"));
+		GameRegistry.registerTileEntity(TileVacuumChamberLaser.class,Util.appendPath(containmentPath, "laser"));
+		GameRegistry.registerTileEntity(TileVacuumChamberBeam.class,Util.appendPath(containmentPath, "beam"));
+		GameRegistry.registerTileEntity(TileVacuumChamberFluidPort.class,Util.appendPath(containmentPath, "fluid_port"));
+		GameRegistry.registerTileEntity(TileVacuumChamberPlasmaNozzle.class,Util.appendPath(containmentPath, "cd_nozzle"));
+		GameRegistry.registerTileEntity(TileVacuumChamberPlasmaGlass.class,Util.appendPath(containmentPath, "plasma_glass"));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeaterVent.class,Util.appendPath(containmentPath, "heater_vent"));
+		GameRegistry.registerTileEntity(TileVacuumChamberRedstonePort.class,Util.appendPath(containmentPath, "redstone_port"));
+
+		//heaters
+		
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Iron.class, Util.appendPath(heaterPath, HeaterType.IRON.getName()));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Redstone.class, Util.appendPath(heaterPath, HeaterType.REDSTONE.getName()));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Quartz.class, Util.appendPath(heaterPath, HeaterType.QUARTZ.getName()));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Obsidian.class, Util.appendPath(heaterPath, HeaterType.OBSIDIAN.getName()));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Glowstone.class,Util.appendPath(heaterPath, HeaterType.GLOWSTONE.getName()));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Lapis.class, Util.appendPath(heaterPath, HeaterType.LAPIS.getName()));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Gold.class,Util.appendPath(heaterPath, HeaterType.GOLD.getName()));
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Diamond.class, Util.appendPath(heaterPath, HeaterType.DIAMOND.getName()));
+		
 	}
 }

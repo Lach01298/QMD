@@ -1,0 +1,7 @@
+{
+	"name": "General Progression Guide",
+	"description": "This category is a guide to starting QMD as well as gives the general progression path. Note: that certain things may be different if this is installed in a modpack where progression is changed. QMD's progression is arranged into a few stages. Where key resources and or machines are needed to be obtained before progressing to the next stage.",
+	"icon": "qmd:source:1",
+	"parent": "qmd:basics",
+	"sortnum": 0
+}

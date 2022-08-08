@@ -1,0 +1,46 @@
+{
+    "name": "Utility Blocks",
+    "icon": "qmd:creative_particle_source",
+    "category": "qmd:blocks_and_machines",
+    "sortnum": 4,
+    "pages": [
+        {
+            "type": "text",
+            "text": "this section has pages for various other blocks in QMD that have functions"
+        },
+        {
+            "type": "spotlight",
+            "item": "qmd:rtg_strontium",
+            "text": "An radioisotope thermoelectric generator that uses Strontium 90 a common nuclear waste."
+        },
+        {
+            "type": "spotlight",
+			"title": "Super Alloy Turbine Blade",
+            "item": "qmd:turbine_blade_super_alloy",
+            "text": "A turbine blade made of super alloy for high efficiencies."
+        },
+        {
+            "type": "spotlight",
+			"title": "Hafnium Neutron Shield",
+            "item": "qmd:fission_shield",
+            "text": "A fission shield for reactors made of hafnium for higher efficiencies."
+        },
+        {
+            "type": "spotlight",
+            "item": "qmd:discharge_lamp",
+            "title": "Discharge Lamps",
+            "text": "A decorative light that can be turned off with redstone. They come in different colors depending on the element inside."
+        },
+        {
+            "type": "spotlight",
+            "item": "qmd:luminous_paint",
+            "title": "Radioluminescent Paint",
+            "text": "A decorative light layer that comes in 3 different colors! It can be placed on any side of a block. It also has the benefit that it is radioactive."
+        },
+        {
+            "type": "spotlight",
+            "item": "qmd:creative_particle_source",
+            "text": "A block that outputs any particle stack. It has a gui to select the type amount energy and focus of a stack. Note that the name is the registry name of the particle not the localized name. e.g antisigma_plus instead of Anti-Sigma +$(br)The registry names can be found in the $(l:particles/list)particle list section$(/l)."
+        }
+    ]
+}

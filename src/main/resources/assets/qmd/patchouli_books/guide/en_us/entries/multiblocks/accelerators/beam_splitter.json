@@ -1,0 +1,28 @@
+{
+    "name": "Beam Splitter",
+    "icon": "qmd:beam_splitter_controller",
+    "category": "qmd:accelerators",
+    "sortnum": 4,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Beam Spiltters can split a particle beam into two. Each new beam will have half the pu/t of the original (rounded down to the nearest pu)."
+        },
+		{
+            "header": "Constuction",
+			"type": "diagram",
+			"image":"qmd:textures/gui/book_images/beam_splitter.png",
+            "text": "Beam Spiltters are constructed the same as $(l:multiblocks/accelerators/beam_diverter)beam diverters$(/l) except they must have exactly two output beam ports. Example above."
+        },
+		{
+            "title": "Operation",
+			"type": "text",
+            "text": "To start the beam splitter just give the controller a redstone signal. A beam splitter functions the same as any other $(l:multiblocks/accelerators/general#operation)accelerator$(/l) requiring power and coolant. $(br2)$(l)Currently beam port switching is not available for beam splitters, so must be done manually.$()"
+        },
+		{
+            "title": "Particle Energy",
+			"type": "text",
+            "text": "The same rules as $(l:multiblocks/accelerators/beam_diverter#energy)beam diverters$(/l) applies. Straight through beams get no energy loss while bent beams do."
+        }
+    ]
+}

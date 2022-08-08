@@ -10,15 +10,20 @@ import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
 import lach_01298.qmd.enums.BlockTypes.DetectorType;
+import lach_01298.qmd.enums.BlockTypes.HeaterType;
 import lach_01298.qmd.enums.BlockTypes.LampType;
 import lach_01298.qmd.enums.BlockTypes.MagnetType;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
+import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
-import lach_01298.qmd.item.IItemAmount;
+import lach_01298.qmd.item.IItemParticleAmount;
+import lach_01298.qmd.item.QMDArmour;
 import lach_01298.qmd.item.QMDItems;
 import nc.ModCheck;
+import nc.init.NCArmor;
 import nc.init.NCBlocks;
+import nc.init.NCItems;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
 import nc.recipe.vanilla.recipe.ShapedEnergyRecipe;
 import nc.recipe.vanilla.recipe.ShapedFluidRecipe;
@@ -57,12 +62,11 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.oreLeacher, new Object[] {"PRP", "CFC", "PHP", 'P', "plateElite", 'F', "chassis", 'C', NCBlocks.chemical_reactor, 'R', NCBlocks.rock_crusher, 'H', "ingotHardCarbon"});
 		addShapedOreRecipe(QMDBlocks.irradiator, new Object[] {"TPT", "PFP", "TPT", 'P', "plateDU", 'F', "chassis", 'T', "ingotTungsten"});
 		addShapedOreRecipe(QMDBlocks.rtgStrontium, new Object[] {"AGA", "GSG", "AGA", 'S', "blockStrontium90",'A', "plateAdvanced", 'G', "ingotGraphite"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
-		addShapedOreRecipe(QMDBlocks.heliumCollector, new Object[] {"ASA", "SPS", "ASA", 'A', "plateAdvanced",'S', "ingotStainlessSteel", 'P', "blockPlutonium242"});
-		addShapedOreRecipe(QMDBlocks.neonCollector, new Object[] {"ASA", "SPS", "ASA", 'A', "plateAdvanced",'S', "ingotStainlessSteel", 'P', "ingotSodium22"});
-		addShapedOreRecipe(QMDBlocks.argonCollector, new Object[] {"ASA", "SPS", "ASA", 'A', "plateAdvanced",'S', "ingotStainlessSteel", 'P', "ingotPotassium"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
+		addShapedOreRecipe(QMDBlocks.atmosphereCollector, new Object[] {"ASA", "BMB", "ASA", 'A', "plateAdvanced",'S', "ingotSteel", 'B', Items.BUCKET, 'M', "motor"});
+		
+		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.fissionShield, 4, 0), new Object[] {"BHB", "HFH", "BHB", 'B', "plateBasic", 'F', "steelFrame", 'H', "ingotHafnium"});
 		addShapedOreRecipe(new ItemStack(QMDItems.cell), new Object[] {"WEW", "O O", "WRW", 'W', "wireBSCCO",'O', "ingotOsmiridium", 'R', NCBlocks.rtg_californium, 'E', "processorElite"});
 		addShapedOreRecipe(new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), new Object[] {"WMW", "BEB", "WMW", 'W', new ItemStack(QMDBlocks.RFCavity,1,RFCavityType.BSCCO.getID()),'M', "magnetNeodymium", 'B', QMDBlocks.beamline, 'E', "processorElite"});
@@ -70,9 +74,23 @@ public class QMDCraftingRecipeHandler
 		
 		addShapedOreRecipe(QMDItems.leptonCannon, new Object[] {"EL ", "OBS", "T  ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'S', "solenoidCopper", 'T', "ingotSuperAlloy"});
 		addShapedOreRecipe(QMDItems.gluonGun, new Object[] {"TT ", "OBB", "EL ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'T', "ingotSuperAlloy"});
+		addShapedOreRecipe(QMDItems.antimatterLauncher, new Object[] {"TT ", "LBB", "EO ", 'E', "processorElite",'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'O', "ingotOsmiridium", 'B', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID()), 'T', "ingotSuperAlloy"});
+		addShapedOreRecipe(QMDArmour.helm_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.helm_boron_nitride, 'B', NCItems.lithium_ion_cell});
+		addShapedOreRecipe(QMDArmour.chest_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.chest_boron_nitride, 'B', NCItems.lithium_ion_cell});
+		addShapedOreRecipe(QMDArmour.legs_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.legs_boron_nitride, 'B', NCItems.lithium_ion_cell});
+		addShapedOreRecipe(QMDArmour.boots_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.boots_boron_nitride, 'B', NCItems.lithium_ion_cell});
+		addShapedOreRecipe(QMDItems.beamMeter, new Object[] {"FFS", "PPC", "FFB", 'F', "ingotFerroboron",'S', new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PLASTIC.getID()), 'P', "processorBasic", 'C', "ingotCopper", 'B', "bioplastic"});
+		addShapedOreRecipe(QMDItems.basic_drill, new Object[] {" T ", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "ingotSteel", 'B', NCBlocks.voltaic_pile_advanced});
+		addShapedOreRecipe(QMDItems.advanced_drill, new Object[] {"NTN", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "magnetNeodymium", 'B', NCBlocks.lithium_ion_battery_basic, 'N', "gemBoronNitride"});
 		
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCharcoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
+		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.GREEN.getID()), new Object[] {"dustZincSulfide","dustRadium","dustCopper"});
+		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.GREEN.getID()), new Object[] {"dustZincSulfide","dustPromethium147","dustCopper"});
+		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.BLUE.getID()), new Object[] {"dustZincSulfide","dustRadium","dustSilver"});
+		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.BLUE.getID()), new Object[] {"dustZincSulfide","dustPromethium147","dustSilver"});
+		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.ORANGE.getID()), new Object[] {"dustZincSulfide","dustRadium","dustMagnesium"});
+		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.ORANGE.getID()), new Object[] {"dustZincSulfide","dustPromethium147","dustMagnesium"});
 		
 		if (ModCheck.patchouliLoaded()) 
 		{
@@ -92,7 +110,7 @@ public class QMDCraftingRecipeHandler
 		
 		
 		//Coolers
-		addShapedOreRecipe(new ItemStack(QMDItems.part,4,PartType.EMPTY_COOLER.getID()), new Object[] {"STS", "SHS", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'H', "ingotThermoconducting"});
+		addShapedOreRecipe(new ItemStack(QMDItems.part,8,PartType.EMPTY_COOLER.getID()), new Object[] {"STS", "SHS", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'H', "ingotThermoconducting"});
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler1,1,CoolerType1.WATER.getID()), new Object[] {new BucketIngredient("water"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler1,1,CoolerType1.IRON.getID()), new Object[] {" I ", "ICI", " I ", 'I', "ingotIron", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler1,1,CoolerType1.REDSTONE.getID()), new Object[] {"III", "ICI", "III", 'I', "dustRedstone", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
@@ -123,7 +141,6 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.ARSENIC.getID()), new Object[] {"III", "ICI", "III", 'I', "dustArsenic", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.LIQUID_NITROGEN.getID()), new Object[] {new BucketIngredient("liquid_nitrogen"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.LIQUID_HELIUM.getID()), new Object[] {new BucketIngredient("liquid_helium"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
-		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.ENDERIUM.getID()), new Object[] {new BucketIngredient("enderium"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 		addShapelessOreRecipe(new ItemStack(QMDBlocks.acceleratorCooler2,1,CoolerType2.CRYOTHEUM.getID()), new Object[] {new BucketIngredient("cryotheum"),new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID())});
 
 		// Accelerator Controllers
@@ -131,6 +148,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.ringAcceleratorController, new Object[] {"PEP", "AFA", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.beamDiverterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotTough", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.deceleratorController, new Object[] {"PEP", "AFA", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'A', "processorElite", 'F', QMDBlocks.acceleratorCasing});
+		addShapedOreRecipe(QMDBlocks.beamSplitterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotSuperAlloy", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});		
 		
 		//Accelerator Parts
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCasing,8), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame"});
@@ -144,6 +162,9 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorBeam,3), new Object[] {"SSS", "BBB", "SSS", 'S', "ingotStainlessSteel", 'B', QMDBlocks.beamline});
 		addShapedOreRecipe(QMDBlocks.acceleratorSource, new Object[] {"AAA", " CT", "AAA", 'A', "plateAdvanced", 'C', QMDBlocks.acceleratorCasing, 'T', new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorPort, 4), new Object[] {"SHS", "VFV", "SHS", 'S', "ingotStainlessSteel", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorRedstonePort,1), new Object[] {"STS", "TFT", "STS", 'S', "dustRedstone",'T', "ingotSteel", 'F', QMDBlocks.acceleratorCasing});
+
+		
 		
 		//Accelerator magnets
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorMagnet,2,MagnetType.COPPER.getID()), new Object[] {"CCC", "STS", "CCC", 'S', "ingotStainlessSteel",'T', "ingotTough", 'C', "ingotCopper"});
@@ -152,13 +173,14 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorMagnet,2,MagnetType.NIOBIUM_TITANIUM.getID()), new Object[] {"CCC", "STS", "CCC", 'S', "ingotStainlessSteel",'T', "ingotTough", 'C', "ingotNiobiumTitanium"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorMagnet,2,MagnetType.BSCCO.getID()), new Object[] {"CCC", "STS", "CCC", 'S', "ingotStainlessSteel",'T', "ingotTough", 'C', "wireBSCCO"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorYoke,4), new Object[] {"IBI", "IBI", "IBI", 'I', "ingotIron",'B', "bioplastic"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorYoke,4), new Object[] {"IBI", "IBI", "IBI", 'I', "ingotIron",'B', "sheetPlastic"});
 		
 		//Accelerator Cavities
-		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,2,RFCavityType.COPPER.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotCopper"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,2,RFCavityType.MAGNESIUM_DIBORIDE.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotMagnesiumDiboride"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,2,RFCavityType.NIOBIUM_TIN.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotNiobiumTin"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,2,RFCavityType.NIOBIUM_TITANIUM.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotNiobiumTitanium"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,2,RFCavityType.BSCCO.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "wireBSCCO"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,4,RFCavityType.COPPER.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotCopper"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,4,RFCavityType.MAGNESIUM_DIBORIDE.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotMagnesiumDiboride"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,4,RFCavityType.NIOBIUM_TIN.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotNiobiumTin"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,4,RFCavityType.NIOBIUM_TITANIUM.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "ingotNiobiumTitanium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.RFCavity,4,RFCavityType.BSCCO.getID()), new Object[] {"CCC", "S S", "CCC", 'S', "ingotStainlessSteel", 'C', "wireBSCCO"});
 		
 		//particle chamber controllers
 		addShapedOreRecipe(QMDBlocks.targetChamberController, new Object[] {"PTP", "BFB", "PTP", 'P', "plateElite", 'T', "ingotTough", 'B', "processorBasic", 'F', QMDBlocks.particleChamberCasing});
@@ -178,34 +200,60 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberFluidPort,4), new Object[] {"SIS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'F', "steelFrame", 'I', "servo"});
 		
 		//sources
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotSodium22",'B', "bioplastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "bioplastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "bioplastic"});
-		addShapedOreRecipe(IItemAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCalcium48",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotSodium22",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "bioplastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotCalcium48",'B', "bioplastic"});
+		
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotSodium22",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.COBALT_60.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotCobalt60",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.IRIDIUM_192.getID())), new Object[] {"BBB", "BSB", "BBB", 'S', "ingotIridium192",'B', "sheetPlastic"});
+		addShapedOreRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID())), new Object[] {"BSB", "SSS", "BSB", 'S', "ingotCalcium48",'B', "sheetPlastic"});
 		
 		
 		//detectors
-		addShapedOreRecipe(new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID()), new Object[] {"STS", "SBS", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'B', "processorBasic"});
+		addShapedOreRecipe(new ItemStack(QMDItems.part,4,PartType.DETECTOR_CASING.getID()), new Object[] {"STS", "SBS", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'B', "processorBasic"});
 		addShapedOreRecipe(new ItemStack(QMDItems.part,1,PartType.WIRE_CHAMBER_CASING.getID()), new Object[] {"WWW", "ACA", "WWW", 'W',  "wireGoldTungsten", 'A', "processorAdvanced", 'C', new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.EM_CALORIMETER.getID()), new Object[] {"SSS", "SCS", "SSS", 'S',  new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PWO.getID()), 'C', new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.HADRON_CALORIMETER.getID()), new Object[] {"SSS", "SCS", "SSS", 'S',  new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PLASTIC.getID()), 'C', new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID())});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.SILLICON_TRACKER.getID()), new Object[] {"BAB", "ACA", "BAB", 'B',  "processorBasic", 'A', "processorAdvanced", 'C', new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID())});
 		
 		// Containment Controllers
-		addShapedOreRecipe(QMDBlocks.neutralContainmentController, new Object[] {"PEP", "BFB", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'B', "processorElite", 'F', QMDBlocks.containmentCasing});
+		addShapedOreRecipe(QMDBlocks.exoticContainmentController, new Object[] {"PEP", "BFB", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'B', "processorElite", 'F', QMDBlocks.vacuumChamberCasing});
+		addShapedOreRecipe(QMDBlocks.nucleosynthesisChamberController, new Object[] {"PEP", "BFB", "PEP", 'P', "plateElite", 'E', "ingotSuperAlloy", 'B', "processorElite", 'F', QMDBlocks.vacuumChamberCasing});
 		
 		//Containment Parts
-		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentCasing,8), new Object[] {"OTO", "SFS", "OTO", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame", 'O', "ingotOsmiridium"});
-		addShapelessOreRecipe(QMDBlocks.containmentCasing, new Object[] {QMDBlocks.containmentGlass});
-		addShapelessOreRecipe(QMDBlocks.containmentGlass, new Object[] {QMDBlocks.containmentCasing, "blockGlass"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentBeamPort, 4), new Object[] {"OTO", "BFB", "OTO", 'O', "ingotOsmiridium", 'T', "ingotTough", 'B', QMDBlocks.beamline, 'F', "steelFrame"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentVent,4), new Object[] {"OIO", "TFT", "OTO", 'O', "ingotOsmiridium",'T', "ingotTough", 'F', "steelFrame", 'I', "servo"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentEnergyPort,4), new Object[] {"OIO", "TFT", "OIO", 'O', "ingotOsmiridium",'T', "ingotTough", 'F', "steelFrame", 'I', "wireBSCCO"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentCoil,2), new Object[] {"CCC", "OOO", "CCC", 'O', "ingotOsmiridium", 'C', "wireBSCCO"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentPort, 4), new Object[] {"OHO", "VFV", "OHO", 'O', "ingotOsmiridium", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});
-		addShapedOreRecipe(new ItemStack(QMDBlocks.containmentLaser), new Object[] {"OEO", "ELL", "OEO", 'O', "ingotOsmiridium", 'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'E', "plateElite"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberCasing,8), new Object[] {"OTO", "SFS", "OTO", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame", 'O', "ingotOsmiridium"});
+		addShapelessOreRecipe(QMDBlocks.vacuumChamberCasing, new Object[] {QMDBlocks.vacuumChamberGlass});
+		addShapelessOreRecipe(QMDBlocks.vacuumChamberGlass, new Object[] {QMDBlocks.vacuumChamberCasing, "blockGlass"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberBeamPort, 4), new Object[] {"OTO", "BFB", "OTO", 'O', "ingotOsmiridium", 'T', "ingotTough", 'B', QMDBlocks.beamline, 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberVent,4), new Object[] {"OIO", "TFT", "OTO", 'O', "ingotOsmiridium",'T', "ingotTough", 'F', "steelFrame", 'I', "servo"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberEnergyPort,4), new Object[] {"OIO", "TFT", "OIO", 'O', "ingotOsmiridium",'T', "ingotTough", 'F', "steelFrame", 'I', "wireBSCCO"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberCoil,2), new Object[] {"CCC", "OOO", "CCC", 'O', "ingotOsmiridium", 'C', "wireBSCCO"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberPort, 4), new Object[] {"OHO", "VFV", "OHO", 'O', "ingotOsmiridium", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberLaser), new Object[] {"OEO", "ELL", "OEO", 'O', "ingotOsmiridium", 'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'E', "plateElite"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeaterVent,4), new Object[] {"OTO", "TFT", "OIO", 'O', "ingotOsmiridium",'T', "ingotTough", 'F', "steelFrame", 'I', "servo"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberRedstonePort,1), new Object[] {"STS", "TFT", "STS", 'S', "dustRedstone",'T', "ingotSteel", 'F', QMDBlocks.vacuumChamberCasing});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberFluidPort,2), new Object[] {"SIS", "TFT", "STS", 'S', "ingotOsmiridium",'T', "ingotTough", 'F', QMDBlocks.vacuumChamberCasing, 'I', "servo"});
+
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberBeam,2), new Object[] {"SBS", "B B", "SBS", 'S', "ingotSuperAlloy",'B', "wireBSCCO"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberPlasmaGlass,2), new Object[] {"SBS", "BNB", "SBS", 'S', "ingotSuperAlloy",'B', "wireBSCCO", 'N', "gemBoronNitride"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberPlasmaNozzle,2), new Object[] {"SBS", "BNB", "SBS", 'S', "ingotSuperAlloy",'B', "wireBSCCO", 'N', new ItemStack(QMDItems.part,1,PartType.ACCELERATING_BARREL.getID())});
+		
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.IRON.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "ingotIron", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.REDSTONE.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "dustRedstone", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.QUARTZ.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "gemQuartz", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.OBSIDIAN.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "obsidian", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.GLOWSTONE.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "dustGlowstone", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.LAPIS.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "gemLapis", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.GOLD.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "ingotGold", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.DIAMOND.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "gemDiamond", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
+
 		
 		
+		IRecipe recipe = new RecipesArmourDyes();
+		recipe.setRegistryName(new ResourceLocation(QMD.MOD_ID, "armour_dye"));
+		ForgeRegistries.RECIPES.register(recipe);
 		
 		
 	}

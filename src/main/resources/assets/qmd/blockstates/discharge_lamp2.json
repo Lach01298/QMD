@@ -1,0 +1,20 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "cube_all"
+    },
+    "variants": {
+        "active=false,type=sodium": {
+            "model": "qmd:lamp/sodium_off"
+        },
+        "active=true,type=sodium": {
+            "model": "qmd:lamp/sodium"
+        },
+        "active=false,type=mercury": {
+            "model": "qmd:lamp/mercury_off"
+        },
+        "active=true,type=mercury": {
+            "model": "qmd:lamp/mercury"
+        }
+    }
+}

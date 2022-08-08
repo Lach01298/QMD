@@ -8,6 +8,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import nc.item.IInfoItem;
+import nc.item.NCItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -18,12 +19,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 
-public abstract class ItemGun  extends Item implements IInfoItem
+public abstract class ItemGun  extends NCItem
 {
 	
-	public ItemGun()
+	public ItemGun(String... tooltip)
 	{
+		super(tooltip);
 		this.maxStackSize = 1;
 	}
 

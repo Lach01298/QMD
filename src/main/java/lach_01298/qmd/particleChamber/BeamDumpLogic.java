@@ -50,7 +50,11 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	{
 		super(oldLogic);
 		
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
+		/*
+		beam 0 = input particle
+		tank 0 = other
+		tank 1 = output fluid
+		*/
 	}
 	
 	@Override
@@ -66,7 +70,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		
 		//sizing
@@ -181,6 +185,9 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	public void onChamberFormed()
 	{
 		onResetStats();
+		
+		getMultiblock().tanks.get(1).setCapacity(QMDConfig.particle_chamber_output_tank_capacity * getCapacityMultiplier());
+		
 		if (!getWorld().isRemote)
 		{
 			for (TileParticleChamber target : getPartMap(TileParticleChamber.class).values())
@@ -220,15 +227,11 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
 		
-		
-		
-		isChamberOn();
-		
-		if (getMultiblock().isChamberOn)
+		if (isChamberOn())
 		{
 			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
 			{
-				getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
+				
 			
 				refreshRecipe();
 				
@@ -245,6 +248,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 					
 					if(canProduceProduct())
 					{
+						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
 						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
 						produceProduct();
 					}	
@@ -260,9 +264,8 @@ public class BeamDumpLogic extends ParticleChamberLogic
 
 	private boolean canProduceProduct()
 	{
-		
 		FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-		if(getMultiblock().tanks.get(1).canFillFluidType(product))
+		if(getMultiblock().tanks.get(1).fill(product, false) == product.amount && getMultiblock().tanks.get(1).getCapacity()>= getMultiblock().tanks.get(1).getFluidAmount()+product.amount)
 		{
 			return true;
 		}
@@ -273,7 +276,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	private void produceProduct()
 	{
 		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
-		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
+		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*1000);
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
 			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
@@ -306,7 +309,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new BeamDumpUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
@@ -314,9 +317,9 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof BeamDumpUpdatePacket)
 		{
 			BeamDumpUpdatePacket packet = (BeamDumpUpdatePacket) message;
@@ -351,11 +354,11 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	
 	
 	
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		
 		return new ContainerBeamDumpController(player, (TileBeamDumpController) getMultiblock().controller);
-	}
+	}*/
 	
 	
 }

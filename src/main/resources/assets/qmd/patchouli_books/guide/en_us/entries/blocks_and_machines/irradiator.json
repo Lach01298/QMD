@@ -1,0 +1,13 @@
+{
+	"name": "Irradiator",
+	"icon": "qmd:irradiator",
+	"category": "qmd:blocks_and_machines",
+	"sortnum": 2,
+	"pages": [
+		{
+			
+			"type": "text",
+			"text": "The Irradiator is a machine that uses radioactive sources to irradiate items with gamma rays. Currently the 2 sources usable in it are Co-60 for a normal speed and Ir-192 for x10 speed. The Irradiator uses no power."
+		}
+	]
+}

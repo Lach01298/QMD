@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import nc.multiblock.IPacketMultiblockLogic;
 import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeUpdatePacket>
+public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
+		implements IPacketMultiblockLogic<Pipe, PipeLogic, IPipePart, PipeUpdatePacket>
 {
 
 	public PipeLogic(PipeLogic oldLogic)
@@ -79,7 +81,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	}
 
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		return false;
 	}
@@ -97,13 +99,13 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	}
 
 	@Override
-	public PipeUpdatePacket getUpdatePacket()
+	public PipeUpdatePacket getMultiblockUpdatePacket()
 	{
 		return null;
 	}
 
 	@Override
-	public void onPacket(PipeUpdatePacket message)
+	public void onMultiblockUpdatePacket(PipeUpdatePacket message)
 	{
 		
 	}
@@ -113,12 +115,12 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 		return false;
 	}
 
-	public void onAssimilate(Multiblock assimilated)
+	public void onAssimilate(Pipe assimilated)
 	{
 		
 	}
 
-	public void onAssimilated(Multiblock assimilator)
+	public void onAssimilated(Pipe assimilator)
 	{
 		
 	}
@@ -132,6 +134,12 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart, PipeU
 	public List<Pair<Class<? extends IPipePart>, String>> getPartBlacklist()
 	{
 		return new ArrayList<>();
+	}
+
+	@Override
+	public void clearAllMaterial()
+	{
+		
 	}
 
 }

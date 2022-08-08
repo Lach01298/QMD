@@ -8,13 +8,9 @@ import java.util.ArrayList;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.multiblock.network.DecayChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
@@ -22,11 +18,9 @@ import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -34,6 +28,9 @@ import net.minecraft.util.math.BlockPos;
 
 public class DecayChamberLogic extends ParticleChamberLogic
 {
+
+	
+	
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	
 	protected TileParticleChamber mainChamber;
@@ -45,9 +42,15 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	{
 		super(oldLogic);
 		
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
-		getMultiblock().beams.add(new ParticleStorageAccelerator());
+		
+		/*
+		beam 0 = input particle 1
+		beam 1 = output particle 1
+		beam 2 = output particle 2
+		beam 3 = output particle 3
+
+		*/
+
 	}
 	
 	@Override
@@ -57,7 +60,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public boolean isMachineWhole(Multiblock multiblock)
+	public boolean isMachineWhole()
 	{
 		
 		//sizing
@@ -132,7 +135,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			return false;
 		}
 		
-		System.out.println("true");
+		
 		return true;
 	}
 	
@@ -264,20 +267,17 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
 		
-		
-		
-		isChamberOn();
-		
-		if (getMultiblock().isChamberOn)
+		if (isChamberOn())
 		{
 			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
 			{
-				getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
+				
 			
 				refreshRecipe();
 				
 				if(recipeInfo != null)
 				{
+					getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
 					produceBeams();
 	
 				}
@@ -390,7 +390,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		ParticleStack outputNeutral = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
 		ParticleStack outputMinus = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyRelased();
+		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
 		double crossSection = recipeInfo.getRecipe().getCrossSection();
 		double outputFactor = crossSection * getMultiblock().efficiency;
 		if(outputFactor >= 1)
@@ -417,26 +417,26 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(1).setParticleStack(outputPlus);
 		if(outputPlus != null)
 		{
-			getMultiblock().beams.get(1).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
+			getMultiblock().beams.get(1).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
 			getMultiblock().beams.get(1).getParticleStack().setAmount((int) (outputPlus.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(1).getParticleStack().setFocus(input.getFocus()-getMultiblock().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(1).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(1).getParticleStack()));
 		}
 		
 		
 		getMultiblock().beams.get(2).setParticleStack(outputNeutral);
 		if(outputNeutral != null)
 		{
-			getMultiblock().beams.get(2).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
+			getMultiblock().beams.get(2).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
 			getMultiblock().beams.get(2).getParticleStack().setAmount((int) (outputNeutral.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(2).getParticleStack().setFocus(input.getFocus()-getMultiblock().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(2).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(2).getParticleStack()));
 		}
 		
 		getMultiblock().beams.get(3).setParticleStack(outputMinus);
 		if(outputMinus != null)
 		{
-			getMultiblock().beams.get(3).getParticleStack().setMeanEnergy((input.getMeanEnergy() + energyReleased) / particlesOut);
+			getMultiblock().beams.get(3).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
 			getMultiblock().beams.get(3).getParticleStack().setAmount((int) (outputMinus.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(3).getParticleStack().setFocus(input.getFocus()-getMultiblock().getExteriorLengthX()*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(3).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(3).getParticleStack()));
 		}
 	}
 
@@ -455,7 +455,6 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		{
 			ArrayList<ParticleStack> particles = new ArrayList<ParticleStack>();
 			ParticleStack input =getMultiblock().beams.get(0).getParticleStack().copy();
-			input.setMeanEnergy(0);
 			particles.add(input);
 			
 			recipeInfo = decay_chamber.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);	
@@ -467,7 +466,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public ParticleChamberUpdatePacket getUpdatePacket()
+	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new DecayChamberUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
@@ -475,9 +474,9 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public void onPacket(ParticleChamberUpdatePacket message)
+	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		super.onPacket(message);
+		super.onMultiblockUpdatePacket(message);
 		if (message instanceof DecayChamberUpdatePacket)
 		{
 			DecayChamberUpdatePacket packet = (DecayChamberUpdatePacket) message;
@@ -508,11 +507,11 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	
 	
 	
-	public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
+	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
 	{
 		
 		return new ContainerDecayChamberController(player, (TileDecayChamberController) getMultiblock().controller);
-	}
+	}*/
 	
 	
 }

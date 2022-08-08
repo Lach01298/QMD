@@ -18,7 +18,7 @@ public class BlockFissionReflector extends BlockMeta<NeutronReflectorType>
 		public BlockFissionReflector() 
 		{
 			super(NeutronReflectorType.class, TYPE, Material.IRON);
-			setCreativeTab(QMDTabs.BLOCKS);
+			setCreativeTab(QMDTabs.MULTIBLOCKS);
 		}
 		
 		@Override

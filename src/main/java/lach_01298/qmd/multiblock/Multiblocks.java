@@ -3,6 +3,7 @@ package lach_01298.qmd.multiblock;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.AcceleratorLogic;
 import lach_01298.qmd.accelerator.BeamDiverterLogic;
+import lach_01298.qmd.accelerator.BeamSplitterLogic;
 import lach_01298.qmd.accelerator.DeceleratorLogic;
 import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
 import lach_01298.qmd.accelerator.RingAcceleratorLogic;
@@ -16,20 +17,11 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorRedstonePort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
-import lach_01298.qmd.containment.Containment;
-import lach_01298.qmd.containment.ContainmentLogic;
-import lach_01298.qmd.containment.NeutralContainmentLogic;
-import lach_01298.qmd.containment.tile.IContainmentController;
-import lach_01298.qmd.containment.tile.TileContainmentBeamPort;
-import lach_01298.qmd.containment.tile.TileContainmentCoil;
-import lach_01298.qmd.containment.tile.TileContainmentEnergyPort;
-import lach_01298.qmd.containment.tile.TileContainmentLaser;
-import lach_01298.qmd.containment.tile.TileContainmentPort;
-import lach_01298.qmd.containment.tile.TileContainmentVent;
 import lach_01298.qmd.particleChamber.BeamDumpLogic;
 import lach_01298.qmd.particleChamber.CollisionChamberLogic;
 import lach_01298.qmd.particleChamber.DecayChamberLogic;
@@ -48,6 +40,25 @@ import lach_01298.qmd.pipe.BeamlineLogic;
 import lach_01298.qmd.pipe.IPipeController;
 import lach_01298.qmd.pipe.Pipe;
 import lach_01298.qmd.pipe.PipeLogic;
+import lach_01298.qmd.vacuumChamber.ExoticContainmentLogic;
+import lach_01298.qmd.vacuumChamber.NucleosynthesisChamberLogic;
+import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.VacuumChamberLogic;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberComponent;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberEnergyPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
 
 
 public class Multiblocks
@@ -68,6 +79,7 @@ public class Multiblocks
 		Accelerator.PART_CLASSES.add(TileAcceleratorSource.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorPort.class);
 		Accelerator.PART_CLASSES.add(TileAcceleratorComputerPort.class);
+		Accelerator.PART_CLASSES.add(TileAcceleratorRedstonePort.class);
 		
 		Pipe.PART_CLASSES.add(IPipeController.class);
 		
@@ -80,13 +92,21 @@ public class Multiblocks
 		ParticleChamber.PART_CLASSES.add(TileParticleChamberBeamPort.class);
 		ParticleChamber.PART_CLASSES.add(TileParticleChamberFluidPort.class);
 		
-		Containment.PART_CLASSES.add(IContainmentController.class);
-		Containment.PART_CLASSES.add(TileContainmentPort.class);
-		Containment.PART_CLASSES.add(TileContainmentEnergyPort.class);
-		Containment.PART_CLASSES.add(TileContainmentBeamPort.class);
-		Containment.PART_CLASSES.add(TileContainmentVent.class);
-		Containment.PART_CLASSES.add(TileContainmentCoil.class);
-		Containment.PART_CLASSES.add(TileContainmentLaser.class);
+		VacuumChamber.PART_CLASSES.add(IVacuumChamberController.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberPort.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberEnergyPort.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberBeamPort.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberVent.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberCoil.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberLaser.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberFluidPort.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberBeam.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberPlasmaNozzle.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberPlasmaGlass.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberHeater.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberHeaterVent.class);
+		VacuumChamber.PART_CLASSES.add(TileVacuumChamberRedstonePort.class);
+		VacuumChamber.PART_CLASSES.add(IVacuumChamberComponent.class);
 		
 		try
 		{
@@ -95,6 +115,7 @@ public class Multiblocks
 			Accelerator.LOGIC_MAP.put("ring_accelerator",RingAcceleratorLogic.class.getConstructor(AcceleratorLogic.class));
 			Accelerator.LOGIC_MAP.put("beam_diverter",BeamDiverterLogic.class.getConstructor(AcceleratorLogic.class));
 			Accelerator.LOGIC_MAP.put("decelerator",DeceleratorLogic.class.getConstructor(AcceleratorLogic.class));
+			Accelerator.LOGIC_MAP.put("beam_splitter",BeamSplitterLogic.class.getConstructor(AcceleratorLogic.class));
 			
 			ParticleChamber.LOGIC_MAP.put("", ParticleChamberLogic.class.getConstructor(ParticleChamberLogic.class));
 			ParticleChamber.LOGIC_MAP.put("target_chamber",TargetChamberLogic.class.getConstructor(ParticleChamberLogic.class));
@@ -102,8 +123,9 @@ public class Multiblocks
 			ParticleChamber.LOGIC_MAP.put("beam_dump",BeamDumpLogic.class.getConstructor(ParticleChamberLogic.class));
 			ParticleChamber.LOGIC_MAP.put("collision_chamber",CollisionChamberLogic.class.getConstructor(ParticleChamberLogic.class));
 			
-			Containment.LOGIC_MAP.put("", ContainmentLogic.class.getConstructor(ContainmentLogic.class));
-			Containment.LOGIC_MAP.put("neutral_containment",NeutralContainmentLogic.class.getConstructor(ContainmentLogic.class));
+			VacuumChamber.LOGIC_MAP.put("", VacuumChamberLogic.class.getConstructor(VacuumChamberLogic.class));
+			VacuumChamber.LOGIC_MAP.put("neutral_containment",ExoticContainmentLogic.class.getConstructor(VacuumChamberLogic.class));
+			VacuumChamber.LOGIC_MAP.put("nucleosynthesis_chamber",NucleosynthesisChamberLogic.class.getConstructor(VacuumChamberLogic.class));
 			
 			Pipe.LOGIC_MAP.put("", PipeLogic.class.getConstructor(PipeLogic.class));
 			Pipe.LOGIC_MAP.put("beamline",BeamlineLogic.class.getConstructor(PipeLogic.class));

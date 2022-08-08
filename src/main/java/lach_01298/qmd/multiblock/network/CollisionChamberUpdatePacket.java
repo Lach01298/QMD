@@ -5,15 +5,16 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.ParticleChamber;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
-import nc.multiblock.network.MultiblockUpdatePacket;
+import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.util.math.BlockPos;
 
 public class CollisionChamberUpdatePacket extends ParticleChamberUpdatePacket
-{	
-	public CollisionChamberUpdatePacket() 
+{
+	public CollisionChamberUpdatePacket()
 	{
 		super();
 	}
@@ -22,29 +23,35 @@ public class CollisionChamberUpdatePacket extends ParticleChamberUpdatePacket
 			EnergyStorage energyStorage, List<Tank> tanks, List<ParticleStorageAccelerator> beams)
 	{
 		super(pos, isAcceleratorOn, requiredEnergy, efficiency, energyStorage, tanks, beams);
-		
+
 	}
 
 	@Override
-	public void readMessage(ByteBuf buf)
+	public void fromBytes(ByteBuf buf)
 	{
-		super.readMessage(buf);
-	
+		super.fromBytes(buf);
+
 	}
 
 	@Override
-	public void writeMessage(ByteBuf buf)
+	public void toBytes(ByteBuf buf)
 	{
-		super.writeMessage(buf);
-			
+		super.toBytes(buf);
+
 	}
-	
-	public static class Handler extends MultiblockUpdatePacket.Handler<CollisionChamberUpdatePacket, ParticleChamber, TileCollisionChamberController> 
+
+	public static class Handler extends
+			MultiblockUpdatePacket.Handler<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, CollisionChamberUpdatePacket>
 	{
-		
-		public Handler() 
+
+		public Handler()
 		{
 			super(TileCollisionChamberController.class);
+		}
+		
+		@Override
+		protected void onPacket(CollisionChamberUpdatePacket message, ParticleChamber multiblock) {
+			multiblock.onMultiblockUpdatePacket(message);
 		}
 	}
 }

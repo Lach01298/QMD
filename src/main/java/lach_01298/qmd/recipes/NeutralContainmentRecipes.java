@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.MaterialTypes.CanisterType;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
-import nc.recipe.ingredient.EmptyItemIngredient;
 
 public class NeutralContainmentRecipes extends QMDRecipeHandler
 {
+	
 	public NeutralContainmentRecipes()
 	{
 		super("neutral_containment", 0, 0, 2, 0, 1, 0);
@@ -22,16 +21,17 @@ public class NeutralContainmentRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		
-		addRecipe(new ParticleStack(Particles.antiproton,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antihydrogen", 1), 1l);
-		addRecipe(new ParticleStack(Particles.antideuteron,(QMDConfig.canister_capacity[CanisterType.DEUTERIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,(QMDConfig.canister_capacity[CanisterType.DEUTERIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antideuterium", 1), 1l);
-		addRecipe(new ParticleStack(Particles.antitriton,(QMDConfig.canister_capacity[CanisterType.TRITIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,(QMDConfig.canister_capacity[CanisterType.TRITIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antitritium", 1), 1l);
-		addRecipe(new ParticleStack(Particles.antihelion,(QMDConfig.canister_capacity[CanisterType.HELIUM3.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,2*(QMDConfig.canister_capacity[CanisterType.HELIUM3.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antihelium3", 1), 1l);
-		addRecipe(new ParticleStack(Particles.antialpha,(QMDConfig.canister_capacity[CanisterType.HELIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,2*(QMDConfig.canister_capacity[CanisterType.HELIUM.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("antihelium", 1), 1l);
-		addRecipe(new ParticleStack(Particles.electron,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.positron,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("positronium", 1), 1l);
-		addRecipe(new ParticleStack(Particles.muon,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.antimuon,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("muonium", 1), 1l);
-		addRecipe(new ParticleStack(Particles.tau,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),new ParticleStack(Particles.antitau,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,2),fluidStack("tauonium", 1), 1l);
-		addRecipe(new ParticleStack(Particles.glueball,(QMDConfig.canister_capacity[CanisterType.HYDROGEN.getID()]*QMDConfig.source_particle_amount)/1000,0,1), new EmptyParticleIngredient(),fluidStack("glueballs", 1));
+		//particles per milibucket
+		int ppmB = QMDConfig.mole_amount/1000;
+		addRecipe(new ParticleStack(Particles.antiproton,ppmB,0,2),new ParticleStack(Particles.positron,ppmB,0,2),fluidStack("antihydrogen", 1), 1l);
+		addRecipe(new ParticleStack(Particles.antideuteron,ppmB,0,2),new ParticleStack(Particles.positron,ppmB,0,2),fluidStack("antideuterium", 1), 1l);
+		addRecipe(new ParticleStack(Particles.antitriton,ppmB,0,2),new ParticleStack(Particles.positron,ppmB,0,2),fluidStack("antitritium", 1), 1l);
+		addRecipe(new ParticleStack(Particles.antihelion,ppmB,0,2),new ParticleStack(Particles.positron,2*ppmB,0,2),fluidStack("antihelium3", 1), 1l);
+		addRecipe(new ParticleStack(Particles.antialpha,ppmB,0,2),new ParticleStack(Particles.positron,2*ppmB,0,2),fluidStack("antihelium", 1), 1l);
+		addRecipe(new ParticleStack(Particles.electron,ppmB,0,2),new ParticleStack(Particles.positron,ppmB,0,2),fluidStack("positronium", 1), 1l);
+		addRecipe(new ParticleStack(Particles.muon,ppmB,0,2),new ParticleStack(Particles.antimuon,ppmB,0,2),fluidStack("muonium", 1), 1l);
+		addRecipe(new ParticleStack(Particles.tau,ppmB,0,2),new ParticleStack(Particles.antitau,ppmB,0,2),fluidStack("tauonium", 1), 1l);
+		addRecipe(new ParticleStack(Particles.glueball,ppmB,0,1), new EmptyParticleIngredient(),fluidStack("glueballs", 1));
 	}
 
 	@Override

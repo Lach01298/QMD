@@ -10,7 +10,9 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.gui.GUI_ID;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.network.QMDTileUpdatePacket;
+import lach_01298.qmd.recipes.QMDRecipes;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.network.tile.TileUpdatePacket;
 import nc.tile.ITileGui;
@@ -31,7 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory,ITileGui<TileUpdatePacket>
+public class TileAcceleratorSource extends TileAcceleratorPart implements ITileInventory,ITileGui<QMDTileUpdatePacket>
 {
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_source";
 	
@@ -133,14 +135,14 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.saveAllItems(nbt, inventoryStacks);
+		NBTHelper.writeAllItems(nbt, inventoryStacks);
 		return nbt;
 	}
 
 	@Override
 	public void readInventory(NBTTagCompound nbt)
 	{
-		NBTHelper.loadAllItems(nbt, inventoryStacks);
+		NBTHelper.readAllItems(nbt, inventoryStacks);
 	}
 
 	
@@ -177,25 +179,33 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 	}
 
 	@Override
-	public Set<EntityPlayer> getPlayersToUpdate()
+	public Set<EntityPlayer> getTileUpdatePacketListeners()
 	{
 		
 		return playersToUpdate;
 	}
 
 	@Override
-	public TileUpdatePacket getGuiUpdatePacket()
+	public QMDTileUpdatePacket getTileUpdatePacket()
 	{
 		return new QMDTileUpdatePacket();
 	}
 
 	@Override
-	public void onGuiPacket(TileUpdatePacket message)
+	public void onTileUpdatePacket(QMDTileUpdatePacket message)
 	{	
 		
 	}
 
-	
+	@Override
+	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
+	{
+		if(getInventoryStacks().get(0).getCount() > 0)
+		{
+			return false;
+		}
+		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
+	}
 	
 	
 	

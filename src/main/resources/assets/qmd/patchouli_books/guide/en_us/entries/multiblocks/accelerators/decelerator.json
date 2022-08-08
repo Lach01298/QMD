@@ -1,0 +1,31 @@
+{
+	"name": "Decelerator",
+	"icon": "qmd:decelerator_controller",
+	"category": "qmd:accelerators",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Decelerators decelerate particles to lower energy. This is useful for creating things like neutral antimatter matter in a $(l:multiblocks/vaccuum_chambers/containment_chamber)exotic containment chamber$(/l) or just to lower a the particle energy to a certain amount."
+		},
+		{
+			"title": "Construction",
+			"type": "text",
+			"text": "Decelerators are built the same as $(l:multiblocks/accelerators/ring_accelerator#construction)synchrotron$(/l). The only notable differences is they can't have synchrotron ports and that anything more than a single RF Cavity serves no purpose."
+		},
+		{
+			"title": "Operation",
+			"type": "text",
+			"text": "A decelerator functions the same as a  $(l:multiblocks/accelerators/ring_accelerator#operation)synchrotron$(/l). The difference between a synchrotron is the maximum particle energy that can be inputted $(l)Eᵩ=(qB₂dR)²/(2m)$() same as a $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) form max dipole strength"
+		},
+		{
+			"type": "text",
+			"text": "The energy of the output particles is determined by the strength of the redstone signal applied to the controller. A full 15 strength will decelerate down to ~ 0 i.e less than 1 keV. This is required for creating neutral antimatter. For any redstone strength, the energy the decelerator will try to put the particles at is E=Eᵩ(1-Sᵣ/15) where Sᵣ is the redstone signal strength."
+		},
+		{
+			"type": "text",
+			"text": "For example if we have a decelerator with a max input energy of 2 GeV and we apply a redstone signal of 8, then 2 GeV*(1-8/15)=933.33 MeV. $(br2)$(bold)Note:$() If the inputted particle energy is lower than this targeted energy it will leave the energy unchanged (i.e. it does not increase particle energy)."
+		}
+
+	]
+}

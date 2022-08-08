@@ -33,6 +33,16 @@ public class DipoleMagnet
 			TileAcceleratorMagnet magnet =(TileAcceleratorMagnet) accelerator.WORLD.getTileEntity(pos.up());
 			type = MagnetType.valueOf(magnet.name.toUpperCase());
 		}
+		else if( accelerator.WORLD.getTileEntity(pos.north()) instanceof TileAcceleratorMagnet)
+		{
+			TileAcceleratorMagnet magnet =(TileAcceleratorMagnet) accelerator.WORLD.getTileEntity(pos.north());
+			type = MagnetType.valueOf(magnet.name.toUpperCase());
+		}
+		else if( accelerator.WORLD.getTileEntity(pos.east()) instanceof TileAcceleratorMagnet)
+		{
+			TileAcceleratorMagnet magnet =(TileAcceleratorMagnet) accelerator.WORLD.getTileEntity(pos.east());
+			type = MagnetType.valueOf(magnet.name.toUpperCase());
+		}
 		else
 		{
 			Util.getLogger().error("could not set dipole type becuase" + accelerator.WORLD.getTileEntity(pos.up()) +" at "+ pos.up() + " is not a instance of TileAcceleratorMagnet");

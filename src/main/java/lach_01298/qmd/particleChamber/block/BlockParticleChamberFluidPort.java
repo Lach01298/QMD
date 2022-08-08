@@ -56,7 +56,7 @@ public class BlockParticleChamberFluidPort extends BlockParticleChamberPart
 
 	@Override
 	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY,
-			float hitZ, int meta, EntityLivingBase placer)
+			float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState().withProperty(FACING_ALL, EnumFacing.getDirectionFromEntityLiving(pos, placer))
 				.withProperty(ACTIVE, Boolean.valueOf(false));
