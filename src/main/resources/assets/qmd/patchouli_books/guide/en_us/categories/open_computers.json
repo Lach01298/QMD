@@ -1,0 +1,7 @@
+{
+	"name": "Open Computers Support",
+	"description": "Open computers can be used to read information from and control accelerators",
+	"icon": "qmd:accelerator_computer_port",
+	"parent": "qmd:multiblocks",
+	"sortnum": 3
+}

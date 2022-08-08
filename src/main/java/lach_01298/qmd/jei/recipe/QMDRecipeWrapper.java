@@ -274,16 +274,42 @@ public class QMDRecipeWrapper
 	public static class VacuumChamberHeating extends JEIBasicRecipeWrapper<VacuumChamberHeating>
 	{
 
+		private static int arrowX = 90;
+		private static int arrowY = 0;
+		private static int arrowWidth = 36;
+		private static int arrowHeight = 15;
+		private static int arrowPosX = 27;
+		private static int arrowPosY = 6;
+		private static int backX = 0;
+		private static int backY = 0;
+		
+		public final IDrawable arrow;
+		public final int arrowDrawPosX, arrowDrawPosY;
+		
 		public VacuumChamberHeating(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler,
 				BasicRecipe recipe)
 		{
-			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 27, 6);
+			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
+			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/accelerator_cooling.png");
+			IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
+			arrow = staticArrow() ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
+			arrowDrawPosX = arrowPosX - backX;
+			arrowDrawPosY = arrowPosY - backY;
 		}
 
+		
+		@Override
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		{
+				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
+		}
+		
+		
+		
 		@Override
 		protected int getProgressArrowTime()
 		{
-			return getFissionHeatingHeatPerInputMB() / 4;
+			return getFissionHeatingHeatPerInputMB() / 100;
 		}
 
 		protected int getFissionHeatingHeatPerInputMB()

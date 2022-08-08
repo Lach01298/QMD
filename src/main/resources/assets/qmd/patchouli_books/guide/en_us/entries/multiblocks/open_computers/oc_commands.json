@@ -1,0 +1,81 @@
+{
+	"name": "Commands",
+	"icon": "qmd:accelerator_computer_port",
+	"category": "qmd:open_computers",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Here is a list of all the Open computer commands listed in alphabetical order."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getBeamInfo() : Returns Table with (beam_length, beam_radius). Returns information about the beamline in the accelerator.$(li)getBeamPortMode(int x, int y, int z) : Returns string. Returns beam port at (x,y,z) mode. Returns invalid if invalid beam port otherwise either input, output or disabled."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getCoolingInfo() : Returns Table with (cooling_fluid, cooling, max_coolant_in, max_coolant_out). Returns information about the cooling. The coolant name, cooling H/t and the maximum coolant in and out."
+		},
+		{
+			"type": "text",
+			"text": "$(li) getEnergyInfo() : Returns Table with (energy_required, energy_stored, energy_capacity, energy_efficiency). The statistics returned are the RF/t the accelerator uses, the RF currently stored, the maximum RF that can be stored, and the energy efficiency of the accelerator."
+		},
+		{
+			"type": "text",
+			"text": "$(li) getEnergyPercentage() : Returns Integer. Returns the energyPercentage setting.$(li)getHeatBufferInfo() : Returns Table with (stored_heat, heat_capacity). Returns information about the heat buffer. The amount of heat stored and it capacity."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getHeatingInfo() : Returns Table with (internal_heating, external_heating, max_external_heating, ambient_temperature). Returns information about the Heating. The heating from accelerator components, the heating from the environment, the maximum heating from the environment and the ambient environment temperature."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getInputParticleInfo() : Returns Table with (type, amount, energy, focus). Returns input particle stack parameters. The name of the type of particles, the pu/t of the particles, the energy of the particles in keV and the focus of the particle. Note: this is the particles inputted to the accelerator."
+			
+		},
+		{
+			"type": "text",
+			"text": "$(li)getIonSourceInfo() : Returns Table with (source_item, particle_type, amount, energy, focus). Returns information about the ion source. The name of the source item, the name of the particle the item produces, the pu/t it makes, the initial energy of the particles, the initial focus of the particle."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getNumberOfDipole() : Returns Integer. Returns the number of dipole magnets in the accelerator.$(li)getNumberOfRfCavity() : Returns Integer. Returns the number of RF cavities in the accelerator.$(li)getNumberOfQuadrupole() : Returns Integer. Returns the number of quadrupole magnets in the accelerator."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getOutputParticleInfo() : Returns Table with (type, amount, energy, focus). Returns output particle stack parameters. The name of the type of particles, the pu/t of the particles, the energy of the particles in keV and the focus of the particle. Note: this is the particles outputted from the accelerator, as seen in the accelerator's GUI."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getParticleInfo() : Returns Table with (type, mass, energy, charge, spin, interacts_with_em, interacts_with_weak, interacts_with_strong). Returns information about the particle in the accelerator. The name of the particle, mass in MeV/c^2, charge, spin, does it interact via the electromagnetic force, does it interact via the weak force, does it interact via the strong force."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getSizeInfo() : Returns Table with (x_length, y_length, z_length, volume, surface_area). Returns information about the size of the accelerator."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getStats() : Returns Table with (accelerating_voltage, dipole_strength, quadrupole_strength, input_particle_min_energy).Returns information statsistics of the accelerator. Its accelerating voltage in kV, its dipole strength, its quadrupole strength and the minimum energy that a particle requires to be but into the accelerator in keV."
+		},
+		{
+			"type": "text",
+			"text": "$(li)getSynchrotronParticleInfo() : Returns Table with (type, amount, energy, focus). Returns synchrotron port's particle stack parameters. The name of the type of particles, the pu/t of the particles, the energy of the particles in keV and the focus of the particle.$(li)getTemperature() : Returns Integer. Returns the temperature of the accelerator."
+		},
+		{
+			"type": "text",
+			"text": "$(li)hasIonSource() : Returns Boolean. Returns if the accelerator has an ion source.$(li)hasParticle() :Returns Boolean. True if the accelerator has a particle stack.$(li)isAcceleratorOn() : Returns Boolean. Returns if the accelerator is on else false.$(li)isBeamPort(int x, int y, int z) : Returns Boolean. Returns if position (x,y,z) is a beam port."
+		},
+		{
+			"type": "text",
+			"text": "$(li)isComplete() : Returns Boolean. Returns if the accelerator is complete else false.$(li)isComputerControlled() : Returns Boolean. Returns if accelerator is in computer controlled mode$(li)setComputerControlled(boolean computerControlled) : Returns boolean. Turns computer controlled mode on/off. With this on accelerator controller ignores redstone. Returns what it was set to."
+		},
+		{
+			"type": "text",
+			"text": "$(li)setEnergyPercentage(int energyPercentage) : Returns Integer. Changes the output particle energy to this percentage of the max energy (For decelerators it outputs the opposite percentage e.g. 15% -> 85% output energy). Can only be between 5 and 100 inclusive or 0 to turn of accelerator entirely. For beam diverters this only turns it on/off. Returns what the EnergyPercentage setting was set to."
+		},
+		{
+			"type": "text",
+			"text": "$(li)swichBeamPort(int x, int y, int z) : Returns Boolean. Returns if the beam port at (x,y,z) mode was switched."
+		}
+	]
+}

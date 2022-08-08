@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import lach_01298.qmd.enums.MaterialTypes.CanisterType;
+import lach_01298.qmd.util.Units;
 import nc.item.NCItem;
 import nc.util.InfoHelper;
 import nc.util.Lang;
@@ -151,7 +152,7 @@ public class ItemCanister extends NCItem implements IItemParticleAmount
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", getAmountStored(stack), getCapacity(stack)));
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getCapacity(stack),"pu")));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}

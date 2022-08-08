@@ -1,6 +1,6 @@
 {
 	"name": "Introduction",
-	"icon": "QMD:source_cobalt_60",
+	"icon": "QMD:source:2",
 	"category": "qmd:basics",
 	"sortnum": 0,
 	"pages": [
@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "This guide will $(l)not$() cover the details of various pieces of information such as recipes, component stats and placement rules, as they can vary between different configuration settings, in particular different mod packs. They will instead be shown in JEI and the tooltips of the relevant items and blocks."
+			"text": "This guide will $(l)not$() cover the details of various pieces of information such as recipes, component stats and placement rules, as they can vary between different configuration settings, in particular different mod packs. They will instead be shown in JEI and the tooltips of the relevant items and blocks.$(br)This guide has been made to be user friendly with $(l)direct links$() to relevant information on many pages, so no need to search through whole sections for one bit of info."
 		}
 	]
 }

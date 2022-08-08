@@ -79,8 +79,9 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDArmour.chest_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.chest_boron_nitride, 'B', NCItems.lithium_ion_cell});
 		addShapedOreRecipe(QMDArmour.legs_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.legs_boron_nitride, 'B', NCItems.lithium_ion_cell});
 		addShapedOreRecipe(QMDArmour.boots_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.boots_boron_nitride, 'B', NCItems.lithium_ion_cell});
-		
-		
+		addShapedOreRecipe(QMDItems.beamMeter, new Object[] {"FFS", "PPC", "FFB", 'F', "ingotFerroboron",'S', new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PLASTIC.getID()), 'P', "processorBasic", 'C', "ingotCopper", 'B', "bioplastic"});
+		addShapedOreRecipe(QMDItems.basic_drill, new Object[] {" T ", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "ingotSteel", 'B', NCBlocks.voltaic_pile_advanced});
+		addShapedOreRecipe(QMDItems.advanced_drill, new Object[] {"NTN", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "magnetNeodymium", 'B', NCBlocks.lithium_ion_battery_basic, 'N', "gemBoronNitride"});
 		
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCharcoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});

@@ -60,7 +60,7 @@ public class GuiRingAcceleratorController
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		int offset = 40;
-		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
+		int fontColor = multiblock.isControllorOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.ring_accelerator_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 

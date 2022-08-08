@@ -1,0 +1,100 @@
+{
+	"name": "Nucleosynthesis Chamber",
+	"icon": "qmd:nucleosynthesis_chamber_controller",
+	"category": "qmd:vacuum_chambers",
+	"sortnum": 1,
+	"pages": [
+		{
+			
+			"type": "text",
+			"text": "The Nucleosynthesis Chamber is where you create heavier elements from lighter elements. This is generally done via either muon catalyzed fusion or the r-process with neutrons. For some recipes and setups this can be power positive and in fact can rival large nuclear reactors."
+		},
+		{
+            "type": "diagram_high",
+            "image": "qmd:textures/gui/book_images/nucleosynthesis_chamber_heaters.png",
+            "text": "A nucleosynthesis chamber creating power from hydrogen-deuterium muon catalyzed fusion."
+        },
+        {
+			"anchor": "construction",
+            "type": "text",
+            "title": "Construction",
+            "text": "Nucleosynthesis Chambers are a 11 block long, 5 block wide and 7 block tall cuboid of vacuum chamber casing or glass. Like all $(l:multiblocks/vacuum_chambers/general#construction)vacuum Chambers$(/l) they require a coolant vent in input and output modes, and an energy port somewhere in the casing. They also require a vacuum chamber heater vent in input mode and a heater vent in output mode in the casing."
+        },
+        {
+            "type": "qmd:diagram_low",
+            "image": "qmd:textures/gui/book_images/nucleosynthesis_chamber_empty.png",
+            "text": "Inside the chamber there is a structure of vacuum chamber beam, plasma nozzle and plasma glass blocks arranged as seen below. On one side there must be a input beam port placed with 2 vacuum chamber fluid ports in import mode 1 and 3 blocks above it, as shown."
+        },
+        {
+            "type": "text", 
+            "text": "On the opposite side to the fluid ports there are 2 more fluid ports in output mode as seen in the image on the previous page. Lastly the center row of vacuum chamber plasma glass needs to be connected to any other part of the multiblock with any type of vacuum chamber heater in some way. In the previous image this is done with a redstone vacuum chamber heater above the plasma glass."
+        },
+        {
+            "type": "text", 
+			"title": "Heaters",
+            "text": "In the spare spaces (except inside the plasma glass) vacuum chamber heaters can be placed. They are similar to $(l:multiblocks/accelerators/general#coolers)coolers in accelerators$(/l) in that they have certain placement rules required in order to work. Unlike in accelerators there is a penalty in over cooling. More detail on this later."
+        },
+		{
+            "anchor": "operation",
+			"type": "text",
+			"title": "Operation",
+            "text": "Like all $(l:multiblocks/vacuum_chambers/general#operation)vacuum Chambers$(/l), nucleosynthesis chambers require a constant supply of power and their magnets to be kept cold with cryogenic coolant. Failure of this or $(l)breaking the multiblock$() when plasma is inside the chamber will result in an $(l)$(c)explosion with hot plasma leaking everywhere$()." 
+        },
+		{
+			"type": "text",
+            "text": "In addition to cryogenic magnet coolant, the chamber needs a supply of dense liquid metal coolant such as mercury. The vacuum chamber heater's cooling stat is related to this metal coolant $(l)not the magnet coolant$() or the beam, nozzle or plasma glass heat produced.$(br)Opening the gui you will see 3 bars on the left corresponding to the RF power, magnet heat and magnet coolant. Hovering over them will give you some relevant information. " 
+        },
+		{
+			"type": "text",
+            "text": "On the right side you will see 2 more bars that correspond to the heat in the chamber and the metal coolant bar. When a recipe in the chamber is completed heat is added to this bar and it is the metal coolants job to take this heat away. If this heat bar fills up to the top then the chamber will $(l)$(c)explode spilling hot plasma everywhere$()." 
+        },
+		{
+			"type": "qmd:diagram_high",
+            "image": "qmd:textures/gui/book_images/nucleosynthesis_chamber_boom.png",
+            "text": "Nucleosynthesis chamber that has exploded spilling hot plasma everywhere." 
+        },
+		{
+			"type": "qmd:diagram_low",
+            "image": "qmd:textures/gui/book_images/nucleosynthesis_chamber_recipe.png",
+            "text": "To show how the nucleosynthesis chamber operates lets look at the example recipe below. Here muons turn 1 B of hydrogen and deuterium into 1 B of helium-3." 
+        },
+		{
+			"type": "text",
+            
+            "text": "Like $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) you will see that there is a energy range the particles have to be in in order to preform the recipe. You will also see hovering over the muon that it takes 143.1 kpu of muons to complete the recipe. It also has a minimum focus of 1.$(br)You should also notice the heat released by the recipe, this and the amount of particles in the recipe are important for what design of heaters to place and keeping your chamber from not $(l)over heating$()." 
+        },
+		{
+			"type": "text",
+            
+            "text": "Lets design a nucleosynthesis chamber for this recipe. Lets say we have some accelerator system making 10 kpu/t of muons, so our recipe will take 143.1 kpu/10 kpu/t=14.31 ticks. In this time the recipe will produce 5.493 kH of heat, so that equates to 5.493 kH/14.31t =383.857 H/t. So we need to be able to cool this, but we don't what to over cool (if we want the most power out). The closest we can get with heaters while still being over is 385 H/t. So we place down heaters in an arrangement with this cooling." 
+        },
+		{
+			"type": "qmd:diagram_high",
+            "image": "qmd:textures/gui/book_images/nucleosynthesis_chamber_heaters.png",
+            "text": "The above arrangement will do this. This 383.857 H/t will convert into 383.857 mb/t of hot mercury. We can put this hot mercury through a turbine to create power and get the mercury back to cool the chamber. (This will be replaced with heat exchangers when they come)." 
+        },
+		{
+			"type": "qmd:diagram_low",
+            "image": "qmd:textures/gui/book_images/nucleosynthesis_chamber_gui.png",
+            "text": "Looking in the gui when we have the setup running looks like the image below. As you can see we have calculated the H/t right. You will also notice there is an output efficiency, this is how much of the heat will be converted into usable hot coolant." 
+        },
+		{
+			"type": "text",
+            "text": "If we over or under cooled it then this would be less that 100%. This efficiency is calculated as $(l)ε=$(o)min$(l)(1,(C+20)/(H+|H-C|))$() where $(l)H$() is the heating and $(l)C$() is the cooling. This gives no penalty if your with in 20 H/t of the heating." 
+        },
+		{
+			"type": "text",
+			"title": "Redstone Ports",
+            "text": "Vacuum chamber redstone ports can be put in the casing to read information about the nucleosynthesis chamber. There are 2 modes that can be switched between with the multitool. The $(l)$(1)first$() blue mode outputs a redstone signal strength based on what fraction of the max operating temperature of the magnets the current temperature of the magnets is. So at the max operating temperature it is 15 and at half the max operating temperature it is 7." 
+        },
+		{
+			"type": "text",
+            "text": "The $(l)$(2)second$() green mode outputs a redstone signal based on how full the heat buffer for the chamber is (the bar on the right side of the gui). So full is a strength of 15 and half is a strength of 7." 
+        },
+		{
+			"type": "text",
+			"title": "Manual voiding",
+            "text": "You can manually void the contents of any of tanks safely by holding shift and clicking on the tank in the gui. You can also void all the tanks including coolant tanks with the button in the gui that appearers when holding shift." 
+        }
+	]
+}

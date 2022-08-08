@@ -1,0 +1,27 @@
+{
+	"name": "Stage 1: Accelerators",
+	"icon": "qmd:linear_accelerator_controller",
+	"category": "qmd:progression",
+	"sortnum": 2,
+	"pages": [
+		{
+			"type": "text",
+			"text": "In this stage, you will be building your first $(l:multiblocks/accelerators/linear_accelerator)linear accelerators$(/l) and $(l:multiblocks/particle_chambers/general)particle chamber$(/l) multiblocks (mostly $(l:multiblocks/particle_chambers/target_chamber)target chambers$(/l)).$(br2)You should understand particles and particle stacks before continuing, you can read about them $(l:particles/introduction)here$(/l)."
+		},
+		{
+			"type": "text",
+			"title": "First Accelerator Setup",
+			"text": "Your first accelerator setup should be one for creating P-type doped silicon. This, like N-type doped silicon is used as an essential crafting ingredient in QMD. $(br2)Your setup will consist of one $(l:multiblocks/accelerators/linear_accelerator)linear accelerator$(/l) with an $(l:multiblocks/accelerators/linear_accelerator#ion_source)ion source$(/l) using diborane canisters. This accelerator needs to accelerate $(l:particles/list#boron_ion)boron ions$(/l) to at least 600 keV and they must have a minimum focus of 2."
+		},
+		{
+			"type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/first_setup.png",
+			"text": "You will also need a $(l:multiblocks/particle_chambers/target_chamber)target chamber$(/l) connected to the linear accelerator with beamline pipes to actually make the P-type doped silicon.$(br2)Such a set up may look like below. This uses liquid neon and when running uses 22kRF/t."
+		},
+		{
+			"type": "text",
+			"title": "Other Stuff",
+			"text": "Also in this stage though not required to progress you have access to $(l:multiblocks/particle_chambers/decay_chamber)decay chambers$(/l), $(l:multiblocks/particle_chambers/beam_dump)beam dumps$(/l) and some $(l:multiblocks/particle_chambers/general#detectors)detectors$(/l) to increase particle chambers efficiency at the cost of power."
+		}
+	]
+}

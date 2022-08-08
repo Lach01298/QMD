@@ -1,0 +1,40 @@
+{
+	"name": "Stage 0: Setting Up",
+	"icon": "qmd:ore_leacher",
+	"category": "qmd:progression",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "In this stage, you are building up the infrastructure to support accelerator resource costs, and running costs."
+		},
+		{
+			"type": "text",
+			"text": "In this stage you will need 3 main things an Atmosphere Collector setup, a Ore Leacher setup and a Neutron Irradiator setup. These things will require you to be well into the progression of Nuclearcraft already having a fission reactor and most of the machines."
+		},
+		{
+			"type": "text",
+			"title": "Atmosphere Collector",
+			"text": "The $(l:blocks_and_machines/atmosphere_collector)atmosphere collector$(/l) is a machine that collects the atmosphere around it. You will need this to collect compressed air which you can then centrifuge into its component gases. The important gases you will need for accelerators are neon and helium. Both can be made into liquid in the supercooler. Liquid Neon and Helium are used for cooling accelerators."
+		},
+		{
+			"type": "text",
+			
+			"text": "Neon is easier to get but has a higher temperature and thus only copper and magnesium diboride components can be used in accelerators cooled with it."
+		},
+		{
+			"type": "text",
+			"title": "Ore Leacher",
+			"text": "The $(l:blocks_and_machines/ore_leacher)ore leacher$(/l) enables you to process ores more efficiently, at the cost of some energy, and sulfuric, hydrochloric and nitric acid (16 mb of each). Each process produces 3 ore dusts and a few byproducts, many of which are essential for creating things in QMD."
+		},
+		{
+			"type": "text",
+			"text": "The main byproducts needed are:$(li)Chromium for stainless steel which is used heavily for $(l:multiblocks/accelerators/general)accelerators$(/l) $(li)Tungsten used heavily in $(l:multiblocks/particle_chambers/general)particle chambers$(/l) $(li)Niobium for advanced accelerator components and super alloy $(li)Titanium also used in advanced accelerator components and super alloy"
+		},
+		{
+			"type": "text",
+			"title": "Neutron Irradiator",
+			"text": "You will also need a fission reactor with a fission neutron irradiator setup. (This is defualt Nuclearcaft stuff so won't be explained). With this neutron irradiator you will make N-type doped silicon which is a essential crafting component in QMD and is required to make accelerator controller's."
+		}
+	]
+}

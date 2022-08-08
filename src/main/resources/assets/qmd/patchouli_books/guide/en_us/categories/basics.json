@@ -1,6 +1,6 @@
 {
-	"name": "Basics",
-	"description": "Basic materials",
-	"icon": "qmd:ingot:0",
+	"name": "Introduction to QMD",
+	"description": "This section is an introduction to QMD and this guide",
+	"icon": "minecraft:book",
 	"sortnum": 0
 }

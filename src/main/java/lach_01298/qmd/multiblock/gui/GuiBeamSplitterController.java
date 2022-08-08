@@ -60,7 +60,7 @@ public class GuiBeamSplitterController
 	{
 		int offset = 40;
 
-		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
+		int fontColor = multiblock.isControllorOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.beam_splitter_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 

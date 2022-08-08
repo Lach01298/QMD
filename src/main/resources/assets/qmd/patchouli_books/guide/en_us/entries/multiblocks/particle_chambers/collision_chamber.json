@@ -1,0 +1,77 @@
+{
+	"name": "Collision Chamber",
+	"icon": "qmd:collision_chamber_controller",
+	"category": "qmd:particle_chambers",
+	"sortnum": 4,
+	"pages": [
+		{
+			
+			"type": "text",
+			"text": "Collision Chambers are where you smash particle beams into each other to create new and possibly exotic particles."
+		},
+		{
+			
+			"type": "text",
+			"text": ""
+		},
+		{
+			"anchor": "construction",
+			"title": "Construction",
+			"type": "text",
+			"text": "Collision Chambers like all $(l:multiblocks/particle_chambers/general#construction)particle chambers$(/l) are constructed out of casing or glass and have an energy port. They are cuboids that are 17 blocks long with square ends that must be odd in size from 3 to 15 blocks across. Down the middle of the long axis there must be a line of particle chamber blocks and at each end there must be a beam port in input mode."
+		},
+		{
+			"type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/collision_chamber_empty.png",
+			"text": "2 blocks away from each end, on the horizontals, there must be particle chamber beam blocks connecting the center axis to a beam port in output mode. In total there is 4 output beam ports. Below an empty size 7 collision chamber."
+		},
+		{
+			"header": "Outputs",
+			"type": "diagram",
+			"image": "qmd:textures/gui/book_images/collision_chamber_output_diagram.png",
+			"text": "Each output beam $(l)port$() corresponds to a output $(l)slot$() in the collision chambers gui. This correspondence can be changed by shift right clicking the output port with the multitool."
+		},
+		{
+			"type": "text",
+			"text": "In the gui the output slots are numbered 1 to 4. 1 at the top left, 2 at the top right, 3 at the bottom left and 4 at the bottom right. In the digram to the left we label each port A to D clockwise looking down. Then by default the ports correspond to the slots in the diagram. Clicking a port will switch the corresponding slot with the port clockwise of it. So here clicking A will change to A:2 and B:1. Clicking again on A will change back to the original A:1 and B:2. "
+		},
+		{
+			"type": "text",
+			"text": "With this you can switch any slot to any port. For example lets say we want the correspondence A:3 B:1 C:4 D:2 to do this we click B then A to get A:3 and B:1, then C to get C:4 and D:2.$(br2)The $(l:items_and_devices/beam_meter)beam meter$(/l) maybe useful since shift right clicking on a port will tell you the current output slot."
+		},
+		{
+			"anchor": "detectors",
+			"header": "Detectors",
+			"type": "diagram",
+			"image": "qmd:textures/gui/book_images/collision_chamber_full.png",
+			"text": "Like all $(l:multiblocks/particle_chambers/general#detectors)particle chambers$(/l), collision chambers can have detectors inside to increase the chambers efficiency $(l)η$() at the cost of power. Above is a size 7 collision chamber full of detectors."
+		},
+		{
+			"header": "Operation",
+			"type": "diagram",
+			"image": "qmd:textures/gui/book_images/collision_chamber_recipe.png",
+			"text": "Collision chambers operate similar to $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) but with no items to deal with. To show how the collision chamber operates lets look at the example recipe in JEI above. Here protons hit protons creating a variety of particles."
+		},
+		{
+			"type": "text",
+			"text": "Like the target chamber the energy must be in range to preform the recipe, but unlike the target chamber this is not the individual beams energy but the total collision energy of both input beams. The collision energy is calculated $(l)Eᵤ=2$(o)sqrt$(l)(E₁E₂)$() where $(l)E₁$() and $(l)E₂$() are the input beams energies. In the simple case where both energies are the same it is just sum of the energies, this is the most efficient. Hovering over each proton shows the minimum focus and half the minimum collision energy."
+		},
+		{
+			"type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/collision_chamber_gui.png",
+			"text": "Lets look at the example below. One proton beam at 120 GeV, 20 kpu/t and 10 focus. The other proton beam at 180 GeV, 10 kpu/t and 6 focus in a 1800% efficiency chamber. To calculate the output energy of the particles it is $(br)$(l)E=(Eᵤ+Q)/n$() "
+		},
+		{
+			"type": "text",
+			"text": "In our case looking in JEI the total amount of output particles is $(l)n$()=5 and the collision energy is shown in the chambers gui calculated with the formula before. So (293.939GeV+-251.02GeV)/5≈$(br)8.584GeV as seen in the image on the left.$(br)The amount of each output particle produced is $(l)aₒ=a$(o)min$(l)(a₁,a₂)Σ$() Similar to the $(l:multiblocks/particle_chambers/target_chamber#output_particles)target$(/l) or decay chamber but the effective cross-section is calculated $(br)$(l)Σ=$(o)min$(l)(ση(1-|E₁-E₂|/(E₁+E₂)),1)$()"
+		},
+		{
+			"type": "text",
+			"text": "So there is a effective cross-section loss if the energies are not the same.$(br)For our case $(l)Σ$()=min(1%×1800%(1-|120-180|/(120+180)),1)=14.4%. The Delta ++ output is then is 1×min(20kpu/t, 10kpu/t)×14.4%= 1.44 kpu/t as seen in the example image.$(br2)The output focus is the minimum input beam focus with $(l:particles/introduction#focus_loss)normal$(/l) focus loss assuming the output particles travels the whole distance, in our case the gui says the beam length is 18. "
+		},
+		{
+			"type": "text",
+			"text": "In our case the minimum input beam focus is 6, so for the Delta ++ the focus is 6-18×0.002(1+2×sqrt(1.44kpu/10k))≈5.3668 (with default configs) as can be seen in the example image$(br2)The length is the distance the beam travels from one input beam port to the furthest output beam port.$(br2)The specifics aren't really that necessary just remember to have enough focus."
+		}
+	]
+}

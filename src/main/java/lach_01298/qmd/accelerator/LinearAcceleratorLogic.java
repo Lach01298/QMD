@@ -450,18 +450,17 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
-		getAccelerator().beams.get(0).setParticleStack(null);
-		getAccelerator().beams.get(1).setParticleStack(null);
-		pull();		
+		super.onUpdateServer();
 		
-		if (getAccelerator().isAcceleratorOn)
+		
+		if (getAccelerator().isControllorOn)
 		{
 			if(source != null)
 			{
-				refreshRecipe();
+				//refreshRecipe(); called in shouldUseEnergy
 				if (recipeInfo != null)
 				{
+					
 					produceSourceBeam();
 				}
 				else
@@ -480,10 +479,36 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 		push();
 		
-		return super.onUpdateServer();
+		getAccelerator().sendMultiblockUpdatePacketToListeners();
+		return true;
 	}
 	
+	@Override
+	protected void refreshBeams()
+	{
+		getAccelerator().beams.get(0).setParticleStack(null);
+		getAccelerator().beams.get(1).setParticleStack(null);
+		pull();	
+	}
 	
+	@Override
+	protected boolean shouldUseEnergy()
+	{
+		if (source != null)
+		{
+			refreshRecipe();
+			if (recipeInfo != null)
+			{
+				return true;
+			}
+		}
+		else if(getAccelerator().beams.get(0).getParticleStack() != null)
+		{
+			return true;
+		}
+		
+		return false;
+	}
 	
 	
 	// Recipe Stuff
@@ -526,7 +551,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				}
 
 				beam.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, beam)
-						- Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), beam));
+						- Equations.focusLoss(getBeamLength(), beam));
 				if (beam.getFocus() <= 0)
 				{
 					getAccelerator().errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
@@ -548,7 +573,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			ParticleStack outputBeam = getAccelerator().beams.get(1).getParticleStack();
 			if(outputBeam != null)
 			{
-				outputBeam.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, outputBeam) - Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), outputBeam));
+				outputBeam.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, outputBeam) - Equations.focusLoss( getBeamLength(), outputBeam));
 				
 				if(getAccelerator().computerControlled)
 				{
@@ -589,7 +614,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 
 		return new LinearAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isControllorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);

@@ -1,0 +1,23 @@
+{
+	"name": "Canisters and Sources",
+	"icon": "qmd:canister:1",
+	"category": "qmd:items_and_devices",
+	"sortnum": 0,
+	"pages": [
+			{
+			"type": "spotlight",
+			"item": "qmd:canister",
+			"text": "Canisters are a simple storage containers for gases used in $(l:multiblocks/accelerators/linear_accelerator#ion_source)accelerator ion sources$(/l) to create particle beams. They are not used up in ion sources and therefore are reusable, being able to be refilled with gas."
+			},
+			{
+			"type": "spotlight",
+			"item": "qmd:source:1",
+			"text": "Sources are sources of particles emitted by the radioisotope inside them. The have 2 different uses. The radioisotopes that emit strong gamma rays (e.g Co-60, Ir-192) are used in the $(l:blocks_and_machines/irradiator)Irradiator$(/l) to sterilize items. Other isotope sources are used in the accelerator ion source to create particles."
+			},
+			{
+			"type": "spotlight",
+			"item": "qmd:source",
+			"text": "Tungsten filaments are a simple source of electrons in $(l:multiblocks/accelerators/linear_accelerator#ion_source)accelerator ion sources$(/l). They wear out after a while and must be replaced."
+			}
+	]
+}

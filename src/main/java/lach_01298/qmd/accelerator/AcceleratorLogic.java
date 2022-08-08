@@ -57,7 +57,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	public final Long2ObjectMap<TileAcceleratorCooler> componentFailCache = new Long2ObjectOpenHashMap<>(), assumedValidCache = new Long2ObjectOpenHashMap<>();
 	
 	public static final int thickness = 5;
-	private boolean operational = false;
+	protected boolean operational = false;
 	private int excessCoolant =0; // in mirco buckets
 	
 	
@@ -144,11 +144,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		{
 			
 			
-			if(!getAccelerator().cold)
+			if(getAccelerator().isNew)
 			{
+				// new accelerators start at ambient temperature
 				getAccelerator().heatBuffer.setHeatStored(getAccelerator().ambientTemp*getAccelerator().heatBuffer.getHeatCapacity()/getAccelerator().MAX_TEMP);
 			}
-			getAccelerator().cold = true;
+			getAccelerator().isNew = false;
 			getAccelerator().currentHeating = 0;
 
 			getAccelerator().updateActivity();	
@@ -477,49 +478,15 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 	}
 	
-	
-	
-	
-	
-	
+
 	// Server
 	
 	public boolean onUpdateServer()
 	{
+		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
+		
 		getAccelerator().currentHeating = 0;
-		if ((isRedstonePowered() && !getAccelerator().computerControlled) || (getAccelerator().computerControlled && getAccelerator().energyPercentage > 0))
-		{
-			if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
-					true) == getAccelerator().requiredEnergy)
-			{
-				getAccelerator().energyStorage.changeEnergyStored(-getAccelerator().requiredEnergy);
-				internalHeating();
-				if (getAccelerator().getTemperature() <= getAccelerator().maxOperatingTemp)
-				{
-					operational = true;
-				}
-				else
-				{
-					if(operational)
-					{
-						quenchMagnets(); 
-					}
-					operational = false;
-					getAccelerator().errorCode = Accelerator.errorCode_ToHot;
-					
-				}
-
-			}
-			else
-			{
-				operational = false;
-				getAccelerator().errorCode = Accelerator.errorCode_OutOfPower;
-			}
-		}
-		else
-		{
-			operational = false;
-		}
+		operate();
 		
 		externalHeating();
 		refreshFluidRecipe();
@@ -529,8 +496,63 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			produceFluidProducts();
 		}
 		updateRedstone();
+		getAccelerator().updateActivity();
 		
-		getAccelerator().sendMultiblockUpdatePacketToListeners();
+		return true;
+	}
+	
+	protected void refreshBeams()
+	{
+		
+	}
+	
+	
+	private void operate()
+	{
+		if ((isRedstonePowered() && !getAccelerator().computerControlled) || (getAccelerator().computerControlled && getAccelerator().energyPercentage > 0))
+		{
+			refreshBeams();			
+			if (shouldUseEnergy())
+			{
+				if (getAccelerator().energyStorage.extractEnergy(getAccelerator().requiredEnergy,
+						true) == getAccelerator().requiredEnergy )
+				{
+					getAccelerator().energyStorage.changeEnergyStored(-getAccelerator().requiredEnergy);
+					internalHeating();
+				}
+				else
+				{
+					operational = false;
+					getAccelerator().errorCode = Accelerator.errorCode_OutOfPower;
+					return;
+				}
+			}
+			if (getAccelerator().getTemperature() <= getAccelerator().maxOperatingTemp)
+			{
+				operational = true;
+				return;
+			}
+			else
+			{
+				if(operational)
+				{
+					quenchMagnets(); 
+				}
+				operational = false;
+				getAccelerator().errorCode = Accelerator.errorCode_ToHot;
+				return;
+				
+			}	
+		}
+		else
+		{
+			operational = false;
+			return;
+		}
+	}
+	
+	protected boolean shouldUseEnergy()
+	{
 		return true;
 	}
 	

@@ -46,6 +46,13 @@ public interface IParticleStackHandler
 	 */
 	ParticleStack extractParticle(EnumFacing side, Particle type, int Amount);
 	
+	/**
+	 * 
+	 * 
+	 * @return a copy of the ParticleStack
+	 */
+	ParticleStack getParticle();
+	
 	
 
 	/**

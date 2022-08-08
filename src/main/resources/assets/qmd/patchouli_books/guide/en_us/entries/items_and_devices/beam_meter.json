@@ -1,0 +1,18 @@
+{
+	"name": "Beam Meter",
+	"icon": "qmd:beam_meter",
+	"category": "qmd:items_and_devices",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "spotlight",
+			"item": "qmd:beam_meter",
+			"text": "The Beam Meter is a useful tool when constructing accelerator systems. It can read the contents of beam ports or beamlines by right clicking on them with it. It also calculates the focus loss for the beam and how many blocks that beam can travel."
+		},
+		{
+			"type": "text",
+			"text": "$(l)Note$(): the values shown when clicking on a beamline block are the $(l)end$() of the beamline not the block you click on.$(br2)The beam meter can also read Accelerator Beam Ports redstone mode and Particle Chamber Beam Ports output mode with a shift click."
+		}
+
+	]
+}

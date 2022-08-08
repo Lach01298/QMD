@@ -75,6 +75,11 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	{
 		onChamberFormed();
 	}
+	
+	public int getBeamLength()
+	{
+		return getMultiblock().getExteriorLengthX();
+	}
 
 	public void onChamberFormed()
 	{

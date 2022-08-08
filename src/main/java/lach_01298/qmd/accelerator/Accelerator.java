@@ -56,7 +56,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public static final Object2ObjectMap<String, Constructor<? extends AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>(); 
 	
 	protected @Nonnull AcceleratorLogic logic = new AcceleratorLogic(this);
-	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
+	//protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 
 	protected final PartSuperMap<Accelerator, IAcceleratorPart> partSuperMap = new PartSuperMap<>();
 
@@ -79,7 +79,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public List<Tank> tanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(QMDConfig.accelerator_base_output_tank_capacity, null));
 	public final List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
-	public boolean refreshFlag = true, isAcceleratorOn = false, cold = false;
+	public boolean isControllorOn = false; //for controller blockstate
+	public boolean isNew = true; // if this accelerator is a new accelerator
 	
 	public static final int MAX_TEMP = 400;
 	
@@ -524,23 +525,13 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	@Override
 	protected boolean updateServer()
 	{
-		boolean flag = refreshFlag;
-		
-		if (refreshFlag) 
-		{
-			//logic.refreshAccelerator();
-		}
+		boolean flag = false;
 		updateActivity();
 		
 		if (logic.onUpdateServer()) 
 		{
 			flag = true;
-		}
-		
-		if (controller != null) 
-		{
-			sendMultiblockUpdatePacketToListeners();
-		}
+		}		
 		
 		return flag;
 	}
@@ -548,14 +539,14 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	
 	public void updateActivity()
 	{
-		boolean wasAcceleratorOn = isAcceleratorOn;
-		isAcceleratorOn = isAssembled() && logic.isAcceleratorOn();
-		if (isAcceleratorOn != wasAcceleratorOn)
+		boolean wasControllerOn = isControllorOn;
+		isControllorOn = isAssembled() && logic.isAcceleratorOn();
+		if (isControllorOn != wasControllerOn)
 		{
 			if (controller != null)
 			{
 				
-				controller.setActivity(isAcceleratorOn);
+				controller.setActivity(isControllorOn);
 				sendMultiblockUpdatePacketToAll();
 			}
 		}
@@ -638,7 +629,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 		writeTanks(tanks,data,"tanks");
 		writeBeams(beams,data);
 		
-		data.setBoolean("isAcceleratorOn", isAcceleratorOn);
+		data.setBoolean("isAcceleratorOn", isControllorOn);
 		data.setLong("cooling", cooling);
 		data.setLong("rawHeating", rawHeating);
 		data.setInteger("coolantIn", maxCoolantIn);
@@ -653,7 +644,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 		data.setInteger("dipoleNumber", dipoleNumber);
 		data.setDouble("dipoleStrength", dipoleStrength);
 		data.setInteger("errorCode",errorCode);
-		data.setBoolean("cold", cold);
+		data.setBoolean("isNew", isNew);
 		data.setBoolean("computerControlled", computerControlled);
 		data.setInteger("energyPercentage", energyPercentage);
 		
@@ -670,7 +661,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 		
 		
 		
-		isAcceleratorOn = data.getBoolean("isAcceleratorOn");
+		isControllorOn = data.getBoolean("isAcceleratorOn");
 		cooling = data.getLong("cooling");
 		rawHeating = data.getLong("rawHeating");
 		maxCoolantIn = data.getInteger("coolantIn");
@@ -685,7 +676,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 		dipoleNumber = data.getInteger("dipoleNumber");
 		dipoleStrength = data.getDouble("dipoleStrength");
 		errorCode = data.getInteger("errorCode");
-		cold = data.getBoolean("cold");
+		isNew = data.getBoolean("isNew");
 		computerControlled =data.getBoolean("computerControlled");
 		energyPercentage =data.getInteger("energyPercentage");
 		
@@ -719,7 +710,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 		for (int i = 0; i < tanks.size(); i++) tanks.get(i).readInfo(message.tanksInfo.get(i));
 		for(int i = 0; i< message.beams.size(); i++) beams.set(i, message.beams.get(i));
 		
-		isAcceleratorOn = message.isAcceleratorOn;
+		isControllorOn = message.isAcceleratorOn;
 		cooling = message.cooling;
 		rawHeating = message.rawHeating;
 		currentHeating = message.currentHeating;

@@ -60,7 +60,7 @@ public class GuiLinearAcceleratorController
 	{
 		int offset = 40;
 
-		int fontColor = multiblock.isAcceleratorOn ? -1 : 15641088;
+		int fontColor = multiblock.isControllorOn ? -1 : 15641088;
 		String title = Lang.localise("gui.qmd.container.linear_accelerator_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 
@@ -117,6 +117,7 @@ public class GuiLinearAcceleratorController
 		drawTexturedModalRect(guiLeft + 28, guiTop + 101 - coolant, 208, 95 - coolant, 6, coolant);
 
 		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft + 40, guiTop + 21);
+		
 	}
 
 	@Override

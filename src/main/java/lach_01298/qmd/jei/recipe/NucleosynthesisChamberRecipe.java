@@ -1,67 +1,50 @@
 package lach_01298.qmd.jei.recipe;
 
 import java.awt.Color;
-import java.util.List;
 
-import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.QMD;
+import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.util.Units;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.IGuiHelper;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.util.ResourceLocation;
 
-public class NucleosynthesisChamberRecipe implements IRecipeWrapper
+public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
+
 {
-
-	
-	private final List<List<ParticleStack>> inputParticle;
-	private final List<List<FluidStack>> inputFluids;
-	private final List<List<FluidStack>> outputFluids;
-
-	private final long heatReleased;
-	private final long maxEnergy;
-
-
-	public NucleosynthesisChamberRecipe(List<List<ParticleStack>> inputParticle, List<List<FluidStack>> inputFluids,  List<List<FluidStack>> outputFluids, long heat, long maxEnergy)
+	public NucleosynthesisChamberRecipe(IGuiHelper guiHelper, QMDRecipe recipe)
 	{
-		
-		this.inputParticle = inputParticle;
-		this.inputFluids = inputFluids;
-		this.outputFluids = outputFluids;
-		this.heatReleased = heat;
-		this.maxEnergy = maxEnergy;
-	
+		super(guiHelper, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/nucleosynthesis_chamber_controller.png"), 0, 0, 188, 2, 62, 28, 42, 9);
 	}
 	
-	@Override
-	public void getIngredients(IIngredients ingredients) 
-	{
-		ingredients.setInputLists(ParticleType.Particle, inputParticle);
-		ingredients.setInputLists(VanillaTypes.FLUID, inputFluids);
-		ingredients.setOutputLists(VanillaTypes.FLUID, outputFluids);
-	}
+
 	
 	
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
 	{
+		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 		FontRenderer fontRenderer = minecraft.fontRenderer;
-		String heatString = Lang.localise("gui.qmd.jei.reaction.heat_released",  Units.getSIFormat(heatReleased,0,"H"));
+		String heatString = Lang.localise("gui.qmd.jei.reaction.heat_released",  Units.getSIFormat(recipe.getHeatReleased(),0,"H"));
 		fontRenderer.drawString(heatString, 0, 47, Color.gray.getRGB());
 		
-		if(maxEnergy != Long.MAX_VALUE)
+		if(recipe.getMaxEnergy() != Long.MAX_VALUE)
 		{
-			String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticle.get(0).get(0).getMeanEnergy()) + "-" + Units.getParticleEnergy(maxEnergy));
+			String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getParticleEnergy(recipe.getMaxEnergy()));
 			fontRenderer.drawString(rangeString, 0, 57, Color.gray.getRGB());
 		}
-		
+
+	}
 
 
-		
+
+
+	@Override
+	protected int getProgressArrowTime()
+	{
+		return inputParticles.get(0).get(0).getAmount()/100000;
 	}
 
 }

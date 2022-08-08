@@ -1,5 +1,8 @@
 package lach_01298.qmd;
 
+import static nc.config.NCConfig.radiation_hardcore_containers;
+import static nc.config.NCConfig.radiation_shielding_level;
+
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
@@ -10,10 +13,13 @@ import lach_01298.qmd.enums.BlockTypes.NeutronShieldType;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.enums.ICoolerEnum;
 import nc.Global;
+import nc.enumm.MetaEnums;
+import nc.radiation.RadiationHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import nc.util.UnitHelper;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.text.TextFormatting;
 
 public class QMDInfo
 {
@@ -219,6 +225,13 @@ public class QMDInfo
 			info[i] = new String[] {coolerCoolingRateString(values[i])};
 		}
 		return info;
+	}
+	
+	
+	public static String drillInfo(int id) 
+	{	
+		int size = 2*QMDConfig.drill_radius[id]+1;
+		return Lang.localise("info."+QMD.MOD_ID+".item.drill.desc",size,size);
 	}
 	
 	

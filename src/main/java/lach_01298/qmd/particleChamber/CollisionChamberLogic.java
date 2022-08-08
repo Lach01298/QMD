@@ -11,13 +11,9 @@ import java.util.Set;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerCollisionChamberController;
 import lach_01298.qmd.multiblock.network.CollisionChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
@@ -25,11 +21,9 @@ import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
+import lach_01298.qmd.util.Equations;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -494,11 +488,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(1).setParticleStack(null);
 		pull();
 		
-		
-		
-		isChamberOn();
-		
-		if (getMultiblock().isChamberOn)
+		if (isChamberOn())
 		{
 			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
 			{
@@ -620,10 +610,10 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		ParticleStack output3 = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
 		ParticleStack output4 = recipeInfo.getRecipe().getParticleProducts().get(3).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyRelased();
+		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
 		double crossSection = recipeInfo.getRecipe().getCrossSection();
 		
-		long collisionEnergy = (long) (2*Math.sqrt(input1.getMeanEnergy()*input2.getMeanEnergy()));
+		long collisionEnergy = Math.round(2*Math.sqrt(input1.getMeanEnergy()*input2.getMeanEnergy()));
 		double inputFocus = Math.min(input1.getFocus(),input2.getFocus());
 		int inputAmount = Math.min(input1.getAmount(),input2.getAmount());
 		
@@ -660,37 +650,42 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(2).setParticleStack(output1);
 		if(output1 != null)
 		{
-			getMultiblock().beams.get(2).getParticleStack().setMeanEnergy((collisionEnergy + energyReleased) / particlesOut);
-			getMultiblock().beams.get(2).getParticleStack().setAmount((int) (output1.getAmount() * outputFactor * inputAmount));
-			getMultiblock().beams.get(2).getParticleStack().setFocus(inputFocus-(getMultiblock().getMaximumInteriorLength()+getMultiblock().getExteriorLengthY()/2)*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(2).getParticleStack().setMeanEnergy(Math.round((collisionEnergy + energyReleased) /(double) particlesOut));
+			getMultiblock().beams.get(2).getParticleStack().setAmount((int) Math.round(output1.getAmount() * outputFactor * inputAmount));
+			getMultiblock().beams.get(2).getParticleStack().setFocus(inputFocus-Equations.focusLoss(getBeamLength(), getMultiblock().beams.get(2).getParticleStack()));
 		}
 		
 		getMultiblock().beams.get(3).setParticleStack(output2);
 		if(output2 != null)
 		{
-			getMultiblock().beams.get(3).getParticleStack().setMeanEnergy((collisionEnergy + energyReleased) / particlesOut);
-			getMultiblock().beams.get(3).getParticleStack().setAmount((int) (output2.getAmount() * outputFactor * inputAmount));
-			getMultiblock().beams.get(3).getParticleStack().setFocus(inputFocus-(getMultiblock().getMaximumInteriorLength()+getMultiblock().getExteriorLengthY()/2)*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(3).getParticleStack().setMeanEnergy(Math.round((collisionEnergy + energyReleased) /(double) particlesOut));
+			getMultiblock().beams.get(3).getParticleStack().setAmount((int) Math.round(output2.getAmount() * outputFactor * inputAmount));
+			getMultiblock().beams.get(3).getParticleStack().setFocus(inputFocus-Equations.focusLoss(getBeamLength(), getMultiblock().beams.get(3).getParticleStack()));
 		}
 		
 		getMultiblock().beams.get(4).setParticleStack(output3);
 		if(output3 != null)
 		{
-			getMultiblock().beams.get(4).getParticleStack().setMeanEnergy((collisionEnergy + energyReleased) / particlesOut);
-			getMultiblock().beams.get(4).getParticleStack().setAmount((int) (output3.getAmount() * outputFactor * inputAmount));
-			getMultiblock().beams.get(4).getParticleStack().setFocus(inputFocus-(getMultiblock().getMaximumInteriorLength()+getMultiblock().getExteriorLengthY()/2)*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(4).getParticleStack().setMeanEnergy(Math.round((collisionEnergy + energyReleased) /(double) particlesOut));
+			getMultiblock().beams.get(4).getParticleStack().setAmount((int) Math.round(output3.getAmount() * outputFactor * inputAmount));
+			getMultiblock().beams.get(4).getParticleStack().setFocus(inputFocus-Equations.focusLoss(getBeamLength(), getMultiblock().beams.get(4).getParticleStack()));
 		}
 		
 		getMultiblock().beams.get(5).setParticleStack(output4);
 		if(output4 != null)
 		{
-			getMultiblock().beams.get(5).getParticleStack().setMeanEnergy((collisionEnergy + energyReleased) / particlesOut);
-			getMultiblock().beams.get(5).getParticleStack().setAmount((int) (output4.getAmount() * outputFactor * inputAmount));
-			getMultiblock().beams.get(5).getParticleStack().setFocus(inputFocus-(getMultiblock().getMaximumInteriorLength()+getMultiblock().getExteriorLengthY()/2)*QMDConfig.beamAttenuationRate);
+			getMultiblock().beams.get(5).getParticleStack().setMeanEnergy(Math.round((collisionEnergy + energyReleased) /(double) particlesOut));
+			getMultiblock().beams.get(5).getParticleStack().setAmount((int) Math.round(output4.getAmount() * outputFactor * inputAmount));
+			getMultiblock().beams.get(5).getParticleStack().setFocus(inputFocus-Equations.focusLoss(getBeamLength(), getMultiblock().beams.get(5).getParticleStack()));
 		}
 	}
 
-
+	@Override
+	public int getBeamLength()
+	{
+		return chamberLength-2 + (getMultiblock().getExteriorLengthY()-1)/2;
+	}
+	
 	
 	private void resetBeams()
 	{

@@ -1,5 +1,6 @@
 package lach_01298.qmd.gui;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,8 @@ public class GuiParticle
 		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu")));
 		if(showFocus)
 		{
-			text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.focus",Units.getSIFormat(stack.getFocus(),"")));
+			DecimalFormat df = new DecimalFormat("#.####");
+			text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.focus",df.format(stack.getFocus())));
 		}
 		screen.drawHoveringText(text, mouseX, mouseY);
 		

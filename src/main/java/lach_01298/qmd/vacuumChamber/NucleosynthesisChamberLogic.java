@@ -1166,14 +1166,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 
 	public double getCoolingEfficiency()
 	{
-		if(casingCooling>casingHeating)
-		{
-			return Math.min(1D,(cooling_efficiency_leniency+casingHeating)/(double)casingCooling);
-		}
-		else
-		{
-			return Math.min(1D,(cooling_efficiency_leniency+casingHeating)/(-casingCooling+2*casingHeating));
-		}	
+			return Math.min(1D,(casingHeating+cooling_efficiency_leniency)/(double)(casingHeating + Math.abs(casingHeating-casingCooling)));
 	}
 	
 	

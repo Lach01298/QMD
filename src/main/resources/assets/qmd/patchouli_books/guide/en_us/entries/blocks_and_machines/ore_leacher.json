@@ -1,0 +1,13 @@
+{
+	"name": "Ore Leacher",
+	"icon": "qmd:ore_leacher",
+	"category": "qmd:blocks_and_machines",
+	"sortnum": 3,
+	"pages": [
+		{
+			
+			"type": "text",
+			"text": "The ore leacher is an advanced ore processor where you put various ores in with some fluids and you get multiple items out."
+		}
+	]
+}

@@ -53,20 +53,17 @@ public class GuiCollisionChamberController
 		String title = Lang.localise("gui.qmd.container.collision_chamber_controller.name");
 		fontRenderer.drawString(title, xSize / 2 - fontRenderer.getStringWidth(title) / 2, 4, fontColor);
 
-		String efficiency = Lang.localise("gui.qmd.container.target_chamber.efficiency",
+		String efficiency = Lang.localise("gui.qmd.container.particle_chamber.efficiency",
 				String.format("%.2f", multiblock.efficiency * 100));
-		fontRenderer.drawString(efficiency, offset, 97, fontColor);
+		fontRenderer.drawString(efficiency, offset, 95, fontColor);
+		
+		String length = Lang.localise("gui.qmd.container.particle_chamber.length", logic.getBeamLength());
+		fontRenderer.drawString(length, offset, 115, fontColor);
 
 		if (multiblock.beams.get(0).getParticleStack() != null && multiblock.beams.get(1).getParticleStack() != null)
 		{
-			String collsionEnergy = Lang
-					.localise(
-							"gui.qmd.container.collison_chamber.energy", Units
-									.getSIFormat(
-											2 * Math.sqrt(multiblock.beams.get(0).getParticleStack().getMeanEnergy()
-													* multiblock.beams.get(1).getParticleStack().getMeanEnergy()),
-											3, "eV"));
-			fontRenderer.drawString(collsionEnergy, offset, 110, fontColor);
+			String collsionEnergy = Lang.localise("gui.qmd.container.collison_chamber.energy", Units.getSIFormat(2 * Math.sqrt(multiblock.beams.get(0).getParticleStack().getMeanEnergy()* multiblock.beams.get(1).getParticleStack().getMeanEnergy()),3, "eV"));
+			fontRenderer.drawString(collsionEnergy, offset, 105, fontColor);
 		}
 
 		if (!NCUtil.isModifierKeyDown())

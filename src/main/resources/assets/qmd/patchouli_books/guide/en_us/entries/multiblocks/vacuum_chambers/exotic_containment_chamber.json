@@ -1,0 +1,72 @@
+{
+	"name": "Exotic Containment Chamber",
+	"icon": "qmd:neutral_containment_controller",
+	"category": "qmd:vacuum_chambers",
+	"sortnum": 1,
+	"pages": [
+		{
+			
+			"type": "text",
+			"text": "The Exotic Containment Chamber is used to create and store exotic materials like neutral antimatter. $(l)$(c)Be very careful with them!$() If broken with exotic material in them they $(l)$(c)explode catastrophically!$() and give out $(l)$(c)massive radiation flashes!$() instantly killing everything near."
+		},
+		{
+            "type": "diagram_high",
+            "image": "qmd:textures/gui/book_images/exotic_containment_chamber.png",
+            "text": "An exotic containment chamber storing anti-hydrogen."
+        },
+        {
+			"anchor": "construction",
+            "type": "text",
+            "title": "Construction",
+            "text": "Exotic containment Chambers are either a 7x7x7 or 9x9x9 cube of vacuum chamber casing or glass. Like all $(l:multiblocks/vacuum_chambers/general#construction)vacuum Chambers$(/l) they require a coolant vent in input and output modes, and an energy port somewhere in the casing. $(br2)In the center of the horizontal faces they require 2 vacuum chamber beam ports opposite each other in input mode and on the other horizontal sides 2 vacuum chamber lasers."
+        },
+        {
+            "type": "qmd:diagram_low",
+            "image": "qmd:textures/gui/book_images/exotic_containment_chamber_7.png",
+            "text": "Inside the chamber there is a ring of vacuum chamber coils on the top and bottom one block from the horizontal edges. $(br2)An example of a 7x7x7 exotic containment chamber below"
+        },
+        {
+            "type": "qmd:diagram_low",
+            "image": "qmd:textures/gui/book_images/exotic_containment_chamber_9.png",
+            "text": "There also can be optional vacuum chamber item ports to pipe cells in and out of the chamber and or vacuum chamber redstone ports to read information about the chamber. Below a 9x9x9 chamber with item ports and a redstone port."
+        },
+		{
+            "anchor": "operation",
+			"type": "text",
+			"title": "Operation",
+            "text": "Like all $(l:multiblocks/vacuum_chambers/general#operation)vacuum Chambers$(/l), exotic containment chambers require a constant supply of power and to be kept cold with coolant. Failure to do so when exotic material is inside will result in a $(l)$(c)catastrophic explosion and release a deadly flash of radiation$(), killing anything near by. The size of both the explosion and radiation burst depends on both the amount and type of exotic material stored." 
+        },
+		{
+			"type": "qmd:diagram_low",
+			"image": "qmd:textures/gui/book_images/exotic_containment_chamber_recipe.png",
+            "text": "To show how to create exotic materials in the chamber lets look at a recipe in JEI. Here we have a beam of anti-alpha particles and positrons coming together to form anti-helium. The range is between <1 keV-1 keV for both particles." 
+        },
+		{
+			"type": "text",
+            "text": "In most cases this low energy must be obtained using a  $(l:multiblocks/accelerators/decelerator)decelerator$(/l). If the range is not stated then the particles can have any energy.$(br2)Hovering over the input particles also shows how many particles are required to complete the recipe. In this case 1 kpu of anti-alphas and 2 kpu of positrons. The amounts fill up separately and once full the chamber won't accept any more so those excess particles will be wasted. " 
+        },
+		{
+			"type": "text",
+            "text": "For example if we put in both beams at 100 pu/t the anti-alphas will complete first in 10 ticks but the positrons won't complete until 20 ticks, so for 10 ticks the anti-alpha particles are wasted.$(br2)Hovering over the input particles again you can see the minimum focus required for each particle, in this case 2." 
+        },
+		{
+			"type": "text",
+			"title": "Cell Filling",
+            "text": "Once we have this exotic material we can put it into $(l:items_and_devices/cell)cells$(/l) so it can be transported around or used in crafting or tools and weapons like the $(l:items_and_devices/antimatter_launcher)antimatter launcher$(/l). These cells can also be empty back into a exotic containment chamber for bulk storage of the exotic material. Filling and emptying cells is done simply by putting the filled or empty cell in the input slot of the gui. Cells can also be piped in and out automatically through a vacuum chamber item port." 
+        },
+		{
+			"type": "text",
+			"title": "Redstone Ports",
+            "text": "Vacuum chamber redstone ports can be put in the casing to read information about the exotic containment chamber. There are 2 modes that can be switched between with the multitool. The $(l)$(1)first$() blue mode outputs a redstone signal strength based on what fraction of the max operating temperature the current temperature is. So at the max operating temperature it is 15 and at half the max operating temperature it is 7." 
+        },
+		{
+			"type": "text",
+            "text": "The $(l)$(2)second$() green mode outputs a redstone signal based on how full the exotic material tank is. So full is a strength of 15 and half is a strength of 7. Note the redstone strength will not go to 0 if there is any material still in the tank." 
+        },
+		{
+			"type": "text",
+			"title": "Manual voiding",
+            "text": "You can manually void the contents of the exotic material tank safely by holding shift and clicking on the tank in the gui. You can also void the coolant tanks with the button in the gui that appearers when holding shift." 
+        }
+	]
+}

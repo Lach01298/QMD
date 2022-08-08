@@ -1,6 +1,7 @@
 package lach_01298.qmd.particle;
 
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.util.Equations;
 import net.minecraft.util.EnumFacing;
 
 public class ParticleStorageBeamline extends ParticleStorage
@@ -29,7 +30,7 @@ public class ParticleStorageBeamline extends ParticleStorage
 		{	
 			ParticleStack stack = this.particleStack;
 			this.particleStack = null;
-			stack.addFocus(-length*QMDConfig.beamAttenuationRate);
+			stack.addFocus(-Equations.focusLoss(length, stack));
 			return stack;
 		}
 		
@@ -41,8 +42,11 @@ public class ParticleStorageBeamline extends ParticleStorage
 	{
 		if(stack != null)
 		{
-			particleStack = stack.copy();
-			return true;
+			if(stack.getFocus()>0)
+			{
+				particleStack = stack.copy();
+				return true;
+			}
 		}
 		return false;
 	}

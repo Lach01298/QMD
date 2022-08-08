@@ -55,9 +55,12 @@ public class GuiDecayChamberController
 		String title = Lang.localise("gui.qmd.container.decay_chamber_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 
-		String efficiency = Lang.localise("gui.qmd.container.target_chamber.efficiency",
+		String efficiency = Lang.localise("gui.qmd.container.particle_chamber.efficiency",
 				String.format("%.2f", multiblock.efficiency * 100));
 		fontRenderer.drawString(efficiency, offset, 80, fontColor);
+		
+		String length = Lang.localise("gui.qmd.container.particle_chamber.length", logic.getBeamLength());
+		fontRenderer.drawString(length, offset, 90, fontColor);
 
 		if (!NCUtil.isModifierKeyDown())
 		{

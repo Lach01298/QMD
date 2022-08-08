@@ -133,6 +133,9 @@ item.qmd.axe_tungsten_carbide.name=Tungsten Carbide Axe
 item.qmd.hoe_tungsten_carbide.name=Tungsten Carbide Hoe
 item.qmd.pickaxe_tungsten_carbide.name=Tungsten Carbide Pickaxe
 
+item.qmd.drill_basic.name=Electric Mining Drill
+item.qmd.drill_advanced.name=Advanced Electric Mining Drill
+
 item.qmd.flesh.name=Not So Rotten Flesh
 
 item.qmd.luminous_paint.green.name=Green Radioluminescent Paint
@@ -170,6 +173,8 @@ item.qmd.depleted_fuel_copernicium.mix_291_za.name=Depleted MZA-291 Fuel Pellet
 item.qmd.lepton_cannon.name=Lepton Cannon
 item.qmd.gluon_gun.name=Gluon Gun
 item.qmd.antimatter_launcher.name=Antimatter Launcher
+
+item.qmd.beam_meter.name=Beam Meter
 
 item.qmd.helm_hev.name=HEV Helmet
 item.qmd.chest_hev.name=HEV Chestplate
@@ -318,8 +323,8 @@ tile.qmd.creative_particle_source.name=Creative Particle Source
 
 //guide book
 qmd.guide_book.name=QMD Guide
-qmd.guide_book.edition=WIP
-qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics. It still WIP so for more accurate/complete info go to the QMD wiki.
+qmd.guide_book.edition=Version 1.1
+qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics.
 
 
 //death messages
@@ -359,6 +364,8 @@ item.qmd.helm_hev.desc=Negates poison and reduces wither to 4 seconds.
 item.qmd.chest_hev.desc=Allows the wearer to long jump (jump while sprinting).
 item.qmd.legs_hev.desc=Allows the wearer to jump 2.5 blocks and gives a speed boost.
 item.qmd.boots_hev.desc=Gives wearer step assist, reduces fall height by 4 blocks and reduces fall damage by half.
+
+item.qmd.beam_meter.desc=Measures the stats of a Beamline or Beam Port. If measuring a Beamline the stats are the end of the beamline.
 
 
 
@@ -482,13 +489,13 @@ info.qmd.item.heat=Heat Produced: %s H/t
 info.qmd.item.power=Base Power: %s RF/t
 info.qmd.item.max_temp=Maximum Operating Temperature: %s K
 info.qmd.item.energy_used=Energy Used: %s
-info.qmd.item.amount=Amount: %s / %s pu
+info.qmd.item.amount=Amount: %s / %s
 
 info.qmd.particle_chamber.detector.efficiency=Particle Efficiency: %s
 info.qmd.particle_chamber.detector.power=Base Power: %s RF/t
 
 info.qmd.beamline.attenuation=Attenuation Rate: %s
-
+info.qmd.item.drill.desc=Mines a %s x %s area.
 
 
 
@@ -624,7 +631,8 @@ gui.qmd.container.accelerator_source=Accelerator Ion Source
 gui.qmd.container.target_chamber_controller.name=Target Chamber 
 gui.qmd.container.decay_chamber_controller.name=Decay Chamber
 gui.qmd.container.beam_dump_controller.name=Beam Dump
-gui.qmd.container.target_chamber.efficiency=Efficiency: %s%%
+gui.qmd.container.particle_chamber.efficiency=Efficiency: %s%%
+gui.qmd.container.particle_chamber.length=Beam Length: %s
 
 gui.qmd.container.exotic_containment_controller.name=Exotic Containment
 gui.qmd.container.nucleosynthesis_chamber_controller.name=Nucleosynthesis Chamber
@@ -783,9 +791,13 @@ qmd.particle.delta_minus.desc=Delta - is a baryon containing three Down Quarks. 
 qmd.particle.antidelta_minus.desc=Anti-Delta - is a baryon containing three Anti-Down Quarks. They quickly decay via the strong force.
 
 //particleStack info
+gui.qmd.particlestack.name=Type: %s
 gui.qmd.particlestack.amount=Amount: %s
 gui.qmd.particlestack.mean_energy=Energy: %s
 gui.qmd.particlestack.focus=Focus: %s
+gui.qmd.particlestack.focus_loss=Focus Loss: %s/Block
+gui.qmd.particlestack.travel_distance=Travel Distance: %s Blocks
+gui.qmd.particlestack.empty=No Particles
 
 //jei
 qmd.gui.jei.category.accelerator_source=Ion Source
@@ -793,7 +805,7 @@ qmd.gui.jei.category.particle_info=Particle Information
 qmd.gui.jei.category.target_chamber=Target Chamber
 qmd.gui.jei.category.decay_chamber=Decay Chamber
 qmd.gui.jei.category.beam_dump=Beam Dump
-qmd.gui.jei.category.neutral_containment=Neutral Containment Chamber
+qmd.gui.jei.category.neutral_containment=Exotic Containment Chamber
 qmd.gui.jei.category.collision_chamber=Collision Chamber
 qmd.gui.jei.category.atmosphere_collector=Atmosphere Collector
 qmd.gui.jei.category.nucleosynthesis_chamber=Nucleosynthesis Chamber
@@ -827,13 +839,14 @@ itemGroup.qmd.multiblocks=QMD Multiblocks
 
 //block settings
 qmd.block.accelerator_port_setting_toggle=Toggled port redstone setting to
+qmd.block.accelerator_port_setting=Port redstone setting is %s
 qmd.block.port_mode_toggle=Toggled port to
 qmd.block.port_mode.INPUT=INPUT
 qmd.block.port_mode.OUTPUT=OUTPUT
 qmd.block.port_mode.DISABLED=DISABLED
 qmd.block.port.mode=mode!
 qmd.block.particle_chamber_port_setting_toggle=Toggled port output setting to
-
+qmd.block.particle_chamber_port_setting=Port output setting is %s
 
 qmd.block.redstone_port_toggle=Toggled redstone port to
 qmd.block.redstone_port_toggle.input=INPUT
@@ -945,7 +958,7 @@ gui.qmd.config.category.particle_chamber=Particle Chambers
 gui.qmd.config.category.particle_chamber.tooltip=Particle chamber and particle chamber parts configs
 
 gui.qmd.config.category.vacuum_chamber=Vacuum Chambers
-gui.qmd.config.category.containment.tooltip=Vacuum chamber and Vacuum chamber parts configs
+gui.qmd.config.category.vacuum_chamber.tooltip=Vacuum chamber and Vacuum chamber parts configs
 
 gui.qmd.config.category.fission=Fission
 gui.qmd.config.category.fission.tooltip=Fission parts and fuels configs
@@ -1099,19 +1112,28 @@ gui.qmd.config.vacuum_chamber.heater_rule=Vacuum Chamber Heater Rules
 gui.qmd.config.vacuum_chamber.heater_rule.comment=The placement rules of each Vacuum Chamber Heater. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond]. 
 
 gui.qmd.config.tools.tool_mining_level=Tool Mining Level
-gui.qmd.config.tools.tool_mining_level.comment=The mining level of tool types. Order:[Tungsten Carbide].
+gui.qmd.config.tools.tool_mining_level.comment=The mining level of tool types. Order:[Tungsten Carbide, Electric Drill, Advanced Electric Drill].
 
 gui.qmd.config.tools.tool_durability=Tool Durability
 gui.qmd.config.tools.tool_durability.comment=The durability of tool types. Order:[Tungsten Carbide].
 
 gui.qmd.config.tools.tool_speed=Tool Speed
-gui.qmd.config.tools.tool_speed.comment=The Speed of tool types. Order:[Tungsten Carbide].
+gui.qmd.config.tools.tool_speed.comment=The Speed of tool types. Order:[Tungsten Carbide, Electric Drill, Advanced Electric Drill].
 
 gui.qmd.config.tools.tool_attack_damage=Tool Attack Damage
 gui.qmd.config.tools.tool_attack_damage.comment=The attack damage of tool types. Order:[Tungsten Carbide].
 
 gui.qmd.config.tools.tool_enchantability=Tool Enchantability
 gui.qmd.config.tools.tool_enchantability.comment=The enchantability of tool types. Order:[Tungsten Carbide].
+
+gui.qmd.config.tools.drill_energy_usage=Drill Energy Usage
+gui.qmd.config.tools.drill_energy_usage.comment=The amount of RF per block drills use.
+
+gui.qmd.config.tools.drill_energy_capacity=Drill Energy Usage
+gui.qmd.config.tools.drill_energy_capacity.comment=The RF capacity of each drill. Order:[Electric Drill, Advanced Electric Drill].
+
+gui.qmd.config.tools.drill_radius=Drill Mining Radius
+gui.qmd.config.tools.drill_radius.comment=The square radius each drill mines. 0 is 1x1, 1 is 3x3 etc. Order:[Electric Drill, Advanced Electric Drill].
 
 gui.qmd.config.tools.lepton_particle_usage=Lepton Cannon Particle Usage
 gui.qmd.config.tools.lepton_particle_usage.comment=The amount of particle units (pu) each shot with the lepton cannon costs.
@@ -1197,6 +1219,12 @@ gui.qmd.config.copernicium_radiation.comment=Base radiation the fuels produce wh
 
 gui.qmd.config.other.rtg_power=RTG Power
 gui.qmd.config.other.rtg_power.comment=The Amount of RF/t generated by each RTG type. Order:[Strontium-90].
+
+gui.qmd.config.other.mole_amount=Mole Amount
+gui.qmd.config.other.mole_amount.comment=The Amount of particle units in a mole of stuff.
+
+gui.qmd.config.other.beam_scaling=Beam Scaling Factor
+gui.qmd.config.other.beam_scaling.comment=The scaling factor for the beam attenuation equation.
 
 gui.qmd.config.other.processor_passive_rate=Passive Collector Rate
 gui.qmd.config.other.processor_passive_rate.comment=The Amount of mB/t generated by each Gas Collector type. Order:[Helium, Neon, Argon].

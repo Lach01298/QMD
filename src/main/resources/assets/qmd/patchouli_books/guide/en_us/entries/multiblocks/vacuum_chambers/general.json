@@ -1,0 +1,45 @@
+{
+	"name": "Vacuum Chambers",
+	"icon": "qmd:containment_casing",
+	"category": "qmd:vacuum_chambers",
+	"sortnum": 0,
+	"pages": [
+		{
+			
+			"type": "text",
+			"text": "Vacuum Chambers are a set of advanced multiblocks that make, store and use exotic particles and materials. They are very sensitive and have a tendency to $(l)$(c)explode catastrophically$() if not operated carefully."
+		},
+		{
+            "type": "diagram_high",
+            "image": "qmd:textures/gui/book_images/vacuum_chambers.png",
+            "text": "A complex system with 2 Vacuum chambers storing and making things."
+        },
+        {
+			"anchor": "construction",
+            "type": "text",
+            "title": "Construction",
+            "text": "The outside (casing) of all vacuum chambers are made out of Vacuum Chamber Casing or Vacuum Chamber Glass. In the casing you need: $(li)The Vacuum Chamber's controller$(li)At least one Particle Chamber Energy Port$(li)At least one input coolant vent $(li)At least one input one output coolant vent$(br2)"
+        },
+		{
+			
+            "type": "text", 
+            "text": "You can also have optional Redstone ports.$(br2)The inside of vacuum chambers vary and depend on the type."
+        },
+        {
+            "anchor": "operation",
+			"type": "text",
+			"title": "Operation",
+            "text": "The operation of vacuum chambers vary depending on the type but all must be cooled with coolant to cool their magnets like $(l:multiblocks/accelerators/general#coolant)accelerators$(/l) to operate. Coolant is supplied through a coolant vent in input mode and hot coolant is extracted through a coolant vent in output mode. Hovering over the magnet coolant bar in the gui will show the amount stored and the maximum usage and production." 
+        },
+        {
+			"type": "text",
+            "text": "If coolant is not properly supplied and extracted the temperature of the chamber will rise and eventually go above the operating temperature. If this happens while operating like when holding antimatter or plasma, then the chamber will $(l)$(c)catastrophically fail$().$(br2)Vacuum chambers also need a constant supply of power while operating or they will also $(l)$(c)catastrophically fail$(). So make sure to have a stable power supply." 
+        },
+        {
+			"anchor": "redstone",
+			"type": "text",
+			"title": "Redstone",
+            "text": "Vacuum chambers can't be controlled with redstone but information about them can be read through Vacuum Chamber Redstone Ports. Each redstone port can be switched between 2 modes. The $(l)$(1)first$() blue mode and the $(l)$(2)second$() green mode. What each of the modes reads depending on the type of vacuum chamber. Generally the $(l)$(1)first$() mode is the vacuum chambers magnets temperature." 
+        }
+	]
+}

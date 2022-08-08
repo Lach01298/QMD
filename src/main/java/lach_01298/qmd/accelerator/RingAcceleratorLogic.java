@@ -376,11 +376,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public boolean onUpdateServer()
 	{
-		getAccelerator().errorCode = Accelerator.errorCode_Nothing;
-		getAccelerator().beams.get(0).setParticleStack(null);
-		pull();
+		super.onUpdateServer();
 		
-		if (getAccelerator().isAcceleratorOn)
+		if (getAccelerator().isControllorOn)
 		{
 			produceBeam();
 		}
@@ -390,11 +388,27 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		}
 		
 		push();
-
-		return super.onUpdateServer();
+		getAccelerator().sendMultiblockUpdatePacketToListeners();
+		return true;
 	}
 
+	@Override
+	protected void refreshBeams()
+	{
+		getAccelerator().beams.get(0).setParticleStack(null);
+		pull();	
+	}
 	
+	@Override
+	protected boolean shouldUseEnergy()
+	{
+		if (getAccelerator().beams.get(0).getParticleStack() != null)
+		{
+			return true;
+		}
+
+		return false;
+	}
 	
 
 	
@@ -427,7 +441,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			{
 				beamOut.setMeanEnergy((long)(getAcceleratorMaxEnergy(particle)*(getRedstoneLevel()/15d)));
 			}
-			beamOut.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, beamOut) - Equations.focusLoss(QMDConfig.beamAttenuationRate, getBeamLength(), beamOut));
+			beamOut.addFocus(Equations.focusGain(getAccelerator().quadrupoleStrength, beamOut) - Equations.focusLoss(getBeamLength(), beamOut));
 			
 			if(beamOut.getFocus() <= 0)
 			{
@@ -525,7 +539,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	public RingAcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 		return new RingAcceleratorUpdatePacket(getAccelerator().controller.getTilePos(),
-				getAccelerator().isAcceleratorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
+				getAccelerator().isControllorOn, getAccelerator().cooling, getAccelerator().rawHeating,getAccelerator().currentHeating,getAccelerator().maxCoolantIn,getAccelerator().maxCoolantOut,getAccelerator().maxOperatingTemp,
 				getAccelerator().requiredEnergy, getAccelerator().efficiency, getAccelerator().acceleratingVoltage,
 				getAccelerator().RFCavityNumber, getAccelerator().quadrupoleNumber, getAccelerator().quadrupoleStrength, getAccelerator().dipoleNumber, getAccelerator().dipoleStrength, getAccelerator().errorCode,
 				getAccelerator().heatBuffer, getAccelerator().energyStorage, getAccelerator().tanks, getAccelerator().beams);
@@ -566,7 +580,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public int getBeamLength()
 	{
-		return 4*(getAccelerator().getInteriorLengthX()-2)-4+2;
+		return 4*(getAccelerator().getInteriorLengthX()-2);
 	}
 	
 	

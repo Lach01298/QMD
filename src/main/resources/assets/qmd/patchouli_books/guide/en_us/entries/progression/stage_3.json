@@ -1,0 +1,31 @@
+{
+	"name": "Stage 3: Exotic materials",
+	"icon": "qmd:neutral_containment_controller",
+	"category": "qmd:progression",
+	"sortnum": 4,
+	"pages": [
+		{
+			"type": "text",
+			"text": "In this stage, you gain access to $(l:multiblocks/vacuum_chambers/general)vacuum chambers$(/l), tools, weapons and even create large amounts of power with QMD. The 2 multiblocks of this stage are the $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) and the $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chambers$(/l)."
+		},
+		{
+			"type": "text",
+			"title": "Containment Chamber",
+			"text": "The $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) is used to store and make exotic forms of matter like antimatter. These exotic materials are $(l)$(c)extremely dangerous$() so be careful with them. These materials can then be used in tools and weapons like the $(l:items_and_devices/antimatter_launcher)Antimatter Launcher$(/l), $(l:items_and_devices/lepton_cannon)Lepton Cannon$(/l) and $(l:items_and_devices/gluon_gun)Gluon Gun$(/l)."
+		},
+		{
+			"type": "text",
+			"title": "Nucleosynthesis Chamber",
+			"text": "The $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chamber$(/l) creates heavier elements form lighter ones via either muon catalyzed fusion or the r-process in neutrons. They essentially do what stars do but on a much smaller and faster time scale. If you wanted to you can make any element from just hydrogen though this takes a lot of power and a huge setup."
+		},
+		{
+			"type": "text",
+			"text": "You can also generate a large net positive of power with some of the better fusion recipes."
+		},
+		{
+			"type": "text",
+			"title": "To the Next Stage",
+			"text": "You have reached the end of what is currently in QMD.$(br2)Good Job!"
+		}
+	]
+}

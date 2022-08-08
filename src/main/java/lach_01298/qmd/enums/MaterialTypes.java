@@ -542,15 +542,15 @@ public class MaterialTypes
 	public static enum CellType implements IItemCapacity
 	{
 		EMPTY("empty", 0, 0),
-		ANTIHYDROGEN("antihydrogen", 1, 100000),
-		ANTIDEUTERIUM("antideuterium",2,100000),
-		ANTITRITIUM("antitritium", 3,100000),
-		ANTIHELIUM3("antihelium3", 4, 100000),
-		ANTIHELIUM("antihelium", 5, 100000),
-		POSITRONIUM("positronium", 6, 100000),
-		MUONIUM("muonium",7, 10000),
-		TAUONIUM("tauonium", 8, 100000),
-		GLUEBALLS("glueballs", 9, 100000);
+		ANTIHYDROGEN("antihydrogen", 1, QMDConfig.mole_amount/10),
+		ANTIDEUTERIUM("antideuterium",2,QMDConfig.mole_amount/10),
+		ANTITRITIUM("antitritium", 3,QMDConfig.mole_amount/10),
+		ANTIHELIUM3("antihelium3", 4, QMDConfig.mole_amount/10),
+		ANTIHELIUM("antihelium", 5, QMDConfig.mole_amount/10),
+		POSITRONIUM("positronium", 6, QMDConfig.mole_amount/10),
+		MUONIUM("muonium",7, QMDConfig.mole_amount/10),
+		TAUONIUM("tauonium", 8, QMDConfig.mole_amount/10),
+		GLUEBALLS("glueballs", 9, QMDConfig.mole_amount/10);
 		 
 		private String name;
 		private int id;
@@ -591,12 +591,12 @@ public class MaterialTypes
 	public static enum CanisterType implements IItemCapacity
 	{
 		EMPTY("empty", 0, 0),
-		HYDROGEN("hydrogen", 1, 10000000),
-		DEUTERIUM("deuterium",2, 10000000),
-		TRITIUM("tritium", 3, 10000000),
-		HELIUM3("helium3", 4, 10000000),
-		HELIUM("helium", 5, 10000000),
-		DIBORANE("diborane", 6, 10000000);
+		HYDROGEN("hydrogen", 1, 10 * QMDConfig.mole_amount),
+		DEUTERIUM("deuterium",2, 10 * QMDConfig.mole_amount),
+		TRITIUM("tritium", 3, 10 * QMDConfig.mole_amount),
+		HELIUM3("helium3", 4, 10 * QMDConfig.mole_amount),
+		HELIUM("helium", 5, 10 * QMDConfig.mole_amount),
+		DIBORANE("diborane", 6, 10 * QMDConfig.mole_amount);
 		 
 		private String name;
 		private int id;
@@ -637,11 +637,11 @@ public class MaterialTypes
 	
 	public static enum SourceType implements IItemCapacity
 	{
-		TUNGSTEN_FILAMENT("tungsten_filament", 0, 50000000),
-		SODIUM_22("sodium_22", 1, 5000000),
-		COBALT_60("cobalt_60",2,1000000),
-		IRIDIUM_192("iridium_192", 3, 1000000),
-		CALCIUM_48("calcium_48", 4, 5000000);
+		TUNGSTEN_FILAMENT("tungsten_filament", 0, 50 * QMDConfig.mole_amount),
+		SODIUM_22("sodium_22", 1, 5* QMDConfig.mole_amount),
+		COBALT_60("cobalt_60",2,1 * QMDConfig.mole_amount),
+		IRIDIUM_192("iridium_192", 3, 1 * QMDConfig.mole_amount),
+		CALCIUM_48("calcium_48", 4, 5 * QMDConfig.mole_amount);
 		
 		 
 		private String name;

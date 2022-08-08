@@ -277,6 +277,16 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		return null;
 	}
 
+	@Override
+	public ParticleStack getParticle()
+	{
+		if(particleStack != null)
+		{
+			return particleStack.copy();
+		}
+		return null;	
+	}
+
 	
 	
 	

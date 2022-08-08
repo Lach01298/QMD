@@ -55,13 +55,18 @@ public abstract class PipeMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T
 
 	public int length()
 	{
-		if (this.getLengthX() > this.getLengthZ())
+		
+		if (this.getLengthX() > this.getLengthZ() && this.getLengthX() > this.getLengthY())
 		{
 			return this.getLengthX();
 		}
-		else
+		else if(this.getLengthZ() > this.getLengthY())
 		{
 			return this.getLengthZ();
+		}
+		else
+		{
+			return this.getLengthY();
 		}
 	}
 

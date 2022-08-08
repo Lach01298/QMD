@@ -1,0 +1,19 @@
+{
+	"name": "Antimatter Launcher",
+	"icon": "qmd:antimatter_launcher",
+	"category": "qmd:items_and_devices",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "spotlight",
+			"item": "qmd:antimatter_launcher",
+			"text": "The antimatter launcher is a weapon that launches projectiles of antimatter. If these projectiles hit anything they will explode and create a radiation burst. $(bold)$(#ff0000) Be careful with it. Radiation bursts can instantly kill a player!$()"
+		},
+		{
+			"type": "text",
+			
+			"text": "You should always fire as far as possible away from your self and carry a Geiger counter to see your own radiation level. It can use any antimatter cell as ammunition. The heavy types have a bigger explosion size and radiation amount."
+		}
+
+	]
+}

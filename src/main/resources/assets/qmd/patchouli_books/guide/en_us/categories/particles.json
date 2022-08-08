@@ -1,6 +1,6 @@
 {
 	"name": "Particles",
-	"description": "The info about QMD particle system",
+	"description": "All about QMD's particles and particle system",
 	"icon": "qmd:textures/particles/alpha.png",
 	"sortnum": 1
 }

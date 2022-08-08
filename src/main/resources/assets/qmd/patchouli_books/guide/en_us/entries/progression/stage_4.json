@@ -1,0 +1,12 @@
+{
+	"name": "Stage 4: Beyond",
+	"icon": "qmd:textures/particles/higgs_boson.png",
+	"category": "qmd:progression",
+	"sortnum": 5,
+	"pages": [
+		{
+			"type": "text",
+			"text": "What could be Beyond? $(br2) $(br2) $(br2) $(br2) $(br2) $(br2)...TBE?"
+		}
+	]
+}

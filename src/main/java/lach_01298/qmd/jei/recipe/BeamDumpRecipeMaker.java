@@ -21,20 +21,12 @@ public class BeamDumpRecipeMaker
 	{
 		
 		List<QMDRecipe> recipes = QMDRecipes.beam_dump.getRecipeList();
-		IStackHelper stackHelper = helpers.getStackHelper();
 		List<BeamDumpRecipe> jeiRecipes = new ArrayList<>();
 
 		for (QMDRecipe recipe : recipes)
 		{
-			
-			
-			 List<List<ParticleStack>> inputParticle = QMDRecipeHelper.getParticleInputLists(recipe.getParticleIngredients());
-			
-			 List<List<FluidStack>> outputFluid = QMDRecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
-			
-			long maxEnergy = (long) recipe.getMaxEnergy();
-			
-			BeamDumpRecipe jeiRecipe = new BeamDumpRecipe(inputParticle, outputFluid, maxEnergy);
+
+			BeamDumpRecipe jeiRecipe = new BeamDumpRecipe(helpers.getGuiHelper(),recipe);
 			jeiRecipes.add(jeiRecipe);
 		}
 

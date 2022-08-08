@@ -1,6 +1,7 @@
 package lach_01298.qmd.item;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.QMDInfo;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.MaterialTypes.CanisterType;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
@@ -23,7 +24,6 @@ import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
 import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
 import lach_01298.qmd.tab.QMDTabs;
-import nc.config.NCConfig;
 import nc.item.IInfoItem;
 import nc.item.ItemFissionFuel;
 import nc.item.NCItemFood;
@@ -33,7 +33,6 @@ import nc.item.tool.NCHoe;
 import nc.item.tool.NCPickaxe;
 import nc.item.tool.NCShovel;
 import nc.item.tool.NCSword;
-import nc.util.InfoHelper;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -83,6 +82,10 @@ public class QMDItems
 	public static Item gluonGun;
 	public static Item antimatterLauncher;
 	
+	public static Item beamMeter;
+	public static Item basic_drill;
+	public static Item advanced_drill;
+	
 	public static Item copernicium;
 	public static Item pellet_copernicium;
 	public static Item fuel_copernicium;
@@ -122,6 +125,11 @@ public class QMDItems
 		leptonCannon =  withName(new ItemLeptonCannon(),"lepton_cannon");
 		gluonGun =  withName(new ItemGluonGun(),"gluon_gun");
 		antimatterLauncher =  withName(new ItemAntimatterLauncher(),"antimatter_launcher");
+		
+		beamMeter = withName(new ItemBeamMeter(),"beam_meter");
+		basic_drill = withName(new ItemDrill(QMDConfig.drill_radius[0], QMDConfig.drill_energy_capacity[0], QMDConfig.tool_mining_level[1], (float)QMDConfig.tool_speed[1],QMDInfo.drillInfo(0)),"drill_basic");
+		advanced_drill = withName(new ItemDrill(QMDConfig.drill_radius[1], QMDConfig.drill_energy_capacity[1], QMDConfig.tool_mining_level[2], (float)QMDConfig.tool_speed[2], QMDInfo.drillInfo(1)),"drill_advanced");
+
 		
 		cell = withName(new ItemCell(),"cell");
 		
@@ -167,6 +175,9 @@ public class QMDItems
 		registerItem(leptonCannon,QMDTabs.ITEMS);
 		registerItem(gluonGun,QMDTabs.ITEMS);
 		registerItem(antimatterLauncher,QMDTabs.ITEMS);
+		registerItem(beamMeter,QMDTabs.ITEMS);
+		registerItem(basic_drill,QMDTabs.ITEMS);
+		registerItem(advanced_drill,QMDTabs.ITEMS);
 		
 		registerItem(copernicium,QMDTabs.ITEMS);
 		registerItem(pellet_copernicium,QMDTabs.ITEMS);
@@ -268,6 +279,9 @@ public class QMDItems
 		registerRender(leptonCannon);
 		registerRender(gluonGun);
 		registerRender(antimatterLauncher);
+		registerRender(beamMeter);
+		registerRender(basic_drill);
+		registerRender(advanced_drill);
 		
 		
 		for (int i = 0; i < CellType.values().length; i++)
@@ -321,7 +335,7 @@ public class QMDItems
 
 	public static ToolMaterial toolMaterial(String name, int id, ItemStack repairStack) 
 	{
-		return EnumHelper.addToolMaterial(QMD.MOD_ID + ":" + name, QMDConfig.tool_mining_level[id], QMDConfig.tool_durability[id], (float) NCConfig.tool_speed[id], (float) NCConfig.tool_attack_damage[id], NCConfig.tool_enchantability[id]).setRepairItem(repairStack);
+		return EnumHelper.addToolMaterial(QMD.MOD_ID + ":" + name, QMDConfig.tool_mining_level[id], QMDConfig.tool_durability[id], (float) QMDConfig.tool_speed[id], (float) QMDConfig.tool_attack_damage[id], QMDConfig.tool_enchantability[id]).setRepairItem(repairStack);
 	}
 
 

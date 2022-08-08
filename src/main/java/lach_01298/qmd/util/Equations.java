@@ -1,17 +1,28 @@
 package lach_01298.qmd.util;
 
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.particle.Particle;
 import lach_01298.qmd.particle.ParticleStack;
 
 public class Equations
 {
 
-	public static double focusLoss(double attenuationRate, double distance, ParticleStack stack)
+	public static double focusLoss(double distance, ParticleStack stack)
 	{
 		if (stack != null)
 		{
 			Particle particle = stack.getParticle();
-			return attenuationRate*distance*(1+Math.abs(particle.getCharge())*Math.sqrt(stack.getAmount()/10000d));
+			return QMDConfig.beamAttenuationRate*distance*(1+Math.abs(particle.getCharge())*Math.sqrt(stack.getAmount()/(double)QMDConfig.beam_scaling));
+		}
+		return 0;
+	}
+	
+	public static double travelDistance(ParticleStack stack)
+	{
+		if (stack != null)
+		{
+			Particle particle = stack.getParticle();
+			return stack.getFocus()/focusLoss( 1, stack);
 		}
 		return 0;
 	}

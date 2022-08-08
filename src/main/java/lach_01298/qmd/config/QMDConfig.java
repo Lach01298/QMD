@@ -97,6 +97,9 @@ public class QMDConfig {
 	public static double[] tool_speed;
 	public static double[] tool_attack_damage;
 	public static int[] tool_enchantability;
+	public static int drill_energy_usage;
+	public static int[] drill_energy_capacity;
+	public static int[] drill_radius;
 	
 	public static double[] lepton_damage;
 	public static double[] lepton_radiation;
@@ -133,6 +136,9 @@ public class QMDConfig {
 	public static double[] copernicium_radiation;
 	
 	public static int[] rtg_power;
+	
+	public static int mole_amount;
+	public static int beam_scaling;
 
 	
 	
@@ -308,16 +314,23 @@ public class QMDConfig {
 		propertyHeaterRule.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_rule");
 		
 		
-		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {4}, Lang.localise("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
+		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {3, 3, 4}, Lang.localise("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
 		propertyToolMiningLevel.setLanguageKey("gui.qmd.config.tools.tool_mining_level");
-		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {1928*3}, Lang.localise("gui.qmd.config.tools.tool_durability.comment"), 1, Integer.MAX_VALUE);
+		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {1561*2}, Lang.localise("gui.qmd.config.tools.tool_durability.comment"), 1, Integer.MAX_VALUE);
 		propertyToolDurability.setLanguageKey("gui.qmd.config.tools.tool_durability");
-		Property propertyToolSpeed = config.get(CATEGORY_TOOLS, "tool_speed", new double[] {11D}, Lang.localise("gui.qmd.config.tools.tool_speed.comment"), 1D, 255D);
+		Property propertyToolSpeed = config.get(CATEGORY_TOOLS, "tool_speed", new double[] {8D, 8D, 12D}, Lang.localise("gui.qmd.config.tools.tool_speed.comment"), 1D, 255D);
 		propertyToolSpeed.setLanguageKey("gui.qmd.config.tools.tool_speed");
 		Property propertyToolAttackDamage = config.get(CATEGORY_TOOLS, "tool_attack_damage", new double[] {3D}, Lang.localise("gui.qmd.config.tools.tool_attack_damage.comment"), 0D, 255D);
 		propertyToolAttackDamage.setLanguageKey("gui.qmd.config.tools.tool_attack_damage");
 		Property propertyToolEnchantability = config.get(CATEGORY_TOOLS, "tool_enchantability", new int[] {12}, Lang.localise("gui.qmd.config.tools.tool_enchantability.comment"), 1, 255);
 		propertyToolEnchantability.setLanguageKey("gui.qmd.config.tools.tool_enchantability");
+		
+		Property propertyDrillEnergyUsage = config.get(CATEGORY_TOOLS, "drill_energy_usage", 100, Lang.localise("gui.qmd.config.tools.drill_energy_usage.comment"), 0, Integer.MAX_VALUE);
+		propertyDrillEnergyUsage.setLanguageKey("gui.qmd.config.tools.drill_energy_usage");
+		Property propertyDrillEnergyCapacity = config.get(CATEGORY_TOOLS, "drill_energy_capacity", new int[] {250000,2500000}, Lang.localise("gui.qmd.config.tools.drill_energy_capacity.comment"), 0, Integer.MAX_VALUE);
+		propertyDrillEnergyCapacity.setLanguageKey("gui.qmd.config.tools.drill_energy_capacity");	
+		Property propertyDrillRadius = config.get(CATEGORY_TOOLS, "drill_radius", new int[] {1,2}, Lang.localise("gui.qmd.config.tools.drill_radius.comment"), 0, 5);
+		propertyDrillRadius.setLanguageKey("gui.qmd.config.tools.drill_radius");
 		
 		Property propertyLeptonDamage = config.get(CATEGORY_TOOLS, "lepton_damage", new double[] {7.0, 14.0, 28.0}, Lang.localise("gui.qmd.config.tools.lepton_damage.comment"), 0, Float.MAX_VALUE);
 		propertyLeptonDamage.setLanguageKey("gui.qmd.config.tools.lepton_damage");
@@ -340,8 +353,8 @@ public class QMDConfig {
 		Property propertyGluonParticleUsage = config.get(CATEGORY_TOOLS, "gluon_particle_usage", 100, Lang.localise("gui.qmd.config.tools.gluon_particle_usage.comment"), 0, 100000);
 		propertyGluonParticleUsage.setLanguageKey("gui.qmd.config.tools.gluon_particle_usage");
 		
-		Property propertyAntimatterLauncherParticleUsage = config.get(CATEGORY_TOOLS, "antimatter_launcher_particle_usage", 5000, Lang.localise("gui.qmd.config.tools.antimatter_launcher_particle_usage.comment"), 0, 100000);
-		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_particle_usage");
+		Property propertyAntimatterLauncherParticleUsage = config.get(CATEGORY_TOOLS, "antimatter_launcher_usage", 5000, Lang.localise("gui.qmd.config.tools.antimatter_launcher_usage.comment"), 0, 100000);
+		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_usage");
 		Property propertyAntimatterLauncherCoolDown = config.get(CATEGORY_TOOLS, "antimatter_launcher_cool_down", 30, Lang.localise("gui.qmd.config.tools.antimatter_launcher_cool_down.comment"), 0, 10000);
 		propertyAntimatterLauncherCoolDown.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_cool_down");
 		
@@ -387,16 +400,10 @@ public class QMDConfig {
 		
 		
 		
-		
-		
-		Property propertySourceParticleAmount = config.get(CATEGORY_OTHER, "source_particle_amount", 100, Lang.localise("gui.qmd.config.other.source_particle_amount.comment"), 1, Integer.MAX_VALUE);
-		propertySourceParticleAmount.setLanguageKey("gui.qmd.config.other.source_particle_amount");
-		Property propertySourceCapacity = config.get(CATEGORY_OTHER, "source_capacity", new int[] {6000, 6000, 300, 300, 6000}, Lang.localise("gui.qmd.config.other.source_capacity.comment"), 0, Integer.MAX_VALUE);
-		propertySourceCapacity.setLanguageKey("gui.qmd.config.other.source_capacity");
-		Property propertyCanisterCapacity = config.get(CATEGORY_OTHER, "canister_capacity", new int[] {0, 6000, 6000, 6000, 6000, 6000, 6000}, Lang.localise("gui.qmd.config.other.canister_capacity.comment"), 0, Integer.MAX_VALUE);
-		propertyCanisterCapacity.setLanguageKey("gui.qmd.config.other.canister_capacity");
-		Property propertyCellCapacity = config.get(CATEGORY_OTHER, "cell_capacity", new int[] {0, 600, 600, 600, 600, 600, 200, 200, 200, 6000}, Lang.localise("gui.qmd.config.other.cell_capacity.comment"), 0, Integer.MAX_VALUE);
-		propertyCellCapacity.setLanguageKey("gui.qmd.config.other.cell_capacity");
+		Property propertyMoleAmount = config.get(CATEGORY_OTHER, "mole_amount", 1000000, Lang.localise("gui.qmd.config.other.mole_amount.comment"), 1, Integer.MAX_VALUE);
+		propertyMoleAmount.setLanguageKey("gui.qmd.config.other.mole_amount");
+		Property propertyBeamScaling = config.get(CATEGORY_OTHER, "beam_scaling", 10000, Lang.localise("gui.qmd.config.other.beam_scaling.comment"), 1, Integer.MAX_VALUE);
+		propertyBeamScaling.setLanguageKey("gui.qmd.config.other.beam_scaling");
 		
 		
 		
@@ -493,6 +500,9 @@ public class QMDConfig {
 		propertyOrderTools.add(propertyToolSpeed.getName());
 		propertyOrderTools.add(propertyToolAttackDamage.getName());
 		propertyOrderTools.add(propertyToolEnchantability.getName());
+		propertyOrderTools.add(propertyDrillEnergyUsage.getName());
+		propertyOrderTools.add(propertyDrillEnergyCapacity.getName());
+		propertyOrderTools.add(propertyDrillRadius.getName());
 		
 		propertyOrderTools.add(propertyLeptonDamage.getName());
 		propertyOrderTools.add(propertyLeptonRadiation.getName());
@@ -543,13 +553,9 @@ public class QMDConfig {
 		List<String> propertyOrderOther = new ArrayList<String>();
 		
 		propertyOrderOther.add(propertyRTGPower.getName());
-		
-		
-		
-		propertyOrderOther.add(propertySourceParticleAmount.getName());
-		propertyOrderOther.add(propertySourceCapacity.getName());
-		propertyOrderOther.add(propertyCanisterCapacity.getName());
-		propertyOrderOther.add(propertyCellCapacity.getName());
+		propertyOrderOther.add(propertyMoleAmount.getName());
+		propertyOrderOther.add(propertyBeamScaling.getName());
+
 		
 
 		propertyOrderOther.add(propertyOverrideNCRecipes.getName());
@@ -632,6 +638,10 @@ public class QMDConfig {
 			tool_attack_damage = readDoubleArrayFromConfig(propertyToolAttackDamage);
 			tool_enchantability = readIntegerArrayFromConfig(propertyToolEnchantability);
 			
+			drill_energy_usage = propertyDrillEnergyUsage.getInt();
+			drill_energy_capacity =  readIntegerArrayFromConfig(propertyDrillEnergyCapacity);
+			drill_radius =  readIntegerArrayFromConfig(propertyDrillRadius);
+			
 			lepton_damage = readDoubleArrayFromConfig(propertyLeptonDamage);
 			lepton_radiation = readDoubleArrayFromConfig(propertyLeptonRadiation);
 			lepton_range = readDoubleArrayFromConfig(propertyLeptonRange);
@@ -667,8 +677,8 @@ public class QMDConfig {
 			
 			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
 			
-			
-			
+			mole_amount = propertyMoleAmount.getInt();
+			beam_scaling = propertyBeamScaling.getInt();
 			
 			
 			
@@ -742,6 +752,9 @@ public class QMDConfig {
 		propertyToolAttackDamage.set(tool_attack_damage);
 		propertyToolEnchantability.set(tool_enchantability);
 		
+		propertyDrillEnergyUsage.set(drill_energy_usage);
+		propertyDrillEnergyCapacity.set(drill_energy_capacity);
+		
 		propertyLeptonDamage.set(lepton_damage);
 		propertyLeptonRadiation.set(lepton_radiation);
 		propertyLeptonRange.set(lepton_range);
@@ -778,6 +791,8 @@ public class QMDConfig {
 	
 		
 		propertyRTGPower.set(rtg_power);
+		propertyMoleAmount.set(mole_amount);
+		propertyBeamScaling.set(beam_scaling);
 		
 		
 	
