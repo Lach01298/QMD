@@ -1129,7 +1129,7 @@ gui.qmd.config.tools.tool_enchantability.comment=The enchantability of tool type
 gui.qmd.config.tools.drill_energy_usage=Drill Energy Usage
 gui.qmd.config.tools.drill_energy_usage.comment=The amount of RF per block drills use.
 
-gui.qmd.config.tools.drill_energy_capacity=Drill Energy Usage
+gui.qmd.config.tools.drill_energy_capacity=Drill Energy Capacity
 gui.qmd.config.tools.drill_energy_capacity.comment=The RF capacity of each drill. Order:[Electric Drill, Advanced Electric Drill].
 
 gui.qmd.config.tools.drill_radius=Drill Mining Radius
