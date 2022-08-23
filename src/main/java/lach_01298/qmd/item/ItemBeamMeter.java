@@ -114,9 +114,9 @@ public class ItemBeamMeter extends NCItem
 				{
 					for (EnumFacing face : EnumFacing.VALUES)
 					{
+						
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face))
 						{
-
 							IParticleStackHandler particleStorage = tile
 									.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face);
 
@@ -171,9 +171,10 @@ public class ItemBeamMeter extends NCItem
 								player.sendMessage(
 										new TextComponentString(Lang.localise("gui.qmd.particlestack.empty")));
 							}
+							return EnumActionResult.SUCCESS;
 						}
 
-						return EnumActionResult.SUCCESS;
+						
 					}
 				}
 

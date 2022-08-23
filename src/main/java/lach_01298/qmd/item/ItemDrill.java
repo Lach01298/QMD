@@ -200,7 +200,7 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 			{
 				for(BlockPos pos :getDiggedBlocks(blockPos,side,radius))
 				{	
-					if(this.canHarvestBlock(world.getBlockState(pos)) && world.getBlockState(pos).getBlockHardness(world, pos) <=hardness)
+					if(this.canHarvestBlock(world.getBlockState(pos)) && world.getBlockState(pos).getBlockHardness(world, pos) <=hardness*2)
 					{
 						world.destroyBlock(pos, !player.isCreative());
 						if(!player.isCreative())

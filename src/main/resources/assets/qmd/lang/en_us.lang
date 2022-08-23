@@ -331,6 +331,7 @@ qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics.
 death.attack.gluon_gun=%1$s was vaporized by %2$s with a Gluon Gun
 death.attack.lepton_cannon=%1$s was killed by %2$s with a Lepton Cannon
 death.attack.antimatter_launcher=%1$s was Annihilated by %2$s with a Antimatter Launcher
+death.attack.antimatter_annihilation=%1$s got to curious and was annihilated for it
 
 
 //block descriptions

@@ -329,7 +329,7 @@ public class QMDConfig {
 		propertyDrillEnergyUsage.setLanguageKey("gui.qmd.config.tools.drill_energy_usage");
 		Property propertyDrillEnergyCapacity = config.get(CATEGORY_TOOLS, "drill_energy_capacity", new int[] {250000,2500000}, Lang.localise("gui.qmd.config.tools.drill_energy_capacity.comment"), 0, Integer.MAX_VALUE);
 		propertyDrillEnergyCapacity.setLanguageKey("gui.qmd.config.tools.drill_energy_capacity");	
-		Property propertyDrillRadius = config.get(CATEGORY_TOOLS, "drill_radius", new int[] {1,2}, Lang.localise("gui.qmd.config.tools.drill_radius.comment"), 0, 5);
+		Property propertyDrillRadius = config.get(CATEGORY_TOOLS, "drill_radius", new int[] {1,2}, Lang.localise("gui.qmd.config.tools.drill_radius.comment"), 0, 20);
 		propertyDrillRadius.setLanguageKey("gui.qmd.config.tools.drill_radius");
 		
 		Property propertyLeptonDamage = config.get(CATEGORY_TOOLS, "lepton_damage", new double[] {7.0, 14.0, 28.0}, Lang.localise("gui.qmd.config.tools.lepton_damage.comment"), 0, Float.MAX_VALUE);
