@@ -44,6 +44,7 @@ public class BlockQMDProcessor extends BlockSidedTile implements IActivatable, I
 		if (type.getCreativeTab() != null)
 			setCreativeTab(type.getCreativeTab());
 		this.type = type;
+		setDefaultState(blockState.getBaseState().withProperty(FACING_HORIZONTAL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.valueOf(false)));
 	}
 
 	@Override
@@ -172,4 +173,19 @@ public class BlockQMDProcessor extends BlockSidedTile implements IActivatable, I
 		BlockHelper.spawnParticleOnProcessor(state, world, pos, rand, state.getValue(FACING_HORIZONTAL),
 				type.getParticle2());
 	}
+	
+	@Override
+	public void setActivity(boolean isActive, TileEntity tile) 
+	{
+		World world = tile.getWorld();
+		BlockPos pos = tile.getPos();
+		IBlockState state = world.getBlockState(pos);
+		if (!world.isRemote && getClass().isInstance(state.getBlock())) 
+		{
+			if (isActive != state.getValue(ACTIVE)) {
+				world.setBlockState(pos, state.withProperty(ACTIVE, isActive), 2);
+			}
+		}
+	}
+	
 }

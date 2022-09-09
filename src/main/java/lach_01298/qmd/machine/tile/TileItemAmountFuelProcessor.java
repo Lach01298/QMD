@@ -37,7 +37,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	public final int itemInputSize, itemFuelSize, itemOutputSize;
 	
 	public double time;
-	public int tick =0;
+	public int fuelUseRate;
 	public boolean isProcessing, canProcessInputs;
 	
 	public final boolean shouldLoseProgress;
@@ -56,7 +56,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	public Random rand = new Random();
 	
 	
-	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler,@Nonnull BasicRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
+	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time,int fuelUsage, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler,@Nonnull BasicRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
 	{
 		super(name, itemInSize + itemFuelSize+ itemOutSize, ITileInventory.inventoryConnectionAll(itemSorptions));
 		itemInputSize = itemInSize;
@@ -64,6 +64,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		itemOutputSize = itemOutSize;
 		defaultProcessTime = time;
 		baseProcessTime = time;
+		fuelUseRate = fuelUsage;
 		this.shouldLoseProgress = shouldLoseProgress;
 		this.processorID = processorID;
 		this.sideConfigYOffset = sideConfigYOffset;
@@ -116,6 +117,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			if (wasProcessing != isProcessing)
 			{
 				shouldUpdate = true;
+				setActivity(isProcessing);
 				sendTileUpdatePacketToAll();
 			}
 			sendTileUpdatePacketToListeners();
@@ -247,21 +249,12 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			
 			time += fuelInfo.getRecipe().getBaseProcessTime(1);
 			getRadiationSource().setRadiationLevel(baseProcessRadiation*fuelInfo.getRecipe().getBaseProcessTime(1));
-			if(tick >= 20)
+			
+			for(int i =0; i<itemFuelSize;i++)
 			{
-				
-				for(int i =0; i<itemFuelSize;i++)
-				{
-					useFuel(itemInputSize+i);
-				}
-				tick = 0;
+				useFuel(itemInputSize+i);
 			}
-			else
-			{
-				tick++;
-			}	
-			
-			
+				
 			if (time >= baseProcessTime) finishProcess();
 		}
 		
@@ -270,7 +263,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			if(getInventoryStacks().get(slot).getItem() instanceof IItemParticleAmount)
 			{
 				IItemParticleAmount item = (IItemParticleAmount) getInventoryStacks().get(slot).getItem();
-				getInventoryStacks().set(slot,item.use(getInventoryStacks().get(slot), 1000));	//TODO
+				getInventoryStacks().set(slot,item.use(getInventoryStacks().get(slot), (int) fuelInfo.getRecipe().getBaseProcessTime(fuelUseRate)));
 			}
 		}
 
@@ -412,7 +405,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 					return false;
 				}		
 				
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(slot, IItemParticleAmount.cleanNBT(stack), recipeInfo, getItemInputs(), fuelItemStacksExcludingSlot(slot)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
+				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(slot-itemInputSize, IItemParticleAmount.cleanNBT(stack), recipeInfo, getItemFuels(), fuelItemStacksExcludingSlot(slot-itemInputSize)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 			}
 			else
 			{
@@ -431,7 +424,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		public List<ItemStack> fuelItemStacksExcludingSlot(int slot) 
 		{
 			List<ItemStack> fuelItemsExcludingSlot = new ArrayList<ItemStack>(getItemFuels());
-			fuelItemsExcludingSlot.remove(slot-itemInputSize);
+			fuelItemsExcludingSlot.remove(slot);
 			return fuelItemsExcludingSlot;
 		}
 		
@@ -489,14 +482,13 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		@Override
 		public ProcessorUpdatePacket getTileUpdatePacket() 
 		{
-			return new ProcessorUpdatePacket(pos,isProcessing ,time, tick, baseProcessTime, 0, new ArrayList<Tank>());
+			return new ProcessorUpdatePacket(pos,isProcessing ,time,0, baseProcessTime, 0, new ArrayList<Tank>());
 		}
 		
 		@Override
 		public void onTileUpdatePacket(ProcessorUpdatePacket message) 
 		{
 			time = message.time;
-			tick = (int) message.energyStored;
 			baseProcessTime = message.baseProcessTime;
 			
 		}

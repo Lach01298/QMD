@@ -89,6 +89,7 @@ public class QMDConfig {
 	public static int[] processor_power;
 	public static int[] processor_time;
 	public static double irradiator_rad_res;
+	public static int irradiator_fuel_usage;
 	public static String[] atmosphere_collector_recipes;
 	
 	
@@ -150,6 +151,8 @@ public class QMDConfig {
 	
 	public static double[]  turbine_blade_efficiency;
 	public static double[]  turbine_blade_expansion;
+
+	
 	
 	
 	
@@ -188,6 +191,8 @@ public class QMDConfig {
 		
 		Property propertyIrradiatorRadRes = config.get(CATEGORY_PROCESSORS, "irradiator_rad_res", 10000.0D, Lang.localise("gui.qmd.config.processors.irradiator_rad_res.comment"), 0.0D, Double.MAX_VALUE);
 		propertyIrradiatorRadRes.setLanguageKey("gui.qmd.config.processors.irradiator_rad_res");
+		Property propertyIrradiatorFuelUsage = config.get(CATEGORY_PROCESSORS, "irradiator_fuel_usage", 10, Lang.localise("gui.qmd.config.processors.irradiator_fuel_usage.comment"), 0, Integer.MAX_VALUE);
+		propertyIrradiatorFuelUsage.setLanguageKey("gui.qmd.config.processors.irradiator_fuel_usage");
 		
 		Property propertyAtmosphereCollectorRecipes = config.get(CATEGORY_PROCESSORS, "atmosphere_collector_recipes", new String[] {"0:compressed_air:1000","-1:compressed_air:1000","1:compressed_air:1000"}, Lang.localise("gui.qmd.config.processors.atmosphere_collector_recipes.comment"));
 		propertyAtmosphereCollectorRecipes.setLanguageKey("gui.qmd.config.processors.atmosphere_collector_recipes");
@@ -423,6 +428,7 @@ public class QMDConfig {
 		propertyOrderProcessors.add(propertyProcessorPower.getName());
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
 		propertyOrderProcessors.add(propertyIrradiatorRadRes.getName());
+		propertyOrderProcessors.add(propertyIrradiatorFuelUsage.getName());
 		propertyOrderProcessors.add(propertyAtmosphereCollectorRecipes.getName());
 		
 		
@@ -572,6 +578,7 @@ public class QMDConfig {
 			processor_power = readIntegerArrayFromConfig(propertyProcessorPower);
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			irradiator_rad_res = propertyIrradiatorRadRes.getDouble();
+			irradiator_fuel_usage = propertyIrradiatorFuelUsage.getInt();
 			atmosphere_collector_recipes = propertyAtmosphereCollectorRecipes.getStringList();
 			
 			
@@ -691,6 +698,7 @@ public class QMDConfig {
 		propertyProcessorPower.set(processor_power);
 		propertyProcessorTime.set(processor_time);
 		propertyIrradiatorRadRes.set(irradiator_rad_res);
+		propertyIrradiatorFuelUsage.set(irradiator_fuel_usage);
 		propertyAtmosphereCollectorRecipes.set(atmosphere_collector_recipes);
 		
 		

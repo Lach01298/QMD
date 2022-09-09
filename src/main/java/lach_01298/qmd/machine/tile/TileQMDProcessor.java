@@ -25,11 +25,11 @@ public class TileQMDProcessor
 	{
 		public TileIrradiator()
 		{
-			super("irradiator", 1, 1, 1, defaultItemSorptions(1,1,1), QMDConfig.processor_time[1],
+			super("irradiator", 1, 1, 1, defaultItemSorptions(1,1,1), QMDConfig.processor_time[1], QMDConfig.irradiator_fuel_usage,
 					true, QMDRecipes.irradiator, QMDRecipes.irradiator_fuel, GUI_ID.IRRADIATOR, 0);
 			
 			IRadiationResistance resistance = this.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
-			resistance.setShieldingRadResistance(10000d);
+			resistance.setShieldingRadResistance(QMDConfig.irradiator_rad_res);
 		}
 	}
 }

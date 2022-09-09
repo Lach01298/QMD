@@ -54,8 +54,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 
 		drawTexturedModalRect(guiLeft + 62, guiTop + 57, 176, 0, getCookProgressScaled(52), 10);
 		
-		int rays = (int)Math.round(tile.tick/20.0*19);
-		drawTexturedModalRect(guiLeft + 68, guiTop + 38, 176,10, 40, rays);
+		drawTexturedModalRect(guiLeft + 68, guiTop + 38, 176,10, 40, getCookProgressScaled(19));
 		
 		drawBackgroundExtras();
 	}

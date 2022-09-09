@@ -982,6 +982,9 @@ gui.qmd.config.processors.time.comment=The default time a machine takes to proce
 gui.qmd.config.processors.irradiator_rad_res=Irradiator Rad Resistance
 gui.qmd.config.processors.irradiator_rad_res.comment=The base radiation resistance the irradiation has. This does nothing if hardcore containers is not on.
 
+gui.qmd.config.processors.irradiator_fuel_usage=Irradiator Fuel Usage
+gui.qmd.config.processors.irradiator_fuel_usage.comment=The base amount of pu/t used by the irradiator.
+
 gui.qmd.config.processors.atmosphere_collector_recipes=Atmosphere Collector Recipes
 gui.qmd.config.processors.atmosphere_collector_recipes.comment=Defines what the atmosphere collector collects in each dimension. Format dimesionID:fluidName:milibucketsPerTick
 
