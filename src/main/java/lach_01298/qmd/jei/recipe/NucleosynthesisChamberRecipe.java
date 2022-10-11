@@ -44,7 +44,13 @@ public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return inputParticles.get(0).get(0).getAmount()/100000;
+		int time = inputParticles.get(0).get(0).getAmount()/25000;
+		if(time < 8)
+		{
+			time = 8;
+		}
+		
+		return time;
 	}
 
 }
