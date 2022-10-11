@@ -39,7 +39,7 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 		addRecipe(fluidStack("hydrogen", 1000),fluidStack("lithium_6", 144), new ParticleStack(Particles.muon,(int) (222000*scaleFactor),0,1),fluidStack("helium", 1000), fluidStack("helium_3", 1000), 1000L, 4000L);
 		
 		
-		addRecipe(fluidStack("coal", 100),fluidStack("hydrogen", 2000), new ParticleStack(Particles.muon,(int) (5418000*scaleFactor),0,1),fluidStack("nitrogen", 1000), new EmptyFluidIngredient(), 1000L, 10690L);
+		addRecipe(fluidStack("coal", 100),fluidStack("hydrogen", 2000), new ParticleStack(Particles.muon,(int) (541800*scaleFactor),0,1),fluidStack("nitrogen", 1000), new EmptyFluidIngredient(), 1000L, 10690L);
 		addRecipe(fluidStack("nitrogen", 1000),fluidStack("hydrogen", 2000), new ParticleStack(Particles.muon,(int) (594700*scaleFactor),0,1),fluidStack("coal", 100), fluidStack("helium", 1000), 1000L, 14040L);
 		
 		addRecipe(fluidStack("helium", 1000),fluidStack("helium", 2000), new ParticleStack(Particles.muon,(int) (604600*scaleFactor),0,1),fluidStack("coal", 100), new EmptyFluidIngredient(), 1000L, 7160L);
