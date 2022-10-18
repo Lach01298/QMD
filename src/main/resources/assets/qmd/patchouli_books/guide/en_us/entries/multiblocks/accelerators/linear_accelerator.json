@@ -37,7 +37,7 @@
 			"anchor": "ion_source",
 			"title": "Ion source",
 			"type": "text",
-			"text": "At the start of any accelerator system there will be a linear accelerator with an  ion source. Ion sources are used to create new particle beams with ion source items. These ion source items can be found in JEI by looking at the Accelerator Ion Source block's uses. These items can be piped in and out of the ion source either directly or through an Accelerator Item Port. It also has a gui for manual access."
+			"text": "At the start of any accelerator system there will be a linear accelerator with an ion source. Ion sources are used to create new particle beams with ion source items. These ion source items can be found in JEI by looking at the Accelerator Ion Source block's uses. These items can be piped in and out of the ion source either directly or through an Accelerator Item Port. It also has a gui for manual access."
 		},
         {
             "title": "Operation",
@@ -47,7 +47,7 @@
         {
             "title": "Particle Energy",
             "type": "text",
-            "text": "The maximum outputted Particle Energy is calculated using $(l)Eₓ= E₀ +|q|V$() where $(l)E₀$() is the starting energy (normally 0 for an Ion source), $(l)q$() is the particles charge and $(l)V$() is the accelerators voltage which is the sum of all the RF Cavities (the structure not the block) voltages."
+            "text": "The maximum outputted Particle Energy is calculated using $(l)Eₓ=E₀+|q|V$() where $(l)E₀$() is the starting energy (normally 0 for an Ion source), $(l)q$() is the particles charge and $(l)V$() is the accelerators voltage which is the sum of all the RF Cavities (the structure not the block) voltages."
         },
         {
             "anchor": "redstone",

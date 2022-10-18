@@ -27,7 +27,7 @@ public class CollisionChamberRecipe extends JEIRecipeWrapper
 		
 		DecimalFormat df = new DecimalFormat("#.###");
 		
-		String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticles.get(0).get(0).getMeanEnergy()+inputParticles.get(1).get(0).getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(recipe.getMaxEnergy(),3,"eV"));
+		String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticles.get(0).get(0).getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(recipe.getMaxEnergy(),3,"eV"));
 		String crossSectionString = Lang.localise("gui.qmd.jei.reaction.cross_section", df.format(recipe.getCrossSection()*100));
 		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getParticleEnergy(recipe.getEnergyReleased()));
 		

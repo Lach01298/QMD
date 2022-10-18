@@ -37,8 +37,8 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 {
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_source";
 	
-	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.BOTH));
-	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
+	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.BOTH,ItemSorption.BOTH));
+	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -200,10 +200,6 @@ public class TileAcceleratorSource extends TileAcceleratorPart implements ITileI
 	@Override
 	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
 	{
-		if(getInventoryStacks().get(0).getCount() > 0)
-		{
-			return false;
-		}
 		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 	}
 	

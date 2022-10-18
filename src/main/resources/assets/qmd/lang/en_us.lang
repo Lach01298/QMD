@@ -1064,6 +1064,9 @@ gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per ti
 gui.qmd.config.accelerator.cooler_rule=Cooler Rules
 gui.qmd.config.accelerator.cooler_rule.comment=The Placement rules of each cooler. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
 
+gui.qmd.config.accelerator.accelerator_explosion=Accelerator Explosions
+gui.qmd.config.accelerator.accelerator_explosion.comment=Whether accelerators cause overheating components to explode (quenching events).
+
 gui.qmd.config.particle_chamber.target_chamber_power=Target Chamber Power
 gui.qmd.config.particle_chamber.target_chamber_power.comment=The Base RF/t the Target Chamber uses.
 
@@ -1108,6 +1111,15 @@ gui.qmd.config.vacuum_chamber.vacuum_chamber_base_input_tank_capacity.comment=Th
 
 gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity=Vacuum Chamber Output Tank Capacity
 gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity.comment=The base capacity (mB) of the output tank of an vacuum chamber. This is not the cryogenic cooling tanks, that is bound to the accelerator base output tank capacity.
+
+gui.qmd.config.vacuum_chamber.exotic_containment_explosion=Exotic Containment Chamber Explosions
+gui.qmd.config.vacuum_chamber.exotic_containment_explosion.comment=Whether exotic containment chambers explode if they overheat, lose power or are broken with exotic materials inside.
+
+gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash=Exotic Containment Chamber Radiation Flash
+gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash.comment=Whether exotic containment chambers emit a deadly radiation flash if they overheat, lose power or are broken with exotic materials inside.
+
+gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion=Nucleosynthesis Chamber Explosions
+gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion.comment=Whether nucleosynthesis chambers explode if they overheat, lose power or are broken with plasma inside.
 
 gui.qmd.config.vacuum_chamber.heater_heat_removed=Vacuum Chamber Heater Heat Removed
 gui.qmd.config.vacuum_chamber.heater_heat_removed.comment=The amount of H/t each Vacuum Chamber Heater removes. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond]. 
@@ -1171,6 +1183,9 @@ gui.qmd.config.tools.antimatter_launcher_usage.comment=The amount of particle un
 
 gui.qmd.config.tools.antimatter_launcher_cool_down=Antimatter Launcher Cooldown
 gui.qmd.config.tools.antimatter_launcher_cool_down.comment=The firing cool down time of the antimatter launcher in ticks.
+
+gui.qmd.config.tools.cell_lifetime=Cell Lifetime
+gui.qmd.config.tools.cell_lifetime.comment=The amount of time in ticks a cell can be as an item entity before exploding. If set to 0 cells will not explode under any condition.
 
 gui.qmd.config.tools.hev_toughness=HEV Toughness
 gui.qmd.config.tools.hev_toughness.comment=The toughness of the HEV SUIT type. Order:[Charged, Uncharged].

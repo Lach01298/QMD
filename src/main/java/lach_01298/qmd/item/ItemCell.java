@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.util.Units;
@@ -139,21 +140,11 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 		
 		return stack;
 	}
-	
+			
 	@Override
-	public ItemStack use(ItemStack stack, int amount)
+	public ItemStack getEmptyItem()
 	{
-		
-		if(getAmountStored(stack) > amount)
-		{
-			setAmountStored(stack,getAmountStored(stack)-amount);
-		}
-		else if (getAmountStored(stack) == amount)
-		{
-			return new ItemStack(QMDItems.cell,1,CellType.EMPTY.getID());
-		}
-		
-		return stack;
+		return new ItemStack(QMDItems.cell,1,CellType.EMPTY.getID());		
 	}
 	
 
@@ -181,20 +172,21 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
-		ItemStack stack = entityItem.getItem();
-
-		
-		
-		if(stack.getMetadata() != 0)
-		{
-
-			if(entityItem.ticksExisted > 120 || entityItem.isInLava() ||entityItem.isBurning()||entityItem.isDead)
-			{
-				explode(entityItem.world, entityItem.getPosition(), stack);
-				stack.shrink(stack.getCount());
+		if(QMDConfig.cell_lifetime > 0)
+		{					
+			ItemStack stack = entityItem.getItem();
 			
+			if(stack.getMetadata() != 0)
+			{
+	
+				if(entityItem.ticksExisted > QMDConfig.cell_lifetime || entityItem.isInLava() ||entityItem.isBurning()||entityItem.isDead)
+				{
+					explode(entityItem.world, entityItem.getPosition(), stack);
+					stack.shrink(stack.getCount());
+				
+				}
+	
 			}
-
 		}
 		return false;
 	}

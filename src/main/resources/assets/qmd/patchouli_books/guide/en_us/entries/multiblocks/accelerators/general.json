@@ -106,7 +106,7 @@
         {
             "type": "text",
 			"title": "Power",
-            "text": "Hovering over the Power bar (left) of the gui will show you the power stored in the accelerator and the power used by the accelerator when on. The power used can be calculated as  $(l)P=p/ε$() where $(l)p$() is sum of all the components base power and $(l)ε$() is the average component efficiency. The percentage in brackets is $(l)1/ε$() which is how much of the base power is used."
+            "text": "Hovering over the Power bar (left) of the gui will show you the power stored in the accelerator and the power used by the accelerator when on. The power used can be calculated as $(l)P=p/ε$() where $(l)p$() is sum of all the components base power and $(l)ε$() is the average component efficiency. The percentage in brackets is $(l)1/ε$() which is how much of the base power is used."
         },
 		{
             "type": "text",

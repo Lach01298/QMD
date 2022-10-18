@@ -1,5 +1,6 @@
 package lach_01298.qmd.jei.category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
@@ -75,9 +76,25 @@ public class CollisionChamberCategory implements IRecipeCategory<CollisionChambe
 		
 		IGuiIngredientGroup<ParticleStack> guiParticleStacks = recipeLayout.getIngredientsGroup(ParticleType.Particle);
 		
-		List<List<ParticleStack>> particleInput =ingredients.getInputs(ParticleType.Particle);
-		List<List<ParticleStack>> particleOutputs =ingredients.getOutputs(ParticleType.Particle);
+		List<List<ParticleStack>> particleInputs = new ArrayList();
 		
+		
+		for(List<ParticleStack> stacks : ingredients.getInputs(ParticleType.Particle))
+		{
+			List<ParticleStack> particleInput =new ArrayList();
+			for(ParticleStack stack : stacks)
+			{
+				
+				ParticleStack newStack = stack.copy();
+				newStack.setMeanEnergy(newStack.getMeanEnergy()/2);
+				particleInput.add(newStack);
+				
+			}
+			particleInputs.add(particleInput);
+		}
+		
+		
+		List<List<ParticleStack>> particleOutputs =ingredients.getOutputs(ParticleType.Particle);
 		
 		guiParticleStacks.init(1, true, 43, 33);
 		guiParticleStacks.init(2, true, 111, 33);
@@ -89,8 +106,8 @@ public class CollisionChamberCategory implements IRecipeCategory<CollisionChambe
 		guiParticleStacks.init(6, false, 108, 64);
 			
 		
-		guiParticleStacks.set(1,particleInput.get(0));
-		guiParticleStacks.set(2,particleInput.get(1));
+		guiParticleStacks.set(1,particleInputs.get(0));
+		guiParticleStacks.set(2,particleInputs.get(1));
 
 		guiParticleStacks.set(3, particleOutputs.get(0));
 		guiParticleStacks.set(4, particleOutputs.get(1));

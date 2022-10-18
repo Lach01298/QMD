@@ -703,19 +703,18 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			long collisionEnergy = (long) (2*Math.sqrt(getMultiblock().beams.get(0).getParticleStack().getMeanEnergy()*getMultiblock().beams.get(1).getParticleStack().getMeanEnergy()));
 			ParticleStack copy1 = getMultiblock().beams.get(0).getParticleStack().copy();
 			ParticleStack copy2 = getMultiblock().beams.get(1).getParticleStack().copy();
-			copy1.setMeanEnergy(collisionEnergy/2);
-			copy2.setMeanEnergy(collisionEnergy/2);
+			copy1.setMeanEnergy(collisionEnergy);
+			copy2.setMeanEnergy(collisionEnergy);
 			
 			particles.add(copy1);
 			particles.add(copy2);
 			
 			recipeInfo = collision_chamber.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);
 			
-			
 			if(recipeInfo != null)
 			{
 				if(collisionEnergy > recipeInfo.getRecipe().getMaxEnergy())
-				{
+				{	
 					recipeInfo = null;
 				}
 			}

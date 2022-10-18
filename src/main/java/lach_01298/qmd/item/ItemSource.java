@@ -87,35 +87,6 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 	}
 	
 
-	@Override
-	public ItemStack fill(ItemStack stack, int amount, String type)
-	{
-
-		if(getAmountStored(stack) + amount <= getCapacity(stack))
-		{
-			setAmountStored(stack,getAmountStored(stack)+amount);
-		}
-		
-		
-		return stack;
-	}
-	
-	@Override
-	public ItemStack use(ItemStack stack, int amount)
-	{
-		
-		if(getAmountStored(stack) > amount)
-		{
-			setAmountStored(stack,getAmountStored(stack)-amount);
-		}
-		else if (getAmountStored(stack) == amount)
-		{
-			return ItemStack.EMPTY;
-		}
-		
-		return stack;
-	}
-	
 
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) 

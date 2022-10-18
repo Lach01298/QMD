@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import lach_01298.qmd.enums.MaterialTypes.CanisterType;
+import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.util.Units;
 import nc.item.NCItem;
 import nc.util.InfoHelper;
@@ -121,21 +122,10 @@ public class ItemCanister extends NCItem implements IItemParticleAmount
 	}
 	
 	@Override
-	public ItemStack use(ItemStack stack, int amount)
+	public ItemStack getEmptyItem()
 	{
-		
-		if(getAmountStored(stack) > amount)
-		{
-			setAmountStored(stack,getAmountStored(stack)-amount);
-		}
-		else if (getAmountStored(stack) == amount)
-		{
-			return new ItemStack(QMDItems.canister,1,CanisterType.EMPTY.getID());
-		}
-		
-		return stack;
-	}
-	
+		return new ItemStack(QMDItems.canister,1,CanisterType.EMPTY.getID());	
+	}	
 
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) 

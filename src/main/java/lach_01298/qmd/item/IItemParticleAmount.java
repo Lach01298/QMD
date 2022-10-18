@@ -48,11 +48,22 @@ public interface IItemParticleAmount
 		}
 		else if (getAmountStored(stack) == amount)
 		{
-			return  ItemStack.EMPTY;
+			return   getEmptyItem();
 		}
 		
 		return stack;
 	}
+	
+	public default ItemStack getEmptyItem()
+	{
+		return  ItemStack.EMPTY;
+	}
+	
+	public default boolean isEmptyItem(ItemStack stack)
+	{	
+		return  stack == getEmptyItem() || getAmountStored(stack) <= 0;
+	}
+	
 	
 	
 	public static ItemStack cleanNBT(ItemStack stack)

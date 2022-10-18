@@ -49,7 +49,7 @@
 			"anchor": "max_dipole",
 			"title": "Max From Dipole Strength",
 			"type": "text",
-			"text": "The maximum energy (in GeV) from the dipole strength is $(l)Eᵩ=(qB₂dR)²/(2m)$() where $(l)q$() is the particles charge, $(l)B₂$() is the dipole strength which is the sum of the strengths of the dipoles, $(l)R$() is the radius of the synchrotron and $(l)m$() is the mass of the particle in MeV/c^2. For heavy particles like the proton this is the major concern."
+			"text": "The maximum energy (in GeV) from the dipole strength is $(l)Eᵩ=(qB₂R)²/(2m)$() where $(l)q$() is the particles charge, $(l)B₂$() is the dipole strength which is the sum of the strengths of the dipoles, $(l)R$() is the radius of the synchrotron and $(l)m$() is the mass of the particle in MeV/c^2. For heavy particles like the proton this is the major concern."
         },
 		{
 			"anchor": "max_radiation",

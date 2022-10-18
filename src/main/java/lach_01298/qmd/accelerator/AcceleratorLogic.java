@@ -733,34 +733,37 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public void quenchMagnets() 
 	{
-		List<BlockPos> components = new ArrayList<BlockPos>();
-		
-		for (TileAcceleratorMagnet magnet : getPartMap(TileAcceleratorMagnet.class).values())
+		if(QMDConfig.accelerator_explosion)
 		{
-			if(magnet.isToHot())
+			List<BlockPos> components = new ArrayList<BlockPos>();
+			
+			for (TileAcceleratorMagnet magnet : getPartMap(TileAcceleratorMagnet.class).values())
 			{
-				components.add(magnet.getPos());
+				if(magnet.isToHot())
+				{
+					components.add(magnet.getPos());
+				}
+				
+			}
+			for (TileAcceleratorRFCavity cavity : getPartMap(TileAcceleratorRFCavity.class).values())
+			{
+				if(cavity.isToHot())
+				{
+					components.add(cavity.getPos());
+				}
 			}
 			
-		}
-		for (TileAcceleratorRFCavity cavity : getPartMap(TileAcceleratorRFCavity.class).values())
-		{
-			if(cavity.isToHot())
+			if(!components.isEmpty())
 			{
-				components.add(cavity.getPos());
-			}
-		}
-		
-		if(!components.isEmpty())
-		{
-			
-			int explosions = 1+ rand.nextInt(1+components.size()/10);
-			for(int i = 0; i < explosions; i++)
-			{
-				int j = rand.nextInt(components.size());
-				BlockPos component = components.get(j);
-				multiblock.WORLD.createExplosion(null, component.getX(), component.getY(), component.getZ(), 6.0f, true);
-				components.remove(j);
+				
+				int explosions = 1+ rand.nextInt(1+components.size()/10);
+				for(int i = 0; i < explosions; i++)
+				{
+					int j = rand.nextInt(components.size());
+					BlockPos component = components.get(j);
+					multiblock.WORLD.createExplosion(null, component.getX(), component.getY(), component.getZ(), 6.0f, true);
+					components.remove(j);
+				}
 			}
 		}
 	}

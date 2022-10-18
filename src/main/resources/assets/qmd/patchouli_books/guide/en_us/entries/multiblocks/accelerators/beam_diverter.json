@@ -39,7 +39,7 @@
             "anchor": "energy",
 			"title": "Particle Energy",
 			"type": "text",
-            "text": "The maximum particle energy (in GeV) the Beam Diverter can bend is  $(l)Eᵩ=(qB₂dR)²/(2m)$() same as a $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) form max dipole strength except in this case $(l)R$() is the beam diverters effective radius (this by default is 160 but can be set in the configs)."
+            "text": "The maximum particle energy (in GeV) the Beam Diverter can bend is  $(l)Eᵩ=(qB₂R)²/(2m)$() same as a $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) form max dipole strength except in this case $(l)R$() is the beam diverters effective radius (this by default is 160 but can be set in the configs)."
         },
 		{
 			"type": "text",

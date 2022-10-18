@@ -63,6 +63,8 @@ public class QMDConfig {
 	public static double beamAttenuationRate;
 	public static int beamDiverterRadius;
 
+	public static boolean accelerator_explosion;
+	
 	public static int target_chamber_power;
 	public static int decay_chamber_power;
 	public static int beam_dump_power;
@@ -82,6 +84,11 @@ public class QMDConfig {
 	public static int vacuum_chamber_base_energy_capacity;
 	public static int vacuum_chamber_input_tank_capacity; 
 	public static int vacuum_chamber_output_tank_capacity; 
+	
+	public static boolean exotic_containment_explosion;
+	public static boolean exotic_containment_gamma_flash;
+	
+	public static boolean nucleosynthesis_chamber_explosion;
 	
 	public static int[] heater_heat_removed;
 	public static String[]heater_rule;
@@ -115,6 +122,8 @@ public class QMDConfig {
 	
 	public static int antimatter_launcher_particle_usage;
 	public static int antimatter_launcher_cool_down;
+	
+	public static int cell_lifetime;
 	
 	public static int[] hev_armour;
 	public static double[] hev_rad_res;
@@ -271,7 +280,8 @@ public class QMDConfig {
 				Lang.localise("gui.qmd.config.accelerator.cooler_rule.comment"));
 		propertyCoolerRule.setLanguageKey("gui.qmd.config.accelerator.cooler_rule");
 		
-		
+		Property propertyAcceleratorExplosion = config.get(CATEGORY_ACCELERATOR, "accelerator_explosion", true, Lang.localise("gui.qmd.config.accelerator.accelerator_explosion.comment"));
+		propertyAcceleratorExplosion.setLanguageKey("gui.qmd.config.accelerator.accelerator_explosion");
 		
 		
 		Property propertyTargetChamberPower = config.get(CATEGORY_PARTICLE_CHAMBER, "target_chamber_power", 5000, Lang.localise("gui.qmd.config.particle_chamber.target_chamber_power.comment"), 0, Integer.MAX_VALUE);
@@ -311,6 +321,14 @@ public class QMDConfig {
 		propertyVacuumChamberInputTankCapacity.setLanguageKey("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_input_tank_capacity");
 		Property propertyVacuumChamberOutputTankCapacity = config.get(CATEGORY_VACUUM_CHAMBER, "vacuum_chamber_base_output_tank_capacity", 1000, Lang.localise("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyVacuumChamberOutputTankCapacity.setLanguageKey("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity");
+		
+		Property propertyExoticContainmentExplosion = config.get(CATEGORY_VACUUM_CHAMBER, "exotic_containment_explosion", true, Lang.localise("gui.qmd.config.vacuum_chamber.exotic_containment_explosion.comment"));
+		propertyExoticContainmentExplosion.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_explosion");
+		Property propertyExoticContainmentGammaFlash = config.get(CATEGORY_VACUUM_CHAMBER, "exotic_containment_gamma_flash", true, Lang.localise("gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash.comment"));
+		propertyExoticContainmentGammaFlash.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash");
+		Property propertyNucleosynthesisChamberExplosion = config.get(CATEGORY_VACUUM_CHAMBER, "nucleosynthesis_chamber_explosion", true, Lang.localise("gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion.comment"));
+		propertyNucleosynthesisChamberExplosion.setLanguageKey("gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion");
+		
 		
 		Property propertyHeaterHeatRemoved = config.get(CATEGORY_VACUUM_CHAMBER, "heater_heat_removed", new int[] {5,10,20,40,80,160,320,640}, Lang.localise("gui.qmd.config.vacuum_chamber.heater_heat_removed.comment"), 0, Integer.MAX_VALUE);
 		propertyHeaterHeatRemoved.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_heat_removed");
@@ -362,6 +380,9 @@ public class QMDConfig {
 		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_usage");
 		Property propertyAntimatterLauncherCoolDown = config.get(CATEGORY_TOOLS, "antimatter_launcher_cool_down", 30, Lang.localise("gui.qmd.config.tools.antimatter_launcher_cool_down.comment"), 0, 10000);
 		propertyAntimatterLauncherCoolDown.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_cool_down");
+		
+		Property propertyCellLifetime = config.get(CATEGORY_TOOLS, "cell_lifetime", 200, Lang.localise("gui.qmd.config.tools.cell_lifetime.comment"), 0, 6000);
+		propertyCellLifetime.setLanguageKey("gui.qmd.config.tools.cell_lifetime");
 		
 		Property propertyHEVArmour = config.get(CATEGORY_TOOLS, "hev_armour", new int[] {4, 7, 9, 4, 1, 3, 4, 1}, Lang.localise("gui.qmd.config.tools.hev_armour.comment"), 1, 25);
 		propertyHEVArmour.setLanguageKey("gui.qmd.config.tools.hev_armour");
@@ -468,6 +489,7 @@ public class QMDConfig {
 		propertyOrderAccelerator.add(propertyCoolerHeatRemoved.getName());
 		propertyOrderAccelerator.add(propertyCoolerRule.getName());
 		
+		propertyOrderAccelerator.add(propertyAcceleratorExplosion.getName());
 		
 		
 		config.setCategoryPropertyOrder(CATEGORY_ACCELERATOR, propertyOrderAccelerator);
@@ -493,6 +515,10 @@ public class QMDConfig {
 		propertyOrderContainment.add(propertyVacuumChamberBaseEnergyCapacity.getName());
 		propertyOrderContainment.add(propertyVacuumChamberInputTankCapacity.getName());
 		propertyOrderContainment.add(propertyVacuumChamberOutputTankCapacity.getName());
+		propertyOrderContainment.add(propertyExoticContainmentExplosion.getName());
+		propertyOrderContainment.add(propertyExoticContainmentGammaFlash.getName());
+		propertyOrderContainment.add(propertyNucleosynthesisChamberExplosion.getName());
+		
 		propertyOrderContainment.add(propertyHeaterHeatRemoved.getName());
 		propertyOrderContainment.add(propertyHeaterRule.getName());
 		
@@ -523,6 +549,8 @@ public class QMDConfig {
 		
 		propertyOrderTools.add(propertyAntimatterLauncherParticleUsage.getName());
 		propertyOrderTools.add(propertyAntimatterLauncherCoolDown.getName());
+		
+		propertyOrderTools.add(propertyCellLifetime.getName());
 		
 		propertyOrderTools.add(propertyHEVArmour.getName());
 		
@@ -614,6 +642,7 @@ public class QMDConfig {
 			cooler_heat_removed = readIntegerArrayFromConfig(propertyCoolerHeatRemoved);
 			cooler_rule = propertyCoolerRule.getStringList();
 			
+			accelerator_explosion = propertyAcceleratorExplosion.getBoolean();
 			
 			target_chamber_power = propertyTargetChamberPower.getInt();
 			decay_chamber_power = propertyDecayChamberPower.getInt();
@@ -635,6 +664,10 @@ public class QMDConfig {
 			vacuum_chamber_base_energy_capacity = propertyVacuumChamberBaseEnergyCapacity.getInt();
 			vacuum_chamber_input_tank_capacity = propertyVacuumChamberInputTankCapacity.getInt();
 			vacuum_chamber_output_tank_capacity = propertyVacuumChamberOutputTankCapacity.getInt();
+			
+			exotic_containment_explosion = propertyExoticContainmentExplosion.getBoolean();
+			exotic_containment_gamma_flash = propertyExoticContainmentGammaFlash.getBoolean();
+			nucleosynthesis_chamber_explosion = propertyNucleosynthesisChamberExplosion.getBoolean();
 			
 			heater_heat_removed = readIntegerArrayFromConfig(propertyHeaterHeatRemoved);
 			heater_rule = propertyHeaterRule.getStringList();
@@ -662,6 +695,8 @@ public class QMDConfig {
 			
 			antimatter_launcher_particle_usage = propertyAntimatterLauncherParticleUsage.getInt();
 			antimatter_launcher_cool_down = propertyAntimatterLauncherCoolDown.getInt();
+			
+			cell_lifetime = propertyCellLifetime.getInt();
 			
 			hev_armour = readIntegerArrayFromConfig(propertyHEVArmour);
 			hev_rad_res = readDoubleArrayFromConfig(propertyHEVRadRes);
@@ -734,6 +769,7 @@ public class QMDConfig {
 		propertyCoolerHeatRemoved.set(cooler_heat_removed);
 		propertyCoolerRule.set(cooler_rule);
 		
+		propertyAcceleratorExplosion.set(accelerator_explosion);
 		
 		propertyTargetChamberPower.set(target_chamber_power);
 		propertyDecayChamberPower.set(decay_chamber_power);
@@ -751,6 +787,10 @@ public class QMDConfig {
 		propertyVacuumChamberBaseEnergyCapacity.set(vacuum_chamber_base_energy_capacity);
 		propertyVacuumChamberInputTankCapacity.set(vacuum_chamber_input_tank_capacity);
 		propertyVacuumChamberOutputTankCapacity.set(vacuum_chamber_output_tank_capacity);
+		propertyExoticContainmentExplosion.set(exotic_containment_explosion);
+		propertyExoticContainmentGammaFlash.set(exotic_containment_gamma_flash);
+		propertyNucleosynthesisChamberExplosion.set(nucleosynthesis_chamber_explosion);
+		
 		propertyHeaterHeatRemoved.set(heater_heat_removed);
 		propertyHeaterRule.set(heater_rule);
 		
@@ -776,6 +816,7 @@ public class QMDConfig {
 		
 		propertyAntimatterLauncherParticleUsage.set(antimatter_launcher_particle_usage);
 		propertyAntimatterLauncherCoolDown.set(antimatter_launcher_cool_down);
+		propertyCellLifetime.set(cell_lifetime);
 		
 		propertyHEVArmour.set(hev_armour);
 		propertyHEVRadRes.set(hev_rad_res);

@@ -28,12 +28,13 @@ public class ContainerAcceleratorSource extends ContainerTile<TileAcceleratorSou
 		
 		this.recipeHandler = QMDRecipes.accelerator_source;
 		
-		this.inputSlotsSize = 1;
+		this.inputSlotsSize = 2;
 		this.outputSlotsSize = 0;
 		this.otherSlotsSize = 0;
 		
 		
 		addSlotToContainer(new SlotQMDProcessorInput(source, recipeHandler, 0, 80, 30, 1));
+		addSlotToContainer(new SlotQMDProcessorInput(source, recipeHandler, 1, 80, 48, 1));
 		
 		addPlayerInventory(player,8,84);
 

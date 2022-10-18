@@ -16,7 +16,7 @@
 		{
 			"title": "Operation",
 			"type": "text",
-			"text": "A decelerator functions the same as a  $(l:multiblocks/accelerators/ring_accelerator#operation)synchrotron$(/l). The difference between a synchrotron is the maximum particle energy that can be inputted $(l)Eᵩ=(qB₂dR)²/(2m)$() same as a $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) form max dipole strength"
+			"text": "A decelerator functions the same as a  $(l:multiblocks/accelerators/ring_accelerator#operation)synchrotron$(/l). The difference between a synchrotron is the maximum particle energy that can be inputted $(l)Eᵩ=(qB₂R)²/(2m)$() same as a $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) form max dipole strength"
 		},
 		{
 			"type": "text",

@@ -185,7 +185,10 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			laser.setIsRenderer(false);
 		}
 		
-		containmentFaliure();
+		if(QMDConfig.exotic_containment_explosion ||QMDConfig.exotic_containment_gamma_flash)
+		{
+			containmentFailure();
+		}
 		super.onMachineDisassembled();
 	}
 
@@ -517,7 +520,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			{
 				if (operational)
 				{
-					containmentFaliure();
+					containmentFailure();
 				}
 				operational = false;
 
@@ -526,7 +529,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		}
 		else
 		{
-			containmentFaliure();
+			containmentFailure();
 			operational = false;
 		}
 
@@ -543,7 +546,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		return super.onUpdateServer();
 	}
 
-	private void containmentFaliure()
+	private void containmentFailure()
 	{
 		
 		if (!getMultiblock().tanks.get(2).isEmpty() && getMultiblock().tanks.get(2).getFluid() != null)
@@ -581,28 +584,40 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			BlockPos middle = new BlockPos(getMultiblock().getMiddleX(), getMultiblock().getMiddleY(),
 					getMultiblock().getMiddleZ());
 
-			getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) size * 50f,
-					true);
-			getMultiblock().WORLD.spawnEntity(
-					new EntityGammaFlash(getMultiblock().WORLD, middle.getX(), middle.getY(), middle.getZ(), size));
-
-			Set<EntityLivingBase> entitylist = new HashSet();
-			double radius = 128 * Math.sqrt(size);
-
-			entitylist.addAll(getMultiblock().WORLD.getEntitiesWithinAABB(EntityLivingBase.class,
-					new AxisAlignedBB(middle.getX() - radius, middle.getY() - radius, middle.getZ() - radius,
-							middle.getX() + radius, middle.getY() + radius, middle.getZ() + radius)));
-
-			for (EntityLivingBase entity : entitylist)
+			if(QMDConfig.exotic_containment_explosion)
 			{
-
-				double rads = (1000 * 32 * 32 * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ);
-				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-				entityRads
-						.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-				if (rads >= entityRads.getMaxRads())
+				getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) size * 50f,
+						true);
+			}
+			else
+			{
+				multiblock.WORLD.destroyBlock(multiblock.controller.getTilePos(), false);
+			}
+			
+			if(QMDConfig.exotic_containment_gamma_flash)
+			{
+				getMultiblock().WORLD.spawnEntity(
+						new EntityGammaFlash(getMultiblock().WORLD, middle.getX(), middle.getY(), middle.getZ(), size));
+				
+	
+				Set<EntityLivingBase> entitylist = new HashSet();
+				double radius = 128 * Math.sqrt(size);
+	
+				entitylist.addAll(getMultiblock().WORLD.getEntitiesWithinAABB(EntityLivingBase.class,
+						new AxisAlignedBB(middle.getX() - radius, middle.getY() - radius, middle.getZ() - radius,
+								middle.getX() + radius, middle.getY() + radius, middle.getZ() + radius)));
+	
+				for (EntityLivingBase entity : entitylist)
 				{
-					entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+	
+					double rads = (1000 * 32 * 32 * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ);
+					IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
+					entityRads
+							.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
+					if (rads >= entityRads.getMaxRads())
+					{
+						entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+					}
 				}
 			}
 			getMultiblock().tanks.get(2).setFluidStored(null);

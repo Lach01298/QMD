@@ -365,7 +365,10 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			}
 			else
 			{
-				containmentFaliure();
+				if(QMDConfig.nucleosynthesis_chamber_explosion)
+				{
+					containmentFailure();
+				}
 			}
 			
 		}
@@ -898,7 +901,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				{
 					if (operational && plasmaOn)
 					{
-						containmentFaliure();
+						containmentFailure();
 					}
 
 					operational = false;
@@ -906,7 +909,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			}
 			else if(plasmaOn)
 			{
-				containmentFaliure();
+				containmentFailure();
 			}
 		}
 		else if (plasmaOn)
@@ -1035,6 +1038,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			}
 
 			particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
+		
 	}
 	
 	protected void refreshRecipe()
@@ -1171,50 +1175,59 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	
 	
-	private void containmentFaliure()
+	private void containmentFailure()
 	{
-		plasmaOn = false;
-		List<BlockPos> components = new ArrayList<BlockPos>();
 		
-		for (TileVacuumChamberBeam beam : getPartMap(TileVacuumChamberBeam.class).values())
+		if(QMDConfig.nucleosynthesis_chamber_explosion)
 		{
-				components.add(beam.getPos());
-		}
-		
-		for (TileVacuumChamberPlasmaGlass glass : getPartMap(TileVacuumChamberPlasmaGlass.class).values())
-		{
-				components.add(glass.getPos());
-		}
-		for (TileVacuumChamberPlasmaNozzle nozzle : getPartMap(TileVacuumChamberPlasmaNozzle.class).values())
-		{
-				components.add(nozzle.getPos());
-		}
-		
-		Fluid plasma = FluidRegistry.getFluid("plasma");
-		Block block = plasma == null ? null : plasma.getBlock();
-		IBlockState plasmaState = block == null ? Blocks.AIR.getDefaultState() : block.getDefaultState();
-		
-		
-		if(!components.isEmpty())
-		{	
-			int breaches = 1+ rand.nextInt(1+components.size()/8);
-			for(int i = 0; i < breaches; i++)
+			plasmaOn = false;
+			
+			List<BlockPos> components = new ArrayList<BlockPos>();
+			
+			for (TileVacuumChamberBeam beam : getPartMap(TileVacuumChamberBeam.class).values())
 			{
-				int j = rand.nextInt(components.size());
-				BlockPos component = components.get(j);
-				multiblock.WORLD.createExplosion(null, component.getX(), component.getY(), component.getZ(), 4.0f, true);
-				multiblock.WORLD.setBlockState(component, plasmaState);
-				components.remove(j);
+					components.add(beam.getPos());
+			}
+			
+			for (TileVacuumChamberPlasmaGlass glass : getPartMap(TileVacuumChamberPlasmaGlass.class).values())
+			{
+					components.add(glass.getPos());
+			}
+			for (TileVacuumChamberPlasmaNozzle nozzle : getPartMap(TileVacuumChamberPlasmaNozzle.class).values())
+			{
+					components.add(nozzle.getPos());
+			}
+			
+			Fluid plasma = FluidRegistry.getFluid("plasma");
+			Block block = plasma == null ? null : plasma.getBlock();
+			IBlockState plasmaState = block == null ? Blocks.AIR.getDefaultState() : block.getDefaultState();
+			
+			
+			if(!components.isEmpty())
+			{	
+				int breaches = 1+ rand.nextInt(1+components.size()/8);
+				for(int i = 0; i < breaches; i++)
+				{
+					int j = rand.nextInt(components.size());
+					BlockPos component = components.get(j);
+					multiblock.WORLD.createExplosion(null, component.getX(), component.getY(), component.getZ(), 4.0f, true);
+					multiblock.WORLD.setBlockState(component, plasmaState);
+					components.remove(j);
+				}
 			}
 		}
+		else
+		{
+			setPlasma(false);
+			multiblock.WORLD.destroyBlock(multiblock.controller.getTilePos(), false);
+		}
 		
-
 	}
 	
 	private void overheat()
-	{
+	{	
 		casingHeatBuffer.setHeatStored(0L);
-		containmentFaliure();
+		containmentFailure();
 	}
 	
 	public double getCasingTemperature()

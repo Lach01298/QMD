@@ -557,7 +557,15 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 					getAccelerator().errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
 				}
 				source.getInventoryStacks().set(0, item.use(source.getInventoryStacks().get(0), outputAmount));
-
+				
+				if((item.isEmptyItem(source.getInventoryStacks().get(0)) && !source.getInventoryStacks().get(1).isEmpty()))
+				{
+					ItemStack stack = source.getInventoryStacks().get(1).copy();
+					source.getInventoryStacks().set(1,source.getInventoryStacks().get(0).copy());
+					source.getInventoryStacks().set(0,stack);
+				}
+				
+				
 			}
 		}
 

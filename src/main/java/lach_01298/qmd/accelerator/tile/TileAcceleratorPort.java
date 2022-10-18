@@ -29,11 +29,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInventory
 {
 	
-	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(1, ItemStack.EMPTY);
+	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
 	private TileAcceleratorSource source;
 	
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_port";
-	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.BOTH));
+	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.BOTH,ItemSorption.BOTH));
 	
 	public TileAcceleratorPort()
 	{
@@ -158,10 +158,6 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	@Override
 	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
 	{
-		if(getInventoryStacks().get(0).getCount() > 0)
-		{
-			return false;
-		}
 		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 	}
 
