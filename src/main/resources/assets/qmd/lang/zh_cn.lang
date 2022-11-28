@@ -295,6 +295,7 @@ tile.qmd.argon_collector.name=氩收集器
 // tile.qmd.containment_coil.name=遏制器线圈
 
 tile.qmd.neutral_containment_controller.name=异常物质遏制室控制器
+# 是不是不能再叫遏制室了？？containment 没这意思了吧
 tile.qmd.containment_casing.name=真空室外壳
 tile.qmd.containment_glass.name=透明真空室外壳
 tile.qmd.containment_beam_port.name=真空室束流端口
@@ -307,9 +308,9 @@ tile.qmd.containment_coil.name=真空室线圈
 tile.qmd.nucleosynthesis_chamber_controller.name=核合成室控制器
 tile.qmd.vacuum_chamber_beam.name=真空室束流方块
 tile.qmd.vacuum_chamber_fluid_port.name=真空室流体端口
-tile.qmd.vacuum_chamber_plasma_nozzle.name=真空室等离子喷嘴
-tile.qmd.vacuum_chamber_plasma_glass.name=真空室等离子玻璃
-// plasma_nozzle 和 plasma_glass 需要帮助
+tile.qmd.vacuum_chamber_plasma_nozzle.name=真空室等离子体喷嘴
+tile.qmd.vacuum_chamber_plasma_glass.name=真空室等离子体观察窗
+// plasma_nozzle 和 plasma_glass （不再那么）需要帮助
 tile.qmd.vacuum_chamber_heater_vent.name=真空室加热器出入口
 tile.qmd.vacuum_chamber_redstone_port.name=真空室红石端口
 
@@ -329,12 +330,13 @@ tile.qmd.creative_particle_source.name=创造粒子源
 
 qmd.guide_book.name=量子块动力学指导手册
 qmd.guide_book.edition=第 1.1 版
-qmd.guide_book.desc=这是本模组的指导手册。本书目前尚未翻译完成，因此请前往维基获取相关信息，或阅读英文版。
+qmd.guide_book.desc=这是本模组的指导手册。
+# 本书目前尚未翻译完成，因此请前往维基获取相关信息，或阅读英文版。
 // Translating not complete yet, so go visit the wiki for information or read the English version.
 
 death.attack.gluon_gun=%1$s 被 %2$s 用胶子枪汽化了
 death.attack.lepton_cannon=%1$s 被 %2$s 用轻子炮杀死了
-death.attack.antimatter_launcher=%1$s 死于 %2$s 用反物质发射器导致的湮灭
+death.attack.antimatter_launcher=%1$s 死于 %2$s 用反物质发射器造成的湮灭
 
 tile.qmd.beamline.desc=运输粒子。
 // tile.qmd.rtg.desc=持续产出%s。
@@ -349,11 +351,11 @@ tile.qmd.accelerator_magnet.desc=以强磁场弯曲带电粒子的运动轨迹�
 
 tile.qmd.accelerator_yoke.desc=形成、加强电磁铁的磁场。可用于构造双极磁铁。若想构造有效双极磁铁结构则束流方块的上方与下方都必须有一个电磁铁，周围 3x3x3 范围内束流方块与电磁铁以外的所有空位都必须以电磁轭填充。
 
-tile.qmd.particle_chamber.detector.bubble_chamber.desc=必须被放置在距粒子室 2 格处。
-tile.qmd.particle_chamber.detector.wire_chamber.desc=必须被放置在距粒子室 2 格处。
-tile.qmd.particle_chamber.detector.silicon_tracker.desc=必须被放置在与粒子室相邻处。
-tile.qmd.particle_chamber.detector.em_calorimeter.desc=必须被放置在距粒子室 3 格处。
-tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=必须被放置在距粒子室 5 格处。
+tile.qmd.particle_chamber.detector.bubble_chamber.desc=必须放置在距粒子室 2 格处。
+tile.qmd.particle_chamber.detector.wire_chamber.desc=必须放置在距粒子室 2 格处。
+tile.qmd.particle_chamber.detector.silicon_tracker.desc=必须放置在与粒子室相邻处。
+tile.qmd.particle_chamber.detector.em_calorimeter.desc=必须放置在距粒子室 3 格处。
+tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=必须放置在距粒子室 5 格处。
 
 item.qmd.lepton_cannon.desc=拥有强大威力的束流武器。攻击可以穿透方块和盔甲。
 item.qmd.gluon_gun.desc=拥有强大威力的束流武器。可以快速挖掘任何方块。
@@ -578,8 +580,8 @@ qmd.multiblock_validation.exotic_containment.must_have_2_beam_ports=只能有两
 
 qmd.multiblock_validation.nucleosynthesis_chamber.size=核合成室必须长 11 格，宽 5 格，高 7 格。
 qmd.multiblock_validation.nucleosynthesis_chamber.must_be_beam=这必须是一个真空室束流方块。
-qmd.multiblock_validation.nucleosynthesis_chamber.must_be_plasma_glass=这必须是一个真空室等离子玻璃。
-qmd.multiblock_validation.nucleosynthesis_chamber.must_be_plasma_nozzle=这必须是一个朝内的真空室等离子喷嘴。
+qmd.multiblock_validation.nucleosynthesis_chamber.must_be_plasma_glass=这必须是一个真空室等离子体观察窗。
+qmd.multiblock_validation.nucleosynthesis_chamber.must_be_plasma_nozzle=这必须是一个朝内的真空室等离子体喷嘴。
 qmd.multiblock_validation.nucleosynthesis_chamber.must_be_heater_or_empty=这必须是一个真空室加热器或空气。
 qmd.multiblock_validation.nucleosynthesis_chamber.must_be_empty=这必须是空气。
 qmd.multiblock_validation.nucleosynthesis_chamber.must_be_input_beam=这和正对的那面相同的位置必须只有一个模式为输入的束流端口。
@@ -905,8 +907,8 @@ nc.sf.liquid_helium_cooler0=%s有效的液氦冷却器
 nc.sf.enderium_cooler0=%s有效的末影冷却器
 nc.sf.cryotheum_cooler0=%s有效的凛冰冷却器
 nc.sf.vacuum_chamber_casing0=%s真空室外壳
-nc.sf.plasma_glass0=%s等离子玻璃
-nc.sf.nozzle0=%s等离子喷嘴
+nc.sf.plasma_glass0=%s等离子体观察窗
+nc.sf.nozzle0=%s等离子体喷嘴
 
 gui.qmd.config.processors.power=基础功率
 gui.qmd.config.processors.power.comment=每个机器的基础能量消耗（单位：RF/t）。顺序：矿石洗涤器，大气收集器。
@@ -1081,9 +1083,9 @@ gui.qmd.config.tools.hev_power.comment=进行各类操作时，HEV 盔甲消耗�
 
 gui.qmd.config.containment.max_temp.comment=真空室结构的最大操作温度（单位：K）。
 gui.qmd.config.containment.max_temp=真空室最大温度
-gui.qmd.config.containment.part_heat.comment=真空室各部产生的热量（单位：H/t）。顺序：线圈，激光器，束流方块，等离子玻璃，等离子喷嘴。
+gui.qmd.config.containment.part_heat.comment=真空室各部产生的热量（单位：H/t）。顺序：线圈，激光器，束流方块，等离子体观察窗，等离子体喷嘴。
 gui.qmd.config.containment.part_heat=真空室各部热量
-gui.qmd.config.containment.part_power.comment=真空室基础的能量消耗（单位：RF/t）。顺序：线圈，激光器，束流方块，等离子玻璃，等离子喷嘴。
+gui.qmd.config.containment.part_power.comment=真空室基础的能量消耗（单位：RF/t）。顺序：线圈，激光器，束流方块，等离子体观察窗，等离子体喷嘴。
 gui.qmd.config.containment.part_power=真空室各部功率
 gui.qmd.config.copernicium_criticality.comment=燃料的临界系数。顺序：混合 TRISO-291，混合氧化物-291，混合氮化物-291，混合锆合金-291。
 gui.qmd.config.copernicium_criticality=鎶燃料临界系数
@@ -1129,6 +1131,28 @@ gui.qmd.config.tools.antimatter_launcher_usage=反物质发射器粒子消耗
 gui.qmd.config.tools.antimatter_launcher_usage.comment=反物质发射器每次发射消耗的粒子数量（单位：pu）。
 gui.qmd.config.tools.antimatter_launcher_cool_down=反物质发射器冷却
 gui.qmd.config.tools.antimatter_launcher_cool_down.comment=发射后反物质发射器的冷却时间（单位：t）。
+
+death.attack.antimatter_annihilation=好奇心害得 %1$s 湮灭了
+
+gui.qmd.config.processors.irradiator_fuel_usage=辐照器燃料消耗
+gui.qmd.config.processors.irradiator_fuel_usage.comment=辐照器消耗的基本粒子数量（单位：pu/t）。
+
+gui.qmd.config.accelerator.accelerator_explosion=加速器爆炸
+gui.qmd.config.accelerator.accelerator_explosion.comment=加速器过热的组件是否会爆炸（骤冷）。
+# 磁铁骤冷 magnet quenching
+
+gui.qmd.config.vacuum_chamber.exotic_containment_explosion=异常物质遏制室爆炸
+gui.qmd.config.vacuum_chamber.exotic_containment_explosion.comment=异常物质遏制室是否会在过热、失去能源以及内有异常物质时缺损的情况下爆炸。
+
+gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash=异常物质遏制室辐射闪光
+gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash.comment=异常物质遏制室是否会在过热、失去能源以及内有异常物质时缺损的情况下发射致命的辐射闪光。
+
+gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion=核合成室爆炸
+gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion.comment=核合成室是否会在过热、失去能源以及内有等离子体时缺损的情况下爆炸。
+
+gui.qmd.config.tools.cell_lifetime=单元寿命
+gui.qmd.config.tools.cell_lifetime.comment=单元爆炸前作为物品实体能够存在的时间（单位：t）。如果设定为 0，单元在任何情况下都不会爆炸。
+// 物品实体？
 
 
 gui.qmd.config.category.accelerator.tooltip=加速器及其组件的配置。
@@ -1220,7 +1244,7 @@ gui.qmd.config.tools.drill_radius=电钻挖掘半径
 gui.qmd.config.tools.drill_radius.comment=每种电钻挖掘的方形区域半径。0 代表 1*1，1 代表 3*3，以此类推。顺序：电钻，高级电钻。
 
 gui.qmd.config.other.mole_amount=摩尔大小
-gui.qmd.config.other.mole_amount.comment=一摩尔物质中的粒子数量。
+gui.qmd.config.other.mole_amount.comment=一摩尔物质中的粒子单位数量。
 
 gui.qmd.config.other.beam_scaling=束流比例系数
 gui.qmd.config.other.beam_scaling.comment=束流衰减方程的比例系数。
@@ -1229,5 +1253,4 @@ gui.qmd.config.other.beam_scaling.comment=束流衰减方程的比例系数。
 
 // heat removing 主动：热量流失 被动：热量移除
 
-// 理论上来说，奇异物质：strange matter丨异常物质：exotic matter
-// 但是我懒得彻查所有问题了
+// 理论上来说，奇异物质：strange matter丨异常物质：exotic matter 不清楚有无遗漏，自查没有
