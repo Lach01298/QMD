@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import lach_01298.qmd.QMDDamageSources;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.network.AntimatterProjectileUpdatePacket;
 import lach_01298.qmd.network.LeptonBeamUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
@@ -575,7 +576,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 		{
 
 			double size = this.damage;
-			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*2.5f), true);
+			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*QMDConfig.antimatter_launcher_explosion_size), true);
 			world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
 
 			Set<EntityLivingBase> entitylist = new HashSet();
@@ -587,7 +588,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 
 			for (EntityLivingBase entity : entitylist)
 			{
-				double rads = (15 * 32 * 32 * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ);
+				double rads = Math.min(QMDConfig.cell_radiation * size, (QMDConfig.antimatter_launcher_radiation * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
 				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
 				entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
 

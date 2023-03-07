@@ -13,7 +13,6 @@ import nc.util.StackHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -37,8 +36,7 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 			for (int i = 0; i < SourceType.values().length; i++)
 			{
 				ItemStack stack = new ItemStack(this, 1, i);
-				ItemSource cell = (ItemSource) stack.getItem();
-				setAmountStored(stack, getCapacity(stack));
+				IItemParticleAmount.fullItem(stack);	
 				items.add(stack);
 			}
 		}
@@ -46,27 +44,26 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 		
 	
 	@Override
-	public int getCapacity(ItemStack stack)
+	public int getItemCapacity(ItemStack stack)
 	{
-		
-		switch(stack.getMetadata())
+		if (stack.getItem() == this)
 		{
-			case 0:
-				return SourceType.TUNGSTEN_FILAMENT.getCapacity();
-			case 1:
-				return SourceType.SODIUM_22.getCapacity();
-			case 2:
-				return SourceType.COBALT_60.getCapacity();
-			case 3:
-				return SourceType.IRIDIUM_192.getCapacity();
-			case 4:
-				return SourceType.CALCIUM_48.getCapacity();
-			default: 
-				return 0;	
-		}
-
+			switch(stack.getMetadata())
+			{
+				case 0:
+					return SourceType.TUNGSTEN_FILAMENT.getCapacity();
+				case 1:
+					return SourceType.SODIUM_22.getCapacity();
+				case 2:
+					return SourceType.COBALT_60.getCapacity();
+				case 3:
+					return SourceType.IRIDIUM_192.getCapacity();
+				case 4:
+					return SourceType.CALCIUM_48.getCapacity();	
+			}
+		}		
+		return 0;
 	}
-	
 	
 	
 	@Override
@@ -91,7 +88,7 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) 
 	{
-		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getCapacity(stack), 0D, 1D);
+		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getItemCapacity(stack), 0D, 1D);
 	}
 	
 	@Override
@@ -103,7 +100,7 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getCapacity(stack),"pu")));
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}

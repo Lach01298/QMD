@@ -137,6 +137,7 @@ item.qmd.drill_basic.name=Electric Mining Drill
 item.qmd.drill_advanced.name=Advanced Electric Mining Drill
 
 item.qmd.flesh.name=Not So Rotten Flesh
+item.qmd.potassium_iodine_tablet.name=Potassium Iodine Tablet
 
 item.qmd.luminous_paint.green.name=Green Radioluminescent Paint
 item.qmd.luminous_paint.blue.name=Blue Radioluminescent Paint
@@ -332,7 +333,7 @@ death.attack.gluon_gun=%1$s was vaporized by %2$s with a Gluon Gun
 death.attack.lepton_cannon=%1$s was killed by %2$s with a Lepton Cannon
 death.attack.antimatter_launcher=%1$s was Annihilated by %2$s with a Antimatter Launcher
 death.attack.antimatter_annihilation=%1$s got to curious and was annihilated for it
-
+death.attack.self_poisoning=%1$s chemically poisoned themselves
 
 //block descriptions
 tile.qmd.beamline.desc=Transports particles.
@@ -352,9 +353,10 @@ tile.qmd.accelerator_yoke.desc=Shapes and strengthens the magnetic field of a el
 tile.qmd.particle_chamber.detector.bubble_chamber.desc=Must be placed within 2 blocks of a Particle Chamber.
 tile.qmd.particle_chamber.detector.wire_chamber.desc=Must be placed within 2 blocks of a Particle Chamber.
 tile.qmd.particle_chamber.detector.silicon_tracker.desc=Must be placed next to a Particle Chamber.
-tile.qmd.particle_chamber.detector.em_calorimeter.desc=Must be place within 3 blocks of a Particle Chamber.
-tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=Must be place within 5 blocks of a Particle Chamber.
-
+tile.qmd.particle_chamber.detector.em_calorimeter.desc=Must be placed within 3 blocks of a Particle Chamber.
+tile.qmd.particle_chamber.detector.hadron_calorimeter.desc=Must be placed within 5 blocks of a Particle Chamber.
+tile.qmd.particle_chamber.detector.in.desc=Must be placed within %s blocks of a Particle Chamber.
+tile.qmd.particle_chamber.detector.out.desc=Must be placed equal or more than %s blocks away from a Particle Chamber.
 
 //item descriptions
 item.qmd.lepton_cannon.desc=A powerful beam weapon that can go through blocks and armor.
@@ -368,6 +370,7 @@ item.qmd.boots_hev.desc=Gives wearer step assist, reduces fall height by 4 block
 
 item.qmd.beam_meter.desc=Measures the stats of a Beamline or Beam Port. If measuring a Beamline the stats are the end of the beamline.
 
+item.qmd.potassium_iodine_tablet.desc=Gives temporary radiation immunity. Don't take to many!
 
 
 //fluids
@@ -1118,6 +1121,12 @@ gui.qmd.config.vacuum_chamber.exotic_containment_explosion.comment=Whether exoti
 gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash=Exotic Containment Chamber Radiation Flash
 gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash.comment=Whether exotic containment chambers emit a deadly radiation flash if they overheat, lose power or are broken with exotic materials inside.
 
+gui.qmd.config.vacuum_chamber.exotic_containment_radiation=Exotic Containment Chamber Radiation 
+gui.qmd.config.vacuum_chamber.exotic_containment_radiation.comment=The maximum base amount of rads exotic containment chamber emits when they explode. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2 and is multiplied by the amount of buckets of material is in the chamber.
+
+gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size=Exotic Containment Chamber Explosion Size 
+gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size.comment=The base size of the explosion created by exotic containment chamber. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2 and is multiplied by the amount of buckets of material is in the chamber. TNT is an explosion size of 4.
+
 gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion=Nucleosynthesis Chamber Explosions
 gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion.comment=Whether nucleosynthesis chambers explode if they overheat, lose power or are broken with plasma inside.
 
@@ -1184,8 +1193,20 @@ gui.qmd.config.tools.antimatter_launcher_usage.comment=The amount of particle un
 gui.qmd.config.tools.antimatter_launcher_cool_down=Antimatter Launcher Cooldown
 gui.qmd.config.tools.antimatter_launcher_cool_down.comment=The firing cool down time of the antimatter launcher in ticks.
 
+gui.qmd.config.tools.antimatter_launcher_radiation=Antimatter Launcher Radiation
+gui.qmd.config.tools.antimatter_launcher_radiation.comment=The maximum base amount of rads a projectile gives. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2.
+
+gui.qmd.config.tools.antimatter_launcher_explosion_size=Antimatter Launcher Explosion Size
+gui.qmd.config.tools.antimatter_launcher_explosion_size.comment=The base size of the explosion created by the projectile. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2. TNT is an explosion size of 4.
+
 gui.qmd.config.tools.cell_lifetime=Cell Lifetime
 gui.qmd.config.tools.cell_lifetime.comment=The amount of time in ticks a cell can be as an item entity before exploding. If set to 0 cells will not explode under any condition.
+
+gui.qmd.config.tools.cell_radiation=Cell Radiation
+gui.qmd.config.tools.cell_radiation.comment=The maximum base amount of rads a cell gives when exploding. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2.
+
+gui.qmd.config.tools.cell_explosion_size=Cell Explosion Size
+gui.qmd.config.tools.cell_explosion_size.comment=The base size of the explosion created by the cell. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2. TNT is an explosion size of 4.
 
 gui.qmd.config.tools.hev_toughness=HEV Toughness
 gui.qmd.config.tools.hev_toughness.comment=The toughness of the HEV SUIT type. Order:[Charged, Uncharged].
@@ -1198,6 +1219,9 @@ gui.qmd.config.tools.hev_rad_res.comment=The amount of radiation resistance each
 
 gui.qmd.config.tools.hev_energy=HEV Energy Capacity
 gui.qmd.config.tools.hev_energy.comment=The RF capacity of each piece of the HEV Suit has. Order:[Boots, Leggings, Chestplate, Helmet].
+
+gui.qmd.config.tools.ki_time=Potassium Iodine Immunity Time
+gui.qmd.config.tools.ki_time.comment=The amount of time in ticks that the potassium iodine tablet gives radiation immunity for. This is the base value, stacking tablets has diminishing returns on time added.
 
 gui.qmd.config.tools.hev_power=HEV Power Consumption
 gui.qmd.config.tools.hev_power.comment=The amount of RF certain operations of the HEV Suit take. Order:[per damage taken, per jump boost, per long jump, per fall damage reduction, per wither/poison reduction].

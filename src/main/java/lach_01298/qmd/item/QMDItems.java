@@ -66,7 +66,7 @@ public class QMDItems
 	
 	
 	
-	public static final ToolMaterial TUNGSTEN_CARBIDE = toolMaterial("tungsten_carbide", 0, new ItemStack(ingotAlloy, 1, IngotAlloyType.TUNGSTEN_CARBIDE.getID()));
+	public static ToolMaterial TUNGSTEN_CARBIDE;
 	public static Item sword_tungsten_carbide;
 	public static Item pickaxe_tungsten_carbide;
 	public static Item shovel_tungsten_carbide;
@@ -76,6 +76,7 @@ public class QMDItems
 	public static Item cell;
 	
 	public static Item flesh;
+	public static Item potassiumIodineTablet;
 	public static Item luminousPaint;
 	
 	public static Item leptonCannon;
@@ -111,7 +112,7 @@ public class QMDItems
 		spallationWaste =  withName(new NCItemMeta(SpallationWasteType.class), "waste_spallation");
 		spallationWaste2 =  withName(new NCItemMeta(SpallationWasteType2.class), "waste_spallation2");
 		
-		
+		TUNGSTEN_CARBIDE = toolMaterial("tungsten_carbide", 0, new ItemStack(ingotAlloy, 1, IngotAlloyType.TUNGSTEN_CARBIDE.getID()));
 		
 		sword_tungsten_carbide = withName(new NCSword(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "sword_tungsten_carbide");
 		pickaxe_tungsten_carbide = withName(new NCPickaxe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "pickaxe_tungsten_carbide");
@@ -120,6 +121,8 @@ public class QMDItems
 		hoe_tungsten_carbide = withName(new NCHoe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "hoe_tungsten_carbide");
 		
 		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
+
+		potassiumIodineTablet = withName(new ItemTablet(new PotionEffect[] {}), "potassium_iodine_tablet");
 		luminousPaint = withName(new ItemLuminousPaint(), "luminous_paint");
 		
 		leptonCannon =  withName(new ItemLeptonCannon(),"lepton_cannon");
@@ -170,6 +173,7 @@ public class QMDItems
 		registerItem(hoe_tungsten_carbide,QMDTabs.ITEMS);
 		
 		registerItem(flesh,QMDTabs.ITEMS);
+		registerItem(potassiumIodineTablet,QMDTabs.ITEMS);
 		registerItem(luminousPaint,QMDTabs.ITEMS);
 		registerItem(cell,QMDTabs.ITEMS);
 		registerItem(leptonCannon,QMDTabs.ITEMS);
@@ -270,6 +274,7 @@ public class QMDItems
 		registerRender(hoe_tungsten_carbide);
 		
 		registerRender(flesh);
+		registerRender(potassiumIodineTablet);
 		
 		for (int i = 0; i < LuminousPaintType.values().length; i++)
 		{

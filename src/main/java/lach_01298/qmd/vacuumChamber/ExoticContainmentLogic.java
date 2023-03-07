@@ -15,27 +15,20 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.item.QMDItems;
-import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.NeutralContainmentUpdatePacket;
+import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
-import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.radiation.RadiationHelper;
 import nc.recipe.BasicRecipe;
@@ -50,8 +43,6 @@ import nc.tile.internal.fluid.Tank;
 import nc.util.DamageSources;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
@@ -586,7 +577,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 			if(QMDConfig.exotic_containment_explosion)
 			{
-				getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) size * 50f,
+				getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) (size * QMDConfig.exotic_containment_explosion_size),
 						true);
 			}
 			else
@@ -610,7 +601,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				for (EntityLivingBase entity : entitylist)
 				{
 	
-					double rads = (1000 * 32 * 32 * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ);
+					double rads = Math.min(QMDConfig.exotic_containment_radiation * size,(QMDConfig.exotic_containment_radiation * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ));
 					IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
 					entityRads
 							.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
@@ -655,8 +646,8 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 			ItemStack itemStack = cont.getInventoryStacks().get(0);
 			IItemParticleAmount item = (IItemParticleAmount) itemStack.getItem();
-
-			if (item.getAmountStored(itemStack) == item.getCapacity(itemStack) && item.getCapacity(itemStack) > 0)
+			
+			if (item.getAmountStored(itemStack) == IItemParticleAmount.getCapacity(itemStack) && IItemParticleAmount.getCapacity(itemStack) > 0)
 			{
 
 				// cell emptying
@@ -676,9 +667,11 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			}
 			else
 			{
+				
 				// cell filling
 				if (item.getAmountStored(itemStack) == 0)
 				{
+
 					// fill empty cell
 					ItemIngredient itemIngredient = new ItemIngredient(
 							IItemParticleAmount.cleanNBT(cont.getInventoryStacks().get(0)));
@@ -687,8 +680,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				else
 				{
 					// fill partially full cell
-					ItemIngredient itemIngredient = new ItemIngredient(
-							new ItemStack(QMDItems.cell, 1, CellType.EMPTY.getID()));
+					ItemIngredient itemIngredient = new ItemIngredient(item.getEmptyItem());
 					itemIngredients.add(itemIngredient);
 				}
 
@@ -697,7 +689,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				if (tank.getFluid() != null)
 				{
 					FluidStack copy = tank.getFluid().copy();
-					copy.amount = Integer.MAX_VALUE;
+			
 
 					FluidIngredient fluidIngredient = new FluidIngredient(copy);
 					fluidIngredients.add(fluidIngredient);
@@ -820,53 +812,76 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		if (amount == 0)
 		{
 			// fill empty cells
-
+			
 			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
 			{
-				ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
-				int amountPerMillibuckets = item.getCapacity(output)
-						/ cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+				ItemStack outputItem = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				
+				IItemParticleAmount output;
+				if (outputItem.getItem() instanceof IItemParticleAmount)
+				{
+					output = (IItemParticleAmount) outputItem.getItem();
+				}
+				else
+				{
+					return;
+				}
+				
+				
+				int amountPerMillibuckets = IItemParticleAmount.getCapacity(outputItem) / cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
 
 				if (!getMultiblock().tanks.get(2).isEmpty())
 				{
-					int cellAmount = amountPerMillibuckets * getMultiblock().tanks.get(2)
-							.drain(cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true).amount;
+					int cellAmount = amountPerMillibuckets * getMultiblock().tanks.get(2).drain(cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true).amount;
 
-					item.setAmountStored(output, cellAmount);
-					cont.getInventoryStacks().set(0, output);
+					output.setAmountStored(outputItem, cellAmount);
+					cont.getInventoryStacks().set(0, outputItem);
 
-					if (item.getAmountStored(output) == item.getCapacity(output))
+					if (output.getAmountStored(outputItem) == IItemParticleAmount.getCapacity(outputItem))
 					{
-						cont.getInventoryStacks().set(1, output);
+						cont.getInventoryStacks().set(1, outputItem);
 						cont.getInventoryStacks().set(0, ItemStack.EMPTY);
 					}
 				}
 			}
 		}
-		else if (amount < item.getCapacity(itemInput))
+		else if (amount < IItemParticleAmount.getCapacity(itemInput))
 		{
 			// fill partially full cells
+			
+			
 			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
 			{
+				
 				ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				
 				if (output.getItem() == cont.getInventoryStacks().get(0).getItem()
 						&& output.getMetadata() == cont.getInventoryStacks().get(0).getMetadata()) // make sure it the
 																									// right cell type
 				{
-					int amountPerMillibuckets = item.getCapacity(output)
-							/ cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
-
+					
+					int amountPerMillibuckets = IItemParticleAmount.getCapacity(output) / cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+					
 					if (!getMultiblock().tanks.get(2).isEmpty())
 					{
 
 						int recipemb = cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
-						int cellAmount = amount + amountPerMillibuckets * getMultiblock().tanks.get(2)
-								.drain(recipemb - amount / amountPerMillibuckets, true).amount;
-
+						
+						int cellAmount = 0;
+						if(recipemb - amount / amountPerMillibuckets <= 0)
+						{
+							cellAmount = amount + amountPerMillibuckets; // the extra bit for non integer (amount / amountPerMillibuckets)
+						}
+						else
+						{
+							cellAmount = amount + amountPerMillibuckets * getMultiblock().tanks.get(2).drain(recipemb - amount / amountPerMillibuckets, true).amount;
+						}
+						
+						
 						item.setAmountStored(output, cellAmount);
 						cont.getInventoryStacks().set(0, output);
 
-						if (item.getAmountStored(output) == item.getCapacity(output))
+						if (item.getAmountStored(output) == IItemParticleAmount.getCapacity(output))
 						{
 							cont.getInventoryStacks().set(1, output);
 							cont.getInventoryStacks().set(0, ItemStack.EMPTY);
@@ -878,18 +893,19 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		else
 		{
 			// empty full cells
-
+			
 			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() != null)
 			{
+				
 				FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
 				if (getMultiblock().tanks.get(2).fill(fluidProduct, false) == fluidProduct.amount)
 				{
-					System.out.println("hi");
+					
 					getMultiblock().tanks.get(2).fill(fluidProduct, true);
 					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
 
 					ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
-					item.setAmountStored(output, item.getCapacity(output));
+					item.setAmountStored(output, IItemParticleAmount.getCapacity(output));
 					cont.getInventoryStacks().set(1, output);
 				}
 			}
@@ -942,28 +958,28 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 	// NBT
 
-		@Override
-		public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-		{
-			super.writeToLogicTag(logicTag, syncReason);
+	@Override
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.writeToLogicTag(logicTag, syncReason);
 
-			logicTag.setLong("particle1WorkDone", particle1WorkDone);
-			logicTag.setLong("particle2WorkDone", particle2WorkDone);
-			logicTag.setLong("recipeParticle1Work", recipeParticle1Work);
-			logicTag.setLong("recipeParticle2Work", recipeParticle2Work);
-		}
+		logicTag.setLong("particle1WorkDone", particle1WorkDone);
+		logicTag.setLong("particle2WorkDone", particle2WorkDone);
+		logicTag.setLong("recipeParticle1Work", recipeParticle1Work);
+		logicTag.setLong("recipeParticle2Work", recipeParticle2Work);
+	}
 
-		@Override
-		public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-		{
-			super.readFromLogicTag(logicTag, syncReason);
+	@Override
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.readFromLogicTag(logicTag, syncReason);
 
-			particle1WorkDone = logicTag.getLong("particle1WorkDone");
-			particle2WorkDone = logicTag.getLong("particle2WorkDone");
-			recipeParticle1Work = logicTag.getLong("recipeParticle1Work");
-			recipeParticle2Work = logicTag.getLong("recipeParticle2Work");
+		particle1WorkDone = logicTag.getLong("particle1WorkDone");
+		particle2WorkDone = logicTag.getLong("particle2WorkDone");
+		recipeParticle1Work = logicTag.getLong("recipeParticle1Work");
+		recipeParticle2Work = logicTag.getLong("recipeParticle2Work");
 
-		}
+	}
 	
 	// Packets
 

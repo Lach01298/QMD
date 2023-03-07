@@ -22,7 +22,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -50,8 +49,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 			for (int i = 1; i < CellType.values().length; i++)
 			{
 				ItemStack stack = new ItemStack(this, 1, i);
-				ItemCell cell = (ItemCell) stack.getItem();
-				setAmountStored(stack, getCapacity(stack));
+				IItemParticleAmount.fullItem(stack);			
 				items.add(stack);
 			}
 		}
@@ -59,37 +57,35 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 		
 	
 	@Override
-	public int getCapacity(ItemStack stack)
+	public int getItemCapacity(ItemStack stack)
 	{
-		
-		switch(stack.getMetadata())
+		if (stack.getItem() == this)
 		{
-			case 0:
-				return CellType.EMPTY.getCapacity();
-			case 1:
-				return CellType.ANTIHYDROGEN.getCapacity();
-			case 2:
-				return CellType.ANTIDEUTERIUM.getCapacity();
-			case 3:
-				return CellType.ANTITRITIUM.getCapacity();
-			case 4:
-				return CellType.ANTIHELIUM3.getCapacity();
-			case 5:
-				return CellType.ANTIHELIUM.getCapacity();
-			case 6:
-				return CellType.POSITRONIUM.getCapacity();
-			case 7:
-				return CellType.MUONIUM.getCapacity();
-			case 8:
-				return CellType.TAUONIUM.getCapacity();
-			case 9:
-				return CellType.GLUEBALLS.getCapacity();
-				
-			default: 
-				return 0;
-			
-		}
-
+			switch(stack.getMetadata())
+			{
+				case 0:
+					return CellType.EMPTY.getCapacity();
+				case 1:
+					return CellType.ANTIHYDROGEN.getCapacity();
+				case 2:
+					return CellType.ANTIDEUTERIUM.getCapacity();
+				case 3:
+					return CellType.ANTITRITIUM.getCapacity();
+				case 4:
+					return CellType.ANTIHELIUM3.getCapacity();
+				case 5:
+					return CellType.ANTIHELIUM.getCapacity();
+				case 6:
+					return CellType.POSITRONIUM.getCapacity();
+				case 7:
+					return CellType.MUONIUM.getCapacity();
+				case 8:
+					return CellType.TAUONIUM.getCapacity();
+				case 9:
+					return CellType.GLUEBALLS.getCapacity();			
+			}
+		}		
+		return 0;
 	}
 	
 	
@@ -132,7 +128,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 			return newStack;
 		}
 		
-		if(getAmountStored(stack) + amount <= getCapacity(stack))
+		if(getAmountStored(stack) + amount <= getItemCapacity(stack))
 		{
 			setAmountStored(stack,getAmountStored(stack)+amount);
 		}
@@ -151,7 +147,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) 
 	{
-		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getCapacity(stack), 0D, 1D);
+		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getItemCapacity(stack), 0D, 1D);
 	}
 	
 	@Override
@@ -163,7 +159,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getCapacity(stack),"pu")));
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}
@@ -228,7 +224,12 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 
 			}
 
-			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*5f), true);
+			if (IItemParticleAmount.getCapacity(stack) > 0)
+			{
+				size *= getAmountStored(stack)/IItemParticleAmount.getCapacity(stack);
+			}
+			
+			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*QMDConfig.cell_explosion_size), true);
 			world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
 
 			Set<EntityLivingBase> entitylist = new HashSet();
@@ -240,7 +241,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 
 			for (EntityLivingBase entity : entitylist)
 			{
-				double rads = (100 * 32 * 32 * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ);
+				double rads = Math.min(QMDConfig.cell_radiation * size, (QMDConfig.cell_radiation * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
 				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
 				entityRads
 						.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));

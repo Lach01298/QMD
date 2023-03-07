@@ -87,6 +87,9 @@ public class QMDConfig {
 	
 	public static boolean exotic_containment_explosion;
 	public static boolean exotic_containment_gamma_flash;
+	public static double exotic_containment_radiation;
+	public static double exotic_containment_explosion_size;
+	
 	
 	public static boolean nucleosynthesis_chamber_explosion;
 	
@@ -122,14 +125,20 @@ public class QMDConfig {
 	
 	public static int antimatter_launcher_particle_usage;
 	public static int antimatter_launcher_cool_down;
+	public static double antimatter_launcher_radiation;
+	public static double antimatter_launcher_explosion_size;
 	
 	public static int cell_lifetime;
+	public static double cell_radiation;
+	public static double cell_explosion_size;
 	
 	public static int[] hev_armour;
 	public static double[] hev_rad_res;
 	public static double [] hev_toughness;
 	public static int[] hev_energy;
 	public static int[] hev_power;
+	
+	public static int ki_time;
 	
 	public static double[] fission_reflector_efficiency;
 	public static double[] fission_reflector_reflectivity;
@@ -149,7 +158,7 @@ public class QMDConfig {
 	
 	public static int mole_amount;
 	public static int beam_scaling;
-
+	
 	
 	
 
@@ -326,6 +335,13 @@ public class QMDConfig {
 		propertyExoticContainmentExplosion.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_explosion");
 		Property propertyExoticContainmentGammaFlash = config.get(CATEGORY_VACUUM_CHAMBER, "exotic_containment_gamma_flash", true, Lang.localise("gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash.comment"));
 		propertyExoticContainmentGammaFlash.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash");
+		Property propertyExoticContainmentRadiation = config.get(CATEGORY_VACUUM_CHAMBER, "exotic_containment_radiation", 1024000.0, Lang.localise("gui.qmd.config.vacuum_chamber.exotic_containment_radiation.comment"), 0.0, Double.MAX_VALUE);
+		propertyExoticContainmentRadiation.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_radiation");
+		Property propertyExoticContainmentExplosionSize = config.get(CATEGORY_VACUUM_CHAMBER, "exotic_containment_explosion_size", 50.0, Lang.localise("gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size.comment"), 0.0, 1000.0);
+		propertyExoticContainmentExplosionSize.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size");
+		
+		
+		
 		Property propertyNucleosynthesisChamberExplosion = config.get(CATEGORY_VACUUM_CHAMBER, "nucleosynthesis_chamber_explosion", true, Lang.localise("gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion.comment"));
 		propertyNucleosynthesisChamberExplosion.setLanguageKey("gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion");
 		
@@ -380,9 +396,19 @@ public class QMDConfig {
 		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_usage");
 		Property propertyAntimatterLauncherCoolDown = config.get(CATEGORY_TOOLS, "antimatter_launcher_cool_down", 30, Lang.localise("gui.qmd.config.tools.antimatter_launcher_cool_down.comment"), 0, 10000);
 		propertyAntimatterLauncherCoolDown.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_cool_down");
+		Property propertyAntimatterLauncherRadiation = config.get(CATEGORY_TOOLS, "antimatter_launcher_radiation", 15360.0, Lang.localise("gui.qmd.config.tools.antimatter_launcher_radiation.comment"), 0, Double.MAX_VALUE);
+		propertyAntimatterLauncherRadiation.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_radiation");
+		Property propertyAntimatterLauncherExplosionSize = config.get(CATEGORY_TOOLS, "antimatter_launcher_explosion_size", 2.5, Lang.localise("gui.qmd.config.tools.antimatter_launcher_explosion_size.comment"), 0.0, 1000.0);
+		propertyAntimatterLauncherExplosionSize.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_explosion_size");
+		
 		
 		Property propertyCellLifetime = config.get(CATEGORY_TOOLS, "cell_lifetime", 200, Lang.localise("gui.qmd.config.tools.cell_lifetime.comment"), 0, 6000);
 		propertyCellLifetime.setLanguageKey("gui.qmd.config.tools.cell_lifetime");
+		
+		Property propertyCellRadiation = config.get(CATEGORY_TOOLS, "cell_radiation", 102400.0, Lang.localise("gui.qmd.config.tools.cell_radiation.comment"), 0.0, Double.MAX_VALUE);
+		propertyCellRadiation.setLanguageKey("gui.qmd.config.tools.cell_radiation"); // the radiation at 1 block radius or lower
+		Property propertyCellExplosionSize = config.get(CATEGORY_TOOLS, "cell_explosion_size", 5.0, Lang.localise("gui.qmd.config.tools.cell_explosion_size.comment"), 0.0, 1000.0);
+		propertyCellExplosionSize.setLanguageKey("gui.qmd.config.tools.cell_explosion_size");
 		
 		Property propertyHEVArmour = config.get(CATEGORY_TOOLS, "hev_armour", new int[] {4, 7, 9, 4, 1, 3, 4, 1}, Lang.localise("gui.qmd.config.tools.hev_armour.comment"), 1, 25);
 		propertyHEVArmour.setLanguageKey("gui.qmd.config.tools.hev_armour");
@@ -394,6 +420,9 @@ public class QMDConfig {
 		propertyHEVEnergy.setLanguageKey("gui.qmd.config.tools.hev_energy");
 		Property propertyHEVPower = config.get(CATEGORY_TOOLS, "hev_power", new int[] {100,100,250,100, 1000}, Lang.localise("gui.qmd.config.tools.hev_power.comment"), 0, Integer.MAX_VALUE);
 		propertyHEVPower.setLanguageKey("gui.qmd.config.tools.hev_power");//damage,jump boost,long jump, fall reduction, posion/wither
+		
+		Property propertyKITime = config.get(CATEGORY_TOOLS, "ki_time", 400, Lang.localise("gui.qmd.config.tools.ki_time.comment"), 1, Integer.MAX_VALUE);
+		propertyKITime.setLanguageKey("gui.qmd.config.tools.ki_time");
 		
 		
 		Property propertyFissionReflectorEfficiency = config.get(CATEGORY_FISSION, "reflector_efficiency", new double[] {0.75D}, Lang.localise("gui.qmd.config.fission.reflector_efficiency.comment"), 0D, 255D);
@@ -517,6 +546,8 @@ public class QMDConfig {
 		propertyOrderContainment.add(propertyVacuumChamberOutputTankCapacity.getName());
 		propertyOrderContainment.add(propertyExoticContainmentExplosion.getName());
 		propertyOrderContainment.add(propertyExoticContainmentGammaFlash.getName());
+		propertyOrderContainment.add(propertyExoticContainmentRadiation.getName());
+		propertyOrderContainment.add(propertyExoticContainmentExplosionSize.getName());
 		propertyOrderContainment.add(propertyNucleosynthesisChamberExplosion.getName());
 		
 		propertyOrderContainment.add(propertyHeaterHeatRemoved.getName());
@@ -549,14 +580,21 @@ public class QMDConfig {
 		
 		propertyOrderTools.add(propertyAntimatterLauncherParticleUsage.getName());
 		propertyOrderTools.add(propertyAntimatterLauncherCoolDown.getName());
+		propertyOrderTools.add(propertyAntimatterLauncherRadiation.getName());
+		propertyOrderTools.add(propertyAntimatterLauncherExplosionSize.getName());
+		
 		
 		propertyOrderTools.add(propertyCellLifetime.getName());
+		propertyOrderTools.add(propertyCellRadiation.getName());
+		propertyOrderTools.add(propertyCellExplosionSize.getName());
 		
 		propertyOrderTools.add(propertyHEVArmour.getName());
 		
 		propertyOrderTools.add(propertyHEVToughness.getName());
 		propertyOrderTools.add(propertyHEVEnergy.getName());
 		propertyOrderTools.add(propertyHEVPower.getName());
+		
+		propertyOrderTools.add(propertyKITime.getName());
 		
 		
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
@@ -667,6 +705,8 @@ public class QMDConfig {
 			
 			exotic_containment_explosion = propertyExoticContainmentExplosion.getBoolean();
 			exotic_containment_gamma_flash = propertyExoticContainmentGammaFlash.getBoolean();
+			exotic_containment_radiation = propertyExoticContainmentRadiation.getDouble();
+			exotic_containment_explosion_size = propertyExoticContainmentExplosionSize.getDouble();
 			nucleosynthesis_chamber_explosion = propertyNucleosynthesisChamberExplosion.getBoolean();
 			
 			heater_heat_removed = readIntegerArrayFromConfig(propertyHeaterHeatRemoved);
@@ -695,14 +735,20 @@ public class QMDConfig {
 			
 			antimatter_launcher_particle_usage = propertyAntimatterLauncherParticleUsage.getInt();
 			antimatter_launcher_cool_down = propertyAntimatterLauncherCoolDown.getInt();
+			antimatter_launcher_radiation = propertyAntimatterLauncherRadiation.getDouble();
+			antimatter_launcher_explosion_size = propertyAntimatterLauncherExplosionSize.getDouble();
 			
 			cell_lifetime = propertyCellLifetime.getInt();
+			cell_radiation = propertyCellRadiation.getDouble();
+			cell_explosion_size = propertyCellExplosionSize.getDouble();
 			
 			hev_armour = readIntegerArrayFromConfig(propertyHEVArmour);
 			hev_rad_res = readDoubleArrayFromConfig(propertyHEVRadRes);
 			hev_toughness = readDoubleArrayFromConfig(propertyHEVToughness);
 			hev_energy = readIntegerArrayFromConfig(propertyHEVEnergy);
 			hev_power =  readIntegerArrayFromConfig(propertyHEVPower);
+			
+			ki_time =  propertyKITime.getInt();
 			
 			fission_reflector_efficiency = readDoubleArrayFromConfig(propertyFissionReflectorEfficiency);
 			fission_reflector_reflectivity = readDoubleArrayFromConfig(propertyFissionReflectorReflectivity);
@@ -816,13 +862,20 @@ public class QMDConfig {
 		
 		propertyAntimatterLauncherParticleUsage.set(antimatter_launcher_particle_usage);
 		propertyAntimatterLauncherCoolDown.set(antimatter_launcher_cool_down);
+		propertyAntimatterLauncherRadiation.set(antimatter_launcher_radiation);
+		propertyAntimatterLauncherExplosionSize.set(antimatter_launcher_explosion_size);
+		
 		propertyCellLifetime.set(cell_lifetime);
+		propertyCellRadiation.set(cell_radiation);
+		propertyCellExplosionSize.set(cell_explosion_size);
 		
 		propertyHEVArmour.set(hev_armour);
 		propertyHEVRadRes.set(hev_rad_res);
 		propertyHEVToughness.set(hev_toughness); 
 		propertyHEVEnergy.set(hev_energy);
 		propertyHEVPower.set(hev_power);
+		
+		propertyKITime.set(ki_time);
 		
 		propertyFissionReflectorEfficiency.set(fission_reflector_efficiency);
 		propertyFissionReflectorReflectivity.set(fission_reflector_reflectivity);

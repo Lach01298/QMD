@@ -1,24 +1,17 @@
 package lach_01298.qmd.render.tile;
 
-import java.util.List;
-
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelRenderer;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -100,9 +93,6 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 			GlStateManager.popMatrix();
 			
 
-			//renderer.renderBlockBrightness(blockstate, bright);
-		
-			
 			GlStateManager.popMatrix();
 			
 			
@@ -112,32 +102,6 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 
 	}
 
-    private void renderModelBrightnessColorQuads(float brightness, float red, float green, float blue, List<BakedQuad> listQuads)
-    {
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        int i = 0;
-
-        for (int j = listQuads.size(); i < j; ++i)
-        {
-            BakedQuad bakedquad = listQuads.get(i);
-            bufferbuilder.begin(7, DefaultVertexFormats.ITEM);
-            bufferbuilder.addVertexData(bakedquad.getVertexData());
-
-            if (bakedquad.hasTintIndex())
-            {
-                bufferbuilder.putColorRGB_F4(red * brightness, green * brightness, blue * brightness);
-            }
-            else
-            {
-                bufferbuilder.putColorRGB_F4(brightness, brightness, brightness);
-            }
-
-            Vec3i vec3i = bakedquad.getFace().getDirectionVec();
-            bufferbuilder.putNormal((float)vec3i.getX(), (float)vec3i.getY(), (float)vec3i.getZ());
-            tessellator.draw();
-        }
-    }
 
 
 	

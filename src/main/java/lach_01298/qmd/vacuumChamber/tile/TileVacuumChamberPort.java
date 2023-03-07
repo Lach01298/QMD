@@ -107,6 +107,12 @@ public class TileVacuumChamberPort extends TileVacuumChamberPart implements ITil
 	}
 	
 	
+	@Override
+	public int getInventoryStackLimit() 
+	{
+		return 1;
+	}
+	
 	// NBT
 	
 	@Override

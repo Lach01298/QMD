@@ -1,7 +1,11 @@
 package lach_01298.qmd.enums;
 
 
-import static lach_01298.qmd.config.QMDConfig.*;
+import static lach_01298.qmd.config.QMDConfig.copernicium_criticality;
+import static lach_01298.qmd.config.QMDConfig.copernicium_efficiency;
+import static lach_01298.qmd.config.QMDConfig.copernicium_fuel_time;
+import static lach_01298.qmd.config.QMDConfig.copernicium_heat_generation;
+import static lach_01298.qmd.config.QMDConfig.copernicium_self_priming;
 
 import lach_01298.qmd.config.QMDConfig;
 import nc.enumm.IFissionFuelEnum;

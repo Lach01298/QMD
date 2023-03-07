@@ -75,11 +75,11 @@ public class GuiRingAcceleratorController
 		fontRenderer.drawString(cavitys, offset, 40, fontColor);
 
 		String quadrupoles = Lang.localise("gui.qmd.container.accelerator.quadrupoles", multiblock.quadrupoleNumber,
-				Units.getSIFormat(multiblock.quadrupoleStrength, ""));
+				Units.getSIFormat(multiblock.quadrupoleStrength, "T"));
 		fontRenderer.drawString(quadrupoles, offset, 50, fontColor);
 
 		String dipoles = Lang.localise("gui.qmd.container.accelerator.dipoles", multiblock.dipoleNumber,
-				Units.getSIFormat(multiblock.dipoleStrength, ""));
+				Units.getSIFormat(multiblock.dipoleStrength, "T"));
 		fontRenderer.drawString(dipoles, offset, 60, fontColor);
 
 		String temperature = Lang.localise("gui.qmd.container.temperature",

@@ -15,7 +15,7 @@ public class RFCavity
 	private final Accelerator accelerator;
 	private BlockPos pos;
 	private  EnumFacing.Axis axis;
-	private  RFCavityType type;
+	private  String type;
 
 	private final Long2ObjectMap<IAcceleratorComponent> components = new Long2ObjectOpenHashMap<>();
 
@@ -35,7 +35,7 @@ public class RFCavity
 		if( accelerator.WORLD.getTileEntity(pos.up()) instanceof TileAcceleratorRFCavity)
 		{
 			TileAcceleratorRFCavity cavity =(TileAcceleratorRFCavity) accelerator.WORLD.getTileEntity(pos.up());
-			type = RFCavityType.valueOf(cavity.name.toUpperCase());
+			type = cavity.name.toUpperCase();
 		}
 		else
 		{
@@ -92,7 +92,7 @@ public class RFCavity
 		return axis;
 	}
 	
-	public RFCavityType getType() 
+	public String getType() 
 	{
 		return type;
 	}

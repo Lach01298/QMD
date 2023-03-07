@@ -151,7 +151,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.beamSplitterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotSuperAlloy", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});		
 		
 		//Accelerator Parts
-		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCasing,8), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCasing,16), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorComputerPort,1), new Object[] {"STS", "TFT", "STS", 'S', "processorBasic",'T', "ingotGold", 'F', QMDBlocks.acceleratorCasing});
 		addShapelessOreRecipe(QMDBlocks.acceleratorCasing, new Object[] {QMDBlocks.acceleratorGlass});
 		addShapelessOreRecipe(QMDBlocks.acceleratorGlass, new Object[] {QMDBlocks.acceleratorCasing, "blockGlass"});
@@ -189,7 +189,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.collisionChamberController, new Object[] {"PTP", "BFB", "PTP", 'P', "plateElite", 'T', "ingotTough", 'B', "processorElite", 'F', QMDBlocks.particleChamberCasing});
 		
 		//particle chamber parts
-		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberCasing,8), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'F', "steelFrame"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberCasing,16), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTungsten", 'F', "steelFrame"});
 		addShapelessOreRecipe(QMDBlocks.particleChamberCasing, new Object[] {QMDBlocks.particleChamberGlass});
 		addShapelessOreRecipe(QMDBlocks.particleChamberGlass, new Object[] {QMDBlocks.particleChamberCasing, "blockGlass"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.particleChamberPort, 4), new Object[] {"THT", "VFV", "THT", 'T', "ingotTungsten", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});

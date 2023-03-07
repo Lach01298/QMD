@@ -5,7 +5,7 @@ import lach_01298.qmd.config.QMDConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class TileAcceleratorMagnet extends TileAcceleratorPart implements IAcceleratorComponent
+public class TileAcceleratorMagnet extends TileAcceleratorPart implements IAcceleratorComponent
 {
 
 	public final double strength;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.item.QMDItems;
 import nc.recipe.BasicRecipeHandler;
 import net.minecraft.init.Blocks;

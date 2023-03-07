@@ -148,6 +148,13 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 	}
 	
 	@Override
+	public int getInventoryStackLimit() 
+	{
+		return 1;
+	}
+	
+	
+	@Override
 	public NBTTagCompound writeInventory(NBTTagCompound nbt)
 	{
 		NBTHelper.writeAllItems(nbt, inventoryStacks);

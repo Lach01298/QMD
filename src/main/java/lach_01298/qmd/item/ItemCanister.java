@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import lach_01298.qmd.enums.MaterialTypes.CanisterType;
-import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.util.Units;
 import nc.item.NCItem;
 import nc.util.InfoHelper;
@@ -38,40 +37,38 @@ public class ItemCanister extends NCItem implements IItemParticleAmount
 			for (int i = 1; i < CanisterType.values().length; i++)
 			{
 				ItemStack stack = new ItemStack(this, 1, i);
-				ItemCanister Canister = (ItemCanister) stack.getItem();
-				setAmountStored(stack, getCapacity(stack));
+				IItemParticleAmount.fullItem(stack);	
 				items.add(stack);
 			}
 		}
 	}
-		
+			
 	
 	@Override
-	public int getCapacity(ItemStack stack)
+	public int getItemCapacity(ItemStack stack)
 	{
-		switch(stack.getMetadata())
+		if (stack.getItem() == this)
 		{
-			case 0:
-				return CanisterType.EMPTY.getCapacity();
-			case 1:
-				return CanisterType.HYDROGEN.getCapacity();
-			case 2:
-				return CanisterType.DEUTERIUM.getCapacity();
-			case 3:
-				return CanisterType.TRITIUM.getCapacity();
-			case 4:
-				return CanisterType.HELIUM3.getCapacity();
-			case 5:
-				return CanisterType.HELIUM.getCapacity();
-			case 6:
-				return CanisterType.DIBORANE.getCapacity();
-				
-			default: 
-				return 0;
-		}
-
+			switch(stack.getMetadata())
+			{
+				case 0:
+					return CanisterType.EMPTY.getCapacity();
+				case 1:
+					return CanisterType.HYDROGEN.getCapacity();
+				case 2:
+					return CanisterType.DEUTERIUM.getCapacity();
+				case 3:
+					return CanisterType.TRITIUM.getCapacity();
+				case 4:
+					return CanisterType.HELIUM3.getCapacity();
+				case 5:
+					return CanisterType.HELIUM.getCapacity();
+				case 6:
+					return CanisterType.DIBORANE.getCapacity();			
+			}
+		}		
+		return 0;
 	}
-	
 	
 	
 	@Override
@@ -112,7 +109,7 @@ public class ItemCanister extends NCItem implements IItemParticleAmount
 			return newStack;
 		}
 		
-		if(getAmountStored(stack) + amount <= getCapacity(stack))
+		if(getAmountStored(stack) + amount <= getItemCapacity(stack))
 		{
 			setAmountStored(stack,getAmountStored(stack)+amount);
 		}
@@ -130,7 +127,7 @@ public class ItemCanister extends NCItem implements IItemParticleAmount
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) 
 	{
-		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getCapacity(stack), 0D, 1D);
+		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getItemCapacity(stack), 0D, 1D);
 	}
 	
 	@Override
@@ -142,7 +139,7 @@ public class ItemCanister extends NCItem implements IItemParticleAmount
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getCapacity(stack),"pu")));
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}

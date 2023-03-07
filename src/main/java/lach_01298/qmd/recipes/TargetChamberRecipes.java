@@ -26,6 +26,50 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
+	
+		Map<String,String> SpallationMaterials = new HashMap<String, String>();
+		
+		SpallationMaterials.put("ingotCalifornium252All","wasteSpallationCalifornium");
+		SpallationMaterials.put("ingotCalifornium251All","wasteSpallationCalifornium");
+		SpallationMaterials.put("ingotCalifornium250All","wasteSpallationCalifornium");
+		SpallationMaterials.put("ingotCalifornium249All","wasteSpallationCalifornium");
+		SpallationMaterials.put("ingotBerkelium248All","wasteSpallationBerkelium");
+		SpallationMaterials.put("ingotBerkelium247All","wasteSpallationBerkelium");
+		SpallationMaterials.put("ingotCurium247All","wasteSpallationCurium");
+		SpallationMaterials.put("ingotCurium246All","wasteSpallationCurium");
+		SpallationMaterials.put("ingotCurium245All","wasteSpallationCurium");
+		SpallationMaterials.put("ingotCurium243All","wasteSpallationCurium");
+		SpallationMaterials.put("ingotAmericium243All","wasteSpallationAmericium");
+		SpallationMaterials.put("ingotAmericium242All","wasteSpallationAmericium");
+		SpallationMaterials.put("ingotAmericium241All","wasteSpallationAmericium");
+		SpallationMaterials.put("ingotPlutonium242All","wasteSpallationPlutonium");
+		SpallationMaterials.put("ingotPlutonium241All","wasteSpallationPlutonium");
+		SpallationMaterials.put("ingotPlutonium239All","wasteSpallationPlutonium");
+		SpallationMaterials.put("ingotPlutonium238All","wasteSpallationPlutonium");
+		SpallationMaterials.put("ingotNeptunium237All","wasteSpallationNeptunium");
+		SpallationMaterials.put("ingotNeptunium236All","wasteSpallationNeptunium");
+		SpallationMaterials.put("ingotUranium238All","wasteSpallationUranium");
+		SpallationMaterials.put("ingotUranium235All","wasteSpallationUranium");
+		SpallationMaterials.put("ingotUranium234","wasteSpallationUranium");
+		SpallationMaterials.put("ingotUranium233All","wasteSpallationUranium");
+		SpallationMaterials.put("dustProtactinium233","wasteSpallationProtactinium");
+		SpallationMaterials.put("dustProtactinium231","wasteSpallationProtactinium");
+		SpallationMaterials.put("ingotThorium","wasteSpallationThorium");
+		SpallationMaterials.put("dustRadium","wasteSpallationRadium");
+		SpallationMaterials.put("dustPolonium","wasteSpallationPolonium");
+		SpallationMaterials.put("dustBismuth","wasteSpallationBismuth");
+		SpallationMaterials.put("ingotLead","wasteSpallationLead");
+		SpallationMaterials.put("ingotMercury","wasteSpallationMercury");
+		SpallationMaterials.put("ingotGold","wasteSpallationGold");
+		SpallationMaterials.put("ingotPlatinum","wasteSpallationPlatinum");
+		SpallationMaterials.put("ingotIridium","wasteSpallationIridium");
+		SpallationMaterials.put("ingotIridium192","wasteSpallationIridium");
+		SpallationMaterials.put("ingotOsmium","wasteSpallationOsmium");
+		SpallationMaterials.put("ingotTungsten","wasteSpallationTungsten");
+		SpallationMaterials.put("ingotHafnium","wasteSpallationHafnium");
+		
+		
+		
 		//addRecipe(itemInput, particleInput [particle, amount, minEnergy, minFocus], item output,
 		//particleOutput+ [particle, amount], particleOutput0 [particle, amount], particleOutput- [particle, amount], maxEnergy, crossSection, energyRelased, radiation)
 		
@@ -120,43 +164,43 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.proton), null, new ParticleStack(Particles.deuteron), 85000, 0.08, -25000);
 		
 		addQMDBalancedRecipe("dustRadium", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 0.2, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 0.2, 0);
 		
 		addQMDBalancedRecipe("ingotThorium", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotUranium233All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotUranium234All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,2), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,2), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotUranium235All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,4), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,4), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotUranium238All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,2), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,2), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotNeptunium237All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,2), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,2), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotPlutonium239All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,4), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,4), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotPlutonium241All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,4), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,4), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotPlutonium242All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,4), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,4), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotAmericium241All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,4), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,4), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotAmericium243All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,2), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,2), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotCopernicium291All", new ParticleStack(Particles.proton, 1, 60000), "wasteFissionHeavy",
-				null, new ParticleStack(Particles.neutron,8), null, 1000000, 1.0, 0);
+				null, new ParticleStack(Particles.neutron,8), null, 600000, 1.0, 0);
 		
 		addQMDBalancedRecipe("ingotGold", new ParticleStack(Particles.proton, 1, 100000), "ingotIridium192",
 				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), new ParticleStack(Particles.proton), 200000, 0.02, -5780);
@@ -171,21 +215,38 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.proton,3), new ParticleStack(Particles.neutron,2), null, 170000, 0.02, -37400);
 
 		addQMDBalancedRecipe("ingotPlatinum", new ParticleStack(Particles.proton, 1, 200000), "wasteFissionLight",
-				null,new ParticleStack(Particles.neutron), null, 1000000, 0.02, 0);
+				null,new ParticleStack(Particles.neutron), null, 600000, 0.02, 0);
 		
 		addQMDBalancedRecipe("ingotGold", new ParticleStack(Particles.proton, 1, 200000), "wasteFissionLight",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 0.16, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 0.16, 0);
 		
 		addQMDBalancedRecipe("ingotMercury", new ParticleStack(Particles.proton, 1, 200000), "wasteFissionLight",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 0.02, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 0.02, 0);
 		
 		addQMDBalancedRecipe("ingotLead", new ParticleStack(Particles.proton, 1, 200000), "wasteFissionLight",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 0.25, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 0.25, 0);
 		
 		addQMDBalancedRecipe("ingotTungsten", new ParticleStack(Particles.proton, 1, 400000), "wasteFissionLight",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 0.08, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 0.08, 0);
 		
 
+			// Pion production
+		for(Entry<String, String> material : SpallationMaterials.entrySet())
+		{
+			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.proton, 1, 600000), material.getValue(),
+					new ParticleStack(Particles.pion_plus),null,new ParticleStack(Particles.pion_minus), 5000000, 0.2, -279000);
+		}
+			
+			
+			// antiproton production
+		for(Entry<String, String> material : SpallationMaterials.entrySet())
+		{
+			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.proton, 1, 5630000), material.getValue(),
+					new ParticleStack(Particles.proton), null, new ParticleStack(Particles.antiproton), 20000000, 0.2, -1880000);
+		}
+		
+		
+		
 		
 		
 		// neutron reactions
@@ -507,7 +568,13 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addQMDBalancedRecipe("ingotYttrium",new ParticleStack(Particles.deuteron, 1, 60000), "ingotStrontium",
 				new ParticleStack(Particles.alpha), null, null, 200000, 0.064, 8400);
 		
-
+				// antideuteron production 
+				
+		for(Entry<String, String> material : SpallationMaterials.entrySet())
+		{
+			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.deuteron, 1, 11300000), material.getValue(), 
+					new ParticleStack(Particles.deuteron), null, new ParticleStack(Particles.antideuteron), 20000000, 0.1, -3750000);
+		}
 		
 
 		
@@ -626,22 +693,22 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 
 		
-		// Doping
+		// Boron Ion reactions
 		
 		addQMDBalancedRecipe("siliconWafer", new ParticleStack(Particles.boron_ion, 1, 600,2), "siliconPDoped",
 				null,null,null, 1000, 1, 0);
 		
 		
 		
-		// heavy ion bombardment
+		// Ca-48 reactions
 		
 		addQMDBalancedRecipe("ingotBerkelium248", new ParticleStack(Particles.calcium_48_ion, 1, 40000,2), "ingotCopernicium291",
 				new ParticleStack(Particles.alpha),new ParticleStack(Particles.neutron),new ParticleStack(Particles.electron_neutrino,2), 50000, 0.02,-24400);
 		
 		
 		
-		
-		// Inverse beta + decay
+		// Electron antineutrino reactions
+			// Inverse beta + decay
 		
 		addQMDBalancedRecipe("ingotNickel", new ParticleStack(Particles.electron_antineutrino, 1, 900), "ingotIron",
 				new ParticleStack(Particles.positron,2), new ParticleStack(Particles.electron_neutrino), null, 10900, 0.01, -893);	
@@ -659,8 +726,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.positron), null, null, 10600, 0.01, -555);	
 		
 		
-		
-		// Inverse beta - decay
+		// Electron neutrino reactions
+			// Inverse beta - decay
 		
 		addQMDBalancedRecipe("ingotOsmium", new ParticleStack(Particles.electron_neutrino, 1, 1600), "ingotIridium192",
 				null, null, new ParticleStack(Particles.electron), 11600, 0.01, -1560);	
@@ -682,67 +749,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		
 		
-		//Spallation recipes
-		
-		Map<String,String> SpallationMaterials = new HashMap<String, String>();
-		
-		SpallationMaterials.put("ingotCalifornium252All","wasteSpallationCalifornium");
-		SpallationMaterials.put("ingotCalifornium251All","wasteSpallationCalifornium");
-		SpallationMaterials.put("ingotCalifornium250All","wasteSpallationCalifornium");
-		SpallationMaterials.put("ingotCalifornium249All","wasteSpallationCalifornium");
-		SpallationMaterials.put("ingotBerkelium248All","wasteSpallationBerkelium");
-		SpallationMaterials.put("ingotBerkelium247All","wasteSpallationBerkelium");
-		SpallationMaterials.put("ingotCurium247All","wasteSpallationCurium");
-		SpallationMaterials.put("ingotCurium246All","wasteSpallationCurium");
-		SpallationMaterials.put("ingotCurium245All","wasteSpallationCurium");
-		SpallationMaterials.put("ingotCurium243All","wasteSpallationCurium");
-		SpallationMaterials.put("ingotAmericium243All","wasteSpallationAmericium");
-		SpallationMaterials.put("ingotAmericium242All","wasteSpallationAmericium");
-		SpallationMaterials.put("ingotAmericium241All","wasteSpallationAmericium");
-		SpallationMaterials.put("ingotPlutonium242All","wasteSpallationPlutonium");
-		SpallationMaterials.put("ingotPlutonium241All","wasteSpallationPlutonium");
-		SpallationMaterials.put("ingotPlutonium239All","wasteSpallationPlutonium");
-		SpallationMaterials.put("ingotPlutonium238All","wasteSpallationPlutonium");
-		SpallationMaterials.put("ingotNeptunium237All","wasteSpallationNeptunium");
-		SpallationMaterials.put("ingotNeptunium236All","wasteSpallationNeptunium");
-		SpallationMaterials.put("ingotUranium238All","wasteSpallationUranium");
-		SpallationMaterials.put("ingotUranium235All","wasteSpallationUranium");
-		SpallationMaterials.put("ingotUranium234","wasteSpallationUranium");
-		SpallationMaterials.put("ingotUranium233All","wasteSpallationUranium");
-		SpallationMaterials.put("dustProtactinium233","wasteSpallationProtactinium");
-		SpallationMaterials.put("dustProtactinium231","wasteSpallationProtactinium");
-		SpallationMaterials.put("ingotThorium","wasteSpallationThorium");
-		SpallationMaterials.put("dustRadium","wasteSpallationRadium");
-		SpallationMaterials.put("dustPolonium","wasteSpallationPolonium");
-		SpallationMaterials.put("dustBismuth","wasteSpallationBismuth");
-		SpallationMaterials.put("ingotLead","wasteSpallationLead");
-		SpallationMaterials.put("ingotMercury","wasteSpallationMercury");
-		SpallationMaterials.put("ingotGold","wasteSpallationGold");
-		SpallationMaterials.put("ingotPlatinum","wasteSpallationPlatinum");
-		SpallationMaterials.put("ingotIridium","wasteSpallationIridium");
-		SpallationMaterials.put("ingotIridium192","wasteSpallationIridium");
-		SpallationMaterials.put("ingotOsmium","wasteSpallationOsmium");
-		SpallationMaterials.put("ingotTungsten","wasteSpallationTungsten");
-		SpallationMaterials.put("ingotHafnium","wasteSpallationHafnium");
-		
-		// Pion production
-		for(Entry<String, String> material : SpallationMaterials.entrySet())
-		{
-			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.proton, 1, 600000), material.getValue(),
-					new ParticleStack(Particles.pion_plus),null,new ParticleStack(Particles.pion_minus), 5000000, 0.2, -279000);
-		}
 		
 		
-		// antiproton production
-		for(Entry<String, String> material : SpallationMaterials.entrySet())
-		{
-			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.proton, 1, 5630000), material.getValue(),
-					new ParticleStack(Particles.proton), null, new ParticleStack(Particles.antiproton), 20000000, 0.2, -1880000);
-		}
-
-		
-		
-		// antiproton anhilation
+		// Antiproton reactions
+			// antiproton anhilation
 		for(Entry<String, String> material : SpallationMaterials.entrySet())
 		{
 			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.antiproton, 1), material.getValue(),
@@ -750,15 +760,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		}
 		
 		
-		// antideuteron production 
-		for(Entry<String, String> material : SpallationMaterials.entrySet())
-		{
-			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.deuteron, 1, 11300000), material.getValue(), 
-					new ParticleStack(Particles.deuteron), null, new ParticleStack(Particles.antideuteron), 20000000, 0.1, -3750000);
-		}
 		
 		
-		// antideuteron anhilation
+		// Antideuteron reactions
+			// antideuteron anhilation
 		for(Entry<String, String> material : SpallationMaterials.entrySet())
 		{
 			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.antideuteron, 1), material.getValue(),

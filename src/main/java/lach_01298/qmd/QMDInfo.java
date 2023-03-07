@@ -141,7 +141,7 @@ public class QMDInfo
 
 
 
-	// Magnet info
+	// Detector info
 	public static String[][] detectorFixedInfo()
 	{
 		DetectorType[] values = DetectorType.values();

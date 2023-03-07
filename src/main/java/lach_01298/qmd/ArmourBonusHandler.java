@@ -148,7 +148,7 @@ public class ArmourBonusHandler
 			
 			if (entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == QMDArmour.helm_hev)
 			{
-				if(event.getPotionEffect().getPotion() == Potion.getPotionById(19)) // Poison
+				if(event.getPotionEffect().getPotion() == Potion.getPotionFromResourceLocation("poison")) 
 				{
 						if (entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).hasCapability(CapabilityEnergy.ENERGY, null))
 						{

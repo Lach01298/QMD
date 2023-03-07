@@ -72,7 +72,7 @@ public class GuiLinearAcceleratorController
 		fontRenderer.drawString(cavitys, offset, 50, fontColor);
 
 		String quadrupoles = Lang.localise("gui.qmd.container.accelerator.quadrupoles", multiblock.quadrupoleNumber,
-				Units.getSIFormat(multiblock.quadrupoleStrength, ""));
+				Units.getSIFormat(multiblock.quadrupoleStrength, "T"));
 		fontRenderer.drawString(quadrupoles, offset, 60, fontColor);
 
 		String temperature = Lang.localise("gui.qmd.container.temperature",

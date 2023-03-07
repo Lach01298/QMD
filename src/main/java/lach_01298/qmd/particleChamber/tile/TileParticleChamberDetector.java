@@ -8,13 +8,15 @@ import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 
-public abstract class TileParticleChamberDetector extends TileParticleChamberPart
+public class TileParticleChamberDetector extends TileParticleChamberPart
 {
 
 	public final double efficiency;
 	public final int basePower;
 	public final String name;
-
+	public int taxiDistance;
+	public boolean within;
+	
 	public boolean isFunctional = false;
 
 	public TileParticleChamberDetector(double efficiency, int basePower, String name)
@@ -25,8 +27,24 @@ public abstract class TileParticleChamberDetector extends TileParticleChamberPar
 	
 		this.basePower = basePower;
 		this.name = name;
+		
 	}
 
+	//for custom detectors
+	public TileParticleChamberDetector(double efficiency, int basePower, String name, int taxiDistance, boolean within)
+	{
+		super(CuboidalPartPositionType.INTERIOR);
+	
+		this.efficiency =efficiency;
+	
+		this.basePower = basePower;
+		this.name = name;
+		this.taxiDistance = taxiDistance;
+		this.within = within;
+	}
+	
+	
+	
 	
 
 	public static class BubbleChamber extends TileParticleChamberDetector
@@ -151,9 +169,25 @@ public abstract class TileParticleChamberDetector extends TileParticleChamberPar
 		}
 	
 
-
+		// only used for custom detectors
 		public boolean isInvalidPostion(BlockPos target)
 		{
+			
+			if(within)
+			{
+				if(Util.getTaxiDistance(target, getPos()) <= taxiDistance)
+				{
+					return true;
+				}
+			}
+			else
+			{
+				if(Util.getTaxiDistance(target, getPos()) >= taxiDistance)
+				{
+					return true;
+				}
+			}
+			
 			return false;
 		}
 	

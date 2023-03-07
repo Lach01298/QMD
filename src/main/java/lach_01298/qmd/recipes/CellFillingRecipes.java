@@ -3,6 +3,7 @@ package lach_01298.qmd.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.item.QMDItems;
 import nc.recipe.BasicRecipeHandler;
 import nc.recipe.RecipeHelper;
@@ -41,7 +42,6 @@ public class CellFillingRecipes extends BasicRecipeHandler
 		
 		IItemIngredient ingredent = RecipeHelper.buildItemIngredient("cell"+fluid);
 		ItemStack item =  ingredent.getStack();
-		
 		
 		addRecipe(cell,fluidStack(fluid.toLowerCase(), amount),"cell"+fluid,emptyFluidStack());
 		addRecipe(item,emptyFluidStack(),cell,fluidStack(fluid.toLowerCase(), amount));

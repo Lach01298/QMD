@@ -1,7 +1,11 @@
 package lach_01298.qmd.crafttweaker;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
@@ -10,17 +14,26 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.CoolerPlacement;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.block.QMDBlocks;
-import nc.init.NCBlocks;
+import lach_01298.qmd.item.ItemCustomParticleSource;
+import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
+import lach_01298.qmd.tab.QMDTabs;
+import lach_01298.qmd.util.Util;
+import lach_01298.qmd.vacuumChamber.HeaterPlacement;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
+import nc.integration.crafttweaker.CTRegistration;
+import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
+import nc.item.NCItemMetaArray;
+import nc.util.IOHelper;
 import nc.util.InfoHelper;
 import nc.util.Lang;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -31,8 +44,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class QMDCTRegistration
 {
 
-	public static final List<QMDRegistrationInfo> INFO_LIST = new ArrayList<>();
-
+	//Methods
 	@ZenMethod
 	public static void registerAcceleratorCooler(String coolerID, int cooling, String rule)
 	{
@@ -45,46 +57,121 @@ public class QMDCTRegistration
 			{
 				return new TileAcceleratorCooler(coolerID, cooling, coolerID + "_cooler");
 			}
+		}, "accelerator_cooler_" + coolerID);
 
-			@Override
-			public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
-					EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-			{
-				if (player == null || hand != EnumHand.MAIN_HAND || player.isSneaking())
-				{
-					return false;
-				}
-				return rightClickOnPart(world, pos, player, hand, facing);
-			}
-		}, "accelerator_cooler" + coolerID);
-
-		INFO_LIST.add(new AcceleratorCoolerRegistrationInfo(cooler, coolerID, cooling, rule));
+		CTRegistration.INFO_LIST.add(new AcceleratorCoolerRegistrationInfo(cooler, coolerID, cooling, rule));
 		CraftTweakerAPI.logInfo("Registered accelerator cooler with ID \"" + coolerID + "\", cooling rate " + cooling
 				+ " H/t and placement rule \"" + rule + "\"");
 	}
 
-	// Registration Wrapper
-
-	public abstract static class QMDRegistrationInfo
+	@ZenMethod
+	public static void registerAcceleratorRFCavity(String name, int voltage, double efficiency, int heat, int basePower, int maxTemp)
 	{
 
-		public abstract void preInit();
-
-		public void recipeInit()
+		Block rfCavity = QMDBlocks.withName(new BlockAcceleratorPart()
 		{
-		}
 
-		public abstract void init();
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata)
+			{
+				return new TileAcceleratorRFCavity(voltage, efficiency, heat, basePower, maxTemp, name);
+			}
+		}, "accelerator_rf_cavity_" + name);
 
-		public abstract void postInit();
+		CTRegistration.INFO_LIST.add(new AcceleratorRFCavityRegistrationInfo(rfCavity, name, voltage, efficiency, heat, basePower, maxTemp));
+		CraftTweakerAPI.logInfo("Registered accelerator RF Cavity with name \"" + name + "\" and voltage " + voltage );
 	}
+	
+	@ZenMethod
+	public static void registerAcceleratorMagnet(String name, double strength, double efficiency, int heat, int basePower, int maxTemp)
+	{
 
-	public static class BlockRegistrationInfo extends QMDRegistrationInfo
+		Block magnet = QMDBlocks.withName(new BlockAcceleratorPart()
+		{
+
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata)
+			{
+				return new TileAcceleratorMagnet(strength, efficiency, heat, basePower, maxTemp, name);
+			}
+		}, "accelerator_magnet_" + name);
+
+		CTRegistration.INFO_LIST.add(new AcceleratorMagnetRegistrationInfo(magnet, name, strength, efficiency, heat, basePower, maxTemp));
+		CraftTweakerAPI.logInfo("Registered accelerator magnet with name \"" + name + "\" and strength " + strength );
+	}
+	
+	@ZenMethod
+	public static void registerParticleChamberDetector(String name, double efficiency, int basePower, int distance, boolean within)
+	{
+
+		Block detector = QMDBlocks.withName(new BlockAcceleratorPart()
+		{
+
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata)
+			{
+				return new TileParticleChamberDetector(efficiency, basePower, name, distance, within);
+			}
+		}, "particle_chamber_detector_" + name);
+
+		CTRegistration.INFO_LIST.add(new ParticleChamberDetectorRegistrationInfo(detector, name, efficiency, basePower, distance, within));
+		CraftTweakerAPI.logInfo("Registered particle chamber detector with name \"" + name + "\" and efficiency " + efficiency );
+	}
+	
+	@ZenMethod
+	public static void registerVaccuumChamberHeater(String coolerID, int cooling, String rule)
+	{
+
+		Block cooler = QMDBlocks.withName(new BlockAcceleratorPart()
+		{
+
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata)
+			{
+				return new TileVacuumChamberHeater(coolerID, cooling, coolerID + "_cooler");
+			}
+		}, "vacuum_chamber_heater_" + coolerID);
+
+		CTRegistration.INFO_LIST.add(new VacuumChamberHeaterRegistrationInfo(cooler, coolerID, cooling, rule));
+		CraftTweakerAPI.logInfo("Registered vacuum chamber heater with ID \"" + coolerID + "\", cooling rate " + cooling
+				+ " H/t and placement rule \"" + rule + "\"");
+	}
+	
+	@ZenMethod
+	public static void registerItemSource(String name, int capacity, int stackSize)
+	{
+		capacity = capacity < 0 ? 0 : capacity;
+		stackSize  = stackSize > 64 ? 64 : stackSize < 1 ? 1 : stackSize;
+		
+		Item item = QMDItems.withName(new ItemCustomParticleSource(capacity, stackSize), name);
+		
+
+		CTRegistration.INFO_LIST.add(new ItemRegistrationInfo(item, QMDTabs.ITEMS));
+		CraftTweakerAPI.logInfo("Registered item particle source with name \"" + name + "\"");
+	
+	}
+	
+	@ZenMethod
+	public static void registerItemSource(String name, int capacity, int stackSize, double explosionSize, double radiation)
+	{
+		capacity = capacity < 0 ? 0 : capacity;
+		stackSize  = stackSize > 64 ? 64 : stackSize < 1 ? 1 : stackSize;
+		
+		Item item = QMDItems.withName(new ItemCustomParticleSource(capacity, stackSize, explosionSize, radiation), name);
+		
+		CTRegistration.INFO_LIST.add(new ItemRegistrationInfo(item, QMDTabs.ITEMS));
+		CraftTweakerAPI.logInfo("Registered item particle source with name \"" + name + "\"");
+	
+	}
+	
+
+	//Blocks
+	public static class QMDBlockRegistrationInfo extends RegistrationInfo
 	{
 
 		protected final Block block;
 
-		public BlockRegistrationInfo(Block block)
+		public QMDBlockRegistrationInfo(Block block)
 		{
 			this.block = block;
 		}
@@ -110,6 +197,10 @@ public class QMDCTRegistration
 			QMDBlocks.registerRender(block);
 		}
 
+		
+		@Override
+		public void recipeInit() {}
+		
 		@Override
 		public void init()
 		{
@@ -121,16 +212,16 @@ public class QMDCTRegistration
 		}
 	}
 
-	public static class TileBlockRegistrationInfo extends BlockRegistrationInfo
+	public static class QMDTileBlockRegistrationInfo extends QMDBlockRegistrationInfo
 	{
 
-		public TileBlockRegistrationInfo(Block block)
+		public QMDTileBlockRegistrationInfo(Block block)
 		{
 			super(block);
 		}
 	}
 
-	public static class AcceleratorCoolerRegistrationInfo extends TileBlockRegistrationInfo
+	public static class AcceleratorCoolerRegistrationInfo extends QMDTileBlockRegistrationInfo
 	{
 
 		protected final String coolerID, rule;
@@ -148,7 +239,7 @@ public class QMDCTRegistration
 		public void registerBlock()
 		{
 			QMDBlocks.registerBlock(block, TextFormatting.BLUE, new String[] {
-					Lang.localise("tile." + QMD.MOD_ID + ".accelerator_cooler.cooling_rate") + " " + cooling + " H/t" },
+					Lang.localise("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + cooling + " H/t" },
 					TextFormatting.AQUA, InfoHelper.NULL_ARRAY);
 		}
 
@@ -159,5 +250,302 @@ public class QMDCTRegistration
 			CoolerPlacement.addRule(coolerID + "_cooler", rule, block);
 		}
 	}
+	
+	public static class AcceleratorRFCavityRegistrationInfo extends QMDTileBlockRegistrationInfo
+	{
+
+		protected final String name;
+		protected final int voltage,heat,basePower, maxTemp;
+		protected final double efficiency;
+
+		AcceleratorRFCavityRegistrationInfo(Block block, String name, int voltage, double efficiency, int heat, int basePower, int maxTemp)
+		{
+			super(block);
+			this.name = name;
+			this.voltage = voltage;
+			this.efficiency = efficiency;
+			this.heat = heat;
+			this.basePower = basePower;
+			this.maxTemp = maxTemp;
+		}
+
+		@Override
+		public void registerBlock()
+		{
+			String[] info = new String[] {
+					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.voltage", voltage),
+					Lang.localise("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*efficiency) + "%"),
+					Lang.localise("info." + QMD.MOD_ID + ".item.heat", heat),
+					Lang.localise("info." + QMD.MOD_ID + ".item.power", basePower),
+					Lang.localise("info." + QMD.MOD_ID + ".item.max_temp", maxTemp)
+					};
+			
+			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".rf_cavity.desc")));
+		}
+	}
+	
+	public static class AcceleratorMagnetRegistrationInfo extends QMDTileBlockRegistrationInfo
+	{
+
+		protected final String name;
+		protected final int heat,basePower, maxTemp;
+		protected final double  strength,efficiency;
+
+		AcceleratorMagnetRegistrationInfo(Block block, String name, double strength, double efficiency, int heat, int basePower, int maxTemp)
+		{
+			super(block);
+			this.name = name;
+			this.strength = strength;
+			this.efficiency = efficiency;
+			this.heat = heat;
+			this.basePower = basePower;
+			this.maxTemp = maxTemp;
+		}
+
+		@Override
+		public void registerBlock()
+		{
+			String[] info = new String[] {
+					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.strength", strength),
+					Lang.localise("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*efficiency) + "%"),
+					Lang.localise("info." + QMD.MOD_ID + ".item.heat", heat),
+					Lang.localise("info." + QMD.MOD_ID + ".item.power", basePower),
+					Lang.localise("info." + QMD.MOD_ID + ".item.max_temp", maxTemp)
+					};
+			
+			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".accelerator_magnet.desc")));
+		}
+	}
+	
+	public static class ParticleChamberDetectorRegistrationInfo extends QMDTileBlockRegistrationInfo
+	{
+
+		protected final String name;
+		protected final int basePower,distance;
+		protected final double efficiency;
+		protected final boolean within;
+
+		ParticleChamberDetectorRegistrationInfo(Block block, String name, double efficiency, int basePower, int distance, boolean within)
+		{
+			super(block);
+			this.name = name;
+			this.efficiency = efficiency;
+			this.basePower = basePower;
+			this.distance = distance;
+			this.within = within;
+		}
+
+		@Override
+		public void registerBlock()
+		{
+			String[] info = new String[] {
+					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(1000D*efficiency)/10d + "%"),
+					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.power", basePower)
+					};
+			
+			if(within)
+			{
+				QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector.in.desc",distance)));
+			}
+			else
+			{
+				QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector.out.desc",distance)));
+			}
+			
+			
+		}
+	}
+	
+	public static class VacuumChamberHeaterRegistrationInfo extends QMDTileBlockRegistrationInfo
+	{
+
+		protected final String coolerID, rule;
+		protected final int cooling;
+
+		VacuumChamberHeaterRegistrationInfo(Block block, String coolerID, int cooling, String rule)
+		{
+			super(block);
+			this.coolerID = coolerID;
+			this.cooling = cooling;
+			this.rule = rule;
+		}
+
+		@Override
+		public void registerBlock()
+		{
+			QMDBlocks.registerBlock(block, TextFormatting.BLUE, new String[] {
+					Lang.localise("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + cooling + " H/t" },
+					TextFormatting.AQUA, InfoHelper.NULL_ARRAY);
+		}
+
+		@Override
+		public void init()
+		{
+			super.init();
+			HeaterPlacement.addRule(coolerID + "_cooler", rule, block);
+		}
+	}
+	
+	
+	//Items
+	
+	public static class ItemRegistrationInfo extends RegistrationInfo
+	{
+
+		protected final Item item;
+		protected final CreativeTabs tab;
+
+		public ItemRegistrationInfo(Item item, CreativeTabs tab)
+		{
+			this.item = item;
+			this.tab = tab;
+		}
+
+		@Override
+		public void preInit()
+		{
+			registerItem();
+
+			if (CraftTweakerPlatformUtils.isClient())
+			{
+				registerRender();
+			}
+		}
+
+		public void registerItem()
+		{
+			QMDItems.registerItem(item, tab);
+		}
+
+		public void registerRender()
+		{
+			QMDItems.registerRender(item);
+		}
+
+		@Override
+		public void recipeInit()
+		{
+		}
+
+		@Override
+		public void init()
+		{
+		}
+
+		@Override
+		public void postInit()
+		{
+		}
+	}
+
+	
+	
+	
+	public static class MetaItemRegistrationInfo extends RegistrationInfo
+	{
+
+		protected final String name;
+		protected Item item = null;
+		protected CreativeTabs tab;
+
+		public final List<String> types = new ArrayList<>();
+		public final List<String> models = new ArrayList<>();
+		public final List<String> textures = new ArrayList<>();
+
+		public MetaItemRegistrationInfo(String name, CreativeTabs tab)
+		{
+			this.name = name;
+			this.tab = tab;
+		}
+
+		public void createModelJson()
+		{
+			StringBuilder builder = new StringBuilder();
+			String s = IOHelper.NEW_LINE;
+
+			builder.append("{" + s + "	\"forge_marker\": 1," + s + "	\"defaults\": {" + s
+					+ "		\"model\": \"builtin/generated\"," + s + "		\"transform\": \"forge:default-item\"" + s
+					+ "	}," + s + "	\"variants\": {" + s + "		\"type\": {" + s);
+
+			for (int i = 0; i < types.size(); ++i)
+			{
+				builder.append("			\"" + types.get(i) + "\": {" + s);
+
+				String model = models.get(i);
+				if (model != null)
+				{
+					builder.append("				\"model\": \"" + model + "\"," + s);
+				}
+
+				builder.append("				\"textures\": {" + s
+						+ "					\"layer0\": \"qmd:items/" + name + "/" + textures.get(i) + "\"" + s
+						+ "				}" + s + "			" + (i < types.size() - 1 ? "}," : "}") + s);
+			}
+
+			builder.append("		}" + s + "	}" + s + "}" + s);
+
+			try
+			{
+				FileUtils.writeStringToFile(new File("resources/qmd/blockstates/items/" + name + ".json"),
+						builder.toString());
+			}
+			catch (IOException e)
+			{
+				Util.getLogger().catching(e);
+			}
+		}
+
+		@Override
+		public void preInit()
+		{
+			if (types.isEmpty())
+			{
+				return;
+			}
+
+			createModelJson();
+
+			item = QMDItems.withName(new NCItemMetaArray(types), name);
+
+			registerItem();
+
+			if (CraftTweakerPlatformUtils.isClient())
+			{
+				registerRender();
+			}
+		}
+
+		public void registerItem()
+		{
+			QMDItems.registerItem(item, tab);
+		}
+
+		public void registerRender()
+		{
+			for (int i = 0; i < types.size(); ++i)
+			{
+				QMDItems.registerRender(item, i, types.get(i));
+			}
+		}
+
+		@Override
+		public void recipeInit()
+		{
+		}
+
+		@Override
+		public void init()
+		{
+		}
+
+		@Override
+		public void postInit()
+		{
+		}
+	}
+	
+	
+	
+	
 
 }

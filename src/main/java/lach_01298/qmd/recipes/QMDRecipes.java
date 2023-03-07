@@ -58,6 +58,7 @@ import nc.util.FluidStackHelper;
 import nc.util.NCMath;
 import nc.util.OreDictHelper;
 import nc.util.StringHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -246,7 +247,7 @@ public class QMDRecipes
 		NCRecipes.centrifuge.addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME*10), fluidStack("heavy_water", 100), new EmptyFluidIngredient(), new EmptyFluidIngredient(),  new EmptyFluidIngredient(),  new EmptyFluidIngredient(), new EmptyFluidIngredient(), 1D, 4D);
 		
 		//Electrolyzer
-		NCRecipes.electrolyzer.addRecipe(fluidStack("sodium_chloride_solution", 2*FluidStackHelper.GEM_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME*2), new EmptyFluidIngredient(), 1D, 1D);
+		NCRecipes.electrolyzer.addRecipe(fluidStack("sodium_chloride_solution", 2*FluidStackHelper.GEM_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME*2), new EmptyFluidIngredient(), 0.5D, 1D);
 		
 		
 		// Manufactory
@@ -357,7 +358,7 @@ public class QMDRecipes
 		NCRecipes.assembler.addRecipe("processorAdvanced",AbstractRecipeHandler.oreStack("wireBSCCO",4),"dustHafniumOxide","ingotPlatinum","processorElite",1D,1D);
 		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("ingotTungsten",2),new EmptyItemIngredient(),new EmptyItemIngredient(),new EmptyItemIngredient(), IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())), 1D, 1D);
 		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("ingotFerroboron",2), "ingotNeodymium",new EmptyItemIngredient(),new EmptyItemIngredient(), "magnetNeodymium",1D,1D);
-		
+		NCRecipes.assembler.addRecipe("dustPotassium", "dustIodine",new ItemStack(Items.SUGAR,4), "bioplastic", new ItemStack(QMDItems.potassiumIodineTablet,4),1D,1D);
 		
 		//Fission Irradiator
 		NCRecipes.fission_irradiator.addRecipe("siliconWafer", new ItemStack(QMDItems.semiconductor,1,SemiconductorType.SILICON_N_DOPED.getID()),120000,0d,0);

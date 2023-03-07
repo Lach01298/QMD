@@ -58,10 +58,12 @@ public class CoolerPlacement
 		RULE_PARSER_LIST.add(new DefaultRuleParser());
 		
 		TOOLTIP_BUILDER_LIST.add(new DefaultTooltipBuilder());
+		
+		recipe_handler = new RecipeHandler();
 	}
 	
 	public static void init() {
-		recipe_handler = new RecipeHandler();
+		//recipe_handler = new RecipeHandler();
 		
 		RULE_MAP.put("", new PlacementRule.Or<>(new ArrayList<>()));
 		

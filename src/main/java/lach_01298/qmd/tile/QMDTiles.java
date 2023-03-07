@@ -61,6 +61,8 @@ import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
+import nc.Global;
+import nc.multiblock.fission.solid.tile.TileSolidFissionSink;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -108,6 +110,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorRedstonePort.class,Util.appendPath(acceleratorPath, "redstone_port"));
 		
 		//magnets
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.class, Util.appendPath(magnetPath, "magnet"));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Copper.class, Util.appendPath(magnetPath, MagnetType.COPPER.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.MagnesiumDiboride.class, Util.appendPath(magnetPath, MagnetType.MAGNESIUM_DIBORIDE.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.NiobiumTin.class, Util.appendPath(magnetPath, MagnetType.NIOBIUM_TIN.getName()));
@@ -115,6 +118,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.BSCCO.class, Util.appendPath(magnetPath, MagnetType.BSCCO.getName()));
 		
 		//RF Cavities
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.class, Util.appendPath(cavityPath, "rf_cavity"));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.Copper.class, Util.appendPath(cavityPath, RFCavityType.COPPER.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.MagnesiumDiboride.class, Util.appendPath(cavityPath, RFCavityType.MAGNESIUM_DIBORIDE.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.NiobiumTin.class, Util.appendPath(cavityPath, RFCavityType.NIOBIUM_TIN.getName()));
@@ -124,6 +128,7 @@ public class QMDTiles
 	
 		
 		//coolers
+		GameRegistry.registerTileEntity(TileAcceleratorCooler.class, Util.appendPath(coolerPath, "cooler"));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Water.class, Util.appendPath(coolerPath, CoolerType1.WATER.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Iron.class, Util.appendPath(coolerPath, CoolerType1.IRON.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Redstone.class, Util.appendPath(coolerPath, CoolerType1.REDSTONE.getName()));
@@ -176,6 +181,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileParticleChamberFluidPort.class,Util.appendPath(chamberPath, "fluid_port"));
 		
 		//detectors
+		GameRegistry.registerTileEntity(TileParticleChamberDetector.class, Util.appendPath(detectorPath, "detector"));
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.BubbleChamber.class, Util.appendPath(detectorPath, DetectorType.BUBBLE_CHAMBER.getName()));
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.SiliconTracker.class, Util.appendPath(detectorPath, DetectorType.SILLICON_TRACKER.getName()));
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.WireChamber.class, Util.appendPath(detectorPath, DetectorType.WIRE_CHAMBER.getName()));
@@ -191,7 +197,7 @@ public class QMDTiles
 		
 		
 		
-		//contaiment parts
+		//vacuum chamber parts
 		
 		GameRegistry.registerTileEntity(TileExoticContainmentController.class,Util.appendPath(containmentPath, "neutral_containment_controller"));
 		GameRegistry.registerTileEntity(TileNucleosynthesisChamberController.class,Util.appendPath(containmentPath, "neucleosynthesis_chamber_controller"));
@@ -212,6 +218,7 @@ public class QMDTiles
 
 		//heaters
 		
+		GameRegistry.registerTileEntity(TileVacuumChamberHeater.class, Util.appendPath(heaterPath, "heater"));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Iron.class, Util.appendPath(heaterPath, HeaterType.IRON.getName()));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Redstone.class, Util.appendPath(heaterPath, HeaterType.REDSTONE.getName()));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Quartz.class, Util.appendPath(heaterPath, HeaterType.QUARTZ.getName()));

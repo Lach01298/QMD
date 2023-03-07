@@ -32,6 +32,7 @@ public class NeutralContainmentRecipes extends QMDRecipeHandler
 		addRecipe(new ParticleStack(Particles.muon,ppmB,0,2),new ParticleStack(Particles.antimuon,ppmB,0,2),fluidStack("muonium", 1), 1l);
 		addRecipe(new ParticleStack(Particles.tau,ppmB,0,2),new ParticleStack(Particles.antitau,ppmB,0,2),fluidStack("tauonium", 1), 1l);
 		addRecipe(new ParticleStack(Particles.glueball,ppmB,0,1), new EmptyParticleIngredient(),fluidStack("glueballs", 1));
+
 	}
 
 	@Override

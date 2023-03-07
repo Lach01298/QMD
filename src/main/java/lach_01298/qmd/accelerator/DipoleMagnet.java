@@ -14,7 +14,7 @@ public class DipoleMagnet
 	private BlockPos pos;
 	
 	private final Long2ObjectMap<IAcceleratorComponent> components = new Long2ObjectOpenHashMap<>();
-	private  MagnetType type;
+	private  String type;
 	
 	
 	public DipoleMagnet(Accelerator accelerator, BlockPos pos)
@@ -31,17 +31,17 @@ public class DipoleMagnet
 		if( accelerator.WORLD.getTileEntity(pos.up()) instanceof TileAcceleratorMagnet)
 		{
 			TileAcceleratorMagnet magnet =(TileAcceleratorMagnet) accelerator.WORLD.getTileEntity(pos.up());
-			type = MagnetType.valueOf(magnet.name.toUpperCase());
+			type = magnet.name.toUpperCase();
 		}
 		else if( accelerator.WORLD.getTileEntity(pos.north()) instanceof TileAcceleratorMagnet)
 		{
 			TileAcceleratorMagnet magnet =(TileAcceleratorMagnet) accelerator.WORLD.getTileEntity(pos.north());
-			type = MagnetType.valueOf(magnet.name.toUpperCase());
+			type = magnet.name.toUpperCase();
 		}
 		else if( accelerator.WORLD.getTileEntity(pos.east()) instanceof TileAcceleratorMagnet)
 		{
 			TileAcceleratorMagnet magnet =(TileAcceleratorMagnet) accelerator.WORLD.getTileEntity(pos.east());
-			type = MagnetType.valueOf(magnet.name.toUpperCase());
+			type =magnet.name.toUpperCase();
 		}
 		else
 		{
@@ -91,7 +91,7 @@ public class DipoleMagnet
 		return components;
 	}
 	
-	public MagnetType getType() 
+	public String getType() 
 	{
 		return type;
 	}

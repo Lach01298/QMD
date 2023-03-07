@@ -18,7 +18,7 @@ public class QuadrupoleMagnet
 	
 	private final Long2ObjectMap<IAcceleratorComponent> components = new Long2ObjectOpenHashMap<>();
 
-	private  MagnetType type;
+	private  String type;
 	
 	public QuadrupoleMagnet(Accelerator accelerator, BlockPos pos, EnumFacing.Axis axis)
 	{
@@ -35,7 +35,7 @@ public class QuadrupoleMagnet
 		if( accelerator.WORLD.getTileEntity(pos.up()) instanceof TileAcceleratorMagnet)
 		{
 			TileAcceleratorMagnet magnet =(TileAcceleratorMagnet) accelerator.WORLD.getTileEntity(pos.up());
-			type = MagnetType.valueOf(magnet.name.toUpperCase());
+			type = magnet.name.toUpperCase();
 		}
 		else
 		{
@@ -84,7 +84,7 @@ public class QuadrupoleMagnet
 		return axis;
 	}
 	
-	public MagnetType getType() 
+	public String getType() 
 	{
 		return type;
 	}
