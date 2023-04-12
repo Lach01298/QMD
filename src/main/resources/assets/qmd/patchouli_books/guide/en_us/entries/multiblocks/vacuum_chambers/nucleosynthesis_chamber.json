@@ -80,7 +80,7 @@
         },
 		{
 			"type": "text",
-            "text": "If we over or under cooled it then this would be less that 100%. This efficiency is calculated as $(l)ε=$(o)min$(l)(1,(C+20)/(H+|H-C|))$() where $(l)H$() is the heating and $(l)C$() is the cooling. This gives no penalty if your with in 20 H/t of the heating." 
+            "text": "If we over or under cooled it then this would be less that 100%. This efficiency is calculated as $(l)ε=$(o)min$(l)(1,(H+20)/(H+|H-C|))$() where $(l)H$() is the heating and $(l)C$() is the cooling. This gives no penalty if your with in 20 H/t of the heating." 
         },
 		{
 			"type": "text",

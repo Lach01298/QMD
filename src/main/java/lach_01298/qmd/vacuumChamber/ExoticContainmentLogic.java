@@ -600,14 +600,15 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	
 				for (EntityLivingBase entity : entitylist)
 				{
-	
-					double rads = Math.min(QMDConfig.exotic_containment_radiation * size,(QMDConfig.exotic_containment_radiation * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ));
 					IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-					entityRads
-							.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-					if (rads >= entityRads.getMaxRads())
+					if(entityRads != null)
 					{
-						entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+						double rads = Math.min(QMDConfig.exotic_containment_radiation * size,(QMDConfig.exotic_containment_radiation * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ));
+						entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
+						if (rads >= entityRads.getMaxRads())
+						{
+							entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+						}
 					}
 				}
 			}

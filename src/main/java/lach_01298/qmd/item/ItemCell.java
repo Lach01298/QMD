@@ -226,7 +226,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 
 			if (IItemParticleAmount.getCapacity(stack) > 0)
 			{
-				size *= getAmountStored(stack)/IItemParticleAmount.getCapacity(stack);
+				size *= getAmountStored(stack)/(double)IItemParticleAmount.getCapacity(stack);
 			}
 			
 			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*QMDConfig.cell_explosion_size), true);
@@ -241,14 +241,17 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 
 			for (EntityLivingBase entity : entitylist)
 			{
-				double rads = Math.min(QMDConfig.cell_radiation * size, (QMDConfig.cell_radiation * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
 				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-				entityRads
-						.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-
-				if (rads >= entityRads.getMaxRads())
+				if(entityRads != null)
 				{
-					entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+					double rads = Math.min(QMDConfig.cell_radiation * size, (QMDConfig.cell_radiation * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
+					
+					entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
+		
+					if (rads >= entityRads.getMaxRads())
+					{
+						entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+					}
 				}
 			}
 		}

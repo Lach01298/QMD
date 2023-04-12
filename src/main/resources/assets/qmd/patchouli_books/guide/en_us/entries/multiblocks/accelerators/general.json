@@ -123,7 +123,7 @@
         },
 		{
 			"type": "text",
-			"text": "To calculate the maximum heating it is the sum of the internal and external heating. The external heating is $(br)$(l)He=0.0025A(Tₑ-Tₐ)$() where $(l)Tₑ$() is the environment temperature usually around 300 K, $(l)Tₐ$() is the accelerators temperature and A is the surface area of the accelerator. The maximum External heating is therefore when $(l)Tₐ$() = 0 K. The Internal Heating is the sum of all the component blocks' heat generation values."
+			"text": "To calculate the maximum heating it is the sum of the internal and external heating. The external heating is $(br)$(l)He=κA(Tₑ-Tₐ)$() where $(l)Tₑ$() is the environment temperature usually around 300 K, $(l)Tₐ$() is the accelerators temperature, $(l)κ$() is thermal conductivity (default config is 0.0025) and A is the surface area of the accelerator. The maximum External heating is therefore when $(l)Tₐ$() = 0 K. The Internal Heating is the sum of all the component blocks' heat generation values."
         },
 		{
             "anchor": "coolant",

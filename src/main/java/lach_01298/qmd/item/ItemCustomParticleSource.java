@@ -142,8 +142,8 @@ public class ItemCustomParticleSource extends NCItem implements IItemParticleAmo
 			
 			if (IItemParticleAmount.getCapacity(stack) > 0)
 			{
-				s *= stack.getCount() * getAmountStored(stack) / IItemParticleAmount.getCapacity(stack);
-				r *= stack.getCount() * getAmountStored(stack) / IItemParticleAmount.getCapacity(stack);
+				s *= stack.getCount() * getAmountStored(stack) / (double)IItemParticleAmount.getCapacity(stack);
+				r *= stack.getCount() * getAmountStored(stack) / (double)IItemParticleAmount.getCapacity(stack);
 			}
 			
 			
@@ -159,13 +159,16 @@ public class ItemCustomParticleSource extends NCItem implements IItemParticleAmo
 
 			for (EntityLivingBase entity : entitylist)
 			{
-				double rads = Math.min(r, r / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
 				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-				entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-
-				if (rads >= entityRads.getMaxRads())
-				{
-					entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+				if(entityRads != null)
+				{				
+					double rads = Math.min(r, r / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
+					entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
+	
+					if (rads >= entityRads.getMaxRads())
+					{
+						entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
+					}
 				}
 			}
 		}

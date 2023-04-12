@@ -1062,7 +1062,7 @@ gui.qmd.config.accelerator.magnet_max_temp=Magnet Max Temperature
 gui.qmd.config.accelerator.magnet_max_temp.comment=The maximum operating temperature for each magnet in K. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
 
 gui.qmd.config.accelerator.cooler_heat_removed=Cooler Heat
-gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
+gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
 
 gui.qmd.config.accelerator.cooler_rule=Cooler Rules
 gui.qmd.config.accelerator.cooler_rule.comment=The Placement rules of each cooler. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin. lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.
