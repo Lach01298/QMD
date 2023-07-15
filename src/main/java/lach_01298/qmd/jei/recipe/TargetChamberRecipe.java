@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
@@ -49,7 +50,7 @@ public class TargetChamberRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return inputParticles.get(0).get(0).getAmount()/100000;
+		return Math.max(inputParticles.get(0).get(0).getAmount()/(QMDConfig.ion_source_output*10),5);
 	}
 
 }

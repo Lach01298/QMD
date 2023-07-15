@@ -3,6 +3,7 @@ package lach_01298.qmd.jei.recipe;
 import java.awt.Color;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
@@ -43,14 +44,8 @@ public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
 
 	@Override
 	protected int getProgressArrowTime()
-	{
-		int time = inputParticles.get(0).get(0).getAmount()/25000;
-		if(time < 8)
-		{
-			time = 8;
-		}
-		
-		return time;
+	{	
+		return Math.max(inputParticles.get(0).get(0).getAmount()/(QMDConfig.ion_source_output*4),8);
 	}
 
 }

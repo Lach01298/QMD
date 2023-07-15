@@ -25,11 +25,15 @@ public class BeamDumpRecipes extends QMDRecipeHandler
 	{
 		//addRecipe(inputParticle(amount,minEnergy,minFocus), outputFluid(amount), maxEnergy)
 		
-		addRecipe(new ParticleStack(Particles.proton,1000), fluidStack("hydrogen", 1));
-		addRecipe(new ParticleStack(Particles.deuteron,1000), fluidStack("deuterium", 1));
-		addRecipe(new ParticleStack(Particles.triton,1000), fluidStack("tritium", 1));
-		addRecipe(new ParticleStack(Particles.helion,1000), fluidStack("helium_3", 1));
-		addRecipe(new ParticleStack(Particles.alpha,1000), fluidStack("helium", 1));
+		//particles per milibucket
+		int ppmB = QMDConfig.mole_amount/1000;
+		
+		
+		addRecipe(new ParticleStack(Particles.proton,ppmB), fluidStack("hydrogen", 1));
+		addRecipe(new ParticleStack(Particles.deuteron,ppmB), fluidStack("deuterium", 1));
+		addRecipe(new ParticleStack(Particles.triton,ppmB), fluidStack("tritium", 1));
+		addRecipe(new ParticleStack(Particles.helion,ppmB), fluidStack("helium_3", 1));
+		addRecipe(new ParticleStack(Particles.alpha,ppmB), fluidStack("helium", 1));
 	}
 
 

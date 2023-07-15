@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipe;
@@ -48,7 +49,7 @@ public class BeamDumpRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return inputParticles.get(0).get(0).getAmount()/50;
+		return Math.max(inputParticles.get(0).get(0).getAmount()/Math.max(QMDConfig.ion_source_output/200,1),5);
 	}
 
 }
