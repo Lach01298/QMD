@@ -12,28 +12,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
-
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerNucleosynthesisChamberController;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
 import lach_01298.qmd.multiblock.network.NucleosynthesisChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberComponent;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
@@ -42,7 +35,6 @@ import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.BasicRecipe;
 import nc.recipe.RecipeInfo;
@@ -53,7 +45,6 @@ import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,7 +52,6 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 
 public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 {
@@ -86,7 +76,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	public double casingHeating = 0L;
 	public long casingCooling = 0L;
 	public int maxCasingCoolantIn = 0, maxCasingCoolantOut = 0; // in mirco buckets/t
-	private int excessCasingCoolant =0; // in mirco buckets
+	private double excessCasingCoolingRecipes =0;
 	private double excessCasingHeat =0;
 	
 	public RecipeInfo<BasicRecipe> casingCoolingRecipeInfo;
@@ -845,7 +835,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
-		getMultiblock().currentHeating = 0;
+
 
 		if ((!getMultiblock().tanks.get(4).isEmpty() || !getMultiblock().tanks.get(5).isEmpty()))
 		{
@@ -1074,97 +1064,111 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		casingCoolingRecipeInfo = vacuum_chamber_heating.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(2, 3));
 		if(casingCoolingRecipeInfo != null)
 		{
-			maxCasingCoolantIn = 1000 / casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (casingCooling * casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0));
-			maxCasingCoolantOut = 1000 / casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (casingCooling * casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0));
+			maxCasingCoolantIn =  (int) (casingCooling/(double)casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*1000);
+			maxCasingCoolantOut = (int) (casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0)*casingCooling/(double)(casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*1000);
 		}	
 	}
 	
 	
 	protected boolean canProcessCasingFluidInputs() 
 	{
-		
 		if(casingCoolingRecipeInfo== null)
 		{
 			return false;
 		}
-				
-		IFluidIngredient fluidProduct = casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0);
-		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null)
-			return false;
-
-		if (!getMultiblock().tanks.get(3).isEmpty())
-		{
-			if (!getMultiblock().tanks.get(3).getFluid().isFluidEqual(fluidProduct.getStack()))
-			{
-				return false;
-			}
-			else if (getMultiblock().tanks.get(3).getFluidAmount() + (maxCasingCoolantIn/1000 +1)*fluidProduct.getNextStack(0).amount > getMultiblock().tanks.get(3).getCapacity())			
-			{
-				return false;
-			}
 			
-			else if (casingHeatBuffer.getHeatStored() < 1)
+		IFluidIngredient fluidInput = casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		Tank outputTank = getMultiblock().tanks.get(3);
+		long maximumHeatChange = casingCooling;
+		double efficiency = getCoolingEfficiency();
+		int heatPerMB = casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+
+		if (fluidOutput.getMaxStackSize(0) <= 0 || fluidOutput.getStack() == null)
+			return false;
+		
+		
+		double recipesPerTick = maximumHeatChange/(fluidInput.getMaxStackSize(0)*heatPerMB * efficiency);
+		
+		if (!outputTank.isEmpty())
+		{			
+			if (!outputTank.getFluid().isFluidEqual(fluidOutput.getStack()))
+			{
+				return false;
+			}
+			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCasingCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())			
 			{
 				return false;
 			}
 		}
+		
+		if (casingHeatBuffer.getHeatStored() < fluidInput.getMaxStackSize(0)*heatPerMB)
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
 	private void produceCasingFluidProducts()
 	{
-		int uBConsumed = maxCasingCoolantIn;
-		
-	
-		if(uBConsumed > getMultiblock().tanks.get(2).getFluidAmount() *1000)
-		{
-			uBConsumed = getMultiblock().tanks.get(2).getFluidAmount() *1000;
-		}
-		if(uBConsumed/1000D*casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() > casingHeatBuffer.getHeatStored())
-		{
-			uBConsumed = (int) (1000D*1/(double)(casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB())*casingHeatBuffer.getHeatStored());
-		}		
-		
-		int mBConsumed =0;	
-		
-		if(uBConsumed%1000 != 0)
-		{
-			mBConsumed = (uBConsumed + (1000-(uBConsumed%1000)))/1000;
 
-			
-			excessCasingCoolant += (1000-(uBConsumed%1000));
+		IFluidIngredient fluidInput = casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		Tank inputTank = getMultiblock().tanks.get(2);
+		Tank outputTank = getMultiblock().tanks.get(3);
+		long maximumHeatChange = casingCooling;
+		double efficiency = getCoolingEfficiency();
+		int heatPerMB = casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		
+		double recipesPerTick = maximumHeatChange/(fluidInput.getMaxStackSize(0)*heatPerMB * efficiency);
+		
+		if(recipesPerTick*fluidInput.getMaxStackSize(0) > inputTank.getFluidAmount())
+		{
+			recipesPerTick = inputTank.getFluidAmount()/(double)fluidInput.getMaxStackSize(0);
+		}
+		
+		if(recipesPerTick * fluidInput.getMaxStackSize(0) * heatPerMB * efficiency > casingHeatBuffer.getHeatStored())
+		{
+			recipesPerTick = casingHeatBuffer.getHeatStored()/(fluidInput.getMaxStackSize(0) * heatPerMB * efficiency);
+		}
+		
+		
+		int recipesThisTick = (int) Math.floor(recipesPerTick);
+		excessCasingCoolingRecipes += recipesPerTick - recipesThisTick;
+
+		if(excessCasingCoolingRecipes >= 1)
+		{
+			recipesThisTick += (int) Math.floor(excessCasingCoolingRecipes);
+			excessCasingCoolingRecipes -= Math.floor(excessCasingCoolingRecipes);
+		}
+		
+		
+		inputTank.changeFluidAmount(-recipesThisTick*fluidInput.getMaxStackSize(0));
+		if (inputTank.getFluidAmount() <= 0) inputTank.setFluidStored(null);
+		
+		if(outputTank.isEmpty())
+		{
+			outputTank.changeFluidStored(fluidOutput.getNextStack(0).getFluid(),recipesThisTick*fluidOutput.getMaxStackSize(0));
 		}
 		else
 		{
-			mBConsumed = uBConsumed/1000;
+			outputTank.changeFluidAmount(recipesThisTick*fluidOutput.getMaxStackSize(0));
 		}
 		
-		if(excessCasingCoolant > 1000)
+		
+		
+		double heatChange =recipesThisTick*fluidInput.getMaxStackSize(0)* heatPerMB * efficiency;
+		
+		excessCasingHeat += heatChange;
+		
+		if(excessCasingHeat > 1)
 		{
-			mBConsumed -= excessCasingCoolant/1000;
-			excessCasingCoolant = excessCasingCoolant%1000;
+			long thisTickHeatChange = (long) Math.floor(excessCasingHeat);
+			excessCasingHeat -= thisTickHeatChange;
+			casingHeatBuffer.changeHeatStored(-thisTickHeatChange);
 		}
-		
-		
-		
-		
-		getMultiblock().tanks.get(2).changeFluidAmount((int) (-mBConsumed*getCoolingEfficiency()));
-		if (getMultiblock().tanks.get(2).getFluidAmount() <= 0) getMultiblock().tanks.get(2).setFluidStored(null);
-		
-		casingHeatBuffer.changeHeatStored(-mBConsumed*casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-		
-		
-		IFluidIngredient fluidProduct = casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0);
-		int producedCoolant = (int)(mBConsumed*getCoolingEfficiency())* fluidProduct.getNextStack(0).amount;
-		if (getMultiblock().tanks.get(3).isEmpty())
-		{
-			getMultiblock().tanks.get(3).changeFluidStored(fluidProduct.getNextStack(0).getFluid(),producedCoolant);
-		}
-		else
-		{
-			getMultiblock().tanks.get(3).changeFluidAmount(producedCoolant);	
-		}
-			
+	
 	}
 	
 
@@ -1286,7 +1290,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			logicTag.setDouble("excessCasingHeat", excessCasingHeat);
 			logicTag.setInteger("maxCasingCoolantIn", maxCasingCoolantIn);
 			logicTag.setInteger("maxCasingCoolantOut", maxCasingCoolantOut);
-			logicTag.setInteger("excessCasingCoolant", excessCasingCoolant);
+			logicTag.setDouble("excessCasingCoolingRecipes", excessCasingCoolingRecipes);
 			casingHeatBuffer.writeToNBT(logicTag, "casingHeatBuffer");
 			logicTag.setBoolean("plasmaOn", plasmaOn);
 
@@ -1304,7 +1308,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			excessCasingHeat = logicTag.getDouble("excessCasingHeat");
 			maxCasingCoolantIn = logicTag.getInteger("maxCasingCoolantIn");
 			maxCasingCoolantOut = logicTag.getInteger("maxCasingCoolantOut");
-			excessCasingCoolant = logicTag.getInteger("excessCasingCoolant");
+			excessCasingCoolingRecipes = logicTag.getDouble("excessCasingCoolingRecipes");
 			casingHeatBuffer.readFromNBT(logicTag, "casingHeatBuffer");
 			plasmaOn = logicTag.getBoolean("plasmaOn");
 		}

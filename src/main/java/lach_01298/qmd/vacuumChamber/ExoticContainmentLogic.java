@@ -420,7 +420,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		getMultiblock().beams.get(0).setParticleStack(null);
 		getMultiblock().beams.get(1).setParticleStack(null);
 		pull();
-		getMultiblock().currentHeating = 0;
+
 		
 		
 		if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,

@@ -29,7 +29,7 @@ public class TileQMDProcessor
 					true, QMDRecipes.irradiator, QMDRecipes.irradiator_fuel, GUI_ID.IRRADIATOR, 0);
 			
 			IRadiationResistance resistance = this.getCapability(IRadiationResistance.CAPABILITY_RADIATION_RESISTANCE, null);
-			resistance.setShieldingRadResistance(QMDConfig.irradiator_rad_res);
+			resistance.setBaseRadResistance(QMDConfig.irradiator_rad_res);
 		}
 	}
 }

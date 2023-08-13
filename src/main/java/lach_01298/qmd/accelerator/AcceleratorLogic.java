@@ -34,14 +34,11 @@ import lach_01298.qmd.particle.IParticleStackHandler;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.multiblock.IPacketMultiblockLogic;
-import nc.multiblock.Multiblock;
 import nc.multiblock.MultiblockLogic;
-import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.util.MaterialHelper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -58,7 +55,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public static final int thickness = 5;
 	protected boolean operational = false;
-	private int excessCoolant =0; // in mirco buckets
+	private double excessCoolingRecipes =0;
+	private double excessHeat =0;
 	
 	
 	
@@ -563,8 +561,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		getAccelerator().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getAccelerator().tanks.subList(0, 1));
 		if (getAccelerator().coolingRecipeInfo != null)
 		{
-			getAccelerator().maxCoolantIn = 1000 / getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (getAccelerator().cooling * getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0));
-			getAccelerator().maxCoolantOut = 1000 / getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB() * (int) (getAccelerator().cooling * getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0));
+			getAccelerator().maxCoolantIn =(int) (getAccelerator().cooling/(double)getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*1000);
+			getAccelerator().maxCoolantOut = (int) (getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0)*getAccelerator().cooling/(double)(getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*1000);
 		}
 	}
 	
@@ -577,80 +575,99 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			return false;
 		}
 		
-		if(getAccelerator().getTemperature() <= getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getFluid().getTemperature())
+		IFluidIngredient fluidInput = getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		Tank outputTank = getAccelerator().tanks.get(1);
+		long maximumHeatChange = getAccelerator().cooling;
+		int heatPerMB = getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		
+		if(getAccelerator().getTemperature() <= fluidInput.getStack().getFluid().getTemperature())
 		{
 			return false;
 		}
 		
-		IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
-		if (fluidProduct.getMaxStackSize(0) <= 0 || fluidProduct.getStack() == null)
+		if (fluidOutput.getMaxStackSize(0) <= 0 || fluidOutput.getStack() == null)
 			return false;
-
-		if (!getAccelerator().tanks.get(1).isEmpty())
-		{
-			if (!getAccelerator().tanks.get(1).getFluid().isFluidEqual(fluidProduct.getStack()))
+		
+		
+		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
+		
+		if (!outputTank.isEmpty())
+		{			
+			if (!outputTank.getFluid().isFluidEqual(fluidOutput.getStack()))
 			{
 				return false;
 			}
-			else if (getAccelerator().tanks.get(1).getFluidAmount() + (getAccelerator().maxCoolantIn/1000 +1)*fluidProduct.getNextStack(0).amount > getAccelerator().tanks.get(1).getCapacity())
-			{
-				return false;
-			}
-			
-			else if (getAccelerator().heatBuffer.getHeatStored() < 1)
+			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())			
 			{
 				return false;
 			}
 		}
+		
+		if (getAccelerator().heatBuffer.getHeatStored() < fluidInput.getMaxStackSize(0)*heatPerMB)
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
 	private void produceFluidProducts()
 	{
-		int uBConsumed = getAccelerator().maxCoolantIn;
 		
-		if(uBConsumed > getAccelerator().tanks.get(0).getFluidAmount() *1000)
-		{
-			uBConsumed = getAccelerator().tanks.get(0).getFluidAmount() *1000;
-		}
-		if(uBConsumed > getAccelerator().heatBuffer.getHeatStored())
-		{
-			uBConsumed = (int) getAccelerator().heatBuffer.getHeatStored();
-		}
+		IFluidIngredient fluidInput = getAccelerator().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		Tank inputTank = getAccelerator().tanks.get(0);
+		Tank outputTank = getAccelerator().tanks.get(1);
+		long maximumHeatChange = getAccelerator().cooling;
+		int heatPerMB = getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
 		
-		int mBConsumed =0;
-		if(uBConsumed%1000 != 0)
+		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
+		
+		if(recipesPerTick*fluidInput.getMaxStackSize(0) > inputTank.getFluidAmount())
 		{
-			mBConsumed = (uBConsumed + (1000-(uBConsumed%1000)))/1000;
-			excessCoolant += (1000-(uBConsumed%1000));
-		}
-		else
-		{
-			mBConsumed = uBConsumed/1000;
+			recipesPerTick = inputTank.getFluidAmount()/(double)fluidInput.getMaxStackSize(0);
 		}
 		
-		if(excessCoolant > 1000)
+		if(recipesPerTick * fluidInput.getMaxStackSize(0) * heatPerMB > getAccelerator().heatBuffer.getHeatStored())
 		{
-			mBConsumed -= excessCoolant/1000;
-			excessCoolant = excessCoolant%1000;
+			recipesPerTick = getAccelerator().heatBuffer.getHeatStored()/(fluidInput.getMaxStackSize(0) * heatPerMB);
 		}
 		
 		
-		getAccelerator().tanks.get(0).changeFluidAmount(-mBConsumed);
-		if (getAccelerator().tanks.get(0).getFluidAmount() <= 0) getAccelerator().tanks.get(0).setFluidStored(null);
-		
-		getAccelerator().heatBuffer.changeHeatStored(-mBConsumed*getAccelerator().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB());
-		
-		
-		IFluidIngredient fluidProduct = getAccelerator().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
-		int producedCoolant = mBConsumed* fluidProduct.getNextStack(0).amount;
-		if (getAccelerator().tanks.get(1).isEmpty())
+		int recipesThisTick = (int) Math.floor(recipesPerTick);
+		excessCoolingRecipes += recipesPerTick - recipesThisTick;
+
+		if(excessCoolingRecipes >= 1)
 		{
-			getAccelerator().tanks.get(1).changeFluidStored(fluidProduct.getNextStack(0).getFluid(),producedCoolant);
+			recipesThisTick += (int) Math.floor(excessCoolingRecipes);
+			excessCoolingRecipes -= Math.floor(excessCoolingRecipes);
+		}
+		
+		
+		inputTank.changeFluidAmount(-recipesThisTick*fluidInput.getMaxStackSize(0));
+		if (inputTank.getFluidAmount() <= 0) inputTank.setFluidStored(null);
+		
+		if(outputTank.isEmpty())
+		{
+			outputTank.changeFluidStored(fluidOutput.getNextStack(0).getFluid(),recipesThisTick*fluidOutput.getMaxStackSize(0));
 		}
 		else
 		{
-			getAccelerator().tanks.get(1).changeFluidAmount(producedCoolant);	
+			outputTank.changeFluidAmount(recipesThisTick*fluidOutput.getMaxStackSize(0));
+		}
+		
+		
+		
+		double heatChange =recipesThisTick*fluidInput.getMaxStackSize(0)* heatPerMB;
+		
+		excessHeat += heatChange;
+		
+		if(excessHeat > 1)
+		{
+			long thisTickHeatChange = (long) Math.floor(excessHeat);
+			excessHeat -= thisTickHeatChange;
+			getAccelerator().heatBuffer.changeHeatStored(-thisTickHeatChange);
 		}
 		
 	}
@@ -781,15 +798,17 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	// NBT
 	
 	@Override
-	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	public void writeToLogicTag(NBTTagCompound data, SyncReason syncReason)
 	{
-		logicTag.setInteger("excessCoolant", excessCoolant);
+		data.setDouble("excessCoolingRecipes", excessCoolingRecipes);
+		data.setDouble("excessHeat", excessHeat);
 	}
 
 	@Override
-	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	public void readFromLogicTag(NBTTagCompound data, SyncReason syncReason)
 	{
-		excessCoolant = logicTag.getInteger("excessCoolant");
+		excessCoolingRecipes = data.getDouble("excessCoolingRecipes");
+		excessHeat = data.getDouble("excessHeat");
 		
 	}
 	
