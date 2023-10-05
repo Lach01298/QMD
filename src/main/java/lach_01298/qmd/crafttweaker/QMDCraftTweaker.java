@@ -142,17 +142,17 @@ public class QMDCraftTweaker
 		
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient inputItem, IIngredient inputFluid, IIngredient inputParticle, IIngredient outputItem, IIngredient outputFluid, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation) 
+		public static void addRecipe(IIngredient inputItem, IIngredient inputFluid, IIngredient inputParticle, IIngredient outputItem, IIngredient outputFluid, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased) 
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, inputFluid, inputParticle, outputItem, outputFluid, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, inputFluid, inputParticle, outputItem, outputFluid, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient inputItem, IIngredient inputParticle, IIngredient outputItem, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation) 
+		public static void addRecipe(IIngredient inputItem, IIngredient inputParticle, IIngredient outputItem, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased) 
 		{
 			
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, null, inputParticle, outputItem, null, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, null, inputParticle, outputItem, null, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		@ZenMethod
@@ -180,9 +180,9 @@ public class QMDCraftTweaker
 	{
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient inputParticle, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3 , double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy) 
+		public static void addRecipe(IIngredient inputParticle, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3 , double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy) 
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.decay_chamber, Lists.newArrayList(inputParticle, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.decay_chamber, Lists.newArrayList(inputParticle, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		@ZenMethod
@@ -204,9 +204,9 @@ public class QMDCraftTweaker
 	{
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient inputParticle1,IIngredient inputParticle2, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, IIngredient outputParticle4 , long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation) 
+		public static void addRecipe(IIngredient inputParticle1,IIngredient inputParticle2, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, IIngredient outputParticle4 , long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased) 
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.collision_chamber, Lists.newArrayList(inputParticle1, inputParticle2, outputParticle1, outputParticle2, outputParticle3, outputParticle4, maxEnergy, crossSection, energyReleased, processRadiation)));
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.collision_chamber, Lists.newArrayList(inputParticle1, inputParticle2, outputParticle1, outputParticle2, outputParticle3, outputParticle4, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		@ZenMethod
