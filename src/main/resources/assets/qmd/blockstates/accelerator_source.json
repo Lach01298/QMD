@@ -7,19 +7,11 @@
 			"bottom": "qmd:blocks/accelerator/casing",
 			"front": "qmd:blocks/accelerator/source_front",
 			"side": "qmd:blocks/accelerator/casing",
-			"back": "qmd:blocks/accelerator/source_back_off"
+			"back": "qmd:blocks/accelerator/source_back"
 		}
 	},
 	"variants": {
 		"inventory": [{}],
-		"active": {
-			"false": {},
-			"true": {
-				"textures": {
-					"back": "qmd:blocks/accelerator/source_back_on"
-				}
-			}
-		},
 		"facing": {
 			"down": {"x": 90},
 			"up": {"x": 270},

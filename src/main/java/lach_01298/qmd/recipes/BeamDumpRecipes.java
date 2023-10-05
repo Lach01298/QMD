@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.MaterialTypes.CanisterType;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
-import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
 
 public class BeamDumpRecipes extends QMDRecipeHandler
 {

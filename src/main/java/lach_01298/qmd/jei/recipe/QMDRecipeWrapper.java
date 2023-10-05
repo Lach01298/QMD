@@ -13,9 +13,11 @@ import nc.Global;
 import nc.integration.jei.JEIBasicRecipeWrapper;
 import nc.integration.jei.JEIMachineRecipeWrapper;
 import nc.integration.jei.NCJEI.IJEIHandler;
+import nc.radiation.RadiationHelper;
 import nc.recipe.BasicRecipe;
 import nc.recipe.BasicRecipeHandler;
 import nc.util.Lang;
+import nc.util.UnitHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -335,5 +337,75 @@ public class QMDRecipeWrapper
 
 		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
+	
+	
+	
+	public static class MassSpectrometer extends JEIBasicRecipeWrapper<MassSpectrometer>
+	{
+		private static int arrowX = 0;
+		private static int arrowY = 201;
+		private static int arrowWidth = 101;
+		private static int arrowHeight = 55;
+		private static int arrowPosX = 52;
+		private static int arrowPosY = 51;
+		private static int backX = 45;
+		private static int backY = 13;
+	
+		public final IDrawable arrow;
+		public final int arrowDrawPosX, arrowDrawPosY;
+		
+		public MassSpectrometer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
+		{
+			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
+			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/mass_spectrometer_controller.png");
+			IDrawableStatic arrowDrawable = guiHelper.createDrawable(location, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
+			arrow = staticArrow() ? arrowDrawable : guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
+			arrowDrawPosX = arrowPosX - backX;
+			arrowDrawPosY = arrowPosY - backY;
+		}
+
+		@Override
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		{
+				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
+		}
+		
+
+		@Override
+		protected int getProgressArrowTime()
+		{			
+			return (int) (getBaseProcessTime()/4d);	
+		}
+		
+		
+		protected double getBaseProcessTime()
+		{
+			if (recipe == null)
+				return QMDConfig.processor_time[2];
+			return  recipe.getBaseProcessTime(QMDConfig.processor_time[2]);
+		}
+		
+		
+		@Override
+		public List<String> getTooltipStrings(int mouseX, int mouseY) 
+		{
+			List<String> tooltip = new ArrayList<>();
+			
+			if (mouseX >= arrowDrawPosX && mouseY >= arrowDrawPosY && mouseX < arrowDrawPosX + arrowWidth + 1 && mouseY < arrowDrawPosY + arrowHeight + 1) 
+			{
+				tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getBaseProcessTime(), 3));
+			}
+			
+			return tooltip;
+		}
+		
+		private static final String BASE_TIME = Lang.localise("jei.nuclearcraft.base_process_time");	
+	}
+	
+	
+	
+	
+	
+	
 
 }

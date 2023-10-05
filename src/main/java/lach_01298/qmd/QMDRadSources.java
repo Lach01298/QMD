@@ -1,7 +1,6 @@
 package lach_01298.qmd;
 
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.enums.MaterialTypes.CanisterType;
 import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
@@ -65,7 +64,6 @@ public class QMDRadSources
 		RadSources.putOre(RadSources.CAESIUM_137/2d, "wasteSpallationMercury");
 		
 		RadSources.putOre(RadSources.TRITIUM*FLUID_MULTIPLIER*0.1, "cellAntitritium");
-		RadSources.put(RadSources.TRITIUM*FLUID_MULTIPLIER*0.1, new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID()));
 		
 		RadSources.put(RadSources.RADIUM/16D, new ItemStack(QMDItems.luminousPaint,1,LuminousPaintType.GREEN.getID()));
 		RadSources.put(RadSources.RADIUM/16D, new ItemStack(QMDItems.luminousPaint,1,LuminousPaintType.BLUE.getID()));

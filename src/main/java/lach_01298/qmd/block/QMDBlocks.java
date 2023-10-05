@@ -12,6 +12,8 @@ import lach_01298.qmd.accelerator.block.BlockAcceleratorCooler1;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorCooler2;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorEnergyPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorGlass;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorIonCollector;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorLaserIonSource;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorMagnet;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorPort;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorRedstonePort;
@@ -23,6 +25,7 @@ import lach_01298.qmd.accelerator.block.BlockBeamDiverterController;
 import lach_01298.qmd.accelerator.block.BlockBeamSplitterController;
 import lach_01298.qmd.accelerator.block.BlockDeceleratorController;
 import lach_01298.qmd.accelerator.block.BlockLinearAcceleratorController;
+import lach_01298.qmd.accelerator.block.BlockMassSpectrometerController;
 import lach_01298.qmd.accelerator.block.BlockRFCavity;
 import lach_01298.qmd.accelerator.block.BlockRingAcceleratorController;
 import lach_01298.qmd.config.QMDConfig;
@@ -56,8 +59,10 @@ import lach_01298.qmd.particleChamber.block.BlockParticleChamberGlass;
 import lach_01298.qmd.particleChamber.block.BlockParticleChamberPort;
 import lach_01298.qmd.particleChamber.block.BlockTargetChamberController;
 import lach_01298.qmd.pipe.BlockBeamline;
+import lach_01298.qmd.vacuumChamber.block.BlockExoticContainmentController;
+import lach_01298.qmd.vacuumChamber.block.BlockNucleosynthesisChamberController;
+import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberBeam;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberBeamPort;
-import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberPlasmaNozzle;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberCasing;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberCoil;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberEnergyPort;
@@ -67,12 +72,10 @@ import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberHeater;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberHeaterVent;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberLaser;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberPlasmaGlass;
+import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberPlasmaNozzle;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberPort;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberRedstonePort;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberVent;
-import lach_01298.qmd.vacuumChamber.block.BlockExoticContainmentController;
-import lach_01298.qmd.vacuumChamber.block.BlockNucleosynthesisChamberController;
-import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberBeam;
 import nc.block.item.ItemBlockMeta;
 import nc.block.item.NCItemBlock;
 import nc.block.tile.ITileType;
@@ -117,6 +120,9 @@ public class QMDBlocks
 	public static Block acceleratorComputerPort;
 	public static Block acceleratorPort;
 	public static Block acceleratorRedstonePort;
+	public static Block massSpectrometerController;
+	public static Block acceleratorLaserIonSource;
+	public static Block acceleratorIonCollector;
 
 	public static Block targetChamberController;
 	public static Block decayChamberController;
@@ -197,6 +203,9 @@ public class QMDBlocks
 		beamDiverterController = withName(new BlockBeamDiverterController(), "beam_diverter_controller");
 		beamSplitterController = withName(new BlockBeamSplitterController(), "beam_splitter_controller");
 		deceleratorController = withName(new BlockDeceleratorController(), "decelerator_controller");
+		massSpectrometerController = withName(new BlockMassSpectrometerController(), "mass_spectrometer_controller");
+		acceleratorLaserIonSource = withName(new BlockAcceleratorLaserIonSource(), "accelerator_laser_ion_source");
+		acceleratorIonCollector = withName(new BlockAcceleratorIonCollector(), "accelerator_ion_collector");
 		
 		targetChamberController = withName(new BlockTargetChamberController(), "target_chamber_controller");
 		decayChamberController = withName(new BlockDecayChamberController(), "decay_chamber_controller");
@@ -255,12 +264,12 @@ public class QMDBlocks
 	
 	public static void register() 
 	{
-		registerBlock(beamline,TextFormatting.AQUA+ QMDInfo.BeamlineInfo(),TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
+		registerBlock(beamline,TextFormatting.AQUA+ QMDInfo.beamlineInfo(),TextFormatting.GREEN + QMDInfo.beamlineFixedlineInfo());
 		
 		
 		registerBlock(linearAcceleratorController);
 		registerBlock(ringAcceleratorController);
-		registerBlock(acceleratorBeam,TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
+		registerBlock(acceleratorBeam,TextFormatting.GREEN + QMDInfo.beamlineFixedlineInfo());
 		registerBlock(acceleratorCasing);
 		registerBlock(acceleratorComputerPort);
 		registerBlock(acceleratorRedstonePort);
@@ -274,23 +283,26 @@ public class QMDBlocks
 		registerBlock(acceleratorYoke);
 		registerBlock(acceleratorCooler1, new ItemBlockMeta(acceleratorCooler1, CoolerType1.class,TextFormatting.BLUE, QMDInfo.cooler1FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
 		registerBlock(acceleratorCooler2, new ItemBlockMeta(acceleratorCooler2, CoolerType2.class,TextFormatting.BLUE, QMDInfo.cooler2FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
-		registerBlock(acceleratorSource);
+		registerBlock(acceleratorSource,TextFormatting.GREEN, QMDInfo.ionSourceFixedInfo(0),TextFormatting.AQUA,QMDInfo.ionSourceInfo());
 		registerBlock(acceleratorEnergyPort);
 		registerBlock(beamDiverterController);
 		registerBlock(beamSplitterController);
 		registerBlock(deceleratorController);
+		registerBlock(massSpectrometerController);
+		registerBlock(acceleratorLaserIonSource,TextFormatting.GREEN, QMDInfo.ionSourceFixedInfo(1),TextFormatting.AQUA,QMDInfo.ionSourceInfo());
+		registerBlock(acceleratorIonCollector);
 		
 		registerBlock(targetChamberController);
 		registerBlock(decayChamberController);
 		registerBlock(beamDumpController);
 		registerBlock(collisionChamberController);
-		registerBlock(particleChamberBeam, TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
+		registerBlock(particleChamberBeam, TextFormatting.GREEN + QMDInfo.beamlineFixedlineInfo());
 		registerBlock(particleChamberCasing);
 		registerBlock(particleChamberGlass);
 		registerBlock(particleChamberBeamPort);
 		registerBlock(particleChamberDetector, new ItemBlockMeta(particleChamberDetector, DetectorType.class,TextFormatting.GREEN, QMDInfo.detectorFixedInfo(),TextFormatting.AQUA,QMDInfo.detectorInfo()));
 		registerBlock(particleChamberEnergyPort);
-		registerBlock(particleChamber,TextFormatting.GREEN + QMDInfo.BeamlineFixedlineInfo());
+		registerBlock(particleChamber,TextFormatting.GREEN + QMDInfo.beamlineFixedlineInfo());
 		registerBlock(particleChamberPort);
 		registerBlock(particleChamberFluidPort);
 		
@@ -376,6 +388,9 @@ public class QMDBlocks
 		registerRender(beamDiverterController);
 		registerRender(beamSplitterController);
 		registerRender(deceleratorController);
+		registerRender(massSpectrometerController);
+		registerRender(acceleratorLaserIonSource);
+		registerRender(acceleratorIonCollector);
 	
 		registerRender(targetChamberController);
 		registerRender(decayChamberController);

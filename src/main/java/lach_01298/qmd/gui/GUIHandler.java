@@ -1,11 +1,12 @@
 package lach_01298.qmd.gui;
 
 
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
 import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
 import lach_01298.qmd.accelerator.tile.TileBeamSplitterController;
 import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
 import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
+import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
 import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
 import lach_01298.qmd.machine.container.ContainerCreativeParticleSource;
 import lach_01298.qmd.machine.container.ContainerIrradiator;
@@ -15,19 +16,20 @@ import lach_01298.qmd.machine.gui.GuiIrradiator;
 import lach_01298.qmd.machine.gui.GuiOreLeacher;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileIrradiator;
 import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
-import lach_01298.qmd.multiblock.container.ContainerAcceleratorSource;
+import lach_01298.qmd.multiblock.container.ContainerAcceleratorIonSource;
 import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
 import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
 import lach_01298.qmd.multiblock.container.ContainerBeamSplitterController;
 import lach_01298.qmd.multiblock.container.ContainerCollisionChamberController;
 import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
-import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
-import lach_01298.qmd.multiblock.container.ContainerNucleosynthesisChamberController;
 import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
+import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
+import lach_01298.qmd.multiblock.container.ContainerMassSpectrometerController;
+import lach_01298.qmd.multiblock.container.ContainerNucleosynthesisChamberController;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
 import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
-import lach_01298.qmd.multiblock.gui.GUIAcceleratorSource;
+import lach_01298.qmd.multiblock.gui.GUIAcceleratorIonSource;
 import lach_01298.qmd.multiblock.gui.GuiBeamDiverterController;
 import lach_01298.qmd.multiblock.gui.GuiBeamDumpController;
 import lach_01298.qmd.multiblock.gui.GuiBeamSplitterController;
@@ -35,6 +37,7 @@ import lach_01298.qmd.multiblock.gui.GuiCollisionChamberController;
 import lach_01298.qmd.multiblock.gui.GuiDecayChamberController;
 import lach_01298.qmd.multiblock.gui.GuiDeceleratorController;
 import lach_01298.qmd.multiblock.gui.GuiLinearAcceleratorController;
+import lach_01298.qmd.multiblock.gui.GuiMassSpectrometerController;
 import lach_01298.qmd.multiblock.gui.GuiNeutralContainmentController;
 import lach_01298.qmd.multiblock.gui.GuiNucleosynthesisChamberController;
 import lach_01298.qmd.multiblock.gui.GuiRingAcceleratorController;
@@ -75,8 +78,8 @@ public class GUIHandler implements IGuiHandler
 					return new ContainerRingAcceleratorController(player,  (TileRingAcceleratorController) tile);
 			
 			case GUI_ID.ACCELERATOR_SOURCE:
-				if (tile instanceof TileAcceleratorSource)
-					return new ContainerAcceleratorSource(player,  (TileAcceleratorSource)tile);
+				if (tile instanceof TileAcceleratorIonSource)
+					return new ContainerAcceleratorIonSource(player,  (TileAcceleratorIonSource)tile);
 			
 			case GUI_ID.TARGET_CHAMBER:
 				if (tile instanceof TileTargetChamberController)
@@ -133,6 +136,9 @@ public class GUIHandler implements IGuiHandler
 				if (tile instanceof TileNucleosynthesisChamberController)
 					return new ContainerNucleosynthesisChamberController(player,  (TileNucleosynthesisChamberController)tile);	
 				
+			case GUI_ID.MASS_SPECTROMETER:
+				if (tile instanceof TileMassSpectrometerController)
+					return new ContainerMassSpectrometerController(player,  (TileMassSpectrometerController)tile);		
 			}
 		}
 
@@ -159,8 +165,8 @@ public class GUIHandler implements IGuiHandler
 					return new GuiRingAcceleratorController(player, (TileRingAcceleratorController) tile);
 				
 			case GUI_ID.ACCELERATOR_SOURCE:
-				if (tile instanceof TileAcceleratorSource)
-					return new GUIAcceleratorSource(player, (TileAcceleratorSource) tile);
+				if (tile instanceof TileAcceleratorIonSource)
+					return new GUIAcceleratorIonSource(player, (TileAcceleratorIonSource) tile);
 			
 			case GUI_ID.TARGET_CHAMBER:
 				if (tile instanceof TileTargetChamberController)
@@ -217,7 +223,10 @@ public class GUIHandler implements IGuiHandler
 			case GUI_ID.NUCLEOSYNTHESIS_CHAMBER:
 				if (tile instanceof TileNucleosynthesisChamberController)
 					return new GuiNucleosynthesisChamberController(player, (TileNucleosynthesisChamberController) tile);	
-				
+			
+			case GUI_ID.MASS_SPECTROMETER:
+				if (tile instanceof TileMassSpectrometerController)
+					return new GuiMassSpectrometerController(player, (TileMassSpectrometerController) tile);		
 				
 			}
 		}

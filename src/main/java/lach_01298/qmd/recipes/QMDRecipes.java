@@ -13,7 +13,6 @@ import static nc.config.NCConfig.turbine_expansion_level;
 import static nc.config.NCConfig.turbine_power_per_mb;
 import static nc.config.NCConfig.turbine_spin_up_multiplier;
 import static nc.util.FluidStackHelper.BUCKET_VOLUME;
-import static nc.util.OreDictHelper.COAL_TYPES;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ import lach_01298.qmd.enums.BlockTypes.DetectorType;
 import lach_01298.qmd.enums.BlockTypes.LampType;
 import lach_01298.qmd.enums.BlockTypes.LampType2;
 import lach_01298.qmd.enums.BlockTypes.NeutronReflectorType;
-import lach_01298.qmd.enums.MaterialTypes.CanisterType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType;
 import lach_01298.qmd.enums.MaterialTypes.IngotType2;
 import lach_01298.qmd.enums.MaterialTypes.PartType;
@@ -51,8 +49,6 @@ import nc.recipe.ingredient.FluidIngredient;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ItemIngredient;
-import nc.recipe.ingredient.OreIngredient;
-import nc.recipe.multiblock.TurbineRecipes;
 import nc.util.FluidRegHelper;
 import nc.util.FluidStackHelper;
 import nc.util.NCMath;
@@ -62,10 +58,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -78,6 +71,7 @@ public class QMDRecipes
 	
 	public static AcceleratorSourceRecipes accelerator_source;
 	public static AcceleratorCoolingRecipes accelerator_cooling;
+	public static MassSpectrometerRecipes mass_spectrometer;
 	public static TargetChamberRecipes target_chamber;
 	public static DecayChamberRecipes decay_chamber;
 	public static BeamDumpRecipes beam_dump;
@@ -99,7 +93,8 @@ public class QMDRecipes
 
 		accelerator_source = new AcceleratorSourceRecipes();
 		accelerator_cooling = new AcceleratorCoolingRecipes();
-
+		mass_spectrometer = new MassSpectrometerRecipes();
+		
 		target_chamber = new TargetChamberRecipes();
 		decay_chamber = new DecayChamberRecipes();
 		beam_dump = new BeamDumpRecipes();
@@ -122,7 +117,10 @@ public class QMDRecipes
 	}
 
 	public static List<List<String>> accelerator_cooling_valid_fluids;
+	public static List<List<String>> accelerator_ion_source_valid_fluids;
 	public static List<List<String>> ore_leacher_valid_fluids;
+	public static List<List<String>> mass_spectrometer_valid_fluids;
+	public static List<List<String>> target_chamber_valid_fluids;
 	public static List<List<String>> cell_filling_valid_fluids;
 	public static List<List<String>> nucleosynthesis_valid_fluids;
 	public static List<List<String>> vacuum_chamber_heater_valid_fluids;
@@ -131,7 +129,10 @@ public class QMDRecipes
 	public static void init() 
 	{
 		accelerator_cooling_valid_fluids = RecipeHelper.validFluids(accelerator_cooling);
-		ore_leacher_valid_fluids = RecipeHelper.validFluids(ore_leacher);	
+		accelerator_ion_source_valid_fluids = QMDRecipeHelper.validFluids(accelerator_source);
+		mass_spectrometer_valid_fluids = RecipeHelper.validFluids(mass_spectrometer);	
+		ore_leacher_valid_fluids = RecipeHelper.validFluids(ore_leacher);
+		target_chamber_valid_fluids = QMDRecipeHelper.validFluids(target_chamber);
 		cell_filling_valid_fluids = RecipeHelper.validFluids(cell_filling);
 		nucleosynthesis_valid_fluids = QMDRecipeHelper.validFluids(nucleosynthesis_chamber);
 		vacuum_chamber_heater_valid_fluids = RecipeHelper.validFluids(vacuum_chamber_heating);
@@ -142,6 +143,8 @@ public class QMDRecipes
 	{
 		accelerator_source.refreshCache();
 		accelerator_cooling.refreshCache();
+		mass_spectrometer.refreshCache();
+		
 		target_chamber.refreshCache();
 		decay_chamber.refreshCache();
 		beam_dump.refreshCache();
@@ -173,21 +176,13 @@ public class QMDRecipes
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Nichrome", 2, "NiobiumTitanium", 1, "SuperAlloy", 3, 1D, 1D);
 		NCRecipes.alloy_furnace.addRecipe("dustZinc", "dustSulfur", "dustZincSulfide",1D,1D);
 		
+		
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Uranium238", 9, "Uranium235", 1, "Uranium", 10, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Boron11", 9, "Boron10", 3, "Boron", 12, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Lithium7", 9, "Lithium6", 1, "Lithium", 10, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Magnesium24", 8, "Magnesium26", 1, "Magnesium", 9, 1D, 1D);
 		
 		// Fluid Infuser
-		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("hydrogen", 10*FluidStackHelper.BUCKET_VOLUME),IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.HYDROGEN.getID())),1D,1D);
-		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("deuterium", 10*FluidStackHelper.BUCKET_VOLUME),IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.DEUTERIUM.getID())),1D,1D);
-		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("tritium", 10*FluidStackHelper.BUCKET_VOLUME),IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID())),1D,1D);
-		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("helium_3", 10*FluidStackHelper.BUCKET_VOLUME),IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM3.getID())),1D,1D);
-		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("helium", 10*FluidStackHelper.BUCKET_VOLUME),IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM.getID())),1D,1D);
-		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.canister),fluidStack("diborane", 10*FluidStackHelper.BUCKET_VOLUME),IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.DIBORANE.getID())),1D,1D);
-
-
-		
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.DETECTOR_CASING.getID()),fluidStack("liquid_hydrogen", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.BUBBLE_CHAMBER.getID()),1D,1D);
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part,1,PartType.WIRE_CHAMBER_CASING.getID()),fluidStack("argon", FluidStackHelper.BUCKET_VOLUME),new ItemStack(QMDBlocks.particleChamberDetector,1,DetectorType.WIRE_CHAMBER.getID()),1D,1D);
 		
@@ -245,8 +240,16 @@ public class QMDRecipes
 		// Centrifuge
 		NCRecipes.centrifuge.addRecipe(fluidStack("compressed_air", FluidStackHelper.BUCKET_VOLUME*10), fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME*7), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("argon", 750),  fluidStack("neon", 200),  fluidStack("helium", 50), new EmptyFluidIngredient(), 0.1D, 1D);
 		NCRecipes.centrifuge.addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME*10), fluidStack("heavy_water", 100), new EmptyFluidIngredient(), new EmptyFluidIngredient(),  new EmptyFluidIngredient(),  new EmptyFluidIngredient(), new EmptyFluidIngredient(), 1D, 4D);
+		NCRecipes.centrifuge.addRecipe(fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), fluidStack("sulfur", FluidStackHelper.GEM_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(),1D,1D);
+		
+		// fluid mixer
+		NCRecipes.salt_mixer.addRecipe(fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), fluidStack("sulfur", FluidStackHelper.GEM_VOLUME), fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), 1D,1D);
+		
+		
 		
 		//Electrolyzer
+		
+		NCRecipes.electrolyzer.addRecipe(fluidStack("sodium_chloride", FluidStackHelper.GEM_VOLUME), fluidStack("sodium", FluidStackHelper.INGOT_VOLUME), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient(), new EmptyFluidIngredient(), 1D, 1D);
 		NCRecipes.electrolyzer.addRecipe(fluidStack("sodium_chloride_solution", 2*FluidStackHelper.GEM_VOLUME), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME), fluidStack("sodium_hydroxide_solution", FluidStackHelper.GEM_VOLUME*2), new EmptyFluidIngredient(), 0.5D, 1D);
 		
 		
@@ -256,7 +259,7 @@ public class QMDRecipes
 		
 		
 		// Melter
-		NCRecipes.melter.addRecipe("ingotMercury", fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), 0.5D, 0D);
+		NCRecipes.melter.addRecipe(new ItemStack(QMDItems.ingot2, 1, IngotType2.MERCURY.getID()), fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), 0.5D, 0D); // for legacy reasons
 		NCRecipes.melter.addRecipe("dustIodine", fluidStack("iodine", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustSamarium", fluidStack("samarium", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustTerbium", fluidStack("terbium", FluidStackHelper.INGOT_VOLUME));
@@ -266,6 +269,34 @@ public class QMDRecipes
 		NCRecipes.melter.addRecipe("dustBismuth", fluidStack("bismuth", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustPolonium", fluidStack("polonium", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustRadium", fluidStack("radium", FluidStackHelper.INGOT_VOLUME));
+		NCRecipes.melter.addRecipe("dustSalt", fluidStack("sodium_chloride", FluidStackHelper.GEM_VOLUME));
+		
+		if(QMDConfig.override_nc_recipes)
+		{
+			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+			
+			List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
+			itemIngredients.add(AbstractRecipeHandler.oreStack("dustGraphite",1));
+			
+			NCRecipes.melter.removeRecipe(NCRecipes.melter.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+			
+			itemIngredients = new ArrayList<IItemIngredient>();
+			itemIngredients.add(AbstractRecipeHandler.oreStack("dustGraphite",1));
+			
+			NCRecipes.melter.removeRecipe(NCRecipes.melter.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+			NCRecipes.melter.addRecipe(AbstractRecipeHandler.oreStackList(Lists.newArrayList("dustGraphite", "ingotGraphite"),1), fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME));
+			
+			itemIngredients = new ArrayList<IItemIngredient>();
+			itemIngredients.add(AbstractRecipeHandler.oreStack("blockGraphite",1));
+			
+			NCRecipes.melter.removeRecipe(NCRecipes.melter.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+			NCRecipes.melter.addRecipe("blockGraphite", fluidStack("carbon", FluidStackHelper.COAL_BLOCK_VOLUME));
+		}
+		NCRecipes.melter.addRecipe(AbstractRecipeHandler.oreStackList(Lists.newArrayList("dustCharcoal", "charcoal"),1), fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME));
+		
+		
+		//ingot former
+		NCRecipes.ingot_former.addRecipe(fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME), "ingotGraphite");
 		
 		
 		// Crystallizer
@@ -294,6 +325,13 @@ public class QMDRecipes
 		
 		// Pressurizer
 		NCRecipes.pressurizer.addRecipe((AbstractRecipeHandler.oreStack("dustStrontium90",9)), "blockStrontium90", 1D, 2D);
+		
+		
+		
+		
+		
+		
+		
 		
 		// SuperCooler
 		if(QMDConfig.override_nc_recipes)
@@ -345,7 +383,6 @@ public class QMDRecipes
 		NCRecipes.decay_hastener.addRecipe("ingotIridium192","dustPlatinum", getDecayHasenerTimeMultipler(QMDRadSources.IRIDIUM_192), 1d, QMDRadSources.IRIDIUM_192);
 		
 		double timeMult = NCMath.roundTo(RecipeHelper.getDecayTimeMultiplier(1E-6D, RadSources.TRITIUM*QMDRadSources.FLUID_MULTIPLIER*0.1, 3.16E-7D), 5D / processor_time[2]);
-		NCRecipes.decay_hastener.addRecipe(IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.TRITIUM.getID())), IItemParticleAmount.fullItem(new ItemStack(QMDItems.canister,1,CanisterType.HELIUM3.getID())),timeMult,1D,RadSources.TRITIUM*QMDRadSources.FLUID_MULTIPLIER*0.1);
 		
 		// Assembeler
 		NCRecipes.assembler.addRecipe(AbstractRecipeHandler.oreStack("dustBSCCO",3),AbstractRecipeHandler.oreStack("ingotSilver",6),new EmptyItemIngredient(),new EmptyItemIngredient(),AbstractRecipeHandler.oreStack("wireBSCCO",6),1D,1D);
@@ -370,7 +407,7 @@ public class QMDRecipes
 		
 		//fuel reprocessor
 		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionLight",AbstractRecipeHandler.chanceOreStack("dustStrontium", 1, 20),AbstractRecipeHandler.chanceOreStack("dustStrontium90", 1, 5),AbstractRecipeHandler.chanceOreStack("dustYttrium", 1, 5),AbstractRecipeHandler.chanceOreStack("dustZirconium", 1, 20),AbstractRecipeHandler.chanceOreStack("dustNiobium", 1, 5),AbstractRecipeHandler.chanceOreStack("dustMolybdenum", 1, 30),AbstractRecipeHandler.chanceOreStack("dustRuthenium106", 1, 5),AbstractRecipeHandler.chanceOreStack("dustSilver", 1, 10));
-		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionHeavy",AbstractRecipeHandler.chanceOreStack("dustMolybdenum", 1, 22),AbstractRecipeHandler.chanceOreStack("dustRuthenium106", 1, 4),AbstractRecipeHandler.chanceOreStack("dustSilver", 1, 7),AbstractRecipeHandler.chanceOreStack("dustTin", 1, 37),AbstractRecipeHandler.chanceOreStack("dustCaesium137", 1, 4),AbstractRecipeHandler.chanceOreStack("dustNeodymium", 1, 26),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionHeavy",AbstractRecipeHandler.chanceOreStack("dustNiobium", 1, 4),AbstractRecipeHandler.chanceOreStack("dustMolybdenum", 1, 21),AbstractRecipeHandler.chanceOreStack("dustRuthenium106", 1, 4),AbstractRecipeHandler.chanceOreStack("dustSilver", 1, 7),AbstractRecipeHandler.chanceOreStack("dustTin", 1, 35),AbstractRecipeHandler.chanceOreStack("dustIodine", 1, 7),AbstractRecipeHandler.chanceOreStack("dustCaesium137", 1, 4),AbstractRecipeHandler.chanceOreStack("dustNeodymium", 1, 18));
 		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationCalifornium",AbstractRecipeHandler.chanceOreStack("dustThorium", 1, 26),AbstractRecipeHandler.chanceOreStack("dustProtactinium231", 1, 13),AbstractRecipeHandler.chanceOreStack("dustRadium", 1, 12),AbstractRecipeHandler.chanceOreStack("dustPolonium", 1, 9),AbstractRecipeHandler.chanceOreStack("dustBismuth", 1, 20),AbstractRecipeHandler.chanceOreStack("dustLead", 1, 20),new EmptyItemIngredient(),new EmptyItemIngredient());
 		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationBerkelium",AbstractRecipeHandler.chanceOreStack("dustRadium", 1, 9),AbstractRecipeHandler.chanceOreStack("dustPolonium", 1, 15),AbstractRecipeHandler.chanceOreStack("dustBismuth", 1, 40),AbstractRecipeHandler.chanceOreStack("dustLead", 1, 35),AbstractRecipeHandler.chanceOreStack("ingotMercury", 1, 1),new EmptyItemIngredient(),new EmptyItemIngredient(),new EmptyItemIngredient());
 		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationCurium",AbstractRecipeHandler.chanceOreStack("dustRadium", 1, 13),AbstractRecipeHandler.chanceOreStack("dustPolonium", 1, 17),AbstractRecipeHandler.chanceOreStack("dustBismuth", 1, 16),AbstractRecipeHandler.chanceOreStack("dustLead", 1, 50),AbstractRecipeHandler.chanceOreStack("ingotMercury", 1, 4),new EmptyItemIngredient(),new EmptyItemIngredient(),new EmptyItemIngredient());

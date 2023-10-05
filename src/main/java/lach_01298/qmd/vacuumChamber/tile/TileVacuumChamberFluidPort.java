@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import lach_01298.qmd.tile.ITileIONumber;
 import lach_01298.qmd.vacuumChamber.NucleosynthesisChamberLogic;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberFluidPort;
@@ -38,7 +39,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-public class TileVacuumChamberFluidPort extends TileVacuumChamberPart implements ITileFluid, ITickable
+public class TileVacuumChamberFluidPort extends TileVacuumChamberPart implements ITileFluid, ITileIONumber, ITickable
 {
 
 	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<>()));

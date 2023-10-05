@@ -2,7 +2,6 @@ package lach_01298.qmd.accelerator.tile;
 
 import static lach_01298.qmd.block.BlockProperties.IO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -10,17 +9,14 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.io.IIOType;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particle.ITileParticleStorage;
 import lach_01298.qmd.particle.ParticleStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.tile.ITileIOType;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.heatExchanger.HeatExchangerTubeSetting;
-import nc.tile.internal.fluid.Tank;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,9 +29,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
-public class TileAcceleratorBeamPort extends TileAcceleratorPart implements IIOType, ITileParticleStorage, ITickable
+public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITileIOType, ITileParticleStorage, ITickable
 {
 	
 	private final @Nonnull List<ParticleStorageAccelerator> backupTanks = Lists.newArrayList(new ParticleStorageAccelerator());

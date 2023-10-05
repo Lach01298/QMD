@@ -6,6 +6,4 @@ import nc.multiblock.tile.ILogicMultiblockController;
 
 public interface IAcceleratorController<CONTROLLER extends IAcceleratorController<CONTROLLER>> extends IAcceleratorPart, ILogicMultiblockController<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, CONTROLLER> 
 {
-	
-	public void doMeltdown();
 }

@@ -19,7 +19,7 @@ public class TargetChamberRecipe extends JEIRecipeWrapper
 	
 	public TargetChamberRecipe(IGuiHelper guiHelper, QMDRecipe recipe)
 	{
-		super(guiHelper, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png"), 0, 0, 182, 0, 21, 12, 62, 28);
+		super(guiHelper, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png"), 0, 0, 182, 0, 21, 12, 61, 36);
 	}
 	
 
@@ -37,9 +37,9 @@ public class TargetChamberRecipe extends JEIRecipeWrapper
 		String energyReleasedString = Lang.localise("gui.qmd.jei.reaction.energy_released", Units.getParticleEnergy(recipe.getEnergyReleased()));
 		
 
-		fontRenderer.drawString(rangeString, 0, 70, Color.gray.getRGB());
-		fontRenderer.drawString(crossSectionString, 0, 80, Color.gray.getRGB());
-		fontRenderer.drawString(energyReleasedString, 0, 90, Color.gray.getRGB());
+		fontRenderer.drawString(rangeString, 0, 85, Color.gray.getRGB());
+		fontRenderer.drawString(crossSectionString, 0, 95, Color.gray.getRGB());
+		fontRenderer.drawString(energyReleasedString, 0, 105, Color.gray.getRGB());
 
 		
 	}

@@ -3,16 +3,23 @@ package lach_01298.qmd.multiblock.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
+import lach_01298.qmd.multiblock.network.ClearTankPacket;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
+import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.ParticleChamberLogic;
 import lach_01298.qmd.particleChamber.TargetChamberLogic;
 import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import lach_01298.qmd.util.Units;
+import nc.gui.element.GuiFluidRenderer;
+import nc.gui.element.NCButton;
 import nc.multiblock.gui.GuiLogicMultiblock;
+import nc.multiblock.gui.element.MultiblockButton;
 import nc.network.PacketHandler;
 import nc.network.multiblock.ClearAllMaterialPacket;
 import nc.util.Lang;
@@ -36,7 +43,7 @@ public class GuiTargetChamberController
 		super(player, controller);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png");
 		xSize = 176;
-		ySize = 188;
+		ySize = 200;
 		guiParticle = new GuiParticle(this);
 	}
 
@@ -57,10 +64,10 @@ public class GuiTargetChamberController
 
 		String efficiency = Lang.localise("gui.qmd.container.particle_chamber.efficiency",
 				String.format("%.2f", multiblock.efficiency * 100));
-		fontRenderer.drawString(efficiency, offset, 81, fontColor);
+		fontRenderer.drawString(efficiency, offset, 98, fontColor);
 		
 		String length = Lang.localise("gui.qmd.container.particle_chamber.length", logic.getBeamLength());
-		fontRenderer.drawString(length, offset, 91, fontColor);
+		fontRenderer.drawString(length, offset, 108, fontColor);
 
 		if (!NCUtil.isModifierKeyDown())
 		{
@@ -84,36 +91,43 @@ public class GuiTargetChamberController
 		// input
 		if (multiblock.beams.get(0).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 29, guiTop + 43, 182, 12, 16, 6);
+			drawTexturedModalRect(guiLeft + 35, guiTop + 51, 182, 12, 16, 6);
 		}
 
 		// top output
 		if (multiblock.beams.get(1).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 63, guiTop + 22, 182, 18, 16, 16);
+			drawTexturedModalRect(guiLeft + 69, guiTop + 22, 182, 18, 16, 16);
 		}
 
 		// middle output
 		if (multiblock.beams.get(2).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 109, guiTop + 44, 182, 50, 16, 4);
+			drawTexturedModalRect(guiLeft + 112, guiTop + 52, 182, 50, 16, 4);
 		}
 
 		// bottom output
 		if (multiblock.beams.get(3).getParticleStack() != null)
 		{
-			drawTexturedModalRect(guiLeft + 63, guiTop + 54, 182, 34, 16, 16);
+			drawTexturedModalRect(guiLeft + 69, guiTop + 71, 182, 34, 16, 16);
 		}
 
 		// draw progress bar
 		int progress = Math
 				.min((int) Math.round((double) getLogic().particleWorkDone / (double) getLogic().recipeParticleWork * 21), 21);
-		drawTexturedModalRect(guiLeft + 65, guiTop + 40, 182, 0, progress, 12);
+		drawTexturedModalRect(guiLeft + 71, guiTop + 48, 182, 0, progress, 12);
 
-		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft + 12, guiTop + 38);
-		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft + 80, guiTop + 15);
-		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft + 126, guiTop + 38);
-		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft + 80, guiTop + 61);
+		
+		GuiFluidRenderer.renderGuiTank(multiblock.tanks.get(0), guiLeft + 53, guiTop + 55, zLevel, 16, 16);
+		GuiFluidRenderer.renderGuiTank(multiblock.tanks.get(1), guiLeft + 94, guiTop + 55, zLevel, 16, 16);
+		GL11.glColor4ub((byte) 255, (byte) 255, (byte) 255, (byte) 255);
+		
+		
+		
+		guiParticle.drawParticleStack(multiblock.beams.get(0).getParticleStack(), guiLeft + 18, guiTop + 46);
+		guiParticle.drawParticleStack(multiblock.beams.get(1).getParticleStack(), guiLeft + 86, guiTop + 15);
+		guiParticle.drawParticleStack(multiblock.beams.get(2).getParticleStack(), guiLeft + 129, guiTop + 46);
+		guiParticle.drawParticleStack(multiblock.beams.get(3).getParticleStack(), guiLeft + 86, guiTop + 78);
 	}
 
 	@Override
@@ -122,15 +136,18 @@ public class GuiTargetChamberController
 		if (NCUtil.isModifierKeyDown())
 			drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
 
+		drawFluidTooltip(multiblock.tanks.get(0), mouseX, mouseY, 53, 55, 16, 16);
+		drawFluidTooltip(multiblock.tanks.get(1), mouseX, mouseY, 94, 55, 16, 16);
+		
 		drawTooltip(energyInfo(), mouseX, mouseY, 160, 12, 8, 76);
 
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(0).getParticleStack(), guiLeft + 12, guiTop + 38,
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(0).getParticleStack(), guiLeft + 18, guiTop + 46,
 				mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(1).getParticleStack(), guiLeft + 80, guiTop + 15,
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(1).getParticleStack(), guiLeft + 86, guiTop + 15,
 				mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(2).getParticleStack(), guiLeft + 126, guiTop + 38,
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(2).getParticleStack(), guiLeft + 129, guiTop + 46,
 				mouseX, mouseY);
-		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(3).getParticleStack(), guiLeft + 80, guiTop + 61,
+		guiParticle.drawToolTipBoxwithFocus(multiblock.beams.get(3).getParticleStack(), guiLeft + 86, guiTop + 78,
 				mouseX, mouseY);
 	}
 
@@ -157,7 +174,9 @@ public class GuiTargetChamberController
 	public void initGui()
 	{
 		super.initGui();
-
+		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 128, guiTop + 70));
+		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 53, guiTop + 55, 16, 16));
+		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 94, guiTop + 55, 16, 16));
 	}
 
 	@Override
@@ -165,10 +184,23 @@ public class GuiTargetChamberController
 	{
 		if (multiblock.WORLD.isRemote)
 		{
-			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
+			if(NCUtil.isModifierKeyDown())
 			{
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+				switch(guiButton.id)
+				{
+				case 0:
+					PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+					break;
+				case 1:
+					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),0));
+					break;
+				case 2:
+					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),1));
+					break;
+				}
+				
 			}
+
 		}
 	}
 

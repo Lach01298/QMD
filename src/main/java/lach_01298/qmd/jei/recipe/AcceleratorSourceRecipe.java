@@ -9,22 +9,26 @@ import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 public class AcceleratorSourceRecipe implements IRecipeWrapper
 {
-	private final List<List<ItemStack>> input;
+	private final List<List<ItemStack>> inputItem;
+	private final List<List<FluidStack>> inputFluid;
 	private final List<List<ParticleStack>> output;
 
-	public AcceleratorSourceRecipe(List<List<ItemStack>> input, List<List<ParticleStack>> output)
+	public AcceleratorSourceRecipe(List<List<ItemStack>> inputItem, List<List<FluidStack>> inputFluid, List<List<ParticleStack>> output)
 	{
-		this.input = input;
+		this.inputItem = inputItem;
+		this.inputFluid = inputFluid;
 		this.output = output;
 	}
 	
 	@Override
 	public void getIngredients(IIngredients ingredients) 
 	{
-		ingredients.setInputLists(VanillaTypes.ITEM, input);
+		ingredients.setInputLists(VanillaTypes.ITEM, inputItem);
+		ingredients.setInputLists(VanillaTypes.FLUID, inputFluid);
 		ingredients.setOutputLists(ParticleType.Particle, output);
 	}
 	

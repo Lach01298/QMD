@@ -46,8 +46,8 @@ public class GuiParticle
 	{
 		List<String> text = new ArrayList<String>();
 		text.add(TextFormatting.WHITE + Lang.localise(stack.getParticle().getUnlocalizedName()));
-		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(stack.getMeanEnergy())));
 		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu")));
+		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(stack.getMeanEnergy())));
 		if(showFocus)
 		{
 			DecimalFormat df = new DecimalFormat("#.####");

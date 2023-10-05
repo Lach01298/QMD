@@ -52,6 +52,7 @@ import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 {
@@ -63,7 +64,8 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	public final static int chamberLength = 11;
 	public final static int chamberWidth = 5;
 	public final static int chamberHeight = 7;
-	public long particleWorkDone, recipeParticleWork = 600;
+	public long particleWorkDone = 0;
+	public long recipeParticleWork = 600;
 
 	public boolean plasmaOn = false;
 	
@@ -99,9 +101,15 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		*/
 		
 		//on the rare occasion of changing the multiblock to a different type with the tank full
-		if(oldLogic instanceof ExoticContainmentLogic)
+		if(!(oldLogic instanceof NucleosynthesisChamberLogic))
 		{
 			getMultiblock().tanks.get(2).setFluidStored(null);
+			getMultiblock().tanks.get(3).setFluidStored(null);
+			getMultiblock().tanks.get(4).setFluidStored(null);
+			getMultiblock().tanks.get(5).setFluidStored(null);
+			getMultiblock().tanks.get(6).setFluidStored(null);
+			getMultiblock().tanks.get(7).setFluidStored(null);
+			
 		}
 	}
 
@@ -1016,18 +1024,20 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	private void finishRecipe()
 	{	
-			IFluidIngredient fluidOutput1 = recipeInfo.getRecipe().getFluidProducts().get(0);
-			IFluidIngredient fluidOutput2 = recipeInfo.getRecipe().getFluidProducts().get(1);
-			if(fluidOutput1.getStack() != null)
+		List<IFluidIngredient> productFluids = recipeInfo.getRecipe().getFluidProducts();
+		for (int i = 0; i < productFluids.size(); i++)
+		{
+
+			FluidStack productFluid = productFluids.get(i).getStack();
+			if (productFluid != null)
 			{
-				getMultiblock().tanks.get(6).fill(fluidOutput1.getStack(), true);
-			}
-			if(fluidOutput2.getStack() != null)
-			{
-				getMultiblock().tanks.get(7).fill(fluidOutput2.getStack(), true);
+				productFluid.amount = productFluids.get(i).getNextStackSize(i);
+				getMultiblock().tanks.get(i+6).fill(productFluid, true);
 			}
 
-			particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
+		}
+
+		particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
 		
 	}
 	

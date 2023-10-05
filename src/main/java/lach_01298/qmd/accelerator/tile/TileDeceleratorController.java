@@ -55,12 +55,6 @@ public class TileDeceleratorController extends TileAcceleratorPart implements IA
 		
 	}
 
-
-	@Override
-	public void doMeltdown()
-	{
-
-	}
 	
 	@Override
 	public ContainerMultiblockController getContainer(EntityPlayer player) {

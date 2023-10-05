@@ -3,6 +3,7 @@ package lach_01298.qmd;
 import static nc.config.NCConfig.radiation_hardcore_containers;
 import static nc.config.NCConfig.radiation_shielding_level;
 
+import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
@@ -167,18 +168,32 @@ public class QMDInfo
 	}
 
 
+	public static String[] ionSourceFixedInfo(int id)
+	{
+		String[] info = new String[] {
+				Lang.localise("info." + QMD.MOD_ID + ".item.power", QMDConfig.ion_source_power[id]),
+				Lang.localise("info." + QMD.MOD_ID + ".ion_source.output_multiplier",QMDConfig.ion_source_output_multiplier[id]),
+				Lang.localise("info." + QMD.MOD_ID + ".ion_source.focus",QMDConfig.ion_source_focus[id])
+		};
+		return info;
+	}
+
+	public static String ionSourceInfo()
+	{	
+		return Lang.localise("tile." + QMD.MOD_ID + ".ion_source.desc");
+	}
+
 	private static String detectorInfoString(DetectorType type) 
 	{
 		return Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector." + type.getName() + ".desc");
 	}
 
 
-
-	public static String BeamlineInfo()
+	public static String beamlineInfo()
 	{	
 		return Lang.localise("tile." + QMD.MOD_ID + ".beamline.desc");
 	}
-	public static String BeamlineFixedlineInfo()
+	public static String beamlineFixedlineInfo()
 	{	
 		return Lang.localise("info." + QMD.MOD_ID + ".beamline.attenuation",QMDConfig.beamAttenuationRate);
 	}

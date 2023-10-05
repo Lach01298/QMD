@@ -13,7 +13,9 @@ import crafttweaker.mc1120.util.CraftTweakerPlatformUtils;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.CoolerPlacement;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorPart;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.block.QMDBlocks;
@@ -136,6 +138,27 @@ public class QMDCTRegistration
 		CraftTweakerAPI.logInfo("Registered vacuum chamber heater with ID \"" + coolerID + "\", cooling rate " + cooling
 				+ " H/t and placement rule \"" + rule + "\"");
 	}
+	
+	
+	@ZenMethod
+	public static void registerIonSource(String name, double particleOutputMultiplier, double outputFocus, int basePower)
+	{
+
+		Block ionSource = QMDBlocks.withName(new BlockAcceleratorSource()
+		{
+
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata)
+			{
+				return new TileAcceleratorIonSource(particleOutputMultiplier, outputFocus, basePower,name);
+			}
+		}, "accelerator_source_" + name);
+
+		CTRegistration.INFO_LIST.add(new AcceleratorIonSourceRegistrationInfo(ionSource, name, particleOutputMultiplier, outputFocus, basePower));
+		CraftTweakerAPI.logInfo("Registered accelerator ion source with name \"" + name);
+	}
+	
+	
 	
 	@ZenMethod
 	public static void registerItemSource(String name, int capacity, int stackSize)
@@ -385,6 +408,37 @@ public class QMDCTRegistration
 			HeaterPlacement.addRule(coolerID + "_cooler", rule, block);
 		}
 	}
+	
+	public static class AcceleratorIonSourceRegistrationInfo extends QMDTileBlockRegistrationInfo
+	{
+
+		protected final String name;
+		protected final int basePower;
+		protected final double  outputMultipler,outputFocus;
+
+		AcceleratorIonSourceRegistrationInfo(Block block, String name, double outputMultipler, double outputFocus, int basePower)
+		{
+			super(block);
+			this.name = name;
+			this.outputMultipler = outputMultipler;
+			this.outputFocus = outputFocus;
+			this.basePower = basePower;
+		}
+
+		@Override
+		public void registerBlock()
+		{
+			String[] info = new String[] {
+					Lang.localise("info." + QMD.MOD_ID + ".item.power", basePower),
+					Lang.localise("info." + QMD.MOD_ID + ".ion_source.output_multiplier", outputMultipler),
+					Lang.localise("info." + QMD.MOD_ID + ".ion_source.focus", outputFocus)
+					};
+			
+			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".ion_source.desc")));
+		}
+	}
+	
+	
 	
 	
 	//Items

@@ -54,13 +54,6 @@ public class TileRingAcceleratorController extends TileAcceleratorPart implement
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		
 	}
-
-
-	@Override
-	public void doMeltdown()
-	{
-
-	}
 	
 	@Override
 	public ContainerMultiblockController getContainer(EntityPlayer player) {

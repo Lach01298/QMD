@@ -1,5 +1,8 @@
 package lach_01298.qmd.accelerator.tile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -8,10 +11,19 @@ import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
+import lach_01298.qmd.accelerator.MassSpectrometerLogic;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.recipes.QMDRecipes;
+import lach_01298.qmd.util.InventoryStackList;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.fluid.ITileFluid;
+import nc.tile.internal.fluid.FluidConnection;
+import nc.tile.internal.fluid.FluidTileWrapper;
+import nc.tile.internal.fluid.GasTileWrapper;
+import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.fluid.TankOutputSetting;
+import nc.tile.internal.fluid.TankSorption;
 import nc.tile.internal.inventory.InventoryConnection;
 import nc.tile.internal.inventory.ItemOutputSetting;
 import nc.tile.internal.inventory.ItemSorption;
@@ -24,20 +36,28 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInventory
+public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInventory, ITileFluid
 {
 	
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
-	private TileAcceleratorSource source;
+	private TileAcceleratorIonSource source;
+	private IAcceleratorController controller;
+	
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity * 1000, new ArrayList<>()));
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON));
+	private @Nonnull FluidTileWrapper[] fluidSides;
 	
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.accelerator_port";
-	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.BOTH,ItemSorption.BOTH));
+	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.NON,ItemSorption.NON));
 	
 	public TileAcceleratorPort()
 	{
 		super(CuboidalPartPositionType.WALL);
+		
+		fluidSides = ITileFluid.getDefaultFluidSides(this);		
 	}
 
 	
@@ -50,6 +70,38 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	@Override
 	public void onMachineAssembled(Accelerator accelerator) 
 	{
+		if(accelerator.controller instanceof TileMassSpectrometerController)
+		{
+			controller =  (TileMassSpectrometerController) accelerator.controller;
+			
+			for (int i = 0; i < 6; i++)
+			{
+				setItemSorption(EnumFacing.byIndex(i), 0, ItemSorption.IN);
+				setItemSorption(EnumFacing.byIndex(i), 1, ItemSorption.NON);
+				setTankSorption(EnumFacing.byIndex(i), 0, TankSorption.IN);
+			}
+
+		}
+		else if(accelerator.controller instanceof TileLinearAcceleratorController)
+		{
+			controller =  (TileLinearAcceleratorController) accelerator.controller;
+			for (int i = 0; i < 6; i++)
+			{
+				setItemSorption(EnumFacing.byIndex(i), 0, ItemSorption.BOTH);
+				setItemSorption(EnumFacing.byIndex(i), 1, ItemSorption.BOTH);
+				setTankSorption(EnumFacing.byIndex(i), 0, TankSorption.IN);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 6; i++)
+			{
+				setItemSorption(EnumFacing.byIndex(i), 0, ItemSorption.NON);
+				setItemSorption(EnumFacing.byIndex(i), 1, ItemSorption.NON);
+				setTankSorption(EnumFacing.byIndex(i), 0, TankSorption.NON);
+			}
+		}
+		
 		super.onMachineAssembled(accelerator);	
 	}
 	
@@ -63,13 +115,34 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	@Override
 	public void onMachineBroken()
 	{
+		controller = null;
 		source = null;
+		
+		for (int i = 0; i < 6; i++)
+		{
+			setItemSorption(EnumFacing.byIndex(i), 0, ItemSorption.NON);
+			setItemSorption(EnumFacing.byIndex(i), 1, ItemSorption.NON);
+			setTankSorption(EnumFacing.byIndex(i), 0, TankSorption.NON);
+		}
+		
 		super.onMachineBroken();
 	}
 
+	// Items
+	
 	@Override
 	public NonNullList<ItemStack> getInventoryStacks()
 	{
+		if(controller != null )
+		{
+			if(getLogic() instanceof MassSpectrometerLogic && controller instanceof TileMassSpectrometerController)
+			{
+				TileMassSpectrometerController massSpec = (TileMassSpectrometerController) controller;
+				return new InventoryStackList(massSpec.getInventoryStacks().subList(0,2));
+			}	
+		}
+		
+		
 		return source == null ? inventoryStacks : source.getInventoryStacks();
 	}
 
@@ -103,6 +176,111 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	{
 	}
 	
+	@Override
+	public int getInventoryStackLimit() 
+	{
+		if(controller instanceof TileMassSpectrometerController)
+		{
+			return 64;
+		}
+		
+		return 1;
+	}
+	
+	@Override
+	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
+	{
+		if(controller instanceof TileMassSpectrometerController)
+		{
+			
+			return QMDRecipes.mass_spectrometer.isValidItemInput(stack);
+		}
+		
+		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
+	}
+	
+	
+	
+	// Fluids
+	
+		@Override
+		public @Nonnull List<Tank> getTanks()
+		{
+			if(getMultiblock() != null)
+			{		
+					return getMultiblock().isAssembled() ? getMultiblock().tanks.subList(2, 3) : backupTanks;
+			}
+
+			return  backupTanks;
+		}
+		@Override
+		@Nonnull
+		public FluidConnection[] getFluidConnections()
+		{
+			return fluidConnections;
+		}
+		
+		@Override
+		public void setFluidConnections(@Nonnull FluidConnection[] connections)
+		{
+			fluidConnections = connections;
+		}
+
+		@Override
+		@Nonnull
+		public FluidTileWrapper[] getFluidSides()
+		{
+			return fluidSides;
+		}
+
+		@Override
+		public GasTileWrapper getGasWrapper()
+		{
+			return null;
+		}
+
+
+		@Override
+		public boolean getInputTanksSeparated()
+		{
+			return false;
+		}
+
+		@Override
+		public void setInputTanksSeparated(boolean separated)
+		{
+		}
+
+		@Override
+		public boolean getVoidUnusableFluidInput(int tankNumber)
+		{
+			return false;
+		}
+
+		@Override
+		public void setVoidUnusableFluidInput(int tankNumber, boolean voidUnusableFluidInput)
+		{
+		}
+
+		@Override
+		public TankOutputSetting getTankOutputSetting(int tankNumber)
+		{
+			return TankOutputSetting.DEFAULT;
+		}
+
+		@Override
+		public void setTankOutputSetting(int tankNumber, TankOutputSetting setting)
+		{
+		}
+
+		@Override
+		public boolean hasConfigurableFluidConnections()
+		{
+			return true;
+		}
+	
+	
+	
 	
 	// NBT
 	
@@ -112,6 +290,9 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 		super.writeAll(nbt);
 		writeInventory(nbt);
 		writeInventoryConnections(nbt);
+		writeTanks(nbt);
+		writeFluidConnections(nbt);
+		writeTankSettings(nbt);
 
 		return nbt;
 	}
@@ -122,6 +303,9 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 		super.readAll(nbt);
 		readInventory(nbt);
 		readInventoryConnections(nbt);
+		readTanks(nbt);
+		readFluidConnections(nbt);
+		readTankSettings(nbt);
 	}
 	
 	@Override
@@ -131,6 +315,11 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 		{
 			return !getInventoryStacks().isEmpty() && hasInventorySideCapability(side);
 		}
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+		{
+			return !getTanks().isEmpty() && hasFluidSideCapability(side);
+		}
+		
 		return super.hasCapability(capability, side);
 	}
 
@@ -146,19 +335,18 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 			return null;
 
 		}
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+		{
+			if (!getTanks().isEmpty() && hasFluidSideCapability(side))
+			{
+				return (T) getFluidSide(nonNullSide(side));
+			}
+			return null;
+		}
+		
 		return super.getCapability(capability, side);
 	}
 	
-	@Override
-	public int getInventoryStackLimit() 
-	{
-		return 1;
-	}
 	
-	@Override
-	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
-	{
-		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
-	}
 
 }

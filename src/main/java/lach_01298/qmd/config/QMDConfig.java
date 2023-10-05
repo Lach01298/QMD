@@ -44,6 +44,10 @@ public class QMDConfig {
 	public static double accelerator_thermal_conductivity;
 	public static int minimium_accelerator_ring_input_particle_energy;
 	public static int ion_source_output;
+	public static int[] ion_source_power;
+	public static double[] ion_source_output_multiplier;
+	public static double[] ion_source_focus;
+	
 	
 	public static int[] RF_cavity_voltage; //in keV
 	public static double[] RF_cavity_efficiency;
@@ -56,12 +60,15 @@ public class QMDConfig {
 	public static int[] magnet_heat_generated;
 	public static int[] magnet_base_power;
 	public static int[] magnet_max_temp;
-	
+
 	public static int[] cooler_heat_removed;
-	public static String[]cooler_rule;
+	public static String[] cooler_rule;
 
 	public static double beamAttenuationRate;
 	public static int beamDiverterRadius;
+
+	public static String[] mass_spectrometer_valid_magnets;
+	public static String[] mass_spectrometer_valid_sources;
 
 	public static boolean accelerator_explosion;
 	
@@ -204,7 +211,7 @@ public class QMDConfig {
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {50,100}, Lang.localise("gui.qmd.config.processors.power.comment"), 0, 32767);
 		propertyProcessorPower.setLanguageKey("gui.qmd.config.processors.power");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200,500}, Lang.localise("gui.qmd.config.processors.time.comment"), 0, 32767);
 		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
 		
 		Property propertyIrradiatorRadRes = config.get(CATEGORY_PROCESSORS, "irradiator_rad_res", 10000.0D, Lang.localise("gui.qmd.config.processors.irradiator_rad_res.comment"), 0.0D, Double.MAX_VALUE);
@@ -246,11 +253,25 @@ public class QMDConfig {
 		
 		Property propertyIonSourceOutput = config.get(CATEGORY_ACCELERATOR, "ion_source_output", 10000, Lang.localise("gui.qmd.config.accelerator.ion_source_output.comment"), 1, 100000);
 		propertyIonSourceOutput.setLanguageKey("gui.qmd.config.accelerator.ion_source_output");
+		Property propertyIonSourcePower = config.get(CATEGORY_ACCELERATOR, "ion_source_power", new int[] {500, 2000}, Lang.localise("gui.qmd.config.accelerator.ion_source_power.comment"), 0, Integer.MAX_VALUE);
+		propertyIonSourcePower.setLanguageKey("gui.qmd.config.accelerator.ion_source_power");
+		Property propertyIonSourceOutputMultiplier = config.get(CATEGORY_ACCELERATOR, "ion_source_output_multiplier", new double[] {1.0d, 2.0d}, Lang.localise("gui.qmd.config.accelerator.ion_source_output_multiplier.comment"), 0d, Double.MAX_VALUE);
+		propertyIonSourceOutputMultiplier.setLanguageKey("gui.qmd.config.accelerator.ion_source_output_multiplier");
+		Property propertyIonSourceFocus = config.get(CATEGORY_ACCELERATOR, "ion_source_focus", new double[] {0.4, 0.2d}, Lang.localise("gui.qmd.config.accelerator.ion_source_focus.comment"), 0d, Double.MAX_VALUE);
+		propertyIonSourceFocus.setLanguageKey("gui.qmd.config.accelerator.ion_source_focus");
+		
+		
 		
 		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.02D, Lang.localise("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
 		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
 		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 160, Lang.localise("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
 		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
+		
+		Property propertyMassSpectrometerValidMagnets = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_magnets", new String[] {"bscco"}, Lang.localise("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets.comment"));
+		propertyMassSpectrometerValidMagnets.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets");
+		
+		Property propertyMassSpectrometerValidSources = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_sources", new String[] {"laser"}, Lang.localise("gui.qmd.config.accelerator.mass_spectrometer_valid_sources.comment"));
+		propertyMassSpectrometerValidSources.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_valid_sources");
 		
 		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000}, Lang.localise("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityVoltage.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_voltage");
@@ -310,7 +331,7 @@ public class QMDConfig {
 		
 		Property propertyParticleChamberBaseEnergyCapacity = config.get(CATEGORY_PARTICLE_CHAMBER, "particle_chamber_base_energy_capacity", 40000, Lang.localise("gui.qmd.config.particle_chamber.particle_chamber_base_energy_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyParticleChamberBaseEnergyCapacity.setLanguageKey("gui.qmd.config.particle_chamber.particle_chamber_base_energy_capacity");
-		Property propertyParticleChamberInputTankCapacity = config.get(CATEGORY_PARTICLE_CHAMBER, "particle_chamber_base_input_tank_capacity", 1000, Lang.localise("gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		Property propertyParticleChamberInputTankCapacity = config.get(CATEGORY_PARTICLE_CHAMBER, "particle_chamber_base_input_tank_capacity", 16000, Lang.localise("gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyParticleChamberInputTankCapacity.setLanguageKey("gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity");
 		Property propertyParticleChamberOutputTankCapacity = config.get(CATEGORY_PARTICLE_CHAMBER, "particle_chamber_base_output_tank_capacity", 1000, Lang.localise("gui.qmd.config.particle_chamber.particle_chamber_base_output_tank_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyParticleChamberOutputTankCapacity.setLanguageKey("gui.qmd.config.particle_chamber.particle_chamber_base_output_tank_capacity");
@@ -498,10 +519,17 @@ public class QMDConfig {
 		
 		propertyOrderAccelerator.add(propertyAcceleratorThermalConductivity.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorRingInputEnergy.getName());
+		
 		propertyOrderAccelerator.add(propertyIonSourceOutput.getName());
+		propertyOrderAccelerator.add(propertyIonSourcePower.getName());
+		propertyOrderAccelerator.add(propertyIonSourceOutputMultiplier.getName());
+		propertyOrderAccelerator.add(propertyIonSourceFocus.getName());
 		
 		propertyOrderAccelerator.add(propertyBeamAttenuationRate.getName());
 		propertyOrderAccelerator.add(propertyBeamDiverterRadius.getName());
+		
+		propertyOrderAccelerator.add(propertyMassSpectrometerValidMagnets.getName());
+		propertyOrderAccelerator.add(propertyMassSpectrometerValidSources.getName());
 		
 		propertyOrderAccelerator.add(propertyRFCavityVoltage.getName());
 		propertyOrderAccelerator.add(propertyRFCavityEfficiency.getName());
@@ -660,10 +688,17 @@ public class QMDConfig {
 			
 			accelerator_thermal_conductivity= propertyAcceleratorThermalConductivity.getDouble();
 			minimium_accelerator_ring_input_particle_energy= propertyAcceleratorRingInputEnergy.getInt();
+			
 			ion_source_output= propertyIonSourceOutput.getInt();
+			ion_source_power = readIntegerArrayFromConfig(propertyIonSourcePower);
+			ion_source_output_multiplier= readDoubleArrayFromConfig(propertyIonSourceOutputMultiplier);
+			ion_source_focus= readDoubleArrayFromConfig(propertyIonSourceFocus);
 			
 			beamAttenuationRate = propertyBeamAttenuationRate.getDouble();
 			beamDiverterRadius = propertyBeamDiverterRadius.getInt();
+			
+			mass_spectrometer_valid_magnets = propertyMassSpectrometerValidMagnets.getStringList();
+			mass_spectrometer_valid_sources = propertyMassSpectrometerValidSources.getStringList();
 			
 			RF_cavity_voltage = readIntegerArrayFromConfig(propertyRFCavityVoltage);
 			RF_cavity_efficiency = readDoubleArrayFromConfig(propertyRFCavityEfficiency);

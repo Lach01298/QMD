@@ -55,7 +55,6 @@ public class QMDCraftingRecipeHandler
 	public static void registerCraftingRecipes() 
 	{
 		//misc
-		addShapedOreRecipe(new ItemStack(QMDItems.canister,4), new Object[] {"TTT", "T T", "TTT", 'T', "ingotTin"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.beamline,6), new Object[] {"SSS", "   ", "SSS", 'S', "ingotStainlessSteel"});
 		tools("ingotTungstenCarbide", QMDItems.sword_tungsten_carbide, QMDItems.pickaxe_tungsten_carbide, QMDItems.shovel_tungsten_carbide, QMDItems.axe_tungsten_carbide,QMDItems.hoe_tungsten_carbide);
 		addShapedOreRecipe(new ItemStack(QMDBlocks.fissionReflector, 2, 0), new Object[] {"TTT", "TFT", "TTT", 'T', "ingotTungstenCarbide", 'F', "steelFrame"});
@@ -149,6 +148,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.beamDiverterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotTough", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.deceleratorController, new Object[] {"PEP", "AFA", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'A', "processorElite", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.beamSplitterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotSuperAlloy", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});		
+		addShapedOreRecipe(QMDBlocks.massSpectrometerController, new Object[] {"PWP", "AFA", "PWP", 'P', "plateElite", 'W', "wireBSCCO", 'A', "processorElite", 'F', QMDBlocks.acceleratorCasing});	
 		
 		//Accelerator Parts
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCasing,16), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame"});
@@ -161,9 +161,10 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorEnergyPort,4), new Object[] {"SIS", "TFT", "SIS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame", 'I', "ingotNiobiumTin"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorBeam,3), new Object[] {"SSS", "BBB", "SSS", 'S', "ingotStainlessSteel", 'B', QMDBlocks.beamline});
 		addShapedOreRecipe(QMDBlocks.acceleratorSource, new Object[] {"AAA", " CT", "AAA", 'A', "plateAdvanced", 'C', QMDBlocks.acceleratorCasing, 'T', new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())});
+		addShapedOreRecipe(QMDBlocks.acceleratorLaserIonSource, new Object[] {"LPL", "EIE", "LPL", 'L', new ItemStack(QMDItems.part,1,PartType.LASER_ASSEMBLY.getID()), 'P', "plateElite", 'E', "processorElite", 'I', QMDBlocks.acceleratorSource});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorPort, 4), new Object[] {"SHS", "VFV", "SHS", 'S', "ingotStainlessSteel", 'H', Blocks.HOPPER, 'V', "servo", 'F', "steelFrame"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorRedstonePort,1), new Object[] {"STS", "TFT", "STS", 'S', "dustRedstone",'T', "ingotSteel", 'F', QMDBlocks.acceleratorCasing});
-
+		addShapedOreRecipe(QMDBlocks.acceleratorIonCollector, new Object[] {"PCP", "CFC", "PCP", 'C', "ingotCopper",'P', "plateAdvanced", 'F', QMDBlocks.acceleratorCasing});
 		
 		
 		//Accelerator magnets

@@ -592,51 +592,6 @@ public class MaterialTypes
 		}
 	}
 	
-	public static enum CanisterType implements IItemCapacity
-	{
-		EMPTY("empty", 0, 0),
-		HYDROGEN("hydrogen", 1, 10 * QMDConfig.mole_amount),
-		DEUTERIUM("deuterium",2, 10 * QMDConfig.mole_amount),
-		TRITIUM("tritium", 3, 10 * QMDConfig.mole_amount),
-		HELIUM3("helium3", 4, 10 * QMDConfig.mole_amount),
-		HELIUM("helium", 5, 10 * QMDConfig.mole_amount),
-		DIBORANE("diborane", 6, 10 * QMDConfig.mole_amount);
-		 
-		private String name;
-		private int id;
-		private int capacity;
-
-		private CanisterType(String name, int id, int capacity)
-		{
-			this.name = name;
-			this.id = id;
-			this.capacity = capacity;
-		}
-
-		@Override
-		public String getName()
-		{
-			return name;
-		}
-
-		@Override
-		public String toString()
-		{
-			return getName();
-		}
-
-		@Override
-		public int getID()
-		{
-			return id;
-		}
-		
-		@Override
-		public int getCapacity()
-		{
-			return capacity;
-		}
-	}
 	
 	
 	public static enum SourceType implements IItemCapacity

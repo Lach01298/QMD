@@ -39,7 +39,7 @@ item.qmd.ingot.calcium.name=Calcium Ingot
 item.qmd.ingot.strontium.name=Strontium Ingot
 item.qmd.ingot2.yttrium.name=Yttrium Ingot
 item.qmd.ingot2.neodymium.name=Neodymium Ingot
-item.qmd.ingot2.mercury.name=Mercury
+item.qmd.ingot2.mercury.name=Mercury (Legacy Item)
 
 item.qmd.waste_fission.light.name=Light Fission Waste
 item.qmd.waste_fission.heavy.name=Heavy Fission Waste
@@ -198,11 +198,12 @@ tile.qmd.ring_accelerator_controller.name=Synchrotron Accelerator Controller
 tile.qmd.beam_diverter_controller.name=Beam Diverter Controller
 tile.qmd.beam_splitter_controller.name=Beam Splitter Controller
 tile.qmd.decelerator_controller.name=Decelerator Controller
+tile.qmd.mass_spectrometer_controller.name=Mass Spectrometer Controller
 
 tile.qmd.accelerator_beam.name=Accelerator Beam Block
 tile.qmd.accelerator_computer_port.name=Accelerator Computer Port
 tile.qmd.accelerator_redstone_port.name=Accelerator Redstone Port
-tile.qmd.accelerator_port.name=Accelerator Item Port
+tile.qmd.accelerator_port.name=Accelerator Ion Source Port
 tile.qmd.accelerator_casing.name=Accelerator Casing
 tile.qmd.accelerator_glass.name=Accelerator Glass
 tile.qmd.accelerator_vent.name=Accelerator Coolant Vent
@@ -220,7 +221,10 @@ tile.qmd.accelerator_magnet.magnesium_diboride.name=Magnesium Diboride Accelerat
 tile.qmd.accelerator_magnet.niobium_tin.name=Niobium-Tin Accelerator Electromagnet
 tile.qmd.accelerator_magnet.niobium_titanium.name=Niobium-Titanium Accelerator Electromagnet
 tile.qmd.accelerator_magnet.bscco.name=BSCCO Accelerator Electromagnet
+tile.qmd.accelerator_magnet.name=Accelerator Electromagnet
 tile.qmd.accelerator_yoke.name=Accelerator Electromagnet Yoke
+tile.qmd.accelerator_laser_ion_source.name=Accelerator Laser Ion Source
+tile.qmd.accelerator_ion_collector.name=Accelerator Ion Collector
 
 tile.qmd.accelerator_cooler1.water.name=Water Accelerator Cooler
 tile.qmd.accelerator_cooler1.iron.name=Iron Accelerator Cooler
@@ -238,6 +242,7 @@ tile.qmd.accelerator_cooler1.purpur.name=Purpur Accelerator Cooler
 tile.qmd.accelerator_cooler1.diamond.name=Diamond Accelerator Cooler
 tile.qmd.accelerator_cooler1.emerald.name=Emerald Accelerator Cooler
 tile.qmd.accelerator_cooler1.copper.name=Copper Accelerator Cooler
+tile.qmd.accelerator_cooler1.name=Accelerator Cooler
 tile.qmd.accelerator_cooler2.tin.name=Tin Accelerator Cooler
 tile.qmd.accelerator_cooler2.lead.name=Lead Accelerator Cooler
 tile.qmd.accelerator_cooler2.boron.name=Boron Accelerator Cooler
@@ -254,6 +259,7 @@ tile.qmd.accelerator_cooler2.liquid_nitrogen.name=Liquid Nitrogen Accelerator Co
 tile.qmd.accelerator_cooler2.liquid_helium.name=Liquid Helium Accelerator Cooler
 tile.qmd.accelerator_cooler2.enderium.name=Enderium Accelerator Cooler
 tile.qmd.accelerator_cooler2.cryotheum.name=Cryotheum Accelerator Cooler
+tile.qmd.accelerator_cooler2.name=Accelerator Cooler
 
 tile.qmd.target_chamber_controller.name=Target Chamber Controller
 tile.qmd.decay_chamber_controller.name=Decay Chamber Controller
@@ -274,6 +280,7 @@ tile.qmd.particle_chamber_detector.silicon_tracker.name=Silicon Tracker Detector
 tile.qmd.particle_chamber_detector.wire_chamber.name=Wire Chamber Detector
 tile.qmd.particle_chamber_detector.em_calorimeter.name=Electromagnetic Calorimeter Detector
 tile.qmd.particle_chamber_detector.hadron_calorimeter.name=Hadron Calorimeter Detector
+tile.qmd.particle_chamber_detector.name=Particle Detector
 
 tile.qmd.discharge_lamp.empty.name=Discharge Lamp
 tile.qmd.discharge_lamp.hydrogen.name=Hydrogen Discharge Lamp
@@ -315,7 +322,7 @@ tile.qmd.vacuum_chamber_heater.glowstone.name=Glowstone Vacuum Chamber Heater
 tile.qmd.vacuum_chamber_heater.lapis.name=Lapis Vacuum Chamber Heater
 tile.qmd.vacuum_chamber_heater.gold.name=Gold Vacuum Chamber Heater
 tile.qmd.vacuum_chamber_heater.diamond.name=Diamond Vacuum Chamber Heater
-
+tile.qmd.vacuum_chamber_heater.name=Vacuum Chamber Heater
 
 
 tile.qmd.strontium_90_block.name=Strontium-90 Block
@@ -337,17 +344,17 @@ death.attack.self_poisoning=%1$s chemically poisoned themselves
 
 //block descriptions
 tile.qmd.beamline.desc=Transports particles.
-
+tile.qmd.ion_source.desc=Makes ions and particles for accelerators.
 tile.qmd.atmosphere_collector.desc=Collects gas from the atmosphere.
 
 tile.qmd.accelerator.cooler.cooling_rate=Cooling Rate:
 
 
-tile.qmd.rf_cavity.desc=Accelerates charged particles with a Radio Frequency electric field. Must be made as a ring of 8 same RF cavities surrounding a beam. Cannot be next to another RF cavity.
+tile.qmd.rf_cavity.desc=Accelerates charged particles with a Radio Frequency electric field. Must be made as a ring of 8 RF cavities of the same type surrounding a beam. Cannot be next to another RF cavity.
 
-tile.qmd.accelerator_magnet.desc=Bends the path charged particles with a strong magnetic field. Can be used to make a Quadrupole or Dipole magnet. For a Quadrupole magnet a beam must be surrounded by 4 of the same electromagnets.
+tile.qmd.accelerator_magnet.desc=Bends the path of charged particles with a strong magnetic field. Can be used to make a Quadrupole or Dipole magnet. For a Quadrupole magnet a beam must be surrounded by 4 of the same type of electromagnets.
 
-tile.qmd.accelerator_yoke.desc=Shapes and strengthens the magnetic field of a electromagnet. Used to make a Dipole magnet. For a dipole magnet a beam must have a electromagnet on the top and bottom then all space not taken by beams in a 3x3 around the central beam must be filled with electromagnet yokes.
+tile.qmd.accelerator_yoke.desc=Shapes and strengthens the magnetic field of an electromagnet. Used to make a Dipole magnet. For a dipole magnet a beam must have a electromagnet on the top and bottom then all space not taken by beams in a 3x3 around the central beam must be filled with electromagnet yokes.
 
 
 tile.qmd.particle_chamber.detector.bubble_chamber.desc=Must be placed within 2 blocks of a Particle Chamber.
@@ -464,6 +471,12 @@ fluid.polonium=Molten Polonium
 tile.qmd.fluid_polonium.name=Molten Polonium
 fluid.radium=Molten Radium
 tile.qmd.fluid_radium.name=Molten Radium
+fluid.carbon=Molten Carbon
+tile.qmd.fluid_carbon.name=Molten Carbon
+fluid.sodium_chloride=Molten Sodium Chloride
+tile.qmd.fluid_sodium_chloride.name=Molten Sodium Chloride
+
+
 
 fluid.antihydrogen=Anti-Hydrogen
 tile.qmd.fluid_antihydrogen.name=Anti-Hydrogen
@@ -495,6 +508,9 @@ info.qmd.item.max_temp=Maximum Operating Temperature: %s K
 info.qmd.item.energy_used=Energy Used: %s
 info.qmd.item.amount=Amount: %s / %s
 
+info.qmd.ion_source.output_multiplier=Particle Output Amount: x%s
+info.qmd.ion_source.focus=Output Focus: %s
+
 info.qmd.particle_chamber.detector.efficiency=Particle Efficiency: %s
 info.qmd.particle_chamber.detector.power=Base Power: %s RF/t
 
@@ -512,10 +528,10 @@ message.qmd.atmosphere_collector_no_fluid=Collecting no gas
 zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part=This block position cannot be part of the multiblock.
 
 
-qmd.multiblock_validation.need_energy_ports=There must be at least 1 Energy Port.
+
 qmd.multiblock_validation.no_inlet=There must be at least 1 Coolant Vent INPUT.
 qmd.multiblock_validation.no_outlet=There must be at least 1 Coolant Vent OUTPUT.
-
+qmd.multiblock_validation.need_energy_ports=There must be at least 1 Energy Port.
 
 qmd.multiblock_validation.accelerator.wrong_height=Accelerators must be 5 blocks tall.
 qmd.multiblock_validation.accelerator.invalid_beam_port=A Beam Port can not be here.
@@ -525,20 +541,26 @@ qmd.multiblock_validation.accelerator.no_synch_ports=There cannot be any Synchro
 qmd.multiblock_validation.accelerator.no_rf_cavity=There cannot be any RF Cavities on this type of accelerator.
 qmd.multiblock_validation.accelerator.no_source=There cannot be any Ion Sources on this type of accelerator.
 
+
+
 qmd.multiblock_validation.accelerator.linear.to_short=Linear Accelerator is not long enough.
+qmd.multiblock_validation.accelerator.linear.must_be_5_wide=Linear Accelerators must be 5 blocks wide.
 qmd.multiblock_validation.accelerator.linear.must_be_beam=There must be a straight line of Accelerator Beam blocks down the middle of the Linear Accelerator.
+qmd.multiblock_validation.accelerator.linear.must_have_io=There must be a Accelerator Beam Port INPUT and OUTPUT at either end of the beam.
 qmd.multiblock_validation.accelerator.linear.have_source_and_beam_port=There must be a Ion Source at one end of the beam and a Beam Port at the other.
 qmd.multiblock_validation.accelerator.linear.source_must_face_in=The Ion Source must face inwards at the beam.
-qmd.multiblock_validation.accelerator.linear.must_have_io=There must be a Accelerator Beam Port INPUT and OUTPUT at either end of the beam.
-qmd.multiblock_validation.accelerator.linear.must_be_5_wide=Linear Accelerators must be 5 blocks wide.
+qmd.multiblock_validation.accelerator.linear.only_one_source=There can only be one Ion Source.
+qmd.multiblock_validation.accelerator.linear.to_many_beam_ports=There can only be a Beam Port at the ends of the beam.
+
 
 qmd.multiblock_validation.accelerator.ring.must_be_square=The Accelerator must have the same length in the X and Z direction.
 qmd.multiblock_validation.accelerator.ring.to_short= Synchrotron Accelerator is not large enough.
 qmd.multiblock_validation.accelerator.ring.to_long= Synchrotron Accelerator is to large.
 qmd.multiblock_validation.accelerator.ring.must_be_beam=There must be a square ring of Accelerator Beam blocks down the middle of the Accelerator.
 qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner=There must be a dipole in every corner of  the accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then surrounding the it with Accelerator Electromagnet Yokes.
-qmd.multiblock_validation.accelerator.ring.must_be_dipole=There must be a dipole where a Beam Port enters.
+qmd.multiblock_validation.accelerator.ring.must_be_inline_with_beam=Beam Ports must be on the same Y level as the beam ring.
 qmd.multiblock_validation.accelerator.ring.beam_port_must_connect=There must be a Beam Block to Connect the Beam Port.
+qmd.multiblock_validation.accelerator.ring.must_be_dipole=There must be a dipole where a Beam Port enters.
 qmd.multiblock_validation.accelerator.ring.must_have_io=There must be only one INPUT and OUTPUT Beam Port.
 qmd.multiblock_validation.accelerator.ring.to_many_synchrotron_ports=There can only be one Synchrotron Port.
 
@@ -547,6 +569,24 @@ qmd.multiblock_validation.beam_director.must_be_beam=There must have a Accelerat
 qmd.multiblock_validation.beam_director.must_be_dipole=There Must be a vertical or horizontal dipole at the center.
 
 qmd.multiblock_validation.accelerator.splitter.must_have_io=There must be one INPUT and two OUTPUT Beam Ports.
+
+qmd.multiblock_validation.accelerator.mass_spectrometer.wrong_height=Mass Spectrometers must be 7 blocks tall.
+qmd.multiblock_validation.accelerator.mass_spectrometer.wrong_width=Mass Spectrometers must be 7 blocks wide in at least one direction.
+qmd.multiblock_validation.accelerator.mass_spectrometer.must_be_odd_length=Mass Spectrometers must be an odd number of blocks long.
+qmd.multiblock_validation.accelerator.mass_spectrometer.need_ion_source_amount=There must be one Ion Source on every second vertical layer along the length of the Mass Spectrometer. For this size Mass Spectrometer there Must be %s Ion Sources.
+qmd.multiblock_validation.accelerator.mass_spectrometer.ion_source_wrong_pos=This is not a valid position for a Ion Source. Ion Sources must be placed one block up on the side of every second vertical layer along the length of the mass spectrometer.
+qmd.multiblock_validation.accelerator.mass_spectrometer.ion_source_wrong_facing=The Ion Source must face inwards.
+qmd.multiblock_validation.accelerator.mass_spectrometer.ion_source_wrong_type=This type of Accelerator Ion Source is not allowed for a Mass Spectrometer.
+qmd.multiblock_validation.accelerator.mass_spectrometer.ion_source_in_layer_already=There is already a Ion Source on this vertical layer.
+qmd.multiblock_validation.accelerator.mass_spectrometer.must_be_ion_collector=This must be an Ion Collector. There must be 4 Ion Collectors above every Ion Source.
+qmd.multiblock_validation.accelerator.mass_spectrometer.ion_collector_wrong_facing=The Ion Collector must face inwards.
+qmd.multiblock_validation.accelerator.mass_spectrometer.need_ion_collector_amount=There must be 4 Ion Collectors above every Ion Source, not anywhere else.
+qmd.multiblock_validation.accelerator.mass_spectrometer.must_be_yoke=This must be an Accelerator Electromagnet Yoke.
+qmd.multiblock_validation.accelerator.mass_spectrometer.must_be_magnet=This must be an Accelerator Electromagnet.
+qmd.multiblock_validation.accelerator.mass_spectrometer.magnet_wrong_type=This type of Accelerator Electromagnet is not allowed for a Mass Spectrometer.
+qmd.multiblock_validation.accelerator.mass_spectrometer.must_be_one_magnet_type=There can only be one type of Accelerator Electromagnet in a Mass Spectrometer.
+qmd.multiblock_validation.accelerator.mass_spectrometer.must_be_beam=This must be an Accelerator Beam Block.
+
 
 
 qmd.multiblock_validation.chamber.must_have_target=Must have a Particle Chamber at the center.
@@ -593,6 +633,7 @@ qmd.multiblock_validation.nucleosynthesis_chamber.no_heater_outlet=There must be
 
 //gui container
 gui.qmd.container.required_energy=Required Energy: %s
+gui.qmd.container.speed=Speed Multiplier: x%s 
 
 gui.qmd.container.heat_stored=Heat Stored: %s/%s
 gui.qmd.container.energy_stored=Energy Stored: %s/%s
@@ -617,6 +658,7 @@ gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator
 gui.qmd.container.beam_diverter_controller.name=Beam Diverter
 gui.qmd.container.beam_splitter_controller.name=Beam Splitter
 gui.qmd.container.decelerator_controller.name=Decelerator
+gui.qmd.container.mass_spectrometer_controller.name=Mass Spectrometer
 gui.qmd.container.accelerator.cavitys=RF Cavities: %s at %s 
 gui.qmd.container.accelerator.quadrupoles=Quadrupoles: %s at %s
 gui.qmd.container.accelerator.dipoles=Dipoles: %s at %s 
@@ -834,6 +876,7 @@ tile.qmd.irradiator_fuel.name=Irradiator Fuel
 tile.qmd.accelerator_cooling.name=Accelerator Cooling
 tile.qmd.cell_filling.name=Cell Filling and Emptying
 tile.qmd.vacuum_chamber_heating.name=Vacuum Chamber Heating
+tile.qmd.mass_spectrometer.name=Mass Spectrometer
 
 //tabs
 itemGroup.qmd.items=Quantum Minecraft Dynamics Items
@@ -980,7 +1023,7 @@ gui.qmd.config.processors.power=Machine Power Usage
 gui.qmd.config.processors.power.comment=The default amount of RF/t a machine uses. Order:[Ore Leacher, atmosphere collector].
 
 gui.qmd.config.processors.time=Machine Process Time
-gui.qmd.config.processors.time.comment=The default time a machine takes to process in ticks. Order:[Ore Leacher, Irradiator].
+gui.qmd.config.processors.time.comment=The default time a machine takes to process in ticks. Order:[Ore Leacher, Irradiator, Mass Spectrometer].
 
 gui.qmd.config.processors.irradiator_rad_res=Irradiator Rad Resistance
 gui.qmd.config.processors.irradiator_rad_res.comment=The base radiation resistance the irradiation has. This does nothing if hardcore containers is not on.
@@ -1021,15 +1064,29 @@ gui.qmd.config.accelerator.accelerator_thermal_conductivity.comment=The thermal 
 gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy=Minimum Synchrotron Input Particle Energy
 gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment=The minimum particle energy allowed to be inputted into a Synchrotron Accelerator in keV.
 
-gui.qmd.config.accelerator.ion_source_output=Ion source Output
-gui.qmd.config.accelerator.ion_source_output.comment=The default ion source pu/t output. Increasing this makes recipes go faster.
+gui.qmd.config.accelerator.ion_source_output=Base Ion source Output
+gui.qmd.config.accelerator.ion_source_output.comment=The base ion source pu/t output. Increasing this makes recipes go faster.
 
+gui.qmd.config.accelerator.ion_source_power=Ion source Power
+gui.qmd.config.accelerator.ion_source_power.comment=The amount of RF/t each ion source type uses. Order: [Basic, Laser].
+
+gui.qmd.config.accelerator.ion_source_output_multiplier=Ion source Output Multiplier
+gui.qmd.config.accelerator.ion_source_output_multiplier.comment=The value the base ion source output is multiplied by for each ion source type. Order: [Basic, Laser].
+
+gui.qmd.config.accelerator.ion_source_focus=Ion source Output Focus 
+gui.qmd.config.accelerator.ion_source_focus.comment=The output focus of particles for each ion source type. Order: [Basic, Laser].
 
 gui.qmd.config.accelerator.beam_attenuation_rate=Beam Attenuation Rate
 gui.qmd.config.accelerator.beam_attenuation_rate.comment=The rate a particle beam attenuates at in focus/block.
 
 gui.qmd.config.accelerator.beam_diverter_radius=Beam Diverter Radius
 gui.qmd.config.accelerator.beam_diverter_radius.comment=The effective radius a beam diverter will use in calculations.
+
+gui.qmd.config.accelerator.mass_spectrometer_valid_magnets=Valid Mass Spectrometer Magnets
+gui.qmd.config.accelerator.mass_spectrometer_valid_magnets.comment=The list of magnets that are valid to form a mass spectrometer.
+
+gui.qmd.config.accelerator.mass_spectrometer_valid_sources=Valid Mass Spectrometer Sources
+gui.qmd.config.accelerator.mass_spectrometer_valid_sources.comment=The list of ion sources that are valid to form a mass spectrometer.
 
 gui.qmd.config.accelerator.RF_cavity_voltage=RF Cavity Voltage
 gui.qmd.config.accelerator.RF_cavity_voltage.comment=The accelerating voltage of each cavity in kV. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].

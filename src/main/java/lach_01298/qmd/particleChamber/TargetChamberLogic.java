@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
+import lach_01298.qmd.multiblock.InventoryHelper;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
@@ -26,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fluids.FluidStack;
 
 public class TargetChamberLogic extends ParticleChamberLogic
 {
@@ -153,6 +155,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	public void onChamberFormed()
 	{
 		onResetStats();
+		
+		getMultiblock().tanks.get(0).setCapacity(QMDConfig.particle_chamber_input_tank_capacity);
+		getMultiblock().tanks.get(1).setCapacity(QMDConfig.particle_chamber_output_tank_capacity * getCapacityMultiplier());
+		
 		if (!getWorld().isRemote)
 		{
 			for (TileParticleChamber target : getPartMap(TileParticleChamber.class).values())
@@ -272,16 +278,9 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
 		
-//		if(getMultiblock().beams.get(0).getParticleStack() != null)
-//		{
-//			
-//			System.out.println("particles: " + getMultiblock().beams.get(0).getParticleStack().getAmount());
-//
-//		}
-		
 		if (isChamberOn())
 		{
-			//System.out.println("bing");
+
 			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
 			{
 				
@@ -303,8 +302,6 @@ public class TargetChamberLogic extends ParticleChamberLogic
 					{
 						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
 						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
-//						System.out.println("PWD: " + particleWorkDone);
-						//System.out.println("RPW: " + recipeParticleWork);
 						
 						produceProduct();
 						produceBeams();
@@ -412,32 +409,40 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private boolean canProduceProduct()
 	{
-		TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
-		ItemStack product = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
+		ItemStack productItem = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		FluidStack productFluid = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
 		
 		
-		if(cont.getInventoryStacks().get(0).getCount() < recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount())
+		// some strange safety measure
+		if(inv.getInventoryStacks().get(1).getCount() <= 0)
 		{
-			return false;
+			inv.getInventoryStacks().set(1, ItemStack.EMPTY);
 		}
-		
-		if(cont.getInventoryStacks().get(1).getCount() <= 0)
+			
+		if(productItem != null)
 		{
-			cont.getInventoryStacks().set(1, ItemStack.EMPTY);
-		}
-		if (cont.getInventoryStacks().get(1) == ItemStack.EMPTY)
-		{	
-			return true;
-		}
-		else if (cont.getInventoryStacks().get(1).isItemEqual(product))
-		{
-			int count = cont.getInventoryStacks().get(1).getCount();
-			if (count + product.getCount() <= product.getMaxStackSize())
+			if (!inv.getInventoryStacks().get(1).isItemEqual(productItem) && inv.getInventoryStacks().get(1) != ItemStack.EMPTY)
 			{
-				return true;	
+				return false;
+			}
+			
+			if (inv.getInventoryStacks().get(1).getCount() + productItem.getCount() > productItem.getMaxStackSize())
+			{
+				return false;	
 			}
 		}
-		return false;
+		
+		
+		if(productFluid != null)
+		{
+			if(getMultiblock().tanks.get(1).fill(productFluid, false) != productFluid.amount)
+			{
+				return false;
+			}	
+		}
+		
+		return true;
 	}
 
 	private void produceProduct()
@@ -448,58 +453,39 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
 			
-			TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
-			ItemStack product = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
-			if(product == null)
+			TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
+			ItemStack productItem = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
+			if(productItem == null)
 			{
-				product = ItemStack.EMPTY;
+				productItem = ItemStack.EMPTY;
 			}
+			else
+			{
+				productItem.setCount(recipeInfo.getRecipe().getItemProducts().get(0).getNextStackSize(0));
+			}
+					
+			InventoryHelper.addItem(1,productItem,inv.getInventoryStacks(),inv);
+			InventoryHelper.removeItem(0,recipeInfo.getRecipe().getItemIngredients().get(0).getMaxStackSize(0),inv.getInventoryStacks(),inv);
 			
 			
-			if (cont.getInventoryStacks().get(1) == ItemStack.EMPTY)
+			FluidStack productFluid = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+			FluidStack ingredientFluid = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
+			
+			if(productFluid != null)
 			{
-				cont.getInventoryStacks().set(1, product);
-				if (cont.getInventoryStacks().get(0).getCount()- recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
-				{
-					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
-				}
-				else
-				{
-					int inputCount = cont.getInventoryStacks().get(0).getCount();
-					cont.getInventoryStacks().get(0).setCount(
-							inputCount - recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
-
-				}
-				cont.markDirtyAndNotify();
-
+				productFluid.amount = recipeInfo.getRecipe().getFluidProducts().get(0).getNextStackSize(0);
+				getMultiblock().tanks.get(1).fill(productFluid, true);
 			}
-			else if (cont.getInventoryStacks().get(1).isItemEqual(product))
+			
+			if(ingredientFluid != null)
 			{
-				int count = cont.getInventoryStacks().get(1).getCount();
-				if (count + product.getCount() <= product.getMaxStackSize())
-				{
-					cont.getInventoryStacks().get(1).setCount(count + product.getCount());
-					if (cont.getInventoryStacks().get(0).getCount() - recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount() <= 0)
-					{
-						cont.getInventoryStacks().set(0, ItemStack.EMPTY);
-
-					}
-					else
-					{
-						int inputCount = cont.getInventoryStacks().get(0).getCount();
-						cont.getInventoryStacks().get(0).setCount(inputCount - recipeInfo.getRecipe().getItemIngredients().get(0).getStack().getCount());
-
-					}
-					cont.markDirtyAndNotify();
-
-				}
-
+				getMultiblock().tanks.get(0).drain(ingredientFluid, true);
 			}
+			
+		
 			particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
 		}
-		
-		
-		
+
 	}
 	
 
@@ -588,12 +574,14 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	{
 		TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
-		ItemStack item =cont.getInventoryStacks().get(0).copy();
+		ItemStack item = cont.getInventoryStacks().get(0).copy();
 		items.add(item);
+		ArrayList<Tank> tanks = new ArrayList<Tank>();
+		tanks.add(getMultiblock().tanks.get(0));
 		ArrayList<ParticleStack> particles = new ArrayList<ParticleStack>();
 		particles.add(getMultiblock().beams.get(0).getParticleStack());
 		
-		recipeInfo = target_chamber.getRecipeInfoFromInputs(items, new ArrayList<Tank>(), particles);
+		recipeInfo = target_chamber.getRecipeInfoFromInputs(items, tanks, particles);
 		
 	}
 	
@@ -613,6 +601,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		{
 			TargetChamberUpdatePacket packet = (TargetChamberUpdatePacket) message;
 			getMultiblock().beams = packet.beams;
+			for (int i = 0; i < getMultiblock().tanks.size(); i++) getMultiblock().tanks.get(i).readInfo(message.tanksInfo.get(i));
 			this.particleWorkDone = packet.particleCount;
 			this.recipeParticleWork = packet.recipeParticleCount;
 		}
@@ -641,14 +630,6 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		outputSwitched =logicTag.getBoolean("outputSwitched");
 	}
 	
-	
-	
-	
-	/*public ContainerMultiblockController<ParticleChamber, IParticleChamberController> getContainer(EntityPlayer player)
-	{
-		
-		return new ContainerTargetChamberController(player, (TileTargetChamberController) getMultiblock().controller);
-	}*/
 	
 	
 }

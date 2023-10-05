@@ -15,6 +15,7 @@ import lach_01298.qmd.jei.category.CollisionChamberCategory;
 import lach_01298.qmd.jei.category.DecayChamberCategory;
 import lach_01298.qmd.jei.category.IrradiatorCategory;
 import lach_01298.qmd.jei.category.IrradiatorFuelCategory;
+import lach_01298.qmd.jei.category.MassSpectrometerCategory;
 import lach_01298.qmd.jei.category.NeutralContainmentCategory;
 import lach_01298.qmd.jei.category.NucleosynthesisChamberCategory;
 import lach_01298.qmd.jei.category.OreLeacherCategory;
@@ -41,7 +42,9 @@ import lach_01298.qmd.machine.container.ContainerOreLeacher;
 import lach_01298.qmd.machine.gui.GuiIrradiator;
 import lach_01298.qmd.machine.gui.GuiOreLeacher;
 import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
+import lach_01298.qmd.multiblock.container.ContainerMassSpectrometerController;
 import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
+import lach_01298.qmd.multiblock.gui.GuiMassSpectrometerController;
 import lach_01298.qmd.multiblock.gui.GuiNeutralContainmentController;
 import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
 import lach_01298.qmd.particle.ParticleStack;
@@ -95,7 +98,6 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipeCategories(
 				new AcceleratorSourceCategory(guiHelper),
 				new ParticleInfoCategory(guiHelper),
-				
 				new TargetChamberCategory(guiHelper),
 				new DecayChamberCategory(guiHelper),
 				new CollisionChamberCategory(guiHelper),
@@ -108,7 +110,8 @@ public class QMDJEI implements IModPlugin
 				JEIHandler.CELL_FILLING.getCategory(guiHelper),
 				new AtmosphereCollectorCategory(guiHelper),
 				new NucleosynthesisChamberCategory(guiHelper),
-				JEIHandler.VACUUM_CHAMBER_HEATING.getCategory(guiHelper)
+				JEIHandler.VACUUM_CHAMBER_HEATING.getCategory(guiHelper),
+				JEIHandler.MASS_SPECTROMETER.getCategory(guiHelper)
 				);
 		
 	}
@@ -122,12 +125,13 @@ public class QMDJEI implements IModPlugin
 
 		registry.addRecipes(AcceleratorSourceRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.SOURCE);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.acceleratorSource),QMDRecipeCategoryUid.SOURCE);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.acceleratorLaserIonSource),QMDRecipeCategoryUid.SOURCE);
 	
 		registry.addRecipes(ParticleInfoRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.PARTICLE_INFO);
 	
 		registry.addRecipes(TargetChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.TARGET_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.targetChamberController),QMDRecipeCategoryUid.TARGET_CHAMBER);
-		registry.addRecipeClickArea(GuiTargetChamberController.class, 65, 38, 22, 16, QMDRecipeCategoryUid.TARGET_CHAMBER);
+		registry.addRecipeClickArea(GuiTargetChamberController.class, 71, 48, 20, 16, QMDRecipeCategoryUid.TARGET_CHAMBER);
 		recipeTransferRegistry.addRecipeTransferHandler(ContainerTargetChamberController.class, QMDRecipeCategoryUid.TARGET_CHAMBER, 0, 1, 2, 36);		
 		
 		registry.addRecipes(DecayChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.DECAY_CHAMBER);
@@ -182,6 +186,11 @@ public class QMDJEI implements IModPlugin
 					JEIHandler.VACUUM_CHAMBER_HEATING.getUid());
 		}
 		
+		registry.addRecipes(JEIHandler.MASS_SPECTROMETER.getJEIRecipes(guiHelper), JEIHandler.MASS_SPECTROMETER.getUid());
+		registry.addRecipeCatalyst(JEIHandler.MASS_SPECTROMETER.getCrafters().get(0),JEIHandler.MASS_SPECTROMETER.getUid());
+		registry.addRecipeClickArea(GuiMassSpectrometerController.class, 52, 51, 201, 55, JEIHandler.MASS_SPECTROMETER.getUid());
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerMassSpectrometerController.class, JEIHandler.MASS_SPECTROMETER.getUid(), 0, 1, 5, 36);
+		
 		
 	}
 
@@ -191,9 +200,10 @@ public class QMDJEI implements IModPlugin
 		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
 		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
 		IRRADIATOR_FUEL(QMDRecipes.irradiator_fuel, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.IrradiatorFuel.class),
-		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController,QMDBlocks.deceleratorController,QMDBlocks.exoticContainmentController,QMDBlocks.nucleosynthesisChamberController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class),
+		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController,QMDBlocks.deceleratorController,QMDBlocks.massSpectrometerController,QMDBlocks.exoticContainmentController,QMDBlocks.nucleosynthesisChamberController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class),
 		CELL_FILLING(QMDRecipes.cell_filling, QMDBlocks.exoticContainmentController, "jei/cell_filling", QMDRecipeWrapper.CellFilling.class),
-		VACUUM_CHAMBER_HEATING(QMDRecipes.vacuum_chamber_heating, Lists.newArrayList(QMDBlocks.nucleosynthesisChamberController), "jei/accelerator_cooling", QMDRecipeWrapper.VacuumChamberHeating.class);
+		VACUUM_CHAMBER_HEATING(QMDRecipes.vacuum_chamber_heating, Lists.newArrayList(QMDBlocks.nucleosynthesisChamberController), "jei/accelerator_cooling", QMDRecipeWrapper.VacuumChamberHeating.class),
+		MASS_SPECTROMETER(QMDRecipes.mass_spectrometer, QMDBlocks.massSpectrometerController, "mass_spectrometer_controller", QMDRecipeWrapper.MassSpectrometer.class);
 		
 		private BasicRecipeHandler recipeHandler;
 		private Class<? extends JEIBasicRecipeWrapper> recipeWrapper;
@@ -233,6 +243,8 @@ public class QMDJEI implements IModPlugin
 				return new CellFillingCategory(guiHelper, this);
 			case VACUUM_CHAMBER_HEATING:
 				return new VacuumChamberHeatingCategory(guiHelper, this);
+			case MASS_SPECTROMETER:
+				return new MassSpectrometerCategory(guiHelper, this);
 			default:
 				return null;
 			}

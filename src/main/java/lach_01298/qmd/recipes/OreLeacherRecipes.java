@@ -31,11 +31,6 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
 				oreStack("dustGold", 3),chanceOreStack("dustSilver", 1, 10),new EmptyItemIngredient()
 				);
-		addRecipe("oreRedstone",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
-				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
-				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustRedstone", 12),oreStack("ingotMercury", 3),new EmptyItemIngredient()
-				);
 		addRecipe("oreCopper",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
@@ -64,7 +59,7 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 		addRecipe("oreLithium",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustLithium", 3),chanceOreStack("dustAluminum", 1, 10),chanceOreStack("dustSodium", 1, 5)
+				oreStack("dustLithium", 3),chanceOreStack("dustAluminum", 1, 10),new EmptyItemIngredient()
 				);
 		addRecipe("oreMagnesium",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
@@ -74,13 +69,9 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 		addRecipe("oreBoron",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustBoron", 3),new EmptyItemIngredient(),new EmptyItemIngredient()
+				oreStack("dustBoron", 3),chanceOreStack("dustSodiumChloride", 2,50,1),new EmptyItemIngredient()
 				);
-		addRecipe("dustRedstone",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
-				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
-				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				chanceOreStack("ingotMercury", 1,50),chanceOreStack("dustSulfur", 1,50),new EmptyItemIngredient()
-				);
+
 		
 	}
 

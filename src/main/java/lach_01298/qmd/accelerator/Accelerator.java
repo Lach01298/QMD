@@ -76,7 +76,10 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	
 	public final HeatBuffer heatBuffer = new HeatBuffer(QMDConfig.accelerator_base_heat_capacity);
 	public final EnergyStorage energyStorage = new EnergyStorage(QMDConfig.accelerator_base_energy_capacity);
-	public List<Tank> tanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity, QMDRecipes.accelerator_cooling_valid_fluids.get(0)), new Tank(QMDConfig.accelerator_base_output_tank_capacity, null));
+	public List<Tank> tanks = Lists.newArrayList(
+			new Tank(QMDConfig.accelerator_base_input_tank_capacity,QMDRecipes.accelerator_cooling_valid_fluids.get(0)),
+			new Tank(QMDConfig.accelerator_base_output_tank_capacity, null), 
+			new Tank(1, null), new Tank(1, null), new Tank(1, null), new Tank(1, null), new Tank(1, null));
 	public final List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
 	public boolean isControllorOn = false; //for controller blockstate
@@ -105,7 +108,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public static final int errorCode_InputParticleEnergyToLow = 4;
 	public static final int errorCode_InputParticleEnergyToHigh = 5;
 	
-	private static final int thickness = 5;
+	public static final int thickness = 5;
 	
 	
 	public RecipeInfo<BasicRecipe> coolingRecipeInfo;
@@ -135,7 +138,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public void setLogic(String logicID)
 	{
 		if (logicID.equals(logic.getID())) return;
-		logic = getNewLogic(LOGIC_MAP.get(logicID));	
+		logic = getNewLogic(LOGIC_MAP.get(logicID));
+		SetToriodThickness(logic.getThickness());
 	}
 
 	@Override

@@ -324,6 +324,18 @@
             "custom": {
                 "fluid": "radium"
             }
+        },
+        "fluid_carbon": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "carbon"
+            }
+        },
+        "fluid_sodium_chloride": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "sodium_chloride"
+            }
         }
         
     }

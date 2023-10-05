@@ -55,13 +55,6 @@ public class TileBeamDiverterController extends TileAcceleratorPart implements I
 		if (getMultiblock() != null) getMultiblock().updateActivity();
 	}
 
-
-	@Override
-	public void doMeltdown()
-	{
-
-	}
-
 	@Override
 	public ContainerMultiblockController getContainer(EntityPlayer player) {
 		return new ContainerBeamDiverterController(player, this);

@@ -20,4 +20,5 @@ public class GUI_ID
 	public final static int CREATIVE_SOURCE = 13;
 	public final static int NUCLEOSYNTHESIS_CHAMBER = 14;
 	public final static int BEAM_SPLITTER = 15;
+	public final static int MASS_SPECTROMETER = 16;
 }

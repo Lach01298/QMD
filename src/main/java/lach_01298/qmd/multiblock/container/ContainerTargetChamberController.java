@@ -33,10 +33,10 @@ public class ContainerTargetChamberController extends ContainerMultiblockControl
 		this.otherSlotsSize = 0;
 		
 		
-		addSlotToContainer(new SlotQMDProcessorInput(tile,recipeHandler, 0, 47, 38));
-		addSlotToContainer(new SlotFurnace(player, tile, 1, 89, 38));
+		addSlotToContainer(new SlotQMDProcessorInput(tile,recipeHandler, 0, 53, 38));
+		addSlotToContainer(new SlotFurnace(player, tile, 1, 94, 38));
 		
-		addPlayerInventory(player,8,106);
+		addPlayerInventory(player,8,118);
 
 	}
 

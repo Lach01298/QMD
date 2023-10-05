@@ -6,6 +6,7 @@ import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.liquid.ILiquidStack;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.integration.crafttweaker.CTAddRecipe;
@@ -13,6 +14,7 @@ import nc.integration.crafttweaker.CTClearRecipes;
 import nc.integration.crafttweaker.CTRemoveRecipe;
 import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -138,10 +140,19 @@ public class QMDCraftTweaker
 	public static class TargetChamberHandler 
 	{
 		
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient inputItem, IIngredient inputFluid, IIngredient inputParticle, IIngredient outputItem, IIngredient outputFluid, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation) 
+		{
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, inputFluid, inputParticle, outputItem, outputFluid, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+		}
+		
+		
 		@ZenMethod
 		public static void addRecipe(IIngredient inputItem, IIngredient inputParticle, IIngredient outputItem, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueDouble = 0) double processRadiation) 
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, inputParticle, outputItem, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
+			
+			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, null, inputParticle, outputItem, null, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased, processRadiation)));
 		}
 		
 		@ZenMethod
@@ -326,33 +337,44 @@ public class QMDCraftTweaker
 	@ZenClass("mods.qmd.accelerator_source")
 	@ZenRegister
 	public static class AcceleratorSourceHandler 
-	{
-		
+	{	
 		@ZenMethod
-		public static void addRecipe(IIngredient inputItem, IIngredient outputParticle) 
+		public static void addRecipe(IIngredient input, IIngredient outputParticle) 
 		{
-			if(inputItem instanceof IItemStack)
+			if(input instanceof IItemStack)
 			{
-				if(((IItemStack) inputItem).getInternal() instanceof ItemStack)
+				if(((IItemStack) input).getInternal() instanceof ItemStack)
 				{
-					ItemStack stack = (ItemStack) inputItem.getInternal();
+					ItemStack stack = (ItemStack) input.getInternal();
 					
 					if(stack.getItem() instanceof IItemParticleAmount)
 					{
-						CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList( inputItem, outputParticle)));
-						return;
-					}	
+						CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList(input, null, outputParticle)));
+						
+					}
+					else
+					{
+						CraftTweakerAPI.logError(input.toString() + " is not an instance of IItemParticleAmount. Can not add accelerator_source recipe.");
+					}
 				}			
 			}
-			
-			CraftTweakerAPI.logError(inputItem.toString() + " is not an instance of IItemParticleAmount. Can not add accelerator_source recipe.");
-				
+			else if(input instanceof ILiquidStack)
+			{
+				CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList(null, input, outputParticle)));			
+			}
 		}
 		
 		@ZenMethod
-		public static void removeRecipeWithInput(IIngredient inputItem) 
+		public static void removeRecipeWithInput(IIngredient input) 
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(inputItem)));
+			if(input instanceof IItemStack)
+			{
+				CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(input, null)));
+			}
+			else if(input instanceof ILiquidStack)
+			{
+				CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(null, input)));
+			}
 		}
 		
 		@ZenMethod
@@ -426,6 +448,39 @@ public class QMDCraftTweaker
 			CraftTweakerAPI.logError(inputFullCell.toString() + " is not an instance of IItemParticleAmount. Can not add cell_filling recipe.");
 		}
 		
+	}
+	
+	
+	
+	
+	@ZenClass("mods.qmd.mass_spectrometer")
+	@ZenRegister
+	public static class MassSpectrometerHandler 
+	{
+		
+		@ZenMethod
+		public static void addRecipe(IIngredient inputItem, IIngredient inputFluid, IIngredient outputItem1, IIngredient outputItem2, IIngredient outputItem3, IIngredient outputItem4, IIngredient outputFluid1, IIngredient outputFluid2, IIngredient outputFluid3, IIngredient outputFluid4, @Optional(valueDouble = 1D) double timeMultiplier) 
+		{
+			CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.mass_spectrometer, Lists.newArrayList(inputItem, inputFluid, outputItem1, outputItem2,outputItem3,outputItem4,outputFluid1,outputFluid2,outputFluid3,outputFluid4,timeMultiplier)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient inputItem, IIngredient inputFluid) 
+		{
+			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.mass_spectrometer, IngredientSorption.INPUT, Lists.newArrayList(inputItem,inputFluid)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient outputItem1, IIngredient outputItem2, IIngredient outputItem3, IIngredient outputItem4, IIngredient outputFluid1, IIngredient outputFluid2, IIngredient outputFluid3, IIngredient outputFluid4) 
+		{
+			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.mass_spectrometer, IngredientSorption.OUTPUT, Lists.newArrayList(outputItem1,outputItem2,outputItem3,outputItem4,outputFluid1,outputFluid2,outputFluid3,outputFluid4)));
+		}
+		
+		@ZenMethod
+		public static void removeAllRecipes() 
+		{
+			CraftTweakerAPI.apply(new CTClearRecipes(QMDRecipes.mass_spectrometer));
+		}
 	}
 	
 }

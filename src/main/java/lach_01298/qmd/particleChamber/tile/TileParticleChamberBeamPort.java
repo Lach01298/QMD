@@ -12,11 +12,12 @@ import com.google.common.collect.Lists;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.io.IIOType;
 import lach_01298.qmd.particle.ITileParticleStorage;
 import lach_01298.qmd.particle.ParticleStorage;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.CollisionChamberLogic;
+import lach_01298.qmd.tile.ITileIONumber;
+import lach_01298.qmd.tile.ITileIOType;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
@@ -30,7 +31,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
-public class TileParticleChamberBeamPort extends TileParticleChamberPart implements IIOType, ITileParticleStorage
+public class TileParticleChamberBeamPort extends TileParticleChamberPart implements ITileIOType, ITileIONumber, ITileParticleStorage
 {
 	
 	private final @Nonnull List<ParticleStorageAccelerator> backupTanks = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());

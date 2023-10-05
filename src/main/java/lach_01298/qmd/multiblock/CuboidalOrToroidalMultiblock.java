@@ -135,25 +135,28 @@ public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOr
 					}
 
 					// don't check the hole
-					if (z > minInCoord.getZ() && z < maxInCoord.getZ() && x > minInCoord.getX()
-							&& x < maxInCoord.getX())
+					if(isToroidal())
 					{
-						if (z > minInCoord.getZ() + 1 && z < maxInCoord.getZ() - 1 && x > minInCoord.getX() + 1
-								&& x < maxInCoord.getX() - 1)
+						if (z > minInCoord.getZ() && z < maxInCoord.getZ() && x > minInCoord.getX()
+								&& x < maxInCoord.getX())
 						{
-							continue;
-						}
+							if (z > minInCoord.getZ() + 1 && z < maxInCoord.getZ() - 1 && x > minInCoord.getX() + 1
+									&& x < maxInCoord.getX() - 1)
+							{
+								continue;
+							}
 
-						if (part != null) // check inner edge isn't a multiblock part
-						{
+							if (part != null) // check inner edge isn't a multiblock part
+							{
 
-							setLastError("zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part",
-									new BlockPos(x, y, z), x, y, z);
-							return false;
-						}
-						else
-						{
-							continue;
+								setLastError("zerocore.api.nc.multiblock.validation.cannot_be_multiblock_part",
+										new BlockPos(x, y, z), x, y, z);
+								return false;
+							}
+							else
+							{
+								continue;
+							}
 						}
 					}
 
@@ -254,6 +257,7 @@ public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOr
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -359,6 +363,10 @@ public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOr
 
 	private boolean isToroidal()
 	{
+		if (thickness < 1)
+		{
+			return false;
+		}
 		if (getMaxInCoord().getX() <= getMinInCoord().getX() || getMaxInCoord().getZ() <= getMinInCoord().getZ())
 		{
 			return false;
@@ -710,5 +718,18 @@ public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOr
 					getExtremeInteriorCoord(false, false, false));
 		}
 	}
+	
+	public int getToriodThickness()
+	{
+		return thickness;
+	}
+	
+	public void SetToriodThickness(int thickness)
+	{
+		this.thickness = thickness;
+	}
+	
+	
+	
 
 }

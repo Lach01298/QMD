@@ -3,7 +3,6 @@ package lach_01298.qmd.item;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDInfo;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.MaterialTypes.CanisterType;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
 import lach_01298.qmd.enums.MaterialTypes.CoperniciumDepletedFuelType;
@@ -61,7 +60,6 @@ public class QMDItems
 	public static Item spallationWaste;
 	public static Item spallationWaste2;
 	
-	public static Item canister;
 	public static Item source;
 	
 	
@@ -100,7 +98,6 @@ public class QMDItems
 		ingot2 = withName(new NCItemMeta(IngotType2.class), "ingot2");
 		ingotAlloy = withName(new NCItemMeta(IngotAlloyType.class), "ingot_alloy");
 		
-		canister = withName(new ItemCanister(),"canister");
 		source = withName(new ItemSource(),"source");
 		
 		
@@ -152,7 +149,6 @@ public class QMDItems
 		registerItem(ingot2, QMDTabs.ITEMS);
 		registerItem(ingotAlloy, QMDTabs.ITEMS);
 		
-		registerItem(canister, QMDTabs.ITEMS);
 		registerItem(source, QMDTabs.ITEMS);
 
 		
@@ -251,13 +247,6 @@ public class QMDItems
 		for (int i = 0; i < SpallationWasteType2.values().length; i++)
 		{
 			registerRender(spallationWaste2, i, SpallationWasteType2.values()[i].getName());
-		}
-		
-		
-		
-		for (int i = 0; i < CanisterType.values().length; i++)
-		{
-			registerRender(canister, i, CanisterType.values()[i].getName());
 		}
 		
 		for (int i = 0; i < SourceType.values().length; i++)

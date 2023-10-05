@@ -88,6 +88,9 @@ public class QMDFluids
 			addFluidPair(FluidType.MOLTEN, "bismuth", 0x827e73);
 			addFluidPair(FluidType.MOLTEN, "polonium", 0x5c7c78);
 			addFluidPair(FluidType.MOLTEN, "radium", 0x6e607b);
+			
+			addFluidPair(FluidType.MOLTEN, "carbon", 0x343434);
+			addFluidPair(FluidType.MOLTEN, "sodium_chloride", 0xd4cccc);
 
 			//exotic matter
 			addFluidPair(QMDFluidType.EXOTIC,"antihydrogen", 0xB37AC4);
