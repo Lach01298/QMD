@@ -108,10 +108,7 @@ public class TileAcceleratorVent extends TileAcceleratorPart implements ITileFlu
 	@Override
 	public @Nonnull List<Tank> getTanks()
 	{
-		
-		return getMultiblock().isAssembled() ? getMultiblock().tanks.subList(0, 2) : backupTanks;
-		
-		//return getMultiblock() != null ? getLogic().getTanks(backupTanks) : backupTanks;
+		return getMultiblock() != null ? getMultiblock().tanks.subList(0, 2) : backupTanks;
 	}
 
 	@Override

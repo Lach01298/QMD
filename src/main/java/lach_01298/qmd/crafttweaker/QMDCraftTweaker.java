@@ -158,7 +158,13 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputItem, IIngredient inputParticle) 
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, inputParticle)));
+			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, null, inputParticle)));
+		}
+		
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient inputItem, IIngredient inputFluid, IIngredient inputParticle) 
+		{
+			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, inputFluid, inputParticle)));
 		}
 		
 		@ZenMethod
