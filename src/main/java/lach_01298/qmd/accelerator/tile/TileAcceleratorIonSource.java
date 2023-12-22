@@ -63,17 +63,17 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
-	public final double outputParticleMultiplier;
+	public final int outputParticleMultiplier;
 	public final double outputFocus;
 	public final int basePower;
 	public final String name;
 	
 	private int IONumber;
 	
-	public TileAcceleratorIonSource(double outputParticleMultipler,double outputFocus,int basePower, String name)
+	public TileAcceleratorIonSource(int outputParticleMultipler,double outputFocus,int basePower, String name)
 	{
 		super(CuboidalPartPositionType.WALL);
-		this.outputParticleMultiplier = outputParticleMultipler;
+		this.outputParticleMultiplier = outputParticleMultipler < 1 ? 1 :outputParticleMultipler;
 		this.outputFocus = outputFocus;
 		this.basePower = basePower;
 		this.name = name;

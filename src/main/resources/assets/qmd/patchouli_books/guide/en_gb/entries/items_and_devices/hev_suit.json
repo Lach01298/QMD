@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "The Hazardous EnViroment (HEV) suit is an advanced armour and hazmat suit. It is powered with RF and has no durability. Each piece also has a unique ability. The armour can also be dyed like leather armour for customisation"
+			"text": "The Hazardous EnViroment (HEV) suit is an advanced armour and hazmat suit. It is powered with RF and has no durability. Each piece also has a unique ability. The armour can also be dyed like leather armour for customisation."
 		},
 		{
 			 "type": "spotlight",
@@ -26,7 +26,7 @@
 		{
 			"type": "spotlight",
             "item": "qmd:boots_hev",
-			"text": "The boots gives the wearer step assist, reduces fall damage by 50% and reduces fall height by 4 blocks meaning the wearer can fall 7 blocks (instead of 3) without tacking damage."
+			"text": "The boots gives the wearer step assist, reduces fall damage by 50% and reduces fall height by 4 blocks meaning the wearer can fall 7 blocks (instead of 3) without taking damage."
 		}
 
 	]

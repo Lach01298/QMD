@@ -1,5 +1,6 @@
-package lach_01298.qmd;
+package lach_01298.qmd.render;
 
+import lach_01298.qmd.QMD;
 import lach_01298.qmd.item.ItemGun;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped.ArmPose;

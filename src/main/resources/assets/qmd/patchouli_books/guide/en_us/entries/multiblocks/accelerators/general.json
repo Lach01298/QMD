@@ -6,7 +6,7 @@
     "pages": [
         {
 			"type": "text",
-            "text": "At the core of QMD are the Accelerator Multiblocks. There are many different types: $(l:multiblocks/accelerators/linear_accelerator)Linear$(/l), $(l:multiblocks/accelerators/ring_accelerator)Synchrotron$(/l),  $(l:multiblocks/accelerators/decelerator)Decelerator$(/l), $(l:multiblocks/accelerators/Beam_diverter)Beam Diverter$(/l) and $(l:multiblocks/accelerators/beam_splitter)Beam Splitters$(/l). All these do different things, but use the same basic principles and materials. Here we go into the basic principles."
+            "text": "At the core of QMD are Accelerator Multiblocks. There are many different types: $(l:multiblocks/accelerators/linear_accelerator)Linear$(/l), $(l:multiblocks/accelerators/ring_accelerator)Synchrotron$(/l),  $(l:multiblocks/accelerators/decelerator)Decelerator$(/l), $(l:multiblocks/accelerators/Beam_diverter)Beam Diverter$(/l), $(l:multiblocks/accelerators/beam_splitter)Beam Splitter$(/l) and $(l:multiblocks/accelerators/mass_spectrometer)Mass Spectrometer$(/l). All these do different things, but use the same basic principles and materials. Here we go into the basic principles."
         },
 		{
             "type": "diagram_high",
@@ -51,18 +51,18 @@
         },
         {
             "type": "text",
-            "text": " RF cavities increase the accelerating voltage of the accelerator and thus the energy of the resulting particle out the end. The accelerating voltage of each RF Cavity is determined by the material of the cavity's blocks. Shown to the left is a RF cavity made of niobium titanium."
+            "text": "RF cavities increase the accelerating voltage of the accelerator and thus the $(l:particles/introduction#energy)energy$(/l) of the resulting particle out the end. The accelerating voltage of each RF Cavity is determined by the material of the cavity's blocks. Shown to the left is a RF cavity made of niobium titanium."
         },
         {
             "anchor": "quadrupole",
             "type": "diagram",
 			"header": "Quadrupole Magnets",
             "image": "qmd:textures/gui/book_images/quadrupole.png",
-            "text": "Quadrupole Magnets are constructed from 4 Accelerator Electromagnets of the same type around a Accelerator Beam as shown above."
+            "text": "Quadrupole Magnets are constructed from 4 Accelerator Electromagnets of the same type around an Accelerator Beam as shown above."
         },
         {
             "type": "text",
-            "text": "Quadrupoles increase the focus (basically the confinement) of the particle beam. The focus is used to tell how far a beam can travel. If the beam travels too far in an accelerator it will not output. So more quadrupoles are needed to be added to compensate for the loss in focus. The strength of a quadrupole is determined by the type of electromagnet used to create it. Shown to the left is a quadrupole made of copper."
+            "text": "Quadrupoles increase the $(l:particles/introduction#focus)focus$(/l) (basically the confinement) of the particle beam. The focus is used to tell how far a beam can travel. If the beam travels too far in an accelerator it will not output. So more quadrupoles are needed to be added to compensate for the $(l:particles/introduction#focus_loss)loss in focus$(/l). The strength of a quadrupole is determined by the type of electromagnet used to create it. Shown to the left is a quadrupole made of copper."
         },
 		{
             "anchor": "dipole",
@@ -104,12 +104,14 @@
         },
 		
         {
-            "type": "text",
+            "anchor": "power",
+			"type": "text",
 			"title": "Power",
             "text": "Hovering over the Power bar (left) of the gui will show you the power stored in the accelerator and the power used by the accelerator when on. The power used can be calculated as $(l)P=p/ε$() where $(l)p$() is sum of all the components base power and $(l)ε$() is the average component efficiency. The percentage in brackets is $(l)1/ε$() which is how much of the base power is used."
         },
 		{
-            "type": "text",
+            "anchor": "heat",
+			"type": "text",
 			"title": "Heating",
             "text": "There are 2 sources of heating in an accelerator. External heating from the warm environment, which depends on where the accelerator is and is always present, and internal heating. This heat comes from the components in the accelerator and is only present when the accelerator is turned on."
         },
@@ -123,7 +125,7 @@
         },
 		{
 			"type": "text",
-			"text": "To calculate the maximum heating it is the sum of the internal and external heating. The external heating is $(br)$(l)He=κA(Tₑ-Tₐ)$() where $(l)Tₑ$() is the environment temperature usually around 300 K, $(l)Tₐ$() is the accelerators temperature, $(l)κ$() is thermal conductivity (default config is 0.0025) and A is the surface area of the accelerator. The maximum External heating is therefore when $(l)Tₐ$() = 0 K. The Internal Heating is the sum of all the component blocks' heat generation values."
+			"text": "To calculate the maximum heating it is the sum of the internal and external heating. The external heating is $(br)$(l)Hₑ=κA(Tₑ-Tₐ)$() where $(l)Tₑ$() is the environment temperature usually around 300 K, $(l)Tₐ$() is the accelerators temperature, $(l)κ$() is thermal conductivity (default config is 0.0025) and A is the surface area of the accelerator. The maximum External heating is therefore when $(l)Tₐ$() = 0 K. The Internal Heating is the sum of all the component blocks' heat generation values."
         },
 		{
             "anchor": "coolant",
@@ -133,27 +135,37 @@
         },
 		{
             "type": "text",
-            "text": "The temperature of the coolant used must be below this for the accelerator to cool down below its operating temperature. If the accelerator temperature rises above its operating temperate while running then some of the $(l)$(c)overheating components will explode$().$(br2)You may also manually void the coolant tanks by clicking the button that appears when holding shift in the accelerators gui."
+            "text": "The temperature of the coolant used must be below this for the accelerator to cool down below its maximum operating temperature. If the accelerator temperature rises above its maximum operating temperate while running then some of the $(l)$(c)overheating components will explode$()."
         },
 		{
             "anchor": "focus",
 			"type": "text",
 			"title": "Focus",
-            "text": "The output focus can be calculated using $(br)$(l)f = f₀-(α(1+|q|$(o)sqrt$()$(l)(I/Iᵢ)))L + |q|B₄$()$(br)where $(l)f₀$() is the input beam's focus. For a new beam created from an Ion Source the starting focus is shown in the recipe (normally it is 0.2). $(l)α$() is the beam attenuation rate (this can be seen on Beamline's tool tip, by default 0.02). $(l)I$() is the pu/t of the beam, $(l)Iᵢ$() is the beam scaling factor (10000 with default configs)."
+            "text": "The output focus can be calculated using $(br)$(l)f = f₀-(α(1+|q|$(o)sqrt$()$(l)(I/Iᵢ)))L + |q|B₄$()$(br)where $(l)f₀$() is the input beam's focus. For a new beam created from an ion source the starting focus is determined by the ion source and is seen on its tool tip. $(l)α$() is the beam attenuation rate (this can be seen on Beamline's tool tip, by default 0.02). "
         },
 		{
             "type": "text",
-            "text": " $(l)L$() is the length of the accelerator, $(l)q$() is the particle's charge and $(l)B₄$() is the Quadrupole strength of the accelerator which is the sum of the strength of each quadrupole."
+            "text": "$(l)I$() is the pu/t of the beam, $(l)Iᵢ$() is the beam scaling factor (10000 with default configs).$(l)L$() is the length of the accelerator, $(l)q$() is the particle's charge and $(l)B₄$() is the Quadrupole strength in Tesla of the accelerator which is the sum of the strength of each quadrupole.$(br2)The length and quadrupole strength can be seen in the accelerator's gui."
         },
 		{
             "anchor": "control",
 			"type": "text",
 			"title": "Control",
-            "text": "You can control accelerators in 2 ways either with redstone signals or if Open Computers is installed with a computer. For redstone control: a redstone signal to the controller or a Redstone Port will try to turn the accelerator on if it can. If it can't there will be an error message in the gui. For computer control the computer needs to be connected to the accelerator through a Accelerator Computer port."
+            "text": "You can control accelerators in 2 ways either with redstone signals or if Open Computers is installed with a computer. For redstone control: a redstone signal to the controller or a Redstone Port will try to turn the accelerator on if it can. If it can't there will be an error message in the gui. For computer control the computer needs to be connected to the accelerator through a Accelerator Computer Port."
         },
 		{
             "type": "text",
             "text": "You can find out more details about specific accelerator control in their sections. You can also see more about computer control in the open computers section."
+        },
+		{
+            "anchor": "redstone",
+			"type": "text",
+			"title": "Redstone Ports",
+            "text": "Accelerators can have any amount of redstone ports in the casing. Redstone ports can be in either input or output modes. Switching between the modes is done with right clicking with the multitool. In input mode restone ports act as if the redstone signal applied to them went to the accelerator's controller, allowing accelerators to turn on and off and change target energies."
+        },
+		{
+			"type": "text",
+            "text": "In output mode redstone ports output a redstone signal strength proportional to the fraction the current temperature is to the maximum operating temperature of the accelerator. So at the maximum operating temperature and above the redstone signal strength is 15, at half the  maximum operating temperature the signal strength is 7."
         }
        
     ]

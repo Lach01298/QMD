@@ -50,7 +50,7 @@
 			"header": "Operation",
 			"type": "diagram",
 			"image": "qmd:textures/gui/book_images/collision_chamber_recipe.png",
-			"text": "Collision chambers operate similar to $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) but with no items to deal with. To show how the collision chamber operates lets look at the example recipe in JEI above. Here protons hit protons creating a variety of particles."
+			"text": "Collision chambers operate similar to $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) but with no items or fluids to deal with. To show how the collision chamber operates lets look at the example recipe in JEI above. Here protons hit protons creating a variety of particles."
 		},
 		{
 			"type": "text",

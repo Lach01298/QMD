@@ -1031,7 +1031,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			FluidStack productFluid = productFluids.get(i).getStack();
 			if (productFluid != null)
 			{
-				productFluid.amount = productFluids.get(i).getNextStackSize(i);
+				productFluid.amount = productFluids.get(i).getNextStackSize(0);
 				getMultiblock().tanks.get(i+6).fill(productFluid, true);
 			}
 

@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
+import lach_01298.qmd.accelerator.MassSpectrometerLogic;
 import lach_01298.qmd.accelerator.RFCavity;
 import lach_01298.qmd.accelerator.RingAcceleratorLogic;
 import lach_01298.qmd.particle.ParticleStack;
@@ -57,49 +58,56 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 
 	
 	//general stats
-	@Callback(doc = "--function():bool Is Acclelerator complete")
+	@Callback(doc = "--function():bool Returns true if structure is complete.")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isComplete(Context context, Arguments args)
 	{
-		return new Object[] { this.isMultiblockAssembled() };
+		return new Object[] { isMultiblockAssembled() };
 	}
 
-	@Callback(doc = "--function():bool")
+	@Callback(doc = "--function():bool Returns true if accelerator is on.")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] isAcceleratorOn(Context context, Arguments args)
 	{
 		return new Object[] { getLogic().isAcceleratorOn() };
 	}
 
-	@Callback(doc = "--function():int")
+	@Callback(doc = "--function():string Returns accelerators logic ID if accelerator is assembled.")
+	@Optional.Method(modid = "opencomputers")
+	public Object[] getAcceleratorType(Context context, Arguments args)
+	{
+		return new Object[] { isMultiblockAssembled() ? getLogic().getID() : "" };
+	}
+	
+	@Callback(doc = "--function():int Returns number of RF Cavities.")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfRfCavity(Context context, Arguments args)
 	{
-		return new Object[] { this.isMultiblockAssembled() ? getMultiblock().RFCavityNumber : 0 };
+		return new Object[] { isMultiblockAssembled() ? getMultiblock().RFCavityNumber : 0 };
 	}
 
-	@Callback(doc = "--function():int")
+	@Callback(doc = "--function():int Returns number of dipole magnets.")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfDipole(Context context, Arguments args)
 	{
-		return new Object[] { this.isMultiblockAssembled() ? getMultiblock().dipoleNumber : 0 };
+		return new Object[] { isMultiblockAssembled() ? getMultiblock().dipoleNumber : 0 };
 	}
 
-	@Callback(doc = "--function():int")
+	@Callback(doc = "--function():int Returns number of quadrupole magnets.")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getNumberOfQuadrupole(Context context, Arguments args)
 	{
-		return new Object[] { this.isMultiblockAssembled() ? getMultiblock().quadrupoleNumber : 0 };
+		return new Object[] { isMultiblockAssembled() ? getMultiblock().quadrupoleNumber : 0 };
 	}
 	
-	@Callback(doc = "--function():int Returns accelerators temperature.")
+	@Callback(doc = "--function():int Returns accelerators current temperature.")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getTemperature(Context context, Arguments args)
 	{
 		return new Object[] { isMultiblockAssembled() ? getMultiblock().getTemperature() : 0};
 	}
 	
-	@Callback(doc = "--function():int Returns maximum operating temperature.")
+	@Callback(doc = "--function():int Returns accelerators maximum operating temperature.")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getMaxTemperature(Context context, Arguments args)
 	{
@@ -122,7 +130,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	public Object[] getCoolingInfo(Context context, Arguments args)
 	{
 		Map<String, Object> statsData = new HashMap<String, Object>();
-		statsData.put("cooling_fluid",isMultiblockAssembled() ? getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getLocalizedName(): "");
+		statsData.put("cooling_fluid",isMultiblockAssembled() && getMultiblock().coolingRecipeInfo != null ? getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getLocalizedName(): "");
 		statsData.put("cooling", isMultiblockAssembled() ? getMultiblock().cooling : 0);
 		statsData.put("maxCoolantIn", isMultiblockAssembled() ? getMultiblock().maxCoolantIn : 0);
 		statsData.put("maxCoolantOut", isMultiblockAssembled() ? getMultiblock().maxCoolantOut : 0);
@@ -130,7 +138,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 		return new Object[] { statsData };
 	}
 	
-	@Callback(doc = "--function():table Returns infomation about the cooling of the accelerator. (internal_heating, external_heating, max_external_heating, ambient_temperature)")
+	@Callback(doc = "--function():table Returns infomation about the heating of the accelerator. (internal_heating, external_heating, max_external_heating, ambient_temperature)")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getHeatingInfo(Context context, Arguments args)
 	{
@@ -138,7 +146,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 		statsData.put("internal_heating",isMultiblockAssembled() ? getMultiblock().rawHeating: 0);
 		statsData.put("external_heating", isMultiblockAssembled() ? getMultiblock().getExternalHeating() : 0);
 		statsData.put("max_external_heating", isMultiblockAssembled() ? getMultiblock().getMaxExternalHeating() : 0);
-		statsData.put("ambient_temperature", isMultiblockAssembled() ? getMultiblock().ambientTemp : 290);
+		statsData.put("ambient_temperature", isMultiblockAssembled() ? getMultiblock().ambientTemp : 0);
 		return new Object[] { statsData };
 	}
 	
@@ -246,7 +254,8 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	public Object[] getSynchrotronParticleInfo(Context context, Arguments args)
 	{
 		Map<String, Object> infoData = new HashMap<String, Object>();
-		if(getMultiblock().beams.size()>=3)
+		
+		if(isMultiblockAssembled() && getMultiblock().controller.getLogicID() == "ring_accelerator")
 		{
 			if(getMultiblock().beams.get(2).getParticleStack() != null)
 			{
@@ -256,6 +265,8 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 				infoData.put("focus", getMultiblock().beams.get(2).getParticleStack().getFocus());	
 			}
 		}
+		
+	
 		return new Object[] { infoData };
 	}
 	
@@ -288,7 +299,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	public Object[] hasIonSource(Context context, Arguments args) 
 	{
 		boolean hasSource = false;
-		if(getMultiblock().controller.getLogicID() == "linear_accelerator") 
+		if(isMultiblockAssembled() && getMultiblock().controller.getLogicID() == "linear_accelerator") 
 		{
 			LinearAcceleratorLogic logic = (LinearAcceleratorLogic) getMultiblock().controller.getLogic();
 			if(logic.getSource() != null) 
@@ -300,17 +311,18 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 		return new Object[] { hasSource };
 	}
 	
-	@Callback(doc = "--function():table Returns infomation about the ion source. (source_item, particle_type, amount, energy, focus)")
+	@Callback(doc = "--function():table Returns infomation about the ion source. (source_item, source_fluid, particle_type, amount, energy, focus)")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getIonSourceInfo(Context context, Arguments args) 
 	{
 		Map<String, Object> infoData = new HashMap<String, Object>();
-		if(getMultiblock().controller.getLogicID() == "linear_accelerator") 
+		if(isMultiblockAssembled() && getMultiblock().controller.getLogicID() == "linear_accelerator") 
 		{
 			LinearAcceleratorLogic logic = (LinearAcceleratorLogic) getMultiblock().controller.getLogic();
 			if(logic.getSource() != null)
 			{
-				infoData.put("source_item", logic.getSource() != null ? logic.getSource().getInventoryStacks().get(0).getDisplayName() : "");
+				infoData.put("source_item",  logic.getSource().getInventoryStacks().get(0).getDisplayName()); // TODO test!
+				infoData.put("source_fluid", logic.getSource().getTanks().get(0).getFluidLocalizedName());
 				
 				if(logic.recipeInfo.getRecipe() != null)
 				{
@@ -333,15 +345,13 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 		
 		return new Object[] { infoData };
 	}
-
-	
 	
 	//accelerator control
 	@Callback(doc = "--function(int energy_percentage):int changes output particle energy to this percentage of the max energy (For decelerators it outputs the opposite percentage e.g. 15% -> 85% output energy). Can only be between 5 and 100 inclusive or 0 to turn of accelerator entirely. For beam diverters this only turns it on/off. Returns what it was set to")
 	@Optional.Method(modid = "opencomputers")
 	public Object[] setEnergyPercentage(Context context, Arguments args) 
 	{
-		if(!isMultiblockAssembled()) return new Object[] {false};
+		if(!isMultiblockAssembled()) return new Object[] {0};
 		getMultiblock().computerControlled = true;
 		int percentage = args.checkInteger(0);
 		if(percentage < 5)
@@ -374,7 +384,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	@Optional.Method(modid = "opencomputers")
 	public Object[] getEnergyPercentage(Context context, Arguments args) 
 	{
-		if(!isMultiblockAssembled()) return new Object[] {false};
+		if(!isMultiblockAssembled()) return new Object[] {0};
 		return new Object[] {getMultiblock().energyPercentage};
 	}
 	

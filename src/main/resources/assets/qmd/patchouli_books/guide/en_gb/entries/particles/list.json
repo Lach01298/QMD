@@ -121,16 +121,16 @@
 			"charge": "-1",
 			"spin": "1/2",
 			"reg_name": "antitriton",
-			"desc": "Anti-Tritonss are the antimatter partner to Tritons"
+			"desc": "Anti-Tritons are the antimatter partner to Tritons"
 		},
 		{
 			"type": "text",
 			"title": "Quarks",
-			"text": "Quarks are fundamental particles meaning that as far as we can tell can not be split into smaller pieces. They are funny particles that are never alone and always make larger composite particles like protons and neutron. In fact separating 2 quarks creates more quarks in a process called colour confinement stopping them being alone."
+			"text": "Quarks are fundamental particles meaning that as far as we can tell they can not be split into smaller pieces. They are funny particles that are never alone and always make larger composite particles like protons and neutron. In fact separating 2 quarks creates more quarks in a process called colour confinement stopping them being alone."
 		},
 		{
 			"type": "text",			
-			"text": "Quarks come in 3 sets of all most identical groups called generations. Each generation contains 2 quarks (and their antiparticles). The properties between the generations are identical except for the mass. The later generations are heavier and therefor can decay into the lighter generations."
+			"text": "Quarks come in 3 sets of almost identical groups called generations. Each generation contains 2 quarks (and their antiparticles). The properties between the generations are identical except for the mass. The later generations are heavier and therefore can decay into the lighter generations."
 		},
 		{
 			"type": "qmd:particle",
@@ -163,7 +163,7 @@
 			"charge": "-1/3",
 			"spin": "1/2",
 			"reg_name": "down_quark",
-			"desc": "The down quark is the  2nd lightest quark. It with the up quark make up all the protons and neutrons in all nuclei of normal matter in the universe."
+			"desc": "The down quark is the 2nd lightest quark. It with the up quark make up all the protons and neutrons in all nuclei of normal matter in the universe."
 		},
 		{
 			"type": "qmd:particle",
@@ -229,7 +229,7 @@
 			"charge": "2/3",
 			"spin": "1/2",
 			"reg_name": "top_quark",
-			"desc": "The top quark is the 3rd generation equivalent of the up quark. It is the most massive fundamental particle. It is so massive it is heavier than a atom of tungsten."
+			"desc": "The top quark is the 3rd generation equivalent of the up quark. It is the most massive fundamental particle. It is so massive it is heavier than an atom of tungsten."
 		},
 		{
 			"type": "qmd:particle",
@@ -271,7 +271,7 @@
 		},
 		{
 			"type": "text",			
-			"text": "Leptons like quarks come in 3 generations of identical particles except for mass. each generation contains one charged lepton and one neutrino (also with both there antiparticles). Neutrinos are very hard to detect particles that only interact via the weak force. They hardly interact and can go through the entire Earth with ease."
+			"text": "Leptons like quarks come in 3 generations of identical particles except for mass. Each generation contains one charged lepton and one neutrino (also with both their antiparticles). Neutrinos are very hard to detect particles that only interact via the weak force. They hardly interact and can go through the entire Earth with ease."
 		},
 		{
 			"type": "qmd:particle",
@@ -282,7 +282,7 @@
 			"charge": "-1",
 			"spin": "1/2",
 			"reg_name": "electron",
-			"desc": "Electrons along with up and down quarks make up all the atoms in the universe. They are the lightest charged lepton and therefor stable."
+			"desc": "Electrons along with up and down quarks make up all the atoms in the universe. They are the lightest charged lepton and therefore stable."
 		},
 		{
 			"type": "qmd:particle",
@@ -293,7 +293,7 @@
 			"charge": "1",
 			"spin": "1/2",
 			"reg_name": "positron",
-			"desc": "The positron is the antimatter partner of the electron. They are common antimatter particle and are released in beta + decay."
+			"desc": "The positron is the antimatter partner of the electron. They are a common antimatter particle and are released in beta + decay."
 		},
 		{
 			"type": "qmd:particle",
@@ -533,7 +533,7 @@
 			"charge": "-1",
 			"spin": "3/2",
 			"reg_name": "sigma_minus",
-			"desc": "The sigma - contains 2 dowm quarks and 1 strange quark."
+			"desc": "The sigma - contains 2 down quarks and 1 strange quark."
 		},
 		{
 			"type": "qmd:particle",
@@ -564,7 +564,7 @@
 			"charge": "1",
 			"spin": "0",
 			"reg_name": "pion_plus",
-			"desc": "Pions keep nuclei together with the strong force, though they aren't colored them selves they distribute the 'residual' strong force."
+			"desc": "Pions keep nuclei together with the strong force, though they aren't coloured themselves they distribute the 'residual' strong force."
 		},
 		{
 			"type": "qmd:particle",
@@ -645,7 +645,7 @@
 			"charge": "0",
 			"spin": "0",
 			"reg_name": "eta",
-			"desc": "Eta mesons are mesons made from a quark-antiquark pair and so are their own antiparticle."
+			"desc": "Eta mesons are mesons made from a down quark-antiquark pair and so are their own antiparticle."
 		},
 		{
 			"type": "qmd:particle",
@@ -656,7 +656,7 @@
 			"charge": "0",
 			"spin": "0",
 			"reg_name": "eta_prime",
-			"desc": "Eta mesons are mesons made from a quark-antiquark pair and so are their own antiparticle."
+			"desc": "Eta prime mesons are mesons made from a strange quark-antiquark pair and so are their own antiparticle."
 		},
 		{
 			"type": "qmd:particle",
@@ -683,7 +683,7 @@
 		{
 			"type": "text",
 			"title": "Fundamental Bosons",
-			"text": "Bosons particles with integer spin act differently to fermions particles with half integer spin. Fundamental bosons play special roles in particle physics they are the force carries that carry the fundamental forces along with the higgs which gives mass to the other fundamental particles."
+			"text": "Bosons particles with integer spin act differently to fermions particles with half integer spin. Fundamental bosons play special roles in particle physics they are the force carries that carry the fundamental forces along with the Higgs which gives mass to the other fundamental particles."
 		},
 		{
 			"type": "text",			
@@ -709,7 +709,7 @@
 			"charge": "0",
 			"spin": "1",
 			"reg_name": "gluon",
-			"desc": "Gluons are carry the strong force, which is responsible for keeping baryons like the proton and mesons like the pion together. They technically come in 8 types and interact with them selves making the strong force quite complicated."
+			"desc": "Gluons carry the strong force, which is responsible for keeping baryons like the proton and mesons like the pion together. They technically come in 8 types and interact with themselves making the strong force quite complicated."
 		},
 		{
 			"type": "qmd:particle",
@@ -720,7 +720,7 @@
 			"charge": "1",
 			"spin": "1",
 			"reg_name": "w_plus_boson",
-			"desc": "W and Z bosons are the carries of the weak force, which allows for some particles to decay, for example protons ore neutrons in beta decay. Unlike the other force carrying bosons they have mass and a lot of it."
+			"desc": "W and Z bosons are the carries of the weak force, which allows for some particles to decay, for example protons and neutrons in beta decay. Unlike the other force carrying bosons they have mass and a lot of it."
 		},
 		{
 			"type": "qmd:particle",

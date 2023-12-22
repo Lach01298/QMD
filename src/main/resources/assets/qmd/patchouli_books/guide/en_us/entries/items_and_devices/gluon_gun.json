@@ -7,8 +7,11 @@
 		{
 			"type": "spotlight",
 			"item": "qmd:gluon_gun",
-			"text": "The Gluon Gun is not just a weapon but can be used as an instant mining tool. It shoots beams of Glueballs which destroy anything in its way. It uses Glueball Cells for ammo. "
-		}
-
+			"text": "The Gluon Gun is not just a weapon but can be used as an instant mining tool. It shoots beams of Glueballs which destroy anything in its way. It uses Glueball Cells for ammo."
+		},
+		{
+			"type": "text",
+            "text": "The Gluon Gun has two modes: $(l)Breaking$() which breaks blocks with the equivalent of fortune IV and $(l)Silk Touch$() which breaks blocks with silk touch. Switching between modes is done with a shift right click."
+        }
 	]
 }

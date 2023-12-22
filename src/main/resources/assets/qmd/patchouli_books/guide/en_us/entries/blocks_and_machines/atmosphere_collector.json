@@ -7,7 +7,7 @@
 		{
 			
 			"type": "text",
-			"text": "Atmosphere Collectors are used to collect the surrounding atmosphere. They require RF and work better in open spaces. Right clicking on the block will tell you the gas and what rate it is collecting at. You can also look at the uses for the atmosphere collector in jei to what gas is collected in what dimension."
+			"text": "Atmosphere Collectors are used to collect the surrounding atmosphere. They require RF and work better in open spaces. Right clicking on the block will tell you the gas and rate it is collecting at. You can also look at the uses for the atmosphere collector in jei to tell which gas is collected in a dimension."
 		}
 
 	]

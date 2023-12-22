@@ -21,7 +21,7 @@ public class EntityGammaFlash extends Entity
 	{
 		super(worldIn);
 		this.setLocationAndAngles(x, y, z, 0.0F, 0.0F);
-		this.livingTime = 50;
+		this.livingTime = 500;
 		this.size = size;
 	}
 

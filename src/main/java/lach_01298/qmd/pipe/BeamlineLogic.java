@@ -52,7 +52,12 @@ public class BeamlineLogic extends PipeLogic
 		return "beamline";
 	}
 	
-
+	public boolean onUpdateServer()
+	{
+		
+		//storage.setParticleStack(null);
+		return false;
+	}
 	
 	
 	

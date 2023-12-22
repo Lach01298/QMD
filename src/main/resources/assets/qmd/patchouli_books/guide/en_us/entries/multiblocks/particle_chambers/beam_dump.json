@@ -11,7 +11,7 @@
 		{
 			"title": "Construction",
 			"type": "text",
-			"text": "Beam Dumps are constructed the same as $(l:multiblocks/particle_chambers/target_chamber#construction)target chambers$(/l) but since detectors don't do anything in them there is little point in making them any bigger than a 3x3x3. They require one Particle Chamber Beam Port in input mode and a Particle Chamber Fluid Port in output mode."
+			"text": "Beam Dumps are constructed similar to $(l:multiblocks/particle_chambers/target_chamber#construction)target chambers$(/l) except they must be a 3x3x3 cube. They require one beam port in input mode and at least one fluid port in output mode."
 		},
 		{
 			"title": "Operation",

@@ -23,6 +23,7 @@ import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.util.Util;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
@@ -48,6 +49,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ExoticContainmentLogic extends VacuumChamberLogic
@@ -577,8 +579,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 			if(QMDConfig.exotic_containment_explosion)
 			{
-				getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) (size * QMDConfig.exotic_containment_explosion_size),
-						true);
+				getMultiblock().WORLD.createExplosion(null, middle.getX(), middle.getY(), middle.getZ(), (float) (size * QMDConfig.exotic_containment_explosion_size),true);
 			}
 			else
 			{
@@ -587,30 +588,10 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			
 			if(QMDConfig.exotic_containment_gamma_flash)
 			{
-				getMultiblock().WORLD.spawnEntity(
-						new EntityGammaFlash(getMultiblock().WORLD, middle.getX(), middle.getY(), middle.getZ(), size));
-				
-	
-				Set<EntityLivingBase> entitylist = new HashSet();
-				double radius = 128 * Math.sqrt(size);
-	
-				entitylist.addAll(getMultiblock().WORLD.getEntitiesWithinAABB(EntityLivingBase.class,
-						new AxisAlignedBB(middle.getX() - radius, middle.getY() - radius, middle.getZ() - radius,
-								middle.getX() + radius, middle.getY() + radius, middle.getZ() + radius)));
-	
-				for (EntityLivingBase entity : entitylist)
-				{
-					IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-					if(entityRads != null)
-					{
-						double rads = Math.min(QMDConfig.exotic_containment_radiation * size,(QMDConfig.exotic_containment_radiation * size) / middle.distanceSq(entity.posX, entity.posY, entity.posZ));
-						entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-						if (rads >= entityRads.getMaxRads())
-						{
-							entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
-						}
-					}
-				}
+							
+				Vec3d pos = new Vec3d(middle.getX(),middle.getY(),middle.getZ());
+				Util.createGammaFlash(getMultiblock().WORLD, pos, size, 0f, QMDConfig.exotic_containment_radiation * size);
+
 			}
 			getMultiblock().tanks.get(2).setFluidStored(null);
 		}

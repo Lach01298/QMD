@@ -18,12 +18,12 @@
 			"anchor": "construction",
             "type": "text",
             "title": "Construction",
-            "text": "The outside (casing) of all vacuum chambers are made out of Vacuum Chamber Casing or Vacuum Chamber Glass. In the casing you need: $(li)The Vacuum Chamber's controller$(li)At least one Particle Chamber Energy Port$(li)At least one input coolant vent $(li)At least one input one output coolant vent$(br2)"
+            "text": "The outside (casing) of all vacuum chambers are made out of Vacuum Chamber Casing or Vacuum Chamber Glass. In the casing you need: $(li)The Vacuum Chamber's controller$(li)At least one Vacuum Chamber Energy Port$(li)At least one input Vacuum Chamber Coolant Vent $(li)At least one output Vacuum Chamber Coolant Vent$(br2)"
         },
 		{
 			
             "type": "text", 
-            "text": "You can also have optional Redstone ports.$(br2)The inside of vacuum chambers vary and depend on the type."
+            "text": "You can also have optional Vacuum Chamber Redstone Ports.$(br2)The inside of vacuum chambers vary and depend on the type."
         },
         {
             "anchor": "operation",

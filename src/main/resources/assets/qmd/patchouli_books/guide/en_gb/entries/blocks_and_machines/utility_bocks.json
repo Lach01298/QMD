@@ -6,7 +6,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "this section has pages for various other blocks in QMD that have functions"
+            "text": "This section has pages for various other blocks in QMD that have functions."
         },
         {
             "type": "spotlight",
@@ -40,7 +40,7 @@
         {
             "type": "spotlight",
             "item": "qmd:creative_particle_source",
-            "text": "A block that outputs any particle stack. It has a gui to select the type amount energy and focus of a stack. Note that the name is the registry name of the particle not the localised name. e.g antisigma_plus instead of Anti-Sigma +$(br)The registry names can be found in the $(l:particles/list)particle list section$(/l)."
+            "text": "A block that outputs any particle stack. It has a gui to select the type, amount, energy and focus of a stack. Note that the name is the registry name of the particle not the localised name. e.g antisigma_plus instead of Anti-Sigma +$(br)The registry names can be found in the $(l:particles/list)particle list section$(/l)."
         }
     ]
 }

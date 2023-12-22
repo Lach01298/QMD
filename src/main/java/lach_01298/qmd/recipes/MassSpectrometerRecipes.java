@@ -11,6 +11,7 @@ import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 
 public class MassSpectrometerRecipes extends BasicRecipeHandler
 {
@@ -65,6 +66,36 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 				oreStack("dustBoron", 4),oreStack("dustSodium", 3),new EmptyItemIngredient(),new EmptyItemIngredient(),
 				new EmptyFluidIngredient(),new EmptyFluidIngredient(),fluidStack("chlorine", 1500),new EmptyFluidIngredient());
 		
+		// other mod ores
+		
+		addRecipe("oreOsmium",new EmptyFluidIngredient(),
+				oreStack("dustOsmium", 4),chanceOreStack("dustIridium", 1,40),chanceOreStack("dustPlatinum", 1, 40),new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
+		
+		addRecipe("oreIridium",new EmptyFluidIngredient(),
+				chanceOreStack("dustOsmium", 1,40), oreStack("dustIridium", 4),chanceOreStack("dustPlatinum", 1, 40),new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
+		
+		addRecipe("orePlatinum",new EmptyFluidIngredient(),
+				chanceOreStack("dustOsmium", 1,40),chanceOreStack("dustIridium", 1, 40),oreStack("dustPlatinum", 4),new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
+		
+		addRecipe("oreNickel",new EmptyFluidIngredient(),
+				chanceOreStack("dustAluminum", 1,40),oreStack("dustIron", 1),oreStack("dustNickel", 4),new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
+		
+		addRecipe("oreTitanium",new EmptyFluidIngredient(),
+				oreStack("dustTitanium", 4),chanceOreStack("dustManganese", 1,40),oreStack("dustIron", 1),new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
+		
+		addRecipe("oreSilver",new EmptyFluidIngredient(),
+				oreStack("dustSilver", 4),oreStack("dustLead", 1),new EmptyItemIngredient(),new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
+		
+		addRecipe("oreAluminum",new EmptyFluidIngredient(),
+				oreStack("dustAluminum", 4),oreStack("dustIron", 1),new EmptyItemIngredient(),new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
+		
 		// isotope separation
 		
 		addRecipe(oreStack("ingotUranium", 10),new EmptyFluidIngredient(),
@@ -98,9 +129,17 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 				"dustSulfur",new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				new EmptyFluidIngredient(),fluidStack("mercury", 144),new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
+		addRecipe("coal", new EmptyFluidIngredient(),
+				"dustGraphite",chanceOreStack("dustSulfur",1,15), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(), new EmptyFluidIngredient());
+		
+		addRecipe(new EmptyItemIngredient(), fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME),
+				new EmptyItemIngredient(),new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME),fluidStack("sulfur", FluidStackHelper.GEM_VOLUME/6),new EmptyFluidIngredient(), new EmptyFluidIngredient());
+		
 		addRecipe("logWood", new EmptyFluidIngredient(),
-				new EmptyItemIngredient(),chanceOreStack("dustGraphite",1,50), new EmptyItemIngredient(), new EmptyItemIngredient(),
-				chanceFluidStack("hydrogen", 1000, 6,10),new EmptyFluidIngredient(),chanceFluidStack("nitrogen", 1000,1,10), chanceFluidStack("oxygen", 1000,42,10));
+				new EmptyItemIngredient(),"dustGraphite", new EmptyItemIngredient(), new EmptyItemIngredient(),
+				chanceFluidStack("hydrogen", 1000, 12,10),new EmptyFluidIngredient(),chanceFluidStack("nitrogen", 1000,2,10), chanceFluidStack("oxygen", 1000,42,10));
 		
 		addRecipe(Items.SUGAR, new EmptyFluidIngredient(),
 				new EmptyItemIngredient(),chanceOreStack("dustGraphite",1,26), new EmptyItemIngredient(), new EmptyItemIngredient(),
@@ -110,10 +149,21 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 				new EmptyItemIngredient(),new EmptyItemIngredient(), chanceOreStack("dustCalcium",1,23), new EmptyItemIngredient(),
 				chanceFluidStack("hydrogen", 1000,4,10),chanceFluidStack("oxygen", 1000,59,10),new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
+		addRecipe(new ItemStack(Items.ROTTEN_FLESH), new EmptyFluidIngredient(),
+				new EmptyItemIngredient(),chanceOreStack("dustGraphite",1,19), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				chanceFluidStack("hydrogen", 1000, 10,10),new EmptyFluidIngredient(),chanceFluidStack("nitrogen", 1000,3,10), chanceFluidStack("oxygen", 1000,65,10));
+		
 		addRecipe(oreStackList(Lists.newArrayList("gemQuartz", "dustQuartz"),1),new EmptyFluidIngredient(),
 				new EmptyItemIngredient(), "itemSilicon",new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("oxygen", 1000), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
+		addRecipe("gemEmerald",new EmptyFluidIngredient(),
+				oreStack("dustBeryllium", 3), new EmptyItemIngredient(),oreStack("itemSilicon", 6), oreStack("dustAluminum", 2),
+				new EmptyFluidIngredient(), fluidStack("oxygen", 9000), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+		
+		addRecipe("gemLapis",new EmptyFluidIngredient(),
+				oreStack("dustCalcium", 4), oreStack("dustAluminium", 3),oreStack("itemSilicon", 3), oreStack("dustSulfur", 1),
+				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
 		// chemicals
 		
@@ -187,8 +237,7 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		
 		addRecipe("dustZincSulfide",new EmptyFluidIngredient(),
 				"dustSulfur", "dustZinc",new EmptyItemIngredient(),new EmptyItemIngredient(),
-				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
-		
+				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());		
 		
 		//alloys
 		addRecipe(oreStackList(Lists.newArrayList("ingotBronze","dustBronze"),4),new EmptyFluidIngredient(),
@@ -291,7 +340,7 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		
 		addRecipe(new EmptyItemIngredient(),fluidStack("water", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
-				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME),fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+				fluidStack("hydrogen", 990),fluidStack("deuterium", 10), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient());
 		
 		addRecipe(new EmptyItemIngredient(),fluidStack("heavy_water", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),

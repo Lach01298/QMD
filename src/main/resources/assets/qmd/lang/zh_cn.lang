@@ -1243,8 +1243,6 @@ gui.qmd.config.tools.drill_energy_capacity.comment=每种电钻的能量容量�
 gui.qmd.config.tools.drill_radius=电钻挖掘半径
 gui.qmd.config.tools.drill_radius.comment=每种电钻挖掘的方形区域半径。0 代表 1*1，1 代表 3*3，以此类推。顺序：电钻，高级电钻。
 
-gui.qmd.config.other.mole_amount=摩尔大小
-gui.qmd.config.other.mole_amount.comment=一摩尔物质中的粒子单位数量。
 
 gui.qmd.config.other.beam_scaling=束流比例系数
 gui.qmd.config.other.beam_scaling.comment=束流衰减方程的比例系数。

@@ -2,10 +2,11 @@ package lach_01298.qmd.proxy;
 
 import static lach_01298.qmd.config.QMDConfig.clientPreInit;
 
-import lach_01298.qmd.ArmPositionHandler;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.QMDTooltipHandler;
 import lach_01298.qmd.item.QMDArmour;
+import lach_01298.qmd.render.ArmPositionHandler;
+import lach_01298.qmd.render.DrillBlockRenderHandler;
 import lach_01298.qmd.render.QMDRenderHandler;
 import lach_01298.qmd.render.entity.BeamRenderer;
 import net.minecraft.block.Block;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -36,7 +38,7 @@ public class ClientProxy extends CommonProxy
 		super.preInit(preEvent);
 		clientPreInit();
 		QMDRenderHandler.init();
-		
+		MinecraftForge.EVENT_BUS.register(DrillBlockRenderHandler.INSTANCE);
 		
 		
 	}
@@ -63,6 +65,7 @@ public class ClientProxy extends CommonProxy
 		MinecraftForge.EVENT_BUS.register(new QMDTooltipHandler());
 		MinecraftForge.EVENT_BUS.register(new ArmPositionHandler());
 		MinecraftForge.EVENT_BUS.register(new BeamRenderer());
+		((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(DrillBlockRenderHandler.INSTANCE);
 	}
 
 

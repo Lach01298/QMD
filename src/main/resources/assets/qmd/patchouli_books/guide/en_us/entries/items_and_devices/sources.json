@@ -1,0 +1,29 @@
+{
+	"name": "Particle Sources",
+	"icon": "qmd:source:1",
+	"category": "qmd:items_and_devices",
+	"sortnum": 0,
+	"pages": [
+			{
+			"type": "text",
+            "text": "Some items are used to emit particles for various purposes such as a source of particles in an $(l:multiblocks/accelerators/linear_accelerator#ion_source)accelerator ion source$(/l) or a source of gamma rays in $(l:blocks_and_machines/irradiator)Irradiators$(/l). The amount of stored particle units (pu) can be seen on the tool tip of these items. The use of the item can be looked up in JEI.$(br2)The following pages list the different kinds of particle sources."
+			},
+			{
+            "type": "spotlight",
+            "item": "qmd:source:1",
+            "title": "Isotope Sources",
+            "text": "Isotope Sources emit particles from the isotope inside them. They have 2 different uses. The radioisotopes that emit strong gamma rays (e.g Co-60, Ir-192) are used in the $(l:blocks_and_machines/irradiator)Irradiator$(/l) to sterilize items. Other isotope sources are used in the $(l:multiblocks/accelerators/linear_accelerator#ion_source)accelerator ion source$(/l) to create particles."
+			},
+			{
+            "type": "spotlight",
+			"item": "qmd:source",
+			"text": "Tungsten filaments are a simple source of electrons in $(l:multiblocks/accelerators/linear_accelerator#ion_source)accelerator ion sources$(/l). They wear out after a while and must be replaced."
+			},
+			{
+            "type": "spotlight",
+            "item": "qmd:cell:1",
+            "title": "Antimatter Cells",
+            "text": "Antimatter cells can be used in $(l:multiblocks/accelerators/linear_accelerator#ion_source)accelerator ion sources$(/l) as a source of antimatter nuclei. More information on cells is found in the $(l:items_and_devices/cell)cells section$(/l)"
+			}
+	]
+}

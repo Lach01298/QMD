@@ -141,7 +141,7 @@ public class QMDCTRegistration
 	
 	
 	@ZenMethod
-	public static void registerIonSource(String name, double particleOutputMultiplier, double outputFocus, int basePower)
+	public static void registerIonSource(String name, int particleOutputMultiplier, double outputFocus, int basePower)
 	{
 
 		Block ionSource = QMDBlocks.withName(new BlockAcceleratorSource()

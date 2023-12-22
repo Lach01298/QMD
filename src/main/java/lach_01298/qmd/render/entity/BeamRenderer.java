@@ -2,6 +2,9 @@ package lach_01298.qmd.render.entity;
 
 import java.util.List;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.entity.EntityBeamProjectile;
 import net.minecraft.client.Minecraft;
@@ -24,18 +27,11 @@ public class BeamRenderer
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void renderBeamEffects(RenderWorldLastEvent event)
 	{
-		double length = 128.0;
 
-		AxisAlignedBB box = new AxisAlignedBB(QMD.proxy.getPlayerClient().posX - length,
-				QMD.proxy.getPlayerClient().posY - length, 
-				QMD.proxy.getPlayerClient().posZ - length,
-				QMD.proxy.getPlayerClient().posX + length, 
-				QMD.proxy.getPlayerClient().posY + length,
-				QMD.proxy.getPlayerClient().posZ + length);
+		List<EntityBeamProjectile> list= Minecraft.getMinecraft().world.getEntities(EntityBeamProjectile.class, Predicates.alwaysTrue());
 
-		List<EntityBeamProjectile> list = Minecraft.getMinecraft().world.getEntitiesWithinAABB(EntityBeamProjectile.class, box, null);
 		for(Entity entity : list) 
-		{
+		{		
 			float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
 			double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
             double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
@@ -48,6 +44,7 @@ public class BeamRenderer
 			
 			Render<Entity> render = Minecraft.getMinecraft().getRenderManager().getEntityRenderObject(entity);
 			render.doRender(entity, d0 - d3, d1 - d4, d2 - d5, f, partialTicks);
+					
 		}
 	}
 }

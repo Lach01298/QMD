@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "The is a lot of chapters in this guide some are more important than others and should probably read first. This chapter tells you what those important sections are."
+			"text": "The is a lot of chapters in this guide some are more important than others and should probably be read first. This chapter tells you what those important sections are."
 		},
 		{
 			"type": "text",
-			"text": "A good place to start is $(l:particles/introduction)General information on particles$(/l) since they are the main feature of this mod about particle accelerators.$(br2)If you are unfamiliar with units and specifically SI prefixes like th 'k' in kRF or the 'm' in mB then $(l:basics/units)Units$(/l) is a good place to look.$(br2)If you want to know more about the default survival progression look at the general progression guide section in Introduction to QMD."
+			"text": "A good place to start is $(l:particles/introduction)General information on particles$(/l) since they are the main feature of this mod about particle accelerators.$(br2)If you are unfamiliar with units and specifically SI prefixes like the 'k' in kRF or the 'm' in mB then $(l:basics/units)Units$(/l) is a good place to look.$(br2)If you want to know more about the default survival progression look at the general progression guide section in Introduction to QMD."
 		},
 		{
 			"type": "text",
@@ -34,7 +34,7 @@
 		{
 			"type": "text",
 			"title": "Vacuum Chambers",
-			"text": "$(l:multiblocks/vacuum_chambers/general)Vacuum chambers$(/l) are advanced multiblock machines that use particles. The $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) makes and stores exotic forms of matter like antimatter. These forms of matter can be used in a variety of weapons and tools. There is also the $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chamber$(/l) which can turn simpler lighter elements into more complex heavier ones. It is even possible to extract energy form some of these processes."
+			"text": "$(l:multiblocks/vacuum_chambers/general)Vacuum chambers$(/l) are advanced multiblock machines that use particles. The $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) makes and stores exotic forms of matter like antimatter. These forms of matter can be used in a variety of weapons and tools. There is also the $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chamber$(/l) which can turn simpler lighter elements into more complex heavier ones. It is even possible to extract energy from some of these processes."
 		},
 		{
 			"type": "text",

@@ -1,0 +1,13 @@
+{
+	"name": "Potassium Iodine Tablet",
+	"icon": "qmd:potassium_iodine_tablet",
+	"category": "qmd:items_and_devices",
+	"sortnum": 8,
+	"pages": [
+			{
+            "type": "spotlight",
+			"item": "qmd:potassium_iodine_tablet",
+			"text": "Potassium iodine tablets grant temporary immunity to all radiation useful for surviving high radiation situations. Eating additional tablets makes the immunity time longer with diminishing returns. Don't take too many in one go they can have nasty side effects."
+			}
+	]
+}

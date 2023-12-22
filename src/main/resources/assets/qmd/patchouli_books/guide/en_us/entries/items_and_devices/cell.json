@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Cells are items that can hold exotic materials like antimatter. $(bold)$(c)Be careful with filled cells!$() They have a tendency to $(bold)$(c)explode and give deadly radiation bursts$() if left on the ground."
+			"text": "Cells are items that can hold exotic materials like antimatter. $(bold)$(c)Be careful with filled cells!$() They have a tendency to $(bold)$(c)explode and give deadly radiation bursts$() if left on the ground.$(br)Cells have a few uses such as ammo for the $(l:items_and_devices/antimatter_launcher)antimatter launcher$(/l), $(l:items_and_devices/lepton_cannon)lepton cannon$(/l) and $(l:items_and_devices/gluon_gun)gluon gun$(/l). Antimatter cells can also be used in $(l:multiblocks/accelerators/linear_accelerator#ion_source)accelerator ion sources$(/l) as a source of antimatter nuclei."
 		},
 		{
 			"type": "spotlight",

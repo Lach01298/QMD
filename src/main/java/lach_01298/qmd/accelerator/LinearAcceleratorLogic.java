@@ -13,8 +13,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
@@ -25,7 +23,6 @@ import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
@@ -34,10 +31,8 @@ import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -48,13 +43,10 @@ import net.minecraftforge.fluids.FluidStack;
 public class LinearAcceleratorLogic extends AcceleratorLogic
 {
 
-	
-	
-	
 	protected TileAcceleratorIonSource source;
-	public QMDRecipeInfo<QMDRecipe> recipeInfo;
+	public QMDRecipeInfo<QMDRecipe> recipeInfo;	
 	
-	
+	// Multiblock logic
 	
 	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
 	{
@@ -77,16 +69,26 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 	}
 
-	
 	@Override
 	public String getID() 
 	{
 		return "linear_accelerator";
 	}
 	
-
+	// Accelerator methods
 	
-	// Multiblock Validation
+	@Override
+	public int getBeamLength()
+	{
+		return getMultiblock().getExteriorLengthX() > getMultiblock().getExteriorLengthZ() ?getMultiblock().getExteriorLengthX() : getMultiblock().getExteriorLengthZ();
+	}
+	
+	public TileAcceleratorIonSource getSource()
+	{
+		return source;
+	}
+	
+	// Multiblock validation
 	
 	@Override
 	public boolean isMachineWhole()
@@ -319,18 +321,30 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		return postions;
 	}
 
-	public void updateNumbers()
-	{
-		getMultiblock().RFCavityNumber = getMultiblock().getRFCavityMap().size();
-		getMultiblock().quadrupoleNumber = getMultiblock().getQuadrupoleMap().size();
-		getMultiblock().dipoleNumber = getMultiblock().getDipoleMap().size();
-	}
+	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileAcceleratorYoke.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_yokes"),
+			Pair.of(TileAcceleratorSynchrotronPort.class,
+					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
 
-	// Multiblock Methods
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
+	
+	
+	// Accelerator formation
+	
 	@Override
 	public void onAcceleratorFormed()
 	{
-		
+
+		Accelerator acc = getMultiblock();
+
+		if (!getWorld().isRemote)
+		{
+			resetBeams();
+			
 			Axis axis;
 
 			if (multiblock.getExteriorLengthX() > multiblock.getExteriorLengthZ())
@@ -342,136 +356,49 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 				axis = Axis.Z;
 			}
-
-			// beam
-			 Accelerator acc = getMultiblock();
-				
-			 
-			 
-			 
-			 
-			 if (!getWorld().isRemote)
-			{
-				 acc.beams.get(0).setMinEnergy(0);
-				// beam
-				for (BlockPos pos :getinteriorAxisPositions(axis))
-				{
-					
-					if (acc.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam)
-					{
-						
-						TileAcceleratorBeam beam = (TileAcceleratorBeam) getWorld().getTileEntity(pos);
-						beam.setFunctional(true);
-						
-					}
-				}
-
-
-
-				// beam
-				for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
-				{
-					if(beam.isFunctional())
-					{
-						if (acc.isValidRFCavity(beam.getPos(), Axis.X))
-						{
-							
-							acc.getRFCavityMap().put(beam.getPos().toLong(), new RFCavity(acc, beam.getPos(), Axis.X));
-						}
-						else if (acc.isValidRFCavity(beam.getPos(), Axis.Z))
-						{
-							acc.getRFCavityMap().put(beam.getPos().toLong(), new RFCavity(acc, beam.getPos(), Axis.Z));
-						}
-						else if (acc.isValidQuadrupole(beam.getPos(), Axis.X))
-						{
-							acc.getQuadrupoleMap().put(beam.getPos().toLong(), new QuadrupoleMagnet(acc, beam.getPos(), Axis.X));
-						}
-						else if (acc.isValidQuadrupole(beam.getPos(), Axis.Z))
-						{
-							acc.getQuadrupoleMap().put(beam.getPos().toLong(), new QuadrupoleMagnet(acc, beam.getPos(), Axis.Z));
-						}
-					}
-				
-					
-				}
-
-				updateNumbers();
-
-
 			
-				for (RFCavity cavity : acc.getRFCavityMap().values())
-				{
-					for (IAcceleratorComponent componet : cavity.getComponents().values())
-					{
-						componet.setFunctional(true);
-					}
+			setBeamlineFunctional(getinteriorAxisPositions(axis));
+			formComponents();
+	
 
-				}
-				
-				
-				for (QuadrupoleMagnet quad : acc.getQuadrupoleMap().values())
-				{
-					for (IAcceleratorComponent componet : quad.getComponents().values())
-					{
-						componet.setFunctional(true);
-					}
-
-				}
-
-				
-				//beam ports
-				for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
-				{
-					if(port.getIOType() == IOType.INPUT)
-					{
-						acc.input = port;
-					}
-					
-					if(port.getIOType() == IOType.OUTPUT)
-					{
-						acc.output = port;
-					}
-				}
-				
-				//source
-				for (TileAcceleratorIonSource source :acc.getPartMap(TileAcceleratorIonSource.class).values())
-				{
-					this.source = source;
-				}
-				
-				if(source != null)
-				{
-					source.setIONumber(2);
-				}
-				
-				
-				getMultiblock().tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-				getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.accelerator_ion_source_valid_fluids.get(0));
-				
-				
-				//ports
-				for (TileAcceleratorPort port :acc.getPartMap(TileAcceleratorPort.class).values())
-				{
-					port.setSource(this);
-				}
+			// source
+			for (TileAcceleratorIonSource source : acc.getPartMap(TileAcceleratorIonSource.class).values())
+			{
+				this.source = source;
 			}
 
-			 refreshStats();
-			 super.onAcceleratorFormed();
+			if (source != null)
+			{
+				source.setIONumber(2);
+			}
+
+			getMultiblock().tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
+			getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.accelerator_ion_source_valid_fluids.get(0));
+
+			// source ports
+			for (TileAcceleratorPort port : acc.getPartMap(TileAcceleratorPort.class).values())
+			{
+				port.setSource(this);
+			}
+		}
+
+		refreshStats();
+		super.onAcceleratorFormed();
 	}
 	
+	// Accelerator disassembly
 	
-	public void onMachineDisassembled()
+	public void onAcceleratorBroken()
 	{
 		if(source != null)
 		{
 			source.setIONumber(0);
 		}
 		source = null;
-		super.onMachineDisassembled();
+		super.onAcceleratorBroken();
 	}
 	
-	
+	// Accelerator Operation
 	
 	@Override
 	public boolean onUpdateServer()
@@ -484,9 +411,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			if(source != null)
 			{
 				//refreshRecipe(); called in shouldUseEnergy
-				
-				
-				
+								
 				if (recipeInfo != null)
 				{
 					
@@ -494,7 +419,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				}
 				else
 				{
-					resetBeam();
+					resetOutputBeam();
 				}
 			}
 			else
@@ -504,7 +429,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 		else
 		{
-			resetBeam();
+			resetOutputBeam();
 		}
 		push();
 		
@@ -541,13 +466,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	
-	// Recipe Stuff
+	// Recipe handling
 	
-	private void resetBeam()
+	private void resetOutputBeam()
 	{
 		getMultiblock().beams.get(1).setParticleStack(null);
 	}
-
 
 	private void produceSourceBeam()
 	{
@@ -558,7 +482,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		
 		if (particleProduct.getStack() != null)
 		{
-			int outputAmount = (int)(particleProduct.getStack().getAmount() * source.outputParticleMultiplier);
+			int outputAmount = particleProduct.getStack().getAmount() * source.outputParticleMultiplier;
 			
 			ParticleStack outputStack = particleProduct.getStack();
 			
@@ -609,11 +533,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			else if (!source.getTanks().get(0).isEmpty())
 			{
 				FluidStack fluidStack = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();	
-				
-				
+						
 				Tank tank = source.getTanks().get(0);
-				FluidStack drained = tank.drain((int) (fluidStack.amount * source.outputParticleMultiplier), true);
-				outputAmount *= drained.amount/(fluidStack.amount * source.outputParticleMultiplier);
+				int mBtoDrain = fluidStack.amount * source.outputParticleMultiplier;
+				
+				FluidStack mBDrained = tank.drain(mBtoDrain, true);
+				outputAmount *= mBDrained.amount/mBtoDrain;
 			}
 					
 			outputStack.setAmount(outputAmount);
@@ -653,9 +578,6 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 	}
 
-
-
-
 	protected void refreshRecipe() 
 	{
 		// switch slot items
@@ -674,8 +596,22 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		recipeInfo = accelerator_source.getRecipeInfoFromInputs(items, tanks, new ArrayList<ParticleStack>());
 	}
 	
+	// NBT
+	
+	@Override
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.writeToLogicTag(logicTag, syncReason);
+		
+	}
 
-	// Network
+	@Override
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.readFromLogicTag(logicTag, syncReason);
+	}
+
+	// Packets
 	
 	@Override
 	public AcceleratorUpdatePacket getMultiblockUpdatePacket() 
@@ -697,52 +633,6 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			LinearAcceleratorUpdatePacket packet = (LinearAcceleratorUpdatePacket) message;
 
 		}
-	}
-	
-	
-	// NBT
-	
-	@Override
-	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-	{
-		super.writeToLogicTag(logicTag, syncReason);
-		
-	}
-
-	@Override
-	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-	{
-		super.readFromLogicTag(logicTag, syncReason);
-	}
-
-	
-	/*@Override
-	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player)
-	{
-		return new ContainerLinearAcceleratorController(player, getAccelerator().controller);
-	}*/
-	
-	@Override
-	public int getBeamLength()
-	{
-		return getMultiblock().getExteriorLengthX() > getMultiblock().getExteriorLengthZ() ?getMultiblock().getExteriorLengthX() : getMultiblock().getExteriorLengthZ();
-	}
-
-	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileAcceleratorYoke.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_yokes"),
-			Pair.of(TileAcceleratorSynchrotronPort.class,
-					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
-
-	@Override
-	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
-	{
-		return PART_BLACKLIST;
-	}
-
-
-	public TileAcceleratorIonSource getSource()
-	{
-		return source;
 	}
 
 }

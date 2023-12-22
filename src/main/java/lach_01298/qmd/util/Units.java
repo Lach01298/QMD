@@ -15,12 +15,29 @@ public class Units
 	
 	public static String scaleToSI(double number,int power)
 	{
-
-		
+	
 		String prefix = getSIPrefix(number,power);
 		
-		int index =(int) Math.log10(number) + power;
-		
+		if(prefix.equals("q"))
+		{
+			number *= Math.pow(10, 30+power);
+		}
+		if(prefix.equals("r"))
+		{
+			number *= Math.pow(10, 27+power);
+		}
+		if(prefix.equals("y"))
+		{
+			number *= Math.pow(10, 24+power);
+		}
+		if(prefix.equals("z"))
+		{
+			number *= Math.pow(10, 21+power);
+		}
+		if(prefix.equals("a"))
+		{
+			number *= Math.pow(10, 18+power);
+		}
 		if(prefix.equals("f"))
 		{
 			number *= Math.pow(10, 15+power);
@@ -43,7 +60,7 @@ public class Units
 		}
 		if(prefix.equals(""))
 		{
-			
+			number *= Math.pow(10, 0+power);
 		}
 		if(prefix.equals("k"))
 		{
@@ -65,7 +82,27 @@ public class Units
 		if(prefix.equals("P"))
 		{
 			number *= Math.pow(10, -15+power);
-		}	
+		}
+		if(prefix.equals("E"))
+		{
+			number *= Math.pow(10, -18+power);
+		}
+		if(prefix.equals("Z"))
+		{
+			number *= Math.pow(10, -21+power);
+		}
+		if(prefix.equals("Y"))
+		{
+			number *= Math.pow(10, -24+power);
+		}
+		if(prefix.equals("R"))
+		{
+			number *= Math.pow(10, -27+power);
+		}
+		if(prefix.equals("Q"))
+		{
+			number *= Math.pow(10, -30+power);
+		}
 		
 		DecimalFormat df = new DecimalFormat("#.###");
 		
@@ -79,6 +116,26 @@ public class Units
 		String prefix = getSIPrefix(number,power);
 		
 		
+		if(prefix.equals("q"))
+		{
+			number *= Math.pow(10, 30+power);
+		}
+		if(prefix.equals("r"))
+		{
+			number *= Math.pow(10, 27+power);
+		}
+		if(prefix.equals("y"))
+		{
+			number *= Math.pow(10, 24+power);
+		}
+		if(prefix.equals("z"))
+		{
+			number *= Math.pow(10, 21+power);
+		}
+		if(prefix.equals("a"))
+		{
+			number *= Math.pow(10, 18+power);
+		}
 		if(prefix.equals("f"))
 		{
 			number *= Math.pow(10, 15+power);
@@ -101,7 +158,7 @@ public class Units
 		}
 		if(prefix.equals(""))
 		{
-			number *= Math.pow(10, power);
+			number *= Math.pow(10, 0+power);
 		}
 		if(prefix.equals("k"))
 		{
@@ -123,7 +180,27 @@ public class Units
 		if(prefix.equals("P"))
 		{
 			number *= Math.pow(10, -15+power);
-		}	
+		}
+		if(prefix.equals("E"))
+		{
+			number *= Math.pow(10, -18+power);
+		}
+		if(prefix.equals("Z"))
+		{
+			number *= Math.pow(10, -21+power);
+		}
+		if(prefix.equals("Y"))
+		{
+			number *= Math.pow(10, -24+power);
+		}
+		if(prefix.equals("R"))
+		{
+			number *= Math.pow(10, -27+power);
+		}
+		if(prefix.equals("Q"))
+		{
+			number *= Math.pow(10, -30+power);
+		}
 		
 		DecimalFormat df = new DecimalFormat("#.###");
 		
@@ -145,6 +222,26 @@ public class Units
 		
 		switch(index)
 		{
+		case -30:
+		case -29:
+		case -28:
+			return "q";		
+		case -27:
+		case -26:
+		case -25:
+			return "r";
+		case -24:
+		case -23:
+		case -22:
+			return "y";		
+		case -21:
+		case -20:
+		case -19:
+			return "z";		
+		case -18:
+		case -17:
+		case -16:
+			return "a";		
 		case -15:
 		case -14:
 		case -13:
@@ -186,8 +283,29 @@ public class Units
 		case 14:
 			return "T";
 		case 15:
+		case 16:
+		case 17:
 			return "P";
-			
+		case 18:
+		case 19:
+		case 20:
+			return "E";	
+		case 21:
+		case 22:
+		case 23:
+			return "Z";
+		case 24:
+		case 25:
+		case 26:
+			return "Y";
+		case 27:
+		case 28:
+		case 29:
+			return "R";
+		case 30:
+		case 31:
+		case 32:
+			return "R";	
 		}
 	
 		return "";

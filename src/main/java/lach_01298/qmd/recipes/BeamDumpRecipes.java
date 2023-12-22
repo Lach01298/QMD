@@ -3,6 +3,7 @@ package lach_01298.qmd.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import lach_01298.qmd.QMDConstants;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
@@ -22,9 +23,8 @@ public class BeamDumpRecipes extends QMDRecipeHandler
 		//addRecipe(inputParticle(amount,minEnergy,minFocus), outputFluid(amount), maxEnergy)
 		
 		//particles per milibucket
-		int ppmB = QMDConfig.mole_amount/1000;
-		
-		
+		int ppmB = QMDConstants.moleAmount/QMDConstants.bucketAmount;
+				
 		addRecipe(new ParticleStack(Particles.proton,ppmB), fluidStack("hydrogen", 1));
 		addRecipe(new ParticleStack(Particles.deuteron,ppmB), fluidStack("deuterium", 1));
 		addRecipe(new ParticleStack(Particles.triton,ppmB), fluidStack("tritium", 1));

@@ -63,7 +63,11 @@ public class ItemAntimatterLauncher extends ItemGun
 				return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
 			}
 
-			player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.antimatter_launcher_particle_usage));
+			if(!player.isCreative())
+			{
+				player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.antimatter_launcher_particle_usage));	
+			}
+			
 			player.getCooldownTracker().setCooldown(this, QMDConfig.antimatter_launcher_cool_down);
 			
 			if(!world.isRemote)

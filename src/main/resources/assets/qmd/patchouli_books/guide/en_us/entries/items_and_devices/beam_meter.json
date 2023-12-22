@@ -11,7 +11,7 @@
 		},
 		{
 			"type": "text",
-			"text": "$(l)Note$(): the values shown when clicking on a beamline block are the $(l)end$() of the beamline not the block you click on.$(br2)The beam meter can also read Accelerator Beam Ports redstone mode and Particle Chamber Beam Ports output mode with a shift click."
+			"text": "$(l)Note$(): the values shown when clicking on a beamline block are the $(l)end$() of the beamline not the block you click on.$(br2)The beam meter can also read Accelerator Beam Ports redstone setting and Particle Chamber Beam Ports output setting with a shift click."
 		}
 
 	]

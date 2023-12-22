@@ -16,7 +16,7 @@
 		{
 			"type": "text",
 			"title": "Nucleosynthesis Chamber",
-			"text": "The $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chamber$(/l) creates heavier elements form lighter ones via either muon catalyzed fusion or the r-process in neutrons. They essentially do what stars do but on a much smaller and faster time scale. If you wanted to you can make any element from just hydrogen though this takes a lot of power and a huge setup."
+			"text": "The $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chamber$(/l) creates heavier elements from lighter ones via either muon catalyzed fusion or the r-process with neutrons. They essentially do what stars do but on a much smaller and faster time scale. If you wanted to you can make any element from just hydrogen though this takes a lot of power and a huge setup."
 		},
 		{
 			"type": "text",

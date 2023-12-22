@@ -241,6 +241,7 @@ public class QMDRecipes
 		NCRecipes.centrifuge.addRecipe(fluidStack("compressed_air", FluidStackHelper.BUCKET_VOLUME*10), fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME*7), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*2), fluidStack("argon", 750),  fluidStack("neon", 200),  fluidStack("helium", 50), new EmptyFluidIngredient(), 0.1D, 1D);
 		NCRecipes.centrifuge.addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME*10), fluidStack("heavy_water", 100), new EmptyFluidIngredient(), new EmptyFluidIngredient(),  new EmptyFluidIngredient(),  new EmptyFluidIngredient(), new EmptyFluidIngredient(), 1D, 4D);
 		NCRecipes.centrifuge.addRecipe(fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), fluidStack("sulfur", FluidStackHelper.GEM_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(),1D,1D);
+		NCRecipes.centrifuge.addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME), fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME), fluidStack("sulfur", FluidStackHelper.GEM_VOLUME/6), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(),1D,1D);
 		
 		// fluid mixer
 		NCRecipes.salt_mixer.addRecipe(fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), fluidStack("sulfur", FluidStackHelper.GEM_VOLUME), fluidStack("redstone", FluidStackHelper.REDSTONE_DUST_VOLUME), 1D,1D);
@@ -274,7 +275,6 @@ public class QMDRecipes
 		if(QMDConfig.override_nc_recipes)
 		{
 			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
-			
 			List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
 			itemIngredients.add(AbstractRecipeHandler.oreStack("dustGraphite",1));
 			
@@ -298,6 +298,16 @@ public class QMDRecipes
 		//ingot former
 		NCRecipes.ingot_former.addRecipe(fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME), "ingotGraphite");
 		
+		if(QMDConfig.override_nc_recipes)
+		{
+			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+			List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
+			
+			fluidIngredients.add(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME));
+			
+			NCRecipes.ingot_former.removeRecipe(NCRecipes.ingot_former.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+			NCRecipes.ingot_former.addRecipe(fluidStack("coal", FluidStackHelper.COAL_DUST_VOLUME),"coal",0.5D, 1D);
+		}
 		
 		// Crystallizer
 		NCRecipes.crystallizer.addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_BLOCK_VOLUME), "bouleSilicon", 2D, 2D);

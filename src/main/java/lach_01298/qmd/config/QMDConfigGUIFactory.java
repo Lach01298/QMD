@@ -54,6 +54,7 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 			list.add(categoryElement(QMDConfig.CATEGORY_FISSION, CategoryEntryFission.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_TOOLS, CategoryEntryTools.class));
+			list.add(categoryElement(QMDConfig.CATEGORY_RECIPES, CategoryEntryRecipes.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_OTHER, CategoryEntryOther.class));
 
 			return list;
@@ -179,6 +180,22 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 		}
 
 
+		public static class CategoryEntryRecipes extends CategoryEntry implements IQMDConfigCategory
+		{
+
+			public CategoryEntryRecipes(GuiConfig owningScreen, GuiConfigEntries owningEntryList,
+					IConfigElement configElement)
+			{
+				super(owningScreen, owningEntryList, configElement);
+			}
+
+			@Override
+			protected GuiScreen buildChildScreen()
+			{
+				return buildChildScreen(QMDConfig.CATEGORY_RECIPES, owningScreen, configElement);
+			}
+		}
+		
 		public static class CategoryEntryOther extends CategoryEntry implements IQMDConfigCategory
 		{
 

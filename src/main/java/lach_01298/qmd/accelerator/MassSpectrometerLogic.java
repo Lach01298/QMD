@@ -27,7 +27,6 @@ import lach_01298.qmd.multiblock.InventoryHelper;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.multiblock.network.MassSpectrometerUpdatePacket;
 import lach_01298.qmd.recipes.QMDRecipes;
-import lach_01298.qmd.vacuumChamber.ExoticContainmentLogic;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.BasicRecipe;
 import nc.recipe.RecipeInfo;
@@ -53,7 +52,9 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	
 	public double workDone = 0;
 	public double recipeWork = 100;
+	public double speed = 1;
 	
+	// Multiblock logic	
 	
 	public MassSpectrometerLogic(AcceleratorLogic oldLogic) 
 	{
@@ -89,14 +90,21 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		return "mass_spectrometer";
 	}
 	
+	// Accelerator methods
+	
 	@Override
-	public int getThickness()
+	public int getBeamLength()
 	{
-		return -1;
+		return 13;
 	}
 
+	@Override
+	public double getBeamRadius()
+	{
+		return 2.5;
+	}
 	
-	// Multiblock Validation
+	// Multiblock validation
 	
 	@Override
 	public boolean isMachineWhole()
@@ -373,7 +381,6 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		return super.isMachineWhole();
 	}
 	
-	
 	public EnumFacing getWallNormal(BlockPos pos)
 	{
 		Accelerator acc = getMultiblock();
@@ -404,33 +411,47 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		return null;
 	}
 	
+	@Override
+	public int getThickness()
+	{
+		return -1;
+	}
 	
-	
-	
+	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileAcceleratorBeamPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_beam_ports"),
+			Pair.of(TileAcceleratorSynchrotronPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
+			Pair.of(TileAcceleratorRFCavity.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_rf_cavity"));
+
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 	
 
-	// Multiblock Methods
+	// Accelerator formation
 	@Override
 	public void onAcceleratorFormed()
 	{
 		Accelerator acc = getMultiblock();
 		
-		getMultiblock().tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-		getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.mass_spectrometer_valid_fluids.get(0));
-		getMultiblock().tanks.get(3).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-		getMultiblock().tanks.get(4).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-		getMultiblock().tanks.get(5).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-		getMultiblock().tanks.get(6).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
+		acc.tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
+		acc.tanks.get(2).setAllowedFluids(QMDRecipes.mass_spectrometer_valid_fluids.get(0));
+		acc.tanks.get(3).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
+		acc.tanks.get(4).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
+		acc.tanks.get(5).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
+		acc.tanks.get(6).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
 		
 		
 		if (!getWorld().isRemote)
 		{
-			getMultiblock().efficiency = 0;
+			resetBeams();
+			speed = 0;
 			for (TileAcceleratorIonSource source : getPartMap(TileAcceleratorIonSource.class).values())
 			{
 				BlockPos sourcePos = source.getPos();
 				source.setIONumber(2);
-				acc.efficiency += source.outputParticleMultiplier/2d;
+				speed += source.outputParticleMultiplier/2d;
 				
 				for (int i = 1; i <= 4; i++)
 				{
@@ -442,6 +463,16 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				}
 			}
 		}
+		
+		refreshStats();
+		super.onAcceleratorFormed();
+		
+		acc.cooling = (long) (2*(acc.rawHeating+acc.getMaxExternalHeating()));
+	}
+	
+	public void refreshStats()
+	{
+		Accelerator acc = getMultiblock();
 		
 		int energy = 0;
 		long heat = 0;
@@ -455,16 +486,17 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			energy += source.basePower;
 		}
 		
-		getMultiblock().requiredEnergy = energy;
-		getMultiblock().rawHeating = heat;
-		
-		super.onAcceleratorFormed();
-		
-		acc.cooling = (long) (2*(acc.rawHeating+acc.getMaxExternalHeating()));
+		acc.requiredEnergy = energy;
+		acc.rawHeating = heat;
+		acc.dipoleStrength = 0;
+		acc.quadrupoleStrength = 0;
+		acc.efficiency = 1;
+		acc.acceleratingVoltage = 0;
 	}
 	
+	// Accelerator disassembly
 	
-	public void onMachineDisassembled()
+	public void onAcceleratorBroken()
 	{
 		for (TileAcceleratorIonSource source : getPartMap(TileAcceleratorIonSource.class).values())
 		{
@@ -477,9 +509,10 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		}
 		
 		
-		super.onMachineDisassembled();
-	}
+		super.onAcceleratorBroken();
+	}	
 	
+	// Accelerator Operation
 	
 	@Override
 	public boolean onUpdateServer()
@@ -501,7 +534,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 						internalHeating();
 	
 						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
-						workDone += getMultiblock().efficiency;
+						workDone += speed;
 						produceProduct();
 					}
 				}
@@ -519,30 +552,36 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		getMultiblock().sendMultiblockUpdatePacketToListeners();
 		return true;
 	}
-
 	
 	protected void operate()
 	{
-		if (getMultiblock().getTemperature() <= getMultiblock().maxOperatingTemp)
+		if ((isRedstonePowered() && !getMultiblock().computerControlled) || (getMultiblock().computerControlled && getMultiblock().energyPercentage > 0))
 		{
-			operational = true;
-			return;
+			if (getMultiblock().getTemperature() <= getMultiblock().maxOperatingTemp)
+			{
+				operational = true;
+				return;
+			}
+			else
+			{
+				if (operational)
+				{
+					quenchMagnets();
+				}
+				operational = false;
+				getMultiblock().errorCode = Accelerator.errorCode_ToHot;
+				return;
+			}
 		}
 		else
 		{
-			if (operational)
-			{
-				quenchMagnets();
-			}
 			operational = false;
-			getMultiblock().errorCode = Accelerator.errorCode_ToHot;
 			return;
 		}
+
 	}
-	
-	
-	
-	// Recipe Stuff
+		
+	// Recipe handling
 	
 	private boolean canProduceProduct()
 	{
@@ -610,7 +649,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				}
 				else
 				{
-					productItem.setCount(productItems.get(i).getNextStackSize(i));
+					productItem.setCount(productItems.get(i).getNextStackSize(0));
 				}
 
 				InventoryHelper.addItem(i + 2, productItem, inv.getInventoryStacks(), inv);
@@ -626,7 +665,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				FluidStack productFluid = productFluids.get(i).getStack();
 				if (productFluid != null)
 				{
-					productFluid.amount = productFluids.get(i).getNextStackSize(i);
+					productFluid.amount = productFluids.get(i).getNextStackSize(0);
 					getMultiblock().tanks.get(i+3).fill(productFluid, true);
 				}
 
@@ -642,7 +681,6 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		}
 	}
 
-
 	protected void refreshRecipe() 
 	{
 		TileMassSpectrometerController cont = (TileMassSpectrometerController) getMultiblock().controller;
@@ -655,8 +693,28 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		recipeInfo = mass_spectrometer.getRecipeInfoFromInputs(items, tanks);
 	}
 	
+	// NBT
+	
+	@Override
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.writeToLogicTag(logicTag, syncReason);
+		logicTag.setDouble("workDone", workDone);
+		logicTag.setDouble("recipeWork", recipeWork);
+		logicTag.setDouble("speed", speed);
+		
+	}
 
-	// Network
+	@Override
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.readFromLogicTag(logicTag, syncReason);
+		workDone=logicTag.getDouble("workDone");
+		recipeWork=logicTag.getDouble("recipeWork");
+		speed=logicTag.getDouble("speed");
+	}
+	
+	// Packets
 	
 	@Override
 	public AcceleratorUpdatePacket getMultiblockUpdatePacket() 
@@ -666,7 +724,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				getMultiblock().isControllorOn, getMultiblock().cooling, getMultiblock().rawHeating,getMultiblock().currentHeating,getMultiblock().maxCoolantIn,getMultiblock().maxCoolantOut,getMultiblock().maxOperatingTemp,
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().acceleratingVoltage,
 				getMultiblock().RFCavityNumber, getMultiblock().quadrupoleNumber, getMultiblock().quadrupoleStrength, getMultiblock().dipoleNumber, getMultiblock().dipoleStrength, getMultiblock().errorCode,
-				getMultiblock().heatBuffer, getMultiblock().energyStorage, getMultiblock().tanks, getMultiblock().beams,workDone,recipeWork);
+				getMultiblock().heatBuffer, getMultiblock().energyStorage, getMultiblock().tanks, getMultiblock().beams,workDone,recipeWork, speed);
 	}
 	
 	@Override
@@ -678,49 +736,8 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			MassSpectrometerUpdatePacket packet = (MassSpectrometerUpdatePacket) message;
 			this.workDone = packet.workDone;
 			this.recipeWork = packet.recipeWork;
-
+			this.speed = packet.speed;
 		}
 	}
-	
-	
-	// NBT
-	
-	@Override
-	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-	{
-		super.writeToLogicTag(logicTag, syncReason);
-		logicTag.setDouble("workDone", workDone);
-		logicTag.setDouble("recipeWork", recipeWork);
-		
-	}
-
-	@Override
-	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-	{
-		super.readFromLogicTag(logicTag, syncReason);
-		workDone=logicTag.getDouble("workDone");
-		recipeWork=logicTag.getDouble("recipeWork");
-	}
-
-	
-	@Override
-	public int getBeamLength()
-	{
-		return getMultiblock().getExteriorLengthX() > getMultiblock().getExteriorLengthZ() ?getMultiblock().getExteriorLengthX() : getMultiblock().getExteriorLengthZ();
-	}
-
-	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileAcceleratorBeamPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_beam_ports"),
-			Pair.of(TileAcceleratorSynchrotronPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
-			Pair.of(TileAcceleratorRFCavity.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_rf_cavity"));
-
-	@Override
-	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
-	{
-		return PART_BLACKLIST;
-	}
-
-
-
 	
 }

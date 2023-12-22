@@ -8,7 +8,7 @@ tile.qmd.fluid_yag.name=Molten Yttrium Aluminium Garnet
 qmd.multiblock_validation.beam_director.must_be_cube=The Beam Diverter must be 1 5x5 Cube with a dipole in the centre.
 qmd.multiblock_validation.beam_director.must_be_beam=There must have a Accelerator Beam Block at the centre.
 qmd.multiblock_validation.accelerator.beam_director.must_be_dipole=There Must be a vertical or horizontal dipole at the centre.
-qmd.multiblock_validation.chamber.beam_port_wrong_spot=Beam Ports must be at the centre of a face.
+qmd.multiblock_validation.chamber.beam_port_wrong_spot=Beam Ports must be at the centre of a horizontal face.
 
 
 qmd.particle.pion_plus.desc=Pions are the particles that are responsible for holding nuclei together. Although not coloured themselves they distribute the "residual" strong force to keep nuclei together.

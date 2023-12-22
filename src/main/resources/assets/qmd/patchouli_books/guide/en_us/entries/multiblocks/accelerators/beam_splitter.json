@@ -17,7 +17,7 @@
 		{
             "title": "Operation",
 			"type": "text",
-            "text": "To start the beam splitter just give the controller a redstone signal. A beam splitter functions the same as any other $(l:multiblocks/accelerators/general#operation)accelerator$(/l) requiring power and coolant. $(br2)$(l)Currently beam port switching is not available for beam splitters, so must be done manually.$()"
+            "text": "To start the beam splitter just give the controller (or input $(l:multiblocks/accelerators/general#redstone)redstone port$(/l)) a redstone signal. A beam splitter functions the same as any other $(l:multiblocks/accelerators/general#operation)accelerator$(/l) requiring power and coolant. $(br2)$(l)Currently beam port switching is not available for beam splitters, so must be done manually.$()"
         },
 		{
             "title": "Particle Energy",

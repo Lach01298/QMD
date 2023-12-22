@@ -11,7 +11,7 @@
 		{
 			"type": "text",
 			"title": "First Accelerator Setup",
-			"text": "Your first accelerator setup should be one for creating P-type doped silicon. This, like N-type doped silicon is used as an essential crafting ingredient in QMD. $(br2)Your setup will consist of one $(l:multiblocks/accelerators/linear_accelerator)linear accelerator$(/l) with an $(l:multiblocks/accelerators/linear_accelerator#ion_source)ion source$(/l) using diborane canisters. This accelerator needs to accelerate $(l:particles/list#boron_ion)boron ions$(/l) to at least 600 keV and they must have a minimum focus of 2."
+			"text": "Your first accelerator setup should be one for creating P-type doped silicon. This, like N-type doped silicon is used as an essential crafting ingredient in QMD. $(br2)Your setup will consist of one $(l:multiblocks/accelerators/linear_accelerator)linear accelerator$(/l) with an $(l:multiblocks/accelerators/linear_accelerator#ion_source)ion source$(/l) using diborane gas. This accelerator needs to accelerate $(l:particles/list#boron_ion)boron ions$(/l) to at least 600 keV and they must have a minimum focus of 2."
 		},
 		{
 			"type": "diagram_low",

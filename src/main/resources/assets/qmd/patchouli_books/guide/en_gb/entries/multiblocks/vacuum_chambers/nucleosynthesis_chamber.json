@@ -18,16 +18,16 @@
 			"anchor": "construction",
             "type": "text",
             "title": "Construction",
-            "text": "Nucleosynthesis Chambers are a 11 block long, 5 block wide and 7 block tall cuboid of vacuum chamber casing or glass. Like all $(l:multiblocks/vacuum_chambers/general#construction)vacuum Chambers$(/l) they require a coolant vent in input and output modes, and an energy port somewhere in the casing. They also require a vacuum chamber heater vent in input mode and a heater vent in output mode in the casing."
+            "text": "Nucleosynthesis Chambers are a 11 block long, 5 block wide and 7 block tall cuboid of Vacuum Chamber Casing or glass. Like all $(l:multiblocks/vacuum_chambers/general#construction)vacuum Chambers$(/l) they require a coolant vent in input and output modes, and an energy port somewhere in the casing. They also require a Vacuum Chamber Heater Vent in input mode and a heater vent in output mode in the casing."
         },
         {
             "type": "qmd:diagram_low",
             "image": "qmd:textures/gui/book_images/nucleosynthesis_chamber_empty.png",
-            "text": "Inside the chamber there is a structure of vacuum chamber beam, plasma nozzle and plasma glass blocks arranged as seen below. On one side there must be a input beam port placed with 2 vacuum chamber fluid ports in import mode 1 and 3 blocks above it, as shown."
+            "text": "Inside the chamber there is a structure of vacuum chamber beam, plasma nozzle and plasma glass blocks arranged as seen below. On one side there must be an input beam port placed with 2 vacuum chamber fluid ports in input mode, 1 and 3 blocks above it, as shown."
         },
         {
             "type": "text", 
-            "text": "On the opposite side to the fluid ports there are 2 more fluid ports in output mode as seen in the image on the previous page. Lastly the centre row of vacuum chamber plasma glass needs to be connected to any other part of the multiblock with any type of vacuum chamber heater in some way. In the previous image this is done with a redstone vacuum chamber heater above the plasma glass."
+            "text": "On the opposite side to the input fluid ports there are 2 more fluid ports in output mode as seen in the image on the previous page. Lastly the centre row of vacuum chamber plasma glass needs to be connected to any other part of the multiblock with any type of vacuum chamber heater in some way. In the previous image this is done with a Redstone Vacuum Chamber Heater above the plasma glass."
         },
         {
             "type": "text", 
@@ -61,7 +61,7 @@
 		{
 			"type": "text",
             
-            "text": "Like $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) you will see that there is a energy range the particles have to be in in order to preform the recipe. You will also see hovering over the muon that it takes 143.1 kpu of muons to complete the recipe. It also has a minimum focus of 1.$(br)You should also notice the heat released by the recipe, this and the amount of particles in the recipe are important for what design of heaters to place and keeping your chamber from not $(l)over heating$()." 
+            "text": "Like $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) you will see that there is an energy range the particles must be in to perform the recipe. You will also see hovering over the muon that it takes 143.1 kpu of muons to complete the recipe. It also has a minimum focus of 1.$(br)You should also notice the heat released by the recipe, this and the amount of particles in the recipe are important for what design of heaters to place and keeping your chamber from not $(l)over heating$()." 
         },
 		{
 			"type": "text",
@@ -80,12 +80,12 @@
         },
 		{
 			"type": "text",
-            "text": "If we over or under cooled it then this would be less that 100%. This efficiency is calculated as $(l)ε=$(o)min$(l)(1,(C+20)/(H+|H-C|))$() where $(l)H$() is the heating and $(l)C$() is the cooling. This gives no penalty if your with in 20 H/t of the heating." 
+            "text": "If we over or under cooled it then this would be less than 100%. This efficiency is calculated as $(l)ε=$(o)min$(l)(1,(C+20)/(H+|H-C|))$() where $(l)H$() is the heating and $(l)C$() is the cooling. This gives no penalty if you are within 20 H/t of the heating." 
         },
 		{
 			"type": "text",
 			"title": "Redstone Ports",
-            "text": "Vacuum chamber redstone ports can be put in the casing to read information about the nucleosynthesis chamber. There are 2 modes that can be switched between with the multitool. The $(l)$(1)first$() blue mode outputs a redstone signal strength based on what fraction of the max operating temperature of the magnets the current temperature of the magnets is. So at the max operating temperature it is 15 and at half the max operating temperature it is 7." 
+            "text": "Vacuum chamber redstone ports can be put in the casing to read information about the nucleosynthesis chamber. There are 2 modes that can be switched between with the multitool. The $(l)$(1)first$() blue mode outputs a redstone signal strength based on what fraction of the max operating temperature of the magnets the current temperature is. So at the max operating temperature it is 15 and at half the max operating temperature it is 7." 
         },
 		{
 			"type": "text",

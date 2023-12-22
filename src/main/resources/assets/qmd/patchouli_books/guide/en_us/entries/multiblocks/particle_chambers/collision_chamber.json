@@ -33,7 +33,7 @@
 		},
 		{
 			"type": "text",
-			"text": "In the gui the output slots are numbered 1 to 4. 1 at the top left, 2 at the top right, 3 at the bottom left and 4 at the bottom right. In the digram to the left we label each port A to D clockwise looking down. Then by default the ports correspond to the slots in the diagram. Clicking a port will switch the corresponding slot with the port clockwise of it. So here clicking A will change to A:2 and B:1. Clicking again on A will change back to the original A:1 and B:2. "
+			"text": "In the gui the output slots are numbered 1 to 4. 1 at the top left, 2 at the top right, 3 at the bottom left and 4 at the bottom right. In the diagram to the left we label each port A to D clockwise looking down. Then by default the ports correspond to the slots in the diagram. Clicking a port will switch the corresponding slot with the port clockwise of it. So here clicking A will change to A:2 and B:1. Clicking again on A will change back to the original A:1 and B:2. "
 		},
 		{
 			"type": "text",
@@ -50,7 +50,7 @@
 			"header": "Operation",
 			"type": "diagram",
 			"image": "qmd:textures/gui/book_images/collision_chamber_recipe.png",
-			"text": "Collision chambers operate similar to $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) but with no items to deal with. To show how the collision chamber operates lets look at the example recipe in JEI above. Here protons hit protons creating a variety of particles."
+			"text": "Collision chambers operate similar to $(l:multiblocks/particle_chambers/target_chamber#operation)target chambers$(/l) but with no items or fluids to deal with. To show how the collision chamber operates lets look at the example recipe in JEI above. Here protons hit protons creating a variety of particles."
 		},
 		{
 			"type": "text",

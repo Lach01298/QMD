@@ -26,6 +26,7 @@ public class QMDConfig {
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_TOOLS = "tools";
+	public static final String CATEGORY_RECIPES = "recipes";
 	public static final String CATEGORY_OTHER = "other";
 
 	
@@ -43,9 +44,8 @@ public class QMDConfig {
 	
 	public static double accelerator_thermal_conductivity;
 	public static int minimium_accelerator_ring_input_particle_energy;
-	public static int ion_source_output;
 	public static int[] ion_source_power;
-	public static double[] ion_source_output_multiplier;
+	public static int[] ion_source_output_multiplier;
 	public static double[] ion_source_focus;
 	
 	
@@ -130,10 +130,11 @@ public class QMDConfig {
 	public static double gluon_range;
 	public static int gluon_particle_usage;
 	
-	public static int antimatter_launcher_particle_usage;
-	public static int antimatter_launcher_cool_down;
+	public static double antimatter_launcher_damage;
 	public static double antimatter_launcher_radiation;
 	public static double antimatter_launcher_explosion_size;
+	public static int antimatter_launcher_cool_down;
+	public static int antimatter_launcher_particle_usage;
 	
 	public static int cell_lifetime;
 	public static double cell_radiation;
@@ -163,13 +164,13 @@ public class QMDConfig {
 	
 	public static int[] rtg_power;
 	
-	public static int mole_amount;
-	public static int beam_scaling;
-	
-	
-	
 
-	
+	public static int beam_scaling;
+
+	//recipe scale factors
+	public static int rsf_target_chamber;
+	public static int rsf_nucleosynthesis;
+		
 	public static boolean override_nc_recipes;
 	
 	//public static int item_ticker_chunks_per_tick;
@@ -251,11 +252,9 @@ public class QMDConfig {
 		Property propertyAcceleratorRingInputEnergy = config.get(CATEGORY_ACCELERATOR, "minimium_accelerator_ring_input_particle_energy", 5000, Lang.localise("gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy.comment"), 0, Integer.MAX_VALUE);
 		propertyAcceleratorRingInputEnergy.setLanguageKey("gui.qmd.config.accelerator.minimium_accelerator_ring_input_particle_energy");
 		
-		Property propertyIonSourceOutput = config.get(CATEGORY_ACCELERATOR, "ion_source_output", 10000, Lang.localise("gui.qmd.config.accelerator.ion_source_output.comment"), 1, 100000);
-		propertyIonSourceOutput.setLanguageKey("gui.qmd.config.accelerator.ion_source_output");
 		Property propertyIonSourcePower = config.get(CATEGORY_ACCELERATOR, "ion_source_power", new int[] {500, 2000}, Lang.localise("gui.qmd.config.accelerator.ion_source_power.comment"), 0, Integer.MAX_VALUE);
 		propertyIonSourcePower.setLanguageKey("gui.qmd.config.accelerator.ion_source_power");
-		Property propertyIonSourceOutputMultiplier = config.get(CATEGORY_ACCELERATOR, "ion_source_output_multiplier", new double[] {1.0d, 2.0d}, Lang.localise("gui.qmd.config.accelerator.ion_source_output_multiplier.comment"), 0d, Double.MAX_VALUE);
+		Property propertyIonSourceOutputMultiplier = config.get(CATEGORY_ACCELERATOR, "ion_source_output_multiplier", new int[] {1, 2}, Lang.localise("gui.qmd.config.accelerator.ion_source_output_multiplier.comment"), 1, Integer.MAX_VALUE);
 		propertyIonSourceOutputMultiplier.setLanguageKey("gui.qmd.config.accelerator.ion_source_output_multiplier");
 		Property propertyIonSourceFocus = config.get(CATEGORY_ACCELERATOR, "ion_source_focus", new double[] {0.4, 0.2d}, Lang.localise("gui.qmd.config.accelerator.ion_source_focus.comment"), 0d, Double.MAX_VALUE);
 		propertyIonSourceFocus.setLanguageKey("gui.qmd.config.accelerator.ion_source_focus");
@@ -410,17 +409,22 @@ public class QMDConfig {
 		propertyGluonRadiation.setLanguageKey("gui.qmd.config.tools.gluon_radiation");
 		Property propertyGluonRange = config.get(CATEGORY_TOOLS, "gluon_range", 40.0, Lang.localise("gui.qmd.config.tools.gluon_range.comment"), 0, 128.0);
 		propertyGluonRange.setLanguageKey("gui.qmd.config.tools.gluon_range");
-		Property propertyGluonParticleUsage = config.get(CATEGORY_TOOLS, "gluon_particle_usage", 100, Lang.localise("gui.qmd.config.tools.gluon_particle_usage.comment"), 0, 100000);
+		Property propertyGluonParticleUsage = config.get(CATEGORY_TOOLS, "gluon_particle_usage", 10, Lang.localise("gui.qmd.config.tools.gluon_particle_usage.comment"), 0, 100000);
 		propertyGluonParticleUsage.setLanguageKey("gui.qmd.config.tools.gluon_particle_usage");
 		
-		Property propertyAntimatterLauncherParticleUsage = config.get(CATEGORY_TOOLS, "antimatter_launcher_usage", 5000, Lang.localise("gui.qmd.config.tools.antimatter_launcher_usage.comment"), 0, 100000);
-		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_usage");
-		Property propertyAntimatterLauncherCoolDown = config.get(CATEGORY_TOOLS, "antimatter_launcher_cool_down", 30, Lang.localise("gui.qmd.config.tools.antimatter_launcher_cool_down.comment"), 0, 10000);
-		propertyAntimatterLauncherCoolDown.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_cool_down");
+		Property propertyAntimatterLauncherDamage = config.get(CATEGORY_TOOLS, "antimatter_launcher_damage", 20.0, Lang.localise("gui.qmd.config.tools.antimatter_launcher_damage.comment"), 0, Float.MAX_VALUE);
+		propertyAntimatterLauncherDamage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_damage");
 		Property propertyAntimatterLauncherRadiation = config.get(CATEGORY_TOOLS, "antimatter_launcher_radiation", 15360.0, Lang.localise("gui.qmd.config.tools.antimatter_launcher_radiation.comment"), 0, Double.MAX_VALUE);
 		propertyAntimatterLauncherRadiation.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_radiation");
 		Property propertyAntimatterLauncherExplosionSize = config.get(CATEGORY_TOOLS, "antimatter_launcher_explosion_size", 2.5, Lang.localise("gui.qmd.config.tools.antimatter_launcher_explosion_size.comment"), 0.0, 1000.0);
 		propertyAntimatterLauncherExplosionSize.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_explosion_size");
+		Property propertyAntimatterLauncherCoolDown = config.get(CATEGORY_TOOLS, "antimatter_launcher_cool_down", 30, Lang.localise("gui.qmd.config.tools.antimatter_launcher_cool_down.comment"), 0, 10000);
+		propertyAntimatterLauncherCoolDown.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_cool_down");
+		Property propertyAntimatterLauncherParticleUsage = config.get(CATEGORY_TOOLS, "antimatter_launcher_usage", 5000, Lang.localise("gui.qmd.config.tools.antimatter_launcher_usage.comment"), 0, 100000);
+		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_usage");
+
+
+
 		
 		
 		Property propertyCellLifetime = config.get(CATEGORY_TOOLS, "cell_lifetime", 200, Lang.localise("gui.qmd.config.tools.cell_lifetime.comment"), 0, 6000);
@@ -471,21 +475,22 @@ public class QMDConfig {
 		propertyCoperniciumRadiation.setLanguageKey("gui.qmd.config.copernicium_radiation");
 		
 		
+		Property propertyOverrideNCRecipes = config.get(CATEGORY_RECIPES, "override_nc_recipes", true, Lang.localise("gui.qmd.config.recipes.override_nc_recipes.comment"));
+		propertyOverrideNCRecipes.setLanguageKey("gui.qmd.config.recipes.override_nc_recipes");
+		
+		Property propertyRSFTargetChamber = config.get(CATEGORY_RECIPES, "rsf_target_chamber", 100, Lang.localise("gui.qmd.config.recipes.rsf_target_chamber.comment"), 1, Integer.MAX_VALUE);
+		propertyRSFTargetChamber.setLanguageKey("gui.qmd.config.recipes.rsf_target_chamber");
+		
+		Property propertyRSFNucleosynthesis = config.get(CATEGORY_RECIPES, "rsf_nucleosynthesis", 100, Lang.localise("gui.qmd.config.recipes.rsf_nucleosynthesis.comment"), 1, Integer.MAX_VALUE);
+		propertyRSFNucleosynthesis.setLanguageKey("gui.qmd.config.recipes.rsf_nucleosynthesis");
+		
+			
 		Property propertyRTGPower = config.get(CATEGORY_OTHER, "rtg_power", new int[] {50}, Lang.localise("gui.qmd.config.other.rtg_power.comment"), 0, Integer.MAX_VALUE);
 		propertyRTGPower.setLanguageKey("gui.qmd.config.other.rtg_power");
 		
-		
-		
-		Property propertyMoleAmount = config.get(CATEGORY_OTHER, "mole_amount", 1000000, Lang.localise("gui.qmd.config.other.mole_amount.comment"), 1, Integer.MAX_VALUE);
-		propertyMoleAmount.setLanguageKey("gui.qmd.config.other.mole_amount");
 		Property propertyBeamScaling = config.get(CATEGORY_OTHER, "beam_scaling", 10000, Lang.localise("gui.qmd.config.other.beam_scaling.comment"), 1, Integer.MAX_VALUE);
 		propertyBeamScaling.setLanguageKey("gui.qmd.config.other.beam_scaling");
-		
-		
-		
-		Property propertyOverrideNCRecipes = config.get(CATEGORY_OTHER, "override_nc_recipes", true, Lang.localise("gui.qmd.config.other.override_nc_recipes.comment"));
-		propertyOverrideNCRecipes.setLanguageKey("gui.qmd.config.other.override_nc_recipes");
-		
+
 		//Property propertyItemTickerChunksPerTick = config.get(CATEGORY_OTHER, "item_ticker_chunks_per_tick", 5, Lang.localise("gui.qmd.config.other.item_ticker_chunks_per_tick.comment"),0,400);
 		//propertyItemTickerChunksPerTick.setLanguageKey("gui.qmd.config.other.item_ticker_chunks_per_tick");
 		
@@ -520,7 +525,6 @@ public class QMDConfig {
 		propertyOrderAccelerator.add(propertyAcceleratorThermalConductivity.getName());
 		propertyOrderAccelerator.add(propertyAcceleratorRingInputEnergy.getName());
 		
-		propertyOrderAccelerator.add(propertyIonSourceOutput.getName());
 		propertyOrderAccelerator.add(propertyIonSourcePower.getName());
 		propertyOrderAccelerator.add(propertyIonSourceOutputMultiplier.getName());
 		propertyOrderAccelerator.add(propertyIonSourceFocus.getName());
@@ -606,11 +610,11 @@ public class QMDConfig {
 		propertyOrderTools.add(propertyGluonRange.getName());
 		propertyOrderTools.add(propertyGluonParticleUsage.getName());
 		
-		propertyOrderTools.add(propertyAntimatterLauncherParticleUsage.getName());
-		propertyOrderTools.add(propertyAntimatterLauncherCoolDown.getName());
+		propertyOrderTools.add(propertyAntimatterLauncherDamage.getName());
 		propertyOrderTools.add(propertyAntimatterLauncherRadiation.getName());
 		propertyOrderTools.add(propertyAntimatterLauncherExplosionSize.getName());
-		
+		propertyOrderTools.add(propertyAntimatterLauncherCoolDown.getName());
+		propertyOrderTools.add(propertyAntimatterLauncherParticleUsage.getName());	
 		
 		propertyOrderTools.add(propertyCellLifetime.getName());
 		propertyOrderTools.add(propertyCellRadiation.getName());
@@ -650,19 +654,23 @@ public class QMDConfig {
 		config.setCategoryPropertyOrder(CATEGORY_FUSION, propertyOrderFusion);
 		
 		
+		List<String> propertyOrderRecipes = new ArrayList<String>();
+		
+		propertyOrderRecipes.add(propertyOverrideNCRecipes.getName());
+		propertyOrderRecipes.add(propertyRSFTargetChamber.getName());
+		propertyOrderRecipes.add(propertyRSFNucleosynthesis.getName());
+
+		config.setCategoryPropertyOrder(CATEGORY_RECIPES, propertyOrderRecipes);
+		
+		
 		List<String> propertyOrderOther = new ArrayList<String>();
 		
 		propertyOrderOther.add(propertyRTGPower.getName());
-		propertyOrderOther.add(propertyMoleAmount.getName());
 		propertyOrderOther.add(propertyBeamScaling.getName());
 
-		
-
-		propertyOrderOther.add(propertyOverrideNCRecipes.getName());
 		//propertyOrderOther.add(propertyItemTickerChunksPerTick.getName());
 		propertyOrderOther.add(propertyTurbineBladeEfficiency.getName());
 		propertyOrderOther.add(propertyTurbineBladeExpansion.getName());
-		
 		
 		config.setCategoryPropertyOrder(CATEGORY_OTHER, propertyOrderOther);
 		
@@ -689,9 +697,8 @@ public class QMDConfig {
 			accelerator_thermal_conductivity= propertyAcceleratorThermalConductivity.getDouble();
 			minimium_accelerator_ring_input_particle_energy= propertyAcceleratorRingInputEnergy.getInt();
 			
-			ion_source_output= propertyIonSourceOutput.getInt();
 			ion_source_power = readIntegerArrayFromConfig(propertyIonSourcePower);
-			ion_source_output_multiplier= readDoubleArrayFromConfig(propertyIonSourceOutputMultiplier);
+			ion_source_output_multiplier= readIntegerArrayFromConfig(propertyIonSourceOutputMultiplier);
 			ion_source_focus= readDoubleArrayFromConfig(propertyIonSourceFocus);
 			
 			beamAttenuationRate = propertyBeamAttenuationRate.getDouble();
@@ -767,11 +774,12 @@ public class QMDConfig {
 			gluon_radiation = propertyGluonRadiation.getDouble();
 			gluon_range = propertyGluonRange.getDouble();
 			gluon_particle_usage = propertyGluonParticleUsage.getInt();
-			
-			antimatter_launcher_particle_usage = propertyAntimatterLauncherParticleUsage.getInt();
-			antimatter_launcher_cool_down = propertyAntimatterLauncherCoolDown.getInt();
+					
+			antimatter_launcher_damage = propertyAntimatterLauncherDamage.getDouble();
 			antimatter_launcher_radiation = propertyAntimatterLauncherRadiation.getDouble();
 			antimatter_launcher_explosion_size = propertyAntimatterLauncherExplosionSize.getDouble();
+			antimatter_launcher_cool_down = propertyAntimatterLauncherCoolDown.getInt();
+			antimatter_launcher_particle_usage = propertyAntimatterLauncherParticleUsage.getInt();
 			
 			cell_lifetime = propertyCellLifetime.getInt();
 			cell_radiation = propertyCellRadiation.getDouble();
@@ -798,16 +806,15 @@ public class QMDConfig {
 			copernicium_self_priming = readBooleanArrayFromConfig(propertyCoperniciumSelfPriming);
 			copernicium_radiation = readDoubleArrayFromConfig(propertyCoperniciumRadiation);
 			
-			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
-			
-			mole_amount = propertyMoleAmount.getInt();
-			beam_scaling = propertyBeamScaling.getInt();
-			
-			
 			
 			override_nc_recipes = propertyOverrideNCRecipes.getBoolean();
-			//item_ticker_chunks_per_tick = propertyItemTickerChunksPerTick.getInt();
+			rsf_target_chamber = propertyRSFTargetChamber.getInt();
+			rsf_nucleosynthesis = propertyRSFNucleosynthesis.getInt();
 			
+			
+			rtg_power = readIntegerArrayFromConfig(propertyRTGPower);
+			beam_scaling = propertyBeamScaling.getInt();
+			//item_ticker_chunks_per_tick = propertyItemTickerChunksPerTick.getInt();
 			turbine_blade_efficiency = readDoubleArrayFromConfig(propertyTurbineBladeEfficiency);
 			turbine_blade_expansion = readDoubleArrayFromConfig(propertyTurbineBladeExpansion);
 		}
@@ -830,7 +837,7 @@ public class QMDConfig {
 		
 		propertyAcceleratorBaseHeatCapacity.set(accelerator_base_heat_capacity);
 		propertyAcceleratorRingInputEnergy.set(minimium_accelerator_ring_input_particle_energy);
-		propertyIonSourceOutput.set(ion_source_output);
+
 		
 		propertyBeamAttenuationRate.set(beamAttenuationRate);
 		propertyBeamDiverterRadius.set(beamDiverterRadius);
@@ -895,10 +902,12 @@ public class QMDConfig {
 		propertyGluonRange.set(gluon_range);
 		propertyGluonParticleUsage.set(gluon_particle_usage);
 		
-		propertyAntimatterLauncherParticleUsage.set(antimatter_launcher_particle_usage);
-		propertyAntimatterLauncherCoolDown.set(antimatter_launcher_cool_down);
+		
+		propertyAntimatterLauncherDamage.set(antimatter_launcher_damage);
 		propertyAntimatterLauncherRadiation.set(antimatter_launcher_radiation);
 		propertyAntimatterLauncherExplosionSize.set(antimatter_launcher_explosion_size);
+		propertyAntimatterLauncherCoolDown.set(antimatter_launcher_cool_down);
+		propertyAntimatterLauncherParticleUsage.set(antimatter_launcher_particle_usage);
 		
 		propertyCellLifetime.set(cell_lifetime);
 		propertyCellRadiation.set(cell_radiation);
@@ -927,14 +936,13 @@ public class QMDConfig {
 		propertyCoperniciumRadiation.set(copernicium_radiation);
 	
 		
-		propertyRTGPower.set(rtg_power);
-		propertyMoleAmount.set(mole_amount);
-		propertyBeamScaling.set(beam_scaling);
-		
-		
-	
-		
 		propertyOverrideNCRecipes.set(override_nc_recipes);
+		propertyRSFTargetChamber.set(rsf_target_chamber);
+		propertyRSFNucleosynthesis.set(rsf_nucleosynthesis);
+		
+		
+		propertyRTGPower.set(rtg_power);
+		propertyBeamScaling.set(beam_scaling);
 		//propertyItemTickerChunksPerTick.set(item_ticker_chunks_per_tick);
 		propertyTurbineBladeEfficiency.set(turbine_blade_efficiency);
 		propertyTurbineBladeExpansion.set(turbine_blade_expansion);

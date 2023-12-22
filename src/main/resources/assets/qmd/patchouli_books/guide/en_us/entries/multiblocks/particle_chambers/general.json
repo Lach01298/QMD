@@ -7,7 +7,7 @@
 		{
 			
 			"type": "text",
-			"text": "Particle Chambers are the multiblocks where you actually do things with particles, like bombard items with particles, collide particles together and create new particles. They are the second key ingredient in any accelerator system (the first being accelerators themselves)."
+			"text": "Particle Chambers are the multiblocks where you actually do things with particles, like bombard items and fluids with particles, collide particles together and create new particles. They are the second key ingredient in any accelerator system (the first being accelerators themselves)."
 		},
 		{
             "type": "diagram_high",
@@ -29,7 +29,7 @@
 			"anchor": "detectors",
             "type": "text",
             "title": "Detectors",
-            "text": "Detectors are placed inside particle chambers to increase the chambers efficiency. The chambers efficiency affects how the particle chamber works. Generally the higher the efficiency the faster items are crafted and the more particles outputted. There are different types of detectors, each increases the efficiency and the power usage of the chamber specified on their tooltips. "
+            "text": "Detectors are placed inside particle chambers to increase the chambers efficiency. The chambers efficiency affects how the particle chamber works. Generally the higher the efficiency the faster items are crafted and the more particles outputted. There are different types of detectors, each increases the efficiency and the power usage of the chamber specified on their tool tips. "
         },
         {
 			
@@ -41,7 +41,7 @@
 			"anchor": "cross_section",
             "type": "text",
             "title": "Cross-Section",
-            "text": "Efficiency and Cross-Section are 2 important values for particle chambers. Cross-Section $(l)σ$() depends on the recipe preformed (can be seen in JEI), it can be thought of as what percentage of particles perform the reaction. Efficiency $(l)η$() depends on the particle chamber and modifies the cross-section. This new 'effective' cross-section $(l)Σ$() can only be 100% at max, this means all particles perform the reaction."
+            "text": "Efficiency and Cross-Section are 2 important values for particle chambers. Cross-Section $(l)σ$() depends on the recipe performed (can be seen in JEI), it can be thought of as what percentage of particles perform the reaction. Efficiency $(l)η$() depends on the particle chamber and modifies the cross-section. This new 'effective' cross-section $(l)Σ$() can only be 100% at max, this means all particles perform the reaction."
         },
         {
 			"anchor": "cross section",

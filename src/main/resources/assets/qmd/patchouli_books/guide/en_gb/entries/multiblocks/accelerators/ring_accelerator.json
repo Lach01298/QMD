@@ -18,7 +18,7 @@
 			"anchor": "construction",
 			"title": "Construction",
 			"type": "text",
-			"text": "Synchrotron Accelerators are a square torus of Accelerator Casings or Glass that must be 5 wide. Like all $(l:multiblocks/accelerators/general#construction)accelerators$(/l) they require a Coolant vent in input and output modes and an Energy Port. There must be a continuous ring of Accelerator Beams blocks down the centre and any beam port with a connecting beam block connecting it to the beam ring. Example shown on the opposite page."
+			"text": "Synchrotron Accelerators are a square torus of Accelerator Casings or Glass that must be 5 wide. Like all $(l:multiblocks/accelerators/general#construction)accelerators$(/l) they require a Coolant Vent in input and output modes and an Energy Port. There must be a continuous ring of Accelerator Beam Blocks down the centre. Any beam port must be connected with a beam block to the central beam ring. Example shown on the opposite page."
 		},
 		{
 			"type": "diagram_high",
@@ -38,7 +38,8 @@
         },
 		{     
 			"type": "text",
-			"text": "Just like the $(l:multiblocks/accelerators/general#dipole)Linear Accelerator$(/l) a redstone signal applied to the controller will turn it on and the output particle energy will $(l)E=EₓSᵣ/15$()."
+			"title": "Redstone Control",
+			"text": "Just like the $(l:multiblocks/accelerators/linear_accelerator#redstone)Linear Accelerator$(/l) a redstone signal applied to the controller (or input $(l:multiblocks/accelerators/general#redstone)redstone port$(/l)) will turn it on and the output particle energy will $(l)E=EₓSᵣ/15$().$(br2)Also like linear accelerators the output particle energy can be controlled with Open Computers see the Open Computers Section for more information."
         },		
 		{
            "title": "Particle Energy",
@@ -56,11 +57,6 @@
 			"title": "Max From Radiation",
 			"type": "text",
 			"text": "The maximum energy (in GeV) from the Radiation losses $(l)Eᵣ=m(3VR/|q|)⁰˙²⁵$() where $(l)V$() is the accelerator's voltage (in kV). For light particles like the electron this is the major concern."
-        },
-		{     
-			"type": "text",
-			"title": "Beam Port Switching",
-			"text": "A redstone pulse applied to a disabled beam port will make that beam port the 'active' beam port. What it switches to (either output or input) can be controlled by shift right clicking the beam port with the multitool."
         },
 		{
             "anchor": "synchrotron_Port",

@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "In this stage you will need 3 main things an Atmosphere Collector setup, a Ore Leacher setup and a Neutron Irradiator setup. These things will require you to be well into the progression of Nuclearcraft already having a fission reactor and most of the machines."
+			"text": "In this stage you will need 3 main things: an Atmosphere Collector setup, a Ore Leacher setup and a Neutron Irradiator setup. These things will require you to be well into the progression of Nuclearcraft already having a fission reactor and most of the machines."
 		},
 		{
 			"type": "text",
@@ -34,7 +34,7 @@
 		{
 			"type": "text",
 			"title": "Neutron Irradiator",
-			"text": "You will also need a fission reactor with a fission neutron irradiator setup. (This is defualt Nuclearcaft stuff so won't be explained). With this neutron irradiator you will make N-type doped silicon which is a essential crafting component in QMD and is required to make accelerator controller's."
+			"text": "You will also need a fission reactor with a fission neutron irradiator setup. (This is default Nuclearcaft stuff so won't be explained). With this neutron irradiator you will make N-type doped silicon which is an essential crafting component in QMD and is required to make accelerator controller's."
 		}
 	]
 }

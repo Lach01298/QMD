@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class MassSpectrometerUpdatePacket extends AcceleratorUpdatePacket
 {
-	public double workDone, recipeWork;
+	public double workDone, recipeWork, speed;
 	
 	public MassSpectrometerUpdatePacket() {
 		super();
@@ -24,12 +24,13 @@ public class MassSpectrometerUpdatePacket extends AcceleratorUpdatePacket
 	public MassSpectrometerUpdatePacket(BlockPos pos, boolean isAcceleratorOn, long cooling, long rawHeating, long currentHeating, int maxCoolantIn, int maxCoolantOut,
 			int maxOperatingTemp, int requiredEnergy, double efficiency, int acceleratingVoltage, int RFCavityNumber, int quadrupoleNumber,
 			double quadrupoleStrength, int dipoleNumber, double dipoleStrength, int errorCode ,HeatBuffer heatBuffer, EnergyStorage energyStorage, List<Tank> tanks,List<ParticleStorageAccelerator> beams,
-			double workDone, double recipeWork)
+			double workDone, double recipeWork, double speed)
 	{
 		super(pos, isAcceleratorOn, cooling, rawHeating, currentHeating, maxCoolantIn, maxCoolantOut, maxOperatingTemp, requiredEnergy, efficiency, acceleratingVoltage,
 				RFCavityNumber, quadrupoleNumber, quadrupoleStrength, dipoleNumber, dipoleStrength, errorCode, heatBuffer, energyStorage,tanks, beams);
 		this.workDone = workDone;
 		this.recipeWork = recipeWork;
+		this.speed = speed;
 	}
 	
 	@Override
@@ -39,6 +40,7 @@ public class MassSpectrometerUpdatePacket extends AcceleratorUpdatePacket
 		
 		workDone = buf.readDouble();
 		recipeWork = buf.readDouble();
+		speed = buf.readDouble();
 	}
 
 	@Override
@@ -47,6 +49,7 @@ public class MassSpectrometerUpdatePacket extends AcceleratorUpdatePacket
 		super.toBytes(buf);
 		buf.writeDouble(workDone);
 		buf.writeDouble(recipeWork);
+		buf.writeDouble(speed);
 	}
 	
 	public static class Handler extends MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, MassSpectrometerUpdatePacket> {

@@ -6,7 +6,24 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Currently Open Computers (OC) only has special integration with accelerators. It can be used to read information from and control accelerators. To use OC with accelerators simply place a Accelerator Computer Port in the wall of the accelerator and hook a computer up to it. All commands are component commands. You can test them out in the lua prompt using component.qmd_accelerator."
+			"text": "Currently Open Computers (OC) only has special integration with accelerators. It can be used to read information from and control accelerators. To use OC with accelerators simply place an Accelerator Computer Port in the wall of the accelerator and hook a computer up to it. All commands are component commands. You can test them out in the lua prompt using: $(br) component.qmd_accelerator."
+		},
+		{
+			"type": "text",
+			"text": ""
+		},
+		{
+			"title": "Accelerator Control",
+			"type": "text",
+			"text": "The most important commands for controlling any accelerator are:$(br)$(l:multiblocks/open_computers/oc_commands#set_computer_controlled)$(l)setComputerControlled(boolean computerControlled)$()$(/l)$(br2)$(l:multiblocks/open_computers/oc_commands#set_energy_percentage)$(l)setEnergyPercentage(int energyPercentage)$()$(/l)$(br2)$(l:multiblocks/open_computers/oc_commands#switch_beam_port)$(l)switchBeamPort(int x, int y, int z)$(/l)"
+		},
+		{
+			"type": "text",
+			"text": "The first turns on/off computer control for an accelerator. When an accelerator is set to be computer controlled it is no longer able to be controlled with redstone.$(br2)The second lets you turn on/off accelerators and control the energy of some types of accelerators just like you can with redstone signal strength, but this has finer tuning."
+		},
+		{
+			"type": "text",
+			"text": "The third allows $(l:multiblocks/accelerators/beam_diverter#switching)beam port switching$(/l). Like what is done with redstone pulses to beam ports."
 		}
 	]
 }

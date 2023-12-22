@@ -10,6 +10,7 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.util.Units;
+import lach_01298.qmd.util.Util;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.item.NCItem;
 import nc.radiation.RadiationHelper;
@@ -26,6 +27,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -177,7 +179,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 	
 				if(entityItem.ticksExisted > QMDConfig.cell_lifetime || entityItem.isInLava() ||entityItem.isBurning()||entityItem.isDead)
 				{
-					explode(entityItem.world, entityItem.getPosition(), stack);
+					explode(entityItem.world, entityItem.getPositionVector(), stack);
 					stack.shrink(stack.getCount());
 				
 				}
@@ -189,7 +191,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 	
 	
 	
-	public void explode(World world, BlockPos pos, ItemStack stack)
+	public void explode(World world, Vec3d pos, ItemStack stack)
 	{
 		if (!world.isRemote)
 		{
@@ -229,31 +231,11 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 				size *= getAmountStored(stack)/(double)IItemParticleAmount.getCapacity(stack);
 			}
 			
-			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*QMDConfig.cell_explosion_size), true);
-			world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
-
-			Set<EntityLivingBase> entitylist = new HashSet();
-			double radius = 128 * Math.sqrt(size);
-
-			entitylist.addAll(world.getEntitiesWithinAABB(EntityLivingBase.class,
-					new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius,
-							pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius)));
-
-			for (EntityLivingBase entity : entitylist)
-			{
-				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-				if(entityRads != null)
-				{
-					double rads = Math.min(QMDConfig.cell_radiation * size, (QMDConfig.cell_radiation * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
-					
-					entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-		
-					if (rads >= entityRads.getMaxRads())
-					{
-						entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
-					}
-				}
-			}
+			
+			Util.createGammaFlash(world, pos, size, (float) (size*QMDConfig.cell_explosion_size), QMDConfig.cell_radiation * size);
+			
+			
+			
 		}
 	}
 	

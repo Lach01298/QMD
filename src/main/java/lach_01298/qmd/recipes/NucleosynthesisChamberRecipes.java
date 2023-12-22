@@ -3,6 +3,7 @@ package lach_01298.qmd.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import lach_01298.qmd.QMDConstants;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
@@ -20,7 +21,7 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		double scaleFactor = QMDConfig.mole_amount/1000000d;
+		double scaleFactor = QMDConfig.rsf_nucleosynthesis/100d;
 		
 		//addRecipe(inputFluid1, inputFluid2, inputParticle,  outputFluid1, outputFluid2,  maxEnergy, heatRelased)
 		addRecipe(fluidStack("hydrogen", 1000),fluidStack("hydrogen", 1000), new ParticleStack(Particles.muon,(int) (951300*scaleFactor),0,1),fluidStack("deuterium", 1000), new EmptyFluidIngredient(), 1000L, 1950L);

@@ -11,6 +11,7 @@ import com.google.common.collect.Multimap;
 import ic2.api.item.IElectricItemManager;
 import ic2.api.item.ISpecialElectricItem;
 import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.util.Util;
 import nc.item.NCItem;
 import nc.item.energy.ElectricItemManager;
 import nc.item.energy.IChargableItem;
@@ -22,10 +23,12 @@ import nc.util.UnitHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -113,10 +116,10 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
     }
 	
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
+	public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos,
 			EntityLivingBase entityLiving)
 	{
-		if (!worldIn.isRemote && (double) state.getBlockHardness(worldIn, pos) != 0.0D)
+		if (!world.isRemote && (double) state.getBlockHardness(world, pos) != 0.0D)
 		{
 			if(entityLiving instanceof EntityPlayer)
 			{
@@ -128,7 +131,8 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 			}
 			
 			IEnergyStorage energy =  stack.getCapability(CapabilityEnergy.ENERGY, null);
-			energy.extractEnergy(energyUsage, false);
+		
+			energy.extractEnergy(energyUsage, false);		
 		}
 
 		return true;
@@ -139,13 +143,19 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 	@Override
 	public int getItemEnchantability()
 	{
-		return 0;
+		return 20;
 	}
 
 	@Override
 	public boolean isBookEnchantable(ItemStack stack, ItemStack book)
 	{
-		return false;
+		return true;
+	}
+	
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) 
+	{
+			return enchantment.equals(Enchantments.FORTUNE) || enchantment.equals(Enchantments.SILK_TOUCH);
 	}
 	
 	
@@ -186,68 +196,77 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos blockPos, EntityPlayer player)
 	{
-		World world = player.world;
-		if(!world.isRemote)
+		World world = player.world;	
+		float hardness = world.getBlockState(blockPos).getBlockHardness(world, blockPos);
+		
+		IEnergyStorage energy =  stack.getCapability(CapabilityEnergy.ENERGY, null);
+		
+		if(energy.extractEnergy(energyUsage, true) == energyUsage && radius >= 1)
 		{
-			RayTraceResult ray = this.rayTrace(world, player, false);
-			EnumFacing side = ray.sideHit;
-			
-			float hardness = world.getBlockState(blockPos).getBlockHardness(world, blockPos);
-			
-			IEnergyStorage energy =  stack.getCapability(CapabilityEnergy.ENERGY, null);
-			
-			if(energy.extractEnergy(energyUsage, true) == energyUsage && radius >= 1)
-			{
-				for(BlockPos pos :getDiggedBlocks(blockPos,side,radius))
-				{	
-					if(this.canHarvestBlock(world.getBlockState(pos)) && world.getBlockState(pos).getBlockHardness(world, pos) <=hardness*2)
-					{
-						world.destroyBlock(pos, !player.isCreative());
-						if(!player.isCreative())
-						{
-							energy.extractEnergy(energyUsage, false);
-						}
-					}	
+			for(BlockPos pos :getDiggedBlocks(blockPos,player,radius))
+			{	
+				if(world.getBlockState(pos).getBlockHardness(world, pos) <= hardness*2)
+				{
+					if(world.getBlockState(pos).getBlockHardness(world, pos) != 0 && Util.mineBlock(world, pos, player) && !player.isCreative())
+					{				
+						energy.extractEnergy(energyUsage, false);								
+					}
 				}
 			}
+
 		}
 		
 		return false;
 		
 	}
 	
+	
+	public int getRadius()
+	{
+		return radius;
+	}
+	
 
-	public Set<BlockPos> getDiggedBlocks(BlockPos pos, EnumFacing facing, int radius)
+	public Set<BlockPos> getDiggedBlocks(BlockPos pos, EntityPlayer player, int radius)
 	{
 		Set<BlockPos> postions = new HashSet<BlockPos>();
+		RayTraceResult ray = this.rayTrace(player.world, player, false);
 		
-		switch(facing)
+		if(ray != null)
 		{
-		case UP:
-		case DOWN:
-			for (BlockPos p : BlockPos.getAllInBoxMutable(pos.add(-radius,0,-radius),pos.add(radius,0,radius)))
+			EnumFacing facing = ray.sideHit;
+			
+			if(facing != null)
 			{
-				postions.add(p.toImmutable());
+				switch(facing)
+				{
+				case UP:
+				case DOWN:
+					for (BlockPos p : BlockPos.getAllInBoxMutable(pos.add(-radius,0,-radius),pos.add(radius,0,radius)))
+					{
+						postions.add(p.toImmutable());
+					}
+					break;
+				case NORTH:
+				case SOUTH:
+					for (BlockPos p : BlockPos.getAllInBoxMutable(pos.add(-radius,-radius,0),pos.add(radius,radius,0)))
+					{
+						postions.add(p.toImmutable());
+					}
+					break;
+				case EAST:
+				case WEST:
+					for (BlockPos p : BlockPos.getAllInBoxMutable(pos.add(0,-radius,-radius),pos.add(0,radius,radius)))
+					{
+						postions.add(p.toImmutable());
+					}
+					break;
+				default:
+					break;
+				}
+				postions.remove(pos.toImmutable());
 			}
-			break;
-		case NORTH:
-		case SOUTH:
-			for (BlockPos p : BlockPos.getAllInBoxMutable(pos.add(-radius,-radius,0),pos.add(radius,radius,0)))
-			{
-				postions.add(p.toImmutable());
-			}
-			break;
-		case EAST:
-		case WEST:
-			for (BlockPos p : BlockPos.getAllInBoxMutable(pos.add(0,-radius,-radius),pos.add(0,radius,radius)))
-			{
-				postions.add(p.toImmutable());
-			}
-			break;
-		default:
-			break;
 		}
-		postions.remove(pos.toImmutable());
 
 		return postions;
 
@@ -329,7 +348,6 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 	{
 		return 1D - MathHelper.clamp((double) getEnergyStored(stack) / capacity, 0D, 1D);
 	}
-	
 	
 	
 }

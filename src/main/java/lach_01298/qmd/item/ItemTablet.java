@@ -82,15 +82,8 @@ public class ItemTablet extends NCItemFood
 	{
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if(!(player.getCapability(IEntityRads.CAPABILITY_ENTITY_RADS, null).getRadiationImmunityTime() > 0 && player.isCreative()))
-		{
-			player.setActiveHand(hand);
-			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
-		}
-		else
-		{
-			  return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
-		}
+		player.setActiveHand(hand);
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
 
 	}
 	

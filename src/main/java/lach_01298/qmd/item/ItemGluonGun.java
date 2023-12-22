@@ -1,5 +1,6 @@
 package lach_01298.qmd.item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -8,10 +9,11 @@ import lach_01298.qmd.QMDDamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGluonBeam;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
+import lach_01298.qmd.util.Util;
 import nc.capability.radiation.entity.IEntityRads;
-import nc.item.IInfoItem;
 import nc.radiation.RadiationHelper;
 import nc.util.InfoHelper;
+import nc.util.Lang;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,12 +25,11 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemGluonGun extends ItemGun
+public class ItemGluonGun extends ItemGun implements IItemMode
 {
 	
 	
@@ -58,7 +59,27 @@ public class ItemGluonGun extends ItemGun
     
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
-		ItemStack itemstack = player.getHeldItem(hand);
+		ItemStack itemstack = player.getHeldItem(hand);		
+		
+		if(player.isSneaking())
+		{
+			if(!world.isRemote)
+			{
+				if(getMode(itemstack).equals("breaking"))
+				{
+					setMode(itemstack,"silk_touch");
+					player.sendMessage(new TextComponentString(Lang.localise("info.qmd.item.mode.switch") + TextFormatting.DARK_GREEN + Lang.localise("info.qmd.item.mode.silk_touch")));
+				}
+				else
+				{
+					setMode(itemstack,"breaking");
+					player.sendMessage(new TextComponentString(Lang.localise("info.qmd.item.mode.switch") + TextFormatting.DARK_GREEN + Lang.localise("info.qmd.item.mode.breaking")));
+				}
+			}
+			
+			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
+		}
+
 		if(findCell(player) >=0 )
 		{
 			ItemStack cell = player.inventory.getStackInSlot(findCell(player));
@@ -91,7 +112,7 @@ public class ItemGluonGun extends ItemGun
 			}
 			return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
 		}
-
+		
         return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
     }
     
@@ -111,7 +132,11 @@ public class ItemGluonGun extends ItemGun
     				return;
     			}
     			
-    			player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.gluon_particle_usage));
+    			
+    			if(!player.isCreative())
+    			{
+    				player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.gluon_particle_usage));	
+    			}
     			
     			World world = user.getEntityWorld();
     	    	RayTraceResult lookingAt = rayTrace(user,QMDConfig.gluon_range,1.0f,true,true);
@@ -122,12 +147,16 @@ public class ItemGluonGun extends ItemGun
     		        if (lookingAt != null && lookingAt.typeOfHit == RayTraceResult.Type.BLOCK) 
     		        {
     		            BlockPos pos = lookingAt.getBlockPos();
-    		            if(world.getBlockState(pos).getBlockHardness(world, pos) >= 0.0f)
+						
+    		            String mode = getMode(stack);
+    		            if(mode.equals("breaking"))
     		            {
-    		            	 world.destroyBlock(pos, true);
-    		            	
+    		            	Util.mineBlock(world, pos, player, 4, false, true);
     		            }
-    		            
+    		            else if(mode.equals("silk_touch"))
+    		            {
+    		            	Util.mineBlock(world, pos, player, 0, true, true);
+    		            }  
     				}
     				else if (lookingAt != null && lookingAt.typeOfHit == RayTraceResult.Type.ENTITY)
     				{
@@ -155,6 +184,12 @@ public class ItemGluonGun extends ItemGun
 		}	
     }
 
+    
+
+    
+    
+    
+    
 	
 	private int findCell(EntityPlayer player)
 	{
@@ -180,6 +215,42 @@ public class ItemGluonGun extends ItemGun
         return false;
     }
 	
+	
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
+	{
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.mode", Lang.localise("info.qmd.item.mode."+ getMode(stack))));
+	
+		super.addInformation(stack, world, tooltip, flag);
+	}
+
+
+
+
+	@Override
+	public String getDefaultMode()
+	{
+		
+		return "breaking";
+	}
+
+
+
+
+	@Override
+	public List<String> getModes()
+	{
+		List<String> modes = new ArrayList<String>();
+		modes.add("breaking");
+		modes.add("silk_touch");
+		return modes;
+	}
+
+
+
+
+
+
 	
 	
 }

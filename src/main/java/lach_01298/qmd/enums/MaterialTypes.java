@@ -7,7 +7,7 @@ import static lach_01298.qmd.config.QMDConfig.copernicium_fuel_time;
 import static lach_01298.qmd.config.QMDConfig.copernicium_heat_generation;
 import static lach_01298.qmd.config.QMDConfig.copernicium_self_priming;
 
-import lach_01298.qmd.config.QMDConfig;
+import lach_01298.qmd.QMDConstants;
 import nc.enumm.IFissionFuelEnum;
 import nc.enumm.IMetaEnum;
 import net.minecraft.util.IStringSerializable;
@@ -546,15 +546,15 @@ public class MaterialTypes
 	public static enum CellType implements IItemCapacity
 	{
 		EMPTY("empty", 0, 0),
-		ANTIHYDROGEN("antihydrogen", 1, QMDConfig.mole_amount/10),
-		ANTIDEUTERIUM("antideuterium",2,QMDConfig.mole_amount/10),
-		ANTITRITIUM("antitritium", 3,QMDConfig.mole_amount/10),
-		ANTIHELIUM3("antihelium3", 4, QMDConfig.mole_amount/10),
-		ANTIHELIUM("antihelium", 5, QMDConfig.mole_amount/10),
-		POSITRONIUM("positronium", 6, QMDConfig.mole_amount/10),
-		MUONIUM("muonium",7, QMDConfig.mole_amount/10),
-		TAUONIUM("tauonium", 8, QMDConfig.mole_amount/10),
-		GLUEBALLS("glueballs", 9, QMDConfig.mole_amount/10);
+		ANTIHYDROGEN("antihydrogen", 1, QMDConstants.moleAmount/10),
+		ANTIDEUTERIUM("antideuterium",2,QMDConstants.moleAmount/10),
+		ANTITRITIUM("antitritium", 3,QMDConstants.moleAmount/10),
+		ANTIHELIUM3("antihelium3", 4, QMDConstants.moleAmount/10),
+		ANTIHELIUM("antihelium", 5, QMDConstants.moleAmount/10),
+		POSITRONIUM("positronium", 6, QMDConstants.moleAmount/10),
+		MUONIUM("muonium",7, QMDConstants.moleAmount/10),
+		TAUONIUM("tauonium", 8, QMDConstants.moleAmount/10),
+		GLUEBALLS("glueballs", 9, QMDConstants.moleAmount/10);
 		 
 		private String name;
 		private int id;
@@ -596,11 +596,11 @@ public class MaterialTypes
 	
 	public static enum SourceType implements IItemCapacity
 	{
-		TUNGSTEN_FILAMENT("tungsten_filament", 0, 50 * QMDConfig.mole_amount),
-		SODIUM_22("sodium_22", 1, 5* QMDConfig.mole_amount),
-		COBALT_60("cobalt_60",2,1 * QMDConfig.mole_amount),
-		IRIDIUM_192("iridium_192", 3, 1 * QMDConfig.mole_amount),
-		CALCIUM_48("calcium_48", 4, 5 * QMDConfig.mole_amount);
+		TUNGSTEN_FILAMENT("tungsten_filament", 0, 50 * QMDConstants.moleAmount),
+		SODIUM_22("sodium_22", 1, 5* QMDConstants.moleAmount),
+		COBALT_60("cobalt_60",2,1 * QMDConstants.moleAmount),
+		IRIDIUM_192("iridium_192", 3, 1 * QMDConstants.moleAmount),
+		CALCIUM_48("calcium_48", 4, 5 * QMDConstants.moleAmount);
 		
 		 
 		private String name;

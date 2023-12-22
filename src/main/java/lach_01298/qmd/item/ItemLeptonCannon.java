@@ -68,8 +68,11 @@ public class ItemLeptonCannon extends ItemGun
 			{
 				return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
 			}
+			if(!player.isCreative())
+			{
+				player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.lepton_particle_usage));
+			}
 			
-			player.inventory.setInventorySlotContents(findCell(player),itemCell.use(cell, QMDConfig.lepton_particle_usage));
 			player.getCooldownTracker().setCooldown(this, QMDConfig.lepton_cool_down);
 			
 			RayTraceResult lookingAt = rayTrace(player, range, 1.0f, false,true);

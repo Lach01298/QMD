@@ -11,7 +11,7 @@
 		{
 			"type": "text",
 			"title": "Synchrotron",
-			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate particles in a ring, to high energies $(l:multiblocks/accelerators/linear_accelerator)linear accelerators$(/l) can't easily  achieve. Synchrotrons will be able to accelerate particles to very high energies, required for several recipes that either aid progression, or are required to progress to the next stage."
+			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate particles in a ring, to high energies that $(l:multiblocks/accelerators/linear_accelerator)linear accelerators$(/l) can't easily  achieve. Synchrotrons will be able to accelerate particles to very high energies required for several recipes that either aid progression, or are required to progress to the next stage."
 		},
 		{
 			"type": "text",
@@ -20,7 +20,11 @@
 		{
 			"type": "text",
 			"title": "Other Stuff",
-			"text": "Also in this stage though not required to progress you have access to $(l:multiblocks/accelerators/beam_diverter)beam diverters$(/l) and $(l:multiblocks/accelerators/beam_splitter)beam splitter$(/l) for manipulation of particle beams, $(l:multiblocks/accelerators/decelerator)decelerators$(/l) to slow down particles and $(l:multiblocks/particle_chambers/collision_chamber)collision chambers$(/l) to smash particles into each other and truly make a large hadron collider!$(br2)There is also the $(l:items_and_devices/hev_suit)HEV suit$(/l) which is a good power armour with ability that is also a better hazmat suit."
+			"text": "Also in this stage though not required to progress you have access to $(l:multiblocks/accelerators/beam_diverter)beam diverters$(/l) and $(l:multiblocks/accelerators/beam_splitter)beam splitter$(/l) for manipulation of particle beams, $(l:multiblocks/accelerators/decelerator)decelerators$(/l) to slow down particles and $(l:multiblocks/particle_chambers/collision_chamber)collision chambers$(/l) to smash particles into each other and truly make a large hadron collider!"
+		},
+		{
+			"type": "text",
+			"text": "There is also the $(l:multiblocks/accelerators/mass_spectrometer)mass spectrometer$(/l) which splits things into their component elements and provides ore quadrupling with 4x higher byproduct rates than the ore leacher. This can be very useful for getting materials for accelerator and particle chamber construction.$(br2)There is also the $(l:items_and_devices/hev_suit)HEV suit$(/l) which is a good power armour with abilities that is also a better hazmat suit."
 		},
 		{
 			"type": "text",

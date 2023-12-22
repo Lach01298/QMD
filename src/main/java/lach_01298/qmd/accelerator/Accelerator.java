@@ -98,7 +98,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	
 	//OC computer control
 	public int energyPercentage =0;
-	public boolean  computerControlled = false;
+	public boolean computerControlled = false;
 	
 	public int errorCode =0;
 	public static final int errorCode_Nothing = 0;
@@ -174,24 +174,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	{
 		return beamPorts;
 	}
-
-
-
-
-
-
-	public void resetStats()
-	{
-		logic.onResetStats();
-		cooling = rawHeating =  currentHeating  = 0L;
-		quadrupoleStrength = efficiency= dipoleStrength = 0D;
-		RFCavityNumber = quadrupoleNumber = dipoleNumber = acceleratingVoltage = requiredEnergy = 0;
-		coolingRecipeInfo = null;
-		maxCoolantIn = maxCoolantOut=0;
-	}
-
 	
-
 
 	public boolean isValidRFCavity(BlockPos center, Axis axis)
 	{

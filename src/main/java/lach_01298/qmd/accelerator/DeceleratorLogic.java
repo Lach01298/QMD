@@ -35,10 +35,7 @@ import net.minecraft.util.math.BlockPos;
 public class DeceleratorLogic extends AcceleratorLogic
 {
 	
-	
-	
-	protected final Long2ObjectMap<DipoleMagnet> dipoleMap = new Long2ObjectOpenHashMap<>();
-
+	// Multiblock logic	
 	
 	public DeceleratorLogic(AcceleratorLogic oldLogic)
 	{
@@ -59,8 +56,30 @@ public class DeceleratorLogic extends AcceleratorLogic
 		return "decelerator";
 	}
 
-	// Multiblock Validation
+	// Accelerator methods
 	
+	@Override
+	public int getBeamLength()
+	{
+		return 4*(getMultiblock().getInteriorLengthX()-2);
+	}
+	
+	@Override
+	public double getBeamRadius()
+	{
+		return (getMultiblock().getInteriorLengthX()-2)/2d;
+	}
+	
+	public long getAcceleratorMaxEnergy(Particle particle)
+	{
+		if(particle != null && getMultiblock().acceleratingVoltage > 0)
+		{
+			return  Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength, getBeamRadius(), particle.getCharge(), particle.getMass());
+		}
+		return 0;	
+	}
+	
+	// Multiblock Validation
 	
 	@Override
 	public boolean isMachineWhole() 
@@ -222,10 +241,19 @@ public class DeceleratorLogic extends AcceleratorLogic
 		return postions;
 	}
 	
+	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileAcceleratorIonSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.source"),
+			Pair.of(TileAcceleratorSynchrotronPort.class,
+					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
+
+	@Override
+	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 	
 	
-	
-	// Multiblock Methods
+	// Accelerator formation
 	
 	@Override
 	public void onAcceleratorFormed()
@@ -234,143 +262,17 @@ public class DeceleratorLogic extends AcceleratorLogic
 
 		if (!getWorld().isRemote)
 		{
-			acc.beams.get(0).setMinEnergy(0);
-			// beam
-			for (BlockPos pos : getinteriorAxisPositions())
-			{
-				if (acc.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam)
-				{
+			resetBeams();
 
-					TileAcceleratorBeam beam = (TileAcceleratorBeam) getWorld().getTileEntity(pos);
-					beam.setFunctional(true);
-				}
-			}
-
-
-			// beam
-			for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
-			{
-				if(beam.isFunctional())
-				{
-					if (acc.isValidRFCavity(beam.getPos(), Axis.X))
-					{
-						acc.getRFCavityMap().put(beam.getPos().toLong(), new RFCavity(acc, beam.getPos(), Axis.X));
-					}
-					else if (acc.isValidRFCavity(beam.getPos(), Axis.Z))
-					{
-						acc.getRFCavityMap().put(beam.getPos().toLong(), new RFCavity(acc, beam.getPos(), Axis.Z));
-					}
-					else if (acc.isValidQuadrupole(beam.getPos(), Axis.X))
-					{
-						acc.getQuadrupoleMap().put(beam.getPos().toLong(), new QuadrupoleMagnet(acc, beam.getPos(), Axis.X));
-					}
-					else if (acc.isValidQuadrupole(beam.getPos(), Axis.Z))
-					{
-						acc.getQuadrupoleMap().put(beam.getPos().toLong(), new QuadrupoleMagnet(acc, beam.getPos(), Axis.Z));
-					}
-					else if (acc.isValidDipole(beam.getPos(), false))
-					{
-						acc.dipoleMap.put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
-					}
-				}
-			}
-
-			acc.RFCavityNumber = acc.getRFCavityMap().size();
-			acc.quadrupoleNumber = acc.getQuadrupoleMap().size();
-			acc.dipoleNumber = acc.dipoleMap.size();
-
-		
-			for (RFCavity cavity : acc.getRFCavityMap().values())
-			{
-				for (IAcceleratorComponent componet : cavity.getComponents().values())
-				{
-					componet.setFunctional(true);
-				}
-
-			}
-			
-			
-			for (QuadrupoleMagnet quad : acc.getQuadrupoleMap().values())
-			{
-				for (IAcceleratorComponent componet : quad.getComponents().values())
-				{
-					componet.setFunctional(true);
-				}
-
-			}
-
-			for (DipoleMagnet dipole : acc.dipoleMap.values())
-			{
-				for (IAcceleratorComponent componet : dipole.getComponents().values())
-				{
-					componet.setFunctional(true);
-				}
-
-			}
-		
-			//beam ports
-			for (TileAcceleratorBeamPort port :acc.getPartMap(TileAcceleratorBeamPort.class).values())
-			{
-				if(port.getIOType() == IOType.INPUT)
-				{
-					acc.input = port;
-				}
-				
-				if(port.getIOType() == IOType.OUTPUT)
-				{
-					acc.output = port;
-				}
-			}		
+			setBeamlineFunctional(getinteriorAxisPositions());
+			formComponents();
 		}
- 
-		 refreshStats();
-		 super.onAcceleratorFormed();
+
+		refreshStats();
+		super.onAcceleratorFormed();
 	}
-	
-	public void onMachineDisassembled()
-	{
-		 Accelerator acc = getMultiblock();
-		 
-		 for (RFCavity cavity : acc.getRFCavityMap().values())
-		{
-			for (IAcceleratorComponent componet : cavity.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
 
-		}
-		
-		
-		for (QuadrupoleMagnet quad : acc.getQuadrupoleMap().values())
-		{
-			for (IAcceleratorComponent componet : quad.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
-
-		}
-		
-		for (DipoleMagnet dipole : dipoleMap.values())
-		{
-			for (IAcceleratorComponent componet : dipole.getComponents().values())
-			{
-				componet.setFunctional(false);
-			}
-
-		}
-		
-		
-		acc.getRFCavityMap().clear();
-		acc.getQuadrupoleMap().clear();
-		dipoleMap.clear();
-		
-		for (TileAcceleratorBeam beam :acc.getPartMap(TileAcceleratorBeam.class).values())
-		{
-			beam.setFunctional(false);
-		}
-		
-		super.onMachineDisassembled();
-	}
+	// Accelerator Operation
 	
 	@Override
 	public boolean onUpdateServer()
@@ -383,7 +285,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 		}
 		else
 		{
-			resetBeam();
+			resetOutputBeam();
 		}
 		
 		push();
@@ -409,16 +311,52 @@ public class DeceleratorLogic extends AcceleratorLogic
 		return false;
 	}
 	
+	// Beam port IO
 
+	@Override
+	protected void pull()
+	{
+		if (getMultiblock().input != null && getMultiblock().input.getExternalFacing() != null)
+		{
 
+			TileEntity tile = getMultiblock().WORLD
+					.getTileEntity(getMultiblock().input.getPos().offset(getMultiblock().input.getExternalFacing()));
+			if (tile != null)
+			{
+
+				if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getMultiblock().input.getExternalFacing().getOpposite()))
+				{
+					IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getMultiblock().input.getExternalFacing().getOpposite());
+					ParticleStack stack = otherStorage.extractParticle(getMultiblock().input.getExternalFacing().getOpposite());
+
+					if (stack != null)
+					{
+						getMultiblock().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
+
+						if (!getMultiblock().beams.get(0).reciveParticle(getMultiblock().input.getExternalFacing(),
+								stack))
+						{
+							if (stack.getMeanEnergy() > getMultiblock().beams.get(0).getMaxEnergy())
+							{
+								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+							}
+							else if (stack.getMeanEnergy() < getMultiblock().beams.get(0).getMinEnergy())
+							{
+								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+		
+	// Recipe handling
 	
-	// Recipe Stuff
-	
-	private void resetBeam()
+	private void resetOutputBeam()
 	{
 		getMultiblock().beams.get(1).setParticleStack(null);
 	}
-
 
 	private void produceBeam()
 	{
@@ -462,58 +400,23 @@ public class DeceleratorLogic extends AcceleratorLogic
 		}
 		else
 		{
-			resetBeam();
+			resetOutputBeam();
 		}
 	}
-	
-	public long getAcceleratorMaxEnergy(Particle particle)
-	{
-		if(particle != null && getMultiblock().acceleratingVoltage > 0)
-		{
-			return  Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength, getBeamRadius(), particle.getCharge(), particle.getMass());
-		}
-		return 0;	
-	}
-	
+
+	// NBT
 	
 	@Override
-	protected void pull()
+	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-		if (getMultiblock().input != null && getMultiblock().input.getExternalFacing() != null)
-		{
-
-			TileEntity tile = getMultiblock().WORLD
-					.getTileEntity(getMultiblock().input.getPos().offset(getMultiblock().input.getExternalFacing()));
-			if (tile != null)
-			{
-
-				if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getMultiblock().input.getExternalFacing().getOpposite()))
-				{
-					IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getMultiblock().input.getExternalFacing().getOpposite());
-					ParticleStack stack = otherStorage.extractParticle(getMultiblock().input.getExternalFacing().getOpposite());
-
-					if (stack != null)
-					{
-						getMultiblock().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
-
-						if (!getMultiblock().beams.get(0).reciveParticle(getMultiblock().input.getExternalFacing(),
-								stack))
-						{
-							if (stack.getMeanEnergy() > getMultiblock().beams.get(0).getMaxEnergy())
-							{
-								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
-							}
-							else if (stack.getMeanEnergy() < getMultiblock().beams.get(0).getMinEnergy())
-							{
-								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
-							}
-						}
-					}
-				}
-			}
-		}
+		super.writeToLogicTag(logicTag, syncReason);
 	}
 	
+	@Override
+	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
+	{
+		super.readFromLogicTag(logicTag, syncReason);
+	}	
 	
 	// Network
 	@Override
@@ -534,52 +437,6 @@ public class DeceleratorLogic extends AcceleratorLogic
 		{
 			DeceleratorUpdatePacket packet = (DeceleratorUpdatePacket) message;
 		}
-	}
-	
-	// NBT
-	
-	@Override
-	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-	{
-		super.writeToLogicTag(logicTag, syncReason);
-	}
-	
-	@Override
-	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
-	{
-		super.readFromLogicTag(logicTag, syncReason);
-	}
-	
-	
-	
-	@Override
-	public double getBeamRadius()
-	{
-		return (getMultiblock().getInteriorLengthX()-2)/2d;
-	}
-	
-	@Override
-	public int getBeamLength()
-	{
-		return 4*(getMultiblock().getInteriorLengthX()-2);
-	}
-	
-	
-	
-	/*@Override
-	public ContainerMultiblockController<Accelerator, IAcceleratorController> getContainer(EntityPlayer player) 
-	{
-		return new ContainerDeceleratorController(player, getAccelerator().controller);
-	}*/
-	
-	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileAcceleratorIonSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.source"),
-			Pair.of(TileAcceleratorSynchrotronPort.class,
-					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
+	}	
 
-	@Override
-	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
-	{
-		return PART_BLACKLIST;
-	}
 }

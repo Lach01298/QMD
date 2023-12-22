@@ -14,6 +14,7 @@ import lach_01298.qmd.QMDDamageSources;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.network.AntimatterProjectileUpdatePacket;
 import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.util.Util;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.radiation.RadiationHelper;
 import nc.util.DamageSources;
@@ -128,7 +129,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 		
 	}
 
-	public void shoot(Entity shooter, float pitch, float yaw, float p_184547_4_, float velocity, float inaccuracy)
+	public void shoot(Entity shooter, float pitch, float yaw, float roll, float velocity, float inaccuracy)
 	{
 		float f = -MathHelper.sin(yaw * 0.017453292F) * MathHelper.cos(pitch * 0.017453292F);
 		float f1 = -MathHelper.sin(pitch * 0.017453292F);
@@ -225,7 +226,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 
 		if (iblockstate.getMaterial() != Material.AIR)
 		{
-			explode(world, this.getPosition());
+			explode(world, this.getPositionVector());
 			this.setDead();
 		}
 
@@ -302,7 +303,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 
 		if (this.isInWater())
 		{
-			explode(world, this.getPosition());
+			explode(world, this.getPositionVector());
 			this.setDead();
 		}
 
@@ -364,14 +365,11 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 				}
 
 
-				if (entity.attackEntityFrom(damagesource, 10.0f))
+				if (entity.attackEntityFrom(damagesource, (float) (QMDConfig.antimatter_launcher_damage * this.damage)))
 				{
 					if (entity instanceof EntityLivingBase)
 					{
 						EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
-
-
-						this.arrowHit(entitylivingbase);
 
 						if (this.shootingEntity != null && entitylivingbase != this.shootingEntity
 								&& entitylivingbase instanceof EntityPlayer
@@ -410,7 +408,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 				}
 			}
 
-			explode(world, this.getPosition());
+			explode(world, this.getPositionVector());
 			this.setDead();
 
 		}
@@ -429,9 +427,6 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 
 	}
 
-	protected void arrowHit(EntityLivingBase living)
-	{
-	}
 
 	@Nullable
 	protected Entity findEntityOnPath(Vec3d start, Vec3d end)
@@ -464,15 +459,6 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 		}
 
 		return entity;
-	}
-
-	public static void registerFixesArrow(DataFixer fixer, String name)
-	{
-	}
-
-	public static void registerFixesArrow(DataFixer fixer)
-	{
-		registerFixesArrow(fixer, "Arrow");
 	}
 
 	/**
@@ -559,38 +545,14 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 		return 0.0F;
 	}
 
-	public void explode(World world, BlockPos pos)
+	public void explode(World world, Vec3d pos)
 	{
-
-		
+	
 		if (!world.isRemote)
 		{
+			double size = this.damage;			
+			Util.createGammaFlash(world, pos, size, (float) (size*QMDConfig.antimatter_launcher_explosion_size), QMDConfig.cell_radiation * size);
 
-			double size = this.damage;
-			world.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), (float) (size*QMDConfig.antimatter_launcher_explosion_size), true);
-			world.spawnEntity(new EntityGammaFlash(world, pos.getX(), pos.getY(), pos.getZ(), size));
-
-			Set<EntityLivingBase> entitylist = new HashSet();
-			double radius = 128 * Math.sqrt(size);
-
-			entitylist.addAll(world.getEntitiesWithinAABB(EntityLivingBase.class,
-					new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius,
-							pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius)));
-
-			for (EntityLivingBase entity : entitylist)
-			{
-				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
-				if(entityRads != null)
-				{
-					double rads = Math.min(QMDConfig.cell_radiation * size, (QMDConfig.antimatter_launcher_radiation * size) / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
-					
-					entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
-					if (rads >= entityRads.getMaxRads())
-					{
-						entity.attackEntityFrom(DamageSources.FATAL_RADS, Float.MAX_VALUE);
-					}
-				}
-			}
 		}
 	}
 	

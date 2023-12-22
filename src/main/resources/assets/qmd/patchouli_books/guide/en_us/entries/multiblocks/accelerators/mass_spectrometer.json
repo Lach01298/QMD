@@ -1,0 +1,60 @@
+{
+    "name": "Mass Spectrometer",
+    "icon": "qmd:mass_spectrometer_controller",
+    "category": "qmd:accelerators",
+    "sortnum": 7,
+    "pages": [
+        {
+			"type": "text",
+            "text": "Mass Spectrometers are a special kind of accelerator that turns items and fluids into a stream of atoms and then separates them using a magnetic field and collects the separated parts. This is useful for separating materials into their constituent elements and isotopes."
+        },
+		{		
+			"type": "diagram_low",
+			"image":"qmd:textures/gui/book_images/mass_spectrometer.png",
+			"text": "Unlike other accelerators all this happens inside the mass spectrometer and so mass spectrometers are not part of larger accelerator systems.$(br2)Example mass spectrometer below." 
+		},
+		{
+			
+			"title": "Construction",
+			"type": "text",
+			"text": "Mass Spectrometers like all $(l:multiblocks/accelerators/general#construction)Accelerators$(/l) are constructed out of casing or glass and require a Coolant Vent in input and output modes and an Energy Port. They are 7 blocks wide and tall and can be any odd number above 5 blocks long. The length determines the overall speed of the mass spectrometer. Inside the mass spectrometer are alternating vertical layers of electromagnets and electromagnet yokes, " 
+		},
+		{
+			"type": "diagram_low",
+			"image":"qmd:textures/gui/book_images/mass_spectrometer_small.png",
+			"text": "and accelerator beam blocks. The electromagnets are arranged in a ring with the yokes in the center as pictured below. The first and last layer of the inside of the mass spectrometer must be electromagnets and yokes."
+		},
+		{
+			"type": "text",
+			"text": "By default the only type of electromagnet that can be used is BSCCO.$(br2)Each beam block layer requires an ion source (by default only laser ion sources can be used) on one horizontal side at the bottom in the casing. Above the ion source there must be 4 Accelerator Ion Collectors. Left is a cross section of a mass spectrometer showing the beam block layer with the ion source and collectors." 
+		},
+		{
+			"type": "diagram_low",
+			"image":"qmd:textures/gui/book_images/mass_spectrometer_beam_layer.png",
+			"text": "Note: the ion source for each beam block layer does not have to be on the same side as other layers."
+		},
+		{
+            "title": "Operation",
+            "type": "text",
+            "text": "Mass spectrometers have the same requirements to function as other $(l:multiblocks/accelerators/general#operation)accelerators$(/l), needing energy and coolant to operate. They require a redstone signal to the controller (or input $(l:multiblocks/accelerators/general#redstone)redstone port$(/l)) to operate.$(br)Mass spectrometers function similar to ordinary nuclearcraft machines requiring items and fluids to be inputted and outputting items and fluids. Mass spectrometer recipes can be looked up in JEI."
+        },
+		{
+            "type": "text",
+            "text": "Items and fluids are piped into either any of the ion sources or an ion source port. Items and fluids are piped out of the ion source collectors. Each item slot and tank output pair in the gui corresponds to all the ion collectors at the same height. Left to right in the gui corresponds to bottom to top for the ion collectors. In the gui items can also be put in and taking out and tanks can be voided by shift clicking them."
+        },
+		{
+            "type": "text",
+            "text": "Shift clicking the button that appears in the gui will also void all items and fluids including the coolant.$(br)In the gui there are the $(l:multiblocks/accelerators/general#power)power$(/l), $(l:multiblocks/accelerators/general#heat)heat$(/l) and $(l:multiblocks/accelerators/general#coolant)coolant$(/l) bars regular accelerators have. A slight difference is the maximum operating temperature is located on the heat bar tool tip."
+        },
+		{
+			"type": "text",
+			"text": "In the gui the Speed Multiplier of the mass spectrometer can be seen. This determines how fast each recipe takes. The mass spectrometer's speed multiplier is the sum of all the ion source's output particle multipliers divided by 2. This means that longer mass spectrometers are faster than shorter ones."
+		},
+        {
+			"title": "Computer Control",
+            "type": "text",
+            "text": "Mass spectrometers can be turn on and off with open computers like other accelerators. See the Open Computers Section for more information."
+        }
+       
+    ]
+}

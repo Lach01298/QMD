@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import lach_01298.qmd.QMDConstants;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particle.Particles;
@@ -898,7 +899,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 	{
 		if(inputParticle != null)
 		{
-			int recpieAmount = (int) (QMDConfig.mole_amount/crossSection);
+			int recpieAmount = (int) ((QMDConfig.rsf_target_chamber/100d)*(QMDConstants.moleAmount/crossSection));
 			inputParticle.setAmount(inputParticle.getAmount()*recpieAmount);
 		}
 		
@@ -943,7 +944,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 	{
 		if(inputParticle != null)
 		{
-			int recpieAmount = (int) (QMDConfig.mole_amount/crossSection);
+			int recpieAmount = (int) ((QMDConfig.rsf_target_chamber/100d)*(QMDConstants.moleAmount/crossSection));
 			inputParticle.setAmount(inputParticle.getAmount()*recpieAmount);
 		}
 		

@@ -56,17 +56,8 @@ public class GuiMassSpectrometerController
 		String title = Lang.localise("gui.qmd.container.mass_spectrometer_controller.name");
 		fontRenderer.drawString(title, offset+40, 4, fontColor);
 
-		String efficiency = Lang.localise("gui.qmd.container.speed",String.format("%.2f", multiblock.efficiency));
-		fontRenderer.drawString(efficiency, offset, 108, fontColor);	
-
-		
-		/* if (multiblock.errorCode != Accelerator.errorCode_Nothing)
-		{
-			String error = Lang.localise("gui.qmd.container.accelerator.error." + multiblock.errorCode);
-			fontRenderer.drawString(error, offset, 90, 16711680);
-		}*/
-		
-		
+		String speedMultiplier = Lang.localise("gui.qmd.container.speed",String.format("%.2f", getLogic().speed));
+		fontRenderer.drawString(speedMultiplier, offset, 108, fontColor);	
 
 		if (!NCUtil.isModifierKeyDown())
 		{
