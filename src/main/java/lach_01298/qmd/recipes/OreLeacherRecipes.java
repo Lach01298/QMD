@@ -69,7 +69,7 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 		addRecipe("oreBoron",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustBoron", 3),chanceOreStack("dustSodiumChloride", 2,50,1),new EmptyItemIngredient()
+				oreStack("dustBoron", 3),chanceOreStack("dustSalt", 2,50,1),new EmptyItemIngredient()
 				);
 
 		//other mod ores

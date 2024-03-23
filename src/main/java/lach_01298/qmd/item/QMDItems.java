@@ -111,11 +111,15 @@ public class QMDItems
 		
 		TUNGSTEN_CARBIDE = toolMaterial("tungsten_carbide", 0, new ItemStack(ingotAlloy, 1, IngotAlloyType.TUNGSTEN_CARBIDE.getID()));
 		
-		sword_tungsten_carbide = withName(new NCSword(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "sword_tungsten_carbide");
-		pickaxe_tungsten_carbide = withName(new NCPickaxe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "pickaxe_tungsten_carbide");
-		shovel_tungsten_carbide = withName(new NCShovel(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "shovel_tungsten_carbide");
-		axe_tungsten_carbide = withName(new NCAxe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "axe_tungsten_carbide");
-		hoe_tungsten_carbide = withName(new NCHoe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "hoe_tungsten_carbide");
+		if(QMDConfig.register_tool[0])
+		{
+			sword_tungsten_carbide = withName(new NCSword(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "sword_tungsten_carbide");
+			pickaxe_tungsten_carbide = withName(new NCPickaxe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "pickaxe_tungsten_carbide");
+			shovel_tungsten_carbide = withName(new NCShovel(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "shovel_tungsten_carbide");
+			axe_tungsten_carbide = withName(new NCAxe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "axe_tungsten_carbide");
+			hoe_tungsten_carbide = withName(new NCHoe(TUNGSTEN_CARBIDE, TextFormatting.GRAY), "hoe_tungsten_carbide");
+		}
+
 		
 		flesh = withName(new NCItemFood(4, 0.1F, false, new PotionEffect[] {}), "flesh");
 
@@ -127,9 +131,12 @@ public class QMDItems
 		antimatterLauncher =  withName(new ItemAntimatterLauncher(),"antimatter_launcher");
 		
 		beamMeter = withName(new ItemBeamMeter(),"beam_meter");
-		basic_drill = withName(new ItemDrill(QMDConfig.drill_radius[0], QMDConfig.drill_energy_capacity[0], QMDConfig.tool_mining_level[1], (float)QMDConfig.tool_speed[1],QMDInfo.drillInfo(0)),"drill_basic");
-		advanced_drill = withName(new ItemDrill(QMDConfig.drill_radius[1], QMDConfig.drill_energy_capacity[1], QMDConfig.tool_mining_level[2], (float)QMDConfig.tool_speed[2], QMDInfo.drillInfo(1)),"drill_advanced");
-
+		
+		if(QMDConfig.register_tool[1])
+		{
+			basic_drill = withName(new ItemDrill(QMDConfig.drill_radius[0], QMDConfig.drill_energy_capacity[0], QMDConfig.tool_mining_level[1], (float)QMDConfig.tool_speed[1],QMDInfo.drillInfo(0)),"drill_basic");
+			advanced_drill = withName(new ItemDrill(QMDConfig.drill_radius[1], QMDConfig.drill_energy_capacity[1], QMDConfig.tool_mining_level[2], (float)QMDConfig.tool_speed[2], QMDInfo.drillInfo(1)),"drill_advanced");
+		}
 		
 		cell = withName(new ItemCell(),"cell");
 		
@@ -161,12 +168,14 @@ public class QMDItems
 		registerItem(spallationWaste, QMDTabs.ITEMS);
 		registerItem(spallationWaste2, QMDTabs.ITEMS);
 		
-		
-		registerItem(sword_tungsten_carbide,QMDTabs.ITEMS);
-		registerItem(pickaxe_tungsten_carbide,QMDTabs.ITEMS);
-		registerItem(shovel_tungsten_carbide,QMDTabs.ITEMS);
-		registerItem(axe_tungsten_carbide,QMDTabs.ITEMS);
-		registerItem(hoe_tungsten_carbide,QMDTabs.ITEMS);
+		if(QMDConfig.register_tool[0])
+		{
+			registerItem(sword_tungsten_carbide,QMDTabs.ITEMS);
+			registerItem(pickaxe_tungsten_carbide,QMDTabs.ITEMS);
+			registerItem(shovel_tungsten_carbide,QMDTabs.ITEMS);
+			registerItem(axe_tungsten_carbide,QMDTabs.ITEMS);
+			registerItem(hoe_tungsten_carbide,QMDTabs.ITEMS);
+		}
 		
 		registerItem(flesh,QMDTabs.ITEMS);
 		registerItem(potassiumIodineTablet,QMDTabs.ITEMS);
@@ -176,8 +185,13 @@ public class QMDItems
 		registerItem(gluonGun,QMDTabs.ITEMS);
 		registerItem(antimatterLauncher,QMDTabs.ITEMS);
 		registerItem(beamMeter,QMDTabs.ITEMS);
-		registerItem(basic_drill,QMDTabs.ITEMS);
-		registerItem(advanced_drill,QMDTabs.ITEMS);
+		
+		if(QMDConfig.register_tool[1])
+		{
+			registerItem(basic_drill,QMDTabs.ITEMS);
+			registerItem(advanced_drill,QMDTabs.ITEMS);
+		}
+		
 		
 		registerItem(copernicium,QMDTabs.ITEMS);
 		registerItem(pellet_copernicium,QMDTabs.ITEMS);
@@ -256,11 +270,15 @@ public class QMDItems
 		
 		
 		
-		registerRender(sword_tungsten_carbide);
-		registerRender(pickaxe_tungsten_carbide);
-		registerRender(shovel_tungsten_carbide);
-		registerRender(axe_tungsten_carbide);
-		registerRender(hoe_tungsten_carbide);
+		if(QMDConfig.register_tool[0])
+		{
+			registerRender(sword_tungsten_carbide);
+			registerRender(pickaxe_tungsten_carbide);
+			registerRender(shovel_tungsten_carbide);
+			registerRender(axe_tungsten_carbide);
+			registerRender(hoe_tungsten_carbide);
+		}
+		
 		
 		registerRender(flesh);
 		registerRender(potassiumIodineTablet);
@@ -274,9 +292,12 @@ public class QMDItems
 		registerRender(gluonGun);
 		registerRender(antimatterLauncher);
 		registerRender(beamMeter);
-		registerRender(basic_drill);
-		registerRender(advanced_drill);
 		
+		if(QMDConfig.register_tool[1])
+		{
+			registerRender(basic_drill);
+			registerRender(advanced_drill);
+		}
 		
 		for (int i = 0; i < CellType.values().length; i++)
 		{

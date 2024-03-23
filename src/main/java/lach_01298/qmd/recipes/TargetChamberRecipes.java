@@ -812,7 +812,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		// Boron Ion reactions
 		
-		addQMDBalancedRecipe("siliconWafer", new ParticleStack(Particles.boron_ion, 1, 600,2), "siliconPDoped",
+		addQMDBalancedRecipe("waferSilicon", new ParticleStack(Particles.boron_ion, 1, 600,2), "siliconPDoped",
 				null,null,null, 1000, 1, 0);
 		
 		

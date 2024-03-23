@@ -109,7 +109,7 @@ public class QMDConfig {
 	public static int irradiator_fuel_usage;
 	public static String[] atmosphere_collector_recipes;
 	
-	
+	public static boolean[] register_tool;
 	public static int[] tool_mining_level;
 	public static int[] tool_durability;
 	public static double[] tool_speed;
@@ -372,7 +372,8 @@ public class QMDConfig {
 				Lang.localise("gui.qmd.config.vacuum_chamber.heater_rule.comment"));
 		propertyHeaterRule.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_rule");
 		
-		
+		Property propertyRegisterTool = config.get(CATEGORY_TOOLS, "register_tool", new boolean[] {true, true}, Lang.localise("gui.qmd.config.tools.register_tool.comment"));
+		propertyRegisterTool.setLanguageKey("gui.qmd.config.tools.register_tool");
 		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {3, 3, 4}, Lang.localise("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
 		propertyToolMiningLevel.setLanguageKey("gui.qmd.config.tools.tool_mining_level");
 		Property propertyToolDurability = config.get(CATEGORY_TOOLS, "tool_durability", new int[] {1561*2}, Lang.localise("gui.qmd.config.tools.tool_durability.comment"), 1, Integer.MAX_VALUE);
@@ -590,6 +591,7 @@ public class QMDConfig {
 		
 		
 		List<String> propertyOrderTools = new ArrayList<String>();
+		propertyOrderTools.add(propertyRegisterTool.getName());
 		propertyOrderTools.add(propertyToolMiningLevel.getName());
 		propertyOrderTools.add(propertyToolDurability.getName());
 		propertyOrderTools.add(propertyToolSpeed.getName());
@@ -754,6 +756,8 @@ public class QMDConfig {
 			heater_heat_removed = readIntegerArrayFromConfig(propertyHeaterHeatRemoved);
 			heater_rule = propertyHeaterRule.getStringList();
 			
+			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
+			
 			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
 			tool_durability = readIntegerArrayFromConfig(propertyToolDurability);
 			tool_speed = readDoubleArrayFromConfig(propertyToolSpeed);
@@ -882,6 +886,7 @@ public class QMDConfig {
 		propertyHeaterHeatRemoved.set(heater_heat_removed);
 		propertyHeaterRule.set(heater_rule);
 		
+		propertyRegisterTool.set(register_tool);
 		propertyToolMiningLevel.set(tool_mining_level);
 		propertyToolDurability.set(tool_durability);
 		propertyToolSpeed.set(tool_speed);

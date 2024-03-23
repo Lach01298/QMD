@@ -1201,6 +1201,9 @@ gui.qmd.config.vacuum_chamber.heater_heat_removed.comment=The amount of H/t each
 gui.qmd.config.vacuum_chamber.heater_rule=Vacuum Chamber Heater Rules
 gui.qmd.config.vacuum_chamber.heater_rule.comment=The placement rules of each Vacuum Chamber Heater. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond]. 
 
+gui.qmd.config.tools.register_tool=Register Tools 
+gui.qmd.config.tools.register_tool.comment=Whether the tool set is added. Order:[Tungsten Carbide, Electric Drills].
+
 gui.qmd.config.tools.tool_mining_level=Tool Mining Level
 gui.qmd.config.tools.tool_mining_level.comment=The mining level of tool types. Order:[Tungsten Carbide, Electric Drill, Advanced Electric Drill].
 

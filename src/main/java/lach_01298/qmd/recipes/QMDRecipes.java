@@ -255,7 +255,7 @@ public class QMDRecipes
 		
 		
 		// Manufactory
-		NCRecipes.manufactory.addRecipe("bouleSilicon", AbstractRecipeHandler.oreStack("siliconWafer",4), 1D, 1D);
+		NCRecipes.manufactory.addRecipe("bouleSilicon", AbstractRecipeHandler.oreStack("waferSilicon",4), 1D, 1D);
 		
 		
 		
@@ -313,9 +313,9 @@ public class QMDRecipes
 		NCRecipes.crystallizer.addRecipe(fluidStack("silicon", FluidStackHelper.INGOT_BLOCK_VOLUME), "bouleSilicon", 2D, 2D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("lead_tungstate_solution", FluidStackHelper.GEM_VOLUME), new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PWO.getID()), 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_nitrate_solution", FluidStackHelper.GEM_VOLUME), "dustSodiumNitrate", 1D, 1D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_chloride_solution", FluidStackHelper.GEM_VOLUME), "dustSodiumChloride", 1D, 1D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_chloride_solution", FluidStackHelper.GEM_VOLUME), "dustSalt", 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("nd_yag", FluidStackHelper.INGOT_VOLUME*3), "rodNdYAG", 2D, 2D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME*10), "dustSodiumChloride", 1D, 4D);	//TODO temporary recipe
+		NCRecipes.crystallizer.addRecipe(fluidStack("water", FluidStackHelper.BUCKET_VOLUME*10), "dustSalt", 1D, 4D);	//TODO temporary recipe
 		
 		
 		NCRecipes.crystallizer.addRecipe(fluidStack("iodine", FluidStackHelper.INGOT_VOLUME), "dustIodine", 0.25D, 0D);
@@ -408,7 +408,7 @@ public class QMDRecipes
 		NCRecipes.assembler.addRecipe("dustPotassium", "dustIodine",new ItemStack(Items.SUGAR,4), "bioplastic", new ItemStack(QMDItems.potassiumIodineTablet,4),1D,1D);
 		
 		//Fission Irradiator
-		NCRecipes.fission_irradiator.addRecipe("siliconWafer", new ItemStack(QMDItems.semiconductor,1,SemiconductorType.SILICON_N_DOPED.getID()),120000,0d,0);
+		NCRecipes.fission_irradiator.addRecipe("waferSilicon", "siliconNDoped" ,120000,0d,0);
 		NCRecipes.fission_irradiator.addRecipe("ingotUranium234", "ingotUranium235",1920000,0d,QMDRadSources.URANIUM_234);
 		NCRecipes.fission_irradiator.addRecipe("dustProtactinium231", "dustProtactinium233",3840000,0d,QMDRadSources.PROTACTINIUM_231);
 		NCRecipes.fission_irradiator.addRecipe("ingotCobalt", "ingotCobalt60",1920000,0d,0);

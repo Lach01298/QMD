@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.BlockTypes.CoolerType1;
 import lach_01298.qmd.enums.BlockTypes.CoolerType2;
 import lach_01298.qmd.enums.BlockTypes.DetectorType;
@@ -56,7 +57,12 @@ public class QMDCraftingRecipeHandler
 	{
 		//misc
 		addShapedOreRecipe(new ItemStack(QMDBlocks.beamline,6), new Object[] {"SSS", "   ", "SSS", 'S', "ingotStainlessSteel"});
-		tools("ingotTungstenCarbide", QMDItems.sword_tungsten_carbide, QMDItems.pickaxe_tungsten_carbide, QMDItems.shovel_tungsten_carbide, QMDItems.axe_tungsten_carbide,QMDItems.hoe_tungsten_carbide);
+		
+		if(QMDConfig.register_tool[0])
+		{
+			tools("ingotTungstenCarbide", QMDItems.sword_tungsten_carbide, QMDItems.pickaxe_tungsten_carbide, QMDItems.shovel_tungsten_carbide, QMDItems.axe_tungsten_carbide,QMDItems.hoe_tungsten_carbide);
+		}
+		
 		addShapedOreRecipe(new ItemStack(QMDBlocks.fissionReflector, 2, 0), new Object[] {"TTT", "TFT", "TTT", 'T', "ingotTungstenCarbide", 'F', "steelFrame"});
 		addShapedOreRecipe(QMDBlocks.oreLeacher, new Object[] {"PRP", "CFC", "PHP", 'P', "plateElite", 'F', "chassis", 'C', NCBlocks.chemical_reactor, 'R', NCBlocks.rock_crusher, 'H', "ingotHardCarbon"});
 		addShapedOreRecipe(QMDBlocks.irradiator, new Object[] {"TPT", "PFP", "TPT", 'P', "plateDU", 'F', "chassis", 'T', "ingotTungsten"});
@@ -79,8 +85,13 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDArmour.legs_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.legs_boron_nitride, 'B', NCItems.lithium_ion_cell});
 		addShapedOreRecipe(QMDArmour.boots_hev, new Object[] {"SBS", "HAH", "SPS", 'P', "processorElite",'S', "ingotSuperAlloy", 'H', new ItemStack(NCItems.rad_shielding, 1, 2), 'A', NCArmor.boots_boron_nitride, 'B', NCItems.lithium_ion_cell});
 		addShapedOreRecipe(QMDItems.beamMeter, new Object[] {"FFS", "PPC", "FFB", 'F', "ingotFerroboron",'S', new ItemStack(QMDItems.part,1,PartType.SCINTILLATOR_PLASTIC.getID()), 'P', "processorBasic", 'C', "ingotCopper", 'B', "bioplastic"});
-		addShapedOreRecipe(QMDItems.basic_drill, new Object[] {" T ", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "ingotSteel", 'B', NCBlocks.voltaic_pile_advanced});
-		addShapedOreRecipe(QMDItems.advanced_drill, new Object[] {"NTN", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "magnetNeodymium", 'B', NCBlocks.lithium_ion_battery_basic, 'N', "gemBoronNitride"});
+		
+		
+		if(QMDConfig.register_tool[1])
+		{
+			addShapedOreRecipe(QMDItems.basic_drill, new Object[] {" T ", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "ingotSteel", 'B', NCBlocks.voltaic_pile_advanced});
+			addShapedOreRecipe(QMDItems.advanced_drill, new Object[] {"NTN", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "magnetNeodymium", 'B', NCBlocks.lithium_ion_battery_basic, 'N', "gemBoronNitride"});
+		}
 		
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
 		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCharcoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});

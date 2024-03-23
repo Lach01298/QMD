@@ -124,7 +124,7 @@ public class QMDOreDictionary
 		
 
 		OreDictionary.registerOre("bouleSilicon",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_BOULE.getID()));
-		OreDictionary.registerOre("siliconWafer",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_WAFER.getID()));
+		OreDictionary.registerOre("waferSilicon",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_WAFER.getID()));
 		OreDictionary.registerOre("siliconPDoped",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_P_DOPED.getID()));
 		OreDictionary.registerOre("siliconNDoped",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.SILICON_N_DOPED.getID()));
 		OreDictionary.registerOre("processorBasic",new ItemStack(QMDItems.semiconductor, 1, SemiconductorType.BASIC_PROCESSOR.getID()));
