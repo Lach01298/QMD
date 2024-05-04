@@ -63,10 +63,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		
 		
 		//on the rare occasion of changing the multiblock to a different type with the tank full
+		/*
 		if(!(oldLogic instanceof LinearAcceleratorLogic))
 		{
 			getMultiblock().tanks.get(2).setFluidStored(null);
 		}
+		*/
 	}
 
 	@Override

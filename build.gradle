@@ -27,10 +27,6 @@ repositories {
 		url = "http://maven.blamejared.com/"
 	}
 	maven {
-		name = "ic2"
-		url = "http://maven.ic2.player.to/"
-	}
-	maven {
 		name = "cil"
 		url = "http://maven.cil.li/"
 	}
