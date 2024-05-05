@@ -101,7 +101,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		*/
 		
 		//on the rare occasion of changing the multiblock to a different type with the tank full
-		if(!(oldLogic instanceof NucleosynthesisChamberLogic))
+		if(!(oldLogic instanceof NucleosynthesisChamberLogic || oldLogic.getID().equals("")))
 		{
 			getMultiblock().tanks.get(2).setFluidStored(null);
 			getMultiblock().tanks.get(3).setFluidStored(null);

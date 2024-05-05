@@ -557,22 +557,21 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	
 	public void switchIO()
 	{
-		
 		boolean changed = false;
-		for (TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
+		for (TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
 		{
-			if(port.isTriggered())
-			{	
-				if(port.getSetting() != port.getIOType())
-				{	
+			if (port.isTriggered())
+			{
+				if (port.getSetting() != port.getIOType())
+				{
 					port.switchMode();
 					changed = true;
-					if(port.getIOType() == IOType.INPUT)
+
+					if (port.getIOType() == IOType.INPUT)
 					{
 						input = port;
-						
 					}
-					if(port.getIOType() == IOType.OUTPUT)
+					if (port.getIOType() == IOType.OUTPUT)
 					{
 						output = port;
 					}
@@ -580,12 +579,12 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 				port.resetTrigger();
 			}
 		}
-		
-		if(changed)
+
+		if (changed)
 		{
-			for (TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
+			for (TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
 			{
-				if(port != input && port != output)
+				if (port != input && port != output)
 				{
 					port.setIOType(IOType.DISABLED);
 				}

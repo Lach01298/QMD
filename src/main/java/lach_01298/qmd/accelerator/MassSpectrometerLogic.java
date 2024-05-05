@@ -72,7 +72,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		*/
 		
 		//on the rare occasion of changing the multiblock to a different type with the tank full
-		if(!(oldLogic instanceof MassSpectrometerLogic))
+		if(!(oldLogic instanceof MassSpectrometerLogic || oldLogic.getID().equals("")))
 		{
 			getMultiblock().tanks.get(2).setFluidStored(null);
 			getMultiblock().tanks.get(3).setFluidStored(null);

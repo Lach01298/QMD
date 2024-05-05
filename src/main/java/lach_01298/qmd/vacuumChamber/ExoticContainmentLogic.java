@@ -80,7 +80,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		*/
 		
 		//on the rare occasion of changing the multiblock to a different type with the tank full
-		if(!(oldLogic instanceof ExoticContainmentLogic))
+		if(!(oldLogic instanceof ExoticContainmentLogic || oldLogic.getID().equals("")))
 		{
 			getMultiblock().tanks.get(2).setFluidStored(null);
 		}

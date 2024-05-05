@@ -68,12 +68,13 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 		this.mode = type;
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, type));
 		markDirtyAndNotify(true);
-		getMultiblock().checkIfMachineIsWhole();
 	}
 	
+	/** used for right clicking port*/
 	public void cycleMode()
 	{
 		setIOType(mode.getNextIO());
+		getMultiblock().checkIfMachineIsWhole();
 	}
 	
 	
@@ -108,10 +109,8 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 			setIOType(setting);
 		}
 		
-		
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, mode));
 		markDirtyAndNotify(true);
-		getMultiblock().checkIfMachineIsWhole();
 	}
 	
 	public void setSettingType(IOType setting)
@@ -120,7 +119,6 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 				
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(IO, mode));
 		markDirtyAndNotify(true);
-		getMultiblock().checkIfMachineIsWhole();
 	}
 	
 	@Override
