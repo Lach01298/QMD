@@ -1,26 +1,16 @@
 package lach_01298.qmd.jei.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
-import nc.Global;
-import nc.integration.jei.JEIBasicRecipeWrapper;
-import nc.integration.jei.JEIMachineRecipeWrapper;
-import nc.integration.jei.NCJEI.IJEIHandler;
-import nc.radiation.RadiationHelper;
-import nc.recipe.BasicRecipe;
-import nc.recipe.BasicRecipeHandler;
-import nc.util.Lang;
-import nc.util.UnitHelper;
+import mezz.jei.api.gui.*;
+import nc.recipe.*;
+import nc.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.*;
 
 public class QMDRecipeWrapper
 {
@@ -50,7 +40,7 @@ public class QMDRecipeWrapper
 		}
 
 		@Override
-		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 		{
 				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 		}
@@ -100,7 +90,7 @@ public class QMDRecipeWrapper
 		}
 
 		@Override
-		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 		{
 				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 		}
@@ -150,7 +140,7 @@ public class QMDRecipeWrapper
 		}
 		
 		@Override
-		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 		{
 				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 		}
@@ -161,7 +151,7 @@ public class QMDRecipeWrapper
 			return (int) (100/getIrradatorSpeed());
 		}
 
-		protected double getIrradatorSpeed() 
+		protected double getIrradatorSpeed()
 		{
 			if (recipe == null) return 1D;
 			return recipe.getBaseProcessTime(1);
@@ -181,7 +171,7 @@ public class QMDRecipeWrapper
 			return tooltip;
 		}
 
-		private static final String SPEED = Lang.localise("gui.nc.container.speed_multiplier");
+		private static final String SPEED = Lang.localize("gui.nc.container.speed_multiplier");
 
 	}
 	
@@ -213,7 +203,7 @@ public class QMDRecipeWrapper
 
 		
 		@Override
-		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 		{
 				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 		}
@@ -247,7 +237,7 @@ public class QMDRecipeWrapper
 			return tooltip;
 		}
 
-		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
+		private static final String HEAT_PER_MB = Lang.localize("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 	
 	public static class CellFilling extends JEIMachineRecipeWrapper<CellFilling>
@@ -301,7 +291,7 @@ public class QMDRecipeWrapper
 
 		
 		@Override
-		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 		{
 				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 		}
@@ -335,7 +325,7 @@ public class QMDRecipeWrapper
 			return tooltip;
 		}
 
-		private static final String HEAT_PER_MB = Lang.localise("jei.nuclearcraft.fission_heating_heat_per_mb");
+		private static final String HEAT_PER_MB = Lang.localize("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 	
 	
@@ -365,7 +355,7 @@ public class QMDRecipeWrapper
 		}
 
 		@Override
-		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+		public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 		{
 				arrow.draw(minecraft, arrowDrawPosX, arrowDrawPosY);
 		}
@@ -373,8 +363,8 @@ public class QMDRecipeWrapper
 
 		@Override
 		protected int getProgressArrowTime()
-		{			
-			return (int) (getBaseProcessTime()/4d);	
+		{
+			return (int) (getBaseProcessTime()/4d);
 		}
 		
 		
@@ -387,11 +377,11 @@ public class QMDRecipeWrapper
 		
 		
 		@Override
-		public List<String> getTooltipStrings(int mouseX, int mouseY) 
+		public List<String> getTooltipStrings(int mouseX, int mouseY)
 		{
 			List<String> tooltip = new ArrayList<>();
 			
-			if (mouseX >= arrowDrawPosX && mouseY >= arrowDrawPosY && mouseX < arrowDrawPosX + arrowWidth + 1 && mouseY < arrowDrawPosY + arrowHeight + 1) 
+			if (mouseX >= arrowDrawPosX && mouseY >= arrowDrawPosY && mouseX < arrowDrawPosX + arrowWidth + 1 && mouseY < arrowDrawPosY + arrowHeight + 1)
 			{
 				tooltip.add(TextFormatting.GREEN + BASE_TIME + " " + TextFormatting.WHITE + UnitHelper.applyTimeUnitShort(getBaseProcessTime(), 3));
 			}
@@ -399,7 +389,7 @@ public class QMDRecipeWrapper
 			return tooltip;
 		}
 		
-		private static final String BASE_TIME = Lang.localise("jei.nuclearcraft.base_process_time");	
+		private static final String BASE_TIME = Lang.localize("jei.nuclearcraft.base_process_time");
 	}
 	
 	

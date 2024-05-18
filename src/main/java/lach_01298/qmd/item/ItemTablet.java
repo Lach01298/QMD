@@ -6,11 +6,8 @@ import nc.capability.radiation.entity.IEntityRads;
 import nc.item.NCItemFood;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.potion.*;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 public class ItemTablet extends NCItemFood
@@ -25,7 +22,7 @@ public class ItemTablet extends NCItemFood
 	
 	
 	@Override
-	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player) 
+	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
 	{
 		super.onFoodEaten(stack, world, player);
 		double lifetime = (double)QMDConfig.ki_time;
@@ -42,7 +39,7 @@ public class ItemTablet extends NCItemFood
 			
 			if(currentTime>lifetime*1.5) //Maybe you should not take that many
 			{
-				player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("hunger"),newIntTime)); 
+				player.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("hunger"),newIntTime));
 			}
 			if(currentTime>lifetime*2) //You should not take this many
 			{

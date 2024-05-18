@@ -1,11 +1,7 @@
 package lach_01298.qmd.machine.container;
 
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.processor.ContainerItemFluidProcessor;
-import nc.container.slot.SlotFurnace;
-import nc.container.slot.SlotProcessorInput;
-import nc.container.slot.SlotSpecificInput;
-import nc.tile.processor.TileItemFluidProcessor;
+import nc.container.slot.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 

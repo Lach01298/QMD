@@ -1,27 +1,20 @@
 package lach_01298.qmd.multiblock.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
-import lach_01298.qmd.particleChamber.DecayChamberLogic;
-import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.ParticleChamberLogic;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
+import lach_01298.qmd.particleChamber.*;
+import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.util.Units;
-import nc.multiblock.gui.GuiLogicMultiblock;
-import nc.network.PacketHandler;
 import nc.network.multiblock.ClearAllMaterialPacket;
-import nc.util.Lang;
-import nc.util.NCUtil;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.*;
 
 public class GuiDecayChamberController
 		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileDecayChamberController, DecayChamberLogic>
@@ -52,14 +45,14 @@ public class GuiDecayChamberController
 
 		int offset = 8;
 		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
-		String title = Lang.localise("gui.qmd.container.decay_chamber_controller.name");
+		String title = Lang.localize("gui.qmd.container.decay_chamber_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 
-		String efficiency = Lang.localise("gui.qmd.container.particle_chamber.efficiency",
+		String efficiency = Lang.localize("gui.qmd.container.particle_chamber.efficiency",
 				String.format("%.2f", multiblock.efficiency * 100));
 		fontRenderer.drawString(efficiency, offset, 80, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.particle_chamber.length", logic.getBeamLength());
+		String length = Lang.localize("gui.qmd.container.particle_chamber.length", logic.getBeamLength());
 		fontRenderer.drawString(length, offset, 90, fontColor);
 
 		if (!NCUtil.isModifierKeyDown())
@@ -133,10 +126,10 @@ public class GuiDecayChamberController
 	public List<String> energyInfo()
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.energy_stored",
+		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.energy_stored",
 				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
 				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.required_energy",
+		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.required_energy",
 				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));
 		return info;
 	}

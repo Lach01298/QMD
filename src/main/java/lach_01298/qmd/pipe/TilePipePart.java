@@ -1,7 +1,6 @@
 package lach_01298.qmd.pipe;
 
-
-import nc.multiblock.tile.TileMultiblockPart;
+import nc.tile.multiblock.TileMultiblockPart;
 
 public abstract class TilePipePart extends TileMultiblockPart<Pipe, IPipePart>
 {

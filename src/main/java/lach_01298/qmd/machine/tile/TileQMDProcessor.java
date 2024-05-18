@@ -5,7 +5,6 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.capability.radiation.resistance.IRadiationResistance;
-import nc.tile.processor.TileItemFluidProcessor;
 
 
 public class TileQMDProcessor

@@ -1,24 +1,19 @@
 package lach_01298.qmd.machine.gui;
 
-import java.io.IOException;
-
 import lach_01298.qmd.machine.container.ContainerIrradiator;
-import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
-import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
+import lach_01298.qmd.machine.network.*;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
 import lach_01298.qmd.network.QMDPacketHandler;
-import nc.container.ContainerTile;
-import nc.container.processor.ContainerMachineConfig;
-import nc.gui.element.NCButton;
-import nc.gui.element.NCToggleButton;
+import nc.gui.element.*;
 import nc.gui.processor.GuiItemSorptions;
-import nc.network.PacketHandler;
 import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.util.Lang;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import java.io.IOException;
 
 public class GuiIrradiator  extends GuiItemAmountFuelMachine
 {
@@ -43,8 +38,8 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 
 	public void renderButtonTooltips(int mouseX, int mouseY)
 	{
-		drawTooltip(Lang.localise("gui.nc.container.machine_side_config"), mouseX, mouseY, 6, 40, 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.redstone_control"), mouseX, mouseY, 6, 60, 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.machine_side_config"), mouseX, mouseY, 6, 40, 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.redstone_control"), mouseX, mouseY, 6, 60, 18, 18);
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 
 	protected void drawBackgroundExtras()
 	{
-		
+	
 	}
 
 	@Override
@@ -116,9 +111,9 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		@Override
 		public void renderButtonTooltips(int mouseX, int mouseY)
 		{
-			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.nc.container.input_item_config"), mouseX, mouseY, 44, 54, 18, 18);
-			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.nc.container.input_item_config"), mouseX, mouseY, 80, 21, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 116, 54, 18, 18);
+			drawTooltip(TextFormatting.BLUE + Lang.localize("gui.nc.container.input_item_config"), mouseX, mouseY, 44, 54, 18, 18);
+			drawTooltip(TextFormatting.BLUE + Lang.localize("gui.nc.container.input_item_config"), mouseX, mouseY, 80, 21, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localize("gui.nc.container.output_item_config"), mouseX, mouseY, 116, 54, 18, 18);
 
 			
 		}

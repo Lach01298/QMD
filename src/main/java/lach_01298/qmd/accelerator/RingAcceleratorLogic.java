@@ -1,38 +1,26 @@
 package lach_01298.qmd.accelerator;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
-import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
 
 public class RingAcceleratorLogic extends AcceleratorLogic
 {
 
-	// Multiblock logic	
+	// Multiblock logic
 	
 	public RingAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
@@ -75,13 +63,13 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		{
 			return  Math.min(Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength, getBeamRadius(), particle.getCharge(), particle.getMass()), Equations.ringEnergyMaxEnergyFromRadiation(getMultiblock().acceleratingVoltage, getBeamRadius(), particle.getCharge(), particle.getMass()));
 		}
-		return 0;	
+		return 0;
 	}
 	
 	// Multiblock validation
 	
 	@Override
-	public boolean isMachineWhole() 
+	public boolean isMachineWhole()
 	{
 		Accelerator acc = getMultiblock();
 		
@@ -133,7 +121,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 				return false;
 			}
 		}
-				
+		
 		
 		//beam ports
 		
@@ -151,7 +139,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			{
 				outputs++;
 			}
-				
+			
 			if(port.getPos().getY() != acc.getMiddleY())
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_inline_with_beam", port.getPos());
@@ -185,7 +173,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
 			return false;
-		}	
+		}
 		int synchrotronPorts =0;
 		for(TileAcceleratorSynchrotronPort port :getPartMap(TileAcceleratorSynchrotronPort.class).values())
 		{
@@ -222,7 +210,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_many_synchrotron_ports", null);
 			return false;
-		}	
+		}
 		if(containsBlacklistedPart())
 		{
 			return false;
@@ -273,7 +261,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 		postions.add(acc.getExtremeInteriorCoord(false, false, true).add(1, acc.getInteriorLengthY() / 2, -(getThickness() - 2) / 2));
 		postions.add(acc.getExtremeInteriorCoord(true, false, false).add(-(getThickness() - 2) / 2, acc.getInteriorLengthY() / 2, 1));
 		postions.add(acc.getExtremeInteriorCoord(true, false, true).add(-(getThickness() - 2) / 2, acc.getInteriorLengthY() / 2, -1));
-				
+		
 		return postions;
 	}
 	
@@ -285,7 +273,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	{
 		return PART_BLACKLIST;
 	}
-		
+	
 	// Accelerator formation
 	
 	@Override
@@ -331,7 +319,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	protected void refreshBeams()
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
-		pull();	
+		pull();
 	}
 	
 	@Override
@@ -404,7 +392,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			}
 		}
 	}
-		
+	
 	// Recipe handling
 	
 	private void resetOutputBeam()
@@ -448,7 +436,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 			resetOutputBeam();
 		}
 	}
-		
+	
 	// NBT
 	
 	@Override

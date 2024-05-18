@@ -3,12 +3,11 @@ package lach_01298.qmd.multiblock.container;
 import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
+import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.container.slot.SlotFurnace;
-import nc.multiblock.container.ContainerMultiblockController;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -77,7 +76,7 @@ public class ContainerTargetChamberController extends ContainerMultiblockControl
 					return ItemStack.EMPTY;
 				}
 			}
-			else 
+			else
 			{
 				if(recipeHandler.isValidItemInput(itemstack1))
 				{

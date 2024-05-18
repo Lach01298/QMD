@@ -1,31 +1,18 @@
 package lach_01298.qmd.item;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Multimap;
-
-import ic2.api.item.IElectricItemManager;
-import ic2.api.item.ISpecialElectricItem;
+import ic2.api.item.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.util.Util;
 import nc.item.NCItem;
-import nc.item.energy.ElectricItemManager;
-import nc.item.energy.IChargableItem;
-import nc.item.energy.ItemEnergyCapabilityProvider;
+import nc.item.energy.*;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.util.InfoHelper;
-import nc.util.NCMath;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
@@ -33,15 +20,15 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.Optional;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 
 @Optional.InterfaceList({@Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "ic2") })
@@ -74,7 +61,7 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 		energyUsage = QMDConfig.drill_energy_usage;
 		this.maxTransfer = NCMath.toInt(this.capacity);
 		this.energyConnection = EnergyConnection.BOTH;
-		this.energyTier = 3;	
+		this.energyTier = 3;
 		setHarvestLevel("pickaxe", miningLevel);
 		setHarvestLevel("shovel", miningLevel);
 		
@@ -132,14 +119,14 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 			
 			IEnergyStorage energy =  stack.getCapability(CapabilityEnergy.ENERGY, null);
 		
-			energy.extractEnergy(energyUsage, false);		
+			energy.extractEnergy(energyUsage, false);
 		}
 
 		return true;
 	}
 	
 	
-		
+	
 	@Override
 	public int getItemEnchantability()
 	{
@@ -153,7 +140,7 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 	}
 	
 	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) 
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
 	{
 			return enchantment.equals(Enchantments.FORTUNE) || enchantment.equals(Enchantments.SILK_TOUCH);
 	}
@@ -190,13 +177,13 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
     			return 1; //stone mining level
     		}
     	}
-    	return -1;    
+    	return -1;
     }
 
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, BlockPos blockPos, EntityPlayer player)
 	{
-		World world = player.world;	
+		World world = player.world;
 		float hardness = world.getBlockState(blockPos).getBlockHardness(world, blockPos);
 		
 		IEnergyStorage energy =  stack.getCapability(CapabilityEnergy.ENERGY, null);
@@ -204,12 +191,12 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 		if(energy.extractEnergy(energyUsage, true) == energyUsage && radius >= 1)
 		{
 			for(BlockPos pos :getDiggedBlocks(blockPos,player,radius))
-			{	
+			{
 				if(world.getBlockState(pos).getBlockHardness(world, pos) <= hardness*2)
 				{
 					if(world.getBlockState(pos).getBlockHardness(world, pos) != 0 && Util.mineBlock(world, pos, player) && !player.isCreative())
-					{				
-						energy.extractEnergy(energyUsage, false);								
+					{
+						energy.extractEnergy(energyUsage, false);
 					}
 				}
 			}
@@ -318,14 +305,14 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 	}
 	
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) 
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt)
 	{
 		return new ItemEnergyCapabilityProvider(stack, capacity, maxTransfer, getEnergyStored(stack), energyConnection, energyTier);
 	}
 	
 	
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag) 
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
 		InfoHelper.infoLine(tooltip, TextFormatting.LIGHT_PURPLE, "Energy Stored: " + UnitHelper.prefix(getEnergyStored(stack), getMaxEnergyStored(stack), 5, "RF"));
 		InfoHelper.infoLine(tooltip, TextFormatting.WHITE, "EU Power Tier: " + getEnergyTier(stack));
@@ -333,10 +320,10 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 	}
 	
 	@Override
-	public boolean showDurabilityBar(ItemStack stack) 
+	public boolean showDurabilityBar(ItemStack stack)
 	{
 		NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
-		if (nbt == null || !nbt.hasKey("energy")) 
+		if (nbt == null || !nbt.hasKey("energy"))
 		{
 			return false;
 		}
@@ -344,7 +331,7 @@ public class ItemDrill extends NCItem implements IChargableItem, ISpecialElectri
 	}
 	
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack) 
+	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return 1D - MathHelper.clamp((double) getEnergyStored(stack) / capacity, 0D, 1D);
 	}

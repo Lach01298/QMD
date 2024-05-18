@@ -1,8 +1,7 @@
 package lach_01298.qmd.recipe;
 
-import java.util.List;
-
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class QMDRecipeInfo<T extends IQMDRecipe>
 {

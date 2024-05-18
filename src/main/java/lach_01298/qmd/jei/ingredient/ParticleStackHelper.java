@@ -1,18 +1,15 @@
 package lach_01298.qmd.jei.ingredient;
 
-import java.awt.Color;
-import java.util.Collections;
-
-import javax.annotation.Nullable;
-
 import com.google.common.base.MoreObjects;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.*;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.awt.*;
+import java.util.Collections;
 
 public class ParticleStackHelper implements IIngredientHelper<ParticleStack>
 {

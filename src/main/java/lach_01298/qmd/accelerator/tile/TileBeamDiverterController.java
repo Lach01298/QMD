@@ -1,15 +1,15 @@
 package lach_01298.qmd.accelerator.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileBeamDiverterController extends TileAcceleratorPart implements IAcceleratorController<TileBeamDiverterController>
 {
@@ -33,7 +33,7 @@ public class TileBeamDiverterController extends TileAcceleratorPart implements I
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override

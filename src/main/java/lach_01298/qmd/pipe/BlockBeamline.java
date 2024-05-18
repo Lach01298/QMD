@@ -1,28 +1,22 @@
 package lach_01298.qmd.pipe;
 
-import static nc.block.property.BlockProperties.AXIS_ALL;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.tab.QMDTabs;
 import nc.block.NCBlock;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.block.state.*;
+import net.minecraft.entity.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
+import static nc.block.property.BlockProperties.AXIS_ALL;
 
 public class BlockBeamline extends NCBlock implements ITileEntityProvider
 {
@@ -143,7 +137,7 @@ public class BlockBeamline extends NCBlock implements ITileEntityProvider
     	{
     		if(world.getTileEntity(pos.offset(face)) instanceof TileBeamline)
     		{
-    			amount++;	
+    			amount++;
     		}
     	}
     	if(amount <= 2)
@@ -164,7 +158,7 @@ public class BlockBeamline extends NCBlock implements ITileEntityProvider
 					if (state == world.getBlockState(pos.offset(face)).getValue(AXIS_ALL))
 					{
 						facingCorrect++;
-					}	
+					}
         		}
         	}
     	}

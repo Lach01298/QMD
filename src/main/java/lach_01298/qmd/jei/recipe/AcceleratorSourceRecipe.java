@@ -1,15 +1,14 @@
 package lach_01298.qmd.jei.recipe;
 
-import java.util.List;
-
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
+import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 public class AcceleratorSourceRecipe implements IRecipeWrapper
 {
@@ -25,7 +24,7 @@ public class AcceleratorSourceRecipe implements IRecipeWrapper
 	}
 	
 	@Override
-	public void getIngredients(IIngredients ingredients) 
+	public void getIngredients(IIngredients ingredients)
 	{
 		ingredients.setInputLists(VanillaTypes.ITEM, inputItem);
 		ingredients.setInputLists(VanillaTypes.FLUID, inputFluid);
@@ -34,7 +33,7 @@ public class AcceleratorSourceRecipe implements IRecipeWrapper
 	
 	
 	@Override
-	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 	{
 
 	}

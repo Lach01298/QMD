@@ -1,13 +1,6 @@
 package lach_01298.qmd.util;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.radiation.RadiationHelper;
@@ -17,21 +10,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.*;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.server.SPacketBlockChange;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import org.apache.logging.log4j.*;
+
+import java.util.*;
 
 public class Util
 {
@@ -98,12 +89,12 @@ public class Util
 	{
 		int x = Math.abs(a.getX()- b.getX());
 		int y = Math.abs(a.getY()- b.getY());
-		int z = Math.abs(a.getZ()- b.getZ());	
+		int z = Math.abs(a.getZ()- b.getZ());
 		return x+y+z;
 	}
 	
 	
-	public static boolean mineBlock(World world, BlockPos pos, EntityPlayer player) 
+	public static boolean mineBlock(World world, BlockPos pos, EntityPlayer player)
 	{
 		int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, player.getHeldItemMainhand());
 		boolean silkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
@@ -115,7 +106,7 @@ public class Util
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 
-		if (world.isAirBlock(pos)) 
+		if (world.isAirBlock(pos))
 		{
 			return false;
 		}
@@ -131,12 +122,12 @@ public class Util
 		}
 		
 		EntityPlayerMP playerMP = null;
-		if (player instanceof EntityPlayerMP) 
+		if (player instanceof EntityPlayerMP)
 		{
 			playerMP = (EntityPlayerMP) player;
 		}
-			
-		if (playerMP != null) 
+		
+		if (playerMP != null)
 		{
 			if (ForgeHooks.onBlockBreakEvent(world, playerMP.interactionManager.getGameType(), playerMP, pos) == -1) // Should make the breaking cancelable
 			{
@@ -144,7 +135,7 @@ public class Util
 			}
 		}
 		
-		if (!world.isRemote) 
+		if (!world.isRemote)
 		{
 			if (block.removedByPlayer(state, world, pos, player, !player.capabilities.isCreativeMode))
 			{
@@ -171,10 +162,10 @@ public class Util
 				}
 				else if(!player.isCreative())
 				{
-								
+					
 					int xp = state.getBlock().getExpDrop(state, world, pos, fortune);
 					block.dropXpOnBlockBreak(world, pos, xp);
-					block.dropBlockAsItem(world, pos, state, fortune);		
+					block.dropBlockAsItem(world, pos, state, fortune);
 				}
 
 				
@@ -183,7 +174,7 @@ public class Util
 		}
 		else
 		{
-			if (block.removedByPlayer(state, world, pos, player, !player.capabilities.isCreativeMode)) 
+			if (block.removedByPlayer(state, world, pos, player, !player.capabilities.isCreativeMode))
 			{
 				block.onPlayerDestroy(world, pos, state);
 			}
@@ -218,7 +209,7 @@ public class Util
 		{
 			world.createExplosion(null, pos.x, pos.y, pos.z, explosionSize, true);
 		}
-    	
+  
 		world.spawnEntity(new EntityGammaFlash(world, pos.x, pos.y, pos.z, size));
 
 		Set<EntityLivingBase> entitylist = new HashSet();
@@ -241,7 +232,7 @@ public class Util
 				}
 			}
 		}
-    	
+    
     }
 	
 	

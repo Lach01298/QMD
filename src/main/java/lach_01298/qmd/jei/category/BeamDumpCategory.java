@@ -1,24 +1,20 @@
 package lach_01298.qmd.jei.category;
 
-import java.util.List;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.BeamDumpRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiFluidStackGroup;
-import mezz.jei.api.gui.IGuiIngredientGroup;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
+import mezz.jei.api.gui.*;
+import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeCategory;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 
 
@@ -30,7 +26,7 @@ public class BeamDumpCategory implements IRecipeCategory<BeamDumpRecipe>
 	
 
 	
-	public BeamDumpCategory(IGuiHelper guiHelper) 
+	public BeamDumpCategory(IGuiHelper guiHelper)
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/beam_dump_controller.png");
 		background = guiHelper.createDrawable(gui_texture, 36, 36, 62, 25);
@@ -50,7 +46,7 @@ public class BeamDumpCategory implements IRecipeCategory<BeamDumpRecipe>
 	public String getTitle()
 	{
 		
-		return Lang.localise("qmd.gui.jei.category.beam_dump");
+		return Lang.localize("qmd.gui.jei.category.beam_dump");
 	}
 
 	@Override

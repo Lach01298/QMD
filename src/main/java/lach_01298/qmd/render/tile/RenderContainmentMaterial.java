@@ -4,17 +4,13 @@ import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockModelRenderer;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 @SideOnly(Side.CLIENT)
 public class RenderContainmentMaterial extends TileEntitySpecialRenderer<TileExoticContainmentController>
@@ -31,7 +27,7 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 	}
 	
 	@Override
-	public void render(TileExoticContainmentController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha) 
+	public void render(TileExoticContainmentController controller, double posX, double posY, double posZ, float partialTicks, int destroyStage, float alpha)
 	{
 		if (!controller.isRenderer || !controller.isMultiblockAssembled()) return;
 		VacuumChamber containment = controller.getMultiblock();

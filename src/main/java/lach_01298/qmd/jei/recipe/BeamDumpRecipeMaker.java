@@ -1,15 +1,10 @@
 package lach_01298.qmd.jei.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeHelper;
 import lach_01298.qmd.recipes.QMDRecipes;
 import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.recipe.IStackHelper;
-import net.minecraftforge.fluids.FluidStack;
+
+import java.util.*;
 
 public class BeamDumpRecipeMaker
 {

@@ -1,24 +1,20 @@
 package lach_01298.qmd.block;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-
-import java.util.Random;
-
 import lach_01298.qmd.enums.BlockTypes.LampType;
 import lach_01298.qmd.tab.QMDTabs;
 import nc.block.BlockMeta;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.item.*;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
+
+import java.util.Random;
+
+import static nc.block.property.BlockProperties.ACTIVE;
 
 public class BlockLamp extends BlockMeta
 {
@@ -35,7 +31,7 @@ public class BlockLamp extends BlockMeta
 
 	
 	@Override
-	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) 
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
 		if(state.getValue(ACTIVE).booleanValue())
 		{
@@ -50,7 +46,7 @@ public class BlockLamp extends BlockMeta
 	}
 	
 	@Override
-	public float getBlockHardness(IBlockState state, World world, BlockPos pos) 
+	public float getBlockHardness(IBlockState state, World world, BlockPos pos)
 	{
 		return ((LampType) state.getValue(type)).getHardness();
 	}
@@ -67,7 +63,7 @@ public class BlockLamp extends BlockMeta
 	}
 	
 	@Override
-	public int getMetaFromState(IBlockState state) 
+	public int getMetaFromState(IBlockState state)
 	{
 		if(state.getValue(ACTIVE).booleanValue())
 		{
@@ -80,7 +76,7 @@ public class BlockLamp extends BlockMeta
 	}
 	
 	@Override
-	public IBlockState getStateFromMeta(int meta) 
+	public IBlockState getStateFromMeta(int meta)
 	{
 		if(meta >= values.length)
 		{
@@ -93,22 +89,22 @@ public class BlockLamp extends BlockMeta
 	}
 	
 	@Override
-	public int damageDropped(IBlockState state) 
+	public int damageDropped(IBlockState state)
 	{
 		return ((LampType) state.getValue(type)).getID();
 	}
 	
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) 
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
 	{
 		return new ItemStack(Item.getItemFromBlock(this), 1, ((LampType) state.getValue(type)).getID());
 	}
 	
-		
+	
 	@Override
 	protected BlockStateContainer createBlockState()
 	{
-		return new BlockStateContainer(this, TYPE, ACTIVE); 
+		return new BlockStateContainer(this, TYPE, ACTIVE);
 	}
 	
 	

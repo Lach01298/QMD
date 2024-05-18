@@ -1,15 +1,13 @@
 package lach_01298.qmd.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Triple;
-
 import lach_01298.qmd.particle.ParticleStack;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Triple;
 
-public class QMDRecipeTupleGenerator 
+import java.util.*;
+
+public class QMDRecipeTupleGenerator
 {
 	
 	public static final QMDRecipeTupleGenerator INSTANCE = new QMDRecipeTupleGenerator();
@@ -19,7 +17,7 @@ public class QMDRecipeTupleGenerator
 	private boolean itemEnd, fluidEnd, particleEnd;
 	
 	public void generateMaterialListTuples(List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>>> tuples, int[] maxNumbers, int[] inputNumbers, List<List<ItemStack>> itemInputLists, List<List<FluidStack>> fluidInputLists, List<List<ParticleStack>> particleInputLists) {
-		do 
+		do
 		{
 			generateNextMaterialListTuple(tuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists, particleInputLists);
 		}
@@ -33,16 +31,16 @@ public class QMDRecipeTupleGenerator
 		List<FluidStack> fluidInputs = new ArrayList<>();
 		List<ParticleStack> particleInputs = new ArrayList<>();
 		
-		for (int i = 0; i < itemInputSize; i++) 
+		for (int i = 0; i < itemInputSize; i++)
 		{
 			itemInputs.add(itemInputLists.get(i).get(inputNumbers[i]));
 		}
 		
-		for (int i = 0; i < fluidInputSize; i++) 
+		for (int i = 0; i < fluidInputSize; i++)
 		{
 			fluidInputs.add(fluidInputLists.get(i).get(inputNumbers[i + itemInputSize]));
 		}
-		for (int i = 0; i < particleInputSize; i++) 
+		for (int i = 0; i < particleInputSize; i++)
 		{
 			particleInputs.add(particleInputLists.get(i).get(inputNumbers[i + itemInputSize+ fluidInputSize]));
 		}

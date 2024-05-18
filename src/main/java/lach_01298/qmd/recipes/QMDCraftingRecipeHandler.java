@@ -1,59 +1,37 @@
 package lach_01298.qmd.recipes;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.BlockTypes.CoolerType1;
-import lach_01298.qmd.enums.BlockTypes.CoolerType2;
-import lach_01298.qmd.enums.BlockTypes.DetectorType;
-import lach_01298.qmd.enums.BlockTypes.HeaterType;
-import lach_01298.qmd.enums.BlockTypes.LampType;
-import lach_01298.qmd.enums.BlockTypes.MagnetType;
-import lach_01298.qmd.enums.BlockTypes.RFCavityType;
-import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
-import lach_01298.qmd.enums.MaterialTypes.PartType;
-import lach_01298.qmd.enums.MaterialTypes.SourceType;
-import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.item.QMDArmour;
-import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.enums.BlockTypes.*;
+import lach_01298.qmd.enums.MaterialTypes.*;
+import lach_01298.qmd.item.*;
 import nc.ModCheck;
-import nc.init.NCArmor;
-import nc.init.NCBlocks;
-import nc.init.NCItems;
+import nc.init.*;
 import nc.recipe.vanilla.ingredient.BucketIngredient;
-import nc.recipe.vanilla.recipe.ShapedEnergyRecipe;
-import nc.recipe.vanilla.recipe.ShapedFluidRecipe;
-import nc.recipe.vanilla.recipe.ShapelessArmorRadShieldingRecipe;
-import nc.recipe.vanilla.recipe.ShapelessFluidRecipe;
-import nc.util.NCUtil;
-import nc.util.OreDictHelper;
-import nc.util.StackHelper;
+import nc.recipe.vanilla.recipe.*;
+import nc.util.*;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.init.*;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
+import net.minecraftforge.oredict.*;
 import vazkii.patchouli.common.item.ItemModBook;
 
-public class QMDCraftingRecipeHandler 
+import java.util.*;
+
+public class QMDCraftingRecipeHandler
 {
 	
-	public static final String[] FUEL_TYPES = new String[] 
+	public static final String[] FUEL_TYPES = new String[]
 			{
 				"",	"Carbide", "Oxide","Nitride","ZA"
 			};
 	
-	public static void registerCraftingRecipes() 
+	public static void registerCraftingRecipes()
 	{
 		//misc
 		addShapedOreRecipe(new ItemStack(QMDBlocks.beamline,6), new Object[] {"SSS", "   ", "SSS", 'S', "ingotStainlessSteel"});
@@ -102,7 +80,7 @@ public class QMDCraftingRecipeHandler
 		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.ORANGE.getID()), new Object[] {"dustZincSulfide","dustRadium","dustMagnesium"});
 		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.ORANGE.getID()), new Object[] {"dustZincSulfide","dustPromethium147","dustMagnesium"});
 		
-		if (ModCheck.patchouliLoaded()) 
+		if (ModCheck.patchouliLoaded())
 		{
 			addShapelessOreRecipe(ItemModBook.forBook("qmd:guide"), new Object[] {Items.BOOK, "ingotStainlessSteel"});
 			addShapelessOreRecipe(Items.BOOK, new Object[] {ItemModBook.forBook("qmd:guide")});
@@ -158,8 +136,8 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.ringAcceleratorController, new Object[] {"PEP", "AFA", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.beamDiverterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotTough", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
 		addShapedOreRecipe(QMDBlocks.deceleratorController, new Object[] {"PEP", "AFA", "PEP", 'P', "plateElite", 'E', "ingotExtreme", 'A', "processorElite", 'F', QMDBlocks.acceleratorCasing});
-		addShapedOreRecipe(QMDBlocks.beamSplitterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotSuperAlloy", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});		
-		addShapedOreRecipe(QMDBlocks.massSpectrometerController, new Object[] {"PWP", "AFA", "PWP", 'P', "plateElite", 'W', "wireBSCCO", 'A', "processorElite", 'F', QMDBlocks.acceleratorCasing});	
+		addShapedOreRecipe(QMDBlocks.beamSplitterController, new Object[] {"PTP", "AFA", "PTP", 'P', "plateAdvanced", 'T', "ingotSuperAlloy", 'A', "processorAdvanced", 'F', QMDBlocks.acceleratorCasing});
+		addShapedOreRecipe(QMDBlocks.massSpectrometerController, new Object[] {"PWP", "AFA", "PWP", 'P', "plateElite", 'W', "wireBSCCO", 'A', "processorElite", 'F', QMDBlocks.acceleratorCasing});
 		
 		//Accelerator Parts
 		addShapedOreRecipe(new ItemStack(QMDBlocks.acceleratorCasing,16), new Object[] {"STS", "TFT", "STS", 'S', "ingotStainlessSteel",'T', "ingotTough", 'F', "steelFrame"});
@@ -362,7 +340,7 @@ public class QMDCraftingRecipeHandler
 			ResourceLocation location = new ResourceLocation(QMD.MOD_ID, outName);
 			try
 			{
-				IRecipe recipe = NCUtil.newInstance(clazz, location, outStack, inputs);
+				IRecipe recipe = ReflectionHelper.newInstance(clazz, location, outStack, inputs);
 				recipe.setRegistryName(location);
 				ForgeRegistries.RECIPES.register(recipe);
 			}

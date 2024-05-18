@@ -1,56 +1,31 @@
 package lach_01298.qmd.vacuumChamber;
 
-import static lach_01298.qmd.recipes.QMDRecipes.cell_filling;
-import static lach_01298.qmd.recipes.QMDRecipes.neutral_containment;
-import static nc.block.property.BlockProperties.ACTIVE;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.NeutralContainmentUpdatePacket;
-import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Util;
-import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import nc.capability.radiation.entity.IEntityRads;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.radiation.RadiationHelper;
-import nc.recipe.BasicRecipe;
-import nc.recipe.RecipeInfo;
-import nc.recipe.RecipeMatchResult;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.recipe.ingredient.FluidIngredient;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
-import nc.recipe.ingredient.ItemIngredient;
+import lach_01298.qmd.vacuumChamber.tile.*;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
-import nc.util.DamageSources;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraftforge.fluids.FluidStack;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.*;
+import static nc.block.property.BlockProperties.ACTIVE;
 
 public class ExoticContainmentLogic extends VacuumChamberLogic
 {
@@ -76,7 +51,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		beam 1 = input particle 2
 		tank 0 = input coolant
 		tank 1 = output coolant
-		tank 2 = output fluid 
+		tank 2 = output fluid
 		*/
 		
 		//on the rare occasion of changing the multiblock to a different type with the tank full
@@ -138,7 +113,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			
 
 		}
-			
+		
 		
 		if (getMultiblock().controller != null)
 		{
@@ -212,7 +187,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		}
 		
 		//empty space
-		Set<BlockPos> interior = new HashSet<BlockPos>();	
+		Set<BlockPos> interior = new HashSet<BlockPos>();
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(con.getExtremeInteriorCoord(false, false, false),
 					con.getExtremeInteriorCoord(true, true, true)))
 			{
@@ -588,7 +563,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			
 			if(QMDConfig.exotic_containment_gamma_flash)
 			{
-							
+				
 				Vec3d pos = new Vec3d(middle.getX(),middle.getY(),middle.getZ());
 				Util.createGammaFlash(getMultiblock().WORLD, pos, size, 0f, QMDConfig.exotic_containment_radiation * size);
 
@@ -896,26 +871,26 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	}
 
 	
-	protected void updateRedstone() 
+	protected void updateRedstone()
 	{
 		
 		for (TileVacuumChamberRedstonePort port : getPartMap(TileVacuumChamberRedstonePort.class).values())
 		{
 			if(getMultiblock().WORLD.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
-			{		
+			{
 				if(getMultiblock().tanks.get(2).getFluidAmount() > 0 && (int)(15 *(getMultiblock().tanks.get(2).getFluidAmount()/(double)getMultiblock().tanks.get(2).getCapacity())) == 0)
 				{
 					port.setRedstoneLevel(1);
 				}
 				else
 				{
-					port.setRedstoneLevel((int) (15 *(getMultiblock().tanks.get(2).getFluidAmount()/(double)getMultiblock().tanks.get(2).getCapacity())));			
+					port.setRedstoneLevel((int) (15 *(getMultiblock().tanks.get(2).getFluidAmount()/(double)getMultiblock().tanks.get(2).getCapacity())));
 				}
-					
+				
 			}
 			else
 			{
-				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));	
+				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));
 			}
 		}
 	}

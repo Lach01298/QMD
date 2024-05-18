@@ -1,15 +1,14 @@
 package lach_01298.qmd.multiblock.network;
 
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
-import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
+import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
 
 public class ContainmentRenderPacket extends MultiblockUpdatePacket
 {

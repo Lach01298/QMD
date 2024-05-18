@@ -1,14 +1,13 @@
 package lach_01298.qmd.recipe;
 
-import java.util.List;
-
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public class QMDRecipe  implements IQMDRecipe
 {
@@ -77,7 +76,7 @@ public class QMDRecipe  implements IQMDRecipe
 		return extras;
 	}
 	
-	public boolean isShapeless() 
+	public boolean isShapeless()
 	{
 		return isShapeless;
 	}
@@ -132,7 +131,7 @@ public class QMDRecipe  implements IQMDRecipe
 	}
 	
 	
-	public double getBaseProcessRadiation() 
+	public double getBaseProcessRadiation()
 	{
 		return (double) extras.get(3);
 	}

@@ -4,21 +4,19 @@ import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.JEIHelper.RecipeFluidMapper;
-import nc.integration.jei.JEIHelper.RecipeItemMapper;
-import nc.integration.jei.NCJEI.IJEIHandler;
+import nc.integration.jei.JEIHelper.*;
 import nc.recipe.IngredientSorption;
 
-public class MassSpectrometerCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.MassSpectrometer> 
+public class MassSpectrometerCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.MassSpectrometer>
 {
 	
-	public MassSpectrometerCategory(IGuiHelper guiHelper, IJEIHandler handler) 
+	public MassSpectrometerCategory(IGuiHelper guiHelper, IJEIHandler handler)
 	{
 		super(guiHelper, handler, "mass_spectrometer", 45, 13, 111, 93);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.MassSpectrometer recipeWrapper, IIngredients ingredients) 
+	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.MassSpectrometer recipeWrapper, IIngredients ingredients)
 	{
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		

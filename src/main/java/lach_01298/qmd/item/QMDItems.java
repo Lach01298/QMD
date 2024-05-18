@@ -1,42 +1,15 @@
 package lach_01298.qmd.item;
 
-import lach_01298.qmd.QMD;
-import lach_01298.qmd.QMDInfo;
+import lach_01298.qmd.*;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.MaterialTypes.CellType;
-import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
-import lach_01298.qmd.enums.MaterialTypes.CoperniciumDepletedFuelType;
-import lach_01298.qmd.enums.MaterialTypes.CoperniciumFuelType;
-import lach_01298.qmd.enums.MaterialTypes.CoperniciumPelletType;
-import lach_01298.qmd.enums.MaterialTypes.CoperniciumType;
-import lach_01298.qmd.enums.MaterialTypes.DustType;
-import lach_01298.qmd.enums.MaterialTypes.DustType2;
-import lach_01298.qmd.enums.MaterialTypes.FissionWasteType;
-import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
-import lach_01298.qmd.enums.MaterialTypes.IngotType;
-import lach_01298.qmd.enums.MaterialTypes.IngotType2;
-import lach_01298.qmd.enums.MaterialTypes.IsotopeType;
-import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
-import lach_01298.qmd.enums.MaterialTypes.PartType;
-import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
-import lach_01298.qmd.enums.MaterialTypes.SourceType;
-import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
-import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
+import lach_01298.qmd.enums.MaterialTypes.*;
 import lach_01298.qmd.tab.QMDTabs;
-import nc.item.IInfoItem;
-import nc.item.ItemFissionFuel;
-import nc.item.NCItemFood;
-import nc.item.NCItemMeta;
-import nc.item.tool.NCAxe;
-import nc.item.tool.NCHoe;
-import nc.item.tool.NCPickaxe;
-import nc.item.tool.NCShovel;
-import nc.item.tool.NCSword;
+import nc.item.*;
+import nc.item.tool.*;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -201,35 +174,35 @@ public class QMDItems
 		
 	}
 
-	public static void registerRenders() 
+	public static void registerRenders()
 	{
-		for(int i = 0; i < DustType.values().length; i++) 
+		for(int i = 0; i < DustType.values().length; i++)
 		{
 			registerRender(dust, i, DustType.values()[i].getName());
 		}
 		
-		for(int i = 0; i < DustType2.values().length; i++) 
+		for(int i = 0; i < DustType2.values().length; i++)
 		{
 			registerRender(dust2, i, DustType2.values()[i].getName());
 		}
 		
-		for(int i = 0; i < IngotType.values().length; i++) 
+		for(int i = 0; i < IngotType.values().length; i++)
 		{
 			registerRender(ingot, i, IngotType.values()[i].getName());
 		}
 		
-		for(int i = 0; i < IngotType2.values().length; i++) 
+		for(int i = 0; i < IngotType2.values().length; i++)
 		{
 			registerRender(ingot2, i, IngotType2.values()[i].getName());
 		}
 		
 		
-		for(int i = 0; i < IngotAlloyType.values().length; i++) 
+		for(int i = 0; i < IngotAlloyType.values().length; i++)
 		{
 			registerRender(ingotAlloy, i, IngotAlloyType.values()[i].getName());
 		}
 		
-		for(int i = 0; i < IsotopeType.values().length; i++) 
+		for(int i = 0; i < IsotopeType.values().length; i++)
 		{
 			registerRender(isotope, i, IsotopeType.values()[i].getName());
 		}
@@ -348,7 +321,7 @@ public class QMDItems
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation(QMD.MOD_ID, "items/" + item.getRegistryName().getPath()), "type=" + type));
 	}
 
-	public static ToolMaterial toolMaterial(String name, int id, ItemStack repairStack) 
+	public static ToolMaterial toolMaterial(String name, int id, ItemStack repairStack)
 	{
 		return EnumHelper.addToolMaterial(QMD.MOD_ID + ":" + name, QMDConfig.tool_mining_level[id], QMDConfig.tool_durability[id], (float) QMDConfig.tool_speed[id], (float) QMDConfig.tool_attack_damage[id], QMDConfig.tool_enchantability[id]).setRepairItem(repairStack);
 	}
@@ -356,12 +329,3 @@ public class QMDItems
 
 
 }
-	
-	
-	
-	
-	
-	
-	
-	
-

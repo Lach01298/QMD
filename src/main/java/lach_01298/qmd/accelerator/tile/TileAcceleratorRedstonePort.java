@@ -1,44 +1,22 @@
 package lach_01298.qmd.accelerator.tile;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
-
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.block.BlockAcceleratorRedstonePort;
-import lach_01298.qmd.accelerator.block.BlockAcceleratorVent;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
-import nc.tile.passive.ITilePassive;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.math.*;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nullable;
+
+import static nc.block.property.BlockProperties.ACTIVE;
 
 public class TileAcceleratorRedstonePort extends TileAcceleratorPart
 {
@@ -55,7 +33,7 @@ public class TileAcceleratorRedstonePort extends TileAcceleratorPart
 	@Override
 	public void onMachineAssembled(Accelerator controller)
 	{
-		
+	
 
 	}
 
@@ -99,18 +77,18 @@ public class TileAcceleratorRedstonePort extends TileAcceleratorPart
 					setRedstoneLevel(0);
 					updateBlockState(false);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localise("qmd.block.redstone_port_toggle") + " "
-							+ TextFormatting.DARK_AQUA + Lang.localise("qmd.block.redstone_port_toggle.input") + " "
-							+ TextFormatting.WHITE + Lang.localise("qmd.block.redstone_port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("qmd.block.redstone_port_toggle") + " "
+							+ TextFormatting.DARK_AQUA + Lang.localize("qmd.block.redstone_port_toggle.input") + " "
+							+ TextFormatting.WHITE + Lang.localize("qmd.block.redstone_port_toggle.mode")));
 				}
 				else
 				{
 					setRedstoneLevel(0);
 					updateBlockState(true);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localise("qmd.block.redstone_port_toggle") + " "
-							+ TextFormatting.RED + Lang.localise("qmd.block.redstone_port_toggle.output") + " "
-							+ TextFormatting.WHITE + Lang.localise("qmd.block.redstone_port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("qmd.block.redstone_port_toggle") + " "
+							+ TextFormatting.RED + Lang.localize("qmd.block.redstone_port_toggle.output") + " "
+							+ TextFormatting.WHITE + Lang.localize("qmd.block.redstone_port_toggle.mode")));
 				}
 				markDirtyAndNotify();
 				return true;
@@ -158,7 +136,7 @@ public class TileAcceleratorRedstonePort extends TileAcceleratorPart
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
-	{	
+	{
 		return super.hasCapability(capability, side);
 	}
 
@@ -171,8 +149,3 @@ public class TileAcceleratorRedstonePort extends TileAcceleratorPart
 
 
 }
-	
-		
-		
-		
-

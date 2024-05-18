@@ -1,46 +1,29 @@
 package lach_01298.qmd.accelerator;
 
-import static lach_01298.qmd.recipes.QMDRecipes.mass_spectrometer;
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonCollector;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
-import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.InventoryHelper;
-import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.MassSpectrometerUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.recipe.BasicRecipe;
-import nc.recipe.RecipeInfo;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.EnumFacing.AxisDirection;
+import net.minecraft.util.EnumFacing.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.mass_spectrometer;
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class MassSpectrometerLogic extends AcceleratorLogic
 {
@@ -54,9 +37,9 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	public double recipeWork = 100;
 	public double speed = 1;
 	
-	// Multiblock logic	
+	// Multiblock logic
 	
-	public MassSpectrometerLogic(AcceleratorLogic oldLogic) 
+	public MassSpectrometerLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
 		
@@ -85,7 +68,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "mass_spectrometer";
 	}
@@ -135,14 +118,14 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		else if(acc.getExteriorLengthX() == diameter)
 		{
 			axis = Axis.Z;
-			length = acc.getInteriorLengthZ();			
+			length = acc.getInteriorLengthZ();
 		}
 		else
 		{
 			axis = Axis.X;
 			length = acc.getInteriorLengthX();
 		}
-			
+		
 		if(length % 2 == 0)
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_odd_length", null);
@@ -171,7 +154,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.ion_source_wrong_pos", source.getPos());
 				return false;
 			}
-			axis = normal.getAxis() == Axis.X ? Axis.Z : Axis.X;	
+			axis = normal.getAxis() == Axis.X ? Axis.Z : Axis.X;
 		}
 		
 		boolean[] layerHasSource = new boolean[sourceAmount];
@@ -183,7 +166,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		for(TileAcceleratorIonSource source : getPartMap(TileAcceleratorIonSource.class).values())
 		{
 			BlockPos sourcePos = source.getPos();
-			boolean validSource = false;	
+			boolean validSource = false;
 			for(String validSourceName : QMDConfig.mass_spectrometer_valid_sources)
 			{
 				if(validSourceName.equals(source.name))
@@ -204,7 +187,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.ion_source_wrong_pos", sourcePos);
 				return false;
 			}
-			 
+			
 			if(getWallNormal(source.getPos()) == null)
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.ion_source_wrong_pos", source.getPos());
@@ -217,13 +200,13 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				return false;
 			}
 			int offset = axis == Axis.X ? sourcePos.getX() - acc.getMinInteriorX() : sourcePos.getZ() - acc.getMinInteriorZ();
-						
+			
 			if(offset % 2 != 1 || offset/2 >= layerHasSource.length || offset < 0)
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.ion_source_wrong_pos", sourcePos);
 				return false;
 			}
-					
+			
 			if(layerHasSource[offset/2])
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.ion_source_in_layer_already", sourcePos);
@@ -233,7 +216,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			{
 				layerHasSource[offset/2] = true;
 			}
-				
+			
 			for(int i = 1; i <= 4; i++)
 			{
 				if(!(acc.WORLD.getTileEntity(sourcePos.up(i)) instanceof TileAcceleratorIonCollector))
@@ -246,8 +229,8 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.ion_collector_wrong_facing", sourcePos.up(i));
 					return false;
 				}
-			}	
-		}		
+			}
+		}
 	
 		if (getPartMap(TileAcceleratorIonCollector.class).size() != sourceAmount*4)
 		{
@@ -310,7 +293,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 								{
 									multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_one_magnet_type", pos);
 									return false;
-								}	
+								}
 							}
 						}
 						
@@ -357,16 +340,16 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 								{
 									multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_one_magnet_type", pos);
 									return false;
-								}	
+								}
 							}
-						}	
+						}
 					}
 				}
 			}
 			else
 			{
 				for(BlockPos pos : layer)
-				{	
+				{
 					if(!(acc.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam))
 					{
 						multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_beam", pos);
@@ -376,7 +359,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			}
 		
 			
-		}		
+		}
 		
 		return super.isMachineWhole();
 	}
@@ -477,12 +460,12 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		int energy = 0;
 		long heat = 0;
 		for (TileAcceleratorMagnet magnet : getMultiblock().getPartMap(TileAcceleratorMagnet.class).values())
-		{		
+		{
 			energy += magnet.basePower/16;
 			heat += magnet.heat/16;
 		}
 		for (TileAcceleratorIonSource source : getMultiblock().getPartMap(TileAcceleratorIonSource.class).values())
-		{		
+		{
 			energy += source.basePower;
 		}
 		
@@ -510,7 +493,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		
 		
 		super.onAcceleratorBroken();
-	}	
+	}
 	
 	// Accelerator Operation
 	
@@ -580,7 +563,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		}
 
 	}
-		
+	
 	// Recipe handling
 	
 	private boolean canProduceProduct()
@@ -609,20 +592,20 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				
 				if (inv.getInventoryStacks().get(i+2).getCount() + stack.getCount() > stack.getMaxStackSize())
 				{
-					return false;	
+					return false;
 				}
 			}
 		}
 		
 		for(int i = 0; i < productFluids.size(); i++)
-		{	
+		{
 			FluidStack stack = productFluids.get(i).getStack();
 			if(stack != null)
 			{
 				if(getMultiblock().tanks.get(i+3).fill(stack, false) != stack.amount)
 				{
 					return false;
-				}	
+				}
 			}
 		}
 
@@ -657,7 +640,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			}
 
 			InventoryHelper.removeItem(0, recipeInfo.getRecipe().getItemIngredients().get(0).getMaxStackSize(0), inv.getInventoryStacks(), inv);
-				
+			
 			List<IFluidIngredient> productFluids = recipeInfo.getRecipe().getFluidProducts();
 			for (int i = 0; i < productFluids.size(); i++)
 			{
@@ -681,7 +664,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		}
 	}
 
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		TileMassSpectrometerController cont = (TileMassSpectrometerController) getMultiblock().controller;
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
@@ -717,7 +700,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	// Packets
 	
 	@Override
-	public AcceleratorUpdatePacket getMultiblockUpdatePacket() 
+	public AcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 
 		return new MassSpectrometerUpdatePacket(getMultiblock().controller.getTilePos(),

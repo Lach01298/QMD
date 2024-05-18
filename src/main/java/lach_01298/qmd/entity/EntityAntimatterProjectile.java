@@ -1,48 +1,27 @@
 package lach_01298.qmd.entity;
 
-import java.awt.Color;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
+import com.google.common.base.*;
 import lach_01298.qmd.QMDDamageSources;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.network.AntimatterProjectileUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.network.*;
 import lach_01298.qmd.util.Util;
-import nc.capability.radiation.entity.IEntityRads;
-import nc.radiation.RadiationHelper;
-import nc.util.DamageSources;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.*;
+import net.minecraft.entity.player.*;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketChangeGameState;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
+
+import javax.annotation.Nullable;
+import java.awt.*;
+import java.util.List;
 
 public class EntityAntimatterProjectile extends Entity implements IProjectile
 {
@@ -126,7 +105,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 
 	protected void entityInit()
 	{
-		
+	
 	}
 
 	public void shoot(Entity shooter, float pitch, float yaw, float roll, float velocity, float inaccuracy)
@@ -550,7 +529,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 	
 		if (!world.isRemote)
 		{
-			double size = this.damage;			
+			double size = this.damage;
 			Util.createGammaFlash(world, pos, size, (float) (size*QMDConfig.antimatter_launcher_explosion_size), QMDConfig.cell_radiation * size);
 
 		}

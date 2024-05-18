@@ -1,24 +1,21 @@
 package lach_01298.qmd.machine.gui;
 
-import java.io.IOException;
-
-import org.lwjgl.input.Keyboard;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.machine.container.ContainerCreativeParticleSource;
 import lach_01298.qmd.machine.network.CreativeParticleSourceGuiPacket;
 import lach_01298.qmd.network.QMDPacketHandler;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.tile.TileCreativeParticleSource;
 import nc.gui.NCGui;
 import nc.util.Lang;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
 
 public class GuiCreativeParticleSource extends NCGui
 {
@@ -56,15 +53,15 @@ public class GuiCreativeParticleSource extends NCGui
 
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) 
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		String s = tile.getDisplayName().getUnformattedText();
 		fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 4, 4210752);
 		
-		fontRenderer.drawString(Lang.localise("gui.qmd.container.creative_particle_source.particle_name"),  10, 15, 4210752);
-		fontRenderer.drawString(Lang.localise("gui.qmd.container.creative_particle_source.particle_amount"),  10, 40, 4210752);
-		fontRenderer.drawString(Lang.localise("gui.qmd.container.creative_particle_source.particle_energy"),  10, 65, 4210752);
-		fontRenderer.drawString(Lang.localise("gui.qmd.container.creative_particle_source.particle_focus"),  10, 90, 4210752);
+		fontRenderer.drawString(Lang.localize("gui.qmd.container.creative_particle_source.particle_name"),  10, 15, 4210752);
+		fontRenderer.drawString(Lang.localize("gui.qmd.container.creative_particle_source.particle_amount"),  10, 40, 4210752);
+		fontRenderer.drawString(Lang.localize("gui.qmd.container.creative_particle_source.particle_energy"),  10, 65, 4210752);
+		fontRenderer.drawString(Lang.localize("gui.qmd.container.creative_particle_source.particle_focus"),  10, 90, 4210752);
 	}
 	
 	
@@ -76,7 +73,7 @@ public class GuiCreativeParticleSource extends NCGui
 	}
 	
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) 
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
 	{
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		mc.getTextureManager().bindTexture(gui_textures);
@@ -99,12 +96,12 @@ public class GuiCreativeParticleSource extends NCGui
 	
 	
 	@Override
-	public void initGui() 
+	public void initGui()
 	{
 		super.initGui();
  
-		Keyboard.enableRepeatEvents(true); 
-		this.buttonList.add(new GuiButton(0, guiLeft+118, guiTop+16, 50, 20, Lang.localise("gui.qmd.container.creative_particle_source.set")));
+		Keyboard.enableRepeatEvents(true);
+		this.buttonList.add(new GuiButton(0, guiLeft+118, guiTop+16, 50, 20, Lang.localize("gui.qmd.container.creative_particle_source.set")));
 		this.particleNameField = new GuiTextField(1, this.fontRenderer, guiLeft+10, guiTop+25, 100, 10);
 		this.particleNameField.setText(particleName);
 
@@ -122,12 +119,12 @@ public class GuiCreativeParticleSource extends NCGui
 	
 	
 	@Override
-	protected void actionPerformed(GuiButton guiButton) 
+	protected void actionPerformed(GuiButton guiButton)
 	{
 		if (tile.getWorld().isRemote)
 		{
 			if (guiButton.id == 0)
-			{			
+			{
 				ParticleStack stack = new ParticleStack(Particles.getParticleFromName(particleName), amount, energy, focus);
 				if(stack.getParticle() != null)
 				{
@@ -165,9 +162,9 @@ public class GuiCreativeParticleSource extends NCGui
             this.amountField.textboxKeyTyped(typedChar, keyCode);
             try {
             	this.amount = Integer.valueOf(this.amountField.getText());
-            } catch (Exception e) 
+            } catch (Exception e)
             {
-              
+            
             }
             
         }
@@ -183,7 +180,7 @@ public class GuiCreativeParticleSource extends NCGui
 			{
 
 			}
-            
+        
         }
         
         if (this.focusField.isFocused())

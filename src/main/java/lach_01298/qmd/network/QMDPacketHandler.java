@@ -1,24 +1,7 @@
 package lach_01298.qmd.network;
 
-import lach_01298.qmd.machine.network.CreativeParticleSourceGuiPacket;
-import lach_01298.qmd.machine.network.CreativeParticleSourceUpdatePacket;
-import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
-import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
-import lach_01298.qmd.multiblock.network.AcceleratorSourceUpdatePacket;
-import lach_01298.qmd.multiblock.network.BeamDiverterUpdatePacket;
-import lach_01298.qmd.multiblock.network.BeamDumpUpdatePacket;
-import lach_01298.qmd.multiblock.network.BeamSplitterUpdatePacket;
-import lach_01298.qmd.multiblock.network.ClearTankPacket;
-import lach_01298.qmd.multiblock.network.CollisionChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.DecayChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.DeceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.MassSpectrometerUpdatePacket;
-import lach_01298.qmd.multiblock.network.NeutralContainmentUpdatePacket;
-import lach_01298.qmd.multiblock.network.NucleosynthesisChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.RingAcceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
+import lach_01298.qmd.machine.network.*;
+import lach_01298.qmd.multiblock.network.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;

@@ -1,43 +1,30 @@
 package lach_01298.qmd.particleChamber;
 
-import java.lang.reflect.Constructor;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Lists;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.multiblock.IMultiBlockTank;
-import lach_01298.qmd.multiblock.IQMDPacketMultiblock;
+import lach_01298.qmd.multiblock.*;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
+import lach_01298.qmd.particleChamber.tile.*;
 import nc.Global;
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.lang.reflect.Constructor;
+import java.util.*;
+
 public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IParticleChamberPart>
 		implements ILogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart>, IQMDPacketMultiblock<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket>, IMultiBlockTank
-{ 
+{
 
 	public static final ObjectSet<Class<? extends IParticleChamberPart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends ParticleChamberLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
@@ -80,7 +67,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 	}
 	
 	@Override
-	public void setLogic(String logicID) 
+	public void setLogic(String logicID)
 	{
 		if (logicID.equals(logic.getID())) return;
 		logic = getNewLogic(LOGIC_MAP.get(logicID));
@@ -138,7 +125,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 	@Override
 	protected void onMachineRestored()
 	{
-		logic.onMachineRestored();	
+		logic.onMachineRestored();
 	}
 
 	@Override
@@ -183,7 +170,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 			return false;
 		}
 		
-		for (IParticleChamberController contr : getPartMap(IParticleChamberController.class).values()) 
+		for (IParticleChamberController contr : getPartMap(IParticleChamberController.class).values())
 		{
 			controller = contr;
 		}
@@ -205,18 +192,18 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 	protected boolean updateServer()
 	{
 		boolean flag = refreshFlag;
-		if (refreshFlag) 
+		if (refreshFlag)
 		{
 			logic.refreshChamber();
 		}
 		updateActivity();
 		
-		if (logic.onUpdateServer()) 
+		if (logic.onUpdateServer())
 		{
 			flag = true;
 		}
 		
-		if (controller != null) 
+		if (controller != null)
 		{
 			sendMultiblockUpdatePacketToListeners();
 		}
@@ -232,10 +219,10 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 		if (isChamberOn != wasChamberOn)
 		{
 			if (controller != null)
-			{	
+			{
 				controller.setActivity(isChamberOn);
 				sendMultiblockUpdatePacketToAll();
-			}	
+			}
 		}
 	}
 
@@ -244,7 +231,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 	@Override
 	protected void updateClient()
 	{
-		logic.onUpdateClient();	
+		logic.onUpdateClient();
 	}
 
 	
@@ -277,7 +264,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 		requiredEnergy = data.getInteger("requiredEnergy");
 		efficiency = data.getDouble("efficiency");
 
-		readLogicNBT(data, syncReason);	
+		readLogicNBT(data, syncReason);
 	}
 
 	// Packets
@@ -337,7 +324,7 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 
 	public boolean toggleSetting(BlockPos pos, int ioNumber)
 	{
-		return logic.toggleSetting(pos,ioNumber);	
+		return logic.toggleSetting(pos,ioNumber);
 	}
 
 	// Multiblock Validators

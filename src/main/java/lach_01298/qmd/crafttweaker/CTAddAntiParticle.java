@@ -2,8 +2,7 @@ package lach_01298.qmd.crafttweaker;
 
 import crafttweaker.IAction;
 import crafttweaker.api.item.IIngredient;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.*;
 
 public class CTAddAntiParticle implements IAction
 {

@@ -1,37 +1,24 @@
 package lach_01298.qmd.particleChamber;
 
-import static lach_01298.qmd.recipes.QMDRecipes.beam_dump;
-import static nc.block.property.BlockProperties.ACTIVE;
-
-import java.util.ArrayList;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
-import lach_01298.qmd.multiblock.network.BeamDumpUpdatePacket;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberFluidPort;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import lach_01298.qmd.particleChamber.tile.*;
+import lach_01298.qmd.recipe.*;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.entity.player.EntityPlayer;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.ArrayList;
+
+import static lach_01298.qmd.recipes.QMDRecipes.beam_dump;
+import static nc.block.property.BlockProperties.ACTIVE;
 
 
 public class BeamDumpLogic extends ParticleChamberLogic
@@ -58,7 +45,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "beam_dump";
 	}
@@ -148,7 +135,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		{
 			if (!port.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
 			{
-				
+			
 			}
 			else
 			{
@@ -199,7 +186,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 			BlockPos input = null;
 
 			for (TileParticleChamberBeamPort tile : getPartMap(TileParticleChamberBeamPort.class).values())
-			{	
+			{
 				tile.setIONumber(0);
 			}
 
@@ -210,7 +197,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	
 	
 	public void onMachineDisassembled()
-	{	
+	{
 		mainChamber = null;
 		for(TileParticleChamberBeamPort tile :getPartMap(TileParticleChamberBeamPort.class).values())
 		{
@@ -222,7 +209,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	
 
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
@@ -242,7 +229,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 						if(rememberedRecipeInfo.getRecipe() !=recipeInfo.getRecipe())
 						{
 							particleWorkDone= 0;
-						}	
+						}
 					}
 					rememberedRecipeInfo = recipeInfo;
 					
@@ -251,9 +238,9 @@ public class BeamDumpLogic extends ParticleChamberLogic
 						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
 						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount()*getMultiblock().efficiency;
 						produceProduct();
-					}	
+					}
 				}
-					
+				
 			}
 		}
 		return super.onUpdateServer();
@@ -280,7 +267,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
 			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-			getMultiblock().tanks.get(1).fill(product, true);	
+			getMultiblock().tanks.get(1).fill(product, true);
 	
 			particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
 		}
@@ -298,7 +285,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 	}
 
 	
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 		ArrayList<ParticleStack> particles = new ArrayList<ParticleStack>();

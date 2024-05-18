@@ -1,35 +1,25 @@
 package lach_01298.qmd.particleChamber;
 
-
-import static lach_01298.qmd.recipes.QMDRecipes.collision_chamber;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.CollisionChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.particleChamber.tile.*;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.collision_chamber;
 
 public class CollisionChamberLogic extends ParticleChamberLogic
 {
@@ -47,7 +37,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 	public CollisionChamberLogic(ParticleChamberLogic oldLogic)
 	{
-		super(oldLogic);	
+		super(oldLogic);
 		/*
 		beam 0 = input particle 1
 		beam 1 = input particle 2
@@ -60,7 +50,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "collision_chamber";
 	}
@@ -148,7 +138,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.must_be_input_beam_port", end2);
 				return false;
 			}
-					
+			
 	
 		}
 
@@ -471,7 +461,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 	
 	public void onMachineDisassembled()
-	{	
+	{
 		for(TileParticleChamberBeamPort tile :getPartMap(TileParticleChamberBeamPort.class).values())
 		{
 			tile.setIONumber(0);
@@ -482,7 +472,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
 		getMultiblock().beams.get(1).setParticleStack(null);
@@ -511,7 +501,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			else
 			{
 				resetBeams();
-			}	
+			}
 		}
 		else
 		{
@@ -527,7 +517,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	public void onResetStats()
 	{
 		getMultiblock().efficiency =1;
-		getMultiblock().requiredEnergy = QMDConfig.collision_chamber_power;	
+		getMultiblock().requiredEnergy = QMDConfig.collision_chamber_power;
 	}
 	
 	@Override
@@ -695,7 +685,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(5).setParticleStack(null);
 	}
 	
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		if(getMultiblock().beams.get(0).getParticleStack() != null && getMultiblock().beams.get(1).getParticleStack() != null)
 		{
@@ -714,7 +704,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			if(recipeInfo != null)
 			{
 				if(collisionEnergy > recipeInfo.getRecipe().getMaxEnergy())
-				{	
+				{
 					recipeInfo = null;
 				}
 			}

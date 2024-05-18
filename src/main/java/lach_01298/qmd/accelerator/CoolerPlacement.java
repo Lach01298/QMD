@@ -1,38 +1,21 @@
 package lach_01298.qmd.accelerator;
 
-
-import static lach_01298.qmd.config.QMDConfig.cooler_rule;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nullable;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
+import it.unimi.dsi.fastutil.objects.*;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.enums.BlockTypes.CoolerType1;
-import lach_01298.qmd.enums.BlockTypes.CoolerType2;
+import lach_01298.qmd.enums.BlockTypes.*;
 import nc.multiblock.PlacementRule;
-import nc.multiblock.PlacementRule.AdjacencyType;
-import nc.multiblock.PlacementRule.CountType;
-import nc.multiblock.PlacementRule.PlacementMap;
-import nc.util.I18nHelper;
-import nc.util.Lang;
-import nc.util.StringHelper;
+import nc.multiblock.PlacementRule.*;
+import nc.util.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import static lach_01298.qmd.config.QMDConfig.cooler_rule;
 
 public class CoolerPlacement
 {
@@ -103,20 +86,20 @@ public class CoolerPlacement
 		
 	}
 	
-	public static void addRule(String id, String rule, Object... blocks) 
+	public static void addRule(String id, String rule, Object... blocks)
 	{
 		RULE_MAP_RAW.put(id, rule);
 		RULE_MAP.put(id, parse(rule));
-		for (Object block : blocks) 
+		for (Object block : blocks)
 		{
 			recipe_handler.addRecipe(block, id);
 		}
 	}
 	
-	public static void postInit() 
+	public static void postInit()
 	{
 		for (Object2ObjectMap.Entry<String, PlacementRule<Accelerator, IAcceleratorPart>> entry : RULE_MAP.object2ObjectEntrySet()) {
-			for (PlacementRule.TooltipBuilder<Accelerator, IAcceleratorPart> builder : TOOLTIP_BUILDER_LIST) 
+			for (PlacementRule.TooltipBuilder<Accelerator, IAcceleratorPart> builder : TOOLTIP_BUILDER_LIST)
 			{
 				String tooltip = builder.buildTooltip(entry.getValue());
 				if (tooltip != null)
@@ -127,17 +110,17 @@ public class CoolerPlacement
 	
 	// Default Rule Parser
 	
-	public static PlacementRule<Accelerator, IAcceleratorPart> parse(String string) 
+	public static PlacementRule<Accelerator, IAcceleratorPart> parse(String string)
 	{
 		return PlacementRule.parse(string, RULE_PARSER_LIST);
 	}
 	
 	/** Rule parser for all rule types available in base NC. */
-	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<Accelerator, IAcceleratorPart> 
+	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<Accelerator, IAcceleratorPart>
 	{
 		
 		@Override
-		protected @Nullable PlacementRule<Accelerator, IAcceleratorPart> partialParse(String s) 
+		protected @Nullable PlacementRule<Accelerator, IAcceleratorPart> partialParse(String s)
 		{
 			s = s.toLowerCase(Locale.ROOT);
 			
@@ -165,32 +148,32 @@ public class CoolerPlacement
 			String rule = null, type = null;
 			
 			String[] split = s.split(Pattern.quote(" "));
-			for (int i = 0; i < split.length; i++) 
+			for (int i = 0; i < split.length; i++)
 			{
-				if (StringHelper.NUMBER_S2I_MAP.containsKey(split[i])) 
+				if (StringHelper.NUMBER_S2I_MAP.containsKey(split[i]))
 				{
 					amount = StringHelper.NUMBER_S2I_MAP.getInt(split[i]);
 				}
 				else if (rule == null) {
-					if (split[i].contains("beam")) 
+					if (split[i].contains("beam"))
 					{
 						rule = "beam";
 					}
-					else if (split[i].contains("magnet")) 
+					else if (split[i].contains("magnet"))
 					{
 						rule = "magnet";
 						
 					}
-					else if (split[i].contains("yoke")) 
+					else if (split[i].contains("yoke"))
 					{
 						rule = "yoke";
 					}
-					else if (split[i].contains("cavity")) 
+					else if (split[i].contains("cavity"))
 					{
 						rule = "cavity";
 						
 					}
-					else if (split[i].contains("cooler")) 
+					else if (split[i].contains("cooler"))
 					{
 						rule = "cooler";
 						if (i > 0)
@@ -207,11 +190,11 @@ public class CoolerPlacement
 			CountType countType = exact ? CountType.EXACTLY : (atMost ? CountType.AT_MOST : CountType.AT_LEAST);
 			AdjacencyType adjType = axial ? AdjacencyType.AXIAL : (vertex ? AdjacencyType.VERTEX : AdjacencyType.STANDARD);
 			
-			if (rule.equals("beam")) 
+			if (rule.equals("beam"))
 			{
 				return new AdjacentBeam(amount, countType, adjType);
 			}
-			else if (rule.equals("magnet")) 
+			else if (rule.equals("magnet"))
 			{
 				if(different)
 				{
@@ -219,11 +202,11 @@ public class CoolerPlacement
 				}
 				return new AdjacentMagnet(amount, countType, adjType, type);
 			}
-			else if (rule.equals("yoke")) 
+			else if (rule.equals("yoke"))
 			{
 				return new AdjacentYoke(amount, countType, adjType);
 			}
-			else if (rule.equals("cavity")) 
+			else if (rule.equals("cavity"))
 			{
 				if(different)
 				{
@@ -231,7 +214,7 @@ public class CoolerPlacement
 				}
 				return new AdjacentRFCavity(amount, countType, adjType, type);
 			}
-			else if (rule.equals("cooler")) 
+			else if (rule.equals("cooler"))
 			{
 				return new AdjacentCooler(amount, countType, adjType, type);
 			}
@@ -246,97 +229,97 @@ public class CoolerPlacement
 	
 	// Adjacent
 	
-	public static abstract class Adjacent extends PlacementRule.Adjacent<Accelerator, IAcceleratorPart> 
+	public static abstract class Adjacent extends PlacementRule.Adjacent<Accelerator, IAcceleratorPart>
 	{
 		
-		public Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) 
+		public Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType)
 		{
 			super(dependency, amount, countType, adjType);
 		}
 	}
 	
-	public static class AdjacentBeam extends Adjacent 
+	public static class AdjacentBeam extends Adjacent
 	{
 		
-		public AdjacentBeam(int amount, CountType countType, AdjacencyType adjType) 
+		public AdjacentBeam(int amount, CountType countType, AdjacencyType adjType)
 		{
 			super("beam", amount, countType, adjType);
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir) 
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
 		{
 			return isBeam(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
 	}
 	
-	public static class AdjacentMagnet extends Adjacent 
+	public static class AdjacentMagnet extends Adjacent
 	{
 		
 		protected final String magnetType;
 		
-		public AdjacentMagnet(int amount, CountType countType, AdjacencyType adjType, String magnetType) 
+		public AdjacentMagnet(int amount, CountType countType, AdjacencyType adjType, String magnetType)
 		{
 			super("magnet", amount, countType, adjType);
 			this.magnetType = magnetType;
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir) 
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
 		{
 			return isActiveMagnet(part.getMultiblock(), part.getTilePos().offset(dir),magnetType);
 		}
 	}
 	
-	public static class AdjacentYoke extends Adjacent 
+	public static class AdjacentYoke extends Adjacent
 	{
 		
-		public AdjacentYoke(int amount, CountType countType, AdjacencyType adjType) 
+		public AdjacentYoke(int amount, CountType countType, AdjacencyType adjType)
 		{
 			super("yoke", amount, countType, adjType);
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir) 
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
 		{
 			return isActiveYoke(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
 	}
 	
-	public static class AdjacentRFCavity extends Adjacent 
+	public static class AdjacentRFCavity extends Adjacent
 	{
 		
 		protected final String cavityType;
 		
-		public AdjacentRFCavity(int amount, CountType countType, AdjacencyType adjType, String cavityType) 
+		public AdjacentRFCavity(int amount, CountType countType, AdjacencyType adjType, String cavityType)
 		{
 			super("cavity", amount, countType, adjType);
 			this.cavityType = cavityType;
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir) 
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
 		{
 			return isActiveRFCavity(part.getMultiblock(), part.getTilePos().offset(dir),cavityType);
 		}
 	}
 	
-	public static class AdjacentCooler extends Adjacent 
+	public static class AdjacentCooler extends Adjacent
 	{
 		
 		protected final String coolerType;
 		
-		public AdjacentCooler(int amount, CountType countType, AdjacencyType adjType, String coolerType) 
+		public AdjacentCooler(int amount, CountType countType, AdjacencyType adjType, String coolerType)
 		{
 			super(coolerType + "_cooler", amount, countType, adjType);
 			this.coolerType = coolerType;
 		}
 		
 		@Override
-		public void checkIsRuleAllowed(String ruleID) 
+		public void checkIsRuleAllowed(String ruleID)
 		{
 			super.checkIsRuleAllowed(ruleID);
-			if (countType != CountType.AT_LEAST && coolerType.equals("any")) 
+			if (countType != CountType.AT_LEAST && coolerType.equals("any"))
 			{
 				
 				throw new IllegalArgumentException((countType == CountType.EXACTLY ? "Exact 'any cooler'" : "'At most n of any cooler'") + " placement rule with ID \"" + ruleID + "\" is disallowed due to potential ambiguity during rule checks!");
@@ -344,40 +327,40 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir) 
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
 		{
 			return isActiveCooler(part.getMultiblock(), part.getTilePos().offset(dir), coolerType);
 		}
 	}
 	
 	
-	public static class AdjacentDifferentMagnet extends Adjacent 
+	public static class AdjacentDifferentMagnet extends Adjacent
 	{
 		
 		
-		public AdjacentDifferentMagnet(int amount, CountType countType, AdjacencyType adjType) 
+		public AdjacentDifferentMagnet(int amount, CountType countType, AdjacencyType adjType)
 		{
 			super("magnet", amount, countType, adjType);
 		}
 		
 		@Override
-		public void checkIsRuleAllowed(String ruleID) 
+		public void checkIsRuleAllowed(String ruleID)
 		{
 			if (adjType != AdjacencyType.STANDARD)
 			{
 				throw new IllegalArgumentException("Diffrent Adjacency placement rule with ID \"" + ruleID + "\" can only be AdjacencyType standard  ");
 			}
-			if (amount > 6) 
+			if (amount > 6)
 			{
 				throw new IllegalArgumentException("Diffrent Adjacency placement rule with ID \"" + ruleID + "\" can not require more than six adjacencies!");
 			}
-			if (amount < 1) 
+			if (amount < 1)
 			{
 				throw new IllegalArgumentException("Diffrent Adjacency placement rule with ID \"" + ruleID + "\" can only require more than one difrent adjacencies");
 			}
 		}
 		
-			
+		
 		@Override
 		public boolean satisfied(IAcceleratorPart tile)
 		{
@@ -409,9 +392,9 @@ public class CoolerPlacement
 		
 		
 		@Override
-		public String buildSubTooltip() 
-		{	
-			return Lang.localise("nc.sf.placement_rule.adjacent." + countType.tooltipSubstring(amount) + adjType.tooltipSubstring(amount),I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), amount, Lang.localise("nc.sf.different." + StringHelper.NUMBER_I2S_MAP.get(amount))));
+		public String buildSubTooltip()
+		{
+			return Lang.localize("nc.sf.placement_rule.adjacent." + countType.tooltipSubstring(amount) + adjType.tooltipSubstring(amount),I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), amount, Lang.localize("nc.sf.different." + StringHelper.NUMBER_I2S_MAP.get(amount))));
 		}
 
 		@Override
@@ -421,34 +404,34 @@ public class CoolerPlacement
 		}
 	}
 	
-	public static class AdjacentDifferentCavity extends Adjacent 
+	public static class AdjacentDifferentCavity extends Adjacent
 	{
 		List<String> storedTypes;
 		
-		public AdjacentDifferentCavity(int amount, CountType countType, AdjacencyType adjType) 
+		public AdjacentDifferentCavity(int amount, CountType countType, AdjacencyType adjType)
 		{
 			super("cavity", amount, countType, adjType);
 			storedTypes = new ArrayList<String>();
 		}
 		
 		@Override
-		public void checkIsRuleAllowed(String ruleID) 
+		public void checkIsRuleAllowed(String ruleID)
 		{
 			if (adjType != AdjacencyType.STANDARD)
 			{
 				throw new IllegalArgumentException("Diffrent Adjacency placement rule with ID \"" + ruleID + "\" can only be AdjacencyType standard  ");
 			}
-			if (amount > 6) 
+			if (amount > 6)
 			{
 				throw new IllegalArgumentException("Diffrent Adjacency placement rule with ID \"" + ruleID + "\" can not require more than six adjacencies!");
 			}
-			if (amount < 1) 
+			if (amount < 1)
 			{
 				throw new IllegalArgumentException("Diffrent Adjacency placement rule with ID \"" + ruleID + "\" can only require more than one difrent adjacencies");
 			}
 		}
 		
-			
+		
 		@Override
 		public boolean satisfied(IAcceleratorPart tile)
 		{
@@ -479,15 +462,15 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir) 
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
 		{
 			return false;
 		}
 		
 		@Override
-		public String buildSubTooltip() 
+		public String buildSubTooltip()
 		{
-			return Lang.localise("nc.sf.placement_rule.adjacent." + countType.tooltipSubstring(amount) + adjType.tooltipSubstring(amount),I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), amount, Lang.localise("nc.sf.different." + StringHelper.NUMBER_I2S_MAP.get(amount))));
+			return Lang.localize("nc.sf.placement_rule.adjacent." + countType.tooltipSubstring(amount) + adjType.tooltipSubstring(amount),I18nHelper.getPluralForm("nc.sf." + dependencies.get(0), amount, Lang.localize("nc.sf.different." + StringHelper.NUMBER_I2S_MAP.get(amount))));
 		}
 		
 		
@@ -499,31 +482,31 @@ public class CoolerPlacement
 	
 	// Helper Methods
 	
-	public static boolean isBeam(Accelerator accelerator, BlockPos pos) 
+	public static boolean isBeam(Accelerator accelerator, BlockPos pos)
 	{
 		TileAcceleratorBeam beam = accelerator.getPartMap(TileAcceleratorBeam.class).get(pos.toLong());
 		return beam == null ? false : beam.isFunctional();
 	}
 	
-	public static boolean isActiveMagnet(Accelerator accelerator, BlockPos pos, String magnetName) 
+	public static boolean isActiveMagnet(Accelerator accelerator, BlockPos pos, String magnetName)
 	{
 		TileAcceleratorMagnet magnet = accelerator.getPartMap(TileAcceleratorMagnet.class).get(pos.toLong());
 		return magnet == null ? false : (magnet.isFunctional() && magnet.name.equals(magnetName))||(magnet.isFunctional() && magnetName == null);
 	}
 	
-	public static boolean isActiveYoke(Accelerator accelerator, BlockPos pos) 
+	public static boolean isActiveYoke(Accelerator accelerator, BlockPos pos)
 	{
 		TileAcceleratorYoke yoke  = accelerator.getPartMap(TileAcceleratorYoke.class).get(pos.toLong());
 		return yoke == null ? false : yoke.isFunctional();
 	}
 	
-	public static boolean isActiveRFCavity(Accelerator accelerator, BlockPos pos, String cavityName) 
+	public static boolean isActiveRFCavity(Accelerator accelerator, BlockPos pos, String cavityName)
 	{
 		TileAcceleratorRFCavity cavity =  accelerator.getPartMap(TileAcceleratorRFCavity.class).get(pos.toLong());
 		return cavity == null ? false : (cavity.isFunctional() && (cavity.name.equals(cavityName))||(cavity.isFunctional() && cavityName == null));
 	}
 	
-	public static boolean isActiveCooler(Accelerator accelerator, BlockPos pos, String coolerName) 
+	public static boolean isActiveCooler(Accelerator accelerator, BlockPos pos, String coolerName)
 	{
 		TileAcceleratorCooler cooler = accelerator.getPartMap(TileAcceleratorCooler.class).get(pos.toLong());
 		return cooler == null ? false : cooler.isFunctional() && (coolerName.equals("any") || cooler.name.equals(coolerName));
@@ -537,10 +520,10 @@ public class CoolerPlacement
 	
 	// Tooltip Recipes
 	
-	public static class RecipeHandler extends PlacementRule.RecipeHandler 
+	public static class RecipeHandler extends PlacementRule.RecipeHandler
 	{
 		
-		public RecipeHandler() 
+		public RecipeHandler()
 		{
 			super("accelerator");
 		}

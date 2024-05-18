@@ -1,35 +1,26 @@
 package lach_01298.qmd.proxy;
 
-import static lach_01298.qmd.config.QMDConfig.clientPreInit;
-
-import lach_01298.qmd.QMD;
-import lach_01298.qmd.QMDTooltipHandler;
+import lach_01298.qmd.*;
 import lach_01298.qmd.item.QMDArmour;
-import lach_01298.qmd.render.ArmPositionHandler;
-import lach_01298.qmd.render.DrillBlockRenderHandler;
-import lach_01298.qmd.render.QMDRenderHandler;
+import lach_01298.qmd.render.*;
 import lach_01298.qmd.render.entity.BeamRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.renderer.color.*;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 
-public class ClientProxy extends CommonProxy 
+import static lach_01298.qmd.config.QMDConfig.clientPreInit;
+
+public class ClientProxy extends CommonProxy
 {
 
 	@Override
@@ -70,7 +61,7 @@ public class ClientProxy extends CommonProxy
 
 
 	@Override
-	public EntityPlayer getPlayerClient() 
+	public EntityPlayer getPlayerClient()
 	{
 		return Minecraft.getMinecraft().player;
 	}

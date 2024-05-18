@@ -6,7 +6,7 @@ public interface IParticleStackHandler
 {
 
 	/**
-	 * 
+	 *
 	 * @param side
 	 * @param stack - the ParticleStack to be inputed
 	 * @return if the stack could be inputed
@@ -15,14 +15,14 @@ public interface IParticleStackHandler
 	
 	
 	/**
-	 * 
+	 *
 	 * @param side
 	 * @return the extracted ParticleStack
 	 */
 	ParticleStack extractParticle(EnumFacing side);
 	
 	/**
-	 * 
+	 *
 	 * @param side
 	 * @param type the type of particle
 	 * @return the extracted ParticleStack
@@ -30,25 +30,25 @@ public interface IParticleStackHandler
 	ParticleStack extractParticle(EnumFacing side, Particle type);
 	
 	/**
-	 * 
+	 *
 	 * @param side
-	 *@param the amount of particles
+	 *@param Amount the amount of particles
 	 * @return the extracted ParticleStack
 	 */
 	ParticleStack extractParticle(EnumFacing side, int Amount);
 	
 	/**
-	 * 
+	 *
 	 * @param side
 	 * @param type the type of particle
-	 * @param the amount of particles
+	 * @param Amount the amount of particles
 	 * @return the extracted ParticleStack
 	 */
 	ParticleStack extractParticle(EnumFacing side, Particle type, int Amount);
 	
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return a copy of the ParticleStack
 	 */
 	ParticleStack getParticle();
@@ -56,7 +56,7 @@ public interface IParticleStackHandler
 	
 
 	/**
-	 * 
+	 *
 	 * @param side
 	 * @param stack - the ParticleStack to be inputed
 	 * @return if the stack could be inputed
@@ -64,7 +64,7 @@ public interface IParticleStackHandler
 	boolean canReciveParticle(EnumFacing side, ParticleStack stack);
 	
 	/**
-	 * 
+	 *
 	 * @param side
 	 * @return if the a ParticleStack could be extracted
 	 */

@@ -1,53 +1,29 @@
 package lach_01298.qmd.recipe;
 
-import static nc.util.PermutationHelper.permutations;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.google.common.collect.Lists;
+import crafttweaker.annotations.ZenRegister;
+import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.longs.*;
+import lach_01298.qmd.particle.*;
+import lach_01298.qmd.recipe.ingredient.*;
+import nc.recipe.IngredientSorption;
+import nc.recipe.ingredient.*;
+import nc.tile.internal.fluid.Tank;
+import nc.util.*;
+import net.minecraft.block.Block;
+import net.minecraft.item.*;
+import net.minecraftforge.fluids.*;
+import org.apache.commons.lang3.tuple.Triple;
+import stanhebben.zenscript.annotations.*;
 
 import javax.annotation.Nullable;
+import java.util.*;
 
-import org.apache.commons.lang3.tuple.Triple;
-
-import com.google.common.collect.Lists;
-
-import crafttweaker.annotations.ZenRegister;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
-import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
-import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.ChanceFluidIngredient;
-import nc.recipe.ingredient.ChanceItemIngredient;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.recipe.ingredient.EmptyItemIngredient;
-import nc.recipe.ingredient.FluidIngredient;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
-import nc.recipe.ingredient.ItemIngredient;
-import nc.recipe.ingredient.OreIngredient;
-import nc.tile.internal.fluid.Tank;
-import nc.util.FluidRegHelper;
-import nc.util.OreDictHelper;
-import nc.util.StackHelper;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import static nc.util.PermutationHelper.permutations;
 
 @ZenClass("mods.qmd.AbstractQMDRecipeHandler")
 @ZenRegister
-public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe> 
+public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 {
 	protected List<RECIPE> recipeList = new ArrayList<>();
 	
@@ -93,7 +69,7 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 		List<RECIPE> matchingRecipes = recipeCache.get(QMDRecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs,particleInputs));
 		
 		if (matchingRecipes != null)
-		{	
+		{
 			
 			for(RECIPE recipe : matchingRecipes)
 			{

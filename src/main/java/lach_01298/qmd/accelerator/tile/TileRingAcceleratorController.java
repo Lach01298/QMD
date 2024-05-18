@@ -1,15 +1,15 @@
 package lach_01298.qmd.accelerator.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileRingAcceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileRingAcceleratorController>
 {
@@ -39,7 +39,7 @@ public class TileRingAcceleratorController extends TileAcceleratorPart implement
 	@Override
 	public void onMachineBroken()
 	{
-		super.onMachineBroken();	
+		super.onMachineBroken();
 	}
 
 	@Override

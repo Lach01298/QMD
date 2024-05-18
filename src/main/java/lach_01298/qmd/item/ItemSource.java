@@ -1,15 +1,9 @@
 package lach_01298.qmd.item;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.util.Units;
 import nc.item.NCItem;
-import nc.util.InfoHelper;
-import nc.util.Lang;
-import nc.util.StackHelper;
+import nc.util.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -17,6 +11,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 
 public class ItemSource extends NCItem implements IItemParticleAmount
@@ -36,12 +33,12 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 			for (int i = 0; i < SourceType.values().length; i++)
 			{
 				ItemStack stack = new ItemStack(this, 1, i);
-				IItemParticleAmount.fullItem(stack);	
+				IItemParticleAmount.fullItem(stack);
 				items.add(stack);
 			}
 		}
 	}
-		
+	
 	
 	@Override
 	public int getItemCapacity(ItemStack stack)
@@ -59,9 +56,9 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 				case 3:
 					return SourceType.IRIDIUM_192.getCapacity();
 				case 4:
-					return SourceType.CALCIUM_48.getCapacity();	
+					return SourceType.CALCIUM_48.getCapacity();
 			}
-		}		
+		}
 		return 0;
 	}
 	
@@ -86,13 +83,13 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 
 
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack) 
+	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getItemCapacity(stack), 0D, 1D);
 	}
 	
 	@Override
-	public boolean showDurabilityBar(ItemStack stack) 
+	public boolean showDurabilityBar(ItemStack stack)
 	{
 		return getAmountStored(stack) > 0;
 	}
@@ -100,7 +97,7 @@ public class ItemSource extends NCItem implements IItemParticleAmount
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localize("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}

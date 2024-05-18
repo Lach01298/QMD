@@ -1,21 +1,19 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.multiblock.container.ContainerNucleosynthesisChamberController;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileNucleosynthesisChamberController extends TileVacuumChamberPart implements IVacuumChamberController<TileNucleosynthesisChamberController>
 {
@@ -42,7 +40,7 @@ public class TileNucleosynthesisChamberController extends TileVacuumChamberPart 
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override
@@ -66,12 +64,12 @@ public class TileNucleosynthesisChamberController extends TileVacuumChamberPart 
 
 
 	
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		return super.writeAll(nbt);
 	}
 	
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 	}
@@ -80,7 +78,7 @@ public class TileNucleosynthesisChamberController extends TileVacuumChamberPart 
 	
 	
 	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) 
+	public ContainerMultiblockController getContainer(EntityPlayer player)
 	{
 		return new ContainerNucleosynthesisChamberController(player, this);
 	}
@@ -129,7 +127,7 @@ public class TileNucleosynthesisChamberController extends TileVacuumChamberPart 
 						+ NCMath.sq(getMultiblock().getExteriorLengthZ())) / 4D;
 	}
 
-	public boolean isRenderer() 
+	public boolean isRenderer()
 	{
 		return isRenderer;
 	}

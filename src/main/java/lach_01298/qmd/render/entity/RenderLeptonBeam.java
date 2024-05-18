@@ -1,20 +1,12 @@
 package lach_01298.qmd.render.entity;
 
-import org.lwjgl.opengl.GL11;
-
 import lach_01298.qmd.entity.EntityLeptonBeam;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.*;
+import net.minecraftforge.fml.relauncher.*;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderLeptonBeam  extends Render<EntityLeptonBeam>
@@ -24,7 +16,7 @@ public class RenderLeptonBeam  extends Render<EntityLeptonBeam>
 	
 	public RenderLeptonBeam(RenderManager renderManager)
 	{
-		super(renderManager);	
+		super(renderManager);
 	}
 
 	@Override
@@ -36,7 +28,7 @@ public class RenderLeptonBeam  extends Render<EntityLeptonBeam>
 	
 	
 	@Override
-	public void doRender(EntityLeptonBeam entity, double x, double y, double z, float entityYaw, float partialTicks) 
+	public void doRender(EntityLeptonBeam entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		if(previousPartialTicks==partialTicks)
 		{
@@ -74,10 +66,10 @@ public class RenderLeptonBeam  extends Render<EntityLeptonBeam>
 		{
 			GlStateManager.translate(0.6, -0.18, -0.2);
 		}
-	    
-	    
-	    
-	    
+	 
+	 
+	 
+	 
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		
@@ -92,7 +84,7 @@ public class RenderLeptonBeam  extends Render<EntityLeptonBeam>
 		
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-		GlStateManager.disableCull(); 
+		GlStateManager.disableCull();
 		GlStateManager.enableRescaleNormal();
 		
 	    
@@ -120,7 +112,7 @@ public class RenderLeptonBeam  extends Render<EntityLeptonBeam>
         	 GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
              GlStateManager.glNormal3f(0.0F, 0.0F, 0.0125F);
              
-             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);             
+             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
              bufferbuilder.pos(entity.getLength(), -width, 0.0D).tex(0, 1).color(red, green, blue, brightness).endVertex();
              bufferbuilder.pos(0, -width, 0.0D).tex(0, 0).color(red, green, blue, brightness).endVertex();
              bufferbuilder.pos(0, width, 0.0D).tex(1, 0).color(red, green, blue, brightness).endVertex();

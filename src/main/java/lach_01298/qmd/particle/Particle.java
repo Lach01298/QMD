@@ -1,11 +1,10 @@
 package lach_01298.qmd.particle;
 
-import java.util.HashMap;
-
-import javax.annotation.Nonnull;
-
 import lach_01298.qmd.QMD;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
 
 public class Particle
 {
@@ -127,7 +126,7 @@ public class Particle
 	
 	public void setComponentParticles(HashMap<Particle, Integer> particles)
 	{
-		componentParticles = particles;	
+		componentParticles = particles;
 	}
 
 	public HashMap<Particle, Integer> getComponentParticles()
@@ -171,5 +170,3 @@ public class Particle
 	
 	
 }
-
-

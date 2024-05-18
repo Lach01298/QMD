@@ -1,10 +1,7 @@
 package lach_01298.qmd.util;
 
 import io.netty.buffer.ByteBuf;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorage;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.particle.*;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -14,9 +11,9 @@ public class ByteUtil
 
 	
 	
-	public static void writeBufHeat(HeatBuffer heatBuffer,ByteBuf buf) 
+	public static void writeBufHeat(HeatBuffer heatBuffer,ByteBuf buf)
 	{
-		buf.writeLong(heatBuffer.getHeatCapacity());	
+		buf.writeLong(heatBuffer.getHeatCapacity());
 		buf.writeLong(heatBuffer.getHeatStored());
 	}
 	
@@ -30,7 +27,7 @@ public class ByteUtil
 		return buffer;
 	}
 	
-	public static void writeBufEnergy(EnergyStorage energyStorage,ByteBuf buf) 
+	public static void writeBufEnergy(EnergyStorage energyStorage,ByteBuf buf)
 	{
 		
 		buf.writeInt(energyStorage.getMaxEnergyStored());
@@ -47,7 +44,7 @@ public class ByteUtil
 	}
 	
 	
-	public static void writeBufBeam(ParticleStorage storage,ByteBuf buf) 
+	public static void writeBufBeam(ParticleStorage storage,ByteBuf buf)
 	{
 		ParticleStack stack = storage.getParticleStack();
 		
@@ -113,7 +110,7 @@ public class ByteUtil
 	
 	
 	
-	public static void writeBufParticleStorage(ParticleStorage storage,ByteBuf buf) 
+	public static void writeBufParticleStorage(ParticleStorage storage,ByteBuf buf)
 	{
 		ParticleStack stack = storage.getParticleStack();
 		

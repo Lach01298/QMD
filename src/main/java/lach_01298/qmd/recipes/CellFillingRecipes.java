@@ -1,14 +1,11 @@
 package lach_01298.qmd.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.item.QMDItems;
-import nc.recipe.BasicRecipeHandler;
-import nc.recipe.RecipeHelper;
+import nc.recipe.*;
 import nc.recipe.ingredient.IItemIngredient;
 import net.minecraft.item.ItemStack;
+
+import java.util.*;
 
 public class CellFillingRecipes extends BasicRecipeHandler
 {
@@ -51,7 +48,7 @@ public class CellFillingRecipes extends BasicRecipeHandler
 	
 	
 	@Override
-	public List fixExtras(List extras)
+	public List fixedExtras(List extras)
 	{
 		List fixed = new ArrayList(1);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1000);
@@ -59,4 +56,3 @@ public class CellFillingRecipes extends BasicRecipeHandler
 	}
 
 }
-

@@ -1,41 +1,26 @@
 package lach_01298.qmd.accelerator;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.DeceleratorUpdatePacket;
-import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
 
 public class DeceleratorLogic extends AcceleratorLogic
 {
 	
-	// Multiblock logic	
+	// Multiblock logic
 	
 	public DeceleratorLogic(AcceleratorLogic oldLogic)
 	{
@@ -76,13 +61,13 @@ public class DeceleratorLogic extends AcceleratorLogic
 		{
 			return  Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength, getBeamRadius(), particle.getCharge(), particle.getMass());
 		}
-		return 0;	
+		return 0;
 	}
 	
 	// Multiblock Validation
 	
 	@Override
-	public boolean isMachineWhole() 
+	public boolean isMachineWhole()
 	{
 		Accelerator acc = getMultiblock();
 		
@@ -152,7 +137,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 			{
 				outputs++;
 			}
-				
+			
 			if(port.getPos().getY() != acc.getMiddleY())
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_inline_with_beam", port.getPos());
@@ -186,7 +171,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
 			return false;
-		}	
+		}
 		if(containsBlacklistedPart())
 		{
 			return false;
@@ -237,7 +222,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 		postions.add(acc.getExtremeInteriorCoord(false, false, true).add(1, acc.getInteriorLengthY() / 2, -(getThickness() - 2) / 2));
 		postions.add(acc.getExtremeInteriorCoord(true, false, false).add(-(getThickness() - 2) / 2, acc.getInteriorLengthY() / 2, 1));
 		postions.add(acc.getExtremeInteriorCoord(true, false, true).add(-(getThickness() - 2) / 2, acc.getInteriorLengthY() / 2, -1));
-				
+		
 		return postions;
 	}
 	
@@ -297,7 +282,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 	protected void refreshBeams()
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
-		pull();	
+		pull();
 	}
 	
 	@Override
@@ -350,7 +335,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 			}
 		}
 	}
-		
+	
 	// Recipe handling
 	
 	private void resetOutputBeam()
@@ -416,7 +401,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
 		super.readFromLogicTag(logicTag, syncReason);
-	}	
+	}
 	
 	// Network
 	@Override
@@ -427,7 +412,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().acceleratingVoltage,
 				getMultiblock().RFCavityNumber, getMultiblock().quadrupoleNumber, getMultiblock().quadrupoleStrength, getMultiblock().dipoleNumber, getMultiblock().dipoleStrength, getMultiblock().errorCode,
 				getMultiblock().heatBuffer, getMultiblock().energyStorage, getMultiblock().tanks, getMultiblock().beams);
-	} 
+	}
 	
 	@Override
 	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
@@ -437,6 +422,6 @@ public class DeceleratorLogic extends AcceleratorLogic
 		{
 			DeceleratorUpdatePacket packet = (DeceleratorUpdatePacket) message;
 		}
-	}	
+	}
 
 }

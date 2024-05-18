@@ -1,9 +1,9 @@
 package lach_01298.qmd.pipe;
 
 import io.netty.buffer.ByteBuf;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.util.ByteUtil;
 import nc.network.multiblock.MultiblockUpdatePacket;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
 
 
 public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
@@ -14,7 +14,7 @@ public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
 	
 	public PipeBeamlineUpdatePacket()
 	{
-		
+	
 	}
 	
 	public PipeBeamlineUpdatePacket(ParticleStorageAccelerator storage)
@@ -37,10 +37,10 @@ public class PipeBeamlineUpdatePacket extends PipeUpdatePacket
 	}
 
 	
-public static class Handler extends MultiblockUpdatePacket.Handler<Pipe, IPipePart, PipeUpdatePacket, TileBeamline, PipeBeamlineUpdatePacket> 
+public static class Handler extends MultiblockUpdatePacket.Handler<Pipe, IPipePart, PipeUpdatePacket, TileBeamline, PipeBeamlineUpdatePacket>
 {
 		
-		public Handler() 
+		public Handler()
 		{
 			super(TileBeamline.class);
 		}

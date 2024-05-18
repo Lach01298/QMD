@@ -1,14 +1,9 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import nc.block.property.BlockProperties;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class TileVacuumChamberBeam extends TileVacuumChamberPart implements IVacuumChamberComponent
 {

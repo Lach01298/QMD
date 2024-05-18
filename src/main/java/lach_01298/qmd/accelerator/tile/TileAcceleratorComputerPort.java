@@ -1,26 +1,16 @@
 package lach_01298.qmd.accelerator.tile;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
-import lach_01298.qmd.accelerator.MassSpectrometerLogic;
-import lach_01298.qmd.accelerator.RFCavity;
-import lach_01298.qmd.accelerator.RingAcceleratorLogic;
+import lach_01298.qmd.accelerator.*;
 import lach_01298.qmd.particle.ParticleStack;
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.machine.*;
 import li.cil.oc.api.network.SimpleComponent;
-import nc.block.property.BlockProperties;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 public class TileAcceleratorComputerPort extends TileAcceleratorPart implements SimpleComponent
@@ -208,7 +198,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	// Particle stuff
 	@Callback(doc = "--function():bool Returns if the accelerator has a particle stack")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] hasParticle(Context context, Arguments args) 
+	public Object[] hasParticle(Context context, Arguments args)
 	{
 		return new Object[] { getMultiblock().beams.get(1).getParticleStack() != null };
 	}
@@ -242,7 +232,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 			infoData.put("type", getMultiblock().beams.get(1).getParticleStack().getParticle().getName());
 			infoData.put("amount", getMultiblock().beams.get(1).getParticleStack().getAmount());
 			infoData.put("energy", getMultiblock().beams.get(1).getParticleStack().getMeanEnergy());
-			infoData.put("focus", getMultiblock().beams.get(1).getParticleStack().getFocus());	
+			infoData.put("focus", getMultiblock().beams.get(1).getParticleStack().getFocus());
 		}
 		
 		
@@ -262,7 +252,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 				infoData.put("type", getMultiblock().beams.get(2).getParticleStack().getParticle().getName());
 				infoData.put("amount", getMultiblock().beams.get(2).getParticleStack().getAmount());
 				infoData.put("energy", getMultiblock().beams.get(2).getParticleStack().getMeanEnergy());
-				infoData.put("focus", getMultiblock().beams.get(2).getParticleStack().getFocus());	
+				infoData.put("focus", getMultiblock().beams.get(2).getParticleStack().getFocus());
 			}
 		}
 		
@@ -296,13 +286,13 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function():bool Returns if the accelerator has an ion source")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] hasIonSource(Context context, Arguments args) 
+	public Object[] hasIonSource(Context context, Arguments args)
 	{
 		boolean hasSource = false;
-		if(isMultiblockAssembled() && getMultiblock().controller.getLogicID() == "linear_accelerator") 
+		if(isMultiblockAssembled() && getMultiblock().controller.getLogicID() == "linear_accelerator")
 		{
 			LinearAcceleratorLogic logic = (LinearAcceleratorLogic) getMultiblock().controller.getLogic();
-			if(logic.getSource() != null) 
+			if(logic.getSource() != null)
 			{
 				hasSource = true;
 			}
@@ -313,10 +303,10 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function():table Returns infomation about the ion source. (source_item, source_fluid, particle_type, amount, energy, focus)")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getIonSourceInfo(Context context, Arguments args) 
+	public Object[] getIonSourceInfo(Context context, Arguments args)
 	{
 		Map<String, Object> infoData = new HashMap<String, Object>();
-		if(isMultiblockAssembled() && getMultiblock().controller.getLogicID() == "linear_accelerator") 
+		if(isMultiblockAssembled() && getMultiblock().controller.getLogicID() == "linear_accelerator")
 		{
 			LinearAcceleratorLogic logic = (LinearAcceleratorLogic) getMultiblock().controller.getLogic();
 			if(logic.getSource() != null)
@@ -349,7 +339,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	//accelerator control
 	@Callback(doc = "--function(int energy_percentage):int changes output particle energy to this percentage of the max energy (For decelerators it outputs the opposite percentage e.g. 15% -> 85% output energy). Can only be between 5 and 100 inclusive or 0 to turn of accelerator entirely. For beam diverters this only turns it on/off. Returns what it was set to")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] setEnergyPercentage(Context context, Arguments args) 
+	public Object[] setEnergyPercentage(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {0};
 		getMultiblock().computerControlled = true;
@@ -370,7 +360,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function(bool computer_controlled):bool turns computer controlled mode on/off. With this on accelerator controller ignores redstone. Returns what it was set to")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] setComputerControlled(Context context, Arguments args) 
+	public Object[] setComputerControlled(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		boolean computerCotrolled = args.checkBoolean(0);
@@ -382,7 +372,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function():int Returns the energyPercentage set.")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getEnergyPercentage(Context context, Arguments args) 
+	public Object[] getEnergyPercentage(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {0};
 		return new Object[] {getMultiblock().energyPercentage};
@@ -390,7 +380,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function():bool Returns if accelerator is in computer controlled mode")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] isComputerControlled(Context context, Arguments args) 
+	public Object[] isComputerControlled(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		
@@ -399,7 +389,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function(x,y,z):bool Returns if position (x,y,z) is a beam port")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] isBeamPort(Context context, Arguments args) 
+	public Object[] isBeamPort(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		BlockPos pos = new BlockPos(args.checkInteger(0),args.checkInteger(1),args.checkInteger(2));
@@ -416,7 +406,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function(x,y,z):bool Returns if beam port mode was switched")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] switchBeamPort(Context context, Arguments args) 
+	public Object[] switchBeamPort(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {false};
 		BlockPos pos = new BlockPos(args.checkInteger(0),args.checkInteger(1),args.checkInteger(2));
@@ -436,7 +426,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function(x,y,z):string Returns beam port's mode. Returns invalid if invalid beam port otherwise either input, output or disabled")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getBeamPortMode(Context context, Arguments args) 
+	public Object[] getBeamPortMode(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {"invalid"};
 		BlockPos pos = new BlockPos(args.checkInteger(0),args.checkInteger(1),args.checkInteger(2));
@@ -453,7 +443,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	
 	@Callback(doc = "--function(x,y,z):string Returns beam port's switch mode. Returns invalid if invalid beam port otherwise either input or output")
 	@Optional.Method(modid = "opencomputers")
-	public Object[] getBeamPortSwitchMode(Context context, Arguments args) 
+	public Object[] getBeamPortSwitchMode(Context context, Arguments args)
 	{
 		if(!isMultiblockAssembled()) return new Object[] {"invalid"};
 		BlockPos pos = new BlockPos(args.checkInteger(0),args.checkInteger(1),args.checkInteger(2));

@@ -1,11 +1,8 @@
 package lach_01298.qmd.container.slot;
 
-import lach_01298.qmd.item.IItemParticleAmount;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class SlotDisabled extends Slot
 {

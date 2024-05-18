@@ -1,13 +1,9 @@
 package lach_01298.qmd.multiblock;
 
-import lach_01298.qmd.network.QMDPacketHandler;
 import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockValidationError;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.multiblock.internal.MultiblockValidationError;
+import nc.tile.multiblock.ITileMultiblockPart;
 import nc.util.NCMath;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

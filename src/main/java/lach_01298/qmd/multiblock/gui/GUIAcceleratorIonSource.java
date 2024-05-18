@@ -6,18 +6,14 @@ import lach_01298.qmd.multiblock.container.ContainerAcceleratorIonSource;
 import lach_01298.qmd.multiblock.network.ClearTankPacket;
 import lach_01298.qmd.network.QMDPacketHandler;
 import nc.gui.NCGui;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
-import nc.multiblock.gui.element.MultiblockButton;
-import nc.network.PacketHandler;
-import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.gui.element.*;
 import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIAcceleratorIonSource extends NCGui 
+public class GUIAcceleratorIonSource extends NCGui
 {
 
 	protected final EntityPlayer player;

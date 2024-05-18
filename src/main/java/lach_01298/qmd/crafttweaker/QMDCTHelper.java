@@ -1,17 +1,13 @@
 package lach_01298.qmd.crafttweaker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import crafttweaker.CraftTweakerAPI;
-import crafttweaker.api.item.IIngredient;
-import crafttweaker.api.item.IngredientOr;
+import crafttweaker.api.item.*;
 import lach_01298.qmd.crafttweaker.particle.IParticleStack;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipeHelper;
-import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
+import lach_01298.qmd.recipe.ingredient.*;
+
+import java.util.*;
 
 
 
@@ -21,12 +17,12 @@ import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
 public class QMDCTHelper
 {
 
-	public static ParticleStack getParticleStack(IParticleStack stack) 
+	public static ParticleStack getParticleStack(IParticleStack stack)
 	{
 		if(stack == null) return null;
 		
 		Object internal = stack.getInternal();
-		if (!(internal instanceof ParticleStack)) 
+		if (!(internal instanceof ParticleStack))
 		{
 			CraftTweakerAPI.logError("Not a valid particle stack: " + stack);
 		}
@@ -54,51 +50,51 @@ public class QMDCTHelper
 		}
 	}
 	
-	public static IParticleIngredient buildRemovalParticleIngredient(IIngredient ingredient) 
+	public static IParticleIngredient buildRemovalParticleIngredient(IIngredient ingredient)
 	{
-		if (ingredient == null) 
+		if (ingredient == null)
 		{
 			return new EmptyParticleIngredient();
-		} 
-		else if (ingredient instanceof IParticleStack) 
+		}
+		else if (ingredient instanceof IParticleStack)
 		{
 			return new ParticleIngredient(((IParticleStack)ingredient).getName(), ((IParticleStack)ingredient).getAmount(), ((IParticleStack)ingredient).getMeanEnergy(),((IParticleStack)ingredient).getFocus());
-		} 
-		else if (ingredient instanceof IngredientOr) 
+		}
+		else if (ingredient instanceof IngredientOr)
 		{
 			return buildRemovalParticleIngredientArray((IngredientOr) ingredient);
-		} 
-		else 
+		}
+		else
 		{
 			CraftTweakerAPI.logError(String.format("QMD: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 	}
 	
-	public static IParticleIngredient buildAdditionParticleIngredientArray(IngredientOr ingredient) 
+	public static IParticleIngredient buildAdditionParticleIngredientArray(IngredientOr ingredient)
 	{
-		if (!(ingredient.getInternal() instanceof IIngredient[])) 
+		if (!(ingredient.getInternal() instanceof IIngredient[]))
 		{
 			CraftTweakerAPI.logError(String.format("QMD: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 		List<IParticleIngredient> ingredientList = new ArrayList<>();
-		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) 
+		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal())
 		{
 			ingredientList.add(buildAdditionParticleIngredient(ctIngredient));
 		}
 		return QMDRecipeHelper.buildParticleIngredient(ingredientList);
 	}
 	
-	public static IParticleIngredient buildRemovalParticleIngredientArray(IngredientOr ingredient) 
+	public static IParticleIngredient buildRemovalParticleIngredientArray(IngredientOr ingredient)
 	{
-		if (!(ingredient.getInternal() instanceof IIngredient[])) 
+		if (!(ingredient.getInternal() instanceof IIngredient[]))
 		{
 			CraftTweakerAPI.logError(String.format("QMD: Invalid ingredient: %s, %s", ingredient.getClass().getName(), ingredient));
 			return null;
 		}
 		List<IParticleIngredient> ingredientList = new ArrayList<>();
-		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal()) 
+		for (IIngredient ctIngredient : (IIngredient[])ingredient.getInternal())
 		{
 			ingredientList.add(buildRemovalParticleIngredient(ctIngredient));
 		}

@@ -1,8 +1,7 @@
 package lach_01298.qmd;
 
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
-import lach_01298.qmd.enums.MaterialTypes.SourceType;
+import lach_01298.qmd.enums.MaterialTypes.*;
 import lach_01298.qmd.item.QMDItems;
 import nc.radiation.RadSources;
 import net.minecraft.item.ItemStack;
@@ -23,7 +22,7 @@ public class QMDRadSources
 	public static final double DEPLETED_MIX_291 =  RadSources.getDepletedFuelRadiation(RadSources.AMERICIUM_243, 4, RadSources.CURIUM_243, 2, RadSources.CURIUM_245, 1,  RadSources.BERKELIUM_247, 1, RadSources.RUTHENIUM_106, RadSources.EUROPIUM_155, 1.5D, 0.6D);
 	public static final double MIX_291_FISSION = (MIX_291 + DEPLETED_MIX_291) / 64D;
 	
-	public static void init() 
+	public static void init()
 	{
 		RadSources.putMaterial(BERYLLIUM_7, "Beryllium7");
 		RadSources.putMaterial(SODIUM_22, "Sodium22");

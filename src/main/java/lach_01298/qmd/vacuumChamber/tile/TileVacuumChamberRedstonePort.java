@@ -1,10 +1,5 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-
-import javax.annotation.Nullable;
-
-import lach_01298.qmd.accelerator.block.BlockAcceleratorRedstonePort;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberRedstonePort;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -14,12 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.math.*;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+
+import javax.annotation.Nullable;
+
+import static nc.block.property.BlockProperties.ACTIVE;
 
 public class TileVacuumChamberRedstonePort extends TileVacuumChamberPart
 {
@@ -36,7 +33,7 @@ public class TileVacuumChamberRedstonePort extends TileVacuumChamberPart
 	@Override
 	public void onMachineAssembled(VacuumChamber controller)
 	{
-		
+	
 
 	}
 
@@ -80,18 +77,18 @@ public class TileVacuumChamberRedstonePort extends TileVacuumChamberPart
 					setRedstoneLevel(0);
 					updateBlockState(false);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localise("qmd.block.redstone_port_toggle") + " "
-							+ TextFormatting.DARK_BLUE + Lang.localise("qmd.block.redstone_port_toggle.1") + " "
-							+ TextFormatting.WHITE + Lang.localise("qmd.block.redstone_port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("qmd.block.redstone_port_toggle") + " "
+							+ TextFormatting.DARK_BLUE + Lang.localize("qmd.block.redstone_port_toggle.1") + " "
+							+ TextFormatting.WHITE + Lang.localize("qmd.block.redstone_port_toggle.mode")));
 				}
 				else
 				{
 					setRedstoneLevel(0);
 					updateBlockState(true);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localise("qmd.block.redstone_port_toggle") + " "
-							+ TextFormatting.DARK_GREEN + Lang.localise("qmd.block.redstone_port_toggle.2") + " "
-							+ TextFormatting.WHITE + Lang.localise("qmd.block.redstone_port_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("qmd.block.redstone_port_toggle") + " "
+							+ TextFormatting.DARK_GREEN + Lang.localize("qmd.block.redstone_port_toggle.2") + " "
+							+ TextFormatting.WHITE + Lang.localize("qmd.block.redstone_port_toggle.mode")));
 				}
 				markDirtyAndNotify();
 				return true;
@@ -139,7 +136,7 @@ public class TileVacuumChamberRedstonePort extends TileVacuumChamberPart
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
-	{	
+	{
 		return super.hasCapability(capability, side);
 	}
 
@@ -152,8 +149,3 @@ public class TileVacuumChamberRedstonePort extends TileVacuumChamberPart
 
 
 }
-	
-		
-		
-		
-

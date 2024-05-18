@@ -1,17 +1,16 @@
 package lach_01298.qmd.particleChamber.tile;
 
-
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileBeamDumpController extends TileParticleChamberPart implements IParticleChamberController<TileBeamDumpController>
 {
@@ -35,7 +34,7 @@ public class TileBeamDumpController extends TileParticleChamberPart implements I
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override
@@ -57,14 +56,14 @@ public class TileBeamDumpController extends TileParticleChamberPart implements I
 		if (getMultiblock() != null) getMultiblock().updateActivity();
 	}
 	
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		super.writeAll(nbt);
 
 		return nbt;
 	}
 	
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		

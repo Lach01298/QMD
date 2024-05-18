@@ -5,19 +5,18 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.JEIHelper.RecipeItemMapper;
-import nc.integration.jei.NCJEI.IJEIHandler;
 import nc.recipe.IngredientSorption;
 
-public class IrradiatorFuelCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.IrradiatorFuel> 
+public class IrradiatorFuelCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.IrradiatorFuel>
 {
 	
-	public IrradiatorFuelCategory(IGuiHelper guiHelper, IJEIHandler handler) 
+	public IrradiatorFuelCategory(IGuiHelper guiHelper, IJEIHandler handler)
 	{
 		super(guiHelper, handler, "irradiator_fuel", 62, 5, 52, 52);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.IrradiatorFuel recipeWrapper, IIngredients ingredients) 
+	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.IrradiatorFuel recipeWrapper, IIngredients ingredients)
 	{
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		

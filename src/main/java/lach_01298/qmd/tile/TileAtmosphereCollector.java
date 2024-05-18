@@ -2,16 +2,13 @@ package lach_01298.qmd.tile;
 
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.recipes.AtmosphereCollectorRecipes;
-import nc.tile.generator.TileItemFluidGenerator;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.MaterialHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.*;
 
 public class TileAtmosphereCollector extends  TileItemFluidGenerator
 {
@@ -28,7 +25,7 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 	@Override
 	public void update()
 	{
-		if (!world.isRemote) 
+		if (!world.isRemote)
 		{
 			time++;
 			
@@ -41,17 +38,17 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 			
 			boolean wasProcessing = isProcessing, shouldUpdate = false;
 			isProcessing = isProcessing();
-			if (isProcessing) 
+			if (isProcessing)
 			{
 				process();
 			}
 			
-			if (wasProcessing != isProcessing) 
+			if (wasProcessing != isProcessing)
 			{
 				shouldUpdate = true;
 				
 			}
-			if (shouldUpdate) 
+			if (shouldUpdate)
 			{
 				markDirty();
 			}
@@ -68,52 +65,52 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 	}
 	
 	@Override
-	public void refreshRecipe() 
-	{
-		
-	}
-	
-	@Override
-	public void refreshActivity() 
+	public void refreshRecipe()
 	{
 	
 	}
 	
 	@Override
-	public boolean isProcessing() 
+	public void refreshActivity()
+	{
+	
+	}
+	
+	@Override
+	public boolean isProcessing()
 	{
 		return readyToProcess();
 	}
 	
 	@Override
-	public boolean readyToProcess() 
+	public boolean readyToProcess()
 	{
 		return hasSufficientEnergy();
 	}
 	
-	public boolean hasSufficientEnergy() 
+	public boolean hasSufficientEnergy()
 	{
 		return getEnergyStored() >= QMDConfig.processor_power[1];
 	}
 	
 	
 	@Override
-	public void process() 
+	public void process()
 	{
 		FluidStack fluidStack = AtmosphereCollectorRecipes.getRecipe(world.provider.getDimension());
 		if(fluidStack != null && !getTanks().get(0).isFull())
 		{
 			getEnergyStorage().changeEnergyStored((int) -QMDConfig.processor_power[1]);
 			
-			if (getTanks().get(0).isEmpty()) 
+			if (getTanks().get(0).isEmpty())
 			{
 				getTanks().get(0).changeFluidStored(fluidStack.getFluid(),(int) (fluidStack.amount*efficiency));
 			}
-			else if (getTanks().get(0).getFluid().isFluidEqual(fluidStack)) 
+			else if (getTanks().get(0).getFluid().isFluidEqual(fluidStack))
 			{
 				getTanks().get(0).changeFluidAmount((int) (fluidStack.amount*efficiency));
 			}
-		}	
+		}
 	}
 	
 	public void checkEfficency()
@@ -165,13 +162,13 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 	
 
 	@Override
-	public int getSinkTier() 
+	public int getSinkTier()
 	{
 		return 10;
 	}
 	
 	@Override
-	public int getSourceTier() 
+	public int getSourceTier()
 	{
 		return 1;
 	}
@@ -186,7 +183,7 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 
 	
 	@Override
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		efficiency = nbt.getDouble("efficiency");

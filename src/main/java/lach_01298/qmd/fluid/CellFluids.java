@@ -1,16 +1,11 @@
 package lach_01298.qmd.fluid;
 
-import java.util.Collections;
-import java.util.Set;
-
 import com.google.common.collect.Sets;
+import net.minecraftforge.fluids.*;
 
-import nc.recipe.ingredient.FluidIngredient;
-import nc.util.FluidRegHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import java.util.*;
 
-public class CellFluids 
+public class CellFluids
 {
 
 	static Set<String> cellFluids = Sets.newHashSet();
@@ -18,7 +13,7 @@ public class CellFluids
 
 	public static boolean addFluid(Fluid fluid)
     {
-        if(fluid == null) 
+        if(fluid == null)
         {
             return false;
         }

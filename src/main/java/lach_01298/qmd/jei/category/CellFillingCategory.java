@@ -4,21 +4,19 @@ import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import nc.integration.jei.JEIHelper.RecipeFluidMapper;
-import nc.integration.jei.JEIHelper.RecipeItemMapper;
-import nc.integration.jei.NCJEI.IJEIHandler;
+import nc.integration.jei.JEIHelper.*;
 import nc.recipe.IngredientSorption;
 
-public class CellFillingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.CellFilling> 
+public class CellFillingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.CellFilling>
 {
 	
-	public CellFillingCategory(IGuiHelper guiHelper, IJEIHandler handler) 
+	public CellFillingCategory(IGuiHelper guiHelper, IJEIHandler handler)
 	{
 		super(guiHelper, handler, "cell_filling", 0, 0, 64, 45);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.CellFilling recipeWrapper, IIngredients ingredients) 
+	public void setRecipe(IRecipeLayout recipeLayout, QMDRecipeWrapper.CellFilling recipeWrapper, IIngredients ingredients)
 	{
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		

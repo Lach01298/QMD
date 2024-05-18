@@ -1,14 +1,13 @@
 package lach_01298.qmd.entity;
 
-import java.awt.Color;
-
-import lach_01298.qmd.network.LeptonBeamUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.network.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+
+import java.awt.*;
 
 public class EntityLeptonBeam extends EntityBeamProjectile
 {
@@ -40,7 +39,7 @@ public class EntityLeptonBeam extends EntityBeamProjectile
 	@Override
 	protected void entityInit()
 	{
-		
+	
 	}
 
 	@Override

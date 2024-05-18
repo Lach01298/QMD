@@ -1,17 +1,13 @@
 package lach_01298.qmd.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
-import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.BasicRecipeHandler;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.recipe.ingredient.EmptyItemIngredient;
+import nc.recipe.ingredient.*;
 import nc.util.FluidStackHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+
+import java.util.*;
 
 public class MassSpectrometerRecipes extends BasicRecipeHandler
 {
@@ -237,7 +233,7 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		
 		addRecipe("dustZincSulfide",new EmptyFluidIngredient(),
 				"dustSulfur", "dustZinc",new EmptyItemIngredient(),new EmptyItemIngredient(),
-				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());		
+				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
 		//alloys
 		addRecipe(oreStackList(Lists.newArrayList("ingotBronze","dustBronze"),4),new EmptyFluidIngredient(),
@@ -424,7 +420,7 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 	}
 
 	@Override
-	public List fixExtras(List extras)
+	public List fixedExtras(List extras)
 	{
 		List fixed = new ArrayList(1);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);

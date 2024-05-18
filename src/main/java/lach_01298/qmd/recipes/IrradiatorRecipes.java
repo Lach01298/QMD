@@ -1,14 +1,12 @@
 package lach_01298.qmd.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lach_01298.qmd.item.QMDItems;
 import nc.init.NCBlocks;
 import nc.recipe.BasicRecipeHandler;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.init.*;
 import net.minecraft.item.ItemStack;
+
+import java.util.*;
 
 public class IrradiatorRecipes extends BasicRecipeHandler
 {
@@ -32,7 +30,7 @@ public class IrradiatorRecipes extends BasicRecipeHandler
 	}
 
 	@Override
-	public List fixExtras(List extras)
+	public List fixedExtras(List extras)
 	{
 		List fixed = new ArrayList(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);

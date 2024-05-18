@@ -1,17 +1,15 @@
 package lach_01298.qmd.recipe;
 
-import java.util.List;
-
 import crafttweaker.annotations.ZenRegister;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.*;
+
+import java.util.List;
 
 @ZenClass("mods.qmd.IQMDRecipe")
 @ZenRegister
@@ -31,42 +29,42 @@ public interface IQMDRecipe {
 	
 	@ZenMethod("getItemIngredient")
 	@Optional.Method(modid = "crafttweaker")
-	public default crafttweaker.api.item.IIngredient ctItemIngredient(int index) 
+	public default crafttweaker.api.item.IIngredient ctItemIngredient(int index)
 	{
 		return getItemIngredients().get(index).ct();
 	}
 	
 	@ZenMethod("getFluidIngredient")
 	@Optional.Method(modid = "crafttweaker")
-	public default crafttweaker.api.item.IIngredient ctFluidIngredient(int index) 
+	public default crafttweaker.api.item.IIngredient ctFluidIngredient(int index)
 	{
 		return getFluidIngredients().get(index).ct();
 	}
 	
 	@ZenMethod("getParticleIngredient")
 	@Optional.Method(modid = "crafttweaker")
-	public default crafttweaker.api.item.IIngredient ctParticleIngredient(int index) 
+	public default crafttweaker.api.item.IIngredient ctParticleIngredient(int index)
 	{
 		return getParticleIngredients().get(index).ct();
 	}
 	
 	@ZenMethod("getItemProduct")
 	@Optional.Method(modid = "crafttweaker")
-	public default crafttweaker.api.item.IIngredient ctItemProduct(int index) 
+	public default crafttweaker.api.item.IIngredient ctItemProduct(int index)
 	{
 		return getItemProducts().get(index).ct();
 	}
 	
 	@ZenMethod("getFluidProduct")
 	@Optional.Method(modid = "crafttweaker")
-	public default crafttweaker.api.item.IIngredient ctFluidProduct(int index) 
+	public default crafttweaker.api.item.IIngredient ctFluidProduct(int index)
 	{
 		return getFluidProducts().get(index).ct();
 	}
 	
 	@ZenMethod("getParticleProduct")
 	@Optional.Method(modid = "crafttweaker")
-	public default crafttweaker.api.item.IIngredient ctParticleProduct(int index) 
+	public default crafttweaker.api.item.IIngredient ctParticleProduct(int index)
 	{
 		return getParticleProducts().get(index).ct();
 	}

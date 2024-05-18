@@ -1,36 +1,26 @@
 package lach_01298.qmd.particleChamber;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import nc.multiblock.IPacketMultiblockLogic;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import lach_01298.qmd.particleChamber.tile.*;
+import nc.multiblock.*;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.entity.player.EntityPlayer;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart>
 		implements IPacketMultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket>
-{ 
+{
 
 	public static final int maxSize = 7;
 	public static final int minSize = 1;
@@ -42,18 +32,18 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	
 	}
 	
-	public ParticleChamberLogic(ParticleChamberLogic oldLogic) 
+	public ParticleChamberLogic(ParticleChamberLogic oldLogic)
 	{
 		super(oldLogic);
 	}
 
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "";
 	}
 
-	protected ParticleChamber getMultiblock() 
+	protected ParticleChamber getMultiblock()
 	{
 		return multiblock;
 	}
@@ -83,7 +73,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	public void onChamberFormed()
 	{
-		for (IParticleChamberController contr : getPartMap(IParticleChamberController.class).values()) 
+		for (IParticleChamberController contr : getPartMap(IParticleChamberController.class).values())
 		{
 			 getMultiblock().controller = contr;
 		}
@@ -91,10 +81,10 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		getMultiblock().energyStorage.setStorageCapacity(QMDConfig.particle_chamber_base_energy_capacity * getCapacityMultiplier());
 		getMultiblock().energyStorage.setMaxTransfer(QMDConfig.particle_chamber_base_energy_capacity * getCapacityMultiplier());
 		
-		if (!getWorld().isRemote) 
+		if (!getWorld().isRemote)
 		{
 			refreshChamber();
-			getMultiblock().updateActivity();	 
+			getMultiblock().updateActivity();
 		}
 	
 	}
@@ -107,7 +97,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	}
 
 	
-	public int getCapacityMultiplier() 
+	public int getCapacityMultiplier()
 	{
 		return getMultiblock().getExteriorVolume();
 	}
@@ -121,7 +111,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	@Override
 	public void onMachineDisassembled()
-	{	
+	{
 		onChamberBroken();
 	}
 	
@@ -143,13 +133,13 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	@Override
 	public void writeToLogicTag(NBTTagCompound data, SyncReason syncReason)
 	{
-		
+	
 	}
 
 	@Override
 	public void readFromLogicTag(NBTTagCompound data, SyncReason syncReason)
 	{
-		
+	
 	}
 
 	@Override
@@ -161,29 +151,29 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	@Override
 	public void onMultiblockUpdatePacket(ParticleChamberUpdatePacket message)
 	{
-		
+	
 	}
 
 	public void onAssimilate(ParticleChamber assimilated)
-	{	
+	{
 		if (assimilated instanceof ParticleChamber)
 		{
 			ParticleChamber assimilatedAccelerator = (ParticleChamber) assimilated;
 			getMultiblock().energyStorage.mergeEnergyStorage(assimilatedAccelerator.energyStorage);
 		}
 		
-		if (getMultiblock().isAssembled()) 
+		if (getMultiblock().isAssembled())
 		{
 			onChamberFormed();
 		}
-		else 
+		else
 		{
 			onChamberBroken();
 		}
 	}
 
 	public void onAssimilated(ParticleChamber assimilator)
-	{	
+	{
 	}
 
 	public void refreshChamber()
@@ -268,7 +258,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 
 	public boolean toggleSetting(BlockPos pos,int ioNumber)
 	{
-		return false;	
+		return false;
 	}
 
 	@Override

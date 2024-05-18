@@ -1,22 +1,18 @@
 package lach_01298.qmd.jei.recipe;
 
-import java.util.List;
-
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeHelper;
+import lach_01298.qmd.recipe.*;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IDrawableAnimated;
-import mezz.jei.api.gui.IDrawableStatic;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
+import mezz.jei.api.gui.*;
+import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 public abstract class JEIRecipeWrapper implements IRecipeWrapper
 {
@@ -50,11 +46,11 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper
 		if(drawArrow)
 		{
 			IDrawableStatic arrowDrawable = guiHelper.createDrawable(arrowLocation, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
-			arrow = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);	
+			arrow = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
 		}
 		else
 		{
-			arrow = null;	
+			arrow = null;
 		}
 		arrowDrawPosX = arrowPosX - backX;
 		arrowDrawPosY = arrowPosY - backY;
@@ -73,7 +69,7 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper
 	
 	
 	@Override
-	public void getIngredients(IIngredients ingredients) 
+	public void getIngredients(IIngredients ingredients)
 	{
 		ingredients.setInputLists(VanillaTypes.ITEM, inputItems);
 		ingredients.setInputLists(VanillaTypes.FLUID, inputFluids);

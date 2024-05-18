@@ -1,36 +1,24 @@
 package lach_01298.qmd.block;
 
-import static nc.util.NCRenderHelper.PIXEL;
-
-import lach_01298.qmd.enums.BlockTypes.RTGType;
 import lach_01298.qmd.enums.BlockTypes.TurbineBladeType;
 import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.QMDTileTurbineBlade;
-import nc.multiblock.block.BlockMultiblockPart;
+import nc.block.turbine.BlockTurbinePart;
 import nc.multiblock.turbine.TurbineRotorBladeUtil;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.IBlockRotorBlade;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbinePartDir;
-import nc.multiblock.turbine.TurbineRotorBladeUtil.TurbineRotorBladeType;
-import nc.multiblock.turbine.block.BlockTurbinePart;
-import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
-import net.minecraft.block.material.Material;
+import nc.multiblock.turbine.TurbineRotorBladeUtil.*;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 
-public class QMDBlockTurbineBlade extends BlockTurbinePart implements IBlockRotorBlade 
+import static nc.util.NCRenderHelper.PIXEL;
+
+public class QMDBlockTurbineBlade extends BlockTurbinePart implements IBlockRotorBlade
 {
 	
 	private static final AxisAlignedBB[] BLADE_AABB = {new AxisAlignedBB(0D, PIXEL * 7D, PIXEL * 2D, PIXEL * 16D, PIXEL * 9D, PIXEL * 14D), new AxisAlignedBB(PIXEL * 2D, 0D, PIXEL * 7D, PIXEL * 14D, PIXEL * 16D, PIXEL * 9D), new AxisAlignedBB(PIXEL * 2D, PIXEL * 7D, 0D, PIXEL * 14D, PIXEL * 9D, PIXEL * 16D)};
@@ -45,19 +33,19 @@ public class QMDBlockTurbineBlade extends BlockTurbinePart implements IBlockRoto
 	}
 	
 	@Override
-	protected BlockStateContainer createBlockState() 
+	protected BlockStateContainer createBlockState()
 	{
 		return new BlockStateContainer(this, new IProperty[] {TurbineRotorBladeUtil.DIR});
 	}
 	
 	@Override
-	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) 
+	public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
 	{
 		return getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.fromFacingAxis(facing.getAxis()));
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) 
+	public TileEntity createNewTileEntity(World world, int metadata)
 	{
 		switch (bladeType) {
 			case SUPER_ALLOY:
@@ -68,14 +56,14 @@ public class QMDBlockTurbineBlade extends BlockTurbinePart implements IBlockRoto
 	}
 	
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) 
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
-		if (state.getBlock() != this) 
+		if (state.getBlock() != this)
 		{
 			return super.getBoundingBox(state, source, pos);
 		}
 		
-		switch (state.getValue(TurbineRotorBladeUtil.DIR)) 
+		switch (state.getValue(TurbineRotorBladeUtil.DIR))
 		{
 			case X:
 				return BLADE_AABB[0];
@@ -89,19 +77,19 @@ public class QMDBlockTurbineBlade extends BlockTurbinePart implements IBlockRoto
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) 
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos)
 	{
 		return NULL_AABB;
 	}
 	
 	@Override
-	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos) 
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
 	{
 		if (state.getBlock() != this) {
 			return super.getSelectedBoundingBox(state, worldIn, pos);
 		}
 		
-		switch (state.getValue(TurbineRotorBladeUtil.DIR)) 
+		switch (state.getValue(TurbineRotorBladeUtil.DIR))
 		{
 			case X:
 				return BLADE_AABB[0].offset(pos);
@@ -119,7 +107,7 @@ public class QMDBlockTurbineBlade extends BlockTurbinePart implements IBlockRoto
 		if (player == null) {
 			return false;
 		}
-		if (hand != EnumHand.MAIN_HAND || player.isSneaking()) 
+		if (hand != EnumHand.MAIN_HAND || player.isSneaking())
 		{
 			return false;
 		}
@@ -127,44 +115,44 @@ public class QMDBlockTurbineBlade extends BlockTurbinePart implements IBlockRoto
 	}
 	
 	@Override
-	public int getMetaFromState(IBlockState state) 
+	public int getMetaFromState(IBlockState state)
 	{
 		return state.getValue(TurbineRotorBladeUtil.DIR).ordinal();
 	}
 	
 	@Override
-	public IBlockState getStateFromMeta(int meta) 
+	public IBlockState getStateFromMeta(int meta)
 	{
 		return getDefaultState().withProperty(TurbineRotorBladeUtil.DIR, TurbinePartDir.values()[meta]);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getRenderLayer() 
+	public BlockRenderLayer getRenderLayer()
 	{
 		return BlockRenderLayer.CUTOUT;
 	}
 	
 	@Override
-	public boolean isOpaqueCube(IBlockState state) 
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
 	
 	@Override
-	public boolean isFullCube(IBlockState state) 
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
 	
 	@Override
-	public boolean isTopSolid(IBlockState state) 
+	public boolean isTopSolid(IBlockState state)
 	{
 		return false;
 	}
 	
 	@Override
-	public boolean causesSuffocation(IBlockState state) 
+	public boolean causesSuffocation(IBlockState state)
 	{
 		return false;
 	}

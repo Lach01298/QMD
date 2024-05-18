@@ -1,8 +1,7 @@
 package lach_01298.qmd.pipe;
 
 import nc.multiblock.Multiblock;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.multiblock.ITileMultiblockPart;
 import net.minecraft.world.World;
 
 public abstract class PipeMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>>

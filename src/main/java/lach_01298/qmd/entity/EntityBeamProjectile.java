@@ -1,7 +1,6 @@
 package lach_01298.qmd.entity;
 
-import lach_01298.qmd.network.BeamProjectileUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.network.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,7 +41,7 @@ public abstract class EntityBeamProjectile extends Entity
 	}
 
 	@Override
-	public AxisAlignedBB getRenderBoundingBox() 
+	public AxisAlignedBB getRenderBoundingBox()
 	{
 		return new AxisAlignedBB(this.posX-this.length, this.posY-this.length, this.posZ-this.length, this.posX+this.length, this.posY*2+this.length, this.posZ+this.length);
 	}
@@ -83,7 +82,7 @@ public abstract class EntityBeamProjectile extends Entity
 	@Override
 	protected void entityInit()
 	{
-		
+	
 	}
 
 	@Override

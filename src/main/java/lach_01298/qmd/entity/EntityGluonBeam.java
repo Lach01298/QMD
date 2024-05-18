@@ -1,18 +1,14 @@
 package lach_01298.qmd.entity;
 
 import lach_01298.qmd.item.QMDItems;
-import lach_01298.qmd.sound.MovingSoundGluonGun;
-import lach_01298.qmd.sound.MovingSoundGluonGunStart;
-import lach_01298.qmd.sound.QMDSounds;
+import lach_01298.qmd.sound.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class EntityGluonBeam extends EntityBeamProjectile
 {
@@ -29,25 +25,25 @@ public class EntityGluonBeam extends EntityBeamProjectile
 
 	public EntityGluonBeam(World world, EntityPlayer player, double length, EnumHand hand)
 	{
-		super(world, player, length, hand, 100);	
+		super(world, player, length, hand, 100);
 	}
 
 	@Override
 	protected void entityInit()
 	{
-		
+	
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound)
 	{
-		
+	
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound compound)
 	{
-		
+	
 	}
 
 	
@@ -72,10 +68,10 @@ public class EntityGluonBeam extends EntityBeamProjectile
 			{
 				setLocationAndAngles(owner.posX, owner.posY+owner.eyeHeight, owner.posZ, owner.rotationYaw, owner.rotationPitch);
 				if(!owner.isHandActive()||owner.getHeldItem(hand).getItem() != QMDItems.gluonGun)
-				{	
+				{
 					this.setDead();
 				}
-						
+				
 			}
 			else
 			{
@@ -85,7 +81,7 @@ public class EntityGluonBeam extends EntityBeamProjectile
 		        }
 				else
 				{
-					--this.livingTime;	
+					--this.livingTime;
 				}
 			}
 			sendUpdatePacket();

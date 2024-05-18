@@ -1,25 +1,20 @@
 package lach_01298.qmd.jei.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.text.TextFormatting;
 
-public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack> 
+import javax.annotation.Nullable;
+import java.util.*;
+
+public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack>
 {
 
 	private static final int TEX_WIDTH = 16;
@@ -34,12 +29,12 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	@Nullable
 	private final IDrawable overlay;
 	
-	public ParticleStackRenderer() 
+	public ParticleStackRenderer()
 	{
 		this(0,0,0, TEX_WIDTH, TEX_HEIGHT, null);
 	}
 	
-	public ParticleStackRenderer(int amount, long energy, double focus, int width, int height, @Nullable IDrawable overlay) 
+	public ParticleStackRenderer(int amount, long energy, double focus, int width, int height, @Nullable IDrawable overlay)
 	{
 		this.amount = amount;
 		this.energy = energy;
@@ -54,7 +49,7 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	
 	
 	@Override
-	public void render(Minecraft minecraft, final int xPosition, final int yPosition, @Nullable ParticleStack particleStack) 
+	public void render(Minecraft minecraft, final int xPosition, final int yPosition, @Nullable ParticleStack particleStack)
 	{
 		GlStateManager.enableBlend();
 		GlStateManager.enableAlpha();
@@ -75,13 +70,13 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	}
 	
 	@Override
-	public List<String> getTooltip(Minecraft minecraft, ParticleStack ingredient, ITooltipFlag tooltipFlag) 
+	public List<String> getTooltip(Minecraft minecraft, ParticleStack ingredient, ITooltipFlag tooltipFlag)
 	{
 		List<String> list = new ArrayList<>();
-		list.add(Lang.localise(ingredient.getParticle().getUnlocalizedName()));
-		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(ingredient.getAmount(),"pu")));
-		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(ingredient.getMeanEnergy())));
-		list.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.focus",Units.getSIFormat(ingredient.getFocus(),"")));
+		list.add(Lang.localize(ingredient.getParticle().getUnlocalizedName()));
+		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount",Units.getSIFormat(ingredient.getAmount(),"pu")));
+		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(ingredient.getMeanEnergy())));
+		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",Units.getSIFormat(ingredient.getFocus(),"")));
 		
 		
 		return list;

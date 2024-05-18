@@ -1,11 +1,10 @@
 package lach_01298.qmd.recipe.ingredient;
 
-import java.util.List;
-
 import lach_01298.qmd.particle.ParticleStack;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import nc.recipe.*;
 import nc.recipe.ingredient.IIngredient;
+
+import java.util.List;
 
 public interface IParticleIngredient extends IIngredient<ParticleStack>
 {

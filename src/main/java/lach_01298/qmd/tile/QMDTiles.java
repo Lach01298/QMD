@@ -1,68 +1,14 @@
 package lach_01298.qmd.tile;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorCasing;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorGlass;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonCollector;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRedstonePort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
-import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
-import lach_01298.qmd.accelerator.tile.TileBeamSplitterController;
-import lach_01298.qmd.accelerator.tile.TileDeceleratorController;
-import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
-import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
-import lach_01298.qmd.accelerator.tile.TileRingAcceleratorController;
-import lach_01298.qmd.enums.BlockTypes.CoolerType1;
-import lach_01298.qmd.enums.BlockTypes.CoolerType2;
-import lach_01298.qmd.enums.BlockTypes.DetectorType;
-import lach_01298.qmd.enums.BlockTypes.HeaterType;
-import lach_01298.qmd.enums.BlockTypes.MagnetType;
-import lach_01298.qmd.enums.BlockTypes.RFCavityType;
+import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.enums.BlockTypes.*;
 import lach_01298.qmd.fission.tile.QMDTileFissionShield;
 import lach_01298.qmd.machine.tile.TileQMDProcessor;
-import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
-import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
-import lach_01298.qmd.particleChamber.tile.TileDecayChamberController;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberCasing;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberFluidPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberGlass;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
-import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.pipe.TileBeamline;
 import lach_01298.qmd.util.Util;
-import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
-import lach_01298.qmd.vacuumChamber.tile.TileNucleosynthesisChamberController;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCasing;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberEnergyPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberGlass;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
+import lach_01298.qmd.vacuumChamber.tile.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -79,7 +25,7 @@ public class QMDTiles
 	private static ResourceLocation heaterPath = new ResourceLocation(QMD.MOD_ID,"containment_heater");
 
 	
-	public static void register() 
+	public static void register()
 	{
 		
 		//other

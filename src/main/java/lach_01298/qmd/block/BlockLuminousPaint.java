@@ -1,30 +1,22 @@
 package lach_01298.qmd.block;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
 import lach_01298.qmd.item.QMDItems;
 import nc.block.NCBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.item.*;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
+
+import javax.annotation.Nullable;
+import java.util.Random;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class BlockLuminousPaint extends NCBlock
 {

@@ -1,17 +1,12 @@
 package lach_01298.qmd.multiblock;
 
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import nc.multiblock.BlockFacing;
-import nc.multiblock.Multiblock;
-import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.multiblock.cuboidal.PartPosition;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.multiblock.tile.TileMultiblockPart;
+import nc.multiblock.cuboidal.*;
+import nc.multiblock.internal.BlockFacing;
+import nc.tile.multiblock.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.*;
 
 public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends CuboidalOrToroidalMultiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>> extends TileMultiblockPart<MULTIBLOCK, T>
 {
@@ -30,7 +25,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 	
 	
 	/**The amount of blocks from the outer edge that the inner edge is
-	 * 
+	 *
 	 */
 	private int toroidThickness;
 	
@@ -128,7 +123,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 			BlockPos max = multiblock.getMaximumCoord();
 			int x = position.getX(), y = position.getY(), z = position.getZ();
 
-			facings = BlockFacing.from(min.getY() == y, max.getY() == y, 
+			facings = BlockFacing.from(min.getY() == y, max.getY() == y,
 					min.getZ() == z || (z == maximumInCoord.getZ() && x > miniumInCoord.getX() && x < maximumInCoord.getX()),
 					max.getZ() == z || (z == miniumInCoord.getZ() && x > miniumInCoord.getX() && x < maximumInCoord.getX()),
 					min.getX() == x || (x == maximumInCoord.getX() && z > miniumInCoord.getZ() && z < maximumInCoord.getZ()),

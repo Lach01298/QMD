@@ -1,15 +1,12 @@
 package lach_01298.qmd;
 
+import lach_01298.qmd.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.*;
+
 import javax.annotation.Nullable;
 
-import lach_01298.qmd.entity.EntityAntimatterProjectile;
-import lach_01298.qmd.entity.EntityGluonBeam;
-import lach_01298.qmd.entity.EntityLeptonBeam;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
-
-public class QMDDamageSources 
+public class QMDDamageSources
 {
 	public static final DamageSource ANTIMATTER_ANNIHLATION = new DamageSource("antimatter_annihilation").setDamageBypassesArmor().setDamageIsAbsolute();
 	public static final DamageSource SELF_POISONING = new DamageSource("self_poisoning").setDamageBypassesArmor().setDamageIsAbsolute();

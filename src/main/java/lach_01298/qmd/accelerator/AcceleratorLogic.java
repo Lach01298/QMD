@@ -1,47 +1,18 @@
 package lach_01298.qmd.accelerator;
 
-import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
-import static nc.block.property.BlockProperties.ACTIVE;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRedstonePort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import nc.multiblock.IPacketMultiblockLogic;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import lach_01298.qmd.particle.*;
+import nc.multiblock.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.MaterialHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,10 +20,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
+import static nc.block.property.BlockProperties.ACTIVE;
 
 public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLogic, IAcceleratorPart>
 		implements IPacketMultiblockLogic<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket>
-{ 
+{
 
 	public boolean searchFlag = false;
 	public final ObjectSet<TileAcceleratorCooler> coolerCache = new ObjectOpenHashSet<>();
@@ -72,9 +50,9 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		super(accelerator);
 	}
 	
-	public AcceleratorLogic(AcceleratorLogic oldLogic) 
+	public AcceleratorLogic(AcceleratorLogic oldLogic)
 	{
-		super(oldLogic);	
+		super(oldLogic);
 	}
 	
 	@Override
@@ -89,31 +67,31 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	public Accelerator getMultiblock()
 	{
 		return multiblock;
-	}	
+	}
 	
 	@Override
-	public void onMachineAssembled() 
+	public void onMachineAssembled()
 	{
 		onAcceleratorFormed();
 	}
 	
 	@Override
-	public void onMachineRestored() 
+	public void onMachineRestored()
 	{
 		onAcceleratorFormed();
 	}
 	
 	@Override
-	public void onMachinePaused() 
+	public void onMachinePaused()
 	{
 		onAcceleratorBroken();
 	}
 	
 	public void onMachineDisassembled()
-	{	
+	{
 		onAcceleratorBroken();
 	}
-		
+	
 	public void onAssimilate(Accelerator assimilated)
 	{
 
@@ -131,24 +109,24 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		}
 	}
 	
-	public void onAssimilated(Accelerator assimilator) 
+	public void onAssimilated(Accelerator assimilator)
 	{
-		
+	
 	}
 	
 	// Accelerator methods
 	
-	public int getBeamLength() 
+	public int getBeamLength()
 	{
 		return 0;
 	}
 	
-	public double getBeamRadius() 
+	public double getBeamRadius()
 	{
 		return 0;
 	}
 
-	public int getCapacityMultiplier() 
+	public int getCapacityMultiplier()
 	{
 		return getMultiblock().getInteriorVolume();
 	}
@@ -160,7 +138,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	// Multiblock validation
 	
-	public boolean isMachineWhole() 
+	public boolean isMachineWhole()
 	{
 		// vents
 		boolean inlet = false;
@@ -231,7 +209,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	}
 	
 	
-	// Accelerator formation	
+	// Accelerator formation
 	
 	public void onAcceleratorFormed()
 	{
@@ -480,29 +458,29 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		searchFlag = false;
 		
-		if (getPartMap(TileAcceleratorCooler.class).isEmpty()) 
+		if (getPartMap(TileAcceleratorCooler.class).isEmpty())
 		{
 			return;
 		}
 		
-		for (TileAcceleratorCooler cooler : getParts(TileAcceleratorCooler.class)) 
+		for (TileAcceleratorCooler cooler : getParts(TileAcceleratorCooler.class))
 		{
 			cooler.isSearched = cooler.isInValidPosition = false;
 		}
 		
 		coolerCache.clear();
 		
-		for (TileAcceleratorCooler cooler : getParts(TileAcceleratorCooler.class)) 
+		for (TileAcceleratorCooler cooler : getParts(TileAcceleratorCooler.class))
 		{
-			if (cooler.isSearchRoot()) 
+			if (cooler.isSearchRoot())
 			{
 				iterateCoolerSearch(cooler, coolerCache);
 			}
 		}
 		
-		for (TileAcceleratorCooler cooler : assumedValidCache.values()) 
+		for (TileAcceleratorCooler cooler : assumedValidCache.values())
 		{
-			if (!cooler.isInValidPosition) 
+			if (!cooler.isInValidPosition)
 			{
 				componentFailCache.put(cooler.getPos().toLong(), cooler);
 				searchFlag = true;
@@ -516,11 +494,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		final ObjectSet<TileAcceleratorCooler> searchCache = new ObjectOpenHashSet<>();
 		rootCooler.coolerSearch(coolerCache, searchCache, componentFailCache, assumedValidCache);
 		
-		do 
+		do
 		{
 			final Iterator<TileAcceleratorCooler> searchIterator = searchCache.iterator();
 			final ObjectSet<TileAcceleratorCooler> searchSubCache = new ObjectOpenHashSet<>();
-			while (searchIterator.hasNext()) 
+			while (searchIterator.hasNext())
 			{
 				TileAcceleratorCooler component = searchIterator.next();
 				searchIterator.remove();
@@ -589,7 +567,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 
 		operational = false;
 		
-		if (!getWorld().isRemote) 
+		if (!getWorld().isRemote)
 		{
 			acc.updateActivity();
 		}
@@ -617,7 +595,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		return true;
 	}
 	
-	public boolean isAcceleratorOn() 
+	public boolean isAcceleratorOn()
 	{
 		return operational;
 	}
@@ -626,7 +604,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		if ((isRedstonePowered() && !getMultiblock().computerControlled) || (getMultiblock().computerControlled && getMultiblock().energyPercentage > 0))
 		{
-			refreshBeams();			
+			refreshBeams();
 			if (shouldUseEnergy())
 			{
 				if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,
@@ -651,13 +629,13 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			{
 				if(operational)
 				{
-					quenchMagnets(); 
+					quenchMagnets();
 				}
 				operational = false;
 				getMultiblock().errorCode = Accelerator.errorCode_ToHot;
 				return;
 				
-			}	
+			}
 		}
 		else
 		{
@@ -668,15 +646,15 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	protected void refreshBeams()
 	{
-		
+	
 	}
-			
+	
 	protected boolean shouldUseEnergy()
 	{
 		return true;
 	}
 	
-	public void quenchMagnets() 
+	public void quenchMagnets()
 	{
 		if(QMDConfig.accelerator_explosion)
 		{
@@ -775,8 +753,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			getMultiblock().maxCoolantOut = (int) (getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)(getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*1000);
 		}
 	}
-		
-	protected boolean canProcessFluidInputs() 
+	
+	protected boolean canProcessFluidInputs()
 	{
 		
 		if(getMultiblock().coolingRecipeInfo == null)
@@ -802,12 +780,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
 		
 		if (!outputTank.isEmpty())
-		{			
+		{
 			if (!outputTank.getFluid().isFluidEqual(fluidOutput.getStack()))
 			{
 				return false;
 			}
-			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())			
+			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())
 			{
 				return false;
 			}
@@ -894,10 +872,10 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		getMultiblock().heatBuffer.addHeat(getMultiblock().rawHeating,false);
 		getMultiblock().currentHeating +=getMultiblock().rawHeating;
 	}
-		
+	
 	// Redstone
 	
-	protected boolean isRedstonePowered() 
+	protected boolean isRedstonePowered()
 	{
 		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
 		{
@@ -929,28 +907,28 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 				}
 			}
 		}
-		return level;	
+		return level;
 	}
 	
-	protected void updateRedstone() 
+	protected void updateRedstone()
 	{
 		
 		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
 		{
 			if(getMultiblock().WORLD.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
-			{		
-				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));	
+			{
+				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));
 			}
 		}
 	}
 	
 	// Client
 	
-	public void onUpdateClient() 
+	public void onUpdateClient()
 	{
-		
+	
 	}
-		
+	
 	// NBT
 	
 	@Override
@@ -971,15 +949,15 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	// Packets
 	
 	@Override
-	public AcceleratorUpdatePacket getMultiblockUpdatePacket() 
+	public AcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 		return null;
 	}
 	
 	@Override
-	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message) 
+	public void onMultiblockUpdatePacket(AcceleratorUpdatePacket message)
 	{
-		
+	
 	}
 	
 	public void clearAllMaterial()

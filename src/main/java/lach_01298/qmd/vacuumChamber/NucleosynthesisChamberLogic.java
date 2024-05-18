@@ -1,47 +1,20 @@
 package lach_01298.qmd.vacuumChamber;
 
-
-import static lach_01298.qmd.recipes.QMDRecipes.nucleosynthesis_chamber;
-import static lach_01298.qmd.recipes.QMDRecipes.vacuum_chamber_heating;
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.AXIS_ALL;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.NucleosynthesisChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.recipes.QMDRecipes;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberComponent;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.recipe.BasicRecipe;
-import nc.recipe.RecipeInfo;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.recipe.ingredient.IFluidIngredient;
+import lach_01298.qmd.vacuumChamber.tile.*;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -50,9 +23,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.*;
+
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.*;
+import static nc.block.property.BlockProperties.*;
 
 public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 {
@@ -92,7 +68,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		beam 0 = input particle 1
 		tank 0 = input coolant
 		tank 1 = output coolant
-		tank 2 = input heater fluid 
+		tank 2 = input heater fluid
 		tank 3 = output heater fluid
 		tank 4 = input fluid 1
 		tank 5 = input fluid 2
@@ -284,12 +260,12 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		
 		searchFlag = false;
 		
-		if (getPartMap(TileVacuumChamberHeater.class).isEmpty()) 
+		if (getPartMap(TileVacuumChamberHeater.class).isEmpty())
 		{
 			return;
 		}
 		
-		for (TileVacuumChamberHeater heater : getParts(TileVacuumChamberHeater.class)) 
+		for (TileVacuumChamberHeater heater : getParts(TileVacuumChamberHeater.class))
 		{
 			heater.isSearched = heater.isInValidPosition = false;
 			
@@ -297,19 +273,19 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		
 		heaterCache.clear();
 		
-		for (TileVacuumChamberHeater heater : getParts(TileVacuumChamberHeater.class)) 
+		for (TileVacuumChamberHeater heater : getParts(TileVacuumChamberHeater.class))
 		{
-			 
-			if (heater.isSearchRoot()) 
+			
+			if (heater.isSearchRoot())
 			{
-				 
+				
 				iterateHeaterSearch(heater, heaterCache);
 			}
 		}
 		
-		for (TileVacuumChamberHeater heater : assumedValidCache.values()) 
+		for (TileVacuumChamberHeater heater : assumedValidCache.values())
 		{
-			if (!heater.isInValidPosition) 
+			if (!heater.isInValidPosition)
 			{
 				componentFailCache.put(heater.getPos().toLong(), heater);
 				searchFlag = true;
@@ -323,11 +299,11 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		final ObjectSet<TileVacuumChamberHeater> searchCache = new ObjectOpenHashSet<>();
 		rootHeater.coolerSearch(heaterCache, searchCache, componentFailCache, assumedValidCache);
 		
-		do 
+		do
 		{
 			final Iterator<TileVacuumChamberHeater> searchIterator = searchCache.iterator();
 			final ObjectSet<TileVacuumChamberHeater> searchSubCache = new ObjectOpenHashSet<>();
-			while (searchIterator.hasNext()) 
+			while (searchIterator.hasNext())
 			{
 				TileVacuumChamberHeater component = searchIterator.next();
 				searchIterator.remove();
@@ -470,14 +446,14 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				return false;
 			}
 		}
-				
+			
 		
-				
-				
-				
-				
+			
+			
+			
+			
 			//empty space or heater
-			Set<BlockPos> interior = new HashSet<BlockPos>();	
+			Set<BlockPos> interior = new HashSet<BlockPos>();
 				for (BlockPos pos : BlockPos.getAllInBoxMutable(chamber.getExtremeInteriorCoord(false, false, false),
 						chamber.getExtremeInteriorCoord(true, true, true)))
 				{
@@ -500,7 +476,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 						multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.must_be_empty", pos);
 						return false;
 					}
-				}	
+				}
 				
 				
 			for (BlockPos pos : interior)
@@ -511,7 +487,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					return false;
 				}
 			}
-				
+			
 			
 			
 			//beam port
@@ -528,14 +504,14 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				else if(multiblock.WORLD.getTileEntity(new BlockPos(chamber.getMaxX(), chamber.getMiddleY()-1, chamber.getMiddleZ())) instanceof TileVacuumChamberBeamPort)
 				{
 					beamPortPos = new BlockPos(chamber.getMaxX(), chamber.getMiddleY()-1, chamber.getMiddleZ());
-					beamPorts++;	
+					beamPorts++;
 				}
 			}
 			else
 			{
 				beamPortPos = new BlockPos(chamber.getMiddleX(), chamber.getMiddleY()-1, chamber.getMinZ());
 				if(multiblock.WORLD.getTileEntity(beamPortPos) instanceof TileVacuumChamberBeamPort)
-				{	
+				{
 					beamPorts++;
 				}
 				else if(multiblock.WORLD.getTileEntity(new BlockPos(chamber.getMiddleX(), chamber.getMiddleY()-1, chamber.getMaxZ())) instanceof TileVacuumChamberBeamPort)
@@ -556,7 +532,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.must_be_input_beam", beamPortPos);
 				return false;
 			}
-				
+			
 			//fluid  input ports
 			BlockPos fluidPortInPos1 = beamPortPos.add(0, 3, 0);
 			BlockPos fluidPortInPos2 = beamPortPos.add(0, 1, 0);
@@ -595,7 +571,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			
 			//fluid output ports
 			
-			BlockPos fluidPortOutPos1; 
+			BlockPos fluidPortOutPos1;
 			BlockPos fluidPortOutPos2;
 			if(axis== Axis.X)
 			{
@@ -665,8 +641,8 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.must_have_4_fluid_ports",null);
 				return false;
 			}
-				
-				
+			
+			
 			
 			// heater vents
 			boolean inlet = false;
@@ -748,7 +724,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		
 		return postions;
 	}
-		
+	
 	public Set<BlockPos> getGlassPositions(Axis axis)
 	{
 		Set<BlockPos> postions = new HashSet<BlockPos>();
@@ -760,25 +736,25 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					chamber.getExtremeInteriorCoord(true, false, false).add(-2, 0, 1)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 			
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(chamber.getExtremeInteriorCoord(false, false, false).add(2, 1, 0),
 					chamber.getExtremeInteriorCoord(true, false, false).add(-2, 1, 0)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 			
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(chamber.getExtremeInteriorCoord(false, false, false).add(2, 2, 1),
 					chamber.getExtremeInteriorCoord(true, false, false).add(-2, 2, 1)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 			
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(chamber.getExtremeInteriorCoord(false, false, true).add(2, 1, 0),
 					chamber.getExtremeInteriorCoord(true, false, true).add(-2, 1, 0)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 			
 		}
 		else
@@ -787,25 +763,25 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					chamber.getExtremeInteriorCoord(false, false, true).add(1, 0, -2)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 			
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(chamber.getExtremeInteriorCoord(false, false, false).add(0, 1, 2),
 					chamber.getExtremeInteriorCoord(false, false, true).add(0, 1, -2)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 			
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(chamber.getExtremeInteriorCoord(false, false, false).add(1, 2, 2),
 					chamber.getExtremeInteriorCoord(false, false, true).add(1, 2, -2)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 			
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(chamber.getExtremeInteriorCoord(true, false, false).add(0, 1, 2),
 					chamber.getExtremeInteriorCoord(true, false, true).add(0, 1, -2)))
 			{
 				postions.add(pos.toImmutable());
-			}	
+			}
 
 		}
 		return postions;
@@ -822,7 +798,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					chamber.getExtremeInteriorCoord(true, false, false).add(-2, 1, 1)))
 			{
 				postions.add(pos.toImmutable());
-			}		
+			}
 		}
 		else
 		{
@@ -830,7 +806,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					chamber.getExtremeInteriorCoord(false, false, true).add(1, 1, -2)))
 			{
 				postions.add(pos.toImmutable());
-			}		
+			}
 
 		}
 		return postions;
@@ -919,7 +895,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		
 		refreshCasingFluidRecipe();
 		if (canProcessCasingFluidInputs())
-		{	
+		{
 			produceCasingFluidProducts();
 		}
 
@@ -951,7 +927,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				if(multiblock.WORLD.getBlockState(pos) != plasmaState)
 				{
 					multiblock.WORLD.setBlockState(pos, plasmaState);
-				}	
+				}
 			}
 		}
 		else
@@ -961,7 +937,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				if(multiblock.WORLD.getBlockState(pos) != Blocks.AIR.getDefaultState())
 				{
 					multiblock.WORLD.setBlockState(pos, Blocks.AIR.getDefaultState());
-				}	
+				}
 			}
 		}
 	}
@@ -1023,7 +999,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	}
 	
 	private void finishRecipe()
-	{	
+	{
 		List<IFluidIngredient> productFluids = recipeInfo.getRecipe().getFluidProducts();
 		for (int i = 0; i < productFluids.size(); i++)
 		{
@@ -1069,24 +1045,24 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		return false;
 	}
 	
-	protected void refreshCasingFluidRecipe() 
+	protected void refreshCasingFluidRecipe()
 	{
 		casingCoolingRecipeInfo = vacuum_chamber_heating.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(2, 3));
 		if(casingCoolingRecipeInfo != null)
 		{
 			maxCasingCoolantIn =  (int) (casingCooling/(double)casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*1000);
 			maxCasingCoolantOut = (int) (casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0)*casingCooling/(double)(casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*1000);
-		}	
+		}
 	}
 	
 	
-	protected boolean canProcessCasingFluidInputs() 
+	protected boolean canProcessCasingFluidInputs()
 	{
 		if(casingCoolingRecipeInfo== null)
 		{
 			return false;
 		}
-			
+		
 		IFluidIngredient fluidInput = casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
 		IFluidIngredient fluidOutput = casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0);
 		Tank outputTank = getMultiblock().tanks.get(3);
@@ -1101,12 +1077,12 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		double recipesPerTick = (maximumHeatChange * efficiency)/(fluidInput.getMaxStackSize(0)*heatPerMB );
 		
 		if (!outputTank.isEmpty())
-		{			
+		{
 			if (!outputTank.getFluid().isFluidEqual(fluidOutput.getStack()))
 			{
 				return false;
 			}
-			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCasingCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())			
+			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCasingCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())
 			{
 				return false;
 			}
@@ -1129,7 +1105,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		long maximumHeatChange = casingCooling;
 		double efficiency = getCoolingEfficiency();
 		int heatPerMB = casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
-			
+		
 		
 		long thisTickHeatChange = maximumHeatChange;
 		if(thisTickHeatChange > casingHeatBuffer.getHeatStored())
@@ -1203,7 +1179,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			
 			
 			if(!components.isEmpty())
-			{	
+			{
 				int breaches = 1+ rand.nextInt(1+components.size()/8);
 				for(int i = 0; i < breaches; i++)
 				{
@@ -1224,7 +1200,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	}
 	
 	private void overheat()
-	{	
+	{
 		casingHeatBuffer.setHeatStored(0L);
 		containmentFailure();
 	}
@@ -1255,18 +1231,18 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 
 	}
 	
-	protected void updateRedstone() 
+	protected void updateRedstone()
 	{
 		
 		for (TileVacuumChamberRedstonePort port : getPartMap(TileVacuumChamberRedstonePort.class).values())
 		{
 			if(getMultiblock().WORLD.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
-			{		
-				port.setRedstoneLevel((int) (15 *(casingHeatBuffer.getHeatStored()/(double)casingHeatBuffer.getHeatCapacity())));	
+			{
+				port.setRedstoneLevel((int) (15 *(casingHeatBuffer.getHeatStored()/(double)casingHeatBuffer.getHeatCapacity())));
 			}
 			else
 			{
-				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));	
+				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));
 			}
 		}
 	}
@@ -1351,7 +1327,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 
 	public void onRenderPacket(ContainmentRenderPacket message)
 	{
-		
+	
 	}
 
 	

@@ -1,37 +1,27 @@
 package lach_01298.qmd.accelerator.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import java.util.Arrays;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
-import lach_01298.qmd.network.QMDTileUpdatePacket;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
-import nc.util.Lang;
-import nc.util.NBTHelper;
+import nc.util.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileLinearAcceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileLinearAcceleratorController>, ITileInventory
 {
@@ -59,7 +49,7 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override
@@ -79,7 +69,7 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 	@Override
 	public String getName()
 	{
-		return Lang.localise("gui."+inventoryName);
+		return Lang.localize("gui."+inventoryName);
 	}
 
 	@Override
@@ -107,7 +97,7 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 	}
 	
 	@Override
-	public int getInventoryStackLimit() 
+	public int getInventoryStackLimit()
 	{
 		return 1;
 	}
@@ -149,7 +139,7 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 	}
 	
 	@Override
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		readInventory(nbt);
@@ -174,7 +164,7 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 	
 	
 	@Override
-	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
+	public  boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
 		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 	}

@@ -1,9 +1,6 @@
 package lach_01298.qmd.jei.recipe;
 
-import java.awt.Color;
-
-import lach_01298.qmd.QMD;
-import lach_01298.qmd.QMDConstants;
+import lach_01298.qmd.*;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
@@ -11,6 +8,8 @@ import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
+
+import java.awt.*;
 
 public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
 
@@ -24,16 +23,16 @@ public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
 	
 	
 	@Override
-	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 	{
 		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 		FontRenderer fontRenderer = minecraft.fontRenderer;
-		String heatString = Lang.localise("gui.qmd.jei.reaction.heat_released",  Units.getSIFormat(recipe.getHeatReleased(),0,"H"));
+		String heatString = Lang.localize("gui.qmd.jei.reaction.heat_released",  Units.getSIFormat(recipe.getHeatReleased(),0,"H"));
 		fontRenderer.drawString(heatString, 0, 47, Color.gray.getRGB());
 		
 		if(recipe.getMaxEnergy() != Long.MAX_VALUE)
 		{
-			String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getParticleEnergy(recipe.getMaxEnergy()));
+			String rangeString = Lang.localize("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getParticleEnergy(recipe.getMaxEnergy()));
 			fontRenderer.drawString(rangeString, 0, 57, Color.gray.getRGB());
 		}
 
@@ -44,7 +43,7 @@ public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
 
 	@Override
 	protected int getProgressArrowTime()
-	{	
+	{
 		return Math.max(inputParticles.get(0).get(0).getAmount()/(QMDConstants.ionSourceOutput*4),8);
 	}
 

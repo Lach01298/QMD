@@ -1,35 +1,21 @@
 package lach_01298.qmd.item;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
-import lach_01298.qmd.util.Units;
-import lach_01298.qmd.util.Util;
-import nc.capability.radiation.entity.IEntityRads;
+import lach_01298.qmd.util.*;
 import nc.item.NCItem;
-import nc.radiation.RadiationHelper;
-import nc.util.DamageSources;
-import nc.util.InfoHelper;
-import nc.util.Lang;
-import nc.util.StackHelper;
+import nc.util.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 
 
@@ -51,12 +37,12 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 			for (int i = 1; i < CellType.values().length; i++)
 			{
 				ItemStack stack = new ItemStack(this, 1, i);
-				IItemParticleAmount.fullItem(stack);			
+				IItemParticleAmount.fullItem(stack);
 				items.add(stack);
 			}
 		}
 	}
-		
+	
 	
 	@Override
 	public int getItemCapacity(ItemStack stack)
@@ -84,9 +70,9 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 				case 8:
 					return CellType.TAUONIUM.getCapacity();
 				case 9:
-					return CellType.GLUEBALLS.getCapacity();			
+					return CellType.GLUEBALLS.getCapacity();
 			}
-		}		
+		}
 		return 0;
 	}
 	
@@ -138,22 +124,22 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 		
 		return stack;
 	}
-			
+	
 	@Override
 	public ItemStack getEmptyItem()
 	{
-		return new ItemStack(QMDItems.cell,1,CellType.EMPTY.getID());		
+		return new ItemStack(QMDItems.cell,1,CellType.EMPTY.getID());
 	}
 	
 
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack) 
+	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getItemCapacity(stack), 0D, 1D);
 	}
 	
 	@Override
-	public boolean showDurabilityBar(ItemStack stack) 
+	public boolean showDurabilityBar(ItemStack stack)
 	{
 		return getAmountStored(stack) > 0;
 	}
@@ -161,7 +147,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localize("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}
@@ -171,7 +157,7 @@ public class ItemCell extends NCItem implements IItemParticleAmount
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
 		if(QMDConfig.cell_lifetime > 0)
-		{					
+		{
 			ItemStack stack = entityItem.getItem();
 			
 			if(stack.getMetadata() != 0)

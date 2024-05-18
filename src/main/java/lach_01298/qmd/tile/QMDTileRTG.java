@@ -1,7 +1,7 @@
 package lach_01298.qmd.tile;
 
 import lach_01298.qmd.enums.BlockTypes.RTGType;
-import nc.multiblock.rtg.tile.TileRTG;
+import nc.tile.rtg.TileRTG;
 
 public class QMDTileRTG extends TileRTG
 {

@@ -1,33 +1,22 @@
 package lach_01298.qmd.machine.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.item.IItemParticleAmount;
 import nc.config.NCConfig;
-import nc.network.tile.ProcessorUpdatePacket;
-import nc.recipe.AbstractRecipeHandler;
-import nc.recipe.BasicRecipe;
-import nc.recipe.BasicRecipeHandler;
-import nc.recipe.RecipeInfo;
+import nc.network.tile.processor.ProcessorUpdatePacket;
+import nc.recipe.*;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
-import nc.tile.inventory.ITileInventory;
-import nc.tile.inventory.TileSidedInventory;
-import nc.tile.processor.IItemProcessor;
-import nc.tile.processor.ITileSideConfigGui;
+import nc.tile.internal.inventory.*;
+import nc.tile.inventory.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.MathHelper;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessor, ITileSideConfigGui<ProcessorUpdatePacket>
 {
@@ -86,10 +75,10 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	
 	
 	@Override
-	public void onLoad() 
+	public void onLoad()
 	{
 		super.onLoad();
-		if (!world.isRemote) 
+		if (!world.isRemote)
 		{
 			refreshRecipe();
 			refreshFuel();
@@ -128,12 +117,12 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	
 	
 	@Override
-	public void refreshRecipe() 
+	public void refreshRecipe()
 	{
-		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(), new ArrayList<Tank>());	
+		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(), new ArrayList<Tank>());
 	}
 	
-	public void refreshFuel() 
+	public void refreshFuel()
 	{
 		List<ItemStack> stacks = new ArrayList();
 		for(ItemStack stack : getItemFuels())
@@ -146,23 +135,23 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	
 	
 	@Override
-	public void refreshActivity() 
+	public void refreshActivity()
 	{
 		canProcessInputs = canProcessInputs(false);
-		refreshFuel(); 
+		refreshFuel();
 	}
 	
 	@Override
-	public void refreshActivityOnProduction() 
+	public void refreshActivityOnProduction()
 	{
 		canProcessInputs = canProcessInputs(true);
-		refreshFuel(); 
+		refreshFuel();
 	}
 	
 	
 	// Processor Stats
 	
-	public int getProcessTime() 
+	public int getProcessTime()
 	{
 		if(fuelInfo == null)
 		{
@@ -177,9 +166,9 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	}
 
 	
-	public boolean setRecipeStats() 
+	public boolean setRecipeStats()
 	{
-		if (recipeInfo == null) 
+		if (recipeInfo == null)
 		{
 			baseProcessTime = defaultProcessTime;
 			
@@ -193,23 +182,23 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	
 	// Processing
 	
-		public boolean isProcessing() 
+		public boolean isProcessing()
 		{
 			return readyToProcess() && !isHaltedByRedstone();
 		}
 		
-		public boolean isHaltedByRedstone() 
+		public boolean isHaltedByRedstone()
 		{
 			return getRedstoneControl() && getIsRedstonePowered();
 		}
 		
-		public boolean readyToProcess() 
+		public boolean readyToProcess()
 		{
 			return canProcessInputs && fuelInfo != null;
 		}
 	
 		
-		public boolean canProcessInputs(boolean justProduced) 
+		public boolean canProcessInputs(boolean justProduced)
 		{
 			if (!setRecipeStats()) return false;
 			else if (!justProduced && time >= baseProcessTime) return true;
@@ -218,10 +207,10 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		
 		
 		
-		public boolean canProduceProducts() 
+		public boolean canProduceProducts()
 		{
 			for (int j = 0; j < itemOutputSize; j++) {
-				if (getItemOutputSetting(j + itemInputSize + itemFuelSize) == ItemOutputSetting.VOID) 
+				if (getItemOutputSetting(j + itemInputSize + itemFuelSize) == ItemOutputSetting.VOID)
 				{
 					getInventoryStacks().set(j + itemInputSize + itemFuelSize, ItemStack.EMPTY);
 					continue;
@@ -229,12 +218,12 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 				IItemIngredient itemProduct = getItemProducts().get(j);
 				if (itemProduct.getMaxStackSize(0) <= 0) continue;
 				if (itemProduct.getStack() == null || itemProduct.getStack().isEmpty()) return false;
-				else if (!getInventoryStacks().get(j + itemInputSize + itemFuelSize).isEmpty()) 
+				else if (!getInventoryStacks().get(j + itemInputSize + itemFuelSize).isEmpty())
 				{
-					if (!getInventoryStacks().get(j + itemInputSize + itemFuelSize).isItemEqual(itemProduct.getStack())) 
+					if (!getInventoryStacks().get(j + itemInputSize + itemFuelSize).isItemEqual(itemProduct.getStack()))
 					{
 						return false;
-					} else if (getItemOutputSetting(j + itemInputSize + itemFuelSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize + itemFuelSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize + itemFuelSize).getMaxStackSize()) 
+					} else if (getItemOutputSetting(j + itemInputSize + itemFuelSize) == ItemOutputSetting.DEFAULT && getInventoryStacks().get(j + itemInputSize + itemFuelSize).getCount() + itemProduct.getMaxStackSize(0) > getInventoryStacks().get(j + itemInputSize + itemFuelSize).getMaxStackSize())
 					{
 						return false;
 					}
@@ -244,7 +233,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		
-		public void process() 
+		public void process()
 		{
 			
 			time += fuelInfo.getRecipe().getBaseProcessTime(1);
@@ -254,7 +243,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			{
 				useFuel(itemInputSize+i);
 			}
-				
+			
 			if (time >= baseProcessTime) finishProcess();
 		}
 		
@@ -267,7 +256,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			}
 		}
 
-		public void finishProcess() 
+		public void finishProcess()
 		{
 			double oldProcessTime = baseProcessTime;
 			produceProducts();
@@ -279,31 +268,31 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			if (!canProcessInputs) time = 0;
 		}
 		
-		public void produceProducts() 
+		public void produceProducts()
 		{
 			if (recipeInfo == null) return;
 			List<Integer> itemInputOrder = recipeInfo.getItemInputOrder();
 			if (itemInputOrder == AbstractRecipeHandler.INVALID) return;
 			
-			for (int i = 0; i < itemInputSize; i++) 
+			for (int i = 0; i < itemInputSize; i++)
 			{
 				int itemIngredientStackSize = getItemIngredients().get(itemInputOrder.get(i)).getMaxStackSize(recipeInfo.getItemIngredientNumbers().get(i));
 				if (itemIngredientStackSize > 0) getInventoryStacks().get(i).shrink(itemIngredientStackSize);
 				if (getInventoryStacks().get(i).getCount() <= 0) getInventoryStacks().set(i, ItemStack.EMPTY);
 			}
-			for (int j = 0; j < itemOutputSize; j++) 
+			for (int j = 0; j < itemOutputSize; j++)
 			{
-				if (getItemOutputSetting(j + itemInputSize + itemFuelSize) == ItemOutputSetting.VOID) 
+				if (getItemOutputSetting(j + itemInputSize + itemFuelSize) == ItemOutputSetting.VOID)
 				{
 					getInventoryStacks().set(j + itemInputSize + itemFuelSize, ItemStack.EMPTY);
 					continue;
 				}
 				IItemIngredient itemProduct = getItemProducts().get(j);
 				if (itemProduct.getMaxStackSize(0) <= 0) continue;
-				if (getInventoryStacks().get(j + itemInputSize + itemFuelSize).isEmpty()) 
+				if (getInventoryStacks().get(j + itemInputSize + itemFuelSize).isEmpty())
 				{
 					getInventoryStacks().set(j + itemInputSize + itemFuelSize, itemProduct.getNextStack(0));
-				} else if (getInventoryStacks().get(j + itemInputSize + itemFuelSize).isItemEqual(itemProduct.getStack())) 
+				} else if (getInventoryStacks().get(j + itemInputSize + itemFuelSize).isItemEqual(itemProduct.getStack()))
 				{
 					int count = Math.min(getInventoryStackLimit(), getInventoryStacks().get(j + itemInputSize + itemFuelSize).getCount() + itemProduct.getNextStackSize(0));
 					getInventoryStacks().get(j + itemInputSize + itemFuelSize).setCount(count);
@@ -311,7 +300,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			}
 		}
 		
-		public void loseProgress() 
+		public void loseProgress()
 		{
 			time = MathHelper.clamp(time - 1.5D*100, 0D, baseProcessTime);
 		}
@@ -319,24 +308,24 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		// IProcessor
 		
 		@Override
-		public List<ItemStack> getItemInputs() 
+		public List<ItemStack> getItemInputs()
 		{
 			return getInventoryStacks().subList(0, itemInputSize);
 		}
 		
-		public List<ItemStack> getItemFuels() 
+		public List<ItemStack> getItemFuels()
 		{
 			return getInventoryStacks().subList(itemInputSize, itemInputSize+itemFuelSize);
 		}
 		
 		@Override
-		public List<IItemIngredient> getItemIngredients() 
+		public List<IItemIngredient> getItemIngredients()
 		{
 			return recipeInfo.getRecipe().getItemIngredients();
 		}
 		
 		@Override
-		public List<IItemIngredient> getItemProducts() 
+		public List<IItemIngredient> getItemProducts()
 		{
 			return recipeInfo.getRecipe().getItemProducts();
 		}
@@ -344,18 +333,18 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		// ITileInventory
 		
 		@Override
-		public ItemStack decrStackSize(int slot, int amount) 
+		public ItemStack decrStackSize(int slot, int amount)
 		{
 			ItemStack stack = super.decrStackSize(slot, amount);
-			if (!world.isRemote) 
+			if (!world.isRemote)
 			{
-				if (slot < itemInputSize) 
+				if (slot < itemInputSize)
 				{
 					refreshRecipe();
 					refreshFuel();
 					refreshActivity();
 				}
-				else if (slot < itemInputSize + itemOutputSize) 
+				else if (slot < itemInputSize + itemOutputSize)
 				{
 					refreshActivity();
 				}
@@ -364,18 +353,18 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public void setInventorySlotContents(int slot, ItemStack stack) 
+		public void setInventorySlotContents(int slot, ItemStack stack)
 		{
 			super.setInventorySlotContents(slot, stack);
-			if (!world.isRemote) 
+			if (!world.isRemote)
 			{
-				if (slot < itemInputSize) 
+				if (slot < itemInputSize)
 				{
 					refreshRecipe();
 					refreshFuel();
 					refreshActivity();
 				}
-				else if (slot < itemInputSize + itemOutputSize) 
+				else if (slot < itemInputSize + itemOutputSize)
 				{
 					refreshActivity();
 				}
@@ -384,7 +373,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public void markDirty() 
+		public void markDirty()
 		{
 			refreshRecipe();
 			refreshFuel();
@@ -394,7 +383,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public boolean isItemValidForSlot(int slot, ItemStack stack) 
+		public boolean isItemValidForSlot(int slot, ItemStack stack)
 		{
 			if (stack.isEmpty()) return false;
 			if (slot >= itemInputSize + itemFuelSize) return false;
@@ -403,7 +392,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 				if(getInventoryStacks().get(slot).getCount() >= 1)
 				{
 					return false;
-				}		
+				}
 				
 				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(slot-itemInputSize, IItemParticleAmount.cleanNBT(stack), recipeInfo, getItemFuels(), fuelItemStacksExcludingSlot(slot-itemInputSize)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 			}
@@ -414,14 +403,14 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			
 		}
 		
-		public List<ItemStack> inputItemStacksExcludingSlot(int slot) 
+		public List<ItemStack> inputItemStacksExcludingSlot(int slot)
 		{
 			List<ItemStack> inputItemsExcludingSlot = new ArrayList<ItemStack>(getItemInputs());
 			inputItemsExcludingSlot.remove(slot);
 			return inputItemsExcludingSlot;
 		}
 		
-		public List<ItemStack> fuelItemStacksExcludingSlot(int slot) 
+		public List<ItemStack> fuelItemStacksExcludingSlot(int slot)
 		{
 			List<ItemStack> fuelItemsExcludingSlot = new ArrayList<ItemStack>(getItemFuels());
 			fuelItemsExcludingSlot.remove(slot);
@@ -429,13 +418,13 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) 
+		public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side)
 		{
 			return super.canInsertItem(slot, stack, side) && isItemValidForSlot(slot, stack);
 		}
 		
 		@Override
-		public boolean hasConfigurableInventoryConnections() 
+		public boolean hasConfigurableInventoryConnections()
 		{
 			return true;
 		}
@@ -443,7 +432,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		// NBT
 		
 		@Override
-		public NBTTagCompound writeAll(NBTTagCompound nbt) 
+		public NBTTagCompound writeAll(NBTTagCompound nbt)
 		{
 			super.writeAll(nbt);
 			nbt.setDouble("time", time);
@@ -453,13 +442,13 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public void readAll(NBTTagCompound nbt) 
+		public void readAll(NBTTagCompound nbt)
 		{
 			super.readAll(nbt);
 			time = nbt.getDouble("time");
 			isProcessing = nbt.getBoolean("isProcessing");
 			canProcessInputs = nbt.getBoolean("canProcessInputs");
-			if (nbt.hasKey("redstoneControl")) 
+			if (nbt.hasKey("redstoneControl"))
 			{
 				setRedstoneControl(nbt.getBoolean("redstoneControl"));
 			} else setRedstoneControl(true);
@@ -468,25 +457,25 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		// IGui
 		
 		@Override
-		public int getGuiID() 
+		public int getGuiID()
 		{
 			return processorID;
 		}
 		
 		@Override
-		public Set<EntityPlayer> getTileUpdatePacketListeners() 
+		public Set<EntityPlayer> getTileUpdatePacketListeners()
 		{
 			return playersToUpdate;
 		}
 		
 		@Override
-		public ProcessorUpdatePacket getTileUpdatePacket() 
+		public ProcessorUpdatePacket getTileUpdatePacket()
 		{
 			return new ProcessorUpdatePacket(pos,isProcessing ,time,0, baseProcessTime, 0, new ArrayList<Tank>());
 		}
 		
 		@Override
-		public void onTileUpdatePacket(ProcessorUpdatePacket message) 
+		public void onTileUpdatePacket(ProcessorUpdatePacket message)
 		{
 			time = message.time;
 			baseProcessTime = message.baseProcessTime;
@@ -494,13 +483,13 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public int getSideConfigXOffset() 
+		public int getSideConfigXOffset()
 		{
 			return 0;
 		}
 		
 		@Override
-		public int getSideConfigYOffset() 
+		public int getSideConfigYOffset()
 		{
 			return sideConfigYOffset;
 		}

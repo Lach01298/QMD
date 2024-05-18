@@ -1,25 +1,20 @@
 package lach_01298.qmd.jei.category;
 
-import java.util.List;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiFluidStackGroup;
-import mezz.jei.api.gui.IGuiIngredientGroup;
-import mezz.jei.api.gui.IGuiItemStackGroup;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
+import mezz.jei.api.gui.*;
+import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeCategory;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 
 
@@ -29,7 +24,7 @@ public class AcceleratorSourceCategory implements IRecipeCategory<AcceleratorSou
 	protected final ResourceLocation gui_texture;
 	private final IDrawable icon;
 	
-	public AcceleratorSourceCategory(IGuiHelper guiHelper) 
+	public AcceleratorSourceCategory(IGuiHelper guiHelper)
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/ion_source.png");
 		background = guiHelper.createDrawable(gui_texture, 7, 3, 72, 37);
@@ -49,7 +44,7 @@ public class AcceleratorSourceCategory implements IRecipeCategory<AcceleratorSou
 	public String getTitle()
 	{
 		
-		return Lang.localise("qmd.gui.jei.category.accelerator_source");
+		return Lang.localize("qmd.gui.jei.category.accelerator_source");
 	}
 
 	@Override
@@ -83,7 +78,7 @@ public class AcceleratorSourceCategory implements IRecipeCategory<AcceleratorSou
 		IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 		guiFluidStacks.init(1, true, 2, 19, 16, 16, fluidInputs.get(0)== null ? 1000 : Math.max(1, fluidInputs.get(0).size()), false, null);
 		guiFluidStacks.set(ingredients);
-			
+		
 		IGuiIngredientGroup<ParticleStack> guiParticleStacks = recipeLayout.getIngredientsGroup(ParticleType.Particle);
 		guiParticleStacks.init(2, false, 54, 11);
 		guiParticleStacks.set(ingredients);
@@ -91,6 +86,3 @@ public class AcceleratorSourceCategory implements IRecipeCategory<AcceleratorSou
 	
 
 }
-
-
-

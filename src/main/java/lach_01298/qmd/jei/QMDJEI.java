@@ -1,83 +1,36 @@
 package lach_01298.qmd.jei;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.jei.category.AcceleratorCoolingCategory;
-import lach_01298.qmd.jei.category.AcceleratorSourceCategory;
-import lach_01298.qmd.jei.category.AtmosphereCollectorCategory;
-import lach_01298.qmd.jei.category.BeamDumpCategory;
-import lach_01298.qmd.jei.category.CellFillingCategory;
-import lach_01298.qmd.jei.category.CollisionChamberCategory;
-import lach_01298.qmd.jei.category.DecayChamberCategory;
-import lach_01298.qmd.jei.category.IrradiatorCategory;
-import lach_01298.qmd.jei.category.IrradiatorFuelCategory;
-import lach_01298.qmd.jei.category.MassSpectrometerCategory;
-import lach_01298.qmd.jei.category.NeutralContainmentCategory;
-import lach_01298.qmd.jei.category.NucleosynthesisChamberCategory;
-import lach_01298.qmd.jei.category.OreLeacherCategory;
-import lach_01298.qmd.jei.category.ParticleInfoCategory;
-import lach_01298.qmd.jei.category.QMDRecipeCategoryUid;
-import lach_01298.qmd.jei.category.TargetChamberCategory;
-import lach_01298.qmd.jei.category.VacuumChamberHeatingCategory;
-import lach_01298.qmd.jei.ingredient.ParticleStackHelper;
-import lach_01298.qmd.jei.ingredient.ParticleStackListFactory;
-import lach_01298.qmd.jei.ingredient.ParticleStackRenderer;
-import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.jei.recipe.AcceleratorSourceRecipeMaker;
-import lach_01298.qmd.jei.recipe.AtmosphereCollectorRecipeMaker;
-import lach_01298.qmd.jei.recipe.BeamDumpRecipeMaker;
-import lach_01298.qmd.jei.recipe.CollisionChamberRecipeMaker;
-import lach_01298.qmd.jei.recipe.DecayChamberRecipeMaker;
-import lach_01298.qmd.jei.recipe.NeutralContainmentRecipeMaker;
-import lach_01298.qmd.jei.recipe.NucleosynthesisChamberRecipeMaker;
-import lach_01298.qmd.jei.recipe.ParticleInfoRecipeMaker;
-import lach_01298.qmd.jei.recipe.QMDRecipeWrapper;
-import lach_01298.qmd.jei.recipe.TargetChamberRecipeMaker;
-import lach_01298.qmd.machine.container.ContainerIrradiator;
-import lach_01298.qmd.machine.container.ContainerOreLeacher;
-import lach_01298.qmd.machine.gui.GuiIrradiator;
-import lach_01298.qmd.machine.gui.GuiOreLeacher;
-import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
-import lach_01298.qmd.multiblock.container.ContainerMassSpectrometerController;
-import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
-import lach_01298.qmd.multiblock.gui.GuiMassSpectrometerController;
-import lach_01298.qmd.multiblock.gui.GuiNeutralContainmentController;
-import lach_01298.qmd.multiblock.gui.GuiTargetChamberController;
+import lach_01298.qmd.jei.category.*;
+import lach_01298.qmd.jei.ingredient.*;
+import lach_01298.qmd.jei.recipe.*;
+import lach_01298.qmd.machine.container.*;
+import lach_01298.qmd.machine.gui.*;
+import lach_01298.qmd.multiblock.container.*;
+import lach_01298.qmd.multiblock.gui.*;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipes.QMDRecipes;
-import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.ISubtypeRegistry;
-import mezz.jei.api.JEIPlugin;
-import mezz.jei.api.ingredients.IIngredientRegistry;
-import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.*;
+import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
-import nc.gui.processor.GuiManufactory;
-import nc.integration.jei.JEIBasicCategory;
-import nc.integration.jei.JEIBasicRecipeWrapper;
 import nc.integration.jei.JEIHelper;
-import nc.integration.jei.NCJEI.IJEIHandler;
-import nc.integration.jei.NCJEI.JEIHandler;
 import nc.recipe.BasicRecipeHandler;
 import nc.util.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+
+import java.util.*;
 
 @JEIPlugin
 public class QMDJEI implements IModPlugin
 {
 
 	@Override
-	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) 
+	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry)
 	{
-		
+	
 	}
 	
 	@Override
@@ -132,7 +85,7 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipes(TargetChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.TARGET_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.targetChamberController),QMDRecipeCategoryUid.TARGET_CHAMBER);
 		registry.addRecipeClickArea(GuiTargetChamberController.class, 71, 48, 20, 16, QMDRecipeCategoryUid.TARGET_CHAMBER);
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerTargetChamberController.class, QMDRecipeCategoryUid.TARGET_CHAMBER, 0, 1, 2, 36);		
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerTargetChamberController.class, QMDRecipeCategoryUid.TARGET_CHAMBER, 0, 1, 2, 36);
 		
 		registry.addRecipes(DecayChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.DECAY_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.decayChamberController),QMDRecipeCategoryUid.DECAY_CHAMBER);
@@ -171,7 +124,7 @@ public class QMDJEI implements IModPlugin
 		registry.addRecipes(JEIHandler.CELL_FILLING.getJEIRecipes(guiHelper), JEIHandler.CELL_FILLING.getUid());
 		registry.addRecipeCatalyst(JEIHandler.CELL_FILLING.getCrafters().get(0),JEIHandler.CELL_FILLING.getUid());
 		registry.addRecipeClickArea(GuiNeutralContainmentController.class, 77, 60, 22, 16, JEIHandler.CELL_FILLING.getUid());
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerExoticContainmentController.class, JEIHandler.CELL_FILLING.getUid(), 0, 1, 2, 34);		
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerExoticContainmentController.class, JEIHandler.CELL_FILLING.getUid(), 0, 1, 2, 34);
 		
 		registry.addRecipes(AtmosphereCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.atmosphereCollector),QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
@@ -195,7 +148,7 @@ public class QMDJEI implements IModPlugin
 	}
 
 	
-	public enum JEIHandler implements IJEIHandler 
+	public enum JEIHandler implements IJEIHandler
 	{
 		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
 		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
@@ -211,13 +164,13 @@ public class QMDJEI implements IModPlugin
 		private List<ItemStack> crafters;
 		private String textureName;
 		
-		JEIHandler(BasicRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper) 
+		JEIHandler(BasicRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper)
 		{
 			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper);
 		}
 		
 
-		JEIHandler(BasicRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper) 
+		JEIHandler(BasicRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper)
 		{
 			this.recipeHandler = recipeHandler;
 			this.recipeWrapper = recipeWrapper;
@@ -227,9 +180,9 @@ public class QMDJEI implements IModPlugin
 		}
 		
 		@Override
-		public JEIBasicCategory getCategory(IGuiHelper guiHelper) 
+		public JEIBasicCategory getCategory(IGuiHelper guiHelper)
 		{
-			switch (this) 
+			switch (this)
 			{
 			case ORE_LEACHER:
 				return new OreLeacherCategory(guiHelper, this);
@@ -251,19 +204,19 @@ public class QMDJEI implements IModPlugin
 		}
 		
 		@Override
-		public BasicRecipeHandler getRecipeHandler() 
+		public BasicRecipeHandler getRecipeHandler()
 		{
 			return recipeHandler;
 		}
 		
 		@Override
-		public Class getRecipeWrapperClass() 
+		public Class getRecipeWrapperClass()
 		{
 			return recipeWrapper;
 		}
 		
 		@Override
-		public List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper) 
+		public List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper)
 		{
 			return JEIHelper.getJEIRecipes(guiHelper, this, getRecipeHandler(), getRecipeWrapperClass());
 		}
@@ -276,19 +229,19 @@ public class QMDJEI implements IModPlugin
 		}
 		
 		@Override
-		public boolean getEnabled() 
+		public boolean getEnabled()
 		{
 			return true;
 		}
 		
 		@Override
-		public List<ItemStack> getCrafters() 
+		public List<ItemStack> getCrafters()
 		{
 			return crafters;
 		}
 		
 		@Override
-		public String getTextureName() 
+		public String getTextureName()
 		{
 			return textureName;
 		}

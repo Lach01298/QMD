@@ -1,9 +1,5 @@
 package lach_01298.qmd.gui;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.util.Units;
 import nc.util.Lang;
@@ -11,7 +7,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.TextFormatting;
 
-public class GuiParticle 
+import java.text.DecimalFormat;
+import java.util.*;
+
+public class GuiParticle
 {
 	private int width = 16;
 	private int height = 16;
@@ -38,20 +37,20 @@ public class GuiParticle
 		GlStateManager.disableLighting();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		screen.mc.getTextureManager().bindTexture(particleStack.getParticle().getTexture());
-		screen.drawModalRectWithCustomSizedTexture(x, y, 0, 0, width, height,width,height);	
+		screen.drawModalRectWithCustomSizedTexture(x, y, 0, 0, width, height,width,height);
 	}
 	
 
 	private void drawToolTip(ParticleStack stack,int mouseX, int mouseY, boolean showFocus)
 	{
 		List<String> text = new ArrayList<String>();
-		text.add(TextFormatting.WHITE + Lang.localise(stack.getParticle().getUnlocalizedName()));
-		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu")));
-		text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(stack.getMeanEnergy())));
+		text.add(TextFormatting.WHITE + Lang.localize(stack.getParticle().getUnlocalizedName()));
+		text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu")));
+		text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(stack.getMeanEnergy())));
 		if(showFocus)
 		{
 			DecimalFormat df = new DecimalFormat("#.####");
-			text.add(TextFormatting.GRAY + Lang.localise("gui.qmd.particlestack.focus",df.format(stack.getFocus())));
+			text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",df.format(stack.getFocus())));
 		}
 		screen.drawHoveringText(text, mouseX, mouseY);
 		

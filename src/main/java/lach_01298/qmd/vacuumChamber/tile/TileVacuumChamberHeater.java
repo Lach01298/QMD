@@ -3,12 +3,8 @@ package lach_01298.qmd.vacuumChamber.tile;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.CoolerPlacement;
-import lach_01298.qmd.enums.BlockTypes.CoolerType1;
-import lach_01298.qmd.enums.BlockTypes.CoolerType2;
 import lach_01298.qmd.enums.BlockTypes.HeaterType;
-import lach_01298.qmd.vacuumChamber.HeaterPlacement;
-import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.*;
 import nc.multiblock.PlacementRule;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import net.minecraft.nbt.NBTTagCompound;
@@ -124,7 +120,7 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 	@Override
 	public void onMachineBroken()
 	{
-		super.onMachineBroken();	
+		super.onMachineBroken();
 	}
 
 	@Override
@@ -147,14 +143,14 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 	}
 
 
-	public void coolerSearch(final ObjectSet<TileVacuumChamberHeater> validCache, final ObjectSet<TileVacuumChamberHeater> searchCache, final Long2ObjectMap<TileVacuumChamberHeater> partFailCache, final Long2ObjectMap<TileVacuumChamberHeater> assumedValidCache) 
+	public void coolerSearch(final ObjectSet<TileVacuumChamberHeater> validCache, final ObjectSet<TileVacuumChamberHeater> searchCache, final Long2ObjectMap<TileVacuumChamberHeater> partFailCache, final Long2ObjectMap<TileVacuumChamberHeater> assumedValidCache)
 	{
-		if (!isHeaterValid(partFailCache, assumedValidCache)) 
+		if (!isHeaterValid(partFailCache, assumedValidCache))
 		{
 			return;
 		}
 		
-		if (isSearched) 
+		if (isSearched)
 		{
 			return;
 		}
@@ -162,33 +158,33 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 		isSearched = true;
 		validCache.add(this);
 		
-		for (EnumFacing dir : EnumFacing.VALUES) 
+		for (EnumFacing dir : EnumFacing.VALUES)
 		{
 			TileVacuumChamberHeater part = getMultiblock().getPartMap(TileVacuumChamberHeater.class).get(getTilePos().offset(dir).toLong());
-			if (part != null) 
+			if (part != null)
 			{
 				searchCache.add(part);
 			}
 		}
 	}
 	
-	public boolean isHeaterValid(final Long2ObjectMap<TileVacuumChamberHeater> partFailCache, final Long2ObjectMap<TileVacuumChamberHeater> assumedValidCache) 
+	public boolean isHeaterValid(final Long2ObjectMap<TileVacuumChamberHeater> partFailCache, final Long2ObjectMap<TileVacuumChamberHeater> assumedValidCache)
 	{
 		
-		if (partFailCache.containsKey(pos.toLong())) 
+		if (partFailCache.containsKey(pos.toLong()))
 		{
 			return isInValidPosition = false;
 		}
-		else if (placementRule.requiresRecheck()) 
+		else if (placementRule.requiresRecheck())
 		{
 			isInValidPosition = placementRule.satisfied(this);
-			if (isInValidPosition) 
+			if (isInValidPosition)
 			{
 				assumedValidCache.put(pos.toLong(), this);
 			}
 			return isInValidPosition;
 		}
-		else if (isInValidPosition) 
+		else if (isInValidPosition)
 		{
 			return true;
 		}
@@ -196,9 +192,9 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 		return isInValidPosition = placementRule.satisfied(this);
 	}
 	
-	public boolean isSearchRoot() 
+	public boolean isSearchRoot()
 	{
-		for (String dep : placementRule.getDependencies()) 
+		for (String dep : placementRule.getDependencies())
 		{
 			if (dep.equals("beam")||dep.equals("vacuum_chamber_casing")||dep.equals("plasma_glass")||dep.equals("nozzle"))
 				return true;
@@ -209,7 +205,7 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 
 	
 	@Override
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		super.writeAll(nbt);
 		nbt.setString("name", name);
@@ -220,7 +216,7 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 	}
 	
 	@Override
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		if (nbt.hasKey("name"))

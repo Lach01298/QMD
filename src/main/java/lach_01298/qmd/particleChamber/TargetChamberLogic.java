@@ -1,33 +1,25 @@
 package lach_01298.qmd.particleChamber;
 
-
-import static lach_01298.qmd.recipes.QMDRecipes.target_chamber;
-
-import java.util.ArrayList;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.InventoryHelper;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.particleChamber.tile.*;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.ArrayList;
+
+import static lach_01298.qmd.recipes.QMDRecipes.target_chamber;
 
 public class TargetChamberLogic extends ParticleChamberLogic
 {
@@ -59,7 +51,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "target_chamber";
 	}
@@ -260,7 +252,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	
 	
 	public void onMachineDisassembled()
-	{	
+	{
 		mainChamber = null;
 		for(TileParticleChamberBeamPort tile :getPartMap(TileParticleChamberBeamPort.class).values())
 		{
@@ -272,7 +264,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	
 
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
 		
 		getMultiblock().beams.get(0).setParticleStack(null);
@@ -294,7 +286,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 						if(rememberedRecipeInfo.getRecipe() !=recipeInfo.getRecipe())
 						{
 							particleWorkDone= 0;
-						}	
+						}
 					}
 					rememberedRecipeInfo = recipeInfo;
 					
@@ -320,7 +312,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			else
 			{
 				resetBeams();
-			}	
+			}
 		}
 		else
 		{
@@ -394,7 +386,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				TileParticleChamberBeamPort port2 = (TileParticleChamberBeamPort) getWorld().getTileEntity(port.getPos().offset(facing, getMultiblock().getExteriorLengthX()-1));
 				if(port2.getIONumber() ==1)
 				{
-					port2.setIONumber(3);	
+					port2.setIONumber(3);
 				}
 				else if(port2.getIONumber() ==3)
 				{
@@ -404,7 +396,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		
 		return true;
 		}
-		return false;	
+		return false;
 	}
 
 	private boolean canProduceProduct()
@@ -419,7 +411,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		{
 			inv.getInventoryStacks().set(1, ItemStack.EMPTY);
 		}
-			
+		
 		if(productItem != null)
 		{
 			if (!inv.getInventoryStacks().get(1).isItemEqual(productItem) && inv.getInventoryStacks().get(1) != ItemStack.EMPTY)
@@ -429,7 +421,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			
 			if (inv.getInventoryStacks().get(1).getCount() + productItem.getCount() > productItem.getMaxStackSize())
 			{
-				return false;	
+				return false;
 			}
 		}
 		
@@ -439,7 +431,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			if(getMultiblock().tanks.get(1).fill(productFluid, false) != productFluid.amount)
 			{
 				return false;
-			}	
+			}
 		}
 		
 		return true;
@@ -463,7 +455,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			{
 				productItem.setCount(recipeInfo.getRecipe().getItemProducts().get(0).getNextStackSize(0));
 			}
-					
+			
 			InventoryHelper.addItem(1,productItem,inv.getInventoryStacks(),inv);
 			InventoryHelper.removeItem(0,recipeInfo.getRecipe().getItemIngredients().get(0).getMaxStackSize(0),inv.getInventoryStacks(),inv);
 			
@@ -570,7 +562,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(3).setParticleStack(null);
 	}
 	
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();

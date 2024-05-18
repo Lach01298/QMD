@@ -1,43 +1,29 @@
 package lach_01298.qmd.accelerator.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
-import lach_01298.qmd.accelerator.MassSpectrometerLogic;
+import lach_01298.qmd.accelerator.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.InventoryStackList;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.internal.fluid.*;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.*;
+import java.util.*;
 
 public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInventory, ITileFluid
 {
@@ -57,7 +43,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	{
 		super(CuboidalPartPositionType.WALL);
 		
-		fluidSides = ITileFluid.getDefaultFluidSides(this);		
+		fluidSides = ITileFluid.getDefaultFluidSides(this);
 	}
 
 	
@@ -68,7 +54,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	}
 	
 	@Override
-	public void onMachineAssembled(Accelerator accelerator) 
+	public void onMachineAssembled(Accelerator accelerator)
 	{
 		if(accelerator.controller instanceof TileMassSpectrometerController)
 		{
@@ -102,7 +88,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 			}
 		}
 		
-		super.onMachineAssembled(accelerator);	
+		super.onMachineAssembled(accelerator);
 	}
 	
 	public void setSource(LinearAcceleratorLogic logic)
@@ -139,7 +125,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 			{
 				TileMassSpectrometerController massSpec = (TileMassSpectrometerController) controller;
 				return new InventoryStackList(massSpec.getInventoryStacks().subList(0,2));
-			}	
+			}
 		}
 		
 		
@@ -177,7 +163,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	}
 	
 	@Override
-	public int getInventoryStackLimit() 
+	public int getInventoryStackLimit()
 	{
 		if(controller instanceof TileMassSpectrometerController)
 		{
@@ -188,7 +174,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	}
 	
 	@Override
-	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
+	public  boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
 		if(controller instanceof TileMassSpectrometerController)
 		{
@@ -207,7 +193,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 		public @Nonnull List<Tank> getTanks()
 		{
 			if(getMultiblock() != null)
-			{		
+			{
 					return getMultiblock().isAssembled() ? getMultiblock().tanks.subList(2, 3) : backupTanks;
 			}
 
@@ -285,7 +271,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	// NBT
 	
 	@Override
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		super.writeAll(nbt);
 		writeInventory(nbt);
@@ -298,7 +284,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	}
 	
 	@Override
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		readInventory(nbt);

@@ -1,42 +1,22 @@
 package lach_01298.qmd.vacuumChamber;
 
-
-import static lach_01298.qmd.config.QMDConfig.heater_rule;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nullable;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import lach_01298.qmd.accelerator.Accelerator;
+import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.enums.BlockTypes.HeaterType;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPart;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
+import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.multiblock.PlacementRule;
-import nc.multiblock.PlacementRule.AdjacencyType;
-import nc.multiblock.PlacementRule.CountType;
-import nc.multiblock.PlacementRule.PlacementMap;
-import nc.multiblock.fission.FissionReactor;
-import nc.multiblock.fission.FissionPlacement.Adjacent;
-import nc.multiblock.fission.FissionPlacement.AdjacentCasing;
-import nc.multiblock.fission.tile.IFissionPart;
-import nc.multiblock.fission.tile.TileFissionPart;
+import nc.multiblock.PlacementRule.*;
 import nc.util.StringHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import static lach_01298.qmd.config.QMDConfig.heater_rule;
 
 public class HeaterPlacement
 {
@@ -85,20 +65,20 @@ public class HeaterPlacement
 		
 	}
 	
-	public static void addRule(String id, String rule, Object... blocks) 
+	public static void addRule(String id, String rule, Object... blocks)
 	{
 		RULE_MAP_RAW.put(id, rule);
 		RULE_MAP.put(id, parse(rule));
-		for (Object block : blocks) 
+		for (Object block : blocks)
 		{
 			recipe_handler.addRecipe(block, id);
 		}
 	}
 	
-	public static void postInit() 
+	public static void postInit()
 	{
 		for (Object2ObjectMap.Entry<String, PlacementRule<VacuumChamber, IVacuumChamberPart>> entry : RULE_MAP.object2ObjectEntrySet()) {
-			for (PlacementRule.TooltipBuilder<VacuumChamber, IVacuumChamberPart> builder : TOOLTIP_BUILDER_LIST) 
+			for (PlacementRule.TooltipBuilder<VacuumChamber, IVacuumChamberPart> builder : TOOLTIP_BUILDER_LIST)
 			{
 				String tooltip = builder.buildTooltip(entry.getValue());
 				if (tooltip != null)
@@ -109,17 +89,17 @@ public class HeaterPlacement
 	
 	// Default Rule Parser
 	
-	public static PlacementRule<VacuumChamber, IVacuumChamberPart> parse(String string) 
+	public static PlacementRule<VacuumChamber, IVacuumChamberPart> parse(String string)
 	{
 		return PlacementRule.parse(string, RULE_PARSER_LIST);
 	}
 	
 	/** Rule parser for all rule types available in base NC. */
-	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<VacuumChamber, IVacuumChamberPart> 
+	public static class DefaultRuleParser extends PlacementRule.DefaultRuleParser<VacuumChamber, IVacuumChamberPart>
 	{
 		
 		@Override
-		protected @Nullable PlacementRule<VacuumChamber, IVacuumChamberPart> partialParse(String s) 
+		protected @Nullable PlacementRule<VacuumChamber, IVacuumChamberPart> partialParse(String s)
 		{
 			s = s.toLowerCase(Locale.ROOT);
 			
@@ -190,19 +170,19 @@ public class HeaterPlacement
 			if (rule.equals("casing")) {
 				return new AdjacentCasing(amount, countType, adjType);
 			}
-			else if (rule.equals("beam")) 
+			else if (rule.equals("beam"))
 			{
 				return new AdjacentBeam(amount, countType, adjType);
 			}
-			else if (rule.equals("glass")) 
+			else if (rule.equals("glass"))
 			{
 				return new AdjacentGlass(amount, countType, adjType);
 			}
-			else if (rule.equals("nozzle")) 
+			else if (rule.equals("nozzle"))
 			{
 				return new AdjacentNozzle(amount, countType, adjType);
 			}
-			else if (rule.equals("heater")) 
+			else if (rule.equals("heater"))
 			{
 				return new AdjacentHeater(amount, countType, adjType, type);
 			}
@@ -217,10 +197,10 @@ public class HeaterPlacement
 	
 	// Adjacent
 	
-	public static abstract class Adjacent extends PlacementRule.Adjacent<VacuumChamber, IVacuumChamberPart> 
+	public static abstract class Adjacent extends PlacementRule.Adjacent<VacuumChamber, IVacuumChamberPart>
 	{
 		
-		public Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType) 
+		public Adjacent(String dependency, int amount, CountType countType, AdjacencyType adjType)
 		{
 			super(dependency, amount, countType, adjType);
 		}
@@ -238,46 +218,46 @@ public class HeaterPlacement
 		}
 	}
 	
-	public static class AdjacentBeam extends Adjacent 
+	public static class AdjacentBeam extends Adjacent
 	{
 		
-		public AdjacentBeam(int amount, CountType countType, AdjacencyType adjType) 
+		public AdjacentBeam(int amount, CountType countType, AdjacencyType adjType)
 		{
 			super("beam", amount, countType, adjType);
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir) 
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
 		{
 			return isBeam(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
 	}
 	
-	public static class AdjacentGlass extends Adjacent 
+	public static class AdjacentGlass extends Adjacent
 	{
 		
-		public AdjacentGlass(int amount, CountType countType, AdjacencyType adjType) 
+		public AdjacentGlass(int amount, CountType countType, AdjacencyType adjType)
 		{
 			super("plasma_glass", amount, countType, adjType);
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir) 
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
 		{
 			return isPlasmaGlass(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
 	}
 	
-	public static class AdjacentNozzle extends Adjacent 
+	public static class AdjacentNozzle extends Adjacent
 	{
 		
-		public AdjacentNozzle(int amount, CountType countType, AdjacencyType adjType) 
+		public AdjacentNozzle(int amount, CountType countType, AdjacencyType adjType)
 		{
 			super("nozzle", amount, countType, adjType);
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir) 
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
 		{
 			return isNozzle(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
@@ -285,22 +265,22 @@ public class HeaterPlacement
 	
 	
 	
-	public static class AdjacentHeater extends Adjacent 
+	public static class AdjacentHeater extends Adjacent
 	{
 		
 		protected final String heaterType;
 		
-		public AdjacentHeater(int amount, CountType countType, AdjacencyType adjType, String heaterType) 
+		public AdjacentHeater(int amount, CountType countType, AdjacencyType adjType, String heaterType)
 		{
 			super(heaterType + "_heater", amount, countType, adjType);
 			this.heaterType = heaterType;
 		}
 		
 		@Override
-		public void checkIsRuleAllowed(String ruleID) 
+		public void checkIsRuleAllowed(String ruleID)
 		{
 			super.checkIsRuleAllowed(ruleID);
-			if (countType != CountType.AT_LEAST && heaterType.equals("any")) 
+			if (countType != CountType.AT_LEAST && heaterType.equals("any"))
 			{
 				
 				throw new IllegalArgumentException((countType == CountType.EXACTLY ? "Exact 'any heater'" : "'At most n of any heater'") + " placement rule with ID \"" + ruleID + "\" is disallowed due to potential ambiguity during rule checks!");
@@ -308,7 +288,7 @@ public class HeaterPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir) 
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
 		{
 			return isActiveHeater(part.getMultiblock(), part.getTilePos().offset(dir), heaterType);
 		}
@@ -322,32 +302,32 @@ public class HeaterPlacement
 	
 	// Helper Methods
 	
-	public static boolean isCasing(VacuumChamber vacuumChamber, BlockPos pos) 
+	public static boolean isCasing(VacuumChamber vacuumChamber, BlockPos pos)
 	{
 		TileEntity tile = vacuumChamber.WORLD.getTileEntity(pos);
 		return tile instanceof TileVacuumChamberPart && ((TileVacuumChamberPart) tile).getPartPositionType().isGoodForWall();
 	}
 	
-	public static boolean isBeam(VacuumChamber vacuumChamber, BlockPos pos) 
+	public static boolean isBeam(VacuumChamber vacuumChamber, BlockPos pos)
 	{
 		TileVacuumChamberBeam beam = vacuumChamber.getPartMap(TileVacuumChamberBeam.class).get(pos.toLong());
 		return beam == null ? false : beam.isFunctional();
 	}
 	
-	public static boolean isPlasmaGlass(VacuumChamber vacuumChamber, BlockPos pos) 
+	public static boolean isPlasmaGlass(VacuumChamber vacuumChamber, BlockPos pos)
 	{
 		TileVacuumChamberPlasmaGlass glass = vacuumChamber.getPartMap(TileVacuumChamberPlasmaGlass.class).get(pos.toLong());
 		return glass == null ? false : true;
 	}
 	
-	public static boolean isNozzle(VacuumChamber vacuumChamber, BlockPos pos) 
+	public static boolean isNozzle(VacuumChamber vacuumChamber, BlockPos pos)
 	{
 		TileVacuumChamberPlasmaNozzle nozzle = vacuumChamber.getPartMap(TileVacuumChamberPlasmaNozzle.class).get(pos.toLong());
 		return nozzle == null ? false : true;
 	}
 	
 	
-	public static boolean isActiveHeater(VacuumChamber vacuumChamber, BlockPos pos, String heaterName) 
+	public static boolean isActiveHeater(VacuumChamber vacuumChamber, BlockPos pos, String heaterName)
 	{
 		TileVacuumChamberHeater heater = vacuumChamber.getPartMap(TileVacuumChamberHeater.class).get(pos.toLong());
 		return heater == null ? false : heater.isFunctional() && (heaterName.equals("any") || heater.name.equals(heaterName));
@@ -361,10 +341,10 @@ public class HeaterPlacement
 	
 	// Tooltip Recipes
 	
-	public static class RecipeHandler extends PlacementRule.RecipeHandler 
+	public static class RecipeHandler extends PlacementRule.RecipeHandler
 	{
 		
-		public RecipeHandler() 
+		public RecipeHandler()
 		{
 			super("vacuum_chamber");
 		}

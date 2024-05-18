@@ -1,12 +1,11 @@
 package lach_01298.qmd.pipe;
 
-import static nc.block.property.BlockProperties.AXIS_ALL;
-
 import lach_01298.qmd.particle.ParticleStorageBeamline;
-import nc.multiblock.Multiblock;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
+
+import static nc.block.property.BlockProperties.AXIS_ALL;
 
 public class BeamlineLogic extends PipeLogic
 {
@@ -23,7 +22,7 @@ public class BeamlineLogic extends PipeLogic
 		
 		if(getWorld().getBlockState(multiblock.controller.getTilePos()).getValue(AXIS_ALL) != null)
 		{
-			this.axis = getWorld().getBlockState(multiblock.controller.getTilePos()).getValue(AXIS_ALL);	
+			this.axis = getWorld().getBlockState(multiblock.controller.getTilePos()).getValue(AXIS_ALL);
 		}
 		else
 		{
@@ -47,7 +46,7 @@ public class BeamlineLogic extends PipeLogic
 	
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "beamline";
 	}
@@ -64,7 +63,7 @@ public class BeamlineLogic extends PipeLogic
 	@Override
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-		storage.writeToNBT(logicTag);		
+		storage.writeToNBT(logicTag);
 	}
 
 	@Override

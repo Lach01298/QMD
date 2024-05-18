@@ -1,21 +1,14 @@
 package lach_01298.qmd.render.entity;
 
-import java.util.Random;
-
+import lach_01298.qmd.entity.EntityGammaFlash;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.*;
 import org.lwjgl.opengl.GL11;
 
-import lach_01298.qmd.entity.EntityGammaFlash;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class RenderGammaFlash extends Render<EntityGammaFlash>

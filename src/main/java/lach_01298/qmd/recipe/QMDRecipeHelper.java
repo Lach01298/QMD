@@ -1,52 +1,22 @@
 package lach_01298.qmd.recipe;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
-import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.ParticleArrayIngredient;
-import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
+import lach_01298.qmd.particle.*;
+import lach_01298.qmd.recipe.ingredient.*;
 import nc.ModCheck;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
-import nc.recipe.ingredient.ChanceFluidIngredient;
-import nc.recipe.ingredient.ChanceItemIngredient;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.recipe.ingredient.EmptyItemIngredient;
-import nc.recipe.ingredient.FluidArrayIngredient;
-import nc.recipe.ingredient.FluidIngredient;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
-import nc.recipe.ingredient.ItemArrayIngredient;
-import nc.recipe.ingredient.ItemIngredient;
-import nc.recipe.ingredient.OreIngredient;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
-import nc.util.CollectionHelper;
-import nc.util.FluidRegHelper;
-import nc.util.GasHelper;
-import nc.util.OreDictHelper;
-import nc.util.StringHelper;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.inventory.*;
+import net.minecraft.item.*;
+import net.minecraftforge.fluids.*;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class QMDRecipeHelper
 {

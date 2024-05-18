@@ -1,12 +1,8 @@
 package lach_01298.qmd.crafttweaker;
 
-import crafttweaker.CraftTweakerAPI;
-import crafttweaker.IAction;
-import crafttweaker.api.item.IIngredient;
-import crafttweaker.api.item.IItemStack;
+import crafttweaker.*;
+import crafttweaker.api.item.*;
 import lach_01298.qmd.item.ItemCustomParticleSource;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
 import net.minecraft.item.ItemStack;
 
 public class CTSetEmptyItemSource implements IAction
@@ -28,8 +24,8 @@ public class CTSetEmptyItemSource implements IAction
 				if(stack.getItem() instanceof ItemCustomParticleSource)
 				{
 					source = (ItemCustomParticleSource) stack.getItem();
-				}	
-			}			
+				}
+			}
 		}
 		
 		if(ItemSourceEmpty instanceof IItemStack)
@@ -37,15 +33,15 @@ public class CTSetEmptyItemSource implements IAction
 			if(((IItemStack) ItemSourceEmpty).getInternal() instanceof ItemStack)
 			{
 				emptySource = (ItemStack) ItemSourceEmpty.getInternal();
-					
-			}			
+				
+			}
 		}
 		
 		if (source == null ||emptySource == null)
 		{
 			ingredientError = true;
 		}
-			
+		
 	}
 
 	@Override
@@ -74,7 +70,7 @@ public class CTSetEmptyItemSource implements IAction
 		
 	}
 
-	public static void callError() 
+	public static void callError()
 	{
 		if (!hasErrored) {
 			CraftTweakerAPI.logError("At least one QMD CraftTweaker empty source item setting method has errored - check the CraftTweaker log for more details");

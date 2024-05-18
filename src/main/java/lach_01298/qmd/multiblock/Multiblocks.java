@@ -1,71 +1,17 @@
 package lach_01298.qmd.multiblock;
 
-import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.AcceleratorLogic;
-import lach_01298.qmd.accelerator.BeamDiverterLogic;
-import lach_01298.qmd.accelerator.BeamSplitterLogic;
-import lach_01298.qmd.accelerator.DeceleratorLogic;
-import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
-import lach_01298.qmd.accelerator.MassSpectrometerLogic;
-import lach_01298.qmd.accelerator.RingAcceleratorLogic;
-import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorComputerPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorEnergyPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonCollector;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRedstonePort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
-import lach_01298.qmd.particleChamber.BeamDumpLogic;
-import lach_01298.qmd.particleChamber.CollisionChamberLogic;
-import lach_01298.qmd.particleChamber.DecayChamberLogic;
-import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.ParticleChamberLogic;
-import lach_01298.qmd.particleChamber.TargetChamberLogic;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberFluidPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
-import lach_01298.qmd.pipe.BeamlineLogic;
-import lach_01298.qmd.pipe.IPipeController;
-import lach_01298.qmd.pipe.Pipe;
-import lach_01298.qmd.pipe.PipeLogic;
-import lach_01298.qmd.vacuumChamber.ExoticContainmentLogic;
-import lach_01298.qmd.vacuumChamber.NucleosynthesisChamberLogic;
-import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import lach_01298.qmd.vacuumChamber.VacuumChamberLogic;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberComponent;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberEnergyPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
+import lach_01298.qmd.accelerator.*;
+import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.particleChamber.*;
+import lach_01298.qmd.particleChamber.tile.*;
+import lach_01298.qmd.pipe.*;
+import lach_01298.qmd.vacuumChamber.*;
+import lach_01298.qmd.vacuumChamber.tile.*;
 
 
 public class Multiblocks
 {
-	public static void init() 
+	public static void init()
 	{
 		Accelerator.PART_CLASSES.add(IAcceleratorController.class);
 		Accelerator.PART_CLASSES.add(IAcceleratorComponent.class);

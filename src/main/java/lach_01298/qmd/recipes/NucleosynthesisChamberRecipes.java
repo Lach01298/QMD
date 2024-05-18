@@ -1,14 +1,11 @@
 package lach_01298.qmd.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lach_01298.qmd.QMDConstants;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import nc.recipe.ingredient.EmptyFluidIngredient;
+
+import java.util.*;
 
 public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 {
@@ -31,7 +28,7 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 		addRecipe(fluidStack("deuterium", 1000),fluidStack("tritium", 1000), new ParticleStack(Particles.muon,(int) (155900*scaleFactor),0,1),fluidStack("helium", 1000), new EmptyFluidIngredient(), 1000L, 17600L);
 		addRecipe(fluidStack("tritium", 1000),fluidStack("tritium", 1000), new ParticleStack(Particles.muon,(int) (161600*scaleFactor),0,1),fluidStack("helium", 1000), new EmptyFluidIngredient(), 1000L, 11300L);
 		addRecipe(fluidStack("deuterium", 1000),fluidStack("helium_3", 1000), new ParticleStack(Particles.muon,(int) (200600*scaleFactor),0,1),fluidStack("helium", 1000), fluidStack("hydrogen", 1000), 1000L, 18400L);
-		addRecipe(fluidStack("hydrogen", 1000),fluidStack("lithium_7", 144), new ParticleStack(Particles.muon,(int) (223000*scaleFactor),0,1),fluidStack("helium", 2000), new EmptyFluidIngredient(), 1000L, 17300L);		
+		addRecipe(fluidStack("hydrogen", 1000),fluidStack("lithium_7", 144), new ParticleStack(Particles.muon,(int) (223000*scaleFactor),0,1),fluidStack("helium", 2000), new EmptyFluidIngredient(), 1000L, 17300L);
 		addRecipe(fluidStack("deuterium", 1000),fluidStack("lithium_6", 144), new ParticleStack(Particles.muon,(int) (252200*scaleFactor),0,1),fluidStack("helium", 2000), new EmptyFluidIngredient(), 1000L, 22400L);
 		addRecipe(fluidStack("tritium", 1000),fluidStack("helium_3", 1000), new ParticleStack(Particles.muon,(int) (210200*scaleFactor),0,1),fluidStack("helium", 1000), fluidStack("hydrogen", 1000), 1000L, 12100L);
 		addRecipe(fluidStack("deuterium", 1000),fluidStack("deuterium", 1000), new ParticleStack(Particles.muon,(int) (151600*scaleFactor),0,1),fluidStack("tritium", 1000), fluidStack("hydrogen", 1000), 1000L, 4030L);
@@ -102,7 +99,7 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 	}
 
 	@Override
-	public List fixExtras(List extras)
+	public List fixedExtras(List extras)
 	{
 		List fixed = new ArrayList(2);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Long ? (long) extras.get(0) : 0L);

@@ -1,22 +1,18 @@
 package lach_01298.qmd.fluid;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import lach_01298.qmd.QMD;
 import nc.block.fluid.NCBlockFluid;
 import nc.block.item.NCItemBlock;
 import nc.enumm.FluidType;
-import nc.util.ColorHelper;
-import nc.util.NCUtil;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
 
 public class QMDFluids
 {
@@ -116,8 +112,8 @@ public class QMDFluids
 	{
 		try
 		{
-			T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
-			V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
+			T fluid = ReflectionHelper.newInstance(fluidType.getFluidClass(), fluidArgs);
+			V block = ReflectionHelper.newInstance(fluidType.getBlockClass(), fluid);
 			fluidPairList.add(Pair.of(fluid, block));
 		}
 		catch (Exception e)
@@ -131,8 +127,8 @@ public class QMDFluids
 	{
 		try
 		{
-			T fluid = NCUtil.newInstance(fluidType.getFluidClass(), fluidArgs);
-			V block = NCUtil.newInstance(fluidType.getBlockClass(), fluid);
+			T fluid = ReflectionHelper.newInstance(fluidType.getFluidClass(), fluidArgs);
+			V block = ReflectionHelper.newInstance(fluidType.getBlockClass(), fluid);
 			fluidPairList.add(Pair.of(fluid, block));
 		}
 		catch (Exception e)

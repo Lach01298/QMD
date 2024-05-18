@@ -1,54 +1,41 @@
 package lach_01298.qmd.accelerator;
 
-import static lach_01298.qmd.recipes.QMDRecipes.accelerator_source;
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.accelerator_source;
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class LinearAcceleratorLogic extends AcceleratorLogic
 {
 
 	protected TileAcceleratorIonSource source;
-	public QMDRecipeInfo<QMDRecipe> recipeInfo;	
+	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	
 	// Multiblock logic
 	
-	public LinearAcceleratorLogic(AcceleratorLogic oldLogic) 
+	public LinearAcceleratorLogic(AcceleratorLogic oldLogic)
 	{
 		super(oldLogic);
 		
@@ -70,7 +57,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	}
 
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "linear_accelerator";
 	}
@@ -177,7 +164,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			}
 			else
 			{
-				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
+				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) &&
 						!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorIonSource))
 				{
 					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port", null);
@@ -231,11 +218,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				{
 					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_have_io", null);
 					return false;
-				}	
+				}
 			}
 			else
 			{
-				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) && 
+				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) &&
 						!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorIonSource))
 				{
 					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port",  null);
@@ -411,7 +398,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			if(source != null)
 			{
 				//refreshRecipe(); called in shouldUseEnergy
-								
+				
 				if (recipeInfo != null)
 				{
 					
@@ -425,7 +412,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			else
 			{
 				produceBeam();
-			}	
+			}
 		}
 		else
 		{
@@ -443,7 +430,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
 		getMultiblock().beams.get(1).setParticleStack(null);
-		pull();	
+		pull();
 	}
 	
 	@Override
@@ -527,20 +514,20 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 						ItemStack stack = source.getInventoryStacks().get(1).copy();
 						source.getInventoryStacks().set(1,source.getInventoryStacks().get(0).copy());
 						source.getInventoryStacks().set(0,stack);
-					}	
+					}
 				}
 			}
 			else if (!source.getTanks().get(0).isEmpty())
 			{
-				FluidStack fluidStack = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();	
-						
+				FluidStack fluidStack = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
+				
 				Tank tank = source.getTanks().get(0);
 				int mBtoDrain = fluidStack.amount * source.outputParticleMultiplier;
 				
 				FluidStack mBDrained = tank.drain(mBtoDrain, true);
 				outputAmount *= mBDrained.amount/mBtoDrain;
 			}
-					
+			
 			outputStack.setAmount(outputAmount);
 		}
 		
@@ -578,7 +565,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 	}
 
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		// switch slot items
 		if(source.getInventoryStacks().get(0).isEmpty() && !source.getInventoryStacks().get(1).isEmpty())
@@ -614,7 +601,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	// Packets
 	
 	@Override
-	public AcceleratorUpdatePacket getMultiblockUpdatePacket() 
+	public AcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 
 		return new LinearAcceleratorUpdatePacket(getMultiblock().controller.getTilePos(),

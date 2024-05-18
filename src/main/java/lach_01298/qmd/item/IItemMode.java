@@ -1,16 +1,16 @@
 package lach_01298.qmd.item;
 
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.List;
 
 public interface IItemMode
 {
 	public default String getMode(ItemStack stack)
 	{
 		NBTTagCompound nbt = getStorageNBT(stack);
-		if (nbt == null) 
+		if (nbt == null)
 		{
 			setStorageNBT(stack);
 			nbt = getStorageNBT(stack);
@@ -24,12 +24,12 @@ public interface IItemMode
 	
 	public List<String> getModes();
 	
-	public default boolean setMode(ItemStack stack, String mode) 
+	public default boolean setMode(ItemStack stack, String mode)
 	{
 		if(stack.getItem() instanceof IItemMode)
 		{
 			NBTTagCompound nbt = getStorageNBT(stack);
-			if (nbt != null) 
+			if (nbt != null)
 			{
 				if(getModes().contains(mode))
 				{
@@ -41,19 +41,19 @@ public interface IItemMode
 		return false;
 	}
 	
-	public static NBTTagCompound getStorageNBT(ItemStack stack) 
+	public static NBTTagCompound getStorageNBT(ItemStack stack)
 	{
 		NBTTagCompound nbt = stack.getTagCompound();
-		if (nbt == null || !nbt.hasKey("qmd_item_mode")) 
+		if (nbt == null || !nbt.hasKey("qmd_item_mode"))
 		{
 			return null;
 		}
 		return nbt.getCompoundTag("qmd_item_mode");
 	}
 	
-	public static void setStorageNBT(ItemStack stack) 
+	public static void setStorageNBT(ItemStack stack)
 	{
-		if (!(stack.getItem() instanceof IItemMode)) 
+		if (!(stack.getItem() instanceof IItemMode))
 		{
 			return;
 		}
@@ -66,7 +66,7 @@ public interface IItemMode
 			nbt = new NBTTagCompound();
 		}
 		
-		if (!nbt.hasKey("qmd_item_mode")) 
+		if (!nbt.hasKey("qmd_item_mode"))
 		{
 			NBTTagCompound storage =  new NBTTagCompound();
 			storage.setString("mode", item.getDefaultMode());

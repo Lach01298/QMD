@@ -1,8 +1,7 @@
 package lach_01298.qmd.crafttweaker;
 
 import crafttweaker.IAction;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.particle.*;
 import net.minecraft.util.ResourceLocation;
 
 public class CTAddParticle implements IAction
@@ -13,7 +12,7 @@ public class CTAddParticle implements IAction
 	
 	public CTAddParticle(String name, String textureLocation, double mass, double charge, double spin,
 			boolean weakCharged, boolean coloured)
-	{	
+	{
 		this.name = name;
 
 		particle = new Particle(name, new ResourceLocation("contenttweaker","textures/particles/"+textureLocation), mass, charge, spin, weakCharged, coloured);
@@ -26,7 +25,7 @@ public class CTAddParticle implements IAction
 	}
 
 	@Override
-	public String describe() 
+	public String describe()
 	{
 		return String.format("Adding particle: %s", name);
 	}

@@ -1,21 +1,8 @@
 package lach_01298.qmd;
 
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.enums.MaterialTypes.CellType;
-import lach_01298.qmd.enums.MaterialTypes.ChemicalDustType;
-import lach_01298.qmd.enums.MaterialTypes.DustType;
-import lach_01298.qmd.enums.MaterialTypes.DustType2;
-import lach_01298.qmd.enums.MaterialTypes.FissionWasteType;
-import lach_01298.qmd.enums.MaterialTypes.IngotAlloyType;
-import lach_01298.qmd.enums.MaterialTypes.IngotType;
-import lach_01298.qmd.enums.MaterialTypes.IngotType2;
-import lach_01298.qmd.enums.MaterialTypes.IsotopeType;
-import lach_01298.qmd.enums.MaterialTypes.PartType;
-import lach_01298.qmd.enums.MaterialTypes.SemiconductorType;
-import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType;
-import lach_01298.qmd.enums.MaterialTypes.SpallationWasteType2;
-import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.enums.MaterialTypes.*;
+import lach_01298.qmd.item.*;
 import nc.handler.OreDictHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;

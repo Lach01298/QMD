@@ -1,29 +1,23 @@
 package lach_01298.qmd.pipe;
 
-import java.lang.reflect.Constructor;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.multiblock.IQMDPacketMultiblock;
 import nc.Global;
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.multiblock.*;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.lang.reflect.Constructor;
+import java.util.Set;
+
 public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 		implements ILogicMultiblock<Pipe, PipeLogic, IPipePart>, IQMDPacketMultiblock<Pipe, IPipePart, PipeUpdatePacket>
 {
-	 
+	
 	public static final ObjectSet<Class<? extends IPipePart>> PART_CLASSES = new ObjectOpenHashSet<>();
 	public static final Object2ObjectMap<String, Constructor<? extends PipeLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
@@ -46,7 +40,7 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 
 	
 	@Override
-	public @Nonnull PipeLogic getLogic() 
+	public @Nonnull PipeLogic getLogic()
 	{
 		return logic;
 	}
@@ -56,7 +50,7 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 	public void setLogic(String logicID)
 	{
 		if (logicID.equals(logic.getID())) return;
-		logic = getNewLogic(LOGIC_MAP.get(logicID));	
+		logic = getNewLogic(LOGIC_MAP.get(logicID));
 	}
 	
 	@Override
@@ -97,7 +91,7 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 	@Override
 	protected void onMachineRestored()
 	{
-		logic.onMachineRestored();	
+		logic.onMachineRestored();
 	}
 
 	@Override
@@ -108,7 +102,7 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 
 	@Override
 	protected void onMachineDisassembled()
-	{	
+	{
 		logic.onMachineDisassembled();
 	}
 
@@ -129,7 +123,7 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 	@Override
 	protected boolean updateServer()
 	{
-		if (logic.onUpdateServer()) 
+		if (logic.onUpdateServer())
 		{
 			return true;
 		}
@@ -149,8 +143,8 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 
 	@Override
 	protected void updateClient()
-	{	
-		logic.onUpdateClient();	
+	{
+		logic.onUpdateClient();
 	}
 
 	@Override
@@ -162,7 +156,7 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 	@Override
 	public void syncDataFrom(NBTTagCompound data, SyncReason syncReason)
 	{
-		logic.readFromLogicTag(data, syncReason);	
+		logic.readFromLogicTag(data, syncReason);
 		
 	}
 

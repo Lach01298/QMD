@@ -1,18 +1,13 @@
 package lach_01298.qmd.crafttweaker.particle;
 
-import crafttweaker.annotations.ModOnly;
-import crafttweaker.annotations.ZenRegister;
+import crafttweaker.annotations.*;
 import crafttweaker.api.item.IIngredient;
-import stanhebben.zenscript.annotations.OperatorType;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenGetter;
-import stanhebben.zenscript.annotations.ZenMethod;
-import stanhebben.zenscript.annotations.ZenOperator;
+import stanhebben.zenscript.annotations.*;
 
 @ZenClass("mod.qmd.particle.IParticleStack")
 @ModOnly("mtlib")
 @ZenRegister
-public interface IParticleStack extends IIngredient 
+public interface IParticleStack extends IIngredient
 {
 
     @ZenGetter("definition")

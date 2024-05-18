@@ -7,14 +7,10 @@ import lach_01298.qmd.enums.MaterialTypes.CellType;
 import lach_01298.qmd.sound.QMDSounds;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.radiation.RadiationHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.util.*;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -134,7 +130,7 @@ public class ItemLeptonCannon extends ItemGun
             }
         }
 
-        return -1; 
+        return -1;
 	}
 	
 	private boolean isCell(ItemStack stack)
