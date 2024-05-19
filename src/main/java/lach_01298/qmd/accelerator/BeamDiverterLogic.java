@@ -161,23 +161,19 @@ public class BeamDiverterLogic extends AcceleratorLogic
 				return false;
 			}
 		}
-				
-			
+						
 		int inputs =0;
 		int outputs =0;	
 		for(TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
 		{	
-			
-			
-			
+				
 			port.recalculateExternalDirection(acc.getMinimumCoord(), acc.getMaximumCoord());
 			if(port.getExternalFacing() == null)
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.something_is_wrong", port.getPos());
 				return false;
 			}
-			
-			
+						
 			if(!(acc.WORLD.getTileEntity(port.getPos().offset(port.getExternalFacing().getOpposite())) instanceof TileAcceleratorBeam))
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.beam_port_must_connect", port.getPos().offset(port.getExternalFacing().getOpposite()));
@@ -191,10 +187,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 			if(port.getIOType() == IOType.OUTPUT)
 			{
 				outputs++;
-			}
-			
-			
-			
+			}		
 		}
 		
 		
