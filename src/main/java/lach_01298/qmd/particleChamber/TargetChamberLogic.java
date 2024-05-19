@@ -283,7 +283,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				{
 					if(rememberedRecipeInfo != null)
 					{
-						if(rememberedRecipeInfo.getRecipe() !=recipeInfo.getRecipe())
+						if(rememberedRecipeInfo.recipe !=recipeInfo.recipe)
 						{
 							particleWorkDone= 0;
 						}
@@ -402,8 +402,8 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	private boolean canProduceProduct()
 	{
 		TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
-		ItemStack productItem = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
-		FluidStack productFluid = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+		ItemStack productItem = recipeInfo.recipe.getItemProducts().get(0).getStack();
+		FluidStack productFluid = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 		
 		
 		// some strange safety measure
@@ -439,33 +439,33 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private void produceProduct()
 	{
-		recipeParticleWork = (long) Math.max(recipeInfo.getRecipe().getCrossSection()*recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount(),recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount()/getMultiblock().efficiency);
+		recipeParticleWork = (long) Math.max(recipeInfo.recipe.getCrossSection()*recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount(),recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount()/getMultiblock().efficiency);
 		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
 		
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
 			
 			TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
-			ItemStack productItem = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
+			ItemStack productItem = recipeInfo.recipe.getItemProducts().get(0).getStack();
 			if(productItem == null)
 			{
 				productItem = ItemStack.EMPTY;
 			}
 			else
 			{
-				productItem.setCount(recipeInfo.getRecipe().getItemProducts().get(0).getNextStackSize(0));
+				productItem.setCount(recipeInfo.recipe.getItemProducts().get(0).getNextStackSize(0));
 			}
 			
 			InventoryHelper.addItem(1,productItem,inv.getInventoryStacks(),inv);
-			InventoryHelper.removeItem(0,recipeInfo.getRecipe().getItemIngredients().get(0).getMaxStackSize(0),inv.getInventoryStacks(),inv);
+			InventoryHelper.removeItem(0,recipeInfo.recipe.getItemIngredients().get(0).getMaxStackSize(0),inv.getInventoryStacks(),inv);
 			
 			
-			FluidStack productFluid = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-			FluidStack ingredientFluid = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
+			FluidStack productFluid = recipeInfo.recipe.getFluidProducts().get(0).getStack();
+			FluidStack ingredientFluid = recipeInfo.recipe.getFluidIngredients().get(0).getStack();
 			
 			if(productFluid != null)
 			{
-				productFluid.amount = recipeInfo.getRecipe().getFluidProducts().get(0).getNextStackSize(0);
+				productFluid.amount = recipeInfo.recipe.getFluidProducts().get(0).getNextStackSize(0);
 				getMultiblock().tanks.get(1).fill(productFluid, true);
 			}
 			
@@ -497,12 +497,12 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	{
 		
 		ParticleStack input = getMultiblock().beams.get(0).getParticleStack();
-		ParticleStack outputPlus = recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
-		ParticleStack outputNeutral = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
-		ParticleStack outputMinus = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
+		ParticleStack outputPlus = recipeInfo.recipe.getParticleProducts().get(0).getStack();
+		ParticleStack outputNeutral = recipeInfo.recipe.getParticleProducts().get(1).getStack();
+		ParticleStack outputMinus = recipeInfo.recipe.getParticleProducts().get(2).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
-		double crossSection = recipeInfo.getRecipe().getCrossSection();
+		long energyReleased = recipeInfo.recipe.getEnergyReleased();
+		double crossSection = recipeInfo.recipe.getCrossSection();
 		double outputFactor = crossSection * getMultiblock().efficiency;
 		if(outputFactor >= 1)
 		{

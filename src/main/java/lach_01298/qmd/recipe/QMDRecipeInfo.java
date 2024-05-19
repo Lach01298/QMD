@@ -6,7 +6,7 @@ import java.util.List;
 public class QMDRecipeInfo<T extends IQMDRecipe>
 {
 
-	private final T recipe;
+	public final @Nonnull T recipe;
 
 	private final QMDRecipeMatchResult matchResult;
 
@@ -14,11 +14,6 @@ public class QMDRecipeInfo<T extends IQMDRecipe>
 	{
 		this.recipe = recipe;
 		this.matchResult = matchResult;
-	}
-
-	public @Nonnull T getRecipe()
-	{
-		return recipe;
 	}
 
 	/** Already takes item input order into account! */

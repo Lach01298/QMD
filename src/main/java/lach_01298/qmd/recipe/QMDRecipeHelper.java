@@ -1,6 +1,7 @@
 package lach_01298.qmd.recipe;
 
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.ingredient.*;
 import nc.ModCheck;
@@ -717,12 +718,12 @@ public class QMDRecipeHelper
 		return ingredientNames;
 	}
 
-	public static List<List<String>> validFluids(QMDRecipeHandler recipes)
+	public static List<Set<String>> validFluids(QMDRecipeHandler recipes)
 	{
 		return validFluids(recipes, new ArrayList<String>());
 	}
 
-	public static List<List<String>> validFluids(QMDRecipeHandler recipes, List<String> exceptions)
+	public static List<Set<String>> validFluids(QMDRecipeHandler recipes, List<String> exceptions)
 	{
 		int fluidInputSize = recipes.getFluidInputSize();
 		int fluidOutputSize = recipes.getFluidOutputSize();
@@ -731,17 +732,17 @@ public class QMDRecipeHelper
 		for (Fluid fluid : FluidRegistry.getRegisteredFluids().values())
 			fluidStackList.add(new FluidStack(fluid, 1000));
 
-		List<String> fluidNameList = new ArrayList<String>();
+		Set<String> fluidNameSet = new ObjectOpenHashSet<String>();
 		for (FluidStack fluidStack : fluidStackList)
 		{
 			String fluidName = fluidStack.getFluid().getName();
 			if (recipes.isValidFluidInput(fluidStack) && !exceptions.contains(fluidName))
-				fluidNameList.add(fluidName);
+				fluidNameSet.add(fluidName);
 		}
 
-		List<List<String>> allowedFluidLists = new ArrayList<List<String>>();
+		List<Set<String>> allowedFluidLists = new ArrayList<Set<String>>();
 		for (int i = 0; i < fluidInputSize; i++)
-			allowedFluidLists.add(fluidNameList);
+			allowedFluidLists.add(fluidNameSet);
 		for (int i = fluidInputSize; i < fluidInputSize + fluidOutputSize; i++)
 			allowedFluidLists.add(null);
 

@@ -425,7 +425,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 					if (rememberedRecipeInfo != null)
 					{
-						if (rememberedRecipeInfo.getRecipe() != recipeInfo.getRecipe())
+						if (rememberedRecipeInfo.recipe != recipeInfo.recipe)
 						{
 							particle1WorkDone = 0;
 							particle2WorkDone = 0;
@@ -440,9 +440,9 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 						if (getMultiblock().beams.get(0).getParticleStack() != null)
 						{
 
-							if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() != null)
+							if (recipeInfo.recipe.getParticleIngredients().get(0).getStack() != null)
 							{
-								if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack()
+								if (recipeInfo.recipe.getParticleIngredients().get(0).getStack()
 										.getParticle() != getMultiblock().beams.get(0).getParticleStack().getParticle())
 								{
 									switchInputs = true;
@@ -456,9 +456,9 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 						if (!switchInputs && getMultiblock().beams.get(1).getParticleStack() != null)
 						{
-							if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() != null)
+							if (recipeInfo.recipe.getParticleIngredients().get(1).getStack() != null)
 							{
-								if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack()
+								if (recipeInfo.recipe.getParticleIngredients().get(1).getStack()
 										.getParticle() != getMultiblock().beams.get(1).getParticleStack().getParticle())
 								{
 									switchInputs = true;
@@ -666,7 +666,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	private boolean canProduceProduct()
 	{
 
-		FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+		FluidStack product = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 		if (product != null)
 		{
 			if (getMultiblock().tanks.get(2).fill(product, false) == product.amount)
@@ -683,42 +683,42 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 		if (switchInputs)
 		{
-			if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(1).getStack() == null)
 			{
 				recipeParticle1Work = 0;
 			}
 			else
 			{
-				recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
+				recipeParticle1Work = recipeInfo.recipe.getParticleIngredients().get(1).getStack().getAmount();
 			}
 
-			if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(0).getStack() == null)
 			{
 				recipeParticle2Work = 0;
 			}
 			else
 			{
-				recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+				recipeParticle2Work = recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount();
 			}
 		}
 		else
 		{
-			if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(0).getStack() == null)
 			{
 				recipeParticle1Work = 0;
 			}
 			else
 			{
-				recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+				recipeParticle1Work = recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount();
 			}
 
-			if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(1).getStack() == null)
 			{
 				recipeParticle2Work = 0;
 			}
 			else
 			{
-				recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
+				recipeParticle2Work = recipeInfo.recipe.getParticleIngredients().get(1).getStack().getAmount();
 			}
 
 		}
@@ -728,7 +728,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		while (particle1WorkDone >= recipeParticle1Work && particle2WorkDone >= recipeParticle2Work
 				&& canProduceProduct())
 		{
-			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+			FluidStack product = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 			getMultiblock().tanks.get(2).fill(product, true);
 
 			particle1WorkDone = Math.max(0, particle1WorkDone - recipeParticle1Work);
@@ -763,16 +763,16 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			return;
 		}
 
-		ItemStack itemProduct = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		ItemStack itemProduct = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 		int amount = item.getAmountStored(itemInput);
 
 		if (amount == 0)
 		{
 			// fill empty cells
 			
-			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
+			if (cellRecipeInfo.recipe.getFluidProducts().get(0).getStack() == null)
 			{
-				ItemStack outputItem = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				ItemStack outputItem = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 				
 				IItemParticleAmount output;
 				if (outputItem.getItem() instanceof IItemParticleAmount)
@@ -785,11 +785,11 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				}
 				
 				
-				int amountPerMillibuckets = IItemParticleAmount.getCapacity(outputItem) / cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+				int amountPerMillibuckets = IItemParticleAmount.getCapacity(outputItem) / cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack().amount;
 
 				if (!getMultiblock().tanks.get(2).isEmpty())
 				{
-					int cellAmount = amountPerMillibuckets * getMultiblock().tanks.get(2).drain(cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true).amount;
+					int cellAmount = amountPerMillibuckets * getMultiblock().tanks.get(2).drain(cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack(), true).amount;
 
 					output.setAmountStored(outputItem, cellAmount);
 					cont.getInventoryStacks().set(0, outputItem);
@@ -807,22 +807,22 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			// fill partially full cells
 			
 			
-			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
+			if (cellRecipeInfo.recipe.getFluidProducts().get(0).getStack() == null)
 			{
 				
-				ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				ItemStack output = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 				
 				if (output.getItem() == cont.getInventoryStacks().get(0).getItem()
 						&& output.getMetadata() == cont.getInventoryStacks().get(0).getMetadata()) // make sure it the
 																									// right cell type
 				{
 					
-					int amountPerMillibuckets = IItemParticleAmount.getCapacity(output) / cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+					int amountPerMillibuckets = IItemParticleAmount.getCapacity(output) / cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack().amount;
 					
 					if (!getMultiblock().tanks.get(2).isEmpty())
 					{
 
-						int recipemb = cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+						int recipemb = cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack().amount;
 						
 						int cellAmount = 0;
 						if(recipemb - amount / amountPerMillibuckets <= 0)
@@ -851,17 +851,17 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		{
 			// empty full cells
 			
-			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() != null)
+			if (cellRecipeInfo.recipe.getFluidProducts().get(0).getStack() != null)
 			{
 				
-				FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+				FluidStack fluidProduct = cellRecipeInfo.recipe.getFluidProducts().get(0).getStack();
 				if (getMultiblock().tanks.get(2).fill(fluidProduct, false) == fluidProduct.amount)
 				{
 					
 					getMultiblock().tanks.get(2).fill(fluidProduct, true);
 					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
 
-					ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+					ItemStack output = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 					item.setAmountStored(output, IItemParticleAmount.getCapacity(output));
 					cont.getInventoryStacks().set(1, output);
 				}
@@ -975,7 +975,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 	public void onRenderPacket(ContainmentRenderPacket message)
 	{
-		getMultiblock().tanks.get(2).setFluidAmount(message.tanksInfo.get(2).amount());
+		getMultiblock().tanks.get(2).setFluidAmount(message.tanksInfo.get(2).amount);
 		
 	}
 

@@ -569,8 +569,8 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	private boolean canProduceProduct()
 	{
 		TileMassSpectrometerController inv = (TileMassSpectrometerController) getMultiblock().controller;
-		List<IItemIngredient> productItems = recipeInfo.getRecipe().getItemProducts();
-		List<IFluidIngredient> productFluids = recipeInfo.getRecipe().getFluidProducts();
+		List<IItemIngredient> productItems = recipeInfo.recipe.getItemProducts();
+		List<IFluidIngredient> productFluids = recipeInfo.recipe.getFluidProducts();
 
 		for(int i = 0; i < productItems.size(); i++)
 		{
@@ -614,14 +614,14 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 
 	private void produceProduct()
 	{
-		recipeWork =  recipeInfo.getRecipe().getBaseProcessTime(QMDConfig.processor_time[2]);
+		recipeWork =  recipeInfo.recipe.getBaseProcessTime(QMDConfig.processor_time[2]);
 		
 		while(workDone >= recipeWork && canProduceProduct())
 		{
 			
 			TileMassSpectrometerController inv = (TileMassSpectrometerController) getMultiblock().controller;
 
-			List<IItemIngredient> productItems = recipeInfo.getRecipe().getItemProducts();
+			List<IItemIngredient> productItems = recipeInfo.recipe.getItemProducts();
 			for (int i = 0; i < productItems.size(); i++)
 			{
 				ItemStack productItem = productItems.get(i).getStack();
@@ -639,9 +639,9 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 
 			}
 
-			InventoryHelper.removeItem(0, recipeInfo.getRecipe().getItemIngredients().get(0).getMaxStackSize(0), inv.getInventoryStacks(), inv);
+			InventoryHelper.removeItem(0, recipeInfo.recipe.getItemIngredients().get(0).getMaxStackSize(0), inv.getInventoryStacks(), inv);
 			
-			List<IFluidIngredient> productFluids = recipeInfo.getRecipe().getFluidProducts();
+			List<IFluidIngredient> productFluids = recipeInfo.recipe.getFluidProducts();
 			for (int i = 0; i < productFluids.size(); i++)
 			{
 
@@ -654,7 +654,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 
 			}
 
-			FluidStack ingredientFluid = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
+			FluidStack ingredientFluid = recipeInfo.recipe.getFluidIngredients().get(0).getStack();
 			if (ingredientFluid != null)
 			{
 				getMultiblock().tanks.get(2).drain(ingredientFluid, true);

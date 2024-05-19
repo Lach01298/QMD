@@ -464,7 +464,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	{
 		
 		
-		IParticleIngredient particleProduct = recipeInfo.getRecipe().getParticleProducts().get(0);
+		IParticleIngredient particleProduct = recipeInfo.recipe.getParticleProducts().get(0);
 		
 		
 		if (particleProduct.getStack() != null)
@@ -519,7 +519,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			}
 			else if (!source.getTanks().get(0).isEmpty())
 			{
-				FluidStack fluidStack = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
+				FluidStack fluidStack = recipeInfo.recipe.getFluidIngredients().get(0).getStack();
 				
 				Tank tank = source.getTanks().get(0);
 				int mBtoDrain = fluidStack.amount * source.outputParticleMultiplier;

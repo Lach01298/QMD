@@ -159,7 +159,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		else
 		{
-			return Math.max(1, (int) Math.round(Math.ceil(baseProcessTime/fuelInfo.getRecipe().getBaseProcessTime(1))));
+			return Math.max(1, (int) Math.round(Math.ceil(baseProcessTime/fuelInfo.recipe.getBaseProcessTime(1))));
 		}
 		
 		
@@ -175,8 +175,8 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			baseProcessRadiation = 0D;
 			return false;
 		}
-		baseProcessTime = recipeInfo.getRecipe().getBaseProcessTime(defaultProcessTime);
-		baseProcessRadiation = recipeInfo.getRecipe().getBaseProcessRadiation();
+		baseProcessTime = recipeInfo.recipe.getBaseProcessTime(defaultProcessTime);
+		baseProcessRadiation = recipeInfo.recipe.getBaseProcessRadiation();
 		return true;
 	}
 	
@@ -236,8 +236,8 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		public void process()
 		{
 			
-			time += fuelInfo.getRecipe().getBaseProcessTime(1);
-			getRadiationSource().setRadiationLevel(baseProcessRadiation*fuelInfo.getRecipe().getBaseProcessTime(1));
+			time += fuelInfo.recipe.getBaseProcessTime(1);
+			getRadiationSource().setRadiationLevel(baseProcessRadiation*fuelInfo.recipe.getBaseProcessTime(1));
 			
 			for(int i =0; i<itemFuelSize;i++)
 			{
@@ -252,7 +252,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			if(getInventoryStacks().get(slot).getItem() instanceof IItemParticleAmount)
 			{
 				IItemParticleAmount item = (IItemParticleAmount) getInventoryStacks().get(slot).getItem();
-				getInventoryStacks().set(slot,item.use(getInventoryStacks().get(slot), (int) fuelInfo.getRecipe().getBaseProcessTime(fuelUseRate)));
+				getInventoryStacks().set(slot,item.use(getInventoryStacks().get(slot), (int) fuelInfo.recipe.getBaseProcessTime(fuelUseRate)));
 			}
 		}
 
@@ -321,13 +321,13 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		@Override
 		public List<IItemIngredient> getItemIngredients()
 		{
-			return recipeInfo.getRecipe().getItemIngredients();
+			return recipeInfo.recipe.getItemIngredients();
 		}
 		
 		@Override
 		public List<IItemIngredient> getItemProducts()
 		{
-			return recipeInfo.getRecipe().getItemProducts();
+			return recipeInfo.recipe.getItemProducts();
 		}
 		
 		// ITileInventory

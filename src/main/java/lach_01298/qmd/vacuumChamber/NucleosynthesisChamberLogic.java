@@ -846,7 +846,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 						
 						if (rememberedRecipeInfo != null)
 						{
-							if (rememberedRecipeInfo.getRecipe() != recipeInfo.getRecipe())
+							if (rememberedRecipeInfo.recipe != recipeInfo.recipe)
 							{
 								particleWorkDone = 0;
 								startRecipe(); // to void the in use contents to stop infinite power exploit
@@ -951,25 +951,25 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	{
 		if(getMultiblock().tanks.get(4).getFluid() != null)
 		{
-			if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getFluid())
+			if(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack().getFluid())
 			{
-				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true);
+				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack(), true);
 			}
-			else if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack().getFluid())
+			else if(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack().getFluid())
 			{
-				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack(), true);
+				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack(), true);
 			}
 		}
 		
 		if(getMultiblock().tanks.get(5).getFluid() != null)
 		{
-			if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getFluid())
+			if(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack().getFluid())
 			{
-				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true);
+				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack(), true);
 			}
-			else if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack().getFluid())
+			else if(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack().getFluid())
 			{
-				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack(), true);
+				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack(), true);
 			}
 		}
 	}
@@ -977,9 +977,9 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	private void processRecipe()
 	{
-		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+		recipeParticleWork = recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount();
 		particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
-		Long totalHeat = (Long) recipeInfo.getRecipe().getHeatReleased();
+		Long totalHeat = (Long) recipeInfo.recipe.getHeatReleased();
 		casingHeating = totalHeat/(double)(recipeParticleWork) * getMultiblock().beams.get(0).getParticleStack().getAmount();
 		
 		casingHeatBuffer.addHeat((long)casingHeating, false);
@@ -1000,7 +1000,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	private void finishRecipe()
 	{
-		List<IFluidIngredient> productFluids = recipeInfo.getRecipe().getFluidProducts();
+		List<IFluidIngredient> productFluids = recipeInfo.recipe.getFluidProducts();
 		for (int i = 0; i < productFluids.size(); i++)
 		{
 
@@ -1032,8 +1032,8 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	private boolean canProduceProduct()
 	{
 		
-		IFluidIngredient fluidOutput1 = recipeInfo.getRecipe().getFluidProducts().get(0);
-		IFluidIngredient fluidOutput2 = recipeInfo.getRecipe().getFluidProducts().get(1);
+		IFluidIngredient fluidOutput1 = recipeInfo.recipe.getFluidProducts().get(0);
+		IFluidIngredient fluidOutput2 = recipeInfo.recipe.getFluidProducts().get(1);
 		if ((fluidOutput1.getStack() != null && getMultiblock().tanks.get(6).fill(fluidOutput1.getStack(), false) == fluidOutput1.getStack().amount)||fluidOutput1 instanceof EmptyFluidIngredient)
 		{
 			
@@ -1050,8 +1050,8 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		casingCoolingRecipeInfo = vacuum_chamber_heating.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(2, 3));
 		if(casingCoolingRecipeInfo != null)
 		{
-			maxCasingCoolantIn =  (int) (casingCooling/(double)casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*1000);
-			maxCasingCoolantOut = (int) (casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0)*casingCooling/(double)(casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*1000);
+			maxCasingCoolantIn =  (int) (casingCooling/(double)casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*1000);
+			maxCasingCoolantOut = (int) (casingCoolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*casingCooling/(double)(casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*casingCoolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0))*1000);
 		}
 	}
 	
@@ -1063,12 +1063,12 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			return false;
 		}
 		
-		IFluidIngredient fluidInput = casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidInput = casingCoolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = casingCoolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank outputTank = getMultiblock().tanks.get(3);
 		long maximumHeatChange = casingCooling;
 		double efficiency = getCoolingEfficiency();
-		int heatPerMB = casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		int heatPerMB = casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
 
 		if (fluidOutput.getMaxStackSize(0) <= 0 || fluidOutput.getStack() == null)
 			return false;
@@ -1098,13 +1098,13 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	private void produceCasingFluidProducts()
 	{
-		IFluidIngredient fluidInput = casingCoolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = casingCoolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidInput = casingCoolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = casingCoolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank inputTank = getMultiblock().tanks.get(2);
 		Tank outputTank = getMultiblock().tanks.get(3);
 		long maximumHeatChange = casingCooling;
 		double efficiency = getCoolingEfficiency();
-		int heatPerMB = casingCoolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		int heatPerMB = casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
 		
 		
 		long thisTickHeatChange = maximumHeatChange;

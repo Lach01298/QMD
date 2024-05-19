@@ -329,6 +329,10 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 				{
 					acc.getDipoleMap().put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
 				}
+				else if (acc.isValidDipole(beam.getPos(), true))
+				{
+					acc.getDipoleMap().put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
+				}
 			}
 		}
 
@@ -749,8 +753,8 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getMultiblock().tanks.subList(0, 1));
 		if (getMultiblock().coolingRecipeInfo != null)
 		{
-			getMultiblock().maxCoolantIn =(int) (getMultiblock().cooling/(double)getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*1000);
-			getMultiblock().maxCoolantOut = (int) (getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)(getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*1000);
+			getMultiblock().maxCoolantIn =(int) (getMultiblock().cooling/(double)getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*1000);
+			getMultiblock().maxCoolantOut = (int) (getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)(getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0))*1000);
 		}
 	}
 	
@@ -762,11 +766,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			return false;
 		}
 		
-		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = getMultiblock().cooling;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
 		
 		if(getMultiblock().getTemperature() <= fluidInput.getStack().getFluid().getTemperature())
 		{
@@ -802,12 +806,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	private void produceFluidProducts()
 	{
 		
-		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank inputTank = getMultiblock().tanks.get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = getMultiblock().cooling;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
 		
 		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
 		

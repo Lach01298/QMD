@@ -82,14 +82,14 @@ public class QMDRecipes
 		initialized = true;
 	}
 
-	public static List<List<String>> accelerator_cooling_valid_fluids;
-	public static List<List<String>> accelerator_ion_source_valid_fluids;
-	public static List<List<String>> ore_leacher_valid_fluids;
-	public static List<List<String>> mass_spectrometer_valid_fluids;
-	public static List<List<String>> target_chamber_valid_fluids;
-	public static List<List<String>> cell_filling_valid_fluids;
-	public static List<List<String>> nucleosynthesis_valid_fluids;
-	public static List<List<String>> vacuum_chamber_heater_valid_fluids;
+	public static List<Set<String>> accelerator_cooling_valid_fluids;
+	public static List<Set<String>> accelerator_ion_source_valid_fluids;
+	public static List<Set<String>> ore_leacher_valid_fluids;
+	public static List<Set<String>> mass_spectrometer_valid_fluids;
+	public static List<Set<String>> target_chamber_valid_fluids;
+	public static List<Set<String>> cell_filling_valid_fluids;
+	public static List<Set<String>> nucleosynthesis_valid_fluids;
+	public static List<Set<String>> vacuum_chamber_heater_valid_fluids;
 	
 	
 	public static void init()

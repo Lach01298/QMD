@@ -379,12 +379,12 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	private void produceBeams()
 	{
 		ParticleStack input = getMultiblock().beams.get(0).getParticleStack();
-		ParticleStack outputPlus = recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
-		ParticleStack outputNeutral = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
-		ParticleStack outputMinus = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
+		ParticleStack outputPlus = recipeInfo.recipe.getParticleProducts().get(0).getStack();
+		ParticleStack outputNeutral = recipeInfo.recipe.getParticleProducts().get(1).getStack();
+		ParticleStack outputMinus = recipeInfo.recipe.getParticleProducts().get(2).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
-		double crossSection = recipeInfo.getRecipe().getCrossSection();
+		long energyReleased = recipeInfo.recipe.getEnergyReleased();
+		double crossSection = recipeInfo.recipe.getCrossSection();
 		double outputFactor = crossSection * getMultiblock().efficiency;
 		if(outputFactor >= 1)
 		{

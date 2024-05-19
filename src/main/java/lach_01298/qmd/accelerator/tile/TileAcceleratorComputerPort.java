@@ -120,7 +120,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 	public Object[] getCoolingInfo(Context context, Arguments args)
 	{
 		Map<String, Object> statsData = new HashMap<String, Object>();
-		statsData.put("cooling_fluid",isMultiblockAssembled() && getMultiblock().coolingRecipeInfo != null ? getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getLocalizedName(): "");
+		statsData.put("cooling_fluid",isMultiblockAssembled() && getMultiblock().coolingRecipeInfo != null ? getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getStack().getLocalizedName(): "");
 		statsData.put("cooling", isMultiblockAssembled() ? getMultiblock().cooling : 0);
 		statsData.put("maxCoolantIn", isMultiblockAssembled() ? getMultiblock().maxCoolantIn : 0);
 		statsData.put("maxCoolantOut", isMultiblockAssembled() ? getMultiblock().maxCoolantOut : 0);
@@ -314,9 +314,9 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 				infoData.put("source_item",  logic.getSource().getInventoryStacks().get(0).getDisplayName()); // TODO test!
 				infoData.put("source_fluid", logic.getSource().getTanks().get(0).getFluidLocalizedName());
 				
-				if(logic.recipeInfo.getRecipe() != null)
+				if(logic.recipeInfo.recipe != null)
 				{
-					ParticleStack particle = logic.recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
+					ParticleStack particle = logic.recipeInfo.recipe.getParticleProducts().get(0).getStack();
 					infoData.put("particle_type",logic.recipeInfo != null ? particle.getParticle().getName() : "");
 					infoData.put("amount", particle.getAmount());
 					infoData.put("energy", particle.getMeanEnergy());

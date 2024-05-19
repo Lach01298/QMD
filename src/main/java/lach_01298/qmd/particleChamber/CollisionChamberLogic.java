@@ -595,13 +595,13 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	{
 		ParticleStack input1 = getMultiblock().beams.get(0).getParticleStack();
 		ParticleStack input2 = getMultiblock().beams.get(1).getParticleStack();
-		ParticleStack output1 = recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
-		ParticleStack output2 = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
-		ParticleStack output3 = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
-		ParticleStack output4 = recipeInfo.getRecipe().getParticleProducts().get(3).getStack();
+		ParticleStack output1 = recipeInfo.recipe.getParticleProducts().get(0).getStack();
+		ParticleStack output2 = recipeInfo.recipe.getParticleProducts().get(1).getStack();
+		ParticleStack output3 = recipeInfo.recipe.getParticleProducts().get(2).getStack();
+		ParticleStack output4 = recipeInfo.recipe.getParticleProducts().get(3).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
-		double crossSection = recipeInfo.getRecipe().getCrossSection();
+		long energyReleased = recipeInfo.recipe.getEnergyReleased();
+		double crossSection = recipeInfo.recipe.getCrossSection();
 		
 		long collisionEnergy = Math.round(2*Math.sqrt(input1.getMeanEnergy()*input2.getMeanEnergy()));
 		double inputFocus = Math.min(input1.getFocus(),input2.getFocus());
@@ -703,7 +703,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			
 			if(recipeInfo != null)
 			{
-				if(collisionEnergy > recipeInfo.getRecipe().getMaxEnergy())
+				if(collisionEnergy > recipeInfo.recipe.getMaxEnergy())
 				{
 					recipeInfo = null;
 				}

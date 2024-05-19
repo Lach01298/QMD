@@ -226,7 +226,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 				{
 					if(rememberedRecipeInfo != null)
 					{
-						if(rememberedRecipeInfo.getRecipe() !=recipeInfo.getRecipe())
+						if(rememberedRecipeInfo.recipe !=recipeInfo.recipe)
 						{
 							particleWorkDone= 0;
 						}
@@ -251,7 +251,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 
 	private boolean canProduceProduct()
 	{
-		FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+		FluidStack product = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 		if(getMultiblock().tanks.get(1).fill(product, false) == product.amount && getMultiblock().tanks.get(1).getCapacity()>= getMultiblock().tanks.get(1).getFluidAmount()+product.amount)
 		{
 			return true;
@@ -262,11 +262,11 @@ public class BeamDumpLogic extends ParticleChamberLogic
 
 	private void produceProduct()
 	{
-		recipeParticleWork = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+		recipeParticleWork = recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount();
 		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*1000);
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
-			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+			FluidStack product = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 			getMultiblock().tanks.get(1).fill(product, true);
 	
 			particleWorkDone = Math.max(0, particleWorkDone - recipeParticleWork);
