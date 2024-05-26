@@ -843,7 +843,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
-
+		
 
 		if ((!getMultiblock().tanks.get(4).isEmpty() || !getMultiblock().tanks.get(5).isEmpty()))
 		{
@@ -867,13 +867,11 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					
 					if (recipeInfo != null)
 					{
-						
 						if (rememberedRecipeInfo != null)
 						{
 							if (rememberedRecipeInfo.getRecipe() != recipeInfo.getRecipe())
 							{
 								particleWorkDone = 0;
-								startRecipe(); // to void the in use contents to stop infinite power exploit
 							}
 						}
 						rememberedRecipeInfo = recipeInfo;
@@ -885,15 +883,14 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 							{
 								startRecipe();
 								finishRecipe();
-
 							}
 						}
 					}
 					else
-					{
+					{						
+						particleWorkDone = 0;
 						casingExternalCooling();
 					}
-
 				}
 				else
 				{
@@ -914,6 +911,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		{
 			setPlasma(false);
 			operational = false;
+			particleWorkDone = 0;
 		}
 		
 		
@@ -971,32 +969,90 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	// Recipes
 	
+//	private void startRecipe()
+//	{
+//		if(getMultiblock().tanks.get(4).getFluid() != null)
+//		{
+//			if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getFluid())
+//			{
+//				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true);
+//			}
+//			else if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack().getFluid())
+//			{
+//				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack(), true);
+//			}
+//		}
+//		
+//		if(getMultiblock().tanks.get(5).getFluid() != null)
+//		{
+//			if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getFluid())
+//			{
+//				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true);
+//			}
+//			else if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack().getFluid())
+//			{
+//				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack(), true);
+//			}
+//		}
+//	}
+	
+	
 	private void startRecipe()
 	{
-		if(getMultiblock().tanks.get(4).getFluid() != null)
+		loop: if (getMultiblock().tanks.get(4).getFluid() != null)
 		{
-			if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getFluid())
+			if (rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0) != null)
 			{
-				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true);
+				for (FluidStack fluid : rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(4).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(4).drain(fluid, true);
+						break loop;
+					}
+				}
 			}
-			else if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack().getFluid())
+			if (rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1) != null)
 			{
-				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack(), true);
+				for (FluidStack fluid : rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(4).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(4).drain(fluid, true);
+						break loop;
+					}
+				}
 			}
 		}
-		
-		if(getMultiblock().tanks.get(5).getFluid() != null)
+
+		loop: if (getMultiblock().tanks.get(5).getFluid() != null)
 		{
-			if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().getFluid())
+			if (rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0) != null)
 			{
-				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true);
+				for (FluidStack fluid : rememberedRecipeInfo.getRecipe().getFluidIngredients().get(0).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(5).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(5).drain(fluid, true);
+						break loop;
+					}
+				}
 			}
-			else if(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack().getFluid())
+			if (rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1) != null)
 			{
-				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getStack(), true);
+				for (FluidStack fluid : rememberedRecipeInfo.getRecipe().getFluidIngredients().get(1).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(5).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(5).drain(fluid, true);
+						break loop;
+					}
+				}
 			}
 		}
+
 	}
+	
 
 	
 	private void processRecipe()
