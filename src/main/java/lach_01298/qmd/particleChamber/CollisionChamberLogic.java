@@ -8,17 +8,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.network.CollisionChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
+import lach_01298.qmd.particleChamber.tile.TileParticleChamberFluidPort;
+import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.util.Equations;
@@ -322,6 +329,14 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			
 			
 		}
+		
+		if(getPartMap(TileParticleChamberBeamPort.class).size() != 6)
+		{
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.beam_port_wrong_spot", null);
+			return false;
+		}
+		
+		
 		// Energy Ports
 		if (getPartMap(TileParticleChamberEnergyPort.class).size() < 1)
 		{
@@ -330,6 +345,10 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		}
 		
 		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 		
 		return true;
 	}
@@ -369,6 +388,15 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		return chamberLength-2;
 	}
 	
+	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileParticleChamberFluidPort.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_fluid_ports"),
+			Pair.of(TileParticleChamberPort.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
+
+	@Override
+	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 	
 	
 	

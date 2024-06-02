@@ -16,6 +16,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorIonCollector;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
@@ -323,8 +324,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorYoke.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_yokes"),
-			Pair.of(TileAcceleratorSynchrotronPort.class,
-					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
+			Pair.of(TileAcceleratorSynchrotronPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
+			Pair.of(TileAcceleratorIonCollector.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_collectors"));
 
 	@Override
 	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()

@@ -11,9 +11,12 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
@@ -24,14 +27,15 @@ import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.util.Util;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import nc.capability.radiation.entity.IEntityRads;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.radiation.RadiationHelper;
 import nc.recipe.BasicRecipe;
 import nc.recipe.RecipeInfo;
 import nc.recipe.RecipeMatchResult;
@@ -41,13 +45,10 @@ import nc.recipe.ingredient.IFluidIngredient;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.recipe.ingredient.ItemIngredient;
 import nc.tile.internal.fluid.Tank;
-import nc.util.DamageSources;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fluids.FluidStack;
@@ -414,6 +415,18 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		return postions;
 	}
 
+	public static final List<Pair<Class<? extends IVacuumChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileVacuumChamberFluidPort.class,QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_fluid_ports"),
+			Pair.of(TileVacuumChamberHeaterVent.class,QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_heater_vents"));
+
+	@Override
+	public List<Pair<Class<? extends IVacuumChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
+	
+	
+	
 	// Server
 	
 	@Override

@@ -4,29 +4,30 @@ import static lach_01298.qmd.recipes.QMDRecipes.beam_dump;
 import static nc.block.property.BlockProperties.ACTIVE;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
 import lach_01298.qmd.multiblock.network.BeamDumpUpdatePacket;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberController;
-import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
+import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberFluidPort;
+import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -170,6 +171,10 @@ public class BeamDumpLogic extends ParticleChamberLogic
 			return false;
 		}
 		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 		
 		return true;
 	}
@@ -180,6 +185,16 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		return 1;
 	}
 	
+	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileParticleChamberBeam.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_beams"),
+			Pair.of(TileParticleChamberDetector.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_detectors"),
+			Pair.of(TileParticleChamberPort.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
+
+	@Override
+	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 	
 	@Override
 	public void onChamberFormed()

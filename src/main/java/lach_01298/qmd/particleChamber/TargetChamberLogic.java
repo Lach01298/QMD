@@ -4,6 +4,9 @@ package lach_01298.qmd.particleChamber;
 import static lach_01298.qmd.recipes.QMDRecipes.target_chamber;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
@@ -12,6 +15,7 @@ import lach_01298.qmd.multiblock.InventoryHelper;
 import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
@@ -140,6 +144,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			return false;
 		}
 		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 		
 		return true;
 	}
@@ -149,6 +157,15 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	{
 		return 1;
 	}
+	
+	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = new ArrayList<>();
+
+	@Override
+	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
+	
 	
 	
 	@Override
@@ -257,7 +274,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 		super.onChamberFormed();
 	}
-	
+		
 	
 	public void onMachineDisassembled()
 	{	

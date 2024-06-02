@@ -12,7 +12,9 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorIonCollector;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
@@ -278,7 +280,9 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 	}
 	
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileAcceleratorIonSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"));
+			Pair.of(TileAcceleratorIonSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"),
+			Pair.of(TileAcceleratorIonCollector.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_collectors"),
+			Pair.of(TileAcceleratorPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_ports"));
 
 	@Override
 	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()

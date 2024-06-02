@@ -12,6 +12,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -27,13 +31,16 @@ import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberComponent;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeam;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaNozzle;
+import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPort;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
 import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.recipe.BasicRecipe;
@@ -556,7 +563,13 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.must_be_input_beam", beamPortPos);
 				return false;
 			}
-				
+			
+			if(getPartMap(TileVacuumChamberBeamPort.class).size() != 1)
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.wrong_amount_of_beam_ports",null);
+				return false;
+			}
+			
 			//fluid  input ports
 			BlockPos fluidPortInPos1 = beamPortPos.add(0, 3, 0);
 			BlockPos fluidPortInPos2 = beamPortPos.add(0, 1, 0);
@@ -694,10 +707,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.no_heater_outlet", null);
 				return false;
 			}
-			
-			
-			
-		
+	
 		return super.isMachineWhole();
 	}
 
@@ -836,6 +846,17 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		return postions;
 	}
 
+	public static final List<Pair<Class<? extends IVacuumChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileVacuumChamberPort.class,QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_item_ports"),
+			Pair.of(TileVacuumChamberLaser.class,QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_lasers"));
+
+	@Override
+	public List<Pair<Class<? extends IVacuumChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
+	
+	
 	// Server
 	
 	@Override
