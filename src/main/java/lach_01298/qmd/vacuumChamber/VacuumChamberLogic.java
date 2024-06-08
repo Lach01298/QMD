@@ -206,6 +206,11 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
 			return false;
 		}
+		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 
 		return true;
 	}

@@ -1,5 +1,6 @@
 package lach_01298.qmd.particleChamber;
 
+import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -16,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
@@ -312,6 +314,13 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			
 			
 		}
+		
+		if(getPartMap(TileParticleChamberBeamPort.class).size() != 6)
+		{
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.beam_port_wrong_spot", null);
+			return false;
+		}
+		
 		// Energy Ports
 		if (getPartMap(TileParticleChamberEnergyPort.class).size() < 1)
 		{
@@ -319,7 +328,10 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			return false;
 		}
 		
-		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 		
 		return true;
 	}
@@ -359,7 +371,15 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		return chamberLength-2;
 	}
 	
+	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileParticleChamberFluidPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_fluid_ports"),
+			Pair.of(TileParticleChamberPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
 	
+	@Override
+	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 	
 	
 	@Override

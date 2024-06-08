@@ -1,5 +1,6 @@
 package lach_01298.qmd.vacuumChamber;
 
+import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -20,6 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.*;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -387,6 +389,16 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			top = true;
 		}
 		return postions;
+	}
+	
+	public static final List<Pair<Class<? extends IVacuumChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileVacuumChamberFluidPort.class, QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_fluid_ports"),
+			Pair.of(TileVacuumChamberHeaterVent.class, QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_heater_vents"));
+	
+	@Override
+	public List<Pair<Class<? extends IVacuumChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
 	}
 
 	// Server

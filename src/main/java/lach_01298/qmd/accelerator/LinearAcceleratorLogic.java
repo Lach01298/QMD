@@ -307,11 +307,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 		return postions;
 	}
-
+	
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
 			Pair.of(TileAcceleratorYoke.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_yokes"),
-			Pair.of(TileAcceleratorSynchrotronPort.class,
-					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"));
+			Pair.of(TileAcceleratorSynchrotronPort.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
+			Pair.of(TileAcceleratorIonCollector.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_collectors"));
 
 	@Override
 	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()

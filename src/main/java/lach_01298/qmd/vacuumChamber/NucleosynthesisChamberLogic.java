@@ -1,5 +1,6 @@
 package lach_01298.qmd.vacuumChamber;
 
+import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.QMD;
@@ -24,6 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.*;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
@@ -532,8 +534,14 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.must_be_input_beam", beamPortPos);
 				return false;
 			}
+		
+			if(getPartMap(TileVacuumChamberBeamPort.class).size() != 1)
+			{
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.wrong_amount_of_beam_ports",null);
+				return false;
+			}
 			
-			//fluid  input ports
+			//fluid input ports
 			BlockPos fluidPortInPos1 = beamPortPos.add(0, 3, 0);
 			BlockPos fluidPortInPos2 = beamPortPos.add(0, 1, 0);
 			
@@ -811,7 +819,17 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		}
 		return postions;
 	}
-
+	
+	public static final List<Pair<Class<? extends IVacuumChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileVacuumChamberPort.class, QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_item_ports"),
+			Pair.of(TileVacuumChamberLaser.class, QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_lasers"));
+	
+	@Override
+	public List<Pair<Class<? extends IVacuumChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
+	
 	// Server
 	
 	@Override
@@ -849,7 +867,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 							if (rememberedRecipeInfo.recipe != recipeInfo.recipe)
 							{
 								particleWorkDone = 0;
-								startRecipe(); // to void the in use contents to stop infinite power exploit
+								// startRecipe(); // to void the in use contents to stop infinite power exploit
 							}
 						}
 						rememberedRecipeInfo = recipeInfo;
@@ -867,6 +885,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 					}
 					else
 					{
+						particleWorkDone = 0;
 						casingExternalCooling();
 					}
 
@@ -890,6 +909,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		{
 			setPlasma(false);
 			operational = false;
+			particleWorkDone = 0;
 		}
 		
 		
@@ -947,7 +967,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	// Recipes
 	
-	private void startRecipe()
+	/*private void startRecipe()
 	{
 		if(getMultiblock().tanks.get(4).getFluid() != null)
 		{
@@ -972,6 +992,63 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack(), true);
 			}
 		}
+	}*/
+	
+	
+	private void startRecipe()
+	{
+		loop: if (getMultiblock().tanks.get(4).getFluid() != null)
+		{
+			if (rememberedRecipeInfo.recipe.getFluidIngredients().get(0) != null)
+			{
+				for (FluidStack fluid : rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(4).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(4).drain(fluid, true);
+						break loop;
+					}
+				}
+			}
+			if (rememberedRecipeInfo.recipe.getFluidIngredients().get(1) != null)
+			{
+				for (FluidStack fluid : rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(4).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(4).drain(fluid, true);
+						break loop;
+					}
+				}
+			}
+		}
+		
+		loop: if (getMultiblock().tanks.get(5).getFluid() != null)
+		{
+			if (rememberedRecipeInfo.recipe.getFluidIngredients().get(0) != null)
+			{
+				for (FluidStack fluid : rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(5).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(5).drain(fluid, true);
+						break loop;
+					}
+				}
+			}
+			if (rememberedRecipeInfo.recipe.getFluidIngredients().get(1) != null)
+			{
+				for (FluidStack fluid : rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getInputStackList())
+				{
+					if (fluid != null && getMultiblock().tanks.get(5).getFluid().getFluid() == fluid.getFluid())
+					{
+						getMultiblock().tanks.get(5).drain(fluid, true);
+						break loop;
+					}
+				}
+			}
+		}
+		
 	}
 
 	

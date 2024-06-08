@@ -1,5 +1,6 @@
 package lach_01298.qmd.particleChamber;
 
+import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
@@ -14,8 +15,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import static lach_01298.qmd.recipes.QMDRecipes.decay_chamber;
 
@@ -128,6 +130,10 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			return false;
 		}
 		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 		
 		return true;
 	}
@@ -138,7 +144,15 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		return 1;
 	}
 	
+	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
+			Pair.of(TileParticleChamberFluidPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_fluid_ports"),
+			Pair.of(TileParticleChamberPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
 	
+	@Override
+	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
+	{
+		return PART_BLACKLIST;
+	}
 	
 	
 	@Override

@@ -59,7 +59,7 @@ public class TileAcceleratorIonCollector extends TileAcceleratorPart implements 
 	@Override
 	public void onMachineAssembled(Accelerator accelerator)
 	{
-		if(accelerator.controller instanceof IAcceleratorController)
+		if(accelerator.controller instanceof TileMassSpectrometerController)
 		{
 			controller =  (TileMassSpectrometerController) accelerator.controller;
 		}

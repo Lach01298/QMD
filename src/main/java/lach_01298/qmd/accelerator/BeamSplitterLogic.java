@@ -28,7 +28,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 		
 		/*
 		beam 0 = input particle
-		beam 1 =  output particle
+		beam 1 = output particle
 		beam 2 = output particle straight
 		tank 0 = input coolant
 		tank 1 = output coolant
@@ -193,10 +193,11 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	}
 	
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileAcceleratorSynchrotronPort.class,
-					QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
+			Pair.of(TileAcceleratorSynchrotronPort.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
 			Pair.of(TileAcceleratorRFCavity.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_rf_cavity"),
-			Pair.of(TileAcceleratorIonSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"));
+			Pair.of(TileAcceleratorIonSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"),
+			Pair.of(TileAcceleratorIonCollector.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_collectors"),
+			Pair.of(TileAcceleratorPort.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_ports"));
 
 	@Override
 	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
