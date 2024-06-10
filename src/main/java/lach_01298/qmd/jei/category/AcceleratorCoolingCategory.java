@@ -7,12 +7,13 @@ import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.JEIHelper.RecipeFluidMapper;
 import nc.recipe.IngredientSorption;
 import nc.util.Lang;
+import nclegacy.jei.IJEIHandlerLegacy;
 import net.minecraft.util.text.TextFormatting;
 
 public class AcceleratorCoolingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.AcceleratorCooling>
 {
 	
-	public AcceleratorCoolingCategory(IGuiHelper guiHelper, IJEIHandler handler)
+	public AcceleratorCoolingCategory(IGuiHelper guiHelper, IJEIHandlerLegacy handler)
 	{
 		super(guiHelper, handler, "accelerator_cooling", 0, 0, 90, 26);
 	}
@@ -23,9 +24,9 @@ public class AcceleratorCoolingCategory extends JEIQMDMachineCategory<QMDRecipeW
 		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
 		
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
-		fluidMapper.map(IngredientSorption.INPUT, 0, 0, 9 - backPosX, 5 - backPosY, 16, 16);
-		fluidMapper.map(IngredientSorption.OUTPUT, 0, 1, 65 - backPosX, 1 - backPosY, 24, 24);
-		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
+		fluidMapper.put(IngredientSorption.INPUT, 0, 0, 9 - backPosX, 5 - backPosY, 16, 16);
+		fluidMapper.put(IngredientSorption.OUTPUT, 0, 1, 65 - backPosX, 1 - backPosY, 24, 24);
+		fluidMapper.apply(recipeLayout.getFluidStacks(), ingredients);
 		
 		recipeLayout.getFluidStacks().addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
 			

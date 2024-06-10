@@ -1,8 +1,6 @@
 package lach_01298.qmd.accelerator.block;
 
-import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.TileBeamSplitterController;
-import lach_01298.qmd.gui.GUI_ID;
 import nc.block.tile.IActivatable;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
@@ -84,7 +82,7 @@ public class BlockBeamSplitterController extends BlockAcceleratorPart implements
 
 				if (controller.getMultiblock() != null && controller.isMultiblockAssembled())
 				{
-					player.openGui(QMD.instance, GUI_ID.BEAM_SPLITTER, world, pos.getX(), pos.getY(), pos.getZ());
+					controller.openGui(world, pos, player);
 					return true;
 				}
 			}

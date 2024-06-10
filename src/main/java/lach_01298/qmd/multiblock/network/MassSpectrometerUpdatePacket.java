@@ -5,6 +5,7 @@ import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -51,7 +52,7 @@ public class MassSpectrometerUpdatePacket extends AcceleratorUpdatePacket
 		buf.writeDouble(speed);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, MassSpectrometerUpdatePacket> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, TileContainerInfo<TileMassSpectrometerController>, MassSpectrometerUpdatePacket> {
 		
 		public Handler() {
 			super(TileMassSpectrometerController.class);

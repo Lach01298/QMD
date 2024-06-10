@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class BeamProjectileUpdatePacket implements IMessage
+public class BeamProjectileUpdatePacket extends QMDPacket
 {
 
 	public int entityId;

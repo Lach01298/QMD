@@ -4,9 +4,10 @@ import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.*;
 import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.tile.TileContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class ContainerCollisionChamberController extends ContainerMultiblockController<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController>
+public class ContainerCollisionChamberController extends ContainerMultiblockController<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, TileContainerInfo<TileCollisionChamberController>>
 {
 	public ContainerCollisionChamberController(EntityPlayer player, TileCollisionChamberController controller)
 	{

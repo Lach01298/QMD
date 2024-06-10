@@ -1,11 +1,10 @@
 package lach_01298.qmd.accelerator.tile;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.container.ContainerDeceleratorController;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -13,6 +12,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileDeceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileDeceleratorController>
 {
+	protected final TileContainerInfo<TileDeceleratorController> info = TileInfoHandler.getTileContainerInfo("decelerator_controller");
 
 	public TileDeceleratorController()
 	{
@@ -24,7 +24,12 @@ public class TileDeceleratorController extends TileAcceleratorPart implements IA
 	{
 		return	"decelerator";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileDeceleratorController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
@@ -54,11 +59,4 @@ public class TileDeceleratorController extends TileAcceleratorPart implements IA
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		
 	}
-
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerDeceleratorController(player, this);
-	}
-
 }

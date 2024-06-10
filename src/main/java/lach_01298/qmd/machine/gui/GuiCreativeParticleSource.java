@@ -4,7 +4,6 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.machine.container.ContainerCreativeParticleSource;
 import lach_01298.qmd.machine.network.CreativeParticleSourceGuiPacket;
-import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.tile.TileCreativeParticleSource;
 import nc.gui.NCGui;
@@ -130,7 +129,7 @@ public class GuiCreativeParticleSource extends NCGui
 				{
 					tile.getParticleBeams().get(0).setParticleStack(stack);
 				}
-				QMDPacketHandler.instance.sendToServer(new CreativeParticleSourceGuiPacket(tile));
+				new CreativeParticleSourceGuiPacket(tile).sendToServer();
 			}
 		}
 		

@@ -4,28 +4,30 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.*;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.multiblock.network.*;
-import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.util.Units;
 import nc.gui.element.*;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.tile.TileContainerInfo;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.*;
 
 public class GuiMassSpectrometerController
-		extends GuiLogicMultiblock<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, MassSpectrometerLogic>
+		extends GuiLogicMultiblockController<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, TileContainerInfo<TileMassSpectrometerController>, MassSpectrometerLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
-	public GuiMassSpectrometerController(EntityPlayer player, TileMassSpectrometerController controller)
+	public GuiMassSpectrometerController(Container inventory, EntityPlayer player, TileMassSpectrometerController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/mass_spectrometer_controller.png");
 		xSize = 176;
 		ySize = 201;
@@ -163,11 +165,11 @@ public class GuiMassSpectrometerController
 	{
 		super.initGui();
 		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 30, guiTop + 80));
-		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 46, guiTop + 33, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 82, guiTop + 33, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(3, guiLeft + 101, guiTop + 33, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(4, guiLeft + 120, guiTop + 33, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(5, guiLeft + 139, guiTop + 33, 16, 16));
+		buttonList.add(new NCButton.ClearTank(1, guiLeft + 46, guiTop + 33, 16, 16));
+		buttonList.add(new NCButton.ClearTank(2, guiLeft + 82, guiTop + 33, 16, 16));
+		buttonList.add(new NCButton.ClearTank(3, guiLeft + 101, guiTop + 33, 16, 16));
+		buttonList.add(new NCButton.ClearTank(4, guiLeft + 120, guiTop + 33, 16, 16));
+		buttonList.add(new NCButton.ClearTank(5, guiLeft + 139, guiTop + 33, 16, 16));
 	}
 
 	@Override
@@ -180,22 +182,22 @@ public class GuiMassSpectrometerController
 				switch(guiButton.id)
 				{
 				case 0:
-					PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+					new ClearAllMaterialPacket(tile.getTilePos()).sendToServer();
 					break;
 				case 1:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),2));
+					new QMDClearTankPacket(tile.getTilePos(),2).sendToServer();
 					break;
 				case 2:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),3));
+					new QMDClearTankPacket(tile.getTilePos(),3).sendToServer();
 					break;
 				case 3:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),4));
+					new QMDClearTankPacket(tile.getTilePos(),4).sendToServer();
 					break;
 				case 4:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),5));
+					new QMDClearTankPacket(tile.getTilePos(),5).sendToServer();
 					break;
 				case 5:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),6));
+					new QMDClearTankPacket(tile.getTilePos(),6).sendToServer();
 					break;
 				}
 				

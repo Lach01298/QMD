@@ -8,17 +8,17 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.multiblock.network.AcceleratorSourceUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.network.QMDPackets;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.tile.ITileIONumber;
 import lach_01298.qmd.util.InventoryStackList;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.tile.ITileGui;
 import nc.tile.fluid.ITileFluid;
 import nc.tile.internal.fluid.*;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import nc.util.*;
+import nclegacy.tile.ITileGuiLegacy;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,7 +30,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.*;
 import java.util.*;
 
-public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITileInventory, ITileFluid, ITileIONumber, ITileGui<AcceleratorSourceUpdatePacket>, ITickable
+public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITileInventory, ITileFluid, ITileIONumber, ITileGuiLegacy<AcceleratorSourceUpdatePacket>, ITickable
 {
 	private IAcceleratorController controller;
 	
@@ -39,7 +39,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.NON,ItemSorption.NON));
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity * 1000, new ArrayList<>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity * 1000, new HashSet<>()));
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON));
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
@@ -434,7 +434,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	@Override
 	public void sendTileUpdatePacketToListeners() {
 		for (EntityPlayer player : getTileUpdatePacketListeners()) {
-			QMDPacketHandler.instance.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
+			QMDPackets.wrapper.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
 		}
 	}
 	
@@ -443,12 +443,12 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 		if (getTileWorld().isRemote) {
 			return;
 		}
-		QMDPacketHandler.instance.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
+		QMDPackets.wrapper.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
 	}
 	
 	@Override
 	public void sendTileUpdatePacketToAll() {
-		QMDPacketHandler.instance.sendToAll(getTileUpdatePacket());
+		QMDPackets.wrapper.sendToAll(getTileUpdatePacket());
 	}
 	
 }

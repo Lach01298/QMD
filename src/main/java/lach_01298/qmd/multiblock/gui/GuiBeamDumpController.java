@@ -3,15 +3,17 @@ package lach_01298.qmd.multiblock.gui;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.*;
-import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particleChamber.*;
 import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.util.Units;
 import nc.gui.element.*;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
+import nc.tile.TileContainerInfo;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
@@ -19,16 +21,16 @@ import org.lwjgl.opengl.GL11;
 import java.util.*;
 
 public class GuiBeamDumpController
-		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileBeamDumpController, BeamDumpLogic>
+		extends GuiLogicMultiblockController<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileBeamDumpController, TileContainerInfo<TileBeamDumpController>, BeamDumpLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiBeamDumpController(EntityPlayer player, TileBeamDumpController controller)
+	public GuiBeamDumpController(Container inventory, EntityPlayer player, TileBeamDumpController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/beam_dump_controller.png");
 		xSize = 137;
 		ySize = 89;
@@ -123,7 +125,7 @@ public class GuiBeamDumpController
 	public void initGui()
 	{
 		super.initGui();
-		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 81, guiTop + 37, 16, 16));
+		buttonList.add(new NCButton.ClearTank(0, guiLeft + 81, guiTop + 37, 16, 16));
 	}
 
 	@Override
@@ -137,7 +139,7 @@ public class GuiBeamDumpController
 				switch(guiButton.id)
 				{
 				case 0:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),1));
+					new QMDClearTankPacket(tile.getTilePos(),1).sendToServer();
 					break;
 				}
 			}

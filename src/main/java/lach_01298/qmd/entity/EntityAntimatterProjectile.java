@@ -540,7 +540,7 @@ public class EntityAntimatterProjectile extends Entity implements IProjectile
 	{
 		if (!this.world.isRemote)
 		{
-			QMDPacketHandler.instance.sendToAllAround(new AntimatterProjectileUpdatePacket(this), new TargetPoint(this.world.provider.getDimension(), this.posX,this.posY,this.posZ, 128));
+			QMDPackets.wrapper.sendToAllAround(new AntimatterProjectileUpdatePacket(this), new TargetPoint(this.world.provider.getDimension(), this.posX,this.posY,this.posZ, 128));
 		}
 	}
 	

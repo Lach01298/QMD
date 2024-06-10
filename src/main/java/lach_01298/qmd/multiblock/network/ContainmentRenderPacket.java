@@ -4,17 +4,17 @@ import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
-public class ContainmentRenderPacket extends MultiblockUpdatePacket
+public class ContainmentRenderPacket extends QMDMultiblockUpdatePacket
 {
 
 	public boolean isEmpty;
-	public byte numberOfTanks;
 	public List<TankInfo> tanksInfo;
 
 	public ContainmentRenderPacket()
@@ -26,8 +26,7 @@ public class ContainmentRenderPacket extends MultiblockUpdatePacket
 	{
 		this.pos = pos;
 		this.isEmpty = isEmpty;
-		numberOfTanks = (byte) tanks.size();
-		tanksInfo = TankInfo.infoList(tanks);
+		tanksInfo = TankInfo.getInfoList(tanks);
 
 	}
 
@@ -36,8 +35,7 @@ public class ContainmentRenderPacket extends MultiblockUpdatePacket
 	{
 		pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
 		isEmpty = buf.readBoolean();
-		numberOfTanks = buf.readByte();
-		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
+		tanksInfo = readTankInfos(buf);
 	}
 
 	@Override
@@ -47,13 +45,11 @@ public class ContainmentRenderPacket extends MultiblockUpdatePacket
 		buf.writeInt(pos.getY());
 		buf.writeInt(pos.getZ());
 		buf.writeBoolean(isEmpty);
-		buf.writeByte(numberOfTanks);
-		for (TankInfo info : tanksInfo)
-			info.writeBuf(buf);
+		writeTankInfos(buf, tanksInfo);
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, ContainmentRenderPacket>
+			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, TileContainerInfo<TileExoticContainmentController>, ContainmentRenderPacket>
 	{
 
 		public Handler()

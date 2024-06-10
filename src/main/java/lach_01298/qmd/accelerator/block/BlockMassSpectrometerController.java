@@ -1,8 +1,6 @@
 package lach_01298.qmd.accelerator.block;
 
-import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
-import lach_01298.qmd.gui.GUI_ID;
 import nc.block.tile.IActivatable;
 import nc.util.BlockHelper;
 import net.minecraft.block.state.*;
@@ -85,7 +83,7 @@ public class BlockMassSpectrometerController extends BlockAcceleratorPart implem
 
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
 				{
-					player.openGui(QMD.instance, GUI_ID.MASS_SPECTROMETER, world, pos.getX(), pos.getY(), pos.getZ());
+					controller.openGui(world, pos, player);
 					return true;
 				}
 			}

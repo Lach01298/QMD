@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import nc.network.tile.TileUpdatePacket;
 import nc.tile.ITilePacket;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 public class QMDTileUpdatePacket extends TileUpdatePacket
 {
@@ -17,6 +18,10 @@ public class QMDTileUpdatePacket extends TileUpdatePacket
 	{
 		this.pos = pos;
 
+	}
+	
+	public SimpleNetworkWrapper getWrapper() {
+		return QMDPackets.wrapper;
 	}
 
 	@Override
@@ -35,12 +40,6 @@ public class QMDTileUpdatePacket extends TileUpdatePacket
 
 	public static class Handler extends TileUpdatePacket.Handler<QMDTileUpdatePacket, ITilePacket<QMDTileUpdatePacket>>
 	{
-
-		@Override
-		protected void onTileUpdatePacket(QMDTileUpdatePacket message, ITilePacket<QMDTileUpdatePacket> processor)
-		{
-			processor.onTileUpdatePacket(message);
-		}
 	}
 
 }

@@ -32,7 +32,7 @@ public class TileAcceleratorPort extends TileAcceleratorPart implements ITileInv
 	private TileAcceleratorIonSource source;
 	private IAcceleratorController controller;
 	
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity * 1000, new ArrayList<>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity * 1000, new HashSet<>()));
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON));
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	

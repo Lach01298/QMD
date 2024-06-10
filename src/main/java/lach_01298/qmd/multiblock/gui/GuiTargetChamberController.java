@@ -3,16 +3,18 @@ package lach_01298.qmd.multiblock.gui;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.*;
-import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.particleChamber.*;
 import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.util.Units;
 import nc.gui.element.*;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.tile.TileContainerInfo;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
@@ -20,16 +22,16 @@ import org.lwjgl.opengl.GL11;
 import java.util.*;
 
 public class GuiTargetChamberController
-		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileTargetChamberController, TargetChamberLogic>
+		extends GuiLogicMultiblockController<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileTargetChamberController, TileContainerInfo<TileTargetChamberController>, TargetChamberLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiTargetChamberController(EntityPlayer player, TileTargetChamberController controller)
+	public GuiTargetChamberController(Container inventory, EntityPlayer player, TileTargetChamberController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png");
 		xSize = 176;
 		ySize = 200;
@@ -164,8 +166,8 @@ public class GuiTargetChamberController
 	{
 		super.initGui();
 		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 128, guiTop + 70));
-		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 53, guiTop + 55, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 94, guiTop + 55, 16, 16));
+		buttonList.add(new NCButton.ClearTank(1, guiLeft + 53, guiTop + 55, 16, 16));
+		buttonList.add(new NCButton.ClearTank(2, guiLeft + 94, guiTop + 55, 16, 16));
 	}
 
 	@Override
@@ -178,13 +180,13 @@ public class GuiTargetChamberController
 				switch(guiButton.id)
 				{
 				case 0:
-					PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+					new ClearAllMaterialPacket(tile.getTilePos()).sendToServer();
 					break;
 				case 1:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),0));
+					new QMDClearTankPacket(tile.getTilePos(),0).sendToServer();
 					break;
 				case 2:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),1));
+					new QMDClearTankPacket(tile.getTilePos(),1).sendToServer();
 					break;
 				}
 				

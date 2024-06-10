@@ -5,6 +5,7 @@ import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -41,7 +42,7 @@ public class LinearAcceleratorUpdatePacket extends AcceleratorUpdatePacket
 		super.toBytes(buf);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileLinearAcceleratorController, LinearAcceleratorUpdatePacket> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileLinearAcceleratorController, TileContainerInfo<TileLinearAcceleratorController>, LinearAcceleratorUpdatePacket> {
 		
 		public Handler() {
 			super(TileLinearAcceleratorController.class);

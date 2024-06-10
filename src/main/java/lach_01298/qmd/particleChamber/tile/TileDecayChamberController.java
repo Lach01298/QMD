@@ -1,11 +1,10 @@
 package lach_01298.qmd.particleChamber.tile;
 
-import lach_01298.qmd.multiblock.container.ContainerDecayChamberController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -15,6 +14,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileDecayChamberController extends TileParticleChamberPart implements IParticleChamberController<TileDecayChamberController>
 {
+	protected final TileContainerInfo<TileDecayChamberController> info = TileInfoHandler.getTileContainerInfo("decay_chamber_controller");
 
 	public TileDecayChamberController()
 	{
@@ -26,7 +26,12 @@ public class TileDecayChamberController extends TileParticleChamberPart implemen
 	{
 		return	"decay_chamber";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileDecayChamberController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(ParticleChamber controller)
@@ -70,11 +75,4 @@ public class TileDecayChamberController extends TileParticleChamberPart implemen
 		super.readAll(nbt);
 		
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerDecayChamberController(player, this);
-	}
-	
-
 }

@@ -6,6 +6,7 @@ import lach_01298.qmd.util.ByteUtil;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -72,7 +73,7 @@ public class NucleosynthesisChamberUpdatePacket extends VacuumChamberUpdatePacke
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileNucleosynthesisChamberController, NucleosynthesisChamberUpdatePacket>
+			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileNucleosynthesisChamberController, TileContainerInfo<TileNucleosynthesisChamberController>, NucleosynthesisChamberUpdatePacket>
 	{
 
 		public Handler()

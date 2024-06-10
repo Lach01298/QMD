@@ -1,11 +1,10 @@
 package lach_01298.qmd.accelerator.tile;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.container.ContainerRingAcceleratorController;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -13,6 +12,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileRingAcceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileRingAcceleratorController>
 {
+	protected final TileContainerInfo<TileRingAcceleratorController> info = TileInfoHandler.getTileContainerInfo("ring_accelerator_controller");
 
 	public TileRingAcceleratorController()
 	{
@@ -24,7 +24,12 @@ public class TileRingAcceleratorController extends TileAcceleratorPart implement
 	{
 		return	"ring_accelerator";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileRingAcceleratorController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
@@ -54,10 +59,4 @@ public class TileRingAcceleratorController extends TileAcceleratorPart implement
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerRingAcceleratorController(player, this);
-	}
-
 }

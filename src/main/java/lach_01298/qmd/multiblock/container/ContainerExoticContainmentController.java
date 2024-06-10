@@ -9,12 +9,13 @@ import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.container.multiblock.controller.ContainerMultiblockController;
 import nc.container.slot.SlotFurnace;
 import nc.recipe.BasicRecipeHandler;
+import nc.tile.TileContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerExoticContainmentController
-		extends ContainerMultiblockController<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController>
+		extends ContainerMultiblockController<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, TileContainerInfo<TileExoticContainmentController>>
 {
 	protected final BasicRecipeHandler recipeHandler;
 

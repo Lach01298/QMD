@@ -6,6 +6,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import nc.recipe.*;
 import nc.util.*;
+import nclegacy.jei.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -15,7 +16,7 @@ import java.util.*;
 public class QMDRecipeWrapper
 {
 
-	public static class OreLeacher extends JEIMachineRecipeWrapper<OreLeacher>
+	public static class OreLeacher extends JEIMachineRecipeWrapperLegacy<OreLeacher>
 	{
 		private static int arrowX = 176;
 		private static int arrowY = 12;
@@ -29,7 +30,7 @@ public class QMDRecipeWrapper
 		public final IDrawable arrow;
 		public final int arrowDrawPosX, arrowDrawPosY;
 		
-		public OreLeacher(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
+		public OreLeacher(IGuiHelper guiHelper, IJEIHandlerLegacy jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY, 94, 42, 16, 16);
 			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/ore_leacher.png");
@@ -63,7 +64,7 @@ public class QMDRecipeWrapper
 		}
 	}
 	
-	public static class Irradiator extends JEIMachineRecipeWrapper<Irradiator>
+	public static class Irradiator extends JEIMachineRecipeWrapperLegacy<Irradiator>
 	{
 
 		private static int arrowX = 176;
@@ -79,7 +80,7 @@ public class QMDRecipeWrapper
 		public final int arrowDrawPosX, arrowDrawPosY;
 		
 		
-		public Irradiator(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
+		public Irradiator(IGuiHelper guiHelper, IJEIHandlerLegacy jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY, 62, 57, 52, 10);
 			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/irradiator.png");
@@ -113,7 +114,7 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class IrradiatorFuel extends JEIBasicRecipeWrapper<IrradiatorFuel>
+	public static class IrradiatorFuel extends JEIBasicRecipeWrapperLegacy<IrradiatorFuel>
 	{
 
 		private static int arrowX = 176;
@@ -129,7 +130,7 @@ public class QMDRecipeWrapper
 		public final int arrowDrawPosX, arrowDrawPosY;
 		
 		
-		public IrradiatorFuel(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
+		public IrradiatorFuel(IGuiHelper guiHelper, IJEIHandlerLegacy jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
 			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/irradiator.png");
@@ -175,7 +176,7 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class AcceleratorCooling extends JEIBasicRecipeWrapper<AcceleratorCooling>
+	public static class AcceleratorCooling extends JEIBasicRecipeWrapperLegacy<AcceleratorCooling>
 	{
 
 		private static int arrowX = 90;
@@ -190,8 +191,8 @@ public class QMDRecipeWrapper
 		public final IDrawable arrow;
 		public final int arrowDrawPosX, arrowDrawPosY;
 		
-		public AcceleratorCooling(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler,
-				BasicRecipe recipe)
+		public AcceleratorCooling(IGuiHelper guiHelper, IJEIHandlerLegacy jeiHandler, BasicRecipeHandler recipeHandler,
+		                          BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
 			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/accelerator_cooling.png");
@@ -240,10 +241,10 @@ public class QMDRecipeWrapper
 		private static final String HEAT_PER_MB = Lang.localize("jei.nuclearcraft.fission_heating_heat_per_mb");
 	}
 	
-	public static class CellFilling extends JEIMachineRecipeWrapper<CellFilling>
+	public static class CellFilling extends JEIMachineRecipeWrapperLegacy<CellFilling>
 	{
 
-		public CellFilling(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
+		public CellFilling(IGuiHelper guiHelper, IJEIHandlerLegacy jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		}
@@ -263,7 +264,7 @@ public class QMDRecipeWrapper
 
 	}
 	
-	public static class VacuumChamberHeating extends JEIBasicRecipeWrapper<VacuumChamberHeating>
+	public static class VacuumChamberHeating extends JEIBasicRecipeWrapperLegacy<VacuumChamberHeating>
 	{
 
 		private static int arrowX = 90;
@@ -278,7 +279,7 @@ public class QMDRecipeWrapper
 		public final IDrawable arrow;
 		public final int arrowDrawPosX, arrowDrawPosY;
 		
-		public VacuumChamberHeating(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler,
+		public VacuumChamberHeating(IGuiHelper guiHelper, IJEIHandlerLegacy jeiHandler, BasicRecipeHandler recipeHandler,
 				BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
@@ -330,7 +331,7 @@ public class QMDRecipeWrapper
 	
 	
 	
-	public static class MassSpectrometer extends JEIBasicRecipeWrapper<MassSpectrometer>
+	public static class MassSpectrometer extends JEIBasicRecipeWrapperLegacy<MassSpectrometer>
 	{
 		private static int arrowX = 0;
 		private static int arrowY = 201;
@@ -344,7 +345,7 @@ public class QMDRecipeWrapper
 		public final IDrawable arrow;
 		public final int arrowDrawPosX, arrowDrawPosY;
 		
-		public MassSpectrometer(IGuiHelper guiHelper, IJEIHandler jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
+		public MassSpectrometer(IGuiHelper guiHelper, IJEIHandlerLegacy jeiHandler, BasicRecipeHandler recipeHandler, BasicRecipe recipe)
 		{
 			super(guiHelper, jeiHandler, recipeHandler, recipe, backX, backY, arrowX, arrowY, arrowWidth, arrowHeight, arrowPosX, arrowPosY);
 			ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/mass_spectrometer_controller.png");

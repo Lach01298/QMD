@@ -3,12 +3,13 @@ package lach_01298.qmd.machine.container;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
 import nc.recipe.BasicRecipeHandler;
+import nclegacy.container.ContainerTileLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileItemAmountFuelProcessor>
-		extends ContainerTile<PROCESSOR>
+		extends ContainerTileLegacy<PROCESSOR>
 {
 
 	protected final TileItemAmountFuelProcessor tile;

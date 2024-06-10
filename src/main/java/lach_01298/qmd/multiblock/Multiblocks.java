@@ -59,26 +59,26 @@ public class Multiblocks
 		
 		try
 		{
-			Accelerator.LOGIC_MAP.put("", AcceleratorLogic.class.getConstructor(AcceleratorLogic.class));
-			Accelerator.LOGIC_MAP.put("linear_accelerator",LinearAcceleratorLogic.class.getConstructor(AcceleratorLogic.class));
-			Accelerator.LOGIC_MAP.put("ring_accelerator",RingAcceleratorLogic.class.getConstructor(AcceleratorLogic.class));
-			Accelerator.LOGIC_MAP.put("beam_diverter",BeamDiverterLogic.class.getConstructor(AcceleratorLogic.class));
-			Accelerator.LOGIC_MAP.put("decelerator",DeceleratorLogic.class.getConstructor(AcceleratorLogic.class));
-			Accelerator.LOGIC_MAP.put("beam_splitter",BeamSplitterLogic.class.getConstructor(AcceleratorLogic.class));
-			Accelerator.LOGIC_MAP.put("mass_spectrometer",MassSpectrometerLogic.class.getConstructor(AcceleratorLogic.class));
+			Accelerator.LOGIC_MAP.put("", AcceleratorLogic::new);
+			Accelerator.LOGIC_MAP.put("linear_accelerator", LinearAcceleratorLogic::new);
+			Accelerator.LOGIC_MAP.put("ring_accelerator", RingAcceleratorLogic::new);
+			Accelerator.LOGIC_MAP.put("beam_diverter", BeamDiverterLogic::new);
+			Accelerator.LOGIC_MAP.put("decelerator", DeceleratorLogic::new);
+			Accelerator.LOGIC_MAP.put("beam_splitter", BeamSplitterLogic::new);
+			Accelerator.LOGIC_MAP.put("mass_spectrometer", MassSpectrometerLogic::new);
 			
-			ParticleChamber.LOGIC_MAP.put("", ParticleChamberLogic.class.getConstructor(ParticleChamberLogic.class));
-			ParticleChamber.LOGIC_MAP.put("target_chamber",TargetChamberLogic.class.getConstructor(ParticleChamberLogic.class));
-			ParticleChamber.LOGIC_MAP.put("decay_chamber",DecayChamberLogic.class.getConstructor(ParticleChamberLogic.class));
-			ParticleChamber.LOGIC_MAP.put("beam_dump",BeamDumpLogic.class.getConstructor(ParticleChamberLogic.class));
-			ParticleChamber.LOGIC_MAP.put("collision_chamber",CollisionChamberLogic.class.getConstructor(ParticleChamberLogic.class));
+			ParticleChamber.LOGIC_MAP.put("", ParticleChamberLogic::new);
+			ParticleChamber.LOGIC_MAP.put("target_chamber", TargetChamberLogic::new);
+			ParticleChamber.LOGIC_MAP.put("decay_chamber", DecayChamberLogic::new);
+			ParticleChamber.LOGIC_MAP.put("beam_dump", BeamDumpLogic::new);
+			ParticleChamber.LOGIC_MAP.put("collision_chamber", CollisionChamberLogic::new);
 			
-			VacuumChamber.LOGIC_MAP.put("", VacuumChamberLogic.class.getConstructor(VacuumChamberLogic.class));
-			VacuumChamber.LOGIC_MAP.put("neutral_containment",ExoticContainmentLogic.class.getConstructor(VacuumChamberLogic.class));
-			VacuumChamber.LOGIC_MAP.put("nucleosynthesis_chamber",NucleosynthesisChamberLogic.class.getConstructor(VacuumChamberLogic.class));
+			VacuumChamber.LOGIC_MAP.put("", VacuumChamberLogic::new);
+			VacuumChamber.LOGIC_MAP.put("neutral_containment", ExoticContainmentLogic::new);
+			VacuumChamber.LOGIC_MAP.put("nucleosynthesis_chamber", NucleosynthesisChamberLogic::new);
 			
-			Pipe.LOGIC_MAP.put("", PipeLogic.class.getConstructor(PipeLogic.class));
-			Pipe.LOGIC_MAP.put("beamline",BeamlineLogic.class.getConstructor(PipeLogic.class));
+			Pipe.LOGIC_MAP.put("", PipeLogic::new);
+			Pipe.LOGIC_MAP.put("beamline", BeamlineLogic::new);
 			
 		}
 		catch (Exception e)

@@ -6,26 +6,29 @@ import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
 import lach_01298.qmd.particleChamber.*;
 import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.util.Units;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
+import nc.tile.TileContainerInfo;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.*;
 
 public class GuiCollisionChamberController
-		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, CollisionChamberLogic>
+		extends GuiLogicMultiblockController<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, TileContainerInfo<TileCollisionChamberController>, CollisionChamberLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiCollisionChamberController(EntityPlayer player, TileCollisionChamberController controller)
+	public GuiCollisionChamberController(Container inventory, EntityPlayer player, TileCollisionChamberController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/collision_chamber_controller.png");
 		xSize = 176;
 		ySize = 130;
@@ -191,8 +194,7 @@ public class GuiCollisionChamberController
 		{
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
 			{
-				// PacketHandler.instance.sendToServer(new
-				// ClearAllMaterialPacket(tile.getTilePos()));
+				// new ClearAllMaterialPacket(tile.getTilePos()).sendToServer();
 			}
 		}
 	}

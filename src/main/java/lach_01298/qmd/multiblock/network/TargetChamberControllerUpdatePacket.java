@@ -3,7 +3,7 @@ package lach_01298.qmd.multiblock.network;
 import io.netty.buffer.ByteBuf;
 import nc.multiblock.fission.FissionCluster;
 import nc.network.tile.TileUpdatePacket;
-import nc.tile.ITileGui;
+import nc.tile.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -68,13 +68,7 @@ public class TargetChamberControllerUpdatePacket extends TileUpdatePacket
 		buf.writeDouble(baseProcessTime);
 	}
 
-	public static class Handler extends TileUpdatePacket.Handler<TargetChamberControllerUpdatePacket, ITileGui<TargetChamberControllerUpdatePacket>>
+	public static class Handler extends TileUpdatePacket.Handler<TargetChamberControllerUpdatePacket, ITilePacket<TargetChamberControllerUpdatePacket>>
 	{
-
-		@Override
-		protected void onTileUpdatePacket(TargetChamberControllerUpdatePacket message, ITileGui<TargetChamberControllerUpdatePacket> processor)
-		{
-			processor.onTileUpdatePacket(message);
-		}
 	}
 }

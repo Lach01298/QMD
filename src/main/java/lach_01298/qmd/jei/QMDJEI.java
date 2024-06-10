@@ -15,9 +15,9 @@ import mezz.jei.api.*;
 import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
-import nc.integration.jei.JEIHelper;
 import nc.recipe.BasicRecipeHandler;
 import nc.util.StackHelper;
+import nclegacy.jei.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
@@ -148,7 +148,7 @@ public class QMDJEI implements IModPlugin
 	}
 
 	
-	public enum JEIHandler implements IJEIHandler
+	public enum JEIHandler implements IJEIHandlerLegacy
 	{
 		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
 		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
@@ -159,18 +159,18 @@ public class QMDJEI implements IModPlugin
 		MASS_SPECTROMETER(QMDRecipes.mass_spectrometer, QMDBlocks.massSpectrometerController, "mass_spectrometer_controller", QMDRecipeWrapper.MassSpectrometer.class);
 		
 		private BasicRecipeHandler recipeHandler;
-		private Class<? extends JEIBasicRecipeWrapper> recipeWrapper;
+		private Class<? extends JEIBasicRecipeWrapperLegacy> recipeWrapper;
 		private boolean enabled;
 		private List<ItemStack> crafters;
 		private String textureName;
 		
-		JEIHandler(BasicRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper)
+		JEIHandler(BasicRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIBasicRecipeWrapperLegacy> recipeWrapper)
 		{
 			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper);
 		}
 		
 
-		JEIHandler(BasicRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIBasicRecipeWrapper> recipeWrapper)
+		JEIHandler(BasicRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIBasicRecipeWrapperLegacy> recipeWrapper)
 		{
 			this.recipeHandler = recipeHandler;
 			this.recipeWrapper = recipeWrapper;
@@ -180,7 +180,7 @@ public class QMDJEI implements IModPlugin
 		}
 		
 		@Override
-		public JEIBasicCategory getCategory(IGuiHelper guiHelper)
+		public JEIBasicCategoryLegacy getCategory(IGuiHelper guiHelper)
 		{
 			switch (this)
 			{
@@ -216,9 +216,9 @@ public class QMDJEI implements IModPlugin
 		}
 		
 		@Override
-		public List<JEIBasicRecipeWrapper> getJEIRecipes(IGuiHelper guiHelper)
+		public List<JEIBasicRecipeWrapperLegacy> getJEIRecipes(IGuiHelper guiHelper)
 		{
-			return JEIHelper.getJEIRecipes(guiHelper, this, getRecipeHandler(), getRecipeWrapperClass());
+			return JEIHelperLegacy.getJEIRecipes(guiHelper, this, getRecipeHandler(), getRecipeWrapperClass());
 		}
 
 		

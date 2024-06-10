@@ -1,11 +1,10 @@
 package lach_01298.qmd.accelerator.tile;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.container.ContainerBeamSplitterController;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -13,6 +12,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileBeamSplitterController extends TileAcceleratorPart implements IAcceleratorController<TileBeamSplitterController>
 {
+	protected final TileContainerInfo<TileBeamSplitterController> info = TileInfoHandler.getTileContainerInfo("beam_splitter_controller");
 
 	public TileBeamSplitterController()
 	{
@@ -24,7 +24,12 @@ public class TileBeamSplitterController extends TileAcceleratorPart implements I
 	{
 		return	"beam_splitter";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileBeamSplitterController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
@@ -54,10 +59,4 @@ public class TileBeamSplitterController extends TileAcceleratorPart implements I
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		if (getMultiblock() != null) getMultiblock().updateActivity();
 	}
-
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerBeamSplitterController(player, this);
-	}
-
 }

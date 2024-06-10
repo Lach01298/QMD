@@ -3,11 +3,11 @@ package lach_01298.qmd.machine.gui;
 import lach_01298.qmd.machine.container.ContainerIrradiator;
 import lach_01298.qmd.machine.network.*;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
-import lach_01298.qmd.network.QMDPacketHandler;
 import nc.gui.element.*;
 import nc.gui.processor.GuiItemSorptions;
 import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.util.Lang;
+import nclegacy.container.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.io.IOException;
 
-public class GuiIrradiator  extends GuiItemAmountFuelMachine
+public class GuiIrradiator extends GuiItemAmountFuelMachine
 {
 	
 	public GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile)
@@ -23,7 +23,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		this(player, tile, new ContainerIrradiator(player, tile));
 	}
 
-	private GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile, ContainerTile container)
+	private GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile, ContainerTileLegacy container)
 	{
 		super("irradiator", player, tile, container);
 		xSize = 176;
@@ -79,12 +79,12 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		{
 			if (guiButton.id == 0)
 			{
-				QMDPacketHandler.instance.sendToServer(new QMDOpenSideConfigGuiPacket(tile));
+				new QMDOpenSideConfigGuiPacket(tile).sendToServer();
 			}
 			else if (guiButton.id == 1)
 			{
 				tile.setRedstoneControl(!tile.getRedstoneControl());
-				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
+				new ToggleRedstoneControlPacket(tile).sendToServer();
 			}
 		}
 	}
@@ -94,7 +94,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 
 		public SideConfig(EntityPlayer player, TileItemAmountFuelProcessor tile)
 		{
-			super(player, tile, new ContainerMachineConfig(player, tile));
+			super(player, tile, new ContainerMachineConfigLegacy(player, tile));
 		}
 
 		@Override
@@ -102,7 +102,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		{
 			if (isEscapeKeyDown(keyCode))
 			{
-				QMDPacketHandler.instance.sendToServer(new QMDOpenTileGuiPacket(tile));
+				new QMDOpenTileGuiPacket(tile).sendToServer();
 			}
 			else
 				super.keyTyped(typedChar, keyCode);
@@ -126,9 +126,9 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		@Override
 		public void initButtons()
 		{
-			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 43, guiTop + 53));
-			buttonList.add(new NCButton.SorptionConfig.ItemInput(1, guiLeft + 79, guiTop + 20));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(2, guiLeft + 115, guiTop + 53));
+			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 43, guiTop + 53, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.ItemInput(1, guiLeft + 79, guiTop + 20, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutput(2, guiLeft + 115, guiTop + 53, 18, 18));
 
 		}
 

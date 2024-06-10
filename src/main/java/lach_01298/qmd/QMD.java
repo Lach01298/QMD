@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod.*;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = QMD.MOD_ID, name = QMD.MOD_NAME, version = QMD.VERSION, acceptedMinecraftVersions = QMD.MCVERSION, dependencies = "after:nuclearcraft", guiFactory = "lach_01298.qmd.config.QMDConfigGUIFactory")
+@Mod(modid = QMD.MOD_ID, name = QMD.MOD_NAME, version = QMD.VERSION, acceptedMinecraftVersions = QMD.MCVERSION, dependencies = "required-after:nuclearcraft;required-after:nclegacy", guiFactory = "lach_01298.qmd.config.QMDConfigGUIFactory")
 public class QMD
 {
 	public static final String MOD_NAME = "Quantum Minecraft Dynamics";

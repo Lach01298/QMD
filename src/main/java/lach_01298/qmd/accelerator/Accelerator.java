@@ -24,15 +24,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Constructor;
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcceleratorPart>
 		implements ILogicMultiblock<Accelerator, AcceleratorLogic, IAcceleratorPart>, IQMDPacketMultiblock<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket>, IMultiBlockTank
 {
 
 	public static final ObjectSet<Class<? extends IAcceleratorPart>> PART_CLASSES = new ObjectOpenHashSet<>();
-	public static final Object2ObjectMap<String, Constructor<? extends AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
+	public static final Object2ObjectMap<String, UnaryOperator<AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull AcceleratorLogic logic = new AcceleratorLogic(this);
 	//protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();

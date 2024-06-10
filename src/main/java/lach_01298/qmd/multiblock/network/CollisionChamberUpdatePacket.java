@@ -5,6 +5,7 @@ import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.particleChamber.tile.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.util.math.BlockPos;
@@ -40,7 +41,7 @@ public class CollisionChamberUpdatePacket extends ParticleChamberUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, CollisionChamberUpdatePacket>
+			MultiblockUpdatePacket.Handler<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, TileContainerInfo<TileCollisionChamberController>, CollisionChamberUpdatePacket>
 	{
 
 		public Handler()

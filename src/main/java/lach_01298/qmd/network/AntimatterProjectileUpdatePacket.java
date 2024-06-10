@@ -6,7 +6,7 @@ import lach_01298.qmd.entity.EntityAntimatterProjectile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.*;
 
-public class AntimatterProjectileUpdatePacket implements IMessage
+public class AntimatterProjectileUpdatePacket extends QMDPacket
 {
 
 	public int entityId;

@@ -9,7 +9,7 @@ import lach_01298.qmd.tile.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -76,8 +76,8 @@ public class TileVacuumChamberBeamPort extends TileVacuumChamberPart implements 
 	
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing,
-			float hitX, float hitY, float hitZ)
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing,
+	                              float hitX, float hitY, float hitZ)
 	{
 		
 		if (player.isSneaking())

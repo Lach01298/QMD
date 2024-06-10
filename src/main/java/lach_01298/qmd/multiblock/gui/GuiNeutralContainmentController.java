@@ -3,16 +3,18 @@ package lach_01298.qmd.multiblock.gui;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.*;
-import lach_01298.qmd.network.QMDPacketHandler;
 import lach_01298.qmd.util.Units;
 import lach_01298.qmd.vacuumChamber.*;
 import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.gui.element.*;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.tile.TileContainerInfo;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
@@ -20,16 +22,16 @@ import org.lwjgl.opengl.GL11;
 import java.util.*;
 
 public class GuiNeutralContainmentController
-		extends GuiLogicMultiblock<VacuumChamber, VacuumChamberLogic, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, ExoticContainmentLogic>
+		extends GuiLogicMultiblockController<VacuumChamber, VacuumChamberLogic, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, TileContainerInfo<TileExoticContainmentController>, ExoticContainmentLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiNeutralContainmentController(EntityPlayer player, TileExoticContainmentController controller)
+	public GuiNeutralContainmentController(Container inventory, EntityPlayer player, TileExoticContainmentController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png");
 		xSize = 176;
 		ySize = 177;
@@ -186,7 +188,7 @@ public class GuiNeutralContainmentController
 	{
 		super.initGui();
 		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 130, guiTop + 59));
-		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 71, guiTop + 20, 32, 32));
+		buttonList.add(new NCButton.ClearTank(1, guiLeft + 71, guiTop + 20, 32, 32));
 	}
 
 	@Override
@@ -200,10 +202,10 @@ public class GuiNeutralContainmentController
 				switch(guiButton.id)
 				{
 				case 0:
-					PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+					new ClearAllMaterialPacket(tile.getTilePos()).sendToServer();
 					break;
 				case 1:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),2));
+					new QMDClearTankPacket(tile.getTilePos(),2).sendToServer();
 					break;
 				}
 			}

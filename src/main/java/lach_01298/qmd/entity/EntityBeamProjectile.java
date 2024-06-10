@@ -118,7 +118,7 @@ public abstract class EntityBeamProjectile extends Entity
 	{
 		if (!this.world.isRemote)
 		{
-			QMDPacketHandler.instance.sendToAllAround(new BeamProjectileUpdatePacket(this), new TargetPoint(this.world.provider.getDimension(), this.posX,this.posY,this.posZ, 128));
+			QMDPackets.wrapper.sendToAllAround(new BeamProjectileUpdatePacket(this), new TargetPoint(this.world.provider.getDimension(), this.posX,this.posY,this.posZ, 128));
 		}
 	}
 

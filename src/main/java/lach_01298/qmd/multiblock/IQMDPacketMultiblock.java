@@ -1,6 +1,6 @@
 package lach_01298.qmd.multiblock;
 
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.network.QMDPackets;
 import nc.multiblock.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.multiblock.ITileMultiblockPart;
@@ -21,7 +21,7 @@ public interface IQMDPacketMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		}
 		for (EntityPlayer player : getMultiblockUpdatePacketListeners())
 		{
-			QMDPacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
+			QMDPackets.wrapper.sendTo(packet, (EntityPlayerMP) player);
 		}
 	}
 
@@ -35,7 +35,7 @@ public interface IQMDPacketMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		{
 			return;
 		}
-		QMDPacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
+		QMDPackets.wrapper.sendTo(packet, (EntityPlayerMP) player);
 	}
 	
 	public default void sendMultiblockUpdatePacketToAll()
@@ -49,6 +49,6 @@ public interface IQMDPacketMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		{
 			return;
 		}
-		QMDPacketHandler.instance.sendToAll(packet);
+		QMDPackets.wrapper.sendToAll(packet);
 	}
 }

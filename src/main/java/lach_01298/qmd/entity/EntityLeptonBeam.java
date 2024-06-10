@@ -59,7 +59,7 @@ public class EntityLeptonBeam extends EntityBeamProjectile
 	{
 		if (!this.world.isRemote)
 		{
-			QMDPacketHandler.instance.sendToAllAround(new LeptonBeamUpdatePacket(this), new TargetPoint(this.world.provider.getDimension(), this.posX,this.posY,this.posZ, 128));
+			QMDPackets.wrapper.sendToAllAround(new LeptonBeamUpdatePacket(this), new TargetPoint(this.world.provider.getDimension(), this.posX,this.posY,this.posZ, 128));
 		}
 	}
 

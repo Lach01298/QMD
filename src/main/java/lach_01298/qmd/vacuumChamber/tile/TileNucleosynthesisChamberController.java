@@ -1,13 +1,12 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import lach_01298.qmd.multiblock.container.ContainerNucleosynthesisChamberController;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
@@ -17,7 +16,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileNucleosynthesisChamberController extends TileVacuumChamberPart implements IVacuumChamberController<TileNucleosynthesisChamberController>
 {
-
+	protected final TileContainerInfo<TileNucleosynthesisChamberController> info = TileInfoHandler.getTileContainerInfo("nucleosynthesis_chamber_controller");
 	
 	public boolean isRenderer = false;
 	
@@ -31,7 +30,12 @@ public class TileNucleosynthesisChamberController extends TileVacuumChamberPart 
 	{
 		return	"nucleosynthesis_chamber";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileNucleosynthesisChamberController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(VacuumChamber controller)
@@ -72,15 +76,6 @@ public class TileNucleosynthesisChamberController extends TileVacuumChamberPart 
 	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
-	}
-	
-
-	
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player)
-	{
-		return new ContainerNucleosynthesisChamberController(player, this);
 	}
 
 	@Override

@@ -4,11 +4,11 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.container.ContainerMassSpectrometerController;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.recipe.BasicRecipeHandler;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import nc.util.NBTHelper;
@@ -29,6 +29,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileMassSpectrometerController extends TileAcceleratorPart implements IAcceleratorController<TileMassSpectrometerController>, ITileInventory
 {
+	protected final TileContainerInfo<TileMassSpectrometerController> info = TileInfoHandler.getTileContainerInfo("mass_spectrometer_controller");
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.mass_spectrometer_controller";
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(6, ItemStack.EMPTY);
@@ -52,7 +53,12 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 	{
 		return	"mass_spectrometer";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileMassSpectrometerController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
@@ -201,13 +207,4 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 		}
 		return super.getCapability(capability, side);
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerMassSpectrometerController(player, this);
-	}
-	
-	
-	
-	
 }

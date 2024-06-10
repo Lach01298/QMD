@@ -4,13 +4,14 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.recipes.AtmosphereCollectorRecipes;
 import nc.tile.internal.energy.EnergyConnection;
 import nc.util.MaterialHelper;
+import nclegacy.tile.TileItemFluidGeneratorLegacy;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraftforge.fluids.*;
 
-public class TileAtmosphereCollector extends  TileItemFluidGenerator
+public class TileAtmosphereCollector extends TileItemFluidGeneratorLegacy
 {
 
 	private double efficiency = 0D;
@@ -18,7 +19,7 @@ public class TileAtmosphereCollector extends  TileItemFluidGenerator
 	public TileAtmosphereCollector()
 	{
 		super("atmosphere_collector", 0, 0, 0, 1, 0, defaultItemSorptions(0, 0),  defaultTankCapacities(32000, 0, 1), defaultTankSorptions(0, 1),
-				null, QMDConfig.processor_power[1]*20, null);
+				null, QMDConfig.processor_power[1] * 20, null);
 		setEnergyConnectionAll(EnergyConnection.IN);
 	}
 

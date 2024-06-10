@@ -22,36 +22,25 @@ public class AcceleratorSourceUpdatePacket extends QMDTileUpdatePacket
 	public AcceleratorSourceUpdatePacket(BlockPos pos, List<Tank> tanks)
 	{
 		super(pos);
-		tanksInfo = TankInfo.infoList(tanks);
+		tanksInfo = TankInfo.getInfoList(tanks);
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf)
 	{
 		super.fromBytes(buf);
-		byte numberOfTanks = buf.readByte();
-		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
+		tanksInfo = readTankInfos(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf)
 	{
 		super.toBytes(buf);
-		buf.writeByte(tanksInfo.size());
-		for (TankInfo info : tanksInfo)
-		{
-			info.writeBuf(buf);
-		}
+		writeTankInfos(buf, tanksInfo);
 	}
 
 	public static class Handler extends TileUpdatePacket.Handler<AcceleratorSourceUpdatePacket, ITilePacket<AcceleratorSourceUpdatePacket>>
 	{
-
-		@Override
-		protected void onTileUpdatePacket(AcceleratorSourceUpdatePacket message, ITilePacket<AcceleratorSourceUpdatePacket> processor)
-		{
-			processor.onTileUpdatePacket(message);
-		}
 	}
 
 }

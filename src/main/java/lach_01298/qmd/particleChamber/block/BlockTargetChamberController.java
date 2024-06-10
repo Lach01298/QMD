@@ -1,7 +1,5 @@
 package lach_01298.qmd.particleChamber.block;
 
-import lach_01298.qmd.QMD;
-import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
 import nc.block.tile.IActivatable;
 import nc.util.BlockHelper;
@@ -85,7 +83,7 @@ public class BlockTargetChamberController extends BlockParticleChamberPart imple
 
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
 				{
-					player.openGui(QMD.instance, GUI_ID.TARGET_CHAMBER, world, pos.getX(), pos.getY(), pos.getZ());
+					controller.openGui(world, pos, player);
 					return true;
 				}
 			}

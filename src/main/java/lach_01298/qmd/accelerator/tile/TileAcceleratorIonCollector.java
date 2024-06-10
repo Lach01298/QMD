@@ -33,7 +33,7 @@ public class TileAcceleratorIonCollector extends TileAcceleratorPart implements 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.ion_collector";
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.OUT));
 	
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new HashSet<>()));
 
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.OUT));
 	

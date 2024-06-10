@@ -1,11 +1,10 @@
 package lach_01298.qmd.particleChamber.tile;
 
-import lach_01298.qmd.multiblock.container.ContainerBeamDumpController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -14,6 +13,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileBeamDumpController extends TileParticleChamberPart implements IParticleChamberController<TileBeamDumpController>
 {
+	protected final TileContainerInfo<TileBeamDumpController> info = TileInfoHandler.getTileContainerInfo("beam_dump_controller");
 
 	public TileBeamDumpController()
 	{
@@ -25,7 +25,12 @@ public class TileBeamDumpController extends TileParticleChamberPart implements I
 	{
 		return	"beam_dump";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileBeamDumpController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(ParticleChamber controller)
@@ -68,10 +73,4 @@ public class TileBeamDumpController extends TileParticleChamberPart implements I
 		super.readAll(nbt);
 		
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerBeamDumpController(player, this);
-	}
-
 }

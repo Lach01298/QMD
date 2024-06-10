@@ -6,7 +6,8 @@ import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.machine.network.CreativeParticleSourceUpdatePacket;
 import lach_01298.qmd.particle.*;
-import nc.tile.*;
+import nc.tile.NCTile;
+import nclegacy.tile.ITileGuiLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +17,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import javax.annotation.*;
 import java.util.*;
 
-public class TileCreativeParticleSource extends NCTile implements ITileParticleStorage, ITickable, ITileGui<CreativeParticleSourceUpdatePacket>
+public class TileCreativeParticleSource extends NCTile implements ITileParticleStorage, ITickable, ITileGuiLegacy<CreativeParticleSourceUpdatePacket>
 {
 	private final @Nonnull List<ParticleStorageSource> particleBeams;
 

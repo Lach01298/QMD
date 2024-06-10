@@ -3,7 +3,6 @@ package lach_01298.qmd.multiblock.network;
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.util.ByteUtil;
-import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
@@ -11,14 +10,13 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.*;
 
-public class ParticleChamberUpdatePacket extends MultiblockUpdatePacket
+public class ParticleChamberUpdatePacket extends QMDMultiblockUpdatePacket
 {
 
 	public boolean isChamberOn;
 	public int requiredEnergy;
 	public double efficiency;
 	public EnergyStorage energyStorage;
-	public byte numberOfTanks;
 	public List<TankInfo> tanksInfo;
 	public List<ParticleStorageAccelerator> beams;
 	
@@ -37,8 +35,7 @@ public class ParticleChamberUpdatePacket extends MultiblockUpdatePacket
 		this.efficiency = efficiency;
 		this.energyStorage = energyStorage;
 		
-		numberOfTanks = (byte) tanks.size();
-		tanksInfo = TankInfo.infoList(tanks);
+		tanksInfo = TankInfo.getInfoList(tanks);
 		this.beams = beams;
 		
 		
@@ -55,8 +52,7 @@ public class ParticleChamberUpdatePacket extends MultiblockUpdatePacket
 		requiredEnergy = buf.readInt();
 		efficiency = buf.readDouble();
 		energyStorage = ByteUtil.readBufEnergy(buf);
-		numberOfTanks = buf.readByte();
-		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
+		tanksInfo = readTankInfos(buf);
 		
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++)
@@ -81,8 +77,7 @@ public class ParticleChamberUpdatePacket extends MultiblockUpdatePacket
 		buf.writeInt(requiredEnergy);
 		buf.writeDouble(efficiency);
 		ByteUtil.writeBufEnergy(energyStorage, buf);
-		buf.writeByte(numberOfTanks);
-		for (TankInfo info : tanksInfo) info.writeBuf(buf);
+		writeTankInfos(buf, tanksInfo);
 		
 		buf.writeInt(beams.size());
 		for(ParticleStorageAccelerator beam : beams)

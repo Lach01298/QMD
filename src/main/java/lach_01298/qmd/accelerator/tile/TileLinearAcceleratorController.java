@@ -3,15 +3,14 @@ package lach_01298.qmd.accelerator.tile;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.multiblock.container.ContainerLinearAcceleratorController;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import nc.util.*;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
@@ -25,6 +24,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileLinearAcceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileLinearAcceleratorController>, ITileInventory
 {
+	protected final TileContainerInfo<TileLinearAcceleratorController> info = TileInfoHandler.getTileContainerInfo("linear_accelerator_controller");
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.linear_accelerator_controller";
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.BOTH,ItemSorption.BOTH));
@@ -40,7 +40,12 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 	{
 		return	"linear_accelerator";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileLinearAcceleratorController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
@@ -120,14 +125,6 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		if (getMultiblock() != null) getMultiblock().updateActivity();
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerLinearAcceleratorController(player, this);
-	}
-	
-	
-	
 	
 	@Override
 	public NBTTagCompound writeAll(NBTTagCompound nbt) {

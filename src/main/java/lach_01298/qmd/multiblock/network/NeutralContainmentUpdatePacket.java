@@ -5,6 +5,7 @@ import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -57,7 +58,7 @@ public class NeutralContainmentUpdatePacket extends VacuumChamberUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, NeutralContainmentUpdatePacket>
+			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, TileContainerInfo<TileExoticContainmentController>, NeutralContainmentUpdatePacket>
 	{
 
 		public Handler()

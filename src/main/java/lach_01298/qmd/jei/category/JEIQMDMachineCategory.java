@@ -6,30 +6,31 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.recipe.ingredient.*;
 import nc.util.*;
+import nclegacy.jei.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class JEIQMDMachineCategory<WRAPPER extends JEIBasicRecipeWrapper<WRAPPER>> extends JEIBasicCategory<WRAPPER>
+public abstract class JEIQMDMachineCategory<WRAPPER extends JEIBasicRecipeWrapperLegacy<WRAPPER>> extends JEIBasicCategoryLegacy<WRAPPER>
 {
 	
 	private final IDrawable background;
 	protected String recipeTitle;
 	protected final int backPosX, backPosY;
 	
-	public JEIQMDMachineCategory(IGuiHelper guiHelper, IJEIHandler handler, String title, int backX, int backY, int backWidth, int backHeight)
+	public JEIQMDMachineCategory(IGuiHelper guiHelper, IJEIHandlerLegacy handler, String title, int backX, int backY, int backWidth, int backHeight)
 	{
 		this(guiHelper, handler, title, "", backX, backY, backWidth, backHeight);
 	}
 	
-	public JEIQMDMachineCategory(IGuiHelper guiHelper, IJEIHandler handler, String title, String guiExtra, int backX, int backY, int backWidth, int backHeight)
+	public JEIQMDMachineCategory(IGuiHelper guiHelper, IJEIHandlerLegacy handler, String title, String guiExtra, int backX, int backY, int backWidth, int backHeight)
 	{
 		super(handler);
 		ResourceLocation location = new ResourceLocation(QMD.MOD_ID + ":textures/gui/" + handler.getTextureName() + guiExtra + ".png");
 		background = guiHelper.createDrawable(location, backX, backY, backWidth, backHeight);
 		recipeTitle = Lang.localize("tile." + QMD.MOD_ID + "." + title + ".name");
-		backPosX = backX + 1;
-		backPosY = backY + 1;
+		backPosX = backX;
+		backPosY = backY;
 	}
 	
 	@Override

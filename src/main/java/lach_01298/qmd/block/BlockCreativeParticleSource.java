@@ -4,7 +4,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.TileCreativeParticleSource;
 import nc.block.tile.*;
-import nc.tile.ITileGui;
+import nclegacy.tile.ITileGuiLegacy;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -57,22 +57,21 @@ public class BlockCreativeParticleSource extends BlockTile implements ITileType
 		if (player.isSneaking()) return false;
 		if (!player.isCreative()) return false;
 		
-		if (tile instanceof ITileGui)
+		if (tile instanceof ITileGuiLegacy<?> tileGui)
 		{
 			if (world.isRemote)
 			{
 				onGuiOpened(world, pos);
 				return true;
-			} else
+			}
+			else
 			{
 				onGuiOpened(world, pos);
-				FMLNetworkHandler.openGui(player, QMD.instance, ((ITileGui) tile).getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
+				FMLNetworkHandler.openGui(player, QMD.instance, tileGui.getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		else return false;
 		
 		return true;
 	}
-	
-	
 }

@@ -19,15 +19,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Constructor;
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IParticleChamberPart>
 		implements ILogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart>, IQMDPacketMultiblock<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket>, IMultiBlockTank
 {
 
 	public static final ObjectSet<Class<? extends IParticleChamberPart>> PART_CLASSES = new ObjectOpenHashSet<>();
-	public static final Object2ObjectMap<String, Constructor<? extends ParticleChamberLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
+	public static final Object2ObjectMap<String, UnaryOperator<ParticleChamberLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 
 	
 	protected @Nonnull ParticleChamberLogic logic = new ParticleChamberLogic(this);

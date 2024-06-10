@@ -9,7 +9,7 @@ import nc.tile.internal.fluid.*;
 import nc.tile.passive.ITilePassive;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -28,8 +28,8 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 public class TileParticleChamberFluidPort extends TileParticleChamberPart implements ITileFluid, ITickable
 {
 
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<>()),
-			new Tank(1, new ArrayList<>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new HashSet<>()),
+			new Tank(1, new HashSet<>()));
 
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid
 			.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.NON));
@@ -193,8 +193,8 @@ public class TileParticleChamberFluidPort extends TileParticleChamberPart implem
 	// IMultitoolLogic
 
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing,
-			float hitX, float hitY, float hitZ)
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing,
+	                              float hitX, float hitY, float hitZ)
 	{
 		if (player.isSneaking())
 		{

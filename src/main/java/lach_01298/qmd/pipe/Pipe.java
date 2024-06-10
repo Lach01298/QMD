@@ -11,15 +11,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Constructor;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 		implements ILogicMultiblock<Pipe, PipeLogic, IPipePart>, IQMDPacketMultiblock<Pipe, IPipePart, PipeUpdatePacket>
 {
 	
 	public static final ObjectSet<Class<? extends IPipePart>> PART_CLASSES = new ObjectOpenHashSet<>();
-	public static final Object2ObjectMap<String, Constructor<? extends PipeLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
+	public static final Object2ObjectMap<String, UnaryOperator<PipeLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull PipeLogic logic = new PipeLogic(this);
 	

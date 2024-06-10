@@ -6,7 +6,7 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.multiblock.network.*;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.network.QMDPackets;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Util;
@@ -517,7 +517,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		
 		if (getMultiblock().controller != null)
 		{
-			QMDPacketHandler.instance.sendToAll(getMultiblock().getRenderPacket());
+			QMDPackets.wrapper.sendToAll(getMultiblock().getRenderPacket());
 			getMultiblock().sendMultiblockUpdatePacketToListeners();
 			getMultiblock().sendRenderToAllPlayers();
 		}

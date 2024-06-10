@@ -1,6 +1,7 @@
 package lach_01298.qmd.machine.network;
 
 import io.netty.buffer.ByteBuf;
+import lach_01298.qmd.network.QMDPacket;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.tile.TileCreativeParticleSource;
 import lach_01298.qmd.util.ByteUtil;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.*;
 
-public class CreativeParticleSourceGuiPacket implements IMessage
+public class CreativeParticleSourceGuiPacket extends QMDPacket
 {
 
 	boolean messageValid;

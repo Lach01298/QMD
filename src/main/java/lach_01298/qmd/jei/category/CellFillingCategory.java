@@ -6,11 +6,12 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.JEIHelper.*;
 import nc.recipe.IngredientSorption;
+import nclegacy.jei.IJEIHandlerLegacy;
 
 public class CellFillingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.CellFilling>
 {
 	
-	public CellFillingCategory(IGuiHelper guiHelper, IJEIHandler handler)
+	public CellFillingCategory(IGuiHelper guiHelper, IJEIHandlerLegacy handler)
 	{
 		super(guiHelper, handler, "cell_filling", 0, 0, 64, 45);
 	}
@@ -22,13 +23,13 @@ public class CellFillingCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
-		itemMapper.map(IngredientSorption.INPUT, 0, 0, 3 - backPosX, 3 - backPosY);
-		fluidMapper.map(IngredientSorption.INPUT, 0, 0, 3 - backPosX, 26 - backPosY, 16, 16);
+		itemMapper.put(IngredientSorption.INPUT, 0, 0, 3 - backPosX, 3 - backPosY);
+		fluidMapper.put(IngredientSorption.INPUT, 0, 0, 3 - backPosX, 26 - backPosY, 16, 16);
 		
-		itemMapper.map(IngredientSorption.OUTPUT, 0, 1, 45 - backPosX, 3 - backPosY);
-		fluidMapper.map(IngredientSorption.OUTPUT, 0, 1, 45 - backPosX, 26 - backPosY, 16, 16);
+		itemMapper.put(IngredientSorption.OUTPUT, 0, 1, 45 - backPosX, 3 - backPosY);
+		fluidMapper.put(IngredientSorption.OUTPUT, 0, 1, 45 - backPosX, 26 - backPosY, 16, 16);
 		
-		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
-		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
+		itemMapper.apply(recipeLayout.getItemStacks(), ingredients);
+		fluidMapper.apply(recipeLayout.getFluidStacks(), ingredients);
 	}
 }

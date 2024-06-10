@@ -3,12 +3,13 @@ package lach_01298.qmd.machine.tile;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.item.IItemParticleAmount;
 import nc.config.NCConfig;
-import nc.network.tile.processor.ProcessorUpdatePacket;
+import nc.network.tile.processor.*;
 import nc.recipe.*;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.*;
+import nclegacy.tile.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +19,7 @@ import net.minecraft.util.math.MathHelper;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessor, ITileSideConfigGui<ProcessorUpdatePacket>
+public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessorLegacy, ITileSideConfigGuiLegacy<EnergyProcessorUpdatePacket>
 {
 
 	public final int defaultProcessTime;
@@ -394,11 +395,11 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 					return false;
 				}
 				
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(slot-itemInputSize, IItemParticleAmount.cleanNBT(stack), recipeInfo, getItemFuels(), fuelItemStacksExcludingSlot(slot-itemInputSize)) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
+				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack), slot - itemInputSize, getItemFuels(), new ArrayList<>(), recipeInfo) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 			}
 			else
 			{
-				return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(slot, stack, recipeInfo, getItemInputs(), inputItemStacksExcludingSlot(slot)) : recipeHandler.isValidItemInput(stack);
+				return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, slot, getItemInputs(), new ArrayList<>(), recipeInfo) : recipeHandler.isValidItemInput(stack);
 			}
 			
 		}
@@ -469,17 +470,17 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		}
 		
 		@Override
-		public ProcessorUpdatePacket getTileUpdatePacket()
+		public EnergyProcessorUpdatePacket getTileUpdatePacket()
 		{
-			return new ProcessorUpdatePacket(pos,isProcessing ,time,0, baseProcessTime, 0, new ArrayList<Tank>());
+			return new EnergyProcessorUpdatePacket(pos, isProcessing, time, baseProcessTime, new ArrayList<>(), 0, 0);
 		}
 		
 		@Override
-		public void onTileUpdatePacket(ProcessorUpdatePacket message)
+		public void onTileUpdatePacket(EnergyProcessorUpdatePacket message)
 		{
+			isProcessing = message.isProcessing;
 			time = message.time;
 			baseProcessTime = message.baseProcessTime;
-			
 		}
 		
 		@Override

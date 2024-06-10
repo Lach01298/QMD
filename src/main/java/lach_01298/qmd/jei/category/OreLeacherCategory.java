@@ -6,11 +6,12 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.JEIHelper.*;
 import nc.recipe.IngredientSorption;
+import nclegacy.jei.IJEIHandlerLegacy;
 
 public class OreLeacherCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.OreLeacher>
 {
 	
-	public OreLeacherCategory(IGuiHelper guiHelper, IJEIHandler handler)
+	public OreLeacherCategory(IGuiHelper guiHelper, IJEIHandlerLegacy handler)
 	{
 		super(guiHelper, handler, "ore_leacher", 30, 7, 142, 56);
 	}
@@ -22,14 +23,14 @@ public class OreLeacherCategory extends JEIQMDMachineCategory<QMDRecipeWrapper.O
 		
 		RecipeItemMapper itemMapper = new RecipeItemMapper();
 		RecipeFluidMapper fluidMapper = new RecipeFluidMapper();
-		itemMapper.map(IngredientSorption.INPUT, 0, 0, 36 - backPosX, 11 - backPosY);
-		fluidMapper.map(IngredientSorption.INPUT, 0, 0, 36 - backPosX, 42 - backPosY, 16, 16);
-		fluidMapper.map(IngredientSorption.INPUT, 1, 1, 56 - backPosX, 42 - backPosY, 16, 16);
-		fluidMapper.map(IngredientSorption.INPUT, 2, 2, 76 - backPosX, 42 - backPosY, 16, 16);
-		itemMapper.map(IngredientSorption.OUTPUT, 0, 1, 112 - backPosX, 42 - backPosY);
-		itemMapper.map(IngredientSorption.OUTPUT, 1, 2, 132 - backPosX, 42 - backPosY);
-		itemMapper.map(IngredientSorption.OUTPUT, 2, 3, 152 - backPosX, 42 - backPosY);
-		itemMapper.mapItemsTo(recipeLayout.getItemStacks(), ingredients);
-		fluidMapper.mapFluidsTo(recipeLayout.getFluidStacks(), ingredients);
+		itemMapper.put(IngredientSorption.INPUT, 0, 0, 36 - backPosX, 11 - backPosY);
+		fluidMapper.put(IngredientSorption.INPUT, 0, 0, 36 - backPosX, 42 - backPosY, 16, 16);
+		fluidMapper.put(IngredientSorption.INPUT, 1, 1, 56 - backPosX, 42 - backPosY, 16, 16);
+		fluidMapper.put(IngredientSorption.INPUT, 2, 2, 76 - backPosX, 42 - backPosY, 16, 16);
+		itemMapper.put(IngredientSorption.OUTPUT, 0, 1, 112 - backPosX, 42 - backPosY);
+		itemMapper.put(IngredientSorption.OUTPUT, 1, 2, 132 - backPosX, 42 - backPosY);
+		itemMapper.put(IngredientSorption.OUTPUT, 2, 3, 152 - backPosX, 42 - backPosY);
+		itemMapper.apply(recipeLayout.getItemStacks(), ingredients);
+		fluidMapper.apply(recipeLayout.getFluidStacks(), ingredients);
 	}
 }

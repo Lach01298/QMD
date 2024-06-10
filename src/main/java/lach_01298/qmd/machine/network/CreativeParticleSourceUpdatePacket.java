@@ -1,15 +1,16 @@
 package lach_01298.qmd.machine.network;
 
 import io.netty.buffer.ByteBuf;
+import lach_01298.qmd.network.QMDTileUpdatePacket;
 import lach_01298.qmd.particle.ParticleStorageSource;
 import lach_01298.qmd.util.ByteUtil;
 import nc.network.tile.TileUpdatePacket;
-import nc.tile.ITileGui;
+import nc.tile.ITilePacket;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.*;
 
-public class CreativeParticleSourceUpdatePacket extends TileUpdatePacket
+public class CreativeParticleSourceUpdatePacket extends QMDTileUpdatePacket
 {
 
 	public List<ParticleStorageSource> beams;
@@ -54,14 +55,8 @@ public class CreativeParticleSourceUpdatePacket extends TileUpdatePacket
 
 	}
 
-	public static class Handler extends TileUpdatePacket.Handler<CreativeParticleSourceUpdatePacket, ITileGui<CreativeParticleSourceUpdatePacket>>
+	public static class Handler extends TileUpdatePacket.Handler<CreativeParticleSourceUpdatePacket, ITilePacket<CreativeParticleSourceUpdatePacket>>
 	{
-
-		@Override
-		protected void onTileUpdatePacket(CreativeParticleSourceUpdatePacket message, ITileGui<CreativeParticleSourceUpdatePacket> processor)
-		{
-			processor.onTileUpdatePacket(message);
-		}
 	}
 
 }

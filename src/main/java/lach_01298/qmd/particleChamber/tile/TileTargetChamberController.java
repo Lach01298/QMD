@@ -3,12 +3,12 @@ package lach_01298.qmd.particleChamber.tile;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import nc.util.NBTHelper;
@@ -29,6 +29,7 @@ import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController<TileTargetChamberController>, ITileInventory
 {
+	protected final TileContainerInfo<TileTargetChamberController> info = TileInfoHandler.getTileContainerInfo("target_chamber_controller");
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.target_chamber_controller";
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
@@ -52,7 +53,12 @@ public class TileTargetChamberController extends TileParticleChamberPart impleme
 	{
 		return	"target_chamber";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileTargetChamberController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(ParticleChamber controller)
@@ -200,10 +206,5 @@ public class TileTargetChamberController extends TileParticleChamberPart impleme
 
 		}
 		return super.getCapability(capability, side);
-	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerTargetChamberController(player, this);
 	}
 }

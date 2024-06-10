@@ -2,13 +2,15 @@ package lach_01298.qmd.machine.container;
 
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.slot.*;
+import nclegacy.container.ContainerItemFluidProcessorLegacy;
+import nclegacy.tile.TileItemFluidProcessorLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerOreLeacher extends ContainerItemFluidProcessor
+public class ContainerOreLeacher extends ContainerItemFluidProcessorLegacy
 {
 
-	public ContainerOreLeacher(EntityPlayer player, TileItemFluidProcessor tileEntity)
+	public ContainerOreLeacher(EntityPlayer player, TileItemFluidProcessorLegacy tileEntity)
 	{
 		super(player, tileEntity, QMDRecipes.ore_leacher);
 		

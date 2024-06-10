@@ -5,11 +5,12 @@ import lach_01298.qmd.container.slot.*;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.slot.SlotProcessorInput;
+import nclegacy.container.ContainerTileLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerAcceleratorIonSource extends ContainerTile<TileAcceleratorIonSource>
+public class ContainerAcceleratorIonSource extends ContainerTileLegacy<TileAcceleratorIonSource>
 {
 	protected final TileAcceleratorIonSource source;
 	

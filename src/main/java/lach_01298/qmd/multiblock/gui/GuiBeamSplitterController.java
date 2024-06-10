@@ -7,27 +7,30 @@ import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.util.Units;
 import nc.gui.element.MultiblockButton;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.tile.TileContainerInfo;
 import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.*;
 
 public class GuiBeamSplitterController
-		extends GuiLogicMultiblock<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileBeamSplitterController, BeamSplitterLogic>
+		extends GuiLogicMultiblockController<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileBeamSplitterController, TileContainerInfo<TileBeamSplitterController>, BeamSplitterLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiBeamSplitterController(EntityPlayer player, TileBeamSplitterController controller)
+	public GuiBeamSplitterController(Container inventory, EntityPlayer player, TileBeamSplitterController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/accelerator_controller.png");
 		xSize = 196;
 		ySize = 109;
@@ -191,7 +194,7 @@ public class GuiBeamSplitterController
 		{
 			if (guiButton.id == 0 && NCUtil.isModifierKeyDown())
 			{
-				PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+				new ClearAllMaterialPacket(tile.getTilePos()).sendToServer();
 			}
 		}
 	}

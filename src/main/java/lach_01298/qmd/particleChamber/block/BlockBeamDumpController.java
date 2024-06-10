@@ -1,7 +1,5 @@
 package lach_01298.qmd.particleChamber.block;
 
-import lach_01298.qmd.QMD;
-import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
 import nc.block.tile.IActivatable;
 import nc.util.BlockHelper;
@@ -84,7 +82,7 @@ public class BlockBeamDumpController extends BlockParticleChamberPart implements
 
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
 				{
-					player.openGui(QMD.instance, GUI_ID.BEAM_DUMP, world, pos.getX(), pos.getY(), pos.getZ());
+					controller.openGui(world, pos, player);
 					return true;
 				}
 			}

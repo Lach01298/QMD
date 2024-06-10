@@ -9,10 +9,11 @@ import lach_01298.qmd.machine.block.BlockQMDProcessor;
 import lach_01298.qmd.particleChamber.block.*;
 import lach_01298.qmd.pipe.BlockBeamline;
 import lach_01298.qmd.vacuumChamber.block.*;
-import nc.block.item.*;
+import nc.block.item.NCItemBlock;
 import nc.block.tile.ITileType;
 import nc.init.NCBlocks;
 import nc.util.*;
+import nclegacy.block.item.ItemBlockMetaLegacy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -209,11 +210,11 @@ public class QMDBlocks
 		registerBlock(acceleratorVent);
 		registerBlock(acceleratorBeamPort);
 		registerBlock(acceleratorSynchrotronPort);
-		registerBlock(RFCavity, new ItemBlockMeta(RFCavity, RFCavityType.class,TextFormatting.GREEN ,QMDInfo.RFCavityFixedInfo(),TextFormatting.AQUA,QMDInfo.RFCavityInfo()));
-		registerBlock(acceleratorMagnet, new ItemBlockMeta(acceleratorMagnet, MagnetType.class,TextFormatting.GREEN ,QMDInfo.magnetFixedInfo(),TextFormatting.AQUA,QMDInfo.magnetInfo()));
+		registerBlock(RFCavity, new ItemBlockMetaLegacy(RFCavity, RFCavityType.class,TextFormatting.GREEN ,QMDInfo.RFCavityFixedInfo(),TextFormatting.AQUA,QMDInfo.RFCavityInfo()));
+		registerBlock(acceleratorMagnet, new ItemBlockMetaLegacy(acceleratorMagnet, MagnetType.class,TextFormatting.GREEN ,QMDInfo.magnetFixedInfo(),TextFormatting.AQUA,QMDInfo.magnetInfo()));
 		registerBlock(acceleratorYoke);
-		registerBlock(acceleratorCooler1, new ItemBlockMeta(acceleratorCooler1, CoolerType1.class,TextFormatting.BLUE, QMDInfo.cooler1FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
-		registerBlock(acceleratorCooler2, new ItemBlockMeta(acceleratorCooler2, CoolerType2.class,TextFormatting.BLUE, QMDInfo.cooler2FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
+		registerBlock(acceleratorCooler1, new ItemBlockMetaLegacy(acceleratorCooler1, CoolerType1.class,TextFormatting.BLUE, QMDInfo.cooler1FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
+		registerBlock(acceleratorCooler2, new ItemBlockMetaLegacy(acceleratorCooler2, CoolerType2.class,TextFormatting.BLUE, QMDInfo.cooler2FixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
 		registerBlock(acceleratorSource,TextFormatting.GREEN, QMDInfo.ionSourceFixedInfo(0),TextFormatting.AQUA,QMDInfo.ionSourceInfo());
 		registerBlock(acceleratorEnergyPort);
 		registerBlock(beamDiverterController);
@@ -231,7 +232,7 @@ public class QMDBlocks
 		registerBlock(particleChamberCasing);
 		registerBlock(particleChamberGlass);
 		registerBlock(particleChamberBeamPort);
-		registerBlock(particleChamberDetector, new ItemBlockMeta(particleChamberDetector, DetectorType.class,TextFormatting.GREEN, QMDInfo.detectorFixedInfo(),TextFormatting.AQUA,QMDInfo.detectorInfo()));
+		registerBlock(particleChamberDetector, new ItemBlockMetaLegacy(particleChamberDetector, DetectorType.class,TextFormatting.GREEN, QMDInfo.detectorFixedInfo(),TextFormatting.AQUA,QMDInfo.detectorInfo()));
 		registerBlock(particleChamberEnergyPort);
 		registerBlock(particleChamber,TextFormatting.GREEN + QMDInfo.beamlineFixedlineInfo());
 		registerBlock(particleChamberPort);
@@ -241,14 +242,14 @@ public class QMDBlocks
 		registerBlock(irradiator);
 		registerBlock(atmosphereCollector, Lang.localize("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.processor_power[1], 5, "RF/t")),TextFormatting.GRAY+Lang.localize(infoLine("atmosphere_collector")));
 		
-		registerBlock(fissionReflector, new ItemBlockMeta(fissionReflector, NeutronReflectorType.class, TextFormatting.AQUA));
-		registerBlock(fissionShield,new ItemBlockMeta(fissionShield, NeutronShieldType.class, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, QMDInfo.neutronShieldFixedInfo(), TextFormatting.AQUA, QMDInfo.neutronShieldInfo()));
+		registerBlock(fissionReflector, new ItemBlockMetaLegacy(fissionReflector, NeutronReflectorType.class, TextFormatting.AQUA));
+		registerBlock(fissionShield,new ItemBlockMetaLegacy(fissionShield, NeutronShieldType.class, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, QMDInfo.neutronShieldFixedInfo(), TextFormatting.AQUA, QMDInfo.neutronShieldInfo()));
 		
 		
-		registerBlock(rtgStrontium,InfoHelper.formattedInfo(NCBlocks.infoLine("rtg"), UnitHelper.prefix(QMDConfig.rtg_power[0], 5, "RF/t")));
+		registerBlock(rtgStrontium,InfoHelper.formattedInfo(NCBlocks.infoLine(nc.Global.MOD_ID, "rtg"), UnitHelper.prefix(QMDConfig.rtg_power[0], 5, "RF/t")));
 		
-		registerBlock(dischargeLamp, new ItemBlockMeta(dischargeLamp, LampType.class));
-		registerBlock(dischargeLamp2, new ItemBlockMeta(dischargeLamp2, LampType2.class));
+		registerBlock(dischargeLamp, new ItemBlockMetaLegacy(dischargeLamp, LampType.class));
+		registerBlock(dischargeLamp2, new ItemBlockMetaLegacy(dischargeLamp2, LampType2.class));
 		
 		registerBlock(exoticContainmentController);
 		registerBlock(nucleosynthesisChamberController);
@@ -265,7 +266,7 @@ public class QMDBlocks
 		registerBlock(vacuumChamberPlasmaGlass,Lang.localize("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.vacuum_chamber_part_power[3], 5, "RF/t")),Lang.localize("info.qmd.item.heat",QMDConfig.vacuum_chamber_part_heat[3]),Lang.localize("info.qmd.item.max_temp",QMDConfig.vacuum_chamber_part_max_temp[3]));
 		registerBlock(vacuumChamberPlasmaNozzle,Lang.localize("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.vacuum_chamber_part_power[4], 5, "RF/t")),Lang.localize("info.qmd.item.heat",QMDConfig.vacuum_chamber_part_heat[4]),Lang.localize("info.qmd.item.max_temp",QMDConfig.vacuum_chamber_part_max_temp[4], 5));
 		
-		registerBlock(vacuumChamberHeater, new ItemBlockMeta(vacuumChamberHeater, HeaterType.class,TextFormatting.BLUE, QMDInfo.heaterFixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
+		registerBlock(vacuumChamberHeater, new ItemBlockMetaLegacy(vacuumChamberHeater, HeaterType.class,TextFormatting.BLUE, QMDInfo.heaterFixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
 		registerBlock(vacuumChamberHeaterVent);
 		registerBlock(vacuumChamberRedstonePort);
 		
@@ -275,7 +276,7 @@ public class QMDBlocks
 		registerBlock(orangeLuminousPaint);
 		
 		registerBlock(creativeParticleSource);
-		registerBlock(turbineBladeSuperAlloy, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(NCBlocks.fixedLine("turbine_rotor_blade_efficiency"), Math.round(100D * QMDConfig.turbine_blade_efficiency[0]) + "%"), Lang.localize(NCBlocks.fixedLine("turbine_rotor_blade_expansion"), Math.round(100D * QMDConfig.turbine_blade_expansion[0]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine("turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
+		registerBlock(turbineBladeSuperAlloy, new TextFormatting[] {TextFormatting.LIGHT_PURPLE, TextFormatting.GRAY}, new String[] {Lang.localize(NCBlocks.fixedLine(nc.Global.MOD_ID, "turbine_rotor_blade_efficiency"), Math.round(100D * QMDConfig.turbine_blade_efficiency[0]) + "%"), Lang.localize(NCBlocks.fixedLine(nc.Global.MOD_ID, "turbine_rotor_blade_expansion"), Math.round(100D * QMDConfig.turbine_blade_expansion[0]) + "%")}, TextFormatting.AQUA, InfoHelper.formattedInfo(NCBlocks.infoLine(nc.Global.MOD_ID, "turbine_rotor_blade"), UnitHelper.prefix(turbine_mb_per_blade, 5, "B/t", -1)));
 		
 	}
 
