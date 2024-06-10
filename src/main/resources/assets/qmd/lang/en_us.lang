@@ -624,6 +624,11 @@ qmd.multiblock_validation.vacuum_chamber.no_item_ports=There cannot be any Item 
 qmd.multiblock_validation.vacuum_chamber.no_lasers=There cannot be any Vacuum Chamber Lasers in this type of vacuum chamber.
 qmd.multiblock_validation.vacuum_chamber.no_heater_vents=There cannot be any Heater Vents in this type of vacuum chamber.
 
+qmd.multiblock_validation.vacuum_chamber.no_fluid_ports=There cannot be any Fluid Ports on this type of vacuum chamber.
+qmd.multiblock_validation.vacuum_chamber.no_item_ports=There cannot be any Item Ports on this type of vacuum chamber.
+qmd.multiblock_validation.vacuum_chamber.no_lasers=There cannot be any Vacuum Chamber Lasers in this type of vacuum chamber.
+qmd.multiblock_validation.vacuum_chamber.no_heater_vents=There cannot be any Heater Vents in this type of vacuum chamber.
+
 qmd.multiblock_validation.exotic_containment.must_be_square=Exotic Containment must have the same X and Z dimensions.
 qmd.multiblock_validation.exotic_containment.must_be_odd=Exotic Containment must have an odd width.
 qmd.multiblock_validation.exotic_containment.must_be_coil=There must be a ring of Vacuum Chamber Coils at the top and bottom.

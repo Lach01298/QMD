@@ -306,7 +306,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		for (TileAcceleratorBeam beam : acc.getPartMap(TileAcceleratorBeam.class).values())
 		{
 			if (beam.isFunctional())
-			{
+			{	
 				if (acc.isValidRFCavity(beam.getPos(), Axis.X))
 				{
 					acc.getRFCavityMap().put(beam.getPos().toLong(), new RFCavity(acc, beam.getPos(), Axis.X));
@@ -326,7 +326,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 							new QuadrupoleMagnet(acc, beam.getPos(), Axis.Z));
 				}
 				else if (acc.isValidDipole(beam.getPos(), false))
-				{
+				{	
+					acc.getDipoleMap().put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
+				}
+				else if (acc.isValidDipole(beam.getPos(), true))
+				{	
 					acc.getDipoleMap().put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
 				}
 				else if (acc.isValidDipole(beam.getPos(), true))

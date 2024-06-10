@@ -212,6 +212,11 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 			return false;
 		}
 
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
