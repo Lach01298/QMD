@@ -1,12 +1,10 @@
 package lach_01298.qmd.multiblock;
 
-import lach_01298.qmd.network.QMDPacketHandler;
-import nc.multiblock.IPacketMultiblock;
-import nc.multiblock.Multiblock;
-import nc.multiblock.tile.ITileMultiblockPart;
+import lach_01298.qmd.network.QMDPackets;
+import nc.multiblock.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import nc.tile.multiblock.ITileMultiblockPart;
+import net.minecraft.entity.player.*;
 
 public interface IQMDPacketMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>, PACKET extends MultiblockUpdatePacket> extends IPacketMultiblock<MULTIBLOCK, T, PACKET>
 {
@@ -23,7 +21,7 @@ public interface IQMDPacketMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		}
 		for (EntityPlayer player : getMultiblockUpdatePacketListeners())
 		{
-			QMDPacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
+			QMDPackets.wrapper.sendTo(packet, (EntityPlayerMP) player);
 		}
 	}
 
@@ -37,7 +35,7 @@ public interface IQMDPacketMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		{
 			return;
 		}
-		QMDPacketHandler.instance.sendTo(packet, (EntityPlayerMP) player);
+		QMDPackets.wrapper.sendTo(packet, (EntityPlayerMP) player);
 	}
 	
 	public default void sendMultiblockUpdatePacketToAll()
@@ -51,6 +49,6 @@ public interface IQMDPacketMultiblock<MULTIBLOCK extends Multiblock<MULTIBLOCK, 
 		{
 			return;
 		}
-		QMDPacketHandler.instance.sendToAll(packet);
+		QMDPackets.wrapper.sendToAll(packet);
 	}
 }

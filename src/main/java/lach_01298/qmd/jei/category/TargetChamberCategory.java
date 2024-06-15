@@ -1,25 +1,20 @@
 package lach_01298.qmd.jei.category;
 
-import java.util.List;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.TargetChamberRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiFluidStackGroup;
-import mezz.jei.api.gui.IGuiIngredientGroup;
-import mezz.jei.api.gui.IGuiItemStackGroup;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
+import mezz.jei.api.gui.*;
+import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeCategory;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 
 
@@ -31,7 +26,7 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 	
 
 	
-	public TargetChamberCategory(IGuiHelper guiHelper) 
+	public TargetChamberCategory(IGuiHelper guiHelper)
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/target_chamber.png");
 		background = guiHelper.createDrawable(gui_texture, 0, 0, 150, 115);
@@ -51,7 +46,7 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 	public String getTitle()
 	{
 		
-		return Lang.localise("qmd.gui.jei.category.target_chamber");
+		return Lang.localize("qmd.gui.jei.category.target_chamber");
 	}
 
 	@Override
@@ -118,7 +113,7 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 			if (fluidOutputs.get(0).get(0) != null)
 			{
 				guiFluidStacks.set(4, fluidOutputs.get(0));
-			}	
+			}
 		}
 
 		guiParticleStacks.set(5,particleOutputs.get(0));
@@ -133,6 +128,3 @@ public class TargetChamberCategory implements IRecipeCategory<TargetChamberRecip
 	
 
 }
-
-
-

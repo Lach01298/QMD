@@ -1,32 +1,23 @@
 package lach_01298.qmd.tile;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.machine.network.CreativeParticleSourceUpdatePacket;
-import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.particle.ITileParticleStorage;
-import lach_01298.qmd.particle.ParticleStorage;
-import lach_01298.qmd.particle.ParticleStorageSource;
-import nc.network.tile.TileUpdatePacket;
-import nc.tile.ITileGui;
+import lach_01298.qmd.particle.*;
 import nc.tile.NCTile;
+import nclegacy.tile.ITileGuiLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
+import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 
-public class TileCreativeParticleSource extends NCTile implements ITileParticleStorage, ITickable, ITileGui<CreativeParticleSourceUpdatePacket>
+import javax.annotation.*;
+import java.util.*;
+
+public class TileCreativeParticleSource extends NCTile implements ITileParticleStorage, ITickable, ITileGuiLegacy<CreativeParticleSourceUpdatePacket>
 {
 	private final @Nonnull List<ParticleStorageSource> particleBeams;
 
@@ -105,7 +96,7 @@ public class TileCreativeParticleSource extends NCTile implements ITileParticleS
 
 				}
 			}
-		}	
+		}
 	}
 
 	@Override
@@ -188,8 +179,8 @@ public class TileCreativeParticleSource extends NCTile implements ITileParticleS
 			for(int i = 0; i< mess.beams.size(); i++)
 			{
 				particleBeams.set(i, mess.beams.get(i));
-			}	
-		}		
+			}
+		}
 	}
 	
 	
@@ -217,7 +208,7 @@ public class TileCreativeParticleSource extends NCTile implements ITileParticleS
 		for(int i = 0; i<beams.size(); i++)
 		{
 			particleBeams.set(i, beams.get(i));
-		}	
+		}
 		
 	}
 

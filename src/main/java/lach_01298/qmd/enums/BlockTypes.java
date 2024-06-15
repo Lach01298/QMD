@@ -3,11 +3,9 @@ package lach_01298.qmd.enums;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
-import lach_01298.qmd.machine.tile.TileQMDProcessor.TileIrradiator;
-import lach_01298.qmd.machine.tile.TileQMDProcessor.TileOreLeacher;
+import lach_01298.qmd.machine.tile.TileQMDProcessor.*;
 import lach_01298.qmd.tab.QMDTabs;
-import lach_01298.qmd.tile.QMDTileRTG;
-import lach_01298.qmd.tile.TileAtmosphereCollector;
+import lach_01298.qmd.tile.*;
 import nc.enumm.IBlockMetaEnum;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
 import nc.radiation.RadSources;
@@ -15,11 +13,10 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.SoundEvent;
 
 public class BlockTypes
 {
-	public enum CoolerType1 implements IStringSerializable, IBlockMetaEnum, ICoolerEnum 
+	public enum CoolerType1 implements IStringSerializable, IBlockMetaEnum, ICoolerEnum
 	{
 		WATER("water", 0, QMDConfig.cooler_heat_removed[0]),
 		IRON("iron", 1, QMDConfig.cooler_heat_removed[1]),
@@ -106,7 +103,7 @@ public class BlockTypes
 			{
 				return 15;
 			}
-			return 0;	
+			return 0;
 		}
 		
 
@@ -114,7 +111,7 @@ public class BlockTypes
 
 
 
-	public enum CoolerType2 implements IStringSerializable, IBlockMetaEnum, ICoolerEnum 
+	public enum CoolerType2 implements IStringSerializable, IBlockMetaEnum, ICoolerEnum
 	{
 		TIN("tin", 0, QMDConfig.cooler_heat_removed[16]),
 		LEAD("lead", 1, QMDConfig.cooler_heat_removed[17]),
@@ -203,7 +200,7 @@ public class BlockTypes
 
 	}
 
-	public enum RFCavityType implements IStringSerializable, IBlockMetaEnum 
+	public enum RFCavityType implements IStringSerializable, IBlockMetaEnum
 	{
 		COPPER("copper", 0, QMDConfig.RF_cavity_voltage[0], QMDConfig.RF_cavity_efficiency[0],QMDConfig.RF_cavity_heat_generated[0],QMDConfig.RF_cavity_base_power[0],QMDConfig.RF_cavity_max_temp[0]),
 		MAGNESIUM_DIBORIDE("magnesium_diboride", 1, QMDConfig.RF_cavity_voltage[1],  QMDConfig.RF_cavity_efficiency[1],QMDConfig.RF_cavity_heat_generated[1],QMDConfig.RF_cavity_base_power[1],QMDConfig.RF_cavity_max_temp[1]),
@@ -304,7 +301,7 @@ public class BlockTypes
 		}
 	}
 	
-	public enum MagnetType implements IStringSerializable, IBlockMetaEnum 
+	public enum MagnetType implements IStringSerializable, IBlockMetaEnum
 	{
 		COPPER("copper", 0, QMDConfig.magnet_strength[0], QMDConfig.magnet_efficiency[0],QMDConfig.magnet_heat_generated[0],QMDConfig.magnet_base_power[0],QMDConfig.magnet_max_temp[0]),
 		MAGNESIUM_DIBORIDE("magnesium_diboride", 1, QMDConfig.magnet_strength[1],  QMDConfig.magnet_efficiency[1],QMDConfig.magnet_heat_generated[1],QMDConfig.magnet_base_power[1],QMDConfig.magnet_max_temp[1]),
@@ -406,13 +403,13 @@ public class BlockTypes
 	
 	
 	
-	public enum DetectorType implements IStringSerializable, IBlockMetaEnum 
+	public enum DetectorType implements IStringSerializable, IBlockMetaEnum
 	{
 		BUBBLE_CHAMBER("bubble_chamber", 0,  QMDConfig.detector_efficiency[0], QMDConfig.detector_base_power[0]),
 		SILLICON_TRACKER("silicon_tracker", 1,  QMDConfig.detector_efficiency[1], QMDConfig.detector_base_power[1]),
 		WIRE_CHAMBER("wire_chamber", 2,  QMDConfig.detector_efficiency[2], QMDConfig.detector_base_power[2]),
 		EM_CALORIMETER("em_calorimeter", 3,  QMDConfig.detector_efficiency[3], QMDConfig.detector_base_power[3]),
-		HADRON_CALORIMETER("hadron_calorimeter", 4,  QMDConfig.detector_efficiency[4], QMDConfig.detector_base_power[4]); 
+		HADRON_CALORIMETER("hadron_calorimeter", 4,  QMDConfig.detector_efficiency[4], QMDConfig.detector_base_power[4]);
 		
 		private String name;
 		private int id;
@@ -568,10 +565,10 @@ public class BlockTypes
 		}
 	}
 	
-	public static enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum 
+	public static enum NeutronReflectorType implements IStringSerializable, IBlockMetaEnum
 	{
 		TUNGSTEN_CABIDE("tungsten_carbide", 0, QMDConfig.fission_reflector_efficiency[0], QMDConfig.fission_reflector_reflectivity[0], 0, "pickaxe", 2, 15, 0);
-			
+		
 		private String name;
 		private int id;
 		private double efficiency;
@@ -582,7 +579,7 @@ public class BlockTypes
 		private float resistance;
 		private int lightValue;
 		
-		private NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue) 
+		private NeutronReflectorType(String name, int id, double efficiency, double reflectivity, int harvestLevel, String harvestTool, float hardness, float resistance, int lightValue)
 		{
 			this.name = name;
 			this.id = id;
@@ -688,7 +685,7 @@ public class BlockTypes
 		}
 	}
 	
-	public static enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum 
+	public static enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum
 	{
 		HAFNIUM("hafnium", 0, QMDConfig.fission_shield_heat_per_flux[0], QMDConfig.fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
 		
@@ -775,7 +772,7 @@ public class BlockTypes
 		}
 	}
 
-	public static enum LampType implements IStringSerializable, IBlockMetaEnum 
+	public static enum LampType implements IStringSerializable, IBlockMetaEnum
 	{
 		EMPTY("empty", 0, 0, "pickaxe", 2, 15, 15),
 		HYDROGEN("hydrogen", 1, 0, "pickaxe", 2, 15, 15),
@@ -857,7 +854,7 @@ public class BlockTypes
 		}
 	}
 	
-	public static enum LampType2 implements IStringSerializable, IBlockMetaEnum 
+	public static enum LampType2 implements IStringSerializable, IBlockMetaEnum
 	{
 		SODIUM("sodium", 0, 0, "pickaxe", 2, 15, 15),
 		MERCURY("mercury", 1, 0, "pickaxe", 2, 15, 15);
@@ -935,7 +932,7 @@ public class BlockTypes
 	}
 	
 	
-	public enum SimpleTileType implements IStringSerializable 
+	public enum SimpleTileType implements IStringSerializable
 	{
 		ATMOSPHERE_COLLECTOR("atmosphere_collector", QMDTabs.BLOCKS);
 		
@@ -943,19 +940,19 @@ public class BlockTypes
 		private final String name;
 		private final CreativeTabs tab;
 		
-		private SimpleTileType(String name, CreativeTabs tab) 
+		private SimpleTileType(String name, CreativeTabs tab)
 		{
 			this.name = name;
 			this.tab = tab;
 		}
 		
 		@Override
-		public String getName() 
+		public String getName()
 		{
 			return name;
 		}
 		
-		public TileEntity getTile() 
+		public TileEntity getTile()
 		{
 			switch (this) {
 				case ATMOSPHERE_COLLECTOR:
@@ -965,7 +962,7 @@ public class BlockTypes
 			}
 		}
 		
-		public CreativeTabs getCreativeTab() 
+		public CreativeTabs getCreativeTab()
 		{
 			return tab;
 		}
@@ -980,7 +977,7 @@ public class BlockTypes
 		private final double efficiency;
 		private final double expansion;
 		
-		private TurbineBladeType(String name, double efficiency, double expansion) 
+		private TurbineBladeType(String name, double efficiency, double expansion)
 		{
 			this.name = name;
 			this.efficiency = efficiency;
@@ -988,25 +985,25 @@ public class BlockTypes
 		}
 		
 		@Override
-		public String getName() 
+		public String getName()
 		{
 			return name;
 		}
 		
 		@Override
-		public String toString() 
+		public String toString()
 		{
 			return getName();
 		}
 		
 		@Override
-		public double getEfficiency() 
+		public double getEfficiency()
 		{
 			return efficiency;
 		}
 		
 		@Override
-		public double getExpansionCoefficient() 
+		public double getExpansionCoefficient()
 		{
 			return expansion;
 		}
@@ -1015,7 +1012,7 @@ public class BlockTypes
 	
 	
 	
-	public enum HeaterType implements IStringSerializable, IBlockMetaEnum, ICoolerEnum 
+	public enum HeaterType implements IStringSerializable, IBlockMetaEnum, ICoolerEnum
 	{
 		
 		IRON("iron", 0, QMDConfig.heater_heat_removed[0]),
@@ -1024,7 +1021,7 @@ public class BlockTypes
 		OBSIDIAN("obsidian", 3, QMDConfig.heater_heat_removed[3]),
 		GLOWSTONE("glowstone", 4, QMDConfig.heater_heat_removed[4]),
 		LAPIS("lapis", 5, QMDConfig.heater_heat_removed[5]),
-		GOLD("gold", 6, QMDConfig.heater_heat_removed[6]),	
+		GOLD("gold", 6, QMDConfig.heater_heat_removed[6]),
 		DIAMOND("diamond", 7, QMDConfig.heater_heat_removed[7]);
 		
 		
@@ -1096,7 +1093,7 @@ public class BlockTypes
 			{
 				return 15;
 			}
-			return 0;	
+			return 0;
 		}
 		
 
@@ -1107,5 +1104,3 @@ public class BlockTypes
 	
 
 }
-
-

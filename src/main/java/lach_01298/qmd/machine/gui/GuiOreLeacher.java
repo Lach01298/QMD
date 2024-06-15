@@ -1,38 +1,29 @@
 package lach_01298.qmd.machine.gui;
 
-import java.io.IOException;
-
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
-import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
-import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
-import lach_01298.qmd.network.QMDPacketHandler;
-import nc.container.ContainerTile;
-import nc.container.processor.ContainerMachineConfig;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
-import nc.gui.element.NCToggleButton;
-import nc.gui.processor.GuiFluidSorptions;
-import nc.gui.processor.GuiItemSorptions;
-import nc.network.PacketHandler;
-import nc.network.gui.EmptyTankPacket;
-import nc.network.gui.ToggleRedstoneControlPacket;
-import nc.tile.processor.TileItemFluidProcessor;
-import nc.util.Lang;
-import nc.util.NCUtil;
+import lach_01298.qmd.machine.network.*;
+import nc.gui.element.*;
+import nc.network.gui.*;
+import nc.util.*;
+import nclegacy.container.*;
+import nclegacy.gui.*;
+import nclegacy.tile.TileItemFluidProcessorLegacy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
+import java.io.IOException;
+
 public class GuiOreLeacher  extends GuiItemFluidMachine
 {
 	
-	public GuiOreLeacher(EntityPlayer player, TileItemFluidProcessor tile)
+	public GuiOreLeacher(EntityPlayer player, TileItemFluidProcessorLegacy tile)
 	{
 		this(player, tile, new ContainerOreLeacher(player, tile));
 	}
 
-	private GuiOreLeacher(EntityPlayer player, TileItemFluidProcessor tile, ContainerTile container)
+	private GuiOreLeacher(EntityPlayer player, TileItemFluidProcessorLegacy tile, ContainerTileLegacy container)
 	{
 		super("ore_leacher", player, tile, container);
 		xSize = 176;
@@ -52,8 +43,8 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 		drawFluidTooltip(tile.getTanks().get(1), mouseX, mouseY, 56, 42, 16, 16);
 		drawFluidTooltip(tile.getTanks().get(2), mouseX, mouseY, 76, 42, 16, 16);
 
-		drawTooltip(Lang.localise("gui.nc.container.machine_side_config"), mouseX, mouseY, 27, 63, 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.redstone_control"), mouseX, mouseY, 47, 63, 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.machine_side_config"), mouseX, mouseY, 27, 63, 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.redstone_control"), mouseX, mouseY, 47, 63, 18, 18);
 	}
 
 	@Override
@@ -93,9 +84,9 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 
 	public void initButtons()
 	{
-		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 36, guiTop + 42, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 56, guiTop + 42, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 76, guiTop + 42, 16, 16));
+		buttonList.add(new NCButton.ClearTank(0, guiLeft + 36, guiTop + 42, 16, 16));
+		buttonList.add(new NCButton.ClearTank(1, guiLeft + 56, guiTop + 42, 16, 16));
+		buttonList.add(new NCButton.ClearTank(2, guiLeft + 76, guiTop + 42, 16, 16));
 
 		buttonList.add(new NCButton.MachineConfig(3, guiLeft + 27, guiTop + 63));
 		buttonList.add(new NCToggleButton.RedstoneControl(4, guiLeft + 47, guiTop + 63, tile));
@@ -109,17 +100,17 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 			for (int i = 0; i < 3; i++)
 				if (guiButton.id == i && NCUtil.isModifierKeyDown())
 				{
-					PacketHandler.instance.sendToServer(new EmptyTankPacket(tile, i));
+					new ClearTankPacket(tile, i).sendToServer();
 					return;
 				}
 			if (guiButton.id == 3)
 			{
-				QMDPacketHandler.instance.sendToServer(new QMDOpenSideConfigGuiPacket(tile));
+				new QMDOpenSideConfigGuiPacket(tile).sendToServer();
 			}
 			else if (guiButton.id == 4)
 			{
 				tile.setRedstoneControl(!tile.getRedstoneControl());
-				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
+				new ToggleRedstoneControlPacket(tile).sendToServer();
 			}
 		}
 	}
@@ -127,9 +118,9 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 	public static class SideConfig extends GuiOreLeacher
 	{
 
-		public SideConfig(EntityPlayer player, TileItemFluidProcessor tile)
+		public SideConfig(EntityPlayer player, TileItemFluidProcessorLegacy tile)
 		{
-			super(player, tile, new ContainerMachineConfig(player, tile));
+			super(player, tile, new ContainerMachineConfigLegacy(player, tile));
 		}
 
 		@Override
@@ -137,7 +128,7 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 		{
 			if (isEscapeKeyDown(keyCode))
 			{
-				QMDPacketHandler.instance.sendToServer(new QMDOpenTileGuiPacket(tile));
+				new QMDOpenTileGuiPacket(tile).sendToServer();
 			}
 			else
 				super.keyTyped(typedChar, keyCode);
@@ -146,15 +137,15 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 		@Override
 		public void renderButtonTooltips(int mouseX, int mouseY)
 		{
-			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.nc.container.input_item_config"), mouseX, mouseY, 36, 11, 18, 18);
-			drawTooltip(TextFormatting.DARK_AQUA + Lang.localise("gui.nc.container.input_tank_config"), mouseX, mouseY, 36, 42, 18, 18);
-			drawTooltip(TextFormatting.DARK_AQUA + Lang.localise("gui.nc.container.input_tank_config"), mouseX, mouseY, 56, 42, 18, 18);
-			drawTooltip(TextFormatting.DARK_AQUA + Lang.localise("gui.nc.container.input_tank_config"), mouseX, mouseY, 76, 42, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 112, 42, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 132, 42, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 152, 42, 18, 18);
-			drawTooltip(TextFormatting.DARK_BLUE + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 131, 63, 18, 18);
-			drawTooltip(TextFormatting.YELLOW + Lang.localise("gui.nc.container.upgrade_config"), mouseX, mouseY, 151, 63, 18, 18);
+			drawTooltip(TextFormatting.BLUE + Lang.localize("gui.nc.container.input_item_config"), mouseX, mouseY, 36, 11, 18, 18);
+			drawTooltip(TextFormatting.DARK_AQUA + Lang.localize("gui.nc.container.input_tank_config"), mouseX, mouseY, 36, 42, 18, 18);
+			drawTooltip(TextFormatting.DARK_AQUA + Lang.localize("gui.nc.container.input_tank_config"), mouseX, mouseY, 56, 42, 18, 18);
+			drawTooltip(TextFormatting.DARK_AQUA + Lang.localize("gui.nc.container.input_tank_config"), mouseX, mouseY, 76, 42, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localize("gui.nc.container.output_item_config"), mouseX, mouseY, 112, 42, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localize("gui.nc.container.output_item_config"), mouseX, mouseY, 132, 42, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localize("gui.nc.container.output_item_config"), mouseX, mouseY, 152, 42, 18, 18);
+			drawTooltip(TextFormatting.DARK_BLUE + Lang.localize("gui.nc.container.upgrade_config"), mouseX, mouseY, 131, 63, 18, 18);
+			drawTooltip(TextFormatting.YELLOW + Lang.localize("gui.nc.container.upgrade_config"), mouseX, mouseY, 151, 63, 18, 18);
 		}
 
 		@Override
@@ -170,15 +161,15 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 		@Override
 		public void initButtons()
 		{
-			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 35, guiTop + 10));
-			buttonList.add(new NCButton.SorptionConfig.FluidInput(1, guiLeft + 35, guiTop + 41));
-			buttonList.add(new NCButton.SorptionConfig.FluidInput(2, guiLeft + 55, guiTop + 41));
-			buttonList.add(new NCButton.SorptionConfig.FluidInput(3, guiLeft + 75, guiTop + 41));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(4, guiLeft + 111, guiTop + 41));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(5, guiLeft + 131, guiTop + 41));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(6, guiLeft + 151, guiTop + 41));
-			buttonList.add(new NCButton.SorptionConfig.SpeedUpgrade(7, guiLeft + 131, guiTop + 63));
-			buttonList.add(new NCButton.SorptionConfig.EnergyUpgrade(8, guiLeft + 151, guiTop + 63));
+			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 35, guiTop + 10, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.FluidInput(1, guiLeft + 35, guiTop + 41, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.FluidInput(2, guiLeft + 55, guiTop + 41, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.FluidInput(3, guiLeft + 75, guiTop + 41, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutput(4, guiLeft + 111, guiTop + 41, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutput(5, guiLeft + 131, guiTop + 41, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutput(6, guiLeft + 151, guiTop + 41, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.SpeedUpgrade(7, guiLeft + 131, guiTop + 63, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.EnergyUpgrade(8, guiLeft + 151, guiTop + 63, 18, 18));
 		}
 
 		@Override
@@ -189,31 +180,31 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 				switch (guiButton.id)
 				{
 				case 0:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.Input(this, tile, 0));
 					return;
 				case 1:
-					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Input(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptionsLegacy.Input(this, tile, 0));
 					return;
 				case 2:
-					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Input(this, tile, 1));
+					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptionsLegacy.Input(this, tile, 1));
 					return;
 				case 3:
-					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptions.Input(this, tile, 2));
+					FMLCommonHandler.instance().showGuiScreen(new GuiFluidSorptionsLegacy.Input(this, tile, 2));
 					return;
 				case 4:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 1));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.Output(this, tile, 1));
 					return;
 				case 5:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 2));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.Output(this, tile, 2));
 					return;
 				case 6:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 3));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.Output(this, tile, 3));
 					return;
 				case 7:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.SpeedUpgrade(this, tile, 4));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.SpeedUpgrade(this, tile, 4));
 					return;
 				case 8:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.EnergyUpgrade(this, tile, 5));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.EnergyUpgrade(this, tile, 5));
 					return;
 				}
 

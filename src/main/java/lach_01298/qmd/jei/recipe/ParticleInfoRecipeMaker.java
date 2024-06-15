@@ -1,20 +1,10 @@
 package lach_01298.qmd.jei.recipe;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipes.QMDRecipes;
+import lach_01298.qmd.particle.*;
 import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.recipe.IStackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class ParticleInfoRecipeMaker
 {
@@ -36,7 +26,7 @@ public class ParticleInfoRecipeMaker
 			if (particle.hasComponentParticles())
 			{
 				for (Entry<Particle, Integer> component : particle.getComponentParticles().entrySet())
-				{		
+				{
 					c.add(new ParticleStack(component.getKey(), component.getValue()));
 				}
 			}

@@ -1,54 +1,36 @@
 package lach_01298.qmd.accelerator.tile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.MassSpectrometerLogic;
+import lach_01298.qmd.accelerator.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.multiblock.network.AcceleratorSourceUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.network.QMDPackets;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.tile.ITileIONumber;
 import lach_01298.qmd.util.InventoryStackList;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import nc.tile.ITileGui;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.internal.fluid.*;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
-import nc.util.Lang;
-import nc.util.NBTHelper;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import nc.util.*;
+import nclegacy.tile.ITileGuiLegacy;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITileInventory, ITileFluid, ITileIONumber, ITileGui<AcceleratorSourceUpdatePacket>, ITickable
+import javax.annotation.*;
+import java.util.*;
+
+public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITileInventory, ITileFluid, ITileIONumber, ITileGuiLegacy<AcceleratorSourceUpdatePacket>, ITickable
 {
 	private IAcceleratorController controller;
 	
@@ -57,7 +39,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Arrays.asList(ItemSorption.NON,ItemSorption.NON));
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.<ItemStack>withSize(2, ItemStack.EMPTY);
 	
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity * 1000, new ArrayList<>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(QMDConfig.accelerator_base_input_tank_capacity * 1000, new HashSet<>()));
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.NON));
 	private @Nonnull FluidTileWrapper[] fluidSides;
 	
@@ -79,7 +61,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 		this.name = name;
 		
 		
-		fluidSides = ITileFluid.getDefaultFluidSides(this);		
+		fluidSides = ITileFluid.getDefaultFluidSides(this);
 		this.IONumber= 0;
 		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
 	}
@@ -170,7 +152,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 			{
 				TileMassSpectrometerController massSpec = (TileMassSpectrometerController) controller;
 				return new InventoryStackList(massSpec.getInventoryStacks().subList(0,2));
-			}	
+			}
 		}
 
 		return inventoryStacks;
@@ -179,7 +161,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	@Override
 	public String getName()
 	{
-		return Lang.localise("gui."+inventoryName);
+		return Lang.localize("gui."+inventoryName);
 	}
 
 	@Override
@@ -207,7 +189,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	}
 	
 	@Override
-	public int getInventoryStackLimit() 
+	public int getInventoryStackLimit()
 	{
 		if(controller instanceof TileMassSpectrometerController)
 		{
@@ -218,7 +200,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	}
 	
 	@Override
-	public  boolean isItemValidForSlot(int slot, ItemStack stack) 
+	public  boolean isItemValidForSlot(int slot, ItemStack stack)
 	{
 		if(controller instanceof TileMassSpectrometerController)
 		{
@@ -236,7 +218,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	public @Nonnull List<Tank> getTanks()
 	{
 		if(getMultiblock() != null && IONumber !=0)
-		{		
+		{
 				return getMultiblock().isAssembled() ? getMultiblock().tanks.subList(IONumber, IONumber+1) : backupTanks;
 		}
 
@@ -325,7 +307,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	}
 	
 	@Override
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		readInventory(nbt);
@@ -414,8 +396,8 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 
 	@Override
 	public void onTileUpdatePacket(AcceleratorSourceUpdatePacket message)
-	{	
-		for (int i = 0; i < getTanks().size(); ++i) 
+	{
+		for (int i = 0; i < getTanks().size(); ++i)
 		{
 			getTanks().get(i).readInfo(message.tanksInfo.get(i));
 		}
@@ -424,10 +406,10 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	
 	
 	@Override
-	public void update() 
+	public void update()
 	{
-		if (!world.isRemote) 
-		{	
+		if (!world.isRemote)
+		{
 			sendTileUpdatePacketToListeners();
 		}
 	}
@@ -452,7 +434,7 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	@Override
 	public void sendTileUpdatePacketToListeners() {
 		for (EntityPlayer player : getTileUpdatePacketListeners()) {
-			QMDPacketHandler.instance.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
+			QMDPackets.wrapper.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
 		}
 	}
 	
@@ -461,12 +443,12 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 		if (getTileWorld().isRemote) {
 			return;
 		}
-		QMDPacketHandler.instance.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
+		QMDPackets.wrapper.sendTo(getTileUpdatePacket(), (EntityPlayerMP) player);
 	}
 	
 	@Override
 	public void sendTileUpdatePacketToAll() {
-		QMDPacketHandler.instance.sendToAll(getTileUpdatePacket());
+		QMDPackets.wrapper.sendToAll(getTileUpdatePacket());
 	}
 	
 }

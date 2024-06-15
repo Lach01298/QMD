@@ -4,7 +4,7 @@ import lach_01298.qmd.block.QMDBlockTurbineBlade;
 import lach_01298.qmd.enums.BlockTypes.TurbineBladeType;
 import nc.multiblock.turbine.TurbineRotorBladeUtil;
 import nc.multiblock.turbine.TurbineRotorBladeUtil.IRotorBladeType;
-import nc.multiblock.turbine.tile.TileTurbineRotorBlade;
+import nc.tile.turbine.TileTurbineRotorBlade;
 import net.minecraft.block.state.IBlockState;
 
 public class QMDTileTurbineBlade extends TileTurbineRotorBlade

@@ -1,16 +1,16 @@
 package lach_01298.qmd.multiblock.network;
 
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileCollisionChamberController;
+import lach_01298.qmd.particleChamber.tile.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
 
 public class CollisionChamberUpdatePacket extends ParticleChamberUpdatePacket
 {
@@ -41,7 +41,7 @@ public class CollisionChamberUpdatePacket extends ParticleChamberUpdatePacket
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, CollisionChamberUpdatePacket>
+			MultiblockUpdatePacket.Handler<ParticleChamber, IParticleChamberPart, ParticleChamberUpdatePacket, TileCollisionChamberController, TileContainerInfo<TileCollisionChamberController>, CollisionChamberUpdatePacket>
 	{
 
 		public Handler()

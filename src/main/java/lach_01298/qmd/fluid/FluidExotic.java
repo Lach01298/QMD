@@ -2,8 +2,7 @@ package lach_01298.qmd.fluid;
 
 import lach_01298.qmd.QMD;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.*;
 
 public class FluidExotic extends Fluid
 {

@@ -2,9 +2,7 @@ package lach_01298.qmd.sound;
 
 import lach_01298.qmd.entity.EntityGluonBeam;
 import net.minecraft.client.audio.MovingSound;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 
 public class MovingSoundGluonGunStart extends MovingSound
 {

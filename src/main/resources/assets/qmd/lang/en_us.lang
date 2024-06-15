@@ -619,6 +619,10 @@ qmd.multiblock_validation.collision_chamber.must_be_input_beam_port=This must be
 qmd.multiblock_validation.collision_chamber.must_be_output_beam_port=This must be an OUTPUT Particle Chamber Beam Port.
 qmd.multiblock_validation.collision_chamber.beam_port_wrong_spot=There are too many Beam Ports. There must be 2 INPUT Particle Chamber Beam Ports and 4 OUTPUT Particle Chamber Beam Ports.
 
+qmd.multiblock_validation.vacuum_chamber.no_fluid_ports=There cannot be any Fluid Ports on this type of vacuum chamber.
+qmd.multiblock_validation.vacuum_chamber.no_item_ports=There cannot be any Item Ports on this type of vacuum chamber.
+qmd.multiblock_validation.vacuum_chamber.no_lasers=There cannot be any Vacuum Chamber Lasers in this type of vacuum chamber.
+qmd.multiblock_validation.vacuum_chamber.no_heater_vents=There cannot be any Heater Vents in this type of vacuum chamber.
 
 qmd.multiblock_validation.vacuum_chamber.no_fluid_ports=There cannot be any Fluid Ports on this type of vacuum chamber.
 qmd.multiblock_validation.vacuum_chamber.no_item_ports=There cannot be any Item Ports on this type of vacuum chamber.

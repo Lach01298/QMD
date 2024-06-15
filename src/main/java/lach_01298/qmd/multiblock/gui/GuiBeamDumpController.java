@@ -1,46 +1,36 @@
 package lach_01298.qmd.multiblock.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
-import lach_01298.qmd.multiblock.network.ClearTankPacket;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
-import lach_01298.qmd.particleChamber.BeamDumpLogic;
-import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.ParticleChamberLogic;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileBeamDumpController;
+import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.particleChamber.*;
+import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.util.Units;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
-import nc.multiblock.gui.GuiLogicMultiblock;
-import nc.multiblock.gui.element.MultiblockButton;
-import nc.network.PacketHandler;
-import nc.network.multiblock.ClearAllMaterialPacket;
-import nc.util.Lang;
-import nc.util.NCUtil;
+import nc.gui.element.*;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
+import nc.tile.TileContainerInfo;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import org.lwjgl.opengl.GL11;
+
+import java.util.*;
 
 public class GuiBeamDumpController
-		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileBeamDumpController, BeamDumpLogic>
+		extends GuiLogicMultiblockController<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileBeamDumpController, TileContainerInfo<TileBeamDumpController>, BeamDumpLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiBeamDumpController(EntityPlayer player, TileBeamDumpController controller)
+	public GuiBeamDumpController(Container inventory, EntityPlayer player, TileBeamDumpController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/beam_dump_controller.png");
 		xSize = 137;
 		ySize = 89;
@@ -60,11 +50,11 @@ public class GuiBeamDumpController
 
 		int offset = 8;
 		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
-		String title = Lang.localise("gui.qmd.container.beam_dump_controller.name");
+		String title = Lang.localize("gui.qmd.container.beam_dump_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 
 		// String efficiency =
-		// Lang.localise("gui.qmd.container.target_chamber.efficiency",String.format("%.2f",
+		// Lang.localize("gui.qmd.container.target_chamber.efficiency",String.format("%.2f",
 		// multiblock.efficiency*100));
 		// fontRenderer.drawString(efficiency,offset, 60, fontColor);
 
@@ -115,10 +105,10 @@ public class GuiBeamDumpController
 	public List<String> energyInfo()
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.energy_stored",
+		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.energy_stored",
 				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
 				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.required_energy",
+		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.required_energy",
 				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));
 		return info;
 	}
@@ -135,7 +125,7 @@ public class GuiBeamDumpController
 	public void initGui()
 	{
 		super.initGui();
-		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 81, guiTop + 37, 16, 16));
+		buttonList.add(new NCButton.ClearTank(0, guiLeft + 81, guiTop + 37, 16, 16));
 	}
 
 	@Override
@@ -149,7 +139,7 @@ public class GuiBeamDumpController
 				switch(guiButton.id)
 				{
 				case 0:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),1));
+					new QMDClearTankPacket(tile.getTilePos(),1).sendToServer();
 					break;
 				}
 			}

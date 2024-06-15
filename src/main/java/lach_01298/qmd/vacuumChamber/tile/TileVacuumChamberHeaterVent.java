@@ -1,48 +1,35 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
-import lach_01298.qmd.vacuumChamber.NucleosynthesisChamberLogic;
-import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.*;
 import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberHeaterVent;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.fluid.ITileFluid;
-import nc.tile.internal.fluid.FluidConnection;
-import nc.tile.internal.fluid.FluidTileWrapper;
-import nc.tile.internal.fluid.GasTileWrapper;
-import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.fluid.TankOutputSetting;
-import nc.tile.internal.fluid.TankSorption;
+import nc.tile.internal.fluid.*;
 import nc.tile.passive.ITilePassive;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.*;
+
+import javax.annotation.*;
+import java.util.*;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileVacuumChamberHeaterVent extends TileVacuumChamberPart implements ITileFluid, ITickable
 {
 
-	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new ArrayList<>()),
-			new Tank(1, new ArrayList<>()));
+	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new HashSet<>()),
+			new Tank(1, new HashSet<>()));
 
 	private @Nonnull FluidConnection[] fluidConnections = ITileFluid
 			.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.NON));
@@ -214,8 +201,8 @@ public class TileVacuumChamberHeaterVent extends TileVacuumChamberPart implement
 	// IMultitoolLogic
 
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing,
-			float hitX, float hitY, float hitZ)
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing,
+	                              float hitX, float hitY, float hitZ)
 	{
 		if (player.isSneaking())
 		{
@@ -234,9 +221,9 @@ public class TileVacuumChamberHeaterVent extends TileVacuumChamberPart implement
 					}
 					updateBlockState(false);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " "
-							+ TextFormatting.DARK_AQUA + Lang.localise("nc.block.fission_vent_mode.input") + " "
-							+ TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.vent_toggle") + " "
+							+ TextFormatting.DARK_AQUA + Lang.localize("nc.block.fission_vent_mode.input") + " "
+							+ TextFormatting.WHITE + Lang.localize("nc.block.vent_toggle.mode")));
 				}
 				else
 				{
@@ -247,9 +234,9 @@ public class TileVacuumChamberHeaterVent extends TileVacuumChamberPart implement
 					}
 					updateBlockState(true);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localise("nc.block.vent_toggle") + " "
-							+ TextFormatting.RED + Lang.localise("nc.block.fission_vent_mode.output") + " "
-							+ TextFormatting.WHITE + Lang.localise("nc.block.vent_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.vent_toggle") + " "
+							+ TextFormatting.RED + Lang.localize("nc.block.fission_vent_mode.output") + " "
+							+ TextFormatting.WHITE + Lang.localize("nc.block.vent_toggle.mode")));
 				}
 				markDirtyAndNotify();
 				return true;

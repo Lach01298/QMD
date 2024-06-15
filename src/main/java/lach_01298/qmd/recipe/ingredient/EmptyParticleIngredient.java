@@ -1,18 +1,14 @@
 package lach_01298.qmd.recipe.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import crafttweaker.api.item.IIngredient;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import lach_01298.qmd.crafttweaker.particle.CTParticleStack;
 import lach_01298.qmd.particle.ParticleStack;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import nc.recipe.*;
 import net.minecraftforge.fml.common.Optional;
+
+import java.util.*;
 
 public class EmptyParticleIngredient implements IParticleIngredient
 {
@@ -78,7 +74,7 @@ public class EmptyParticleIngredient implements IParticleIngredient
 	public IParticleIngredient getFactoredIngredient(int factor)
 	{
 		return new EmptyParticleIngredient();
-	}	
+	}
 
 	@Override
 	public IngredientMatchResult match(Object object, IngredientSorption sorption)

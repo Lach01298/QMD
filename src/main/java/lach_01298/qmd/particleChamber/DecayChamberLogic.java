@@ -1,38 +1,25 @@
 package lach_01298.qmd.particleChamber;
 
-
-import static lach_01298.qmd.recipes.QMDRecipes.decay_chamber;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.DecayChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberFluidPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.particleChamber.tile.*;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.decay_chamber;
 
 public class DecayChamberLogic extends ParticleChamberLogic
 {
@@ -62,7 +49,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "decay_chamber";
 	}
@@ -158,9 +145,9 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	}
 	
 	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileParticleChamberFluidPort.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_fluid_ports"),
-			Pair.of(TileParticleChamberPort.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
-
+			Pair.of(TileParticleChamberFluidPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_fluid_ports"),
+			Pair.of(TileParticleChamberPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
+	
 	@Override
 	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
 	{
@@ -270,7 +257,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	
 	
 	public void onMachineDisassembled()
-	{	
+	{
 		mainChamber = null;
 		for(TileParticleChamberBeamPort tile :getPartMap(TileParticleChamberBeamPort.class).values())
 		{
@@ -282,7 +269,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	
 
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
 		pull();
@@ -310,7 +297,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			else
 			{
 				resetBeams();
-			}	
+			}
 		}
 		else
 		{
@@ -326,7 +313,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 	public void onResetStats()
 	{
 		getMultiblock().efficiency =1;
-		getMultiblock().requiredEnergy = QMDConfig.decay_chamber_power;	
+		getMultiblock().requiredEnergy = QMDConfig.decay_chamber_power;
 	}
 	
 	@Override
@@ -390,7 +377,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 				TileParticleChamberBeamPort port2 = (TileParticleChamberBeamPort) getWorld().getTileEntity(port.getPos().offset(facing, getMultiblock().getExteriorLengthX()-1));
 				if(port2.getIONumber() ==1)
 				{
-					port2.setIONumber(3);	
+					port2.setIONumber(3);
 				}
 				else if(port2.getIONumber() ==3)
 				{
@@ -400,18 +387,18 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		
 		return true;
 		}
-		return false;	
+		return false;
 	}
 	
 	private void produceBeams()
 	{
 		ParticleStack input = getMultiblock().beams.get(0).getParticleStack();
-		ParticleStack outputPlus = recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
-		ParticleStack outputNeutral = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
-		ParticleStack outputMinus = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
+		ParticleStack outputPlus = recipeInfo.recipe.getParticleProducts().get(0).getStack();
+		ParticleStack outputNeutral = recipeInfo.recipe.getParticleProducts().get(1).getStack();
+		ParticleStack outputMinus = recipeInfo.recipe.getParticleProducts().get(2).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
-		double crossSection = recipeInfo.getRecipe().getCrossSection();
+		long energyReleased = recipeInfo.recipe.getEnergyReleased();
+		double crossSection = recipeInfo.recipe.getCrossSection();
 		double outputFactor = crossSection * getMultiblock().efficiency;
 		if(outputFactor >= 1)
 		{
@@ -469,7 +456,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(3).setParticleStack(null);
 	}
 	
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		if(getMultiblock().beams.get(0).getParticleStack() != null)
 		{
@@ -477,7 +464,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			ParticleStack input =getMultiblock().beams.get(0).getParticleStack().copy();
 			particles.add(input);
 			
-			recipeInfo = decay_chamber.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);	
+			recipeInfo = decay_chamber.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);
 		}
 		else
 		{

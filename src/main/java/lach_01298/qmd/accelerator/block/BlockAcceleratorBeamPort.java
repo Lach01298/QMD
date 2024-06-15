@@ -1,21 +1,15 @@
 package lach_01298.qmd.accelerator.block;
 
-import static lach_01298.qmd.block.BlockProperties.IO;
-
 import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
 import lach_01298.qmd.enums.EnumTypes;
-import nc.util.Lang;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
+import static lach_01298.qmd.block.BlockProperties.IO;
 
 public class BlockAcceleratorBeamPort extends BlockAcceleratorPart
 {

@@ -1,21 +1,20 @@
 package lach_01298.qmd.particleChamber.tile;
 
-
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import lach_01298.qmd.multiblock.container.ContainerCollisionChamberController;
 import lach_01298.qmd.particleChamber.ParticleChamber;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 
 public class TileCollisionChamberController extends TileParticleChamberPart implements IParticleChamberController<TileCollisionChamberController>
 {
+	protected final TileContainerInfo<TileCollisionChamberController> info = TileInfoHandler.getTileContainerInfo("collision_chamber_controller");
 
 	public TileCollisionChamberController()
 	{
@@ -27,7 +26,12 @@ public class TileCollisionChamberController extends TileParticleChamberPart impl
 	{
 		return	"collision_chamber";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileCollisionChamberController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(ParticleChamber controller)
@@ -36,7 +40,7 @@ public class TileCollisionChamberController extends TileParticleChamberPart impl
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override
@@ -59,23 +63,15 @@ public class TileCollisionChamberController extends TileParticleChamberPart impl
 	}
 
 	
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		super.writeAll(nbt);
 
 		return nbt;
 	}
 	
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
-		
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerCollisionChamberController(player, this);
-	}
-		
-
 }

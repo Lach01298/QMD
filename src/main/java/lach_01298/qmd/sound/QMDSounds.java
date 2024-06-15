@@ -1,10 +1,8 @@
 package lach_01298.qmd.sound;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.QMD;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class QMDSounds
@@ -17,7 +15,7 @@ public class QMDSounds
 
 	
 	
-	public static void init() 
+	public static void init()
 	{
 		lepton_cannon = register("neutral.qmd.lepton_cannon");
 		gluon_gun = register("neutral.qmd.gluon_gun");

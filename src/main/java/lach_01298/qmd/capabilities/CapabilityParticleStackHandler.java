@@ -1,15 +1,9 @@
 package lach_01298.qmd.capabilities;
 
-import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.particle.IParticleStorage;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.ParticleStorage;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import lach_01298.qmd.particle.*;
+import net.minecraft.nbt.*;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.*;
 
 
 public class CapabilityParticleStackHandler

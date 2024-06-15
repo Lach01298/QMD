@@ -1,15 +1,11 @@
 package lach_01298.qmd.pipe;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import nc.multiblock.*;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
+import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.tuple.Pair;
 
-import nc.multiblock.IPacketMultiblockLogic;
-import nc.multiblock.Multiblock;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import net.minecraft.nbt.NBTTagCompound;
+import java.util.*;
 
 public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 		implements IPacketMultiblockLogic<Pipe, PipeLogic, IPipePart, PipeUpdatePacket>
@@ -17,7 +13,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 
 	public PipeLogic(PipeLogic oldLogic)
 	{
-		super(oldLogic); 
+		super(oldLogic);
 		
 	}
 	
@@ -28,7 +24,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 	}
 	
 	
-	protected Pipe getPipe() 
+	protected Pipe getPipe()
 	{
 		return multiblock;
 	}
@@ -59,7 +55,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 
 	public void onPipeFormed()
 	{
-		
+	
 	}
 
 	@Override
@@ -71,13 +67,13 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 	@Override
 	public void onMachinePaused()
 	{
-		
+	
 	}
 
 	@Override
 	public void onMachineDisassembled()
 	{
-		
+	
 	}
 
 	@Override
@@ -89,13 +85,13 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 	@Override
 	public void writeToLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-		
+	
 	}
 
 	@Override
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
-		
+	
 	}
 
 	@Override
@@ -107,7 +103,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 	@Override
 	public void onMultiblockUpdatePacket(PipeUpdatePacket message)
 	{
-		
+	
 	}
 
 	public boolean onUpdateServer()
@@ -117,17 +113,17 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 
 	public void onAssimilate(Pipe assimilated)
 	{
-		
+	
 	}
 
 	public void onAssimilated(Pipe assimilator)
 	{
-		
+	
 	}
 
 	public void onUpdateClient()
 	{
-		
+	
 	}
 
 	@Override
@@ -139,7 +135,7 @@ public class PipeLogic extends MultiblockLogic<Pipe, PipeLogic, IPipePart>
 	@Override
 	public void clearAllMaterial()
 	{
-		
+	
 	}
 
 }

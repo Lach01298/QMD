@@ -1,8 +1,7 @@
 package lach_01298.qmd.util;
 
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.*;
 
 public class Equations
 {
@@ -82,7 +81,7 @@ public class Equations
 	public static long cornerEnergyLoss(ParticleStack stack, double radius)
 	{
 		if (stack != null)
-		{	
+		{
 			Particle particle = stack.getParticle();
 			return (long) (stack.getMeanEnergy() * Math.pow(particle.getCharge(), 2) / (6 * Math.pow(particle.getMass(), 4) * Math.pow(radius, 2)));
 		}

@@ -1,35 +1,28 @@
 package lach_01298.qmd.particleChamber.tile;
 
-import static lach_01298.qmd.block.BlockProperties.IO;
-
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.particle.ITileParticleStorage;
-import lach_01298.qmd.particle.ParticleStorage;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.particleChamber.CollisionChamberLogic;
-import lach_01298.qmd.tile.ITileIONumber;
-import lach_01298.qmd.tile.ITileIOType;
+import lach_01298.qmd.tile.*;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+
+import javax.annotation.*;
+import java.util.List;
+
+import static lach_01298.qmd.block.BlockProperties.IO;
 
 public class TileParticleChamberBeamPort extends TileParticleChamberPart implements ITileIOType, ITileIONumber, ITileParticleStorage
 {
@@ -49,7 +42,7 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 
 
 	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) 
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate)
 	{
 		return oldState.getBlock() != newSate.getBlock();
 	}
@@ -87,8 +80,8 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 	
 	
 	@Override
-	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayer player, World world, EnumFacing facing,
-			float hitX, float hitY, float hitZ)
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing,
+	                              float hitX, float hitY, float hitZ)
 	{
 		
 		if (player.isSneaking())
@@ -102,7 +95,7 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 				}
 				
 				
-				player.sendMessage(new TextComponentString(Lang.localise("qmd.block.particle_chamber_port_setting_toggle") + " "
+				player.sendMessage(new TextComponentString(Lang.localize("qmd.block.particle_chamber_port_setting_toggle") + " "
 						+ TextFormatting.LIGHT_PURPLE +" " + (getIONumber()-inputNumberOffset)));
 			}
 			else
@@ -129,24 +122,24 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 				break;
 			}
 			
-			player.sendMessage(new TextComponentString(Lang.localise("qmd.block.port_mode_toggle") + " "
-					+ format + Lang.localise("qmd.block.port_mode."+ getIOType().name()) + " "
-					+ TextFormatting.WHITE + Lang.localise("qmd.block.port.mode")));
+			player.sendMessage(new TextComponentString(Lang.localize("qmd.block.port_mode_toggle") + " "
+					+ format + Lang.localize("qmd.block.port_mode."+ getIOType().name()) + " "
+					+ TextFormatting.WHITE + Lang.localize("qmd.block.port.mode")));
 		}
 		
 		return true;
 		
 	}
 	
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		super.writeAll(nbt);
 		nbt.setInteger("mode", mode.getID());
 		nbt.setInteger("IONumber", IONumber);
 		return nbt;
 	}
-		
-	public void readAll(NBTTagCompound nbt) 
+	
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		mode =EnumTypes.IOType.getTypeFromID(nbt.getInteger("mode"));
@@ -154,7 +147,7 @@ public class TileParticleChamberBeamPort extends TileParticleChamberPart impleme
 	}
 
 
-		
+	
 	// Capability
 
 		@Override

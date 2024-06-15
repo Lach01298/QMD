@@ -1,11 +1,7 @@
 package lach_01298.qmd.accelerator.tile;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import nc.block.property.BlockProperties;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class TileAcceleratorGlass extends TileAcceleratorPart
 {

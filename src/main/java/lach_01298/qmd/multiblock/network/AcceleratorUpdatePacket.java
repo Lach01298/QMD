@@ -1,20 +1,17 @@
 package lach_01298.qmd.multiblock.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
-import lach_01298.qmd.particle.ParticleStorage;
-import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.util.ByteUtil;
-import nc.network.multiblock.MultiblockUpdatePacket;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.fluid.Tank.TankInfo;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.util.math.BlockPos;
 
-public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
+import java.util.*;
+
+public abstract class AcceleratorUpdatePacket extends QMDMultiblockUpdatePacket
 {
 
 	public boolean isAcceleratorOn;
@@ -26,7 +23,6 @@ public abstract class AcceleratorUpdatePacket extends MultiblockUpdatePacket
 	public int quadrupoleNumber, RFCavityNumber, acceleratingVoltage, dipoleNumber;
 	public HeatBuffer heatBuffer;
 	public EnergyStorage energyStorage;
-	public byte numberOfTanks;
 	public List<TankInfo> tanksInfo;
 	public List<ParticleStorageAccelerator> beams;
 	public int errorCode;
@@ -62,8 +58,7 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		this.heatBuffer = heatBuffer;
 		this.energyStorage = energyStorage;
 		
-		numberOfTanks = (byte) tanks.size();
-		tanksInfo = TankInfo.infoList(tanks);
+		tanksInfo = TankInfo.getInfoList(tanks);
 		
 		this.beams = beams;
 	}
@@ -92,8 +87,7 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		
 		heatBuffer = ByteUtil.readBufHeat(buf);
 		energyStorage = ByteUtil.readBufEnergy(buf);
-		numberOfTanks = buf.readByte();
-		tanksInfo = TankInfo.readBuf(buf, numberOfTanks);
+		tanksInfo = readTankInfos(buf);
 		
 		int size = buf.readInt();
 		for (int i = 0; i < size; i++)
@@ -134,8 +128,7 @@ int RFCavityNumber, int quadrupoleNumber, double quadrupoleStrength,int dipoleNu
 		
 		ByteUtil.writeBufHeat(heatBuffer, buf);
 		ByteUtil.writeBufEnergy(energyStorage, buf);
-		buf.writeByte(numberOfTanks);
-		for (TankInfo info : tanksInfo) info.writeBuf(buf);
+		writeTankInfos(buf, tanksInfo);
 		
 		buf.writeInt(beams.size());
 		for(ParticleStorageAccelerator beam : beams)

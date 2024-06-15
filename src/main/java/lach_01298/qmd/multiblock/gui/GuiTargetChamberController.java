@@ -1,46 +1,37 @@
 package lach_01298.qmd.multiblock.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
-import lach_01298.qmd.multiblock.network.ClearTankPacket;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
-import lach_01298.qmd.particleChamber.ParticleChamber;
-import lach_01298.qmd.particleChamber.ParticleChamberLogic;
-import lach_01298.qmd.particleChamber.TargetChamberLogic;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
+import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.particleChamber.*;
+import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.util.Units;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
-import nc.multiblock.gui.GuiLogicMultiblock;
-import nc.multiblock.gui.element.MultiblockButton;
-import nc.network.PacketHandler;
+import nc.gui.element.*;
+import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
-import nc.util.Lang;
-import nc.util.NCUtil;
+import nc.tile.TileContainerInfo;
+import nc.util.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import org.lwjgl.opengl.GL11;
+
+import java.util.*;
 
 public class GuiTargetChamberController
-		extends GuiLogicMultiblock<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileTargetChamberController, TargetChamberLogic>
+		extends GuiLogicMultiblockController<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket, TileTargetChamberController, TileContainerInfo<TileTargetChamberController>, TargetChamberLogic>
 {
 
 	protected final ResourceLocation gui_texture;
 
 	private final GuiParticle guiParticle;
 
-	public GuiTargetChamberController(EntityPlayer player, TileTargetChamberController controller)
+	public GuiTargetChamberController(Container inventory, EntityPlayer player, TileTargetChamberController controller, String textureLocation)
 	{
-		super(player, controller);
+		super(inventory, player, controller, textureLocation);
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png");
 		xSize = 176;
 		ySize = 200;
@@ -59,14 +50,14 @@ public class GuiTargetChamberController
 
 		int offset = 8;
 		int fontColor = multiblock.isChamberOn ? -1 : 15641088;
-		String title = Lang.localise("gui.qmd.container.target_chamber_controller.name");
+		String title = Lang.localize("gui.qmd.container.target_chamber_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 
-		String efficiency = Lang.localise("gui.qmd.container.particle_chamber.efficiency",
+		String efficiency = Lang.localize("gui.qmd.container.particle_chamber.efficiency",
 				String.format("%.2f", multiblock.efficiency * 100));
 		fontRenderer.drawString(efficiency, offset, 98, fontColor);
 		
-		String length = Lang.localise("gui.qmd.container.particle_chamber.length", logic.getBeamLength());
+		String length = Lang.localize("gui.qmd.container.particle_chamber.length", logic.getBeamLength());
 		fontRenderer.drawString(length, offset, 108, fontColor);
 
 		if (!NCUtil.isModifierKeyDown())
@@ -154,10 +145,10 @@ public class GuiTargetChamberController
 	public List<String> energyInfo()
 	{
 		List<String> info = new ArrayList<String>();
-		info.add(TextFormatting.YELLOW + Lang.localise("gui.qmd.container.energy_stored",
+		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.energy_stored",
 				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
 				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
-		info.add(TextFormatting.RED + Lang.localise("gui.qmd.container.required_energy",
+		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.required_energy",
 				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));
 		return info;
 	}
@@ -175,8 +166,8 @@ public class GuiTargetChamberController
 	{
 		super.initGui();
 		buttonList.add(new MultiblockButton.ClearAllMaterial(0, guiLeft + 128, guiTop + 70));
-		buttonList.add(new NCButton.EmptyTank(1, guiLeft + 53, guiTop + 55, 16, 16));
-		buttonList.add(new NCButton.EmptyTank(2, guiLeft + 94, guiTop + 55, 16, 16));
+		buttonList.add(new NCButton.ClearTank(1, guiLeft + 53, guiTop + 55, 16, 16));
+		buttonList.add(new NCButton.ClearTank(2, guiLeft + 94, guiTop + 55, 16, 16));
 	}
 
 	@Override
@@ -189,13 +180,13 @@ public class GuiTargetChamberController
 				switch(guiButton.id)
 				{
 				case 0:
-					PacketHandler.instance.sendToServer(new ClearAllMaterialPacket(tile.getTilePos()));
+					new ClearAllMaterialPacket(tile.getTilePos()).sendToServer();
 					break;
 				case 1:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),0));
+					new QMDClearTankPacket(tile.getTilePos(),0).sendToServer();
 					break;
 				case 2:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),1));
+					new QMDClearTankPacket(tile.getTilePos(),1).sendToServer();
 					break;
 				}
 				

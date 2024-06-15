@@ -1,18 +1,18 @@
 package lach_01298.qmd.accelerator.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.container.ContainerBeamDiverterController;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.tile.TileContainerInfo;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 public class TileBeamDiverterController extends TileAcceleratorPart implements IAcceleratorController<TileBeamDiverterController>
 {
+	protected final TileContainerInfo<TileBeamDiverterController> info = TileInfoHandler.getTileContainerInfo("beam_diverter_controller");
 
 	public TileBeamDiverterController()
 	{
@@ -24,7 +24,12 @@ public class TileBeamDiverterController extends TileAcceleratorPart implements I
 	{
 		return	"beam_diverter";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileBeamDiverterController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
@@ -33,7 +38,7 @@ public class TileBeamDiverterController extends TileAcceleratorPart implements I
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override
@@ -54,10 +59,4 @@ public class TileBeamDiverterController extends TileAcceleratorPart implements I
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		if (getMultiblock() != null) getMultiblock().updateActivity();
 	}
-
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerBeamDiverterController(player, this);
-	}
-
 }

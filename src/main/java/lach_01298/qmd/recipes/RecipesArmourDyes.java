@@ -1,16 +1,14 @@
 package lach_01298.qmd.recipes;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.item.QMDArmour;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class RecipesArmourDyes extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<IRecipe> implements IRecipe
 {

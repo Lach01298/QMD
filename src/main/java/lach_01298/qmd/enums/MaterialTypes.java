@@ -1,16 +1,10 @@
 package lach_01298.qmd.enums;
 
-
-import static lach_01298.qmd.config.QMDConfig.copernicium_criticality;
-import static lach_01298.qmd.config.QMDConfig.copernicium_efficiency;
-import static lach_01298.qmd.config.QMDConfig.copernicium_fuel_time;
-import static lach_01298.qmd.config.QMDConfig.copernicium_heat_generation;
-import static lach_01298.qmd.config.QMDConfig.copernicium_self_priming;
-
 import lach_01298.qmd.QMDConstants;
-import nc.enumm.IFissionFuelEnum;
-import nc.enumm.IMetaEnum;
+import nc.enumm.*;
 import net.minecraft.util.IStringSerializable;
+
+import static lach_01298.qmd.config.QMDConfig.*;
 
 public class MaterialTypes
 {
@@ -21,9 +15,9 @@ public class MaterialTypes
 	
 	public static enum DustType implements IStringSerializable, IMetaEnum
 	{
-		TUNGSTEN("tungsten", 0), 
+		TUNGSTEN("tungsten", 0),
 		NIOBIUM("niobium", 1),
-		CHROMIUM("chromium",2), 
+		CHROMIUM("chromium",2),
 		TITANIUM("titanium",3),
 		COBALT("cobalt",4),
 		NICKEL("nickel",5),
@@ -39,7 +33,7 @@ public class MaterialTypes
 		
 		
 		
-		 
+		
 		private String name;
 		private int id;
 
@@ -70,7 +64,7 @@ public class MaterialTypes
 	
 	public static enum DustType2 implements IStringSerializable, IMetaEnum
 	{
-		YTTRIUM("yttrium", 0), 
+		YTTRIUM("yttrium", 0),
 		NEODYMIUM("neodymium", 1),
 		IODINE("iodine",2),
 		SAMARIUM("samarium",3),
@@ -78,7 +72,7 @@ public class MaterialTypes
 		ERBIUM("erbium",5),
 		YTTERBIUM("ytterbium",6);
 		
-		 
+		
 		private String name;
 		private int id;
 
@@ -111,7 +105,7 @@ public class MaterialTypes
 	
 	public static enum IngotType implements IStringSerializable, IMetaEnum
 	{
-		TUNGSTEN("tungsten", 0), 
+		TUNGSTEN("tungsten", 0),
 		NIOBIUM("niobium", 1),
 		CHROMIUM("chromium",2),
 		TITANIUM("titanium",3),
@@ -127,7 +121,7 @@ public class MaterialTypes
 		CALCIUM("calcium",13),
 		STRONTIUM("strontium",14);
 		
-		 
+		
 		private String name;
 		private int id;
 
@@ -158,10 +152,10 @@ public class MaterialTypes
 	
 	public static enum IngotType2 implements IStringSerializable, IMetaEnum
 	{
-		YTTRIUM("yttrium", 0), 
+		YTTRIUM("yttrium", 0),
 		NEODYMIUM("neodymium", 1),
 		MERCURY("mercury", 2);
-		 
+		
 		private String name;
 		private int id;
 
@@ -192,15 +186,15 @@ public class MaterialTypes
 	
 	public static enum IngotAlloyType implements IStringSerializable, IMetaEnum
 	{
-		TUNGSTEN_CARBIDE("tungsten_carbide", 0), 
-		NIOBIUM_TIN("niobium_tin", 1), 
+		TUNGSTEN_CARBIDE("tungsten_carbide", 0),
+		NIOBIUM_TIN("niobium_tin", 1),
 		STAINLESS_STEEL("stainless_steel", 2),
 		NIOBIUM_TITANIUM("niobium_titanium", 3),
 		OSMIRIDIUM("osmiridium", 4),
 		NICHROME("nichrome", 5),
 		SUPER_ALLOY("super_alloy", 6);
-		 
-		 
+		
+		
 		private String name;
 		private int id;
 
@@ -241,7 +235,7 @@ public class MaterialTypes
 		COBALT_60("cobalt_60",6),
 		IRIDIUM_192("iridium_192",7),
 		CALCIUM_48("calcium_48",8);
-		 
+		
 		private String name;
 		private int id;
 
@@ -325,7 +319,7 @@ public class MaterialTypes
 		BASIC_PROCESSOR("basic_processor",4),
 		ADVANCED_PROCESSOR("advanced_processor",5),
 		ELITE_PROCESSOR("elite_processor",6);
-		 
+		
 		private String name;
 		private int id;
 
@@ -357,13 +351,13 @@ public class MaterialTypes
 	public static enum ChemicalDustType implements IStringSerializable, IMetaEnum
 	{
 		TUNGSTEN_OXIDE("tungsten_oxide", 0),
-		BSCCO("bscco",1), 
+		BSCCO("bscco",1),
 		SODIUM_NITRATE("sodium_nitrate", 2),
 		SODIUM_CHLORIDE("sodium_chloride", 3),
 		COPPER_OXIDE("copper_oxide", 4),
 		HAFNIUM_OXIDE("hafnium_oxide", 5),
 		STRONTIUM_CHLORIDE("strontium_chloride", 6),
-		ZINC_SULFIDE("zinc_sulfide", 7); 
+		ZINC_SULFIDE("zinc_sulfide", 7);
 		
 		private String name;
 		private int id;
@@ -396,7 +390,7 @@ public class MaterialTypes
 	public static enum LuminousPaintType implements IStringSerializable, IMetaEnum
 	{
 		GREEN("green", 0),
-		BLUE("blue",1), 
+		BLUE("blue",1),
 		ORANGE("orange", 2);
 		
 		private String name;
@@ -431,7 +425,7 @@ public class MaterialTypes
 	{
 		LIGHT("light", 0),
 		HEAVY("heavy",1);
-		 
+		
 		private String name;
 		private int id;
 
@@ -478,7 +472,7 @@ public class MaterialTypes
 		GOLD("gold",13),
 		PLATINUM("platinum",14),
 		IRIDIUM("iridium",15);
-		 
+		
 		private String name;
 		private int id;
 
@@ -513,7 +507,7 @@ public class MaterialTypes
 		TUNGSTEN("tungsten",1),
 		HAFNIUM("hafnium", 2),
 		MERCURY("mercury",3);
-		 
+		
 		private String name;
 		private int id;
 
@@ -555,7 +549,7 @@ public class MaterialTypes
 		MUONIUM("muonium",7, QMDConstants.moleAmount/10),
 		TAUONIUM("tauonium", 8, QMDConstants.moleAmount/10),
 		GLUEBALLS("glueballs", 9, QMDConstants.moleAmount/10);
-		 
+		
 		private String name;
 		private int id;
 		private int capacity;
@@ -602,7 +596,7 @@ public class MaterialTypes
 		IRIDIUM_192("iridium_192", 3, 1 * QMDConstants.moleAmount),
 		CALCIUM_48("calcium_48", 4, 5 * QMDConstants.moleAmount);
 		
-		 
+		
 		private String name;
 		private int id;
 		private int capacity;
@@ -642,7 +636,7 @@ public class MaterialTypes
 	
 	
 	
-	public static enum CoperniciumType implements IStringSerializable, IMetaEnum 
+	public static enum CoperniciumType implements IStringSerializable, IMetaEnum
 	{
 		_291("291", 0),
 		_291_C("291_c", 1),

@@ -1,26 +1,21 @@
 package lach_01298.qmd.machine.gui;
 
-import java.io.IOException;
-
 import lach_01298.qmd.machine.container.ContainerIrradiator;
-import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
-import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
+import lach_01298.qmd.machine.network.*;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
-import lach_01298.qmd.network.QMDPacketHandler;
-import nc.container.ContainerTile;
-import nc.container.processor.ContainerMachineConfig;
-import nc.gui.element.NCButton;
-import nc.gui.element.NCToggleButton;
+import nc.gui.element.*;
 import nc.gui.processor.GuiItemSorptions;
-import nc.network.PacketHandler;
 import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.util.Lang;
+import nclegacy.container.*;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class GuiIrradiator  extends GuiItemAmountFuelMachine
+import java.io.IOException;
+
+public class GuiIrradiator extends GuiItemAmountFuelMachine
 {
 	
 	public GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile)
@@ -28,7 +23,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		this(player, tile, new ContainerIrradiator(player, tile));
 	}
 
-	private GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile, ContainerTile container)
+	private GuiIrradiator(EntityPlayer player, TileItemAmountFuelProcessor tile, ContainerTileLegacy container)
 	{
 		super("irradiator", player, tile, container);
 		xSize = 176;
@@ -43,8 +38,8 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 
 	public void renderButtonTooltips(int mouseX, int mouseY)
 	{
-		drawTooltip(Lang.localise("gui.nc.container.machine_side_config"), mouseX, mouseY, 6, 40, 18, 18);
-		drawTooltip(Lang.localise("gui.nc.container.redstone_control"), mouseX, mouseY, 6, 60, 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.machine_side_config"), mouseX, mouseY, 6, 40, 18, 18);
+		drawTooltip(Lang.localize("gui.nc.container.redstone_control"), mouseX, mouseY, 6, 60, 18, 18);
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 
 	protected void drawBackgroundExtras()
 	{
-		
+	
 	}
 
 	@Override
@@ -84,12 +79,12 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		{
 			if (guiButton.id == 0)
 			{
-				QMDPacketHandler.instance.sendToServer(new QMDOpenSideConfigGuiPacket(tile));
+				new QMDOpenSideConfigGuiPacket(tile).sendToServer();
 			}
 			else if (guiButton.id == 1)
 			{
 				tile.setRedstoneControl(!tile.getRedstoneControl());
-				PacketHandler.instance.sendToServer(new ToggleRedstoneControlPacket(tile));
+				new ToggleRedstoneControlPacket(tile).sendToServer();
 			}
 		}
 	}
@@ -99,7 +94,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 
 		public SideConfig(EntityPlayer player, TileItemAmountFuelProcessor tile)
 		{
-			super(player, tile, new ContainerMachineConfig(player, tile));
+			super(player, tile, new ContainerMachineConfigLegacy(player, tile));
 		}
 
 		@Override
@@ -107,7 +102,7 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		{
 			if (isEscapeKeyDown(keyCode))
 			{
-				QMDPacketHandler.instance.sendToServer(new QMDOpenTileGuiPacket(tile));
+				new QMDOpenTileGuiPacket(tile).sendToServer();
 			}
 			else
 				super.keyTyped(typedChar, keyCode);
@@ -116,9 +111,9 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		@Override
 		public void renderButtonTooltips(int mouseX, int mouseY)
 		{
-			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.nc.container.input_item_config"), mouseX, mouseY, 44, 54, 18, 18);
-			drawTooltip(TextFormatting.BLUE + Lang.localise("gui.nc.container.input_item_config"), mouseX, mouseY, 80, 21, 18, 18);
-			drawTooltip(TextFormatting.GOLD + Lang.localise("gui.nc.container.output_item_config"), mouseX, mouseY, 116, 54, 18, 18);
+			drawTooltip(TextFormatting.BLUE + Lang.localize("gui.nc.container.input_item_config"), mouseX, mouseY, 44, 54, 18, 18);
+			drawTooltip(TextFormatting.BLUE + Lang.localize("gui.nc.container.input_item_config"), mouseX, mouseY, 80, 21, 18, 18);
+			drawTooltip(TextFormatting.GOLD + Lang.localize("gui.nc.container.output_item_config"), mouseX, mouseY, 116, 54, 18, 18);
 
 			
 		}
@@ -131,9 +126,9 @@ public class GuiIrradiator  extends GuiItemAmountFuelMachine
 		@Override
 		public void initButtons()
 		{
-			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 43, guiTop + 53));
-			buttonList.add(new NCButton.SorptionConfig.ItemInput(1, guiLeft + 79, guiTop + 20));
-			buttonList.add(new NCButton.SorptionConfig.ItemOutputSmall(2, guiLeft + 115, guiTop + 53));
+			buttonList.add(new NCButton.SorptionConfig.ItemInput(0, guiLeft + 43, guiTop + 53, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.ItemInput(1, guiLeft + 79, guiTop + 20, 18, 18));
+			buttonList.add(new NCButton.SorptionConfig.ItemOutput(2, guiLeft + 115, guiTop + 53, 18, 18));
 
 		}
 

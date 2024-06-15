@@ -7,10 +7,10 @@
   "mcversion": "${mcversion}",
   "url": "https://www.curseforge.com/minecraft/mc-mods/qmd",
   "updateUrl": "",
-  "authorList": ["lach_01298, Contributors: sanrom, zalgo, WuzgXY, igntuman, rtxyd, Pu-238, Determancer,tomdodd4598, FishingPole"],
+  "authorList": ["lach_01298, Contributors: sanrom, zalgo, WuzgXY, igntuman, rtxyd, Pu-238, Determancer, tomdodd4598, FishingPole"],
   "credits": "tomdodd4598 For making NuclearCraft",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["nuclearcraft", "nclegacy"],
 }
 ]

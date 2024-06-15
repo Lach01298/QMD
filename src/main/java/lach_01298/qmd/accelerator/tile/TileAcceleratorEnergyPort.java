@@ -1,34 +1,19 @@
 package lach_01298.qmd.accelerator.tile;
 
-import static nc.config.NCConfig.enable_gtce_eu;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
-
-//import gregtech.api.capability.GregtechCapabilities;
 import ic2.api.energy.tile.IEnergyEmitter;
 import lach_01298.qmd.accelerator.Accelerator;
 import nc.ModCheck;
-import nc.config.NCConfig;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.internal.energy.EnergyTileWrapper;
-import nc.tile.internal.energy.EnergyTileWrapperGT;
-import nc.tile.internal.fluid.Tank;
+import nc.tile.internal.energy.*;
 import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
+
+import javax.annotation.Nullable;
 
 public class TileAcceleratorEnergyPort extends TileAcceleratorPart implements ITileEnergy
 {

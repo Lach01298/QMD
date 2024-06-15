@@ -1,26 +1,19 @@
 package lach_01298.qmd.particleChamber.tile;
 
-import static nc.config.NCConfig.enable_gtce_eu;
-
-import javax.annotation.Nullable;
-
-//import gregtech.api.capability.GregtechCapabilities;
-import ic2.api.energy.tile.IEnergyEmitter;
-import ic2.api.energy.tile.IEnergySink;
+import ic2.api.energy.tile.*;
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.internal.energy.EnergyConnection;
-import nc.tile.internal.energy.EnergyStorage;
-import nc.tile.internal.energy.EnergyTileWrapper;
-import nc.tile.internal.energy.EnergyTileWrapperGT;
+import nc.tile.internal.energy.*;
 import nc.util.EnergyHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.Optional;
+
+import javax.annotation.Nullable;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "ic2") })
 public class TileParticleChamberEnergyPort extends TileParticleChamberPart implements ITileEnergy, IEnergySink

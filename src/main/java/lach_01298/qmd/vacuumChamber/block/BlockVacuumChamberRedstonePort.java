@@ -1,20 +1,16 @@
 package lach_01298.qmd.vacuumChamber.block;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
 import nc.util.BlockHelper;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
+
+import static nc.block.property.BlockProperties.*;
 
 public class BlockVacuumChamberRedstonePort extends BlockVacuumChamberPart
 {
@@ -97,7 +93,7 @@ public class BlockVacuumChamberRedstonePort extends BlockVacuumChamberPart
 	
 	 public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
 	 {
-		 TileEntity tileentity = blockAccess.getTileEntity(pos); 
+		 TileEntity tileentity = blockAccess.getTileEntity(pos);
 		 
 		 if(tileentity instanceof TileVacuumChamberRedstonePort)
 		 {

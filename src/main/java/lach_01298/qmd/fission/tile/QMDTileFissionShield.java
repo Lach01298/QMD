@@ -2,7 +2,7 @@ package lach_01298.qmd.fission.tile;
 
 import lach_01298.qmd.enums.BlockTypes.NeutronShieldType;
 import lach_01298.qmd.fission.block.QMDBlockFissionShield;
-import nc.multiblock.fission.tile.TileFissionShield;
+import nc.tile.fission.TileFissionShield;
 
 public class QMDTileFissionShield extends TileFissionShield
 {

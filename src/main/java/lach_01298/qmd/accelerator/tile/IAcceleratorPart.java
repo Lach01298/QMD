@@ -1,12 +1,8 @@
 package lach_01298.qmd.accelerator.tile;
 
-import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.AcceleratorLogic;
-import nc.multiblock.tile.ITileLogicMultiblockPart;
-import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
+import lach_01298.qmd.accelerator.*;
+import nc.tile.multiblock.ITileLogicMultiblockPart;
 
-public interface IAcceleratorPart  extends ITileLogicMultiblockPart<Accelerator,AcceleratorLogic,IAcceleratorPart> 
+public interface IAcceleratorPart  extends ITileLogicMultiblockPart<Accelerator,AcceleratorLogic,IAcceleratorPart>
 {
 }
-
-

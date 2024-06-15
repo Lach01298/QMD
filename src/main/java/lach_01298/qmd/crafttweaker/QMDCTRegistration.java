@@ -1,26 +1,14 @@
 package lach_01298.qmd.crafttweaker;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.io.FileUtils;
-
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.mc1120.util.CraftTweakerPlatformUtils;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.CoolerPlacement;
-import lach_01298.qmd.accelerator.block.BlockAcceleratorPart;
-import lach_01298.qmd.accelerator.block.BlockAcceleratorSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.accelerator.block.*;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.item.ItemCustomParticleSource;
-import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.item.*;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
 import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.util.Util;
@@ -29,17 +17,18 @@ import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
 import nc.integration.crafttweaker.CTRegistration;
 import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
 import nc.item.NCItemMetaArray;
-import nc.util.IOHelper;
-import nc.util.InfoHelper;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import org.apache.commons.io.FileUtils;
+import stanhebben.zenscript.annotations.*;
+
+import java.io.*;
+import java.util.*;
 
 @ZenClass("mods.qmd.Registration")
 @ZenRegister
@@ -262,7 +251,7 @@ public class QMDCTRegistration
 		public void registerBlock()
 		{
 			QMDBlocks.registerBlock(block, TextFormatting.BLUE, new String[] {
-					Lang.localise("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + cooling + " H/t" },
+					Lang.localize("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + cooling + " H/t" },
 					TextFormatting.AQUA, InfoHelper.NULL_ARRAY);
 		}
 
@@ -296,14 +285,14 @@ public class QMDCTRegistration
 		public void registerBlock()
 		{
 			String[] info = new String[] {
-					Lang.localise("info." + QMD.MOD_ID + ".rf_cavity.voltage", voltage),
-					Lang.localise("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*efficiency) + "%"),
-					Lang.localise("info." + QMD.MOD_ID + ".item.heat", heat),
-					Lang.localise("info." + QMD.MOD_ID + ".item.power", basePower),
-					Lang.localise("info." + QMD.MOD_ID + ".item.max_temp", maxTemp)
+					Lang.localize("info." + QMD.MOD_ID + ".rf_cavity.voltage", voltage),
+					Lang.localize("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*efficiency) + "%"),
+					Lang.localize("info." + QMD.MOD_ID + ".item.heat", heat),
+					Lang.localize("info." + QMD.MOD_ID + ".item.power", basePower),
+					Lang.localize("info." + QMD.MOD_ID + ".item.max_temp", maxTemp)
 					};
 			
-			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".rf_cavity.desc")));
+			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".rf_cavity.desc")));
 		}
 	}
 	
@@ -329,14 +318,14 @@ public class QMDCTRegistration
 		public void registerBlock()
 		{
 			String[] info = new String[] {
-					Lang.localise("info." + QMD.MOD_ID + ".accelerator_magnet.strength", strength),
-					Lang.localise("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*efficiency) + "%"),
-					Lang.localise("info." + QMD.MOD_ID + ".item.heat", heat),
-					Lang.localise("info." + QMD.MOD_ID + ".item.power", basePower),
-					Lang.localise("info." + QMD.MOD_ID + ".item.max_temp", maxTemp)
+					Lang.localize("info." + QMD.MOD_ID + ".accelerator_magnet.strength", strength),
+					Lang.localize("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*efficiency) + "%"),
+					Lang.localize("info." + QMD.MOD_ID + ".item.heat", heat),
+					Lang.localize("info." + QMD.MOD_ID + ".item.power", basePower),
+					Lang.localize("info." + QMD.MOD_ID + ".item.max_temp", maxTemp)
 					};
 			
-			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".accelerator_magnet.desc")));
+			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".accelerator_magnet.desc")));
 		}
 	}
 	
@@ -362,17 +351,17 @@ public class QMDCTRegistration
 		public void registerBlock()
 		{
 			String[] info = new String[] {
-					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(1000D*efficiency)/10d + "%"),
-					Lang.localise("info." + QMD.MOD_ID + ".particle_chamber.detector.power", basePower)
+					Lang.localize("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(1000D*efficiency)/10d + "%"),
+					Lang.localize("info." + QMD.MOD_ID + ".particle_chamber.detector.power", basePower)
 					};
 			
 			if(within)
 			{
-				QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector.in.desc",distance)));
+				QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".particle_chamber.detector.in.desc",distance)));
 			}
 			else
 			{
-				QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".particle_chamber.detector.out.desc",distance)));
+				QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".particle_chamber.detector.out.desc",distance)));
 			}
 			
 			
@@ -397,7 +386,7 @@ public class QMDCTRegistration
 		public void registerBlock()
 		{
 			QMDBlocks.registerBlock(block, TextFormatting.BLUE, new String[] {
-					Lang.localise("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + cooling + " H/t" },
+					Lang.localize("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + cooling + " H/t" },
 					TextFormatting.AQUA, InfoHelper.NULL_ARRAY);
 		}
 
@@ -429,12 +418,12 @@ public class QMDCTRegistration
 		public void registerBlock()
 		{
 			String[] info = new String[] {
-					Lang.localise("info." + QMD.MOD_ID + ".item.power", basePower),
-					Lang.localise("info." + QMD.MOD_ID + ".ion_source.output_multiplier", outputMultipler),
-					Lang.localise("info." + QMD.MOD_ID + ".ion_source.focus", outputFocus)
+					Lang.localize("info." + QMD.MOD_ID + ".item.power", basePower),
+					Lang.localize("info." + QMD.MOD_ID + ".ion_source.output_multiplier", outputMultipler),
+					Lang.localize("info." + QMD.MOD_ID + ".ion_source.focus", outputFocus)
 					};
 			
-			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localise("tile." + QMD.MOD_ID + ".ion_source.desc")));
+			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".ion_source.desc")));
 		}
 	}
 	

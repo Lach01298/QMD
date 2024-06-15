@@ -1,17 +1,13 @@
 package lach_01298.qmd.recipes;
 
-import static  lach_01298.qmd.config.QMDConfig.atmosphere_collector_recipes;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
 import lach_01298.qmd.util.Util;
 import nc.util.FluidRegHelper;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.*;
+
+import static lach_01298.qmd.config.QMDConfig.atmosphere_collector_recipes;
 
 public class AtmosphereCollectorRecipes
 {

@@ -1,20 +1,17 @@
 package lach_01298.qmd.jei.category;
 
-import java.util.List;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.ParticleInfoRecipe;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.particle.*;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiIngredientGroup;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import nc.util.Lang;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.List;
 
 public class ParticleInfoCategory implements IRecipeCategory<ParticleInfoRecipe>
 {
@@ -24,7 +21,7 @@ public class ParticleInfoCategory implements IRecipeCategory<ParticleInfoRecipe>
 	
 	
 	
-	public ParticleInfoCategory(IGuiHelper guiHelper) 
+	public ParticleInfoCategory(IGuiHelper guiHelper)
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/blank.png");
 		background = guiHelper.createDrawable(gui_texture, 0, 0, 150, 140);
@@ -44,7 +41,7 @@ public class ParticleInfoCategory implements IRecipeCategory<ParticleInfoRecipe>
 	public String getTitle()
 	{
 		
-		return Lang.localise("qmd.gui.jei.category.particle_info");
+		return Lang.localize("qmd.gui.jei.category.particle_info");
 	}
 
 	@Override

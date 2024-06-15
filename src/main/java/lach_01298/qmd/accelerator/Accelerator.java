@@ -1,59 +1,38 @@
 package lach_01298.qmd.accelerator;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Lists;
-
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
-import lach_01298.qmd.accelerator.tile.IAcceleratorController;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorYoke;
+import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.*;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.CuboidalOrToroidalMultiblock;
-import lach_01298.qmd.multiblock.IMultiBlockTank;
-import lach_01298.qmd.multiblock.IQMDPacketMultiblock;
+import lach_01298.qmd.multiblock.*;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.Global;
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.IPacketMultiblock;
-import nc.multiblock.Multiblock;
-import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.tile.ITileMultiblockPart;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.recipe.BasicRecipe;
-import nc.recipe.RecipeInfo;
+import nc.multiblock.*;
+import nc.recipe.*;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.util.*;
+import java.util.function.UnaryOperator;
+
 public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcceleratorPart>
 		implements ILogicMultiblock<Accelerator, AcceleratorLogic, IAcceleratorPart>, IQMDPacketMultiblock<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket>, IMultiBlockTank
 {
 
 	public static final ObjectSet<Class<? extends IAcceleratorPart>> PART_CLASSES = new ObjectOpenHashSet<>();
-	public static final Object2ObjectMap<String, Constructor<? extends AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>(); 
+	public static final Object2ObjectMap<String, UnaryOperator<AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull AcceleratorLogic logic = new AcceleratorLogic(this);
 	//protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
@@ -78,7 +57,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public final EnergyStorage energyStorage = new EnergyStorage(QMDConfig.accelerator_base_energy_capacity);
 	public List<Tank> tanks = Lists.newArrayList(
 			new Tank(QMDConfig.accelerator_base_input_tank_capacity,QMDRecipes.accelerator_cooling_valid_fluids.get(0)),
-			new Tank(QMDConfig.accelerator_base_output_tank_capacity, null), 
+			new Tank(QMDConfig.accelerator_base_output_tank_capacity, null),
 			new Tank(1, null), new Tank(1, null), new Tank(1, null), new Tank(1, null), new Tank(1, null));
 	public final List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
 	
@@ -226,7 +205,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 				return true;
 			}
 		}
-		return false;	
+		return false;
 	}
 	
 	
@@ -258,7 +237,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 				return true;
 			}
 		}
-		return false;	
+		return false;
 	}
 	
 	
@@ -273,8 +252,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 				if(!magnetType.isInstance(this.WORLD.getTileEntity(center.south())))
 				{
 					return false;
-				}	
-				if (!(this.WORLD.getTileEntity(center.north().up()) instanceof TileAcceleratorYoke) || 
+				}
+				if (!(this.WORLD.getTileEntity(center.north().up()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.north().down()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.north().east()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.north().west()) instanceof TileAcceleratorYoke) ||
@@ -282,7 +261,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 						!(this.WORLD.getTileEntity(center.north().up().west()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.north().down().east()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.north().down().west()) instanceof TileAcceleratorYoke) ||
-						!(this.WORLD.getTileEntity(center.south().up()) instanceof TileAcceleratorYoke) || 
+						!(this.WORLD.getTileEntity(center.south().up()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.south().down()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.south().east()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.south().west()) instanceof TileAcceleratorYoke) ||
@@ -293,8 +272,8 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 						!(this.WORLD.getTileEntity(center.up().east()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.up().west()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.down().east()) instanceof TileAcceleratorYoke) ||
-						!(this.WORLD.getTileEntity(center.down().west()) instanceof TileAcceleratorYoke))		
-				{		
+						!(this.WORLD.getTileEntity(center.down().west()) instanceof TileAcceleratorYoke))
+				{
 					return false;
 				}
 				List<BlockPos> faces = new ArrayList<BlockPos>();
@@ -310,7 +289,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 						
 						return false;
 					}
-				}	
+				}
 			}
 			else if(this.WORLD.getTileEntity(center.east()) instanceof TileAcceleratorMagnet )
 			{
@@ -320,7 +299,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 					return false;
 				}
 				
-				if (!(this.WORLD.getTileEntity(center.east().up()) instanceof TileAcceleratorYoke) || 
+				if (!(this.WORLD.getTileEntity(center.east().up()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.east().down()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.east().north()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.east().south()) instanceof TileAcceleratorYoke) ||
@@ -328,7 +307,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 						!(this.WORLD.getTileEntity(center.east().up().south()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.east().down().north()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.east().down().south()) instanceof TileAcceleratorYoke) ||
-						!(this.WORLD.getTileEntity(center.west().up()) instanceof TileAcceleratorYoke) || 
+						!(this.WORLD.getTileEntity(center.west().up()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.west().down()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.west().north()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.west().south()) instanceof TileAcceleratorYoke) ||
@@ -339,7 +318,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 						!(this.WORLD.getTileEntity(center.up().north()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.up().south()) instanceof TileAcceleratorYoke) ||
 						!(this.WORLD.getTileEntity(center.down().north()) instanceof TileAcceleratorYoke) ||
-						!(this.WORLD.getTileEntity(center.down().south()) instanceof TileAcceleratorYoke))		
+						!(this.WORLD.getTileEntity(center.down().south()) instanceof TileAcceleratorYoke))
 				{
 					
 					return false;
@@ -378,7 +357,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 				return false;
 			}
 			
-			if (!(this.WORLD.getTileEntity(center.up().north()) instanceof TileAcceleratorYoke) || 
+			if (!(this.WORLD.getTileEntity(center.up().north()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.up().south()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.up().east()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.up().west()) instanceof TileAcceleratorYoke) ||
@@ -386,7 +365,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 					!(this.WORLD.getTileEntity(center.up().north().west()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.up().south().east()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.up().south().west()) instanceof TileAcceleratorYoke) ||
-					!(this.WORLD.getTileEntity(center.down().north()) instanceof TileAcceleratorYoke)|| 
+					!(this.WORLD.getTileEntity(center.down().north()) instanceof TileAcceleratorYoke)||
 					!(this.WORLD.getTileEntity(center.down().south()) instanceof TileAcceleratorYoke)||
 					!(this.WORLD.getTileEntity(center.down().east()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.down().west()) instanceof TileAcceleratorYoke) ||
@@ -397,7 +376,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 					!(this.WORLD.getTileEntity(center.north().east()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.north().west()) instanceof TileAcceleratorYoke) ||
 					!(this.WORLD.getTileEntity(center.south().east()) instanceof TileAcceleratorYoke) ||
-					!(this.WORLD.getTileEntity(center.south().west()) instanceof TileAcceleratorYoke))		
+					!(this.WORLD.getTileEntity(center.south().west()) instanceof TileAcceleratorYoke))
 			{
 				
 				return false;
@@ -418,7 +397,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 			}
 		}
 
-		return true;	
+		return true;
 	}
 	
 	// Multiblock Methods
@@ -485,7 +464,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 			return false;
 		}
 		
-		for (IAcceleratorController contr : getPartMap(IAcceleratorController.class).values()) 
+		for (IAcceleratorController contr : getPartMap(IAcceleratorController.class).values())
 		{
 			controller = contr;
 		}
@@ -515,10 +494,10 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 		boolean flag = false;
 		updateActivity();
 		
-		if (logic.onUpdateServer()) 
+		if (logic.onUpdateServer())
 		{
 			flag = true;
-		}		
+		}
 		
 		return flag;
 	}
@@ -539,17 +518,17 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 		}
 	}
 	
-	public int getTemperature() 
+	public int getTemperature()
 	{
 		return Math.round(MAX_TEMP*(float)heatBuffer.getHeatStored()/heatBuffer.getHeatCapacity());
 	}
 	
-	public long getExternalHeating() 
+	public long getExternalHeating()
 	{
 		return (long) ((ambientTemp - getTemperature()) * QMDConfig.accelerator_thermal_conductivity * getExteriorSurfaceArea());
 	}
 	
-	public long getMaxExternalHeating() 
+	public long getMaxExternalHeating()
 	{
 		return (long) (ambientTemp * QMDConfig.accelerator_thermal_conductivity * getExteriorSurfaceArea());
 	}

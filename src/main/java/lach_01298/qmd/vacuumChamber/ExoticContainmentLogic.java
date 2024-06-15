@@ -1,57 +1,33 @@
 package lach_01298.qmd.vacuumChamber;
 
-import static lach_01298.qmd.recipes.QMDRecipes.cell_filling;
-import static lach_01298.qmd.recipes.QMDRecipes.neutral_containment;
-import static nc.block.property.BlockProperties.ACTIVE;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.NeutralContainmentUpdatePacket;
-import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.network.QMDPackets;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Util;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
-import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberCoil;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberFluidPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeaterVent;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
-import nc.recipe.BasicRecipe;
-import nc.recipe.RecipeInfo;
-import nc.recipe.RecipeMatchResult;
-import nc.recipe.ingredient.EmptyFluidIngredient;
-import nc.recipe.ingredient.FluidIngredient;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
-import nc.recipe.ingredient.ItemIngredient;
+import lach_01298.qmd.vacuumChamber.tile.*;
+import nc.recipe.*;
+import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.*;
+import static nc.block.property.BlockProperties.ACTIVE;
 
 public class ExoticContainmentLogic extends VacuumChamberLogic
 {
@@ -77,7 +53,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		beam 1 = input particle 2
 		tank 0 = input coolant
 		tank 1 = output coolant
-		tank 2 = output fluid 
+		tank 2 = output fluid
 		*/
 		
 		//on the rare occasion of changing the multiblock to a different type with the tank full
@@ -139,7 +115,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			
 
 		}
-			
+		
 		
 		if (getMultiblock().controller != null)
 		{
@@ -213,7 +189,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		}
 		
 		//empty space
-		Set<BlockPos> interior = new HashSet<BlockPos>();	
+		Set<BlockPos> interior = new HashSet<BlockPos>();
 			for (BlockPos pos : BlockPos.getAllInBoxMutable(con.getExtremeInteriorCoord(false, false, false),
 					con.getExtremeInteriorCoord(true, true, true)))
 			{
@@ -414,19 +390,17 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		}
 		return postions;
 	}
-
+	
 	public static final List<Pair<Class<? extends IVacuumChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileVacuumChamberFluidPort.class,QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_fluid_ports"),
-			Pair.of(TileVacuumChamberHeaterVent.class,QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_heater_vents"));
-
+			Pair.of(TileVacuumChamberFluidPort.class, QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_fluid_ports"),
+			Pair.of(TileVacuumChamberHeaterVent.class, QMD.MOD_ID + ".multiblock_validation.vacuum_chamber.no_heater_vents"));
+	
 	@Override
 	public List<Pair<Class<? extends IVacuumChamberPart>, String>> getPartBlacklist()
 	{
 		return PART_BLACKLIST;
 	}
-	
-	
-	
+
 	// Server
 	
 	@Override
@@ -463,7 +437,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 					if (rememberedRecipeInfo != null)
 					{
-						if (rememberedRecipeInfo.getRecipe() != recipeInfo.getRecipe())
+						if (rememberedRecipeInfo.recipe != recipeInfo.recipe)
 						{
 							particle1WorkDone = 0;
 							particle2WorkDone = 0;
@@ -478,9 +452,9 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 						if (getMultiblock().beams.get(0).getParticleStack() != null)
 						{
 
-							if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() != null)
+							if (recipeInfo.recipe.getParticleIngredients().get(0).getStack() != null)
 							{
-								if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack()
+								if (recipeInfo.recipe.getParticleIngredients().get(0).getStack()
 										.getParticle() != getMultiblock().beams.get(0).getParticleStack().getParticle())
 								{
 									switchInputs = true;
@@ -494,9 +468,9 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 						if (!switchInputs && getMultiblock().beams.get(1).getParticleStack() != null)
 						{
-							if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() != null)
+							if (recipeInfo.recipe.getParticleIngredients().get(1).getStack() != null)
 							{
-								if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack()
+								if (recipeInfo.recipe.getParticleIngredients().get(1).getStack()
 										.getParticle() != getMultiblock().beams.get(1).getParticleStack().getParticle())
 								{
 									switchInputs = true;
@@ -543,7 +517,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		
 		if (getMultiblock().controller != null)
 		{
-			QMDPacketHandler.instance.sendToAll(getMultiblock().getRenderPacket());
+			QMDPackets.wrapper.sendToAll(getMultiblock().getRenderPacket());
 			getMultiblock().sendMultiblockUpdatePacketToListeners();
 			getMultiblock().sendRenderToAllPlayers();
 		}
@@ -601,7 +575,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			
 			if(QMDConfig.exotic_containment_gamma_flash)
 			{
-							
+				
 				Vec3d pos = new Vec3d(middle.getX(),middle.getY(),middle.getZ());
 				Util.createGammaFlash(getMultiblock().WORLD, pos, size, 0f, QMDConfig.exotic_containment_radiation * size);
 
@@ -704,7 +678,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	private boolean canProduceProduct()
 	{
 
-		FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+		FluidStack product = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 		if (product != null)
 		{
 			if (getMultiblock().tanks.get(2).fill(product, false) == product.amount)
@@ -721,42 +695,42 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 		if (switchInputs)
 		{
-			if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(1).getStack() == null)
 			{
 				recipeParticle1Work = 0;
 			}
 			else
 			{
-				recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
+				recipeParticle1Work = recipeInfo.recipe.getParticleIngredients().get(1).getStack().getAmount();
 			}
 
-			if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(0).getStack() == null)
 			{
 				recipeParticle2Work = 0;
 			}
 			else
 			{
-				recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+				recipeParticle2Work = recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount();
 			}
 		}
 		else
 		{
-			if (recipeInfo.getRecipe().getParticleIngredients().get(0).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(0).getStack() == null)
 			{
 				recipeParticle1Work = 0;
 			}
 			else
 			{
-				recipeParticle1Work = recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount();
+				recipeParticle1Work = recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount();
 			}
 
-			if (recipeInfo.getRecipe().getParticleIngredients().get(1).getStack() == null)
+			if (recipeInfo.recipe.getParticleIngredients().get(1).getStack() == null)
 			{
 				recipeParticle2Work = 0;
 			}
 			else
 			{
-				recipeParticle2Work = recipeInfo.getRecipe().getParticleIngredients().get(1).getStack().getAmount();
+				recipeParticle2Work = recipeInfo.recipe.getParticleIngredients().get(1).getStack().getAmount();
 			}
 
 		}
@@ -766,7 +740,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		while (particle1WorkDone >= recipeParticle1Work && particle2WorkDone >= recipeParticle2Work
 				&& canProduceProduct())
 		{
-			FluidStack product = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+			FluidStack product = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 			getMultiblock().tanks.get(2).fill(product, true);
 
 			particle1WorkDone = Math.max(0, particle1WorkDone - recipeParticle1Work);
@@ -801,16 +775,16 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			return;
 		}
 
-		ItemStack itemProduct = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+		ItemStack itemProduct = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 		int amount = item.getAmountStored(itemInput);
 
 		if (amount == 0)
 		{
 			// fill empty cells
 			
-			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
+			if (cellRecipeInfo.recipe.getFluidProducts().get(0).getStack() == null)
 			{
-				ItemStack outputItem = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				ItemStack outputItem = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 				
 				IItemParticleAmount output;
 				if (outputItem.getItem() instanceof IItemParticleAmount)
@@ -823,11 +797,11 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				}
 				
 				
-				int amountPerMillibuckets = IItemParticleAmount.getCapacity(outputItem) / cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+				int amountPerMillibuckets = IItemParticleAmount.getCapacity(outputItem) / cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack().amount;
 
 				if (!getMultiblock().tanks.get(2).isEmpty())
 				{
-					int cellAmount = amountPerMillibuckets * getMultiblock().tanks.get(2).drain(cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack(), true).amount;
+					int cellAmount = amountPerMillibuckets * getMultiblock().tanks.get(2).drain(cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack(), true).amount;
 
 					output.setAmountStored(outputItem, cellAmount);
 					cont.getInventoryStacks().set(0, outputItem);
@@ -845,22 +819,22 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 			// fill partially full cells
 			
 			
-			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() == null)
+			if (cellRecipeInfo.recipe.getFluidProducts().get(0).getStack() == null)
 			{
 				
-				ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+				ItemStack output = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 				
 				if (output.getItem() == cont.getInventoryStacks().get(0).getItem()
 						&& output.getMetadata() == cont.getInventoryStacks().get(0).getMetadata()) // make sure it the
 																									// right cell type
 				{
 					
-					int amountPerMillibuckets = IItemParticleAmount.getCapacity(output) / cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+					int amountPerMillibuckets = IItemParticleAmount.getCapacity(output) / cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack().amount;
 					
 					if (!getMultiblock().tanks.get(2).isEmpty())
 					{
 
-						int recipemb = cellRecipeInfo.getRecipe().getFluidIngredients().get(0).getStack().amount;
+						int recipemb = cellRecipeInfo.recipe.getFluidIngredients().get(0).getStack().amount;
 						
 						int cellAmount = 0;
 						if(recipemb - amount / amountPerMillibuckets <= 0)
@@ -889,17 +863,17 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		{
 			// empty full cells
 			
-			if (cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack() != null)
+			if (cellRecipeInfo.recipe.getFluidProducts().get(0).getStack() != null)
 			{
 				
-				FluidStack fluidProduct = cellRecipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+				FluidStack fluidProduct = cellRecipeInfo.recipe.getFluidProducts().get(0).getStack();
 				if (getMultiblock().tanks.get(2).fill(fluidProduct, false) == fluidProduct.amount)
 				{
 					
 					getMultiblock().tanks.get(2).fill(fluidProduct, true);
 					cont.getInventoryStacks().set(0, ItemStack.EMPTY);
 
-					ItemStack output = cellRecipeInfo.getRecipe().getItemProducts().get(0).getStack();
+					ItemStack output = cellRecipeInfo.recipe.getItemProducts().get(0).getStack();
 					item.setAmountStored(output, IItemParticleAmount.getCapacity(output));
 					cont.getInventoryStacks().set(1, output);
 				}
@@ -909,26 +883,26 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	}
 
 	
-	protected void updateRedstone() 
+	protected void updateRedstone()
 	{
 		
 		for (TileVacuumChamberRedstonePort port : getPartMap(TileVacuumChamberRedstonePort.class).values())
 		{
 			if(getMultiblock().WORLD.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
-			{		
+			{
 				if(getMultiblock().tanks.get(2).getFluidAmount() > 0 && (int)(15 *(getMultiblock().tanks.get(2).getFluidAmount()/(double)getMultiblock().tanks.get(2).getCapacity())) == 0)
 				{
 					port.setRedstoneLevel(1);
 				}
 				else
 				{
-					port.setRedstoneLevel((int) (15 *(getMultiblock().tanks.get(2).getFluidAmount()/(double)getMultiblock().tanks.get(2).getCapacity())));			
+					port.setRedstoneLevel((int) (15 *(getMultiblock().tanks.get(2).getFluidAmount()/(double)getMultiblock().tanks.get(2).getCapacity())));
 				}
-					
+				
 			}
 			else
 			{
-				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));	
+				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));
 			}
 		}
 	}
@@ -1013,7 +987,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 	public void onRenderPacket(ContainmentRenderPacket message)
 	{
-		getMultiblock().tanks.get(2).setFluidAmount(message.tanksInfo.get(2).amount());
+		getMultiblock().tanks.get(2).setFluidAmount(message.tanksInfo.get(2).amount);
 		
 	}
 

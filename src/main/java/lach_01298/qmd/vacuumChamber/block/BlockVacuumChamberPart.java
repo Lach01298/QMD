@@ -1,7 +1,7 @@
 package lach_01298.qmd.vacuumChamber.block;
 
 import lach_01298.qmd.tab.QMDTabs;
-import nc.multiblock.block.BlockMultiblockPart;
+import nc.block.multiblock.BlockMultiblockPart;
 import net.minecraft.block.material.Material;
 
 public abstract class BlockVacuumChamberPart extends BlockMultiblockPart

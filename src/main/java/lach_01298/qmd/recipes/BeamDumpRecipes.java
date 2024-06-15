@@ -1,13 +1,10 @@
 package lach_01298.qmd.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lach_01298.qmd.QMDConstants;
-import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
+
+import java.util.*;
 
 public class BeamDumpRecipes extends QMDRecipeHandler
 {
@@ -24,7 +21,7 @@ public class BeamDumpRecipes extends QMDRecipeHandler
 		
 		//particles per milibucket
 		int ppmB = QMDConstants.moleAmount/QMDConstants.bucketAmount;
-				
+		
 		addRecipe(new ParticleStack(Particles.proton,ppmB), fluidStack("hydrogen", 1));
 		addRecipe(new ParticleStack(Particles.deuteron,ppmB), fluidStack("deuterium", 1));
 		addRecipe(new ParticleStack(Particles.triton,ppmB), fluidStack("tritium", 1));
@@ -34,7 +31,7 @@ public class BeamDumpRecipes extends QMDRecipeHandler
 
 
 	@Override
-	public List fixExtras(List extras)
+	public List fixedExtras(List extras)
 	{
 		List fixed = new ArrayList(1);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Long ? (long) extras.get(0) : Long.MAX_VALUE);

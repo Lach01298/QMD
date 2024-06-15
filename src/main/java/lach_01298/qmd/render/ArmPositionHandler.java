@@ -2,18 +2,15 @@ package lach_01298.qmd.render;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.item.ItemGun;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.*;
 import net.minecraft.client.model.ModelBiped.ArmPose;
-import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.relauncher.*;
 
 @Mod.EventBusSubscriber(modid = QMD.MOD_ID)
 public class ArmPositionHandler

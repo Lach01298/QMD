@@ -1,10 +1,9 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import lach_01298.qmd.vacuumChamber.VacuumChamberLogic;
+import lach_01298.qmd.vacuumChamber.*;
 import nc.multiblock.cuboidal.ITileCuboidalLogicMultiblockPart;
 
 
-public interface IVacuumChamberPart extends ITileCuboidalLogicMultiblockPart<VacuumChamber,VacuumChamberLogic,IVacuumChamberPart> 
+public interface IVacuumChamberPart extends ITileCuboidalLogicMultiblockPart<VacuumChamber,VacuumChamberLogic,IVacuumChamberPart>
 {
 }

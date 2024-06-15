@@ -1,41 +1,35 @@
 package lach_01298.qmd.accelerator.tile;
 
-
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.multiblock.container.ContainerMassSpectrometerController;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.recipe.BasicRecipeHandler;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.TileContainerInfo;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
 import nc.util.NBTHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 
+import javax.annotation.*;
+import java.util.Set;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 public class TileMassSpectrometerController extends TileAcceleratorPart implements IAcceleratorController<TileMassSpectrometerController>, ITileInventory
 {
+	protected final TileContainerInfo<TileMassSpectrometerController> info = TileInfoHandler.getTileContainerInfo("mass_spectrometer_controller");
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.mass_spectrometer_controller";
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(6, ItemStack.EMPTY);
@@ -59,7 +53,12 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 	{
 		return	"mass_spectrometer";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileMassSpectrometerController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(Accelerator controller)
@@ -68,7 +67,7 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override
@@ -95,7 +94,7 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 		return recipe_handler;
 	}
 	
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		super.writeAll(nbt);
 		writeInventory(nbt);
@@ -105,7 +104,7 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 		return nbt;
 	}
 	
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		readInventory(nbt);
@@ -146,7 +145,7 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 	@Override
 	public void setItemOutputSetting(int slot, ItemOutputSetting setting)
 	{
-		
+	
 	}
 	
 	
@@ -177,7 +176,7 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) 
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side)
 	{
 		return  (getRecipeHandler() == null || isItemValidForSlot(slot, stack));
 	}
@@ -208,13 +207,4 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 		}
 		return super.getCapability(capability, side);
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) {
-		return new ContainerMassSpectrometerController(player, this);
-	}
-	
-	
-	
-	
 }

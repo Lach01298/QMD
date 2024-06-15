@@ -1,46 +1,31 @@
 package lach_01298.qmd.render;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-
-import org.lwjgl.opengl.GL11;
-
 import com.google.common.collect.ImmutableList;
-
-import lach_01298.qmd.QMD;
 import lach_01298.qmd.item.ItemDrill;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.client.resources.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.relauncher.*;
+import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 @SideOnly(Side.CLIENT)
-public class DrillBlockRenderHandler implements IResourceManagerReloadListener 
+public class DrillBlockRenderHandler implements IResourceManagerReloadListener
 {
 	public static final DrillBlockRenderHandler INSTANCE = new DrillBlockRenderHandler();
 	@SubscribeEvent(priority = EventPriority.LOW)

@@ -1,21 +1,13 @@
 package lach_01298.qmd.render.entity;
 
-import org.lwjgl.opengl.GL11;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.entity.EntityGluonBeam;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumHandSide;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.*;
+import net.minecraftforge.fml.relauncher.*;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderGluonBeam  extends Render<EntityGluonBeam>
@@ -25,7 +17,7 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 	private float previousPartialTicks =-1;
 	public RenderGluonBeam(RenderManager renderManager)
 	{
-		super(renderManager);	
+		super(renderManager);
 	}
 
 	@Override
@@ -37,7 +29,7 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 	
 	
 	@Override
-	public void doRender(EntityGluonBeam entity, double x, double y, double z, float entityYaw, float partialTicks) 
+	public void doRender(EntityGluonBeam entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		if(previousPartialTicks==partialTicks)
 		{
@@ -47,7 +39,7 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 		{
 			previousPartialTicks =partialTicks;
 		}
-			
+		
 		
 		
 		if(entity.getOwner() == null)
@@ -97,7 +89,7 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 		int lastBlendFuncDest = GlStateManager.glGetInteger(GL11.GL_BLEND_DST);
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-		GlStateManager.disableCull(); 
+		GlStateManager.disableCull();
 		GlStateManager.enableRescaleNormal();
 		
 		
@@ -117,7 +109,7 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 		
 		
 		
-        
+  
 		GlStateManager.disableRescaleNormal();
         GlStateManager.enableCull();
        

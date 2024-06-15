@@ -1,18 +1,18 @@
 package lach_01298.qmd.multiblock.network;
 
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import lach_01298.qmd.util.ByteUtil;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
-import lach_01298.qmd.vacuumChamber.tile.TileNucleosynthesisChamberController;
+import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
 
 public class NucleosynthesisChamberUpdatePacket extends VacuumChamberUpdatePacket
 {
@@ -73,7 +73,7 @@ public class NucleosynthesisChamberUpdatePacket extends VacuumChamberUpdatePacke
 	}
 
 	public static class Handler extends
-			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileNucleosynthesisChamberController, NucleosynthesisChamberUpdatePacket>
+			MultiblockUpdatePacket.Handler<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileNucleosynthesisChamberController, TileContainerInfo<TileNucleosynthesisChamberController>, NucleosynthesisChamberUpdatePacket>
 	{
 
 		public Handler()

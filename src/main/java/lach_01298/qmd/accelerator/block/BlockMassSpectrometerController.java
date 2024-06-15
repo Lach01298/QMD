@@ -1,22 +1,17 @@
 package lach_01298.qmd.accelerator.block;
 
-import static nc.block.property.BlockProperties.ACTIVE;
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
-import lach_01298.qmd.gui.GUI_ID;
 import nc.block.tile.IActivatable;
 import nc.util.BlockHelper;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.state.*;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import static nc.block.property.BlockProperties.*;
 
 public class BlockMassSpectrometerController extends BlockAcceleratorPart implements IActivatable
 {
@@ -88,7 +83,7 @@ public class BlockMassSpectrometerController extends BlockAcceleratorPart implem
 
 				if (controller.getMultiblock() != null && controller.getMultiblock().isAssembled())
 				{
-					player.openGui(QMD.instance, GUI_ID.MASS_SPECTROMETER, world, pos.getX(), pos.getY(), pos.getZ());
+					controller.openGui(world, pos, player);
 					return true;
 				}
 			}

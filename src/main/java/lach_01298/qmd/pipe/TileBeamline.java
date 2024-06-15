@@ -1,24 +1,20 @@
 package lach_01298.qmd.pipe;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
-import lach_01298.qmd.particle.ITileParticleStorage;
-import lach_01298.qmd.particle.ParticleStorage;
-import lach_01298.qmd.particle.ParticleStorageBeamline;
-import nc.multiblock.container.ContainerMultiblockController;
-import nc.multiblock.tile.IMultiblockGuiPart;
-import net.minecraft.entity.player.EntityPlayer;
+import lach_01298.qmd.particle.*;
+import nc.handler.TileInfoHandler;
+import nc.tile.TileContainerInfo;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 
+import javax.annotation.*;
+import java.util.List;
+
 public class TileBeamline extends TilePipePart implements IPipeController<TileBeamline>, ITileParticleStorage
 {
+	protected final TileContainerInfo<TileBeamline> info = TileInfoHandler.getTileContainerInfo("beamline");
+	
 	private final @Nonnull List<ParticleStorageBeamline> backupTanks = Lists.newArrayList(new ParticleStorageBeamline(1));
 	
 	public TileBeamline()
@@ -30,10 +26,14 @@ public class TileBeamline extends TilePipePart implements IPipeController<TileBe
 	@Override
 	public String getLogicID()
 	{
-		return	"beamline";
+		return "beamline";
 	}
 	
-
+	@Override
+	public TileContainerInfo<TileBeamline> getContainerInfo()
+	{
+		return info;
+	}
  
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
@@ -110,14 +110,4 @@ public class TileBeamline extends TilePipePart implements IPipeController<TileBe
 
 		return backupTanks;
 	}
-
-
-	@Override
-	public ContainerMultiblockController<Pipe, IPipePart, PipeUpdatePacket, TileBeamline> getContainer(
-			EntityPlayer player)
-	{
-		return null;
-	}
-	
-	
 }

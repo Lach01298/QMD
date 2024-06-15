@@ -1,20 +1,19 @@
 package lach_01298.qmd.multiblock.container;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.container.slot.SlotDisabled;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.slot.SlotFurnace;
-import nc.container.slot.SlotProcessorInput;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.container.multiblock.controller.ContainerMultiblockController;
+import nc.container.slot.*;
 import nc.recipe.BasicRecipeHandler;
+import nc.tile.TileContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMassSpectrometerController extends ContainerMultiblockController<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController>
+public class ContainerMassSpectrometerController extends ContainerMultiblockController<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, TileContainerInfo<TileMassSpectrometerController>>
 {
 	protected final BasicRecipeHandler recipeHandler;
 	
@@ -82,7 +81,7 @@ public class ContainerMassSpectrometerController extends ContainerMultiblockCont
 					return ItemStack.EMPTY;
 				}
 			}
-			else 
+			else
 			{
 				if(recipeHandler.isValidItemInput(itemstack1))
 				{

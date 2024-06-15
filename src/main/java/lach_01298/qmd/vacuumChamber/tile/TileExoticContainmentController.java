@@ -1,42 +1,34 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
-import nc.multiblock.container.ContainerMultiblockController;
+import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.recipe.BasicRecipeHandler;
-import nc.tile.internal.inventory.InventoryConnection;
-import nc.tile.internal.inventory.ItemOutputSetting;
-import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.TileContainerInfo;
+import nc.tile.internal.inventory.*;
 import nc.tile.inventory.ITileInventory;
-import nc.util.NBTHelper;
-import nc.util.NCMath;
+import nc.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 import net.minecraftforge.items.CapabilityItemHandler;
+
+import javax.annotation.*;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileExoticContainmentController extends TileVacuumChamberPart implements IVacuumChamberController<TileExoticContainmentController>, ITileInventory
 {
+	protected final TileContainerInfo<TileExoticContainmentController> info = TileInfoHandler.getTileContainerInfo("neutral_containment_controller");
 
 	private final @Nonnull String inventoryName = QMD.MOD_ID + ".container.neutral_containment_controller";
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
@@ -56,7 +48,12 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 	{
 		return	"neutral_containment";
 	}
-
+	
+	@Override
+	public TileContainerInfo<TileExoticContainmentController> getContainerInfo()
+	{
+		return info;
+	}
 
 	@Override
 	public void onMachineAssembled(VacuumChamber controller)
@@ -65,7 +62,7 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 		if (!getWorld().isRemote && getPartPosition().getFacing() != null)
 		{
 			getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(FACING_ALL, getPartPosition().getFacing()), 2);
-		}	
+		}
 	}
 
 	@Override
@@ -93,7 +90,7 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 		return recipe_handler;
 	}
 	
-	public NBTTagCompound writeAll(NBTTagCompound nbt) 
+	public NBTTagCompound writeAll(NBTTagCompound nbt)
 	{
 		super.writeAll(nbt);
 		writeInventory(nbt);
@@ -103,7 +100,7 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 		return nbt;
 	}
 	
-	public void readAll(NBTTagCompound nbt) 
+	public void readAll(NBTTagCompound nbt)
 	{
 		super.readAll(nbt);
 		readInventory(nbt);
@@ -144,11 +141,11 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 	@Override
 	public void setItemOutputSetting(int slot, ItemOutputSetting setting)
 	{
-		
+	
 	}
 	
 	@Override
-	public int getInventoryStackLimit() 
+	public int getInventoryStackLimit()
 	{
 		return 1;
 	}
@@ -180,7 +177,7 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 	}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) 
+	public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side)
 	{
 		return  (getRecipeHandler() == null || isItemValidForSlot(slot, stack));
 	}
@@ -211,15 +208,6 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 		}
 		return super.getCapability(capability, side);
 	}
-	
-	@Override
-	public ContainerMultiblockController getContainer(EntityPlayer player) 
-	{
-		return new ContainerExoticContainmentController(player, this);
-	}
-
-	
-	
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -265,7 +253,7 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 						+ NCMath.sq(getMultiblock().getExteriorLengthZ())) / 4D;
 	}
 
-	public boolean isRenderer() 
+	public boolean isRenderer()
 	{
 		return isRenderer;
 	}

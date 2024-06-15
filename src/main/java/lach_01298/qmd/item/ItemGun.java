@@ -1,25 +1,13 @@
 package lach_01298.qmd.item;
 
-import java.util.List;
+import com.google.common.base.*;
+import nc.item.NCItem;
+import net.minecraft.entity.*;
+import net.minecraft.util.*;
+import net.minecraft.util.math.*;
 
 import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
-import nc.item.IInfoItem;
-import nc.item.NCItem;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextFormatting;
+import java.util.List;
 
 public abstract class ItemGun  extends NCItem
 {
@@ -96,7 +84,7 @@ public abstract class ItemGun  extends NCItem
 	             }
 	         }
 			if (pointedEntity != null)
-	         {  
+	         {
 		    	entityHit = new RayTraceResult(pointedEntity, hitVec);
 	         }
 		}
@@ -104,7 +92,7 @@ public abstract class ItemGun  extends NCItem
 		
 	     if(hitBlocks)
 	     {
-	    	 blockHit = entity.world.rayTraceBlocks(eyesPos, rayVec, false, false, true); 
+	    	 blockHit = entity.world.rayTraceBlocks(eyesPos, rayVec, false, false, true);
 	     }
 	     
 	    
@@ -150,8 +138,8 @@ public abstract class ItemGun  extends NCItem
 			}
 			return blockHit;
 		}
-	     
-	    
+	 
+	 
 	}
 
 

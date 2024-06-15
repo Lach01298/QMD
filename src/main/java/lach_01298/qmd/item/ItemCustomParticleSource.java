@@ -1,31 +1,24 @@
 package lach_01298.qmd.item;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.entity.EntityGammaFlash;
 import lach_01298.qmd.util.Units;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.item.NCItem;
 import nc.radiation.RadiationHelper;
-import nc.util.DamageSources;
-import nc.util.InfoHelper;
-import nc.util.Lang;
+import nc.util.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class ItemCustomParticleSource extends NCItem implements IItemParticleAmount
 {
@@ -71,7 +64,7 @@ public class ItemCustomParticleSource extends NCItem implements IItemParticleAmo
 		{
 			
 			ItemStack stack = new ItemStack(this, 1);
-			IItemParticleAmount.fullItem(stack);		
+			IItemParticleAmount.fullItem(stack);
 			items.add(stack);
 			
 		}
@@ -81,23 +74,23 @@ public class ItemCustomParticleSource extends NCItem implements IItemParticleAmo
 	@Override
 	public ItemStack getEmptyItem()
 	{
-		return new ItemStack(emptyItem.getItem(),1,emptyItem.getMetadata());	
+		return new ItemStack(emptyItem.getItem(),1,emptyItem.getMetadata());
 	}
 	
 	public void setEmptyItem(ItemStack stack)
 	{
-		emptyItem = stack;	
+		emptyItem = stack;
 	}
 	
 	
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack) 
+	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return 1D - MathHelper.clamp((double) getAmountStored(stack) / getItemCapacity(stack), 0D, 1D);
 	}
 
 	@Override
-	public boolean showDurabilityBar(ItemStack stack) 
+	public boolean showDurabilityBar(ItemStack stack)
 	{
 		return getAmountStored(stack) > 0;
 	}
@@ -105,7 +98,7 @@ public class ItemCustomParticleSource extends NCItem implements IItemParticleAmo
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localise("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
+		InfoHelper.infoLine(tooltip, TextFormatting.DARK_GREEN,Lang.localize("info.qmd.item.amount", Units.getSIFormat(getAmountStored(stack), "pu"), Units.getSIFormat(getItemCapacity(stack),"pu")));
 	
 		super.addInformation(stack, world, tooltip, flag);
 	}
@@ -116,7 +109,7 @@ public class ItemCustomParticleSource extends NCItem implements IItemParticleAmo
 	public boolean onEntityItemUpdate(EntityItem entityItem)
 	{
 		if(explode)
-		{					
+		{
 			ItemStack stack = entityItem.getItem();
 			
 			if(entityItem.ticksExisted > QMDConfig.cell_lifetime || entityItem.isInLava() ||entityItem.isBurning()||entityItem.isDead)
@@ -161,7 +154,7 @@ public class ItemCustomParticleSource extends NCItem implements IItemParticleAmo
 			{
 				IEntityRads entityRads = RadiationHelper.getEntityRadiation(entity);
 				if(entityRads != null)
-				{				
+				{
 					double rads = Math.min(r, r / pos.distanceSq(entity.posX, entity.posY, entity.posZ));
 					entityRads.setRadiationLevel(RadiationHelper.addRadsToEntity(entityRads, entity, rads, false, false, 1));
 	

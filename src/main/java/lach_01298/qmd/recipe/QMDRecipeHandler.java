@@ -1,23 +1,17 @@
 package lach_01298.qmd.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import crafttweaker.annotations.ZenRegister;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.util.Util;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
+import lach_01298.qmd.util.Util;
 import nc.config.NCConfig;
-import nc.recipe.ingredient.IFluidIngredient;
-import nc.recipe.ingredient.IItemIngredient;
+import nc.recipe.ingredient.*;
 import nc.util.NCMath;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.*;
+
+import javax.annotation.*;
+import java.util.*;
 
 @ZenClass("mods.qmd.QMDRecipeHandler")
 @ZenRegister
@@ -88,35 +82,35 @@ public abstract class QMDRecipeHandler extends AbstractQMDRecipeHandler<QMDRecip
 				extras.add(object);
 			}
 		}
-		QMDRecipe recipe = buildRecipe(itemInputs, fluidInputs, particleInputs, itemOutputs, fluidOutputs,particleOutputs, fixExtras(extras), isShapeless);
+		QMDRecipe recipe = buildRecipe(itemInputs, fluidInputs, particleInputs, itemOutputs, fluidOutputs,particleOutputs, fixedExtras(extras), isShapeless);
 		
 		addRecipe(NCConfig.factor_recipes ? factorRecipe(recipe) : recipe);
 	}
 
-	public abstract List fixExtras(List extras);
+	public abstract List fixedExtras(List extras);
 	
-	public QMDRecipe factorRecipe(QMDRecipe recipe) 
+	public QMDRecipe factorRecipe(QMDRecipe recipe)
 	{
 		if (recipe == null) return null;
-		if (recipe.getItemIngredients().size() != 0 || recipe.getItemProducts().size() != 0) 
+		if (recipe.getItemIngredients().size() != 0 || recipe.getItemProducts().size() != 0)
 		{
 			return recipe;
 		}
 		
 		IntList stackSizes = new IntArrayList();
-		for (IFluidIngredient ingredient : recipe.getFluidIngredients()) 
+		for (IFluidIngredient ingredient : recipe.getFluidIngredients())
 		{
 			stackSizes.addAll(ingredient.getFactors());
 		}
-		for (IFluidIngredient ingredient : recipe.getFluidProducts()) 
+		for (IFluidIngredient ingredient : recipe.getFluidProducts())
 		{
 			stackSizes.addAll(ingredient.getFactors());
 		}
-		for (IParticleIngredient ingredient : recipe.getParticleIngredients()) 
+		for (IParticleIngredient ingredient : recipe.getParticleIngredients())
 		{
 			stackSizes.addAll(ingredient.getFactors());
 		}
-		for (IParticleIngredient ingredient : recipe.getParticleProducts()) 
+		for (IParticleIngredient ingredient : recipe.getParticleProducts())
 		{
 			stackSizes.addAll(ingredient.getFactors());
 		}
@@ -128,20 +122,20 @@ public abstract class QMDRecipeHandler extends AbstractQMDRecipeHandler<QMDRecip
 		List<IFluidIngredient> fluidIngredients = new ArrayList<>(), fluidProducts = new ArrayList<>();
 		List<IParticleIngredient> particleIngredients = new ArrayList<>(), particleProducts = new ArrayList<>();
 		
-		for (IFluidIngredient ingredient : recipe.getFluidIngredients()) 
+		for (IFluidIngredient ingredient : recipe.getFluidIngredients())
 		{
 			fluidIngredients.add(ingredient.getFactoredIngredient(hcf));
 		}
-		for (IFluidIngredient ingredient : recipe.getFluidProducts()) 
+		for (IFluidIngredient ingredient : recipe.getFluidProducts())
 		{
 			fluidProducts.add(ingredient.getFactoredIngredient(hcf));
 		}
 		
-		for (IParticleIngredient ingredient : recipe.getParticleIngredients()) 
+		for (IParticleIngredient ingredient : recipe.getParticleIngredients())
 		{
 			particleIngredients.add(ingredient.getFactoredIngredient(hcf));
 		}
-		for (IParticleIngredient ingredient : recipe.getParticleProducts()) 
+		for (IParticleIngredient ingredient : recipe.getParticleProducts())
 		{
 			particleProducts.add(ingredient.getFactoredIngredient(hcf));
 		}
@@ -149,12 +143,12 @@ public abstract class QMDRecipeHandler extends AbstractQMDRecipeHandler<QMDRecip
 		return new QMDRecipe(recipe.getItemIngredients(), fluidIngredients, particleIngredients, recipe.getItemProducts(), fluidProducts, particleProducts, getFactoredExtras(recipe.getExtras(), hcf), recipe.isShapeless());
 	}
 	
-	public IntList getExtraFactors(List extras) 
+	public IntList getExtraFactors(List extras)
 	{
 		return new IntArrayList();
 	}
 	
-	public List getFactoredExtras(List extras, int factor) 
+	public List getFactoredExtras(List extras, int factor)
 	{
 		return extras;
 	}

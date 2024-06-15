@@ -1,36 +1,17 @@
 package lach_01298.qmd.vacuumChamber;
 
-import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
-import static nc.block.property.BlockProperties.ACTIVE;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberComponent;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberBeamPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberEnergyPort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPart;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberRedstonePort;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberVent;
-import nc.multiblock.IPacketMultiblockLogic;
-import nc.multiblock.MultiblockLogic;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import lach_01298.qmd.vacuumChamber.tile.*;
+import nc.multiblock.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import nc.util.MaterialHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,10 +19,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
+import static nc.block.property.BlockProperties.ACTIVE;
 
 public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumChamberLogic,IVacuumChamberPart>
 		implements IPacketMultiblockLogic<VacuumChamber, VacuumChamberLogic,IVacuumChamberPart,VacuumChamberUpdatePacket>
-{ 
+{
 
 	public static final int maxSize = 7;
 	public static final int minSize = 5;
@@ -57,18 +45,18 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	
 	}
 	
-	public VacuumChamberLogic(VacuumChamberLogic oldLogic) 
+	public VacuumChamberLogic(VacuumChamberLogic oldLogic)
 	{
 		super(oldLogic);
 	}
 
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "";
 	}
 
-	protected VacuumChamber getMultiblock() 
+	protected VacuumChamber getMultiblock()
 	{
 		return multiblock;
 	}
@@ -103,7 +91,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	
 	public void onVacuumChamberFormed()
 	{
-		for (IVacuumChamberController contr : getPartMap(IVacuumChamberController.class).values()) 
+		for (IVacuumChamberController contr : getPartMap(IVacuumChamberController.class).values())
 		{
 			 getMultiblock().controller = contr;
 		}
@@ -150,7 +138,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	
 
 	
-	public int getCapacityMultiplier() 
+	public int getCapacityMultiplier()
 	{
 		return getMultiblock().getExteriorVolume();
 	}
@@ -164,10 +152,10 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 
 	@Override
 	public void onMachineDisassembled()
-	{	
+	{
 		for (TileVacuumChamberRedstonePort port : getPartMap(TileVacuumChamberRedstonePort.class).values())
 		{
-			port.setRedstoneLevel(0);	
+			port.setRedstoneLevel(0);
 		}
 		
 		operational = false;
@@ -218,6 +206,11 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
 			return false;
 		}
+		
+		if(containsBlacklistedPart())
+		{
+			return false;
+		}
 
 		if(containsBlacklistedPart())
 		{
@@ -234,7 +227,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	}
 	
 	public void onAssimilate(VacuumChamber assimilated)
-	{	
+	{
 		if (assimilated instanceof VacuumChamber)
 		{
 			VacuumChamber assimilatedAccelerator = (VacuumChamber) assimilated;
@@ -246,14 +239,14 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 			
 			onVacuumChamberFormed();
 		}
-		else 
+		else
 		{
 			onContainmentBroken();
 		}
 	}
 
 	public void onAssimilated(VacuumChamber assimilator)
-	{	
+	{
 	}
 
 	// Server
@@ -264,7 +257,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 		externalHeating();
 		refreshFluidRecipe();
 		if (canProcessFluidInputs())
-		{	
+		{
 			produceFluidProducts();
 		}
 		
@@ -345,17 +338,17 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	
 	// Recipes
 	
-	protected void refreshFluidRecipe() 
+	protected void refreshFluidRecipe()
 	{
 		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(0, 1));
 		if(getMultiblock().coolingRecipeInfo != null)
 		{
-			getMultiblock().maxCoolantIn =(int) (2*getMultiblock().heating/(double)getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*1000);
-			getMultiblock().maxCoolantOut = (int) (getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0).getMaxStackSize(0)*2*getMultiblock().heating/(double)(getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB()*getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0).getMaxStackSize(0))*1000);
-		}	
+			getMultiblock().maxCoolantIn =(int) (2*getMultiblock().heating/(double)getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*1000);
+			getMultiblock().maxCoolantOut = (int) (getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*2*getMultiblock().heating/(double)(getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0))*1000);
+		}
 	}
 	
-	protected boolean canProcessFluidInputs() 
+	protected boolean canProcessFluidInputs()
 	{
 		
 		if(getMultiblock().coolingRecipeInfo == null)
@@ -363,11 +356,11 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 			return false;
 		}
 		
-		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = 2*getMultiblock().heating;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
 		
 		if(getMultiblock().getTemperature() <= fluidInput.getStack().getFluid().getTemperature())
 		{
@@ -381,12 +374,12 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
 		
 		if (!outputTank.isEmpty())
-		{			
+		{
 			if (!outputTank.getFluid().isFluidEqual(fluidOutput.getStack()))
 			{
 				return false;
 			}
-			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())			
+			if (outputTank.getFluidAmount() +  (recipesPerTick+excessCoolingRecipes) * fluidOutput.getMaxStackSize(0)> outputTank.getCapacity())
 			{
 				return false;
 			}
@@ -403,12 +396,12 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	
 	private void produceFluidProducts()
 	{
-		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.getRecipe().getFluidProducts().get(0);
+		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank inputTank = getMultiblock().tanks.get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = 2*getMultiblock().heating;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.getRecipe().getFissionHeatingHeatPerInputMB();
+		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
 		
 		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
 		
@@ -456,11 +449,11 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 			long thisTickHeatChange = (long) Math.floor(excessHeat);
 			excessHeat -= thisTickHeatChange;
 			getMultiblock().heatBuffer.changeHeatStored(-thisTickHeatChange);
-		}		
+		}
 	}
 	
 	
-	protected boolean isRedstonePowered() 
+	protected boolean isRedstonePowered()
 	{
 		for (TileVacuumChamberRedstonePort port : getPartMap(TileVacuumChamberRedstonePort.class).values())
 		{
@@ -490,10 +483,10 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 				}
 			}
 		}
-		return level;	
+		return level;
 	}
 	
-	protected void updateRedstone() 
+	protected void updateRedstone()
 	{
 	
 	}
@@ -536,17 +529,17 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	@Override
 	public void onMultiblockUpdatePacket(VacuumChamberUpdatePacket message)
 	{
-		
+	
 	}
 
-	public ContainmentRenderPacket getRenderPacket() 
+	public ContainmentRenderPacket getRenderPacket()
 	{
 		return null;
 	}
 	
-	public void onRenderPacket(ContainmentRenderPacket message) 
+	public void onRenderPacket(ContainmentRenderPacket message)
 	{
-		
+	
 	}
 	
 	

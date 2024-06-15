@@ -8,7 +8,7 @@ public class CTParticleDefinition implements IParticleDefinition
 
     private final Particle particle;
 
-    public CTParticleDefinition(Particle particle) 
+    public CTParticleDefinition(Particle particle)
     {
         this.particle = particle;
     }
@@ -21,9 +21,9 @@ public class CTParticleDefinition implements IParticleDefinition
     }
 
     @Override
-    public String getDisplayName() 
+    public String getDisplayName()
     {
-        return Lang.localise(particle.getUnlocalizedName());
+        return Lang.localize(particle.getUnlocalizedName());
     }
 
 

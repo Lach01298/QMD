@@ -1,20 +1,15 @@
 package lach_01298.qmd.config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import lach_01298.qmd.QMD;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
-import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.GuiConfigEntries;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
-import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.client.config.*;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.*;
+
+import java.util.*;
 
 public class QMDConfigGUIFactory implements IModGuiFactory
 {
@@ -41,7 +36,7 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 		public QMDConfigGui(GuiScreen parentScreen)
 		{
 			super(parentScreen, getConfigElements(), QMD.MOD_ID, false, false,
-					Lang.localise("gui.qmd.config.main_title"));
+					Lang.localize("gui.qmd.config.main_title"));
 		}
 
 		private static List<IConfigElement> getConfigElements()
@@ -63,7 +58,7 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 		private static DummyCategoryElement categoryElement(String categoryName,
 				Class<? extends IConfigEntry> categoryClass)
 		{
-			return new DummyCategoryElement(Lang.localise("gui.qmd.config.category." + categoryName),
+			return new DummyCategoryElement(Lang.localize("gui.qmd.config.category." + categoryName),
 					"gui.qmd.config.category." + categoryName, categoryClass);
 		}
 

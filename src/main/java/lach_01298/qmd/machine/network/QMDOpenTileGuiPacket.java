@@ -2,18 +2,17 @@ package lach_01298.qmd.machine.network;
 
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.QMD;
-import nc.tile.ITileGui;
+import lach_01298.qmd.network.QMDPacket;
+import nclegacy.tile.ITileGuiLegacy;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.*;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class QMDOpenTileGuiPacket implements IMessage
+public class QMDOpenTileGuiPacket extends QMDPacket
 {
 
 	boolean messageValid;
@@ -25,7 +24,7 @@ public class QMDOpenTileGuiPacket implements IMessage
 		messageValid = false;
 	}
 
-	public QMDOpenTileGuiPacket(ITileGui machine)
+	public QMDOpenTileGuiPacket(ITileGuiLegacy machine)
 	{
 		pos = machine.getTilePos();
 		messageValid = true;
@@ -64,8 +63,7 @@ public class QMDOpenTileGuiPacket implements IMessage
 		{
 			if (!message.messageValid && ctx.side != Side.SERVER)
 				return null;
-			FMLCommonHandler.instance().getWorldThread(ctx.netHandler)
-					.addScheduledTask(() -> processMessage(message, ctx));
+			FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> processMessage(message, ctx));
 			return null;
 		}
 
@@ -73,11 +71,10 @@ public class QMDOpenTileGuiPacket implements IMessage
 		{
 			EntityPlayerMP player = ctx.getServerHandler().player;
 			TileEntity tile = player.getServerWorld().getTileEntity(message.pos);
-			if (tile instanceof ITileGui)
+			if (tile instanceof ITileGuiLegacy<?> tileGui)
 			{
-				FMLNetworkHandler.openGui(player, QMD.instance, ((ITileGui) tile).getGuiID(), player.getServerWorld(),
-						message.pos.getX(), message.pos.getY(), message.pos.getZ());
-				((ITileGui) tile).addTileUpdatePacketListener(player);
+				FMLNetworkHandler.openGui(player, QMD.instance, tileGui.getGuiID(), player.getServerWorld(), message.pos.getX(), message.pos.getY(), message.pos.getZ());
+				tileGui.addTileUpdatePacketListener(player);
 			}
 		}
 	}

@@ -1,18 +1,13 @@
 package lach_01298.qmd.machine.gui;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
-import nc.gui.NCGui;
 import nc.gui.element.GuiItemRenderer;
 import nc.init.NCItems;
 import nc.tile.energy.ITileEnergy;
-import nc.tile.processor.TileItemFluidProcessor;
-import nc.util.Lang;
-import nc.util.NCMath;
-import nc.util.UnitHelper;
+import nc.util.*;
+import nclegacy.gui.NCGuiLegacy;
+import nclegacy.tile.TileItemFluidProcessorLegacy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,15 +15,17 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public abstract class GuiItemFluidMachine extends NCGui
+import java.util.List;
+
+public abstract class GuiItemFluidMachine extends NCGuiLegacy
 {
 
 	protected final EntityPlayer player;
-	protected final TileItemFluidProcessor tile;
+	protected final TileItemFluidProcessorLegacy tile;
 	protected final ResourceLocation gui_textures;
 	protected GuiItemRenderer speedUpgradeRender = null, energyUpgradeRender = null;
 
-	public GuiItemFluidMachine(String name, EntityPlayer player, TileItemFluidProcessor tile, Container inventory)
+	public GuiItemFluidMachine(String name, EntityPlayer player, TileItemFluidProcessorLegacy tile, Container inventory)
 	{
 		super(inventory);
 		this.player = player;
@@ -64,7 +61,7 @@ public abstract class GuiItemFluidMachine extends NCGui
 		/*
 		 * if (tile.getWorld().isRemote) { if (guiButton != null) if (guiButton
 		 * instanceof NCButton) {
-		 * 
+		 *
 		 * } }
 		 */
 	}
@@ -89,13 +86,13 @@ public abstract class GuiItemFluidMachine extends NCGui
 		String powerMultiplier = "x" + NCMath.decimalPlaces(this.tile.getPowerMultiplier(), 2);
 
 		return Lists.newArrayList(
-				TextFormatting.LIGHT_PURPLE + Lang.localise("gui.nc.container.energy_stored") + TextFormatting.WHITE
+				TextFormatting.LIGHT_PURPLE + Lang.localize("gui.nc.container.energy_stored") + TextFormatting.WHITE
 						+ " " + energy,
-				TextFormatting.LIGHT_PURPLE + Lang.localise("gui.nc.container.process_power") + TextFormatting.WHITE
+				TextFormatting.LIGHT_PURPLE + Lang.localize("gui.nc.container.process_power") + TextFormatting.WHITE
 						+ " " + power,
-				TextFormatting.AQUA + Lang.localise("gui.nc.container.speed_multiplier") + TextFormatting.WHITE + " "
+				TextFormatting.AQUA + Lang.localize("gui.nc.container.speed_multiplier") + TextFormatting.WHITE + " "
 						+ speedMultiplier,
-				TextFormatting.AQUA + Lang.localise("gui.nc.container.power_multiplier") + TextFormatting.WHITE + " "
+				TextFormatting.AQUA + Lang.localize("gui.nc.container.power_multiplier") + TextFormatting.WHITE + " "
 						+ powerMultiplier);
 	}
 

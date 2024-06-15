@@ -1,42 +1,27 @@
 package lach_01298.qmd.particleChamber;
 
-
-import static lach_01298.qmd.recipes.QMDRecipes.collision_chamber;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.CollisionChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberFluidPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberPort;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.particleChamber.tile.*;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.collision_chamber;
 
 public class CollisionChamberLogic extends ParticleChamberLogic
 {
@@ -54,7 +39,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 	public CollisionChamberLogic(ParticleChamberLogic oldLogic)
 	{
-		super(oldLogic);	
+		super(oldLogic);
 		/*
 		beam 0 = input particle 1
 		beam 1 = input particle 2
@@ -67,7 +52,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "collision_chamber";
 	}
@@ -155,7 +140,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.must_be_input_beam_port", end2);
 				return false;
 			}
-					
+			
 	
 		}
 
@@ -336,14 +321,12 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			return false;
 		}
 		
-		
 		// Energy Ports
 		if (getPartMap(TileParticleChamberEnergyPort.class).size() < 1)
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
 			return false;
 		}
-		
 		
 		if(containsBlacklistedPart())
 		{
@@ -389,15 +372,14 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	}
 	
 	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileParticleChamberFluidPort.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_fluid_ports"),
-			Pair.of(TileParticleChamberPort.class,QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
-
+			Pair.of(TileParticleChamberFluidPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_fluid_ports"),
+			Pair.of(TileParticleChamberPort.class, QMD.MOD_ID + ".multiblock_validation.chamber.no_item_ports"));
+	
 	@Override
 	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
 	{
 		return PART_BLACKLIST;
 	}
-	
 	
 	
 	@Override
@@ -499,7 +481,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 	
 	public void onMachineDisassembled()
-	{	
+	{
 		for(TileParticleChamberBeamPort tile :getPartMap(TileParticleChamberBeamPort.class).values())
 		{
 			tile.setIONumber(0);
@@ -510,7 +492,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	
 
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
 		getMultiblock().beams.get(1).setParticleStack(null);
@@ -539,7 +521,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			else
 			{
 				resetBeams();
-			}	
+			}
 		}
 		else
 		{
@@ -555,7 +537,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	public void onResetStats()
 	{
 		getMultiblock().efficiency =1;
-		getMultiblock().requiredEnergy = QMDConfig.collision_chamber_power;	
+		getMultiblock().requiredEnergy = QMDConfig.collision_chamber_power;
 	}
 	
 	@Override
@@ -633,13 +615,13 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 	{
 		ParticleStack input1 = getMultiblock().beams.get(0).getParticleStack();
 		ParticleStack input2 = getMultiblock().beams.get(1).getParticleStack();
-		ParticleStack output1 = recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
-		ParticleStack output2 = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
-		ParticleStack output3 = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
-		ParticleStack output4 = recipeInfo.getRecipe().getParticleProducts().get(3).getStack();
+		ParticleStack output1 = recipeInfo.recipe.getParticleProducts().get(0).getStack();
+		ParticleStack output2 = recipeInfo.recipe.getParticleProducts().get(1).getStack();
+		ParticleStack output3 = recipeInfo.recipe.getParticleProducts().get(2).getStack();
+		ParticleStack output4 = recipeInfo.recipe.getParticleProducts().get(3).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
-		double crossSection = recipeInfo.getRecipe().getCrossSection();
+		long energyReleased = recipeInfo.recipe.getEnergyReleased();
+		double crossSection = recipeInfo.recipe.getCrossSection();
 		
 		long collisionEnergy = Math.round(2*Math.sqrt(input1.getMeanEnergy()*input2.getMeanEnergy()));
 		double inputFocus = Math.min(input1.getFocus(),input2.getFocus());
@@ -723,7 +705,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(5).setParticleStack(null);
 	}
 	
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		if(getMultiblock().beams.get(0).getParticleStack() != null && getMultiblock().beams.get(1).getParticleStack() != null)
 		{
@@ -741,8 +723,8 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			
 			if(recipeInfo != null)
 			{
-				if(collisionEnergy > recipeInfo.getRecipe().getMaxEnergy())
-				{	
+				if(collisionEnergy > recipeInfo.recipe.getMaxEnergy())
+				{
 					recipeInfo = null;
 				}
 			}

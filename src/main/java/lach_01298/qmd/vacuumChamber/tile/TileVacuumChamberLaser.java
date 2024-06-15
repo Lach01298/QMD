@@ -1,7 +1,5 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -9,8 +7,9 @@ import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
+
+import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileVacuumChamberLaser extends TileVacuumChamberPart implements IVacuumChamberComponent
 {
@@ -104,7 +103,7 @@ public class TileVacuumChamberLaser extends TileVacuumChamberPart implements IVa
 						+ NCMath.sq(getMultiblock().getExteriorLengthZ())) / 4D;
 	}
 
-	public boolean isRenderer() 
+	public boolean isRenderer()
 	{
 		return isRenderer;
 	}
@@ -132,7 +131,7 @@ public class TileVacuumChamberLaser extends TileVacuumChamberPart implements IVa
 
 	@Override
 	public void setFunctional(boolean func)
-	{		
+	{
 	}
 	
 	

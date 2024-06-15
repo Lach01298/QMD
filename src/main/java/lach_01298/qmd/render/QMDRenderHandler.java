@@ -1,29 +1,19 @@
 package lach_01298.qmd.render;
 
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.entity.EntityAntimatterProjectile;
-import lach_01298.qmd.entity.EntityGammaFlash;
-import lach_01298.qmd.entity.EntityGluonBeam;
-import lach_01298.qmd.entity.EntityLeptonBeam;
-import lach_01298.qmd.item.QMDArmour;
-import lach_01298.qmd.item.QMDItems;
-import lach_01298.qmd.render.entity.RenderAntimatterProjectile;
-import lach_01298.qmd.render.entity.RenderGammaFlash;
-import lach_01298.qmd.render.entity.RenderGluonBeam;
-import lach_01298.qmd.render.entity.RenderLeptonBeam;
-import lach_01298.qmd.render.tile.RenderContainmentMaterial;
-import lach_01298.qmd.render.tile.RenderVacuumChamberLaser;
-import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberLaser;
-import nc.util.NCUtil;
+import lach_01298.qmd.entity.*;
+import lach_01298.qmd.item.*;
+import lach_01298.qmd.render.entity.*;
+import lach_01298.qmd.render.tile.*;
+import lach_01298.qmd.vacuumChamber.tile.*;
+import nc.util.*;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.client.registry.*;
 
 public class QMDRenderHandler
 {
-	public static void init() 
+	public static void init()
 	{
 		QMDBlocks.registerRenders();
 		QMDItems.registerRenders();
@@ -43,7 +33,7 @@ public class QMDRenderHandler
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, manager -> {
 			R render = null;
 			try {
-				render = NCUtil.newInstance(renderClass, manager);
+				render = ReflectionHelper.newInstance(renderClass, manager);
 			}
 			catch (Exception e) {
 				e.printStackTrace();

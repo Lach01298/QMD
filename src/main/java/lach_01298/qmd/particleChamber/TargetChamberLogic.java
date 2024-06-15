@@ -1,37 +1,27 @@
 package lach_01298.qmd.particleChamber;
 
-
-import static lach_01298.qmd.recipes.QMDRecipes.target_chamber;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.Pair;
-
+import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.InventoryHelper;
-import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
-import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particleChamber.tile.IParticleChamberPart;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamber;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeam;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberBeamPort;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
-import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
-import lach_01298.qmd.particleChamber.tile.TileTargetChamberController;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.particleChamber.tile.*;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
 import nc.tile.internal.fluid.Tank;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
+
+import static lach_01298.qmd.recipes.QMDRecipes.target_chamber;
 
 public class TargetChamberLogic extends ParticleChamberLogic
 {
@@ -63,7 +53,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	}
 	
 	@Override
-	public String getID() 
+	public String getID()
 	{
 		return "target_chamber";
 	}
@@ -158,15 +148,13 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		return 1;
 	}
 	
-	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = new ArrayList<>();
-
+	public static final List<Pair<Class<? extends IParticleChamberPart>, String>> PART_BLACKLIST = Lists.newArrayList();
+	
 	@Override
 	public List<Pair<Class<? extends IParticleChamberPart>, String>> getPartBlacklist()
 	{
 		return PART_BLACKLIST;
 	}
-	
-	
 	
 	@Override
 	public void onChamberFormed()
@@ -274,10 +262,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 		super.onChamberFormed();
 	}
-		
+	
 	
 	public void onMachineDisassembled()
-	{	
+	{
 		mainChamber = null;
 		for(TileParticleChamberBeamPort tile :getPartMap(TileParticleChamberBeamPort.class).values())
 		{
@@ -289,7 +277,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	
 
 	@Override
-	public boolean onUpdateServer() 
+	public boolean onUpdateServer()
 	{
 		
 		getMultiblock().beams.get(0).setParticleStack(null);
@@ -308,10 +296,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				{
 					if(rememberedRecipeInfo != null)
 					{
-						if(rememberedRecipeInfo.getRecipe() !=recipeInfo.getRecipe())
+						if(rememberedRecipeInfo.recipe !=recipeInfo.recipe)
 						{
 							particleWorkDone= 0;
-						}	
+						}
 					}
 					rememberedRecipeInfo = recipeInfo;
 					
@@ -337,7 +325,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			else
 			{
 				resetBeams();
-			}	
+			}
 		}
 		else
 		{
@@ -411,7 +399,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				TileParticleChamberBeamPort port2 = (TileParticleChamberBeamPort) getWorld().getTileEntity(port.getPos().offset(facing, getMultiblock().getExteriorLengthX()-1));
 				if(port2.getIONumber() ==1)
 				{
-					port2.setIONumber(3);	
+					port2.setIONumber(3);
 				}
 				else if(port2.getIONumber() ==3)
 				{
@@ -421,14 +409,14 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		
 		return true;
 		}
-		return false;	
+		return false;
 	}
 
 	private boolean canProduceProduct()
 	{
 		TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
-		ItemStack productItem = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
-		FluidStack productFluid = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
+		ItemStack productItem = recipeInfo.recipe.getItemProducts().get(0).getStack();
+		FluidStack productFluid = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 		
 		
 		// some strange safety measure
@@ -436,7 +424,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		{
 			inv.getInventoryStacks().set(1, ItemStack.EMPTY);
 		}
-			
+		
 		if(productItem != null)
 		{
 			if (!inv.getInventoryStacks().get(1).isItemEqual(productItem) && inv.getInventoryStacks().get(1) != ItemStack.EMPTY)
@@ -446,7 +434,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			
 			if (inv.getInventoryStacks().get(1).getCount() + productItem.getCount() > productItem.getMaxStackSize())
 			{
-				return false;	
+				return false;
 			}
 		}
 		
@@ -456,7 +444,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			if(getMultiblock().tanks.get(1).fill(productFluid, false) != productFluid.amount)
 			{
 				return false;
-			}	
+			}
 		}
 		
 		return true;
@@ -464,33 +452,33 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private void produceProduct()
 	{
-		recipeParticleWork = (long) Math.max(recipeInfo.getRecipe().getCrossSection()*recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount(),recipeInfo.getRecipe().getParticleIngredients().get(0).getStack().getAmount()/getMultiblock().efficiency);
+		recipeParticleWork = (long) Math.max(recipeInfo.recipe.getCrossSection()*recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount(),recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount()/getMultiblock().efficiency);
 		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
 		
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
 			
 			TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
-			ItemStack productItem = recipeInfo.getRecipe().getItemProducts().get(0).getStack();
+			ItemStack productItem = recipeInfo.recipe.getItemProducts().get(0).getStack();
 			if(productItem == null)
 			{
 				productItem = ItemStack.EMPTY;
 			}
 			else
 			{
-				productItem.setCount(recipeInfo.getRecipe().getItemProducts().get(0).getNextStackSize(0));
+				productItem.setCount(recipeInfo.recipe.getItemProducts().get(0).getNextStackSize(0));
 			}
-					
+			
 			InventoryHelper.addItem(1,productItem,inv.getInventoryStacks(),inv);
-			InventoryHelper.removeItem(0,recipeInfo.getRecipe().getItemIngredients().get(0).getMaxStackSize(0),inv.getInventoryStacks(),inv);
+			InventoryHelper.removeItem(0,recipeInfo.recipe.getItemIngredients().get(0).getMaxStackSize(0),inv.getInventoryStacks(),inv);
 			
 			
-			FluidStack productFluid = recipeInfo.getRecipe().getFluidProducts().get(0).getStack();
-			FluidStack ingredientFluid = recipeInfo.getRecipe().getFluidIngredients().get(0).getStack();
+			FluidStack productFluid = recipeInfo.recipe.getFluidProducts().get(0).getStack();
+			FluidStack ingredientFluid = recipeInfo.recipe.getFluidIngredients().get(0).getStack();
 			
 			if(productFluid != null)
 			{
-				productFluid.amount = recipeInfo.getRecipe().getFluidProducts().get(0).getNextStackSize(0);
+				productFluid.amount = recipeInfo.recipe.getFluidProducts().get(0).getNextStackSize(0);
 				getMultiblock().tanks.get(1).fill(productFluid, true);
 			}
 			
@@ -522,12 +510,12 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	{
 		
 		ParticleStack input = getMultiblock().beams.get(0).getParticleStack();
-		ParticleStack outputPlus = recipeInfo.getRecipe().getParticleProducts().get(0).getStack();
-		ParticleStack outputNeutral = recipeInfo.getRecipe().getParticleProducts().get(1).getStack();
-		ParticleStack outputMinus = recipeInfo.getRecipe().getParticleProducts().get(2).getStack();
+		ParticleStack outputPlus = recipeInfo.recipe.getParticleProducts().get(0).getStack();
+		ParticleStack outputNeutral = recipeInfo.recipe.getParticleProducts().get(1).getStack();
+		ParticleStack outputMinus = recipeInfo.recipe.getParticleProducts().get(2).getStack();
 		
-		long energyReleased = recipeInfo.getRecipe().getEnergyReleased();
-		double crossSection = recipeInfo.getRecipe().getCrossSection();
+		long energyReleased = recipeInfo.recipe.getEnergyReleased();
+		double crossSection = recipeInfo.recipe.getCrossSection();
 		double outputFactor = crossSection * getMultiblock().efficiency;
 		if(outputFactor >= 1)
 		{
@@ -587,7 +575,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		getMultiblock().beams.get(3).setParticleStack(null);
 	}
 	
-	protected void refreshRecipe() 
+	protected void refreshRecipe()
 	{
 		TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();

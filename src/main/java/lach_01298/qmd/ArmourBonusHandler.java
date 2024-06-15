@@ -1,30 +1,23 @@
 package lach_01298.qmd;
 
-
-import java.util.UUID;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-
+import com.google.common.collect.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.item.QMDArmour;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.*;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.energy.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.PotionEvent.PotionApplicableEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.*;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+
+import java.util.UUID;
 
 
 @Mod.EventBusSubscriber(modid = QMD.MOD_ID)
@@ -55,7 +48,7 @@ public class ArmourBonusHandler
 					}
 				}
 			}
-				
+			
 			// long jump
 			if(entity.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == QMDArmour.chest_hev)
 			{
@@ -115,7 +108,7 @@ public class ArmourBonusHandler
 	
 	
 //	@SideOnly(Side.CLIENT)
-//	@SubscribeEvent(priority = EventPriority.LOW) 
+//	@SubscribeEvent(priority = EventPriority.LOW)
 //	public static void handleFovEvent(FOVUpdateEvent event)
 //	{
 //		if(event.getEntity() instanceof EntityLivingBase)
@@ -125,13 +118,13 @@ public class ArmourBonusHandler
 //			{
 //				IAttributeInstance iattributeinstance = event.getEntity().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 //				float f = 1/((float) ((((iattributeinstance.getAttributeValue())/ (double) event.getEntity().capabilities.getWalkSpeed() + 1.0D) / 2.0D)));
-//				
-//				
-//				
+//
+//
+//
 //				event.setNewfov(event.getNewfov()*f);
 //			}
-//			
-//			
+//
+//
 //		}
 //	}
 	
@@ -148,7 +141,7 @@ public class ArmourBonusHandler
 			
 			if (entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == QMDArmour.helm_hev)
 			{
-				if(event.getPotionEffect().getPotion() == Potion.getPotionFromResourceLocation("poison")) 
+				if(event.getPotionEffect().getPotion() == Potion.getPotionFromResourceLocation("poison"))
 				{
 						if (entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).hasCapability(CapabilityEnergy.ENERGY, null))
 						{
@@ -226,17 +219,17 @@ public class ArmourBonusHandler
 
 					
 					
-					event.player.getAttributeMap().applyAttributeModifiers(multimap); 	
+					event.player.getAttributeMap().applyAttributeModifiers(multimap);
 				}
 				else if(event.player.getAttributeMap().getAttributeInstanceByName("Movement speed") != null)
 				{
-					event.player.getAttributeMap().removeAttributeModifiers(multimap); 	
+					event.player.getAttributeMap().removeAttributeModifiers(multimap);
 				}
 			}
 		}
 		else if(event.player.getAttributeMap().getAttributeInstanceByName("Movement speed") != null)
 		{
-			event.player.getAttributeMap().removeAttributeModifiers(multimap); 	
+			event.player.getAttributeMap().removeAttributeModifiers(multimap);
 		}
 		
 	}

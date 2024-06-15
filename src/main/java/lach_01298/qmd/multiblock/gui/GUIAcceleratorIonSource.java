@@ -3,28 +3,23 @@ package lach_01298.qmd.multiblock.gui;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorIonSource;
-import lach_01298.qmd.multiblock.network.ClearTankPacket;
-import lach_01298.qmd.network.QMDPacketHandler;
+import lach_01298.qmd.multiblock.network.QMDClearTankPacket;
 import nc.gui.NCGui;
-import nc.gui.element.GuiFluidRenderer;
-import nc.gui.element.NCButton;
-import nc.multiblock.gui.element.MultiblockButton;
-import nc.network.PacketHandler;
-import nc.network.multiblock.ClearAllMaterialPacket;
+import nc.gui.element.*;
 import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIAcceleratorIonSource extends NCGui 
+public class GUIAcceleratorIonSource extends NCGui
 {
 
 	protected final EntityPlayer player;
 	protected final TileAcceleratorIonSource tile;
 	protected final ResourceLocation gui_textures;
 	
-	public GUIAcceleratorIonSource( EntityPlayer player, TileAcceleratorIonSource tile)
+	public GUIAcceleratorIonSource(EntityPlayer player, TileAcceleratorIonSource tile)
 	{
 		super(new ContainerAcceleratorIonSource(player, tile));
 		this.player = player;
@@ -76,7 +71,7 @@ public class GUIAcceleratorIonSource extends NCGui
 	public void initGui()
 	{
 		super.initGui();
-		buttonList.add(new NCButton.EmptyTank(0, guiLeft + 80, guiTop + 43, 16, 16));
+		buttonList.add(new NCButton.ClearTank(0, guiLeft + 80, guiTop + 43, 16, 16));
 
 	}
 
@@ -90,7 +85,7 @@ public class GUIAcceleratorIonSource extends NCGui
 				switch(guiButton.id)
 				{
 				case 0:
-					QMDPacketHandler.instance.sendToServer(new ClearTankPacket(tile.getTilePos(),2));
+					new QMDClearTankPacket(tile.getTilePos(),2).sendToServer();
 					break;
 				}
 				

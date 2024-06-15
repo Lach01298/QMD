@@ -1,12 +1,8 @@
 package lach_01298.qmd.jei.ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import lach_01298.qmd.particle.*;
 
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
+import java.util.*;
 
 public final class ParticleStackListFactory
 {

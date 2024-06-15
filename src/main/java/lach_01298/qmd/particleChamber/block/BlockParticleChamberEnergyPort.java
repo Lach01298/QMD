@@ -1,13 +1,10 @@
 package lach_01298.qmd.particleChamber.block;
 
-
-
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberEnergyPort;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -42,6 +39,6 @@ public class BlockParticleChamberEnergyPort extends BlockParticleChamberPart
 		if (hand != EnumHand.MAIN_HAND || player.isSneaking())
 			return false;
 		return rightClickOnPart(world, pos, player, hand, facing);
-	}	
+	}
 	
 }

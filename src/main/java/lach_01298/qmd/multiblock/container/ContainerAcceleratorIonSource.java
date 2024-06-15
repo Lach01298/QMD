@@ -1,19 +1,16 @@
 package lach_01298.qmd.multiblock.container;
 
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
-import lach_01298.qmd.container.slot.SlotDisabled;
-import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
+import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.container.slot.*;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.ContainerTile;
 import nc.container.slot.SlotProcessorInput;
+import nclegacy.container.ContainerTileLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerAcceleratorIonSource extends ContainerTile<TileAcceleratorIonSource>
+public class ContainerAcceleratorIonSource extends ContainerTileLegacy<TileAcceleratorIonSource>
 {
 	protected final TileAcceleratorIonSource source;
 	
@@ -26,7 +23,7 @@ public class ContainerAcceleratorIonSource extends ContainerTile<TileAccelerator
 	public ContainerAcceleratorIonSource(EntityPlayer player, TileAcceleratorIonSource source)
 	{
 		super(source);
-		this.source= source;		
+		this.source= source;
 		
 		
 		this.outputSlotsSize = 0;
@@ -52,7 +49,7 @@ public class ContainerAcceleratorIonSource extends ContainerTile<TileAccelerator
 		
 		addPlayerInventory(player,8,84);
 		
-	}	
+	}
 
 	
 	@Override
@@ -135,7 +132,7 @@ public class ContainerAcceleratorIonSource extends ContainerTile<TileAccelerator
 
 	
 	@Override
-	public void onContainerClosed(EntityPlayer player) 
+	public void onContainerClosed(EntityPlayer player)
 	{
 		super.onContainerClosed(player);
 		source.removeTileUpdatePacketListener(player);

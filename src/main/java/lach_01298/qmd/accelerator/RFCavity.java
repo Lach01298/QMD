@@ -1,10 +1,7 @@
 package lach_01298.qmd.accelerator;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import lach_01298.qmd.accelerator.tile.IAcceleratorComponent;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.enums.BlockTypes.RFCavityType;
+import it.unimi.dsi.fastutil.longs.*;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.util.Util;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
@@ -79,20 +76,20 @@ public class RFCavity
 		else
 		{
 			Util.getLogger().error("could not add tile to RF Cavity becuase" + accelerator.WORLD.getTileEntity(postion) +" at "+ postion + " is not a instance of IAcceleratorComponent");
-		}	
+		}
 	}
 
-	public BlockPos getPos() 
+	public BlockPos getPos()
 	{
 		return pos;
 	}
 	
-	public EnumFacing.Axis getAxis() 
+	public EnumFacing.Axis getAxis()
 	{
 		return axis;
 	}
 	
-	public String getType() 
+	public String getType()
 	{
 		return type;
 	}

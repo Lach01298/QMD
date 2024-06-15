@@ -1,24 +1,12 @@
 package lach_01298.qmd.item;
 
-import java.awt.Color;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import ic2.api.item.IElectricItemManager;
-import ic2.api.item.IHazmatLike;
-import ic2.api.item.ISpecialElectricItem;
+import ic2.api.item.*;
 import lach_01298.qmd.config.QMDConfig;
 import nc.ModCheck;
 import nc.item.armor.NCItemArmor;
-import nc.item.energy.ElectricItemManager;
-import nc.item.energy.IChargableItem;
-import nc.item.energy.ItemEnergyCapabilityProvider;
+import nc.item.energy.*;
 import nc.tile.internal.energy.EnergyConnection;
-import nc.util.InfoHelper;
-import nc.util.NCMath;
-import nc.util.UnitHelper;
+import nc.util.*;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,9 +20,12 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.energy.*;
 import net.minecraftforge.fml.common.Optional;
+
+import javax.annotation.*;
+import java.awt.*;
+import java.util.List;
 
 @Optional.InterfaceList({ @Optional.Interface(iface = "ic2.api.item.IHazmatLike", modid = "ic2"),@Optional.Interface(iface = "ic2.api.item.ISpecialElectricItem", modid = "ic2") })
 public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLike, IChargableItem, ISpecialElectricItem
@@ -68,12 +59,12 @@ public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLi
 			this.capacity = QMDConfig.hev_energy[3];
 			break;
 		default:
-			this.capacity = QMDConfig.hev_energy[0];	
+			this.capacity = QMDConfig.hev_energy[0];
 		}
 		
 		this.maxTransfer = NCMath.toInt(this.capacity);
 		this.energyConnection = EnergyConnection.BOTH;
-		this.energyTier = 3;	
+		this.energyTier = 3;
 	}
 
 	
@@ -155,7 +146,7 @@ public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLi
 	
 	@Override
 	@Optional.Method(modid = "ic2")
-	public IElectricItemManager getManager(ItemStack itemStack) 
+	public IElectricItemManager getManager(ItemStack itemStack)
 	{
 		return ElectricItemManager.getElectricItemManager(this);
 	}
@@ -168,10 +159,10 @@ public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLi
 	}
 	
 	@Override
-	public boolean showDurabilityBar(ItemStack stack) 
+	public boolean showDurabilityBar(ItemStack stack)
 	{
 		NBTTagCompound nbt = IChargableItem.getEnergyStorageNBT(stack);
-		if (nbt == null || !nbt.hasKey("energy")) 
+		if (nbt == null || !nbt.hasKey("energy"))
 		{
 			return false;
 		}
@@ -180,7 +171,7 @@ public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLi
 	
 	
 	@Override
-	public double getDurabilityForDisplay(ItemStack stack) 
+	public double getDurabilityForDisplay(ItemStack stack)
 	{
 		return 1D - MathHelper.clamp((double) getEnergyStored(stack) / capacity, 0D, 1D);
 	}
@@ -228,7 +219,7 @@ public class ItemHEVSuit extends NCItemArmor implements ISpecialArmor, IHazmatLi
 	}
 	
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) 
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt)
 	{
 		return new ItemEnergyCapabilityProvider(stack, capacity, maxTransfer, getEnergyStored(stack), energyConnection, energyTier);
 	}

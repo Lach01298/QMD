@@ -1,24 +1,15 @@
 package lach_01298.qmd.jei.recipe;
 
-import java.awt.Color;
-import java.util.List;
-
-import lach_01298.qmd.QMD;
-import lach_01298.qmd.QMDConstants;
-import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.jei.ingredient.ParticleType;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.*;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
+
+import java.awt.*;
 
 public class BeamDumpRecipe extends JEIRecipeWrapper
 {
@@ -35,13 +26,13 @@ public class BeamDumpRecipe extends JEIRecipeWrapper
 	
 	
 	@Override
-	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) 
+	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY)
 	{
 		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 		FontRenderer fontRenderer = minecraft.fontRenderer;
 		if(recipe.getMaxEnergy() != Long.MAX_VALUE)
 		{
-			String rangeString = Lang.localise("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getSIFormat(recipe.getMaxEnergy(),3,"eV"));
+			String rangeString = Lang.localize("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getSIFormat(recipe.getMaxEnergy(),3,"eV"));
 			fontRenderer.drawString(rangeString, 0, 18, Color.gray.getRGB());
 		}
 	

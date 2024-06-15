@@ -1,40 +1,26 @@
 package lach_01298.qmd.accelerator;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.common.collect.Lists;
-
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeam;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorBeamPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonCollector;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorPort;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
-import lach_01298.qmd.accelerator.tile.TileAcceleratorSynchrotronPort;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.multiblock.network.BeamSplitterUpdatePacket;
-import lach_01298.qmd.particle.IParticleStackHandler;
-import lach_01298.qmd.particle.Particle;
-import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.util.Equations;
-import nc.multiblock.tile.TileBeefAbstract.SyncReason;
+import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.*;
 
 public class BeamSplitterLogic extends AcceleratorLogic
 {
 
-	// Multiblock logic	
+	// Multiblock logic
 	
 	public BeamSplitterLogic(AcceleratorLogic oldLogic)
 	{
@@ -42,7 +28,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 		
 		/*
 		beam 0 = input particle
-		beam 1 =  output particle 
+		beam 1 = output particle
 		beam 2 = output particle straight
 		tank 0 = input coolant
 		tank 1 = output coolant
@@ -90,7 +76,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	{
 		if(particle != null)
 		{
-			return Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());	
+			return Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());
 		}
 		return 0;
 	}
@@ -98,7 +84,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	// Multiblock validation
 	
 	@Override
-	public boolean isMachineWhole() 
+	public boolean isMachineWhole()
 	{
 		Accelerator acc = getMultiblock();
 		
@@ -160,12 +146,12 @@ public class BeamSplitterLogic extends AcceleratorLogic
 				return false;
 			}
 		}
-				
-			
+		
+		
 		int inputs =0;
-		int outputs =0;	
+		int outputs =0;
 		for(TileAcceleratorBeamPort port :getPartMap(TileAcceleratorBeamPort.class).values())
-		{	
+		{
 			
 			
 			
@@ -190,14 +176,14 @@ public class BeamSplitterLogic extends AcceleratorLogic
 			if(port.getIOType() == IOType.OUTPUT)
 			{
 				outputs++;
-			}		
+			}
 		}
 		
 		if(inputs != 1 || outputs != 2)
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.splitter.must_have_io", null);
 			return false;
-		}	
+		}
 		if(containsBlacklistedPart())
 		{
 			return false;
@@ -207,11 +193,11 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	}
 	
 	public static final List<Pair<Class<? extends IAcceleratorPart>, String>> PART_BLACKLIST = Lists.newArrayList(
-			Pair.of(TileAcceleratorSynchrotronPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
+			Pair.of(TileAcceleratorSynchrotronPort.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_synch_ports"),
 			Pair.of(TileAcceleratorRFCavity.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_rf_cavity"),
 			Pair.of(TileAcceleratorIonSource.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_source"),
-			Pair.of(TileAcceleratorIonCollector.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_collectors"),
-			Pair.of(TileAcceleratorPort.class,QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_ports"));
+			Pair.of(TileAcceleratorIonCollector.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_collectors"),
+			Pair.of(TileAcceleratorPort.class, QMD.MOD_ID + ".multiblock_validation.accelerator.no_ion_ports"));
 
 	@Override
 	public List<Pair<Class<? extends IAcceleratorPart>, String>> getPartBlacklist()
@@ -233,7 +219,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 			 Set<BlockPos> postions = new HashSet<BlockPos>();
 			 postions.add(acc.getMiddleCoord().toImmutable());
 			 setBeamlineFunctional(postions);
-			 formComponents();		
+			 formComponents();
 		}
 		 
 		 refreshStats();
@@ -266,7 +252,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	protected void refreshBeams()
 	{
 		getMultiblock().beams.get(0).setParticleStack(null);
-		pull();	
+		pull();
 	}
 	
 	@Override
@@ -304,7 +290,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 									otherStorage.reciveParticle(port.getExternalFacing().getOpposite(), getMultiblock().beams.get(2).getParticleStack());
 									
 								}
-							}	
+							}
 						}
 						else
 						{
@@ -317,11 +303,11 @@ public class BeamSplitterLogic extends AcceleratorLogic
 									otherStorage.reciveParticle(port.getExternalFacing().getOpposite(), getMultiblock().beams.get(1).getParticleStack());
 									
 								}
-							}	
+							}
 						}
 					}
-				}	
-			}	
+				}
+			}
 		}
 
 	}
@@ -425,7 +411,7 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	public void readFromLogicTag(NBTTagCompound logicTag, SyncReason syncReason)
 	{
 		super.readFromLogicTag(logicTag, syncReason);
-	}	
+	}
 	
 	// Network
 	@Override

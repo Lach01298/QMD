@@ -1,24 +1,20 @@
 package lach_01298.qmd.jei.category;
 
-import java.util.List;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.NucleosynthesisChamberRecipe;
 import lach_01298.qmd.particle.ParticleStack;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.IDrawable;
-import mezz.jei.api.gui.IGuiFluidStackGroup;
-import mezz.jei.api.gui.IGuiIngredientGroup;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
+import mezz.jei.api.gui.*;
+import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeCategory;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
 
 
 
@@ -30,7 +26,7 @@ public class NucleosynthesisChamberCategory implements IRecipeCategory<Nucleosyn
 	
 
 	
-	public NucleosynthesisChamberCategory(IGuiHelper guiHelper) 
+	public NucleosynthesisChamberCategory(IGuiHelper guiHelper)
 	{
 		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/nucleosynthesis_chamber_controller.png");
 		background = guiHelper.createDrawable(gui_texture, 29, 15, 124, 66);
@@ -50,7 +46,7 @@ public class NucleosynthesisChamberCategory implements IRecipeCategory<Nucleosyn
 	public String getTitle()
 	{
 		
-		return Lang.localise("qmd.gui.jei.category.nucleosynthesis_chamber");
+		return Lang.localize("qmd.gui.jei.category.nucleosynthesis_chamber");
 	}
 
 	@Override
@@ -107,7 +103,7 @@ public class NucleosynthesisChamberCategory implements IRecipeCategory<Nucleosyn
 			if (fluidOutputs.get(0).get(0) != null)
 			{
 				guiFluidStacks.set(3, fluidOutputs.get(0));
-			}	
+			}
 		}
 		if(fluidOutputs.get(1) != null)
 		{

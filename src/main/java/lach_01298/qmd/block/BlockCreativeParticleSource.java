@@ -3,19 +3,16 @@ package lach_01298.qmd.block;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.TileCreativeParticleSource;
-import nc.block.tile.BlockTile;
-import nc.block.tile.ITileType;
-import nc.tile.ITileGui;
+import nc.block.tile.*;
+import nclegacy.tile.ITileGuiLegacy;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 public class BlockCreativeParticleSource extends BlockTile implements ITileType
@@ -46,12 +43,12 @@ public class BlockCreativeParticleSource extends BlockTile implements ITileType
 	@Override
 	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity)
     {
-		return false;	
+		return false;
     }
 	
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
 	{
 		if (player == null || hand != EnumHand.MAIN_HAND) return false;
 		
@@ -60,22 +57,21 @@ public class BlockCreativeParticleSource extends BlockTile implements ITileType
 		if (player.isSneaking()) return false;
 		if (!player.isCreative()) return false;
 		
-		if (tile instanceof ITileGui) 
+		if (tile instanceof ITileGuiLegacy<?> tileGui)
 		{
-			if (world.isRemote) 
+			if (world.isRemote)
 			{
 				onGuiOpened(world, pos);
 				return true;
-			} else 
+			}
+			else
 			{
 				onGuiOpened(world, pos);
-				FMLNetworkHandler.openGui(player, QMD.instance, ((ITileGui) tile).getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
+				FMLNetworkHandler.openGui(player, QMD.instance, tileGui.getGuiID(), world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		else return false;
 		
 		return true;
 	}
-	
-	
 }

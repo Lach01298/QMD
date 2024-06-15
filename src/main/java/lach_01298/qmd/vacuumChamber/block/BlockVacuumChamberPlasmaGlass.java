@@ -1,19 +1,13 @@
 package lach_01298.qmd.vacuumChamber.block;
 
-
-
-import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberGlass;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberPlasmaGlass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.*;
 
 public class BlockVacuumChamberPlasmaGlass extends BlockVacuumChamberPart.Transparent
 {
@@ -32,7 +26,7 @@ public class BlockVacuumChamberPlasmaGlass extends BlockVacuumChamberPart.Transp
 	}
 
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getRenderLayer() 
+	public BlockRenderLayer getRenderLayer()
 	{
 		return BlockRenderLayer.TRANSLUCENT;
 	}

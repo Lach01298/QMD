@@ -1,22 +1,19 @@
 package lach_01298.qmd.item;
 
-import static nc.block.property.BlockProperties.FACING_ALL;
-
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.enums.MaterialTypes.LuminousPaintType;
 import nc.item.NCItemMeta;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemLuminousPaint extends NCItemMeta 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
+public class ItemLuminousPaint extends NCItemMeta
 {
 
 	 public ItemLuminousPaint()

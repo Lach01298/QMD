@@ -1,17 +1,17 @@
 package lach_01298.qmd.multiblock.network;
 
-import java.util.List;
-
 import io.netty.buffer.ByteBuf;
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
-import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
+import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
 import nc.network.multiblock.MultiblockUpdatePacket;
+import nc.tile.TileContainerInfo;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
 
 public class MassSpectrometerUpdatePacket extends AcceleratorUpdatePacket
 {
@@ -52,7 +52,7 @@ public class MassSpectrometerUpdatePacket extends AcceleratorUpdatePacket
 		buf.writeDouble(speed);
 	}
 	
-	public static class Handler extends MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, MassSpectrometerUpdatePacket> {
+	public static class Handler extends MultiblockUpdatePacket.Handler<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, TileContainerInfo<TileMassSpectrometerController>, MassSpectrometerUpdatePacket> {
 		
 		public Handler() {
 			super(TileMassSpectrometerController.class);

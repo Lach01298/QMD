@@ -1,17 +1,14 @@
 package lach_01298.qmd.recipe.ingredient;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import crafttweaker.api.item.IIngredient;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.*;
 import lach_01298.qmd.crafttweaker.particle.CTParticleStack;
 import lach_01298.qmd.particle.ParticleStack;
-import nc.recipe.IngredientMatchResult;
-import nc.recipe.IngredientSorption;
+import nc.recipe.*;
 import net.minecraftforge.fml.common.Optional;
+
+import java.util.List;
 
 public class ParticleIngredient implements IParticleIngredient
 {
@@ -101,7 +98,7 @@ public class ParticleIngredient implements IParticleIngredient
 			return new IngredientMatchResult(type.checkStackSize((int)stack.getAmount(), (int)stack.getAmount()), 0);
 		}
 		else if (object instanceof ParticleIngredient && match(((ParticleIngredient) object).stack, type).matches())
-		{	
+		{
 			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((ParticleIngredient) object).getMaxStackSize(0)), 0);
 		}
 		
@@ -123,7 +120,7 @@ public class ParticleIngredient implements IParticleIngredient
 			return new IngredientMatchResult(type.checkStackSize((int)stack.getAmount(), (int)stack.getAmount()), 0);
 		}
 		else if (object instanceof ParticleIngredient && matchWithData(((ParticleIngredient) object).stack, type, extras).matches())
-		{	
+		{
 			return new IngredientMatchResult(type.checkStackSize(getMaxStackSize(0), ((ParticleIngredient) object).getMaxStackSize(0)), 0);
 		}
 		

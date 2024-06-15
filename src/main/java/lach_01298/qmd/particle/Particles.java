@@ -1,11 +1,10 @@
 package lach_01298.qmd.particle;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.util.Util;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.*;
 
 
 public class Particles
@@ -117,7 +116,7 @@ public class Particles
 		}
 		else
 		{
-			Util.getLogger().error("tried registering paticle " + particle.getName() + " but " + particle.getName() + " already exists");	
+			Util.getLogger().error("tried registering paticle " + particle.getName() + " but " + particle.getName() + " already exists");
 		}
 	}
 	
@@ -419,7 +418,7 @@ public class Particles
 		{
 			charge = -particle.getCharge();
 		}
-		 
+		
 		double spin = particle.getSpin();
 		boolean weakCharged = particle.interactsWithWeak();
 		boolean isColoured = particle.interactsWithStrong();

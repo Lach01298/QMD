@@ -1,11 +1,10 @@
 package lach_01298.qmd.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
+
+import java.util.*;
 
 public class OreLeacherRecipes extends BasicRecipeHandler
 {
@@ -113,7 +112,7 @@ public class OreLeacherRecipes extends BasicRecipeHandler
 	}
 
 	@Override
-	public List fixExtras(List extras) 
+	public List fixedExtras(List extras)
 	{
 		List fixed = new ArrayList(3);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);

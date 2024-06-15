@@ -1,14 +1,10 @@
 package lach_01298.qmd.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
-import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
-import lach_01298.qmd.recipe.ingredient.ParticleIngredient;
+import lach_01298.qmd.recipe.ingredient.*;
+
+import java.util.*;
 
 public class DecayChamberRecipes extends QMDRecipeHandler
 {
@@ -42,7 +38,7 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		addDecayRecipe(new ParticleStack(Particles.kaon_naught), new ParticleStack(Particles.pion_plus), null, new ParticleStack(Particles.pion_minus), 0.77);
 		addDecayRecipe(new ParticleStack(Particles.antikaon_naught), new ParticleStack(Particles.pion_plus), null, new ParticleStack(Particles.pion_minus), 0.77);
 		
-			
+		
 		addDecayRecipe(new ParticleStack(Particles.w_minus_boson), null, null, new ParticleStack(Particles.pion_minus) , 0.32);
 		addDecayRecipe(new ParticleStack(Particles.w_plus_boson), new ParticleStack(Particles.pion_plus), null, null, 0.32);
 		
@@ -115,11 +111,11 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		
 		
 		long energyReleased = (long)((particleIn.getParticle().getMass() * particleIn.getAmount() - outputMass) * 1000);
-		addRecipe(particleIn, p1, p2, p3, Long.MAX_VALUE, crossSection, energyReleased);	
+		addRecipe(particleIn, p1, p2, p3, Long.MAX_VALUE, crossSection, energyReleased);
 	}
 
 	@Override
-	public List fixExtras(List extras)
+	public List fixedExtras(List extras)
 	{
 		List fixed = new ArrayList(4);
 		fixed.add(extras.size() > 0 && extras.get(0) instanceof Long ? (long) extras.get(0) : Long.MAX_VALUE);
