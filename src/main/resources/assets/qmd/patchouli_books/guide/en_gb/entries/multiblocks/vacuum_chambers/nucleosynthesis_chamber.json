@@ -30,9 +30,10 @@
             "text": "On the opposite side to the input fluid ports there are 2 more fluid ports in output mode as seen in the image on the previous page. Lastly the centre row of vacuum chamber plasma glass needs to be connected to any other part of the multiblock with any type of vacuum chamber heater in some way. In the previous image this is done with a Redstone Vacuum Chamber Heater above the plasma glass."
         },
         {
-            "type": "text", 
+            "anchor": "heaters",
+			"type": "text", 
 			"title": "Heaters",
-            "text": "In the spare spaces (except inside the plasma glass) vacuum chamber heaters can be placed. They are similar to $(l:multiblocks/accelerators/general#coolers)coolers in accelerators$(/l) in that they have certain placement rules required in order to work. Unlike in accelerators there is a penalty in over cooling. More detail on this later."
+            "text": "In the spare spaces (except inside the plasma glass) vacuum chamber heaters can be placed. They are similar to $(l:multiblocks/accelerators/general#coolers)coolers in accelerators$(/l) in that they have certain placement rules required in order to work. You can check if heaters are in valid positions by sneak right clicking the controller of a formed chamber with the $(l:multiblocks/multitool)multitool$(/l). Unlike in accelerators there is a penalty in over cooling. More detail on this later."
         },
 		{
             "anchor": "operation",

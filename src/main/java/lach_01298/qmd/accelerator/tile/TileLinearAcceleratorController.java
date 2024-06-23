@@ -1,26 +1,34 @@
 package lach_01298.qmd.accelerator.tile;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
+import java.util.Arrays;
+
+import javax.annotation.Nonnull;
+
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.render.BlockHighlightTracker;
 import nc.tile.TileContainerInfo;
-import nc.tile.internal.inventory.*;
+import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
-import nc.util.*;
+import nc.util.Lang;
+import nc.util.NBTHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-
-import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileLinearAcceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileLinearAcceleratorController>, ITileInventory
 {
@@ -166,4 +174,24 @@ public class TileLinearAcceleratorController extends TileAcceleratorPart impleme
 		return QMDRecipes.accelerator_source.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 	}
 	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if(player.isSneaking() && this.isMultiblockAssembled())
+		{
+			int invalidAmount = 0;
+			for (TileAcceleratorCooler cooler : this.getMultiblock().getPartMap(TileAcceleratorCooler.class).values())
+			{		
+					if (!cooler.isFunctional())
+					{
+						BlockHighlightTracker.sendPacket(player, cooler.getPos(), 10000);
+						invalidAmount++;
+					}		
+			}
+			player.sendMessage(new TextComponentString(Lang.localize("qmd.multiblock_validation.accelerator.invalid_coolers", invalidAmount)));
+			return true;
+		}
+		
+		return false;
+	}
 }

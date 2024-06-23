@@ -169,7 +169,7 @@ public class DecayChamberLogic extends ParticleChamberLogic
 			for (TileParticleChamberDetector detector : getPartMap(TileParticleChamberDetector.class).values())
 			{
 				getMultiblock().requiredEnergy += detector.basePower;
-				if (detector.isInvalidPostion(mainChamber.getPos()))
+				if (detector.isValidPostion(mainChamber.getPos()))
 				{
 					getMultiblock().efficiency += detector.efficiency;
 				}

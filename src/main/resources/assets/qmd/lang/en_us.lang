@@ -331,7 +331,7 @@ tile.qmd.creative_particle_source.name=Creative Particle Source
 
 //guide book
 qmd.guide_book.name=QMD Guide
-qmd.guide_book.edition=Version 1.3
+qmd.guide_book.edition=Version 1.4
 qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics.
 
 
@@ -548,6 +548,8 @@ qmd.multiblock_validation.accelerator.no_source=There cannot be any Ion Sources 
 qmd.multiblock_validation.accelerator.no_ion_collectors=There cannot be any Ion Collectors on this type of accelerator.
 qmd.multiblock_validation.accelerator.no_ion_ports=There cannot be any Ion Source Ports on this type of accelerator.
 
+qmd.multiblock_validation.accelerator.invalid_coolers=There is %s invalid coolers.
+
 
 qmd.multiblock_validation.accelerator.linear.to_short=Linear Accelerator is not long enough.
 qmd.multiblock_validation.accelerator.linear.must_be_5_wide=Linear Accelerators must be 5 blocks wide.
@@ -609,7 +611,7 @@ qmd.multiblock_validation.chamber.must_have_input_beam=There must be 1 INPUT Bea
 
 qmd.multiblock_validation.chamber.beam_dump.only_input_beam=There can only be 1 INPUT Beam Port on a Beam Dump.
 qmd.multiblock_validation.chamber.beam_dump.must_have_fluid_output=There Must be an OUTPUT Fluid Port on a Beam Dump.
-
+qmd.multiblock_validation.chamber.invalid_detectors=There is %s invalid detectors.
 
 qmd.multiblock_validation.collision_chamber.wrong_length=Collision Chamber must be 17 Blocks. long 
 qmd.multiblock_validation.collision_chamber.must_be_odd_square=The end faces must be squares of odd side length.
@@ -623,11 +625,8 @@ qmd.multiblock_validation.vacuum_chamber.no_fluid_ports=There cannot be any Flui
 qmd.multiblock_validation.vacuum_chamber.no_item_ports=There cannot be any Item Ports on this type of vacuum chamber.
 qmd.multiblock_validation.vacuum_chamber.no_lasers=There cannot be any Vacuum Chamber Lasers in this type of vacuum chamber.
 qmd.multiblock_validation.vacuum_chamber.no_heater_vents=There cannot be any Heater Vents in this type of vacuum chamber.
+qmd.multiblock_validation.vacuum_chamber.invalid_heaters=There is %s invalid heaters.
 
-qmd.multiblock_validation.vacuum_chamber.no_fluid_ports=There cannot be any Fluid Ports on this type of vacuum chamber.
-qmd.multiblock_validation.vacuum_chamber.no_item_ports=There cannot be any Item Ports on this type of vacuum chamber.
-qmd.multiblock_validation.vacuum_chamber.no_lasers=There cannot be any Vacuum Chamber Lasers in this type of vacuum chamber.
-qmd.multiblock_validation.vacuum_chamber.no_heater_vents=There cannot be any Heater Vents in this type of vacuum chamber.
 
 qmd.multiblock_validation.exotic_containment.must_be_square=Exotic Containment must have the same X and Z dimensions.
 qmd.multiblock_validation.exotic_containment.must_be_odd=Exotic Containment must have an odd width.

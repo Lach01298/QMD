@@ -89,7 +89,7 @@
             "anchor": "coolers",
 			"type": "text",
             "title": "Coolers",
-            "text": "Each RF cavity block and electromagnet produce heat while operating. To get rid of this heat coolers are placed inside the accelerator. They only work if their required rules are met. These rules are shown on the tool tips of each cooler."
+            "text": "Each RF cavity block and electromagnet produce heat while operating. To get rid of this heat coolers are placed inside the accelerator. They only work if their required rules are met. These rules are shown on the tool tips of each cooler. You can check if coolers are in valid positions by sneak right clicking the controller of a formed accelerator with the $(l:multiblocks/multitool)multitool$(/l)."
         },
         {
             "type": "qmd:diagram_high",

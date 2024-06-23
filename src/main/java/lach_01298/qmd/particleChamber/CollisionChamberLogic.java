@@ -423,7 +423,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 					TileEntity chamber = getMultiblock().WORLD.getTileEntity(new BlockPos(detector.getPos().getX(),getMultiblock().getMiddleY(),getMultiblock().getMiddleZ()));
 					getMultiblock().requiredEnergy += detector.basePower;
 					
-					if (detector.isInvalidPostion(chamber.getPos()))
+					if (detector.isValidPostion(chamber.getPos()))
 					{
 						getMultiblock().efficiency += detector.efficiency;
 					}
@@ -463,7 +463,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 					TileEntity chamber = getMultiblock().WORLD.getTileEntity(new BlockPos(getMultiblock().getMiddleX(),getMultiblock().getMiddleY(),detector.getPos().getZ()));
 					getMultiblock().requiredEnergy += detector.basePower;
 					
-					if (detector.isInvalidPostion(chamber.getPos()))
+					if (detector.isValidPostion(chamber.getPos()))
 					{
 						getMultiblock().efficiency += detector.efficiency;
 					}

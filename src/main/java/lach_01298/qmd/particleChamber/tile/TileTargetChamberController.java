@@ -1,6 +1,14 @@
 package lach_01298.qmd.particleChamber.tile;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
+import java.util.Set;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
+
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.particleChamber.ParticleChamber;
@@ -8,24 +16,26 @@ import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.render.BlockHighlightTracker;
 import nc.tile.TileContainerInfo;
-import nc.tile.internal.inventory.*;
+import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
+import nc.util.Lang;
 import nc.util.NBTHelper;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.*;
-import java.util.Set;
-
-import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileTargetChamberController extends TileParticleChamberPart implements IParticleChamberController<TileTargetChamberController>, ITileInventory
 {
@@ -207,4 +217,27 @@ public class TileTargetChamberController extends TileParticleChamberPart impleme
 		}
 		return super.getCapability(capability, side);
 	}
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing,float hitX, float hitY, float hitZ)
+	{
+		if (player.isSneaking() && this.isMultiblockAssembled())
+		{
+			int invalidAmount = 0;
+			for (TileParticleChamberDetector detector : this.getMultiblock().getPartMap(TileParticleChamberDetector.class).values())
+			{
+				BlockPos chamberPos = new BlockPos(getMultiblock().getMiddleX(), getMultiblock().getMiddleY(),getMultiblock().getMiddleZ());
+				if (!detector.isValidPostion(chamberPos))
+				{
+					BlockHighlightTracker.sendPacket(player, detector.getPos(), 10000);
+					invalidAmount++;
+				}
+			}
+			player.sendMessage(new TextComponentString(Lang.localize("qmd.multiblock_validation.chamber.invalid_detectors", invalidAmount)));
+			return true;
+		}
+
+		return false;
+	}
+
 }

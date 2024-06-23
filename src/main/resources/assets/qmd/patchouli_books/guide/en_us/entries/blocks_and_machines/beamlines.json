@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "For information on how focus loss is calculated look in $(l:particles/introduction#focus_loss)General Information on particles$(/l)."
+			"text": "For information on how focus loss is calculated look in $(l:particles/introduction#focus_loss)General Information on particles$(/l).$(br2)Beamline Pipes not connected to any others can be rotated with the $(l:multiblocks/multitool)multitool$(/l)."
 		}
 		
 	]

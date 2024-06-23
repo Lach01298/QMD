@@ -1,14 +1,21 @@
 package lach_01298.qmd.vacuumChamber.tile;
 
+import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.render.BlockHighlightTracker;
 import nc.tile.TileContainerInfo;
+import nc.util.Lang;
 import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.*;
 
@@ -130,6 +137,27 @@ public class TileNucleosynthesisChamberController extends TileVacuumChamberPart 
 	public void setIsRenderer(boolean isRenderer)
 	{
 		this.isRenderer = isRenderer;
+	}
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if(player.isSneaking() && this.isMultiblockAssembled())
+		{
+			int invalidAmount = 0;
+			for (TileVacuumChamberHeater heater : this.getMultiblock().getPartMap(TileVacuumChamberHeater.class).values())
+			{		
+					if (!heater.isFunctional())
+					{
+						BlockHighlightTracker.sendPacket(player, heater.getPos(), 10000);
+						invalidAmount++;
+					}		
+			}
+			player.sendMessage(new TextComponentString(Lang.localize("qmd.multiblock_validation.vacuum_chamber.invalid_heaters", invalidAmount)));
+			return true;
+		}
+		
+		return false;
 	}
 
 }

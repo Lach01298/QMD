@@ -462,40 +462,14 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 	private void produceSourceBeam()
 	{
-		
-		
 		IParticleIngredient particleProduct = recipeInfo.recipe.getParticleProducts().get(0);
-		
-		
+			
 		if (particleProduct.getStack() != null)
 		{
-			int outputAmount = particleProduct.getStack().getAmount() * source.outputParticleMultiplier;
-			
 			ParticleStack outputStack = particleProduct.getStack();
 			
-			outputStack.addFocus(source.outputFocus);
-			getMultiblock().beams.get(1).setParticleStack(outputStack);
-			ParticleStack beam = getMultiblock().beams.get(1).getParticleStack();
-
-			if (getMultiblock().computerControlled)
-			{
-				beam.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage, beam)
-						* (getMultiblock().energyPercentage / 100d)));
-			}
-			else
-			{
-				beam.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage, beam)
-						* getRedstoneLevel() / 15d));
-			}
-
-			beam.addFocus(Equations.focusGain(getMultiblock().quadrupoleStrength, beam)
-					- Equations.focusLoss(getBeamLength(), beam));
-			if (beam.getFocus() <= 0)
-			{
-				getMultiblock().errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
-			}
-			
-			
+			// amount setting
+			int outputAmount = outputStack.getAmount() * source.outputParticleMultiplier;
 			if(!source.getInventoryStacks().get(0).isEmpty())
 			{
 				if (source.getInventoryStacks().get(0).getItem() instanceof IItemParticleAmount)
@@ -528,7 +502,26 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				outputAmount *= mBDrained.amount/mBtoDrain;
 			}
 			
+			// energy setting
+			if (getMultiblock().computerControlled)
+			{
+				outputStack.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage, outputStack) * (getMultiblock().energyPercentage / 100d)));
+			}
+			else
+			{
+				outputStack.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage, outputStack) * getRedstoneLevel() / 15d));
+			}
 			outputStack.setAmount(outputAmount);
+			
+			// focus setting
+			outputStack.addFocus(source.outputFocus);
+			outputStack.addFocus(Equations.focusGain(getMultiblock().quadrupoleStrength, outputStack) - Equations.focusLoss(getBeamLength(), outputStack));
+			if (outputStack.getFocus() <= 0)
+			{
+				getMultiblock().errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
+			}
+				
+			getMultiblock().beams.get(1).setParticleStack(outputStack);
 		}
 		
 	}

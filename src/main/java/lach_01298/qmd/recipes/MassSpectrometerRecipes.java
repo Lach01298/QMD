@@ -43,7 +43,7 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
 		
 		addRecipe("oreUranium",new EmptyFluidIngredient(),
-				chanceOreStack("dustNiobium", 1, 40),chanceOreStack("dustThorium", 1, 40),oreStack("dustUranium", 4),chanceOreStack("dustRadium", 1, 5),
+				chanceOreStack("dustNiobium", 1, 40),chanceOreStack("dustRadium", 1, 5),chanceOreStack("dustThorium", 1, 40),oreStack("dustUranium", 4),
 				new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient());
 		
 		addRecipe("oreThorium",new EmptyFluidIngredient(),
@@ -366,9 +366,9 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 				new EmptyItemIngredient(), oreStack("dustGraphite",1), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3/2),new EmptyFluidIngredient(), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient());
 		
-		addRecipe(new EmptyItemIngredient(),fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME),
+		addRecipe(new EmptyItemIngredient(),fluidStack("ammonia", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
-				fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3/2), fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
 		addRecipe(new EmptyItemIngredient(),fluidStack("oxygen_difluoride", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),

@@ -1,14 +1,20 @@
 package lach_01298.qmd.accelerator.tile;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 import lach_01298.qmd.accelerator.Accelerator;
 import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.render.BlockHighlightTracker;
 import nc.tile.TileContainerInfo;
+import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-
-import static nc.block.property.BlockProperties.FACING_ALL;
 
 public class TileDeceleratorController extends TileAcceleratorPart implements IAcceleratorController<TileDeceleratorController>
 {
@@ -58,5 +64,26 @@ public class TileDeceleratorController extends TileAcceleratorPart implements IA
 	{
 		super.onBlockNeighborChanged(state, world, pos, fromPos);
 		
+	}
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if(player.isSneaking() && this.isMultiblockAssembled())
+		{
+			int invalidAmount = 0;
+			for (TileAcceleratorCooler cooler : this.getMultiblock().getPartMap(TileAcceleratorCooler.class).values())
+			{		
+					if (!cooler.isFunctional())
+					{
+						BlockHighlightTracker.sendPacket(player, cooler.getPos(), 10000);
+						invalidAmount++;
+					}		
+			}
+			player.sendMessage(new TextComponentString(Lang.localize("qmd.multiblock_validation.accelerator.invalid_coolers", invalidAmount)));
+			return true;
+		}
+		
+		return false;
 	}
 }

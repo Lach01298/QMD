@@ -1,15 +1,21 @@
 package lach_01298.qmd.particleChamber.tile;
 
+import static nc.block.property.BlockProperties.FACING_ALL;
+
 import lach_01298.qmd.particleChamber.ParticleChamber;
 import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
+import nc.render.BlockHighlightTracker;
 import nc.tile.TileContainerInfo;
+import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-
-import static nc.block.property.BlockProperties.FACING_ALL;
 
 
 public class TileCollisionChamberController extends TileParticleChamberPart implements IParticleChamberController<TileCollisionChamberController>
@@ -74,4 +80,36 @@ public class TileCollisionChamberController extends TileParticleChamberPart impl
 	{
 		super.readAll(nbt);
 	}
+	
+	@Override
+	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing,float hitX, float hitY, float hitZ)
+	{
+		if (player.isSneaking() && this.isMultiblockAssembled())
+		{
+			int invalidAmount = 0;
+			for (TileParticleChamberDetector detector : this.getMultiblock().getPartMap(TileParticleChamberDetector.class).values())
+			{
+				BlockPos chamberPos;
+				if (getMultiblock().getExteriorLengthX() > getMultiblock().getExteriorLengthZ())
+				{
+					chamberPos = new BlockPos(detector.getPos().getX(), getMultiblock().getMiddleY(), getMultiblock().getMiddleZ());
+				}
+				else
+				{
+					chamberPos = new BlockPos(getMultiblock().getMiddleX(), getMultiblock().getMiddleY(), detector.getPos().getZ());
+				}
+
+				if (!detector.isValidPostion(chamberPos))
+				{
+					BlockHighlightTracker.sendPacket(player, detector.getPos(), 10000);
+					invalidAmount++;
+				}
+			}
+			player.sendMessage(new TextComponentString(Lang.localize("qmd.multiblock_validation.chamber.invalid_detectors", invalidAmount)));
+			return true;
+		}
+
+		return false;
+	}
+	
 }

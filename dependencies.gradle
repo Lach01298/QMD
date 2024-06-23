@@ -49,7 +49,6 @@ dependencies {
 	implementation("net.darkhax.gamestages:GameStages-1.12.2:2.0.123")
 	implementation("vazkii.patchouli:Patchouli:1.0-23.6")
 	implementation("com.mod-buildcraft:buildcraft-api:7.99.24.8")
-
 	implementation rfg.deobf("curse.maven:baubles-227083:2518667")
 	implementation rfg.deobf("curse.maven:base-246996:3440963")
 	implementation rfg.deobf("curse.maven:contenttweaker-237065:3331364")
@@ -60,9 +59,8 @@ dependencies {
 	implementation rfg.deobf("curse.maven:industrial-craft-242638:3838713")
 	implementation rfg.deobf("curse.maven:gregtech-ce-unofficial-557242:5322654")
 	implementation rfg.deobf("curse.maven:mekanism-268560:2835175")
-	implementation rfg.deobf("curse.maven:projecte-226410:2702991")
 	implementation rfg.deobf("curse.maven:hwyla-253449:2568751")
-	implementation rfg.deobf("curse.maven:nuclearcraft-overhauled-336895:5414785")
+	implementation rfg.deobf("curse.maven:nuclearcraft-overhauled-336895:5446445")
 	implementation rfg.deobf("curse.maven:nco-java-legacy-lib-1032769:5414463")
 }
 

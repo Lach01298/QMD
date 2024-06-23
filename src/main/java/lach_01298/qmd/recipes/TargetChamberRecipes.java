@@ -78,6 +78,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		
 		//proton reactions
+		addQMDBalancedRecipe("ingotBoron11",new ParticleStack(Particles.proton, 1, 400), null,
+				new ParticleStack(Particles.alpha,3), null, null, 900, 0.2, 8680);
 		
 		addQMDBalancedRecipe("ingotBeryllium",new ParticleStack(Particles.proton, 1, 1000), "ingotLithium6",
 				new ParticleStack(Particles.alpha), null, null, 7500, 0.625, 2640);
@@ -296,7 +298,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addQMDBalancedRecipe("ingotBoron10", new ParticleStack(Particles.neutron, 1, 0), "ingotBoron11",
 				null, new ParticleStack(Particles.photon), null, 1000, 0.02, 11500);
 		
-		addQMDBalancedRecipe("ingotSodium22", null, new ParticleStack(Particles.proton, 1, 0), null, fluidStack("neon",FluidStackHelper.BUCKET_VOLUME),
+		addQMDBalancedRecipe("ingotSodium22", null, new ParticleStack(Particles.neutron, 1, 0), null, fluidStack("neon",FluidStackHelper.BUCKET_VOLUME),
 				new ParticleStack(Particles.proton), null, null, 11000, 0.25, 4140);
 		
 		addQMDBalancedRecipe("ingotCobalt", new ParticleStack(Particles.neutron, 1, 0), "ingotCobalt60",
@@ -331,6 +333,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addQMDBalancedRecipe("ingotLithium6", new ParticleStack(Particles.neutron, 1, 3000), null,
 				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), new ParticleStack(Particles.deuteron), 21000, 0.2, 60);
+		
+		addQMDBalancedRecipe("ingotBeryllium", new ParticleStack(Particles.neutron, 1, 4000), null,
+				new ParticleStack(Particles.alpha,2), new ParticleStack(Particles.neutron,2), null, 14000, 0.5, -1570);
 		
 		addQMDBalancedRecipe("ingotLithium7", new ParticleStack(Particles.neutron, 1, 5000), null,
 				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), new ParticleStack(Particles.triton), 17000, 0.25, -935);
@@ -807,7 +812,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addQMDBalancedRecipe("waferSilicon", new ParticleStack(Particles.boron_ion, 1, 600,2), "siliconPDoped",
 				null,null,null, 1000, 1, 0);
-		
+		addQMDBalancedRecipe("ingotLithium7", new ParticleStack(Particles.boron_ion, 1, 6000), "dustGraphite",
+				new ParticleStack(Particles.alpha),new ParticleStack(Particles.neutron,2),null, 12000, 0.2, 5010);
 		
 		
 		// Ca-48 reactions
@@ -860,7 +866,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		addQMDBalancedRecipe("ingotAluminum", new ParticleStack(Particles.pion_minus, 1, 150000), "ingotSodium22",
 				new ParticleStack(Particles.proton), new ParticleStack(Particles.neutron), null, 250000, 0.025, 88500);
 		
-		
+		addQMDBalancedRecipe(null, fluidStack("argon",FluidStackHelper.BUCKET_VOLUME), new ParticleStack(Particles.pion_plus, 1, 70000), null, fluidStack("chlorine",FluidStackHelper.BUCKET_VOLUME),
+				new ParticleStack(Particles.proton,2), new ParticleStack(Particles.neutron), null, 320000, 0.04, 114000);
 		
 		
 		

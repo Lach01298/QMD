@@ -1,11 +1,11 @@
 package lach_01298.qmd.pipe;
 
+import static nc.block.property.BlockProperties.AXIS_ALL;
+
 import lach_01298.qmd.particle.ParticleStorageBeamline;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
-
-import static nc.block.property.BlockProperties.AXIS_ALL;
 
 public class BeamlineLogic extends PipeLogic
 {
@@ -14,7 +14,7 @@ public class BeamlineLogic extends PipeLogic
 	private int beamStorageTime = 0;
 	
 	public final ParticleStorageBeamline storage = new ParticleStorageBeamline(1);
-	public Axis axis;
+	private Axis axis;
 	
 	public BeamlineLogic(PipeLogic oldLogic)
 	{
@@ -72,6 +72,21 @@ public class BeamlineLogic extends PipeLogic
 		storage.readFromNBT(logicTag);
 	}
 	
+
+	public Axis getAxis()
+	{
+		return axis;
+	}
+	
+	public boolean setAxis(Axis newAxis)
+	{
+		if(newAxis != null)
+		{
+			axis = newAxis;
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

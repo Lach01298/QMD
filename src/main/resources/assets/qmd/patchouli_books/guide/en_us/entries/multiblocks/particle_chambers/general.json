@@ -29,13 +29,17 @@
 			"anchor": "detectors",
             "type": "text",
             "title": "Detectors",
-            "text": "Detectors are placed inside particle chambers to increase the chambers efficiency. The chambers efficiency affects how the particle chamber works. Generally the higher the efficiency the faster items are crafted and the more particles outputted. There are different types of detectors, each increases the efficiency and the power usage of the chamber specified on their tool tips. "
+            "text": "Detectors are placed inside particle chambers to increase the chambers efficiency. The chambers efficiency affects how the particle chamber works. Generally the higher the efficiency the faster items are crafted and the more particles outputted. There are different types of detectors, each increases the efficiency and the power usage of the chamber specified on their tool tips."
         },
         {
 			
             "type": "diagram_low",
 			"image": "qmd:textures/gui/book_images/target_chamber_full.png",
-            "text": "They must be within a certain distance of a particle chamber block to work also shown on their tooltip. $(l)Detectors can increase the energy use of the particle chambers drastically$(). Below a typical arrangement of a target chamber with detectors."
+            "text": "They must be placed a certain distance from a particle chamber block to work shown on their tooltip.$(br2)Below a typical arrangement of a target chamber with detectors."
+        },
+		{
+            "type": "text",
+            "text": "You can check if detectors are in valid positions by sneak right clicking the controller of a formed particle chamber multiblock with the $(l:multiblocks/multitool)multitool$(/l).$(br2)$(l)Note: Detectors can increase the energy use of the particle chambers drastically!$()"
         },
         {
 			"anchor": "cross_section",
