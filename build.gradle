@@ -336,7 +336,7 @@ if (!modVersion) {
 }
 
 if (includeMCVersionJar.toBoolean()){
-    version = "${minecraftVersion}-${modVersion}"
+    version = "${modVersion}-${minecraftVersion}"
 }
 else {
     version = modVersion

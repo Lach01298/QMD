@@ -11,6 +11,6 @@
   "credits": "tomdodd4598 For making NuclearCraft",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": ["nuclearcraft", "nclegacy"],
+  "dependencies": ["nuclearcraft", "nclegacy"]
 }
 ]
