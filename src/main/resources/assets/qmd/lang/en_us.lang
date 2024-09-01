@@ -338,8 +338,8 @@ qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics.
 //death messages
 death.attack.gluon_gun=%1$s was vaporized by %2$s with a Gluon Gun
 death.attack.lepton_cannon=%1$s was killed by %2$s with a Lepton Cannon
-death.attack.antimatter_launcher=%1$s was Annihilated by %2$s with a Antimatter Launcher
-death.attack.antimatter_annihilation=%1$s got to curious and was annihilated for it
+death.attack.antimatter_launcher=%1$s was annihilated by %2$s with a Antimatter Launcher
+death.attack.antimatter_annihilation=%1$s got too curious and was annihilated for it
 death.attack.self_poisoning=%1$s chemically poisoned themselves
 
 //block descriptions
@@ -377,7 +377,7 @@ item.qmd.boots_hev.desc=Gives wearer step assist, reduces fall height by 4 block
 
 item.qmd.beam_meter.desc=Measures the stats of a Beamline or Beam Port. If measuring a Beamline the stats are the end of the beamline.
 
-item.qmd.potassium_iodine_tablet.desc=Gives temporary radiation immunity. Don't take to many!
+item.qmd.potassium_iodine_tablet.desc=Gives temporary radiation immunity. Don't take too many!
 
 
 //fluids
@@ -563,7 +563,7 @@ qmd.multiblock_validation.accelerator.linear.to_many_beam_ports=There can only b
 
 qmd.multiblock_validation.accelerator.ring.must_be_square=The Accelerator must have the same length in the X and Z direction.
 qmd.multiblock_validation.accelerator.ring.to_short= Synchrotron Accelerator is not large enough.
-qmd.multiblock_validation.accelerator.ring.to_long= Synchrotron Accelerator is to large.
+qmd.multiblock_validation.accelerator.ring.to_long= Synchrotron Accelerator is too large.
 qmd.multiblock_validation.accelerator.ring.must_be_beam=There must be a square ring of Accelerator Beam blocks down the middle of the Accelerator.
 qmd.multiblock_validation.accelerator.ring.must_be_dipole_in_conner=There must be a dipole in every corner of  the accelerator. A dipole is made by placing a Accelerator Electromagnet on the top and bottom of a Accelerator Beam, then surrounding the it with Accelerator Electromagnet Yokes.
 qmd.multiblock_validation.accelerator.ring.must_be_inline_with_beam=Beam Ports must be on the same Y level as the beam ring.
