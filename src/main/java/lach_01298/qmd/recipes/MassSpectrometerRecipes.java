@@ -158,7 +158,7 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 				new EmptyFluidIngredient(), fluidStack("oxygen", 9000), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
 		addRecipe("gemLapis",new EmptyFluidIngredient(),
-				oreStack("dustCalcium", 4), oreStack("dustAluminium", 3),oreStack("itemSilicon", 3), oreStack("dustSulfur", 1),
+				oreStack("dustCalcium", 4), oreStack("dustAluminum", 3),oreStack("itemSilicon", 3), oreStack("dustSulfur", 1),
 				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
 		// chemicals

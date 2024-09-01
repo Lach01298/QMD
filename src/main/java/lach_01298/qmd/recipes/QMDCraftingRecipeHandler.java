@@ -71,8 +71,8 @@ public class QMDCraftingRecipeHandler
 			addShapedOreRecipe(QMDItems.advanced_drill, new Object[] {"NTN", "TMT", "SBS", 'T', "ingotTungstenCarbide",'M', "motor", 'S', "magnetNeodymium", 'B', NCBlocks.lithium_ion_battery_basic, 'N', "gemBoronNitride"});
 		}
 		
-		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
-		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,4), new Object[] {"dustCharcoal","dustSulfur","dustSodiumNitrate","dustSodiumNitrate"});
+		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,8), new Object[] {"dustCoal","dustCoal","dustSulfur","dustSulfur","dustSodiumNitrate","dustSodiumNitrate","dustSodiumNitrate","dustSodiumNitrate"});
+		addShapelessOreRecipe(new ItemStack(Items.GUNPOWDER,8), new Object[] {"dustCharcoal","dustCharcoal","dustSulfur","dustSulfur","dustSodiumNitrate","dustSodiumNitrate","dustSodiumNitrate","dustSodiumNitrate"});
 		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.GREEN.getID()), new Object[] {"dustZincSulfide","dustRadium","dustCopper"});
 		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.GREEN.getID()), new Object[] {"dustZincSulfide","dustPromethium147","dustCopper"});
 		addShapelessOreRecipe(new ItemStack(QMDItems.luminousPaint,16,LuminousPaintType.BLUE.getID()), new Object[] {"dustZincSulfide","dustRadium","dustSilver"});

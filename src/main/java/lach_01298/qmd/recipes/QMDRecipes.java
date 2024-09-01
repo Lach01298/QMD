@@ -236,8 +236,27 @@ public class QMDRecipes
 		NCRecipes.melter.addRecipe("dustBismuth", fluidStack("bismuth", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustPolonium", fluidStack("polonium", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustRadium", fluidStack("radium", FluidStackHelper.INGOT_VOLUME));
-		NCRecipes.melter.addRecipe("dustSalt", fluidStack("sodium_chloride", FluidStackHelper.GEM_VOLUME));
-		
+
+
+		if (FluidRegHelper.fluidExists("brine") && QMDConfig.override_nc_recipes)
+		{
+			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+			List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
+			itemIngredients.add(AbstractRecipeHandler.oreStack("dustSalt",1));
+			NCRecipes.melter.removeRecipe(NCRecipes.melter.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+			itemIngredients.add(AbstractRecipeHandler.oreStack("itemSalt",1));
+			NCRecipes.melter.removeRecipe(NCRecipes.melter.getRecipeFromIngredients(itemIngredients, fluidIngredients));
+
+			NCRecipes.melter.addRecipe("dustSalt", fluidStack("sodium_chloride", FluidStackHelper.GEM_VOLUME));
+		}
+		else if(!FluidRegHelper.fluidExists("brine"))
+		{
+			NCRecipes.melter.addRecipe("dustSalt", fluidStack("sodium_chloride", FluidStackHelper.GEM_VOLUME));
+		}
+
+
+
+
 		if(QMDConfig.override_nc_recipes)
 		{
 			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
@@ -257,6 +276,7 @@ public class QMDRecipes
 			
 			NCRecipes.melter.removeRecipe(NCRecipes.melter.getRecipeFromIngredients(itemIngredients, fluidIngredients));
 			NCRecipes.melter.addRecipe("blockGraphite", fluidStack("carbon", FluidStackHelper.COAL_BLOCK_VOLUME));
+
 		}
 		NCRecipes.melter.addRecipe(AbstractRecipeHandler.oreStackList(Lists.newArrayList("dustCharcoal", "charcoal"),1), fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME));
 		
