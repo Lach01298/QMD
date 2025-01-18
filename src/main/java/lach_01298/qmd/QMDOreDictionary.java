@@ -33,7 +33,7 @@ public class QMDOreDictionary
 		
 		OreDictionary.registerOre("ingotYttrium",new ItemStack(QMDItems.ingot2, 1, IngotType2.YTTRIUM.getID()));
 		OreDictionary.registerOre("ingotNeodymium",new ItemStack(QMDItems.ingot2, 1, IngotType2.NEODYMIUM.getID()));
-		//OreDictionary.registerOre("ingotMercury",new ItemStack(QMDItems.ingot2, 1, IngotType2.MERCURY.getID()));
+		OreDictionary.registerOre("ingotMercury",new ItemStack(QMDItems.ingot2, 1, IngotType2.MERCURY.getID()));
 		
 		
 		

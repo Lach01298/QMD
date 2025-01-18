@@ -56,6 +56,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		SpallationMaterials.put("dustPolonium","wasteSpallationPolonium");
 		SpallationMaterials.put("dustBismuth","wasteSpallationBismuth");
 		SpallationMaterials.put("ingotLead","wasteSpallationLead");
+		SpallationMaterials.put("ingotMercury","wasteSpallationMercury");
 		SpallationMaterials.put("ingotGold","wasteSpallationGold");
 		SpallationMaterials.put("ingotPlatinum","wasteSpallationPlatinum");
 		SpallationMaterials.put("ingotIridium","wasteSpallationIridium");
@@ -241,7 +242,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), new ParticleStack(Particles.proton), 200000, 0.02, -5780);
 		
 		addQMDBalancedRecipe("dustBismuth", new ParticleStack(Particles.proton, 1, 100000), "wasteFissionLight",
-				null, new ParticleStack(Particles.neutron), null, 1000000, 0.4, 0);
+				null, new ParticleStack(Particles.neutron), null, 600000, 0.4, 0);
 		
 		addQMDBalancedRecipe("dustGraphite", new ParticleStack(Particles.proton, 1, 150000), "ingotBeryllium",
 				new ParticleStack(Particles.proton), null, new ParticleStack(Particles.triton), 1000000, 0.02, -26000);
@@ -256,6 +257,8 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				null, new ParticleStack(Particles.neutron), null, 600000, 0.16, 0);
 		
 		addQMDBalancedRecipe(null, fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), new ParticleStack(Particles.proton, 1, 200000), "wasteFissionLight", null,
+				null, new ParticleStack(Particles.neutron), null, 600000, 0.02, 0);
+		addQMDBalancedRecipe("ingotMercury", new ParticleStack(Particles.proton, 1, 200000), "wasteFissionLight",
 				null, new ParticleStack(Particles.neutron), null, 600000, 0.02, 0);
 		
 		addQMDBalancedRecipe("ingotLead", new ParticleStack(Particles.proton, 1, 200000), "wasteFissionLight",
@@ -679,9 +682,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.deuteron, 1, 11300000), material.getValue(),
 					new ParticleStack(Particles.deuteron), null, new ParticleStack(Particles.antideuteron), 20000000, 0.1, -3750000);
 		}
-		
 
-		
+		addQMDBalancedRecipe(null, fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), new ParticleStack(Particles.deuteron, 1, 11300000), "wasteSpallationMercury", null,
+				new ParticleStack(Particles.deuteron), null, new ParticleStack(Particles.antideuteron), 20000000, 0.1, -3750000);
+
 		// triton reactions
 		
 		addQMDBalancedRecipe("ingotBeryllium", new ParticleStack(Particles.triton, 1, 1000), "ingotBoron11",
@@ -878,8 +882,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.antiproton, 1), material.getValue(),
 					new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),new ParticleStack(Particles.pion_minus), 10000000, 1, 1460000);
 		}
-		
-		
+
+		addQMDBalancedRecipe(null, fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), new ParticleStack(Particles.antiproton, 1), "wasteSpallationMercury", null,
+				new ParticleStack(Particles.pion_plus),new ParticleStack(Particles.pion_naught),new ParticleStack(Particles.pion_minus), 10000000, 1, 1460000);
 		
 		
 		// Antideuteron reactions
@@ -889,7 +894,9 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 			addQMDBalancedRecipe(material.getKey(), new ParticleStack(Particles.antideuteron, 1), material.getValue(),
 					new ParticleStack(Particles.pion_plus,4),new ParticleStack(Particles.pion_naught,4),new ParticleStack(Particles.pion_minus,4), 10000000, 1, 2090000);
 		}
-		
+
+		addQMDBalancedRecipe(null, fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), new ParticleStack(Particles.antideuteron, 1), "wasteSpallationMercury", null,
+				new ParticleStack(Particles.pion_plus,4),new ParticleStack(Particles.pion_naught,4),new ParticleStack(Particles.pion_minus,4), 10000000, 1, 2090000);
 		
 		
 	}

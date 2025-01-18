@@ -226,7 +226,7 @@ public class QMDRecipes
 		
 		
 		// Melter
-		NCRecipes.melter.addRecipe(new ItemStack(QMDItems.ingot2, 1, IngotType2.MERCURY.getID()), fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), 0.5D, 0D); // for legacy reasons
+		NCRecipes.melter.addRecipe("ingotMercury", fluidStack("mercury", FluidStackHelper.INGOT_VOLUME), 0.5D, 0D);
 		NCRecipes.melter.addRecipe("dustIodine", fluidStack("iodine", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustSamarium", fluidStack("samarium", FluidStackHelper.INGOT_VOLUME));
 		NCRecipes.melter.addRecipe("dustTerbium", fluidStack("terbium", FluidStackHelper.INGOT_VOLUME));
@@ -283,7 +283,7 @@ public class QMDRecipes
 		
 		//ingot former
 		NCRecipes.ingot_former.addRecipe(fluidStack("carbon", FluidStackHelper.COAL_DUST_VOLUME), "ingotGraphite");
-		
+
 		if(QMDConfig.override_nc_recipes)
 		{
 			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
@@ -459,16 +459,18 @@ public class QMDRecipes
 		
 		for (int i = 0; i < IngotType2.values().length; i++)
 		{
-			if(i ==IngotType2.MERCURY.getID())
+			if(i == IngotType2.MERCURY.getID())
 			{
 				continue;
 			}
 			
-			String type = StringHelper.capitalize( IngotType2.values()[i].getName());
-			if (!ore_dict_raw_material_recipes) {
+			String type = StringHelper.capitalize(IngotType2.values()[i].getName());
+			if (!ore_dict_raw_material_recipes)
+			{
 				GameRegistry.addSmelting(new ItemStack(QMDItems.dust2, 1, i), OreDictHelper.getPrioritisedCraftingStack(new ItemStack(QMDItems.ingot2, 1, i), "ingot" + type), 0F);
 			}
-			else for (ItemStack dust : OreDictionary.getOres("dust" + type)) {
+			else for (ItemStack dust : OreDictionary.getOres("dust" + type))
+			{
 				GameRegistry.addSmelting(dust, OreDictHelper.getPrioritisedCraftingStack(new ItemStack(QMDItems.ingot2, 1, i), "ingot" + type), 0F);
 			}
 		}

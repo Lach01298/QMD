@@ -39,7 +39,7 @@ item.qmd.ingot.calcium.name=Calcium Ingot
 item.qmd.ingot.strontium.name=Strontium Ingot
 item.qmd.ingot2.yttrium.name=Yttrium Ingot
 item.qmd.ingot2.neodymium.name=Neodymium Ingot
-item.qmd.ingot2.mercury.name=Mercury (Legacy Item)
+item.qmd.ingot2.mercury.name=Mercury
 
 item.qmd.waste_fission.light.name=Light Fission Waste
 item.qmd.waste_fission.heavy.name=Heavy Fission Waste
