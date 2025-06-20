@@ -94,7 +94,12 @@ public class EmptyParticleIngredient implements IParticleIngredient
 		return true;
 	}
 
-	
+	@Override
+	public boolean isEmpty() {
+		return true;
+	}
+
+
 	@Override
 	@Optional.Method(modid = "crafttweaker")
 	public IIngredient ct()

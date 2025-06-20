@@ -40,6 +40,9 @@
 dependencies {
 	api("zone.rong:mixinbooter:8.4")
 	api("com.cleanroommc:groovyscript:1.0.1") { transitive = false }
+	
+	// Add javax.annotation dependency for @Nullable annotation
+	implementation("com.google.code.findbugs:jsr305:3.0.2")
 
 	implementation("cofh:CoFHCore:1.12.2-4.6.3.27:universal") { transitive = false }
 	implementation("codechicken:CodeChickenLib:1.12.2-+:universal")
@@ -60,7 +63,7 @@ dependencies {
 	implementation rfg.deobf("curse.maven:gregtech-ce-unofficial-557242:5322654")
 	implementation rfg.deobf("curse.maven:mekanism-268560:2835175")
 	implementation rfg.deobf("curse.maven:hwyla-253449:2568751")
-	implementation rfg.deobf("curse.maven:nuclearcraft-overhauled-336895:5446445")
+	implementation rfg.deobf("curse.maven:nuclearcraft-overhauled-336895:6605808")
 	implementation rfg.deobf("curse.maven:nco-java-legacy-lib-1032769:5414463")
 }
 

@@ -127,6 +127,11 @@ public class ParticleArrayIngredient implements IParticleIngredient
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return cachedStackList == null || cachedStackList.isEmpty();
+	}
+
+	@Override
 	@Optional.Method(modid = "crafttweaker")
 	public IIngredient ct()
 	{

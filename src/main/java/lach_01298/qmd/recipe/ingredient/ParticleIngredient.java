@@ -134,6 +134,11 @@ public class ParticleIngredient implements IParticleIngredient
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return stack == null;
+	}
+
+	@Override
 	@Optional.Method(modid = "crafttweaker")
 	public IIngredient ct()
 	{

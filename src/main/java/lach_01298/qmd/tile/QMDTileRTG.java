@@ -8,7 +8,9 @@ public class QMDTileRTG extends TileRTG
 
 	public QMDTileRTG(int power, double radiation)
 	{
-		super(power, radiation);
+		super();
+		this.power = power;
+		this.radiation = radiation;
 	}
 
 	public static class Strontium extends QMDTileRTG

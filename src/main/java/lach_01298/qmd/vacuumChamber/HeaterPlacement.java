@@ -213,7 +213,7 @@ public class HeaterPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir) {
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir, boolean simulate) {
 			return isCasing(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
 	}
@@ -227,7 +227,7 @@ public class HeaterPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir, boolean simulate)
 		{
 			return isBeam(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
@@ -242,7 +242,7 @@ public class HeaterPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir, boolean simulate)
 		{
 			return isPlasmaGlass(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
@@ -257,7 +257,7 @@ public class HeaterPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir, boolean simulate)
 		{
 			return isNozzle(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
@@ -288,7 +288,7 @@ public class HeaterPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir)
+		public boolean satisfied(IVacuumChamberPart part, EnumFacing dir, boolean simulate)
 		{
 			return isActiveHeater(part.getMultiblock(), part.getTilePos().offset(dir), heaterType);
 		}

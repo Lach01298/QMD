@@ -247,7 +247,7 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir, boolean simulate)
 		{
 			return isBeam(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
@@ -265,7 +265,7 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir, boolean simulate)
 		{
 			return isActiveMagnet(part.getMultiblock(), part.getTilePos().offset(dir),magnetType);
 		}
@@ -280,7 +280,7 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir, boolean simulate)
 		{
 			return isActiveYoke(part.getMultiblock(), part.getTilePos().offset(dir));
 		}
@@ -298,7 +298,7 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir, boolean simulate)
 		{
 			return isActiveRFCavity(part.getMultiblock(), part.getTilePos().offset(dir),cavityType);
 		}
@@ -327,7 +327,7 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir, boolean simulate)
 		{
 			return isActiveCooler(part.getMultiblock(), part.getTilePos().offset(dir), coolerType);
 		}
@@ -362,7 +362,7 @@ public class CoolerPlacement
 		
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart tile)
+		public boolean satisfied(IAcceleratorPart tile, boolean simulate)
 		{
 			List<String> storedTypes = new ArrayList<String>();
 
@@ -398,7 +398,7 @@ public class CoolerPlacement
 		}
 
 		@Override
-		public boolean satisfied(IAcceleratorPart tile, EnumFacing dir)
+		public boolean satisfied(IAcceleratorPart tile, EnumFacing dir, boolean simulate)
 		{
 			return false;
 		}
@@ -433,7 +433,7 @@ public class CoolerPlacement
 		
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart tile)
+		public boolean satisfied(IAcceleratorPart tile, boolean simulate)
 		{
 			List<String> storedTypes = new ArrayList<String>();
 
@@ -462,7 +462,7 @@ public class CoolerPlacement
 		}
 		
 		@Override
-		public boolean satisfied(IAcceleratorPart part, EnumFacing dir)
+		public boolean satisfied(IAcceleratorPart part, EnumFacing dir, boolean simulate)
 		{
 			return false;
 		}

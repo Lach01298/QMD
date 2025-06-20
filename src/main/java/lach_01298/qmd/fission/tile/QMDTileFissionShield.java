@@ -9,7 +9,9 @@ public class QMDTileFissionShield extends TileFissionShield
 
 	public QMDTileFissionShield(double heatPerFlux, double efficiency)
 	{
-		super(heatPerFlux, efficiency);
+		super();
+		this.heatPerFlux = heatPerFlux;
+		this.efficiency = efficiency;
 	}
 
 	@Override
