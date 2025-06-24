@@ -81,7 +81,13 @@
                     "layer0": "qmd:items/materials/ingot/strontium"
                 }
                 
+            },
+            "barium": {
+            "textures": {
+              "layer0": "qmd:items/materials/ingot/barium"
             }
+
+          }
         }
     }
 }

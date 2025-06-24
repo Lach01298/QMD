@@ -4,7 +4,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.enums.BlockTypes.*;
 import lach_01298.qmd.fission.tile.QMDTileFissionShield;
-import lach_01298.qmd.machine.tile.TileQMDProcessor;
+import lach_01298.qmd.machine.tile.TileQMDProcessors;
 import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.pipe.TileBeamline;
 import lach_01298.qmd.util.Util;
@@ -67,6 +67,9 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.NiobiumTin.class, Util.appendPath(magnetPath, MagnetType.NIOBIUM_TIN.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.NiobiumTitanium.class, Util.appendPath(magnetPath, MagnetType.NIOBIUM_TITANIUM.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.BSCCO.class, Util.appendPath(magnetPath, MagnetType.BSCCO.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Aluminium.class, Util.appendPath(magnetPath, MagnetType.Aluminium.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.SSFAF.class, Util.appendPath(magnetPath, MagnetType.SSFAF.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.YBCO.class, Util.appendPath(magnetPath, MagnetType.YBCO.getName()));
 		
 		//RF Cavities
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.class, Util.appendPath(cavityPath, "rf_cavity"));
@@ -75,6 +78,9 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.NiobiumTin.class, Util.appendPath(cavityPath, RFCavityType.NIOBIUM_TIN.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.NiobiumTitanium.class, Util.appendPath(cavityPath, RFCavityType.NIOBIUM_TITANIUM.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.BSCCO.class, Util.appendPath(cavityPath, RFCavityType.BSCCO.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.Aluminium.class, Util.appendPath(cavityPath, RFCavityType.Aluminium.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.SSFAF.class, Util.appendPath(cavityPath, RFCavityType.SSFAF.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.YBCO.class, Util.appendPath(cavityPath, RFCavityType.YBCO.getName()));
 
 	
 		
@@ -141,8 +147,8 @@ public class QMDTiles
 	
 	
 		//machines
-		GameRegistry.registerTileEntity(TileQMDProcessor.TileOreLeacher.class,new ResourceLocation(QMD.MOD_ID,"ore_leacher"));
-		GameRegistry.registerTileEntity(TileQMDProcessor.TileIrradiator.class,new ResourceLocation(QMD.MOD_ID,"irradiator"));
+		GameRegistry.registerTileEntity(TileQMDProcessors.TileOreLeacher.class,new ResourceLocation(QMD.MOD_ID,"ore_leacher"));
+		GameRegistry.registerTileEntity(TileQMDProcessors.TileIrradiator.class,new ResourceLocation(QMD.MOD_ID,"irradiator"));
 		
 		
 		

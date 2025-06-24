@@ -1,20 +1,22 @@
 package lach_01298.qmd.recipes;
 
 import com.google.common.collect.Lists;
-import nc.recipe.BasicRecipeHandler;
-import nc.recipe.ingredient.*;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.ingredient.EmptyFluidIngredient;
+import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MassSpectrometerRecipes extends BasicRecipeHandler
+public class MassSpectrometerRecipes extends QMDRecipeHandler
 {
 
 	public MassSpectrometerRecipes()
 	{
-		super("mass_spectrometer", 1, 1, 4, 4);
+		super("mass_spectrometer", 1, 1, 0, 4, 4, 0);
 	}
 
 	@Override
@@ -210,7 +212,55 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		addRecipe("dustBorax",new EmptyFluidIngredient(),
 				new EmptyItemIngredient(), oreStack("dustBoron",2), new EmptyItemIngredient(), oreStack("dustSodium",2),
 				fluidStack("hydrogen", 10000), new EmptyFluidIngredient(), fluidStack("oxygen", 8500), new EmptyFluidIngredient());
-		
+
+		addRecipe("dustAmmoniumSulfate",new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("dustSulfur",1),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*4), fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*2), new EmptyFluidIngredient());
+
+		addRecipe("dustAmmoniumBisulfate",new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("dustSulfur",1),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*5/2), fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*2), new EmptyFluidIngredient());
+
+		addRecipe("dustAmmoniumPersulfate",new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("dustSulfur",2),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*4), fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*4), new EmptyFluidIngredient());
+
+		addRecipe("dustHydroquinone",new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), oreStack("dustGraphite",6), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3), new EmptyFluidIngredient(), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient());
+
+		addRecipe("dustSodiumHydroquinone",new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), oreStack("dustGraphite",6), new EmptyItemIngredient(), oreStack("dustSodium",1),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3), new EmptyFluidIngredient(), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient());
+
+		addRecipe("dustPotassiumHydroquinone",new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), oreStack("dustGraphite",6), new EmptyItemIngredient(), oreStack("dustPotassium",1),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3), new EmptyFluidIngredient(), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient());
+
+		addRecipe(oreStackList(Lists.newArrayList("dustZirconia", "ingotZirconia"),1),new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), "dustZirconium",new EmptyItemIngredient(),new EmptyItemIngredient(),
+				fluidStack("oxygen", 1000), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(oreStackList(Lists.newArrayList("dustTinOxide", "ingotTinOxide"),1),new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), "dustTin",new EmptyItemIngredient(),new EmptyItemIngredient(),
+				fluidStack("oxygen", 1000), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(oreStackList(Lists.newArrayList("dustNickelOxide", "ingotNickelOxide"),1),new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), "dustNickel",new EmptyItemIngredient(),new EmptyItemIngredient(),
+				fluidStack("oxygen", 1000), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(oreStackList(Lists.newArrayList("dustCobaltOxide", "ingotCobaltOxide"),1),new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), "dustCobalt",new EmptyItemIngredient(),new EmptyItemIngredient(),
+				fluidStack("oxygen", 1000), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(oreStackList(Lists.newArrayList("dustRutheniumOxide", "ingotRutheniumOxide"),1),new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), "dustRuthenium",new EmptyItemIngredient(),new EmptyItemIngredient(),
+				fluidStack("oxygen", 1000), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(oreStackList(Lists.newArrayList("dustIridiumOxide", "ingotIridiumOxide"),1),new EmptyFluidIngredient(),
+				new EmptyItemIngredient(), "dustIridium",new EmptyItemIngredient(),new EmptyItemIngredient(),
+				fluidStack("oxygen", 1000), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
 		addRecipe("dustTungstenOxide", new EmptyFluidIngredient(),
 				new EmptyItemIngredient(),"dustTungsten", new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("oxygen", 1000),new EmptyFluidIngredient(),new EmptyFluidIngredient(), new EmptyFluidIngredient());
@@ -292,8 +342,8 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 				oreStack("dustZirconium",1), oreStack("dustMolybdenum",15), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				new EmptyFluidIngredient(),new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
-		addRecipe(oreStack("ingotTungstenCarbide",2),new EmptyFluidIngredient(),
-				"dustGraphite", "dustTungsten", new EmptyItemIngredient(), new EmptyItemIngredient(),
+		addRecipe(oreStack("ingotHastelloy",4),new EmptyFluidIngredient(),
+				oreStack("dustChromium",3), oreStack("dustNickel",3), oreStack("dustMolybdenum",1), new EmptyItemIngredient(),
 				new EmptyFluidIngredient(),new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
 		
 		addRecipe(oreStack("ingotNiobiumTin",4),new EmptyFluidIngredient(),
@@ -341,7 +391,11 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		addRecipe(new EmptyItemIngredient(),fluidStack("heavy_water", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("deuterium", FluidStackHelper.BUCKET_VOLUME),fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient(), new EmptyFluidIngredient());
-		
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("hydrogen_peroxide", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME),fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
 		addRecipe(new EmptyItemIngredient(),fluidStack("ethanol", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), oreStack("dustGraphite",2), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3),new EmptyFluidIngredient(), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient());
@@ -349,7 +403,27 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		addRecipe(new EmptyItemIngredient(),fluidStack("methanol", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), oreStack("dustGraphite",1), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2),new EmptyFluidIngredient(), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient());
-		
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("benzene", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustGraphite",6), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3),new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("phenol", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustGraphite",6), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3),new EmptyFluidIngredient(), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("fluorobenzene", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustGraphite",6), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*5/2),new EmptyFluidIngredient(), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("difluorobenzene", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustGraphite",6), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2),new EmptyFluidIngredient(), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("dimethyldifluorosilane", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustGraphite",2), new EmptyItemIngredient(), oreStack("itemSilicon",1),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3),new EmptyFluidIngredient(), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient());
+
 		addRecipe(new EmptyItemIngredient(),fluidStack("carbon_dioxide", FluidStackHelper.BUCKET_VOLUME),
 				"dustGraphite", new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				new EmptyFluidIngredient(),fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient());
@@ -361,7 +435,11 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		addRecipe(new EmptyItemIngredient(),fluidStack("ethene", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), oreStack("dustGraphite",2), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*2),new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
-		
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("ethyne", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustGraphite",2), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*1),new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
 		addRecipe(new EmptyItemIngredient(),fluidStack("fluoromethane", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), oreStack("dustGraphite",1), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME*3/2),new EmptyFluidIngredient(), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient());
@@ -385,7 +463,15 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		addRecipe(new EmptyItemIngredient(),fluidStack("sulfur_trioxide", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), oreStack("dustSulfur",1), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*3/2), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
-		
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("tetrafluoroethene", FluidStackHelper.BUCKET_VOLUME),
+				oreStack("dustGraphite",2), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				new EmptyFluidIngredient(),fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME*2), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("hydrogen_sulfide", FluidStackHelper.BUCKET_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustSulfur",1), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
 		addRecipe(new EmptyItemIngredient(),fluidStack("hydrofluoric_acid", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient(), new EmptyFluidIngredient());
@@ -413,10 +499,39 @@ public class MassSpectrometerRecipes extends BasicRecipeHandler
 		addRecipe(new EmptyItemIngredient(),fluidStack("nitrogen_dioxide", FluidStackHelper.BUCKET_VOLUME),
 				new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
 				fluidStack("nitrogen", FluidStackHelper.BUCKET_VOLUME/2), fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient());
-		
-		
-		
-		
+
+
+		//molten chemicals
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("lif", FluidStackHelper.INGOT_VOLUME),
+				oreStack("dustLithium",1), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				new EmptyFluidIngredient(), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME/2), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(),fluidStack("bef2", FluidStackHelper.INGOT_VOLUME),
+				oreStack("dustBeryllium",1), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(),
+				new EmptyFluidIngredient(), fluidStack("fluorine", FluidStackHelper.BUCKET_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(), fluidStack("naoh", FluidStackHelper.GEM_VOLUME),
+				new EmptyItemIngredient(), new EmptyItemIngredient(),"dustSodium", new EmptyItemIngredient(),
+				fluidStack("hydrogen", 500), fluidStack("oxygen", 500), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(), fluidStack("koh", FluidStackHelper.GEM_VOLUME),
+				new EmptyItemIngredient(), new EmptyItemIngredient(),"dustPotassium", new EmptyItemIngredient(),
+				fluidStack("hydrogen", 500), fluidStack("oxygen", 500), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(), fluidStack("sodium_sulfide", FluidStackHelper.INGOT_VOLUME),
+				oreStack("dustSodium",2), oreStack("dustSulfur",1),new EmptyItemIngredient(), new EmptyItemIngredient(),
+				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(), fluidStack("potassium_sulfide", FluidStackHelper.INGOT_VOLUME),
+				oreStack("dustSulfur",1), oreStack("dustPotassium",2),new EmptyItemIngredient(), new EmptyItemIngredient(),
+				new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+		addRecipe(new EmptyItemIngredient(), fluidStack("alumina", FluidStackHelper.INGOT_VOLUME),
+				new EmptyItemIngredient(), oreStack("dustAluminum",2),new EmptyItemIngredient(), new EmptyItemIngredient(),
+				fluidStack("oxygen", FluidStackHelper.BUCKET_VOLUME*3/2), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient());
+
+
 	}
 
 	@Override

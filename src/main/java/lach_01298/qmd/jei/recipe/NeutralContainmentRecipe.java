@@ -2,6 +2,7 @@ package lach_01298.qmd.jei.recipe;
 
 import lach_01298.qmd.*;
 import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
@@ -23,7 +24,7 @@ public class NeutralContainmentRecipe extends JEIRecipeWrapper
 	public NeutralContainmentRecipe(IGuiHelper guiHelper, QMDRecipe recipe)
 	{
 		
-		super(guiHelper, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png"), 0, 0, 206, 0, 10, 6, 36, 24);
+		super(guiHelper, QMDRecipes.neutral_containment, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png"), 0, 0, 206, 0, 10, 6, 36, 24,0);
 		
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(new ResourceLocation(QMD.MOD_ID + ":textures/gui/neutral_containment_controller.png"), 206, 6, Math.max(10, 1), Math.max(6, 1));
 		arrow2 = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrow2Time(), IDrawableAnimated.StartDirection.RIGHT, false);

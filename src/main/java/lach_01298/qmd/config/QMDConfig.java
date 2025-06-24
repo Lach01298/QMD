@@ -1,15 +1,19 @@
 package lach_01298.qmd.config;
 
-import lach_01298.qmd.*;
+import lach_01298.qmd.QMD;
+import lach_01298.qmd.QMDRadSources;
 import nc.util.Lang;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.*;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QMDConfig {
 
@@ -268,26 +272,26 @@ public class QMDConfig {
 		Property propertyMassSpectrometerValidSources = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_sources", new String[] {"laser"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_sources.comment"));
 		propertyMassSpectrometerValidSources.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_valid_sources");
 		
-		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000,100,1500,3000}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityVoltage.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_voltage");
-		Property propertyRFCavityEfficiency = config.get(CATEGORY_ACCELERATOR, "RF_cavity_efficiency", new double[] {0.5D, 0.8D, 0.90D, 0.95D, 0.99D}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_efficiency.comment"), 0D, 1D);
+		Property propertyRFCavityEfficiency = config.get(CATEGORY_ACCELERATOR, "RF_cavity_efficiency", new double[] {0.75D, 0.8D, 0.90D, 0.95D, 0.99D,0.5D,0.95D,0.99D}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_efficiency.comment"), 0D, 1D);
 		propertyRFCavityEfficiency.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_efficiency");
-		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {300, 580, 1140, 2260, 4500}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {300, 540, 1020, 1980, 3900,180,1500,2940}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_heat_generated");
-		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {500, 1000, 2000, 4000, 8000}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {500, 1000, 2000, 4000, 8000,250,3000,6000}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityBasePower.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_base_power");
-		Property propertyRFCavityMaxTemp = config.get(CATEGORY_ACCELERATOR, "RF_cavity_max_temp", new int[] {350, 39, 18, 10, 104}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_max_temp.comment"), 0, 400);
+		Property propertyRFCavityMaxTemp = config.get(CATEGORY_ACCELERATOR, "RF_cavity_max_temp", new int[] {350, 39, 18, 10, 110,350,56,95}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_max_temp.comment"), 0, 400);
 		propertyRFCavityMaxTemp.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_max_temp");
 		
-		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 2D, 4D}, Lang.localize("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
+		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 2D, 4D, 0.1D, 1.5D,3D}, Lang.localize("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
 		propertyMagnetStrength.setLanguageKey("gui.qmd.config.accelerator.magnet_strength");
-		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.5D, 0.8D, 0.90D, 0.95D, 0.99D}, Lang.localize("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
+		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.75D, 0.8D, 0.90D, 0.95D, 0.99D,0.5D,0.95D,0.99D}, Lang.localize("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
 		propertyMagnetEfficiency.setLanguageKey("gui.qmd.config.accelerator.magnet_efficiency");
-		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {300, 580, 1140, 2260, 4500}, Lang.localize("gui.qmd.config.accelerator.magnet_heat_generated.comment"),0, Integer.MAX_VALUE);
+		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {300, 540, 1020, 1980, 3900,180,1500,2940}, Lang.localize("gui.qmd.config.accelerator.magnet_heat_generated.comment"),0, Integer.MAX_VALUE);
 		propertyMagnetHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.magnet_heat_generated");
-		Property propertyMagnetBasePower = config.get(CATEGORY_ACCELERATOR, "magnet_base_power", new int[] {1000, 2000, 4000, 8000, 16000}, Lang.localize("gui.qmd.config.accelerator.magnet_base_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyMagnetBasePower = config.get(CATEGORY_ACCELERATOR, "magnet_base_power", new int[] {1000, 2000, 4000, 8000, 16000,500,6000,12000}, Lang.localize("gui.qmd.config.accelerator.magnet_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyMagnetBasePower.setLanguageKey("gui.qmd.config.accelerator.magnet_base_power");
-		Property propertyMagnetMaxTemp = config.get(CATEGORY_ACCELERATOR, "magnet_max_temp", new int[] {350, 39, 18, 10, 104}, Lang.localize("gui.qmd.config.accelerator.magnet_max_temp.comment"), 0, Integer.MAX_VALUE);
+		Property propertyMagnetMaxTemp = config.get(CATEGORY_ACCELERATOR, "magnet_max_temp", new int[] {350, 39, 18, 10, 110,350,56,95}, Lang.localize("gui.qmd.config.accelerator.magnet_max_temp.comment"), 0, Integer.MAX_VALUE);
 		propertyMagnetMaxTemp.setLanguageKey("gui.qmd.config.accelerator.magnet_max_temp");
 		
 		Property propertyCoolerHeatRemoved = config.get(CATEGORY_ACCELERATOR, "cooler_heat_removed", new int[] {60, 55, 115, 75, 70, 90, 110, 130, 95, 85, 165, 50, 100, 185, 135, 80, 120, 65, 105, 125, 150, 180, 175, 160, 155, 170, 140, 145, 195, 200, 190, 205}, Lang.localize("gui.qmd.config.accelerator.cooler_heat_removed.comment"), 0, Integer.MAX_VALUE);
@@ -337,7 +341,7 @@ public class QMDConfig {
 		propertyContainmentPartPower.setLanguageKey("gui.qmd.config.vacuum_chamber.part_power");
 		Property propertyContainmentPartHeat = config.get(CATEGORY_VACUUM_CHAMBER, "part_heat", new int[] {200, 500,100,100,500}, Lang.localize("gui.qmd.config.vacuum_chamber.part_heat.comment"), 0, Integer.MAX_VALUE);
 		propertyContainmentPartHeat.setLanguageKey("gui.qmd.config.vacuum_chamber.part_heat");
-		Property propertyContainmentMaxTemp = config.get(CATEGORY_VACUUM_CHAMBER, "part_max_temp", new int[] {104,104,104,104,104}, Lang.localize("gui.qmd.config.vacuum_chamber.part_max_temp.comment"), 0, 400);
+		Property propertyContainmentMaxTemp = config.get(CATEGORY_VACUUM_CHAMBER, "part_max_temp", new int[] {110,110,110,110,110}, Lang.localize("gui.qmd.config.vacuum_chamber.part_max_temp.comment"), 0, 400);
 		propertyContainmentMaxTemp.setLanguageKey("gui.qmd.config.vacuum_chamber.part_max_temp");
 		
 		Property propertyVacuumChamberBaseEnergyCapacity = config.get(CATEGORY_VACUUM_CHAMBER, "vacuum_chamber_base_energy_capacity", 40000, Lang.localize("gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity.comment"), 1, Integer.MAX_VALUE);
@@ -362,7 +366,7 @@ public class QMDConfig {
 		propertyNucleosynthesisChamberExplosion.setLanguageKey("gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion");
 		
 		
-		Property propertyHeaterHeatRemoved = config.get(CATEGORY_VACUUM_CHAMBER, "heater_heat_removed", new int[] {5,10,20,40,80,160,320,640}, Lang.localize("gui.qmd.config.vacuum_chamber.heater_heat_removed.comment"), 0, Integer.MAX_VALUE);
+		Property propertyHeaterHeatRemoved = config.get(CATEGORY_VACUUM_CHAMBER, "heater_heat_removed", new int[] {5000,10000,20000,40000,80000,160000,320000,640000}, Lang.localize("gui.qmd.config.vacuum_chamber.heater_heat_removed.comment"), 0, Integer.MAX_VALUE);
 		propertyHeaterHeatRemoved.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_heat_removed");
 		Property propertyHeaterRule = config.get(CATEGORY_VACUUM_CHAMBER, "heater_rule", new String[] {"one casing","one beam", "two glass", "exactly one quartz heater && exactly one redstone heater", "two axial obsidian heaters", "exactly one redstone heater && two iron heaters", "one obsidian heater && one quartz heater", "one nozzle"},
 				Lang.localize("gui.qmd.config.vacuum_chamber.heater_rule.comment"));
@@ -491,10 +495,10 @@ public class QMDConfig {
 		//Property propertyItemTickerChunksPerTick = config.get(CATEGORY_OTHER, "item_ticker_chunks_per_tick", 5, Lang.localize("gui.qmd.config.other.item_ticker_chunks_per_tick.comment"),0,400);
 		//propertyItemTickerChunksPerTick.setLanguageKey("gui.qmd.config.other.item_ticker_chunks_per_tick");
 		
-		Property propertyTurbineBladeEfficiency = config.get(CATEGORY_OTHER, "turbine_blade_efficiency", new double[] {1.25D}, Lang.localize("gui.qmd.config.other.turbine_blade_efficiency.comment"),  0.01D, 15D);
+		Property propertyTurbineBladeEfficiency = config.get(CATEGORY_OTHER, "turbine_blade_efficiency", new double[] {1.1D}, Lang.localize("gui.qmd.config.other.turbine_blade_efficiency.comment"),  0.01D, 15D);
 		propertyTurbineBladeEfficiency.setLanguageKey("gui.qmd.config.other.turbine_blade_efficiency");
 
-		Property propertyTurbineBladeExpansion = config.get(CATEGORY_OTHER, "turbine_blade_expansion", new double[] {1.9D}, Lang.localize("gui.qmd.config.other.turbine_blade_expansion.comment"), 1D, 15D);
+		Property propertyTurbineBladeExpansion = config.get(CATEGORY_OTHER, "turbine_blade_expansion", new double[] {1.3D}, Lang.localize("gui.qmd.config.other.turbine_blade_expansion.comment"), 1D, 15D);
 		propertyTurbineBladeExpansion.setLanguageKey("gui.qmd.config.other.turbine_blade_expansion");
 		
 		List<String> propertyOrderProcessors = new ArrayList<String>();

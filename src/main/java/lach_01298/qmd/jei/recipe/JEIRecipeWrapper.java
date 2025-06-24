@@ -7,6 +7,8 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.*;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import nc.recipe.BasicRecipeHandler;
+import nclegacy.jei.IJEIHandlerLegacy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +19,7 @@ import java.util.List;
 public abstract class JEIRecipeWrapper implements IRecipeWrapper
 {
 
+	public final QMDRecipeHandler recipeHandler;
 	public final QMDRecipe recipe;
 	protected final List<List<ItemStack>> inputItems;
 	protected final List<List<ItemStack>> outputItems;
@@ -28,38 +31,74 @@ public abstract class JEIRecipeWrapper implements IRecipeWrapper
 	
 	public final boolean drawArrow;
 	public final IDrawable arrow;
-	public final int arrowDrawPosX, arrowDrawPosY;
+	public final int arrowDrawPosX, arrowDrawPosY, arrowWidth, arrowHeight;
+
 	
-	
-	public JEIRecipeWrapper(IGuiHelper guiHelper, QMDRecipe recipe, ResourceLocation arrowLocation, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY)
+	public JEIRecipeWrapper(IGuiHelper guiHelper, QMDRecipeHandler recipeHandler, QMDRecipe recipe, ResourceLocation arrowTextureLocation, int backX, int backY, int arrowX, int arrowY, int arrowWidth, int arrowHeight, int arrowPosX, int arrowPosY, int arrowDirection)
 	{
+		this.recipeHandler = recipeHandler;
 		this.recipe = recipe;
-		
 		inputItems = QMDRecipeHelper.getItemInputLists(recipe.getItemIngredients());
 		inputFluids = QMDRecipeHelper.getFluidInputLists(recipe.getFluidIngredients());
 		outputItems = QMDRecipeHelper.getItemOutputLists(recipe.getItemProducts());
 		outputFluids = QMDRecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
 		inputParticles = QMDRecipeHelper.getParticleInputLists(recipe.getParticleIngredients());
 		outputParticles = QMDRecipeHelper.getParticleOutputLists(recipe.getParticleProducts());
-		
-		this.drawArrow = arrowLocation != null;
-		if(drawArrow)
+
+
+		this.drawArrow = true;
+
+		IDrawableStatic arrowDrawable = guiHelper.createDrawable(arrowTextureLocation, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
+
+
+		switch (arrowDirection)
 		{
-			IDrawableStatic arrowDrawable = guiHelper.createDrawable(arrowLocation, arrowX, arrowY, Math.max(arrowWidth, 1), Math.max(arrowHeight, 1));
-			arrow = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
-		}
-		else
-		{
-			arrow = null;
+			default:
+				arrow = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.LEFT, false);
+				break;
+			case 1:
+				arrow = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.RIGHT, false);
+				break;
+			case 2:
+				arrow = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.TOP, false);
+				break;
+			case 3:
+				arrow = guiHelper.createAnimatedDrawable(arrowDrawable, getProgressArrowTime(), IDrawableAnimated.StartDirection.BOTTOM, false);
+				break;
 		}
 		arrowDrawPosX = arrowPosX - backX;
 		arrowDrawPosY = arrowPosY - backY;
-		
-		
+		this.arrowWidth = arrowWidth;
+		this.arrowHeight = arrowHeight;
+
+	}
+
+	public JEIRecipeWrapper(IGuiHelper guiHelper, QMDRecipeHandler recipeHandler, QMDRecipe recipe)
+	{
+		this.recipeHandler = recipeHandler;
+		this.recipe = recipe;
+		inputItems = QMDRecipeHelper.getItemInputLists(recipe.getItemIngredients());
+		inputFluids = QMDRecipeHelper.getFluidInputLists(recipe.getFluidIngredients());
+		outputItems = QMDRecipeHelper.getItemOutputLists(recipe.getItemProducts());
+		outputFluids = QMDRecipeHelper.getFluidOutputLists(recipe.getFluidProducts());
+		inputParticles = QMDRecipeHelper.getParticleInputLists(recipe.getParticleIngredients());
+		outputParticles = QMDRecipeHelper.getParticleOutputLists(recipe.getParticleProducts());
+
+
+		this.drawArrow = false;
+		arrow = null;
+
+		arrowDrawPosX = 0;
+		arrowDrawPosY = 0;
+		this.arrowWidth = 0;
+		this.arrowHeight = 0;
+
 	}
 	
-	protected abstract int getProgressArrowTime();
-	
+	protected int getProgressArrowTime()
+	{
+		return 0;
+	}
 	@Override
 	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
 		if (drawArrow) {

@@ -28,11 +28,10 @@ public class TileAcceleratorMagnet extends TileAcceleratorPart implements IAccel
 		this.name = name;
 	}
 
-	
+
 
 	public static class Copper extends TileAcceleratorMagnet
 	{
-
 		public Copper()
 		{
 			super(QMDConfig.magnet_strength[0], QMDConfig.magnet_efficiency[0], QMDConfig.magnet_heat_generated[0], QMDConfig.magnet_base_power[0], QMDConfig.magnet_max_temp[0], "copper");
@@ -56,7 +55,7 @@ public class TileAcceleratorMagnet extends TileAcceleratorPart implements IAccel
 			super(QMDConfig.magnet_strength[2], QMDConfig.magnet_efficiency[2], QMDConfig.magnet_heat_generated[2], QMDConfig.magnet_base_power[2], QMDConfig.magnet_max_temp[2], "niobium_tin");
 		}
 	}
-	
+
 	public static class NiobiumTitanium extends TileAcceleratorMagnet
 	{
 
@@ -74,6 +73,32 @@ public class TileAcceleratorMagnet extends TileAcceleratorPart implements IAccel
 			super(QMDConfig.magnet_strength[4], QMDConfig.magnet_efficiency[4], QMDConfig.magnet_heat_generated[4], QMDConfig.magnet_base_power[4], QMDConfig.magnet_max_temp[4], "bscco");
 		}
 	}
+
+	public static class Aluminium extends TileAcceleratorMagnet
+	{
+		public Aluminium()
+		{
+			super(QMDConfig.magnet_strength[5], QMDConfig.magnet_efficiency[5], QMDConfig.magnet_heat_generated[5], QMDConfig.magnet_base_power[5], QMDConfig.magnet_max_temp[5], "aluminium");
+		}
+	}
+
+	public static class SSFAF extends TileAcceleratorMagnet
+	{
+		public SSFAF()
+		{
+			super(QMDConfig.magnet_strength[6], QMDConfig.magnet_efficiency[6], QMDConfig.magnet_heat_generated[6], QMDConfig.magnet_base_power[6], QMDConfig.magnet_max_temp[6], "ssfaf");
+		}
+	}
+
+	public static class YBCO extends TileAcceleratorMagnet
+	{
+
+		public YBCO()
+		{
+			super(QMDConfig.magnet_strength[7], QMDConfig.magnet_efficiency[7], QMDConfig.magnet_heat_generated[7], QMDConfig.magnet_base_power[7], QMDConfig.magnet_max_temp[7], "ybco");
+		}
+	}
+
 	
 	
 

@@ -3,7 +3,7 @@ package lach_01298.qmd.enums;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.gui.GUI_ID;
-import lach_01298.qmd.machine.tile.TileQMDProcessor.*;
+import lach_01298.qmd.machine.tile.TileQMDProcessors.*;
 import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.tile.*;
 import nc.enumm.IBlockMetaEnum;
@@ -206,7 +206,10 @@ public class BlockTypes
 		MAGNESIUM_DIBORIDE("magnesium_diboride", 1, QMDConfig.RF_cavity_voltage[1],  QMDConfig.RF_cavity_efficiency[1],QMDConfig.RF_cavity_heat_generated[1],QMDConfig.RF_cavity_base_power[1],QMDConfig.RF_cavity_max_temp[1]),
 		NIOBIUM_TIN("niobium_tin", 2, QMDConfig.RF_cavity_voltage[2],  QMDConfig.RF_cavity_efficiency[2],QMDConfig.RF_cavity_heat_generated[2],QMDConfig.RF_cavity_base_power[2],QMDConfig.RF_cavity_max_temp[2]),
 		NIOBIUM_TITANIUM("niobium_titanium", 3, QMDConfig.RF_cavity_voltage[3],  QMDConfig.RF_cavity_efficiency[3],QMDConfig.RF_cavity_heat_generated[3],QMDConfig.RF_cavity_base_power[3],QMDConfig.RF_cavity_max_temp[3]),
-		BSCCO("bscco", 4, QMDConfig.RF_cavity_voltage[4],  QMDConfig.RF_cavity_efficiency[4],QMDConfig.RF_cavity_heat_generated[4],QMDConfig.RF_cavity_base_power[4],QMDConfig.RF_cavity_max_temp[4]);
+		BSCCO("bscco", 4, QMDConfig.RF_cavity_voltage[4],  QMDConfig.RF_cavity_efficiency[4],QMDConfig.RF_cavity_heat_generated[4],QMDConfig.RF_cavity_base_power[4],QMDConfig.RF_cavity_max_temp[4]),
+		Aluminium("aluminium", 5, QMDConfig.RF_cavity_voltage[5],  QMDConfig.RF_cavity_efficiency[5],QMDConfig.RF_cavity_heat_generated[5],QMDConfig.RF_cavity_base_power[5],QMDConfig.RF_cavity_max_temp[5]),
+		SSFAF("ssfaf", 6, QMDConfig.RF_cavity_voltage[6],  QMDConfig.RF_cavity_efficiency[6],QMDConfig.RF_cavity_heat_generated[6],QMDConfig.RF_cavity_base_power[6],QMDConfig.RF_cavity_max_temp[6]),
+		YBCO("ybco", 7, QMDConfig.RF_cavity_voltage[7],  QMDConfig.RF_cavity_efficiency[7],QMDConfig.RF_cavity_heat_generated[7],QMDConfig.RF_cavity_base_power[7],QMDConfig.RF_cavity_max_temp[7]);
 
 		private String name;
 		private int id;
@@ -307,8 +310,11 @@ public class BlockTypes
 		MAGNESIUM_DIBORIDE("magnesium_diboride", 1, QMDConfig.magnet_strength[1],  QMDConfig.magnet_efficiency[1],QMDConfig.magnet_heat_generated[1],QMDConfig.magnet_base_power[1],QMDConfig.magnet_max_temp[1]),
 		NIOBIUM_TIN("niobium_tin", 2, QMDConfig.magnet_strength[2],  QMDConfig.magnet_efficiency[2],QMDConfig.magnet_heat_generated[2],QMDConfig.magnet_base_power[2],QMDConfig.magnet_max_temp[2]),
 		NIOBIUM_TITANIUM("niobium_titanium", 3, QMDConfig.magnet_strength[3],  QMDConfig.magnet_efficiency[3],QMDConfig.magnet_heat_generated[3],QMDConfig.magnet_base_power[3],QMDConfig.magnet_max_temp[3]),
-		BSCCO("bscco", 4, QMDConfig.magnet_strength[4],  QMDConfig.magnet_efficiency[4],QMDConfig.magnet_heat_generated[4],QMDConfig.magnet_base_power[4],QMDConfig.magnet_max_temp[4]);
-	
+		BSCCO("bscco", 4, QMDConfig.magnet_strength[4],  QMDConfig.magnet_efficiency[4],QMDConfig.magnet_heat_generated[4],QMDConfig.magnet_base_power[4],QMDConfig.magnet_max_temp[4]),
+		Aluminium("aluminium", 5, QMDConfig.magnet_strength[5],  QMDConfig.magnet_efficiency[5],QMDConfig.magnet_heat_generated[5],QMDConfig.magnet_base_power[5],QMDConfig.magnet_max_temp[5]),
+		SSFAF("ssfaf", 6, QMDConfig.magnet_strength[6],  QMDConfig.magnet_efficiency[6],QMDConfig.magnet_heat_generated[6],QMDConfig.magnet_base_power[6],QMDConfig.magnet_max_temp[6]),
+		YBCO("ybco", 7, QMDConfig.magnet_strength[7],  QMDConfig.magnet_efficiency[7],QMDConfig.magnet_heat_generated[7],QMDConfig.magnet_base_power[7],QMDConfig.magnet_max_temp[7]);
+
 		private String name;
 		private int id;
 		private double strength;

@@ -2,6 +2,10 @@
 
 repositories {
 	maven {
+		name = "BlameJared"
+		url = "https://maven.blamejared.com"
+	}
+	maven {
 		name = "progwml6"
 		url = "http://dvs1.progwml6.com/files/maven/"
 	}
@@ -26,15 +30,7 @@ repositories {
 		url "https://mod-buildcraft.com/maven/"
 	}
 	maven {
-		name = "mcmoddev"
-		url = "https://maven.mcmoddev.com"
-	}
-	maven {
-		name = "ModMaven"
-		url = "https://modmaven.dev/"
-	}
-	maven {
-	name = "Cleanroom"
+		name = "Cleanroom"
 		url 'https://maven.cleanroommc.com'
 	}
 }

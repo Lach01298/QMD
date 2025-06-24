@@ -30,15 +30,15 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 	private int toroidThickness;
 	
 	private final CuboidalPartPositionType positionType;
-	private PartPosition position;
-	private BlockFacing externalFacings;
+	private PartPosition partPosition;
+	private BlockFacing outwardFacings;
 
 	public TileCuboidalOrToroidalMultiblockPart(Class<MULTIBLOCK> multiblockClass, Class<T> tClass, CuboidalPartPositionType positionType, int toroidThickness)
 	{
 		super(multiblockClass, tClass);
 		this.positionType = positionType;
-		position = PartPosition.Unknown;
-		externalFacings = BlockFacing.NONE;
+		partPosition = PartPosition.Unknown;
+		outwardFacings = BlockFacing.NONE;
 		this.toroidThickness = toroidThickness;
 	}
 
@@ -57,10 +57,10 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 	 *         object if that face is facing outward
 	 */
 	@Nonnull
-	public BlockFacing getExternalDir()
+	public BlockFacing getOutwardsDir()
 	{
 
-		return externalFacings;
+		return outwardFacings;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 	public PartPosition getPartPosition()
 	{
 
-		return position;
+		return partPosition;
 	}
 
 	/**
@@ -83,16 +83,16 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 	 *         not in one side of the multiblock
 	 */
 	@Nullable
-	public EnumFacing getExternalFacing()
+	public EnumFacing getOutwardFacing()
 	{
 
 		
-		EnumFacing facing = null != this.position ? this.position.getFacing() : null;
+		EnumFacing facing = null != this.partPosition ? this.partPosition.getFacing() : null;
 
 		if (null == facing)
 		{
 
-			BlockFacing out = this.getExternalDir();
+			BlockFacing out = this.getOutwardsDir();
 
 			if (!out.none() && 1 == out.countFacesIf(true))
 				facing = out.firstIf(true);
@@ -109,7 +109,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 	 *         not in one side of the multiblock
 	 */
 	@Nullable
-	public EnumFacing getExternalFacingFromWorldPosition()
+	public EnumFacing getOutwardFacingFromWorldPosition()
 	{
 
 		BlockFacing facings = null;
@@ -139,26 +139,26 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 	public void onAttached(MULTIBLOCK newMultiblock)
 	{
 		super.onAttached(newMultiblock);
-		recalculateExternalDirection(newMultiblock.getMinimumCoord(), newMultiblock.getMaximumCoord());
+		recalculateOutwardsDirection(newMultiblock.getMinimumCoord(), newMultiblock.getMaximumCoord());
 	}
 
 	@Override
 	public void onMachineAssembled(MULTIBLOCK multiblock)
 	{
 		// Discover where I am on the multiblock
-		recalculateExternalDirection(multiblock.getMinimumCoord(), multiblock.getMaximumCoord());
+		recalculateOutwardsDirection(multiblock.getMinimumCoord(), multiblock.getMaximumCoord());
 	}
 
 	@Override
 	public void onMachineBroken()
 	{
-		position = PartPosition.Unknown;
-		externalFacings = BlockFacing.NONE;
+		partPosition = PartPosition.Unknown;
+		outwardFacings = BlockFacing.NONE;
 	}
 
 	// Positional helpers
 
-	public void recalculateExternalDirection(BlockPos minCoord, BlockPos maxCoord)
+	public void recalculateOutwardsDirection(BlockPos minCoord, BlockPos maxCoord)
 	{
 		BlockPos myPosition = this.getPos();
 		BlockPos minInCoord = new BlockPos(minCoord.getX() + toroidThickness - 1, minCoord.getY(), minCoord.getZ() + toroidThickness - 1);
@@ -177,7 +177,7 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 		boolean westFacing = myX == minCoord.getX() || (myX == maxInCoord.getX() && myZ > minInCoord.getZ() && myZ < maxInCoord.getZ());
 		boolean eastFacing = myX == maxCoord.getX() || (myX == minInCoord.getX() && myZ > minInCoord.getZ() && myZ < maxInCoord.getZ());
 
-		this.externalFacings = BlockFacing.from(downFacing, upFacing, northFacing, southFacing, westFacing, eastFacing);
+		this.outwardFacings = BlockFacing.from(downFacing, upFacing, northFacing, southFacing, westFacing, eastFacing);
 
 		// how many faces are facing outward?
 
@@ -193,19 +193,19 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 		// what is our position in the multiblock structure?
 
 		if (facesMatching <= 0)
-			this.position = PartPosition.Interior;
+			this.partPosition = PartPosition.Interior;
 		else if (facesMatching >= 3)
-			this.position = PartPosition.FrameCorner;
+			this.partPosition = PartPosition.FrameCorner;
 
 		else if (facesMatching == 2)
 		{
 
 			if (!eastFacing && !westFacing)
-				this.position = PartPosition.FrameEastWest;
+				this.partPosition = PartPosition.FrameEastWest;
 			else if (!southFacing && !northFacing)
-				this.position = PartPosition.FrameSouthNorth;
+				this.partPosition = PartPosition.FrameSouthNorth;
 			else
-				this.position = PartPosition.FrameUpDown;
+				this.partPosition = PartPosition.FrameUpDown;
 
 		}
 		else
@@ -216,37 +216,37 @@ public abstract class TileCuboidalOrToroidalMultiblockPart<MULTIBLOCK extends Cu
 			if (eastFacing)
 			{
 
-				this.position = PartPosition.EastFace;
+				this.partPosition = PartPosition.EastFace;
 
 			}
 			else if (westFacing)
 			{
 
-				this.position = PartPosition.WestFace;
+				this.partPosition = PartPosition.WestFace;
 
 			}
 			else if (southFacing)
 			{
 
-				this.position = PartPosition.SouthFace;
+				this.partPosition = PartPosition.SouthFace;
 
 			}
 			else if (northFacing)
 			{
 
-				this.position = PartPosition.NorthFace;
+				this.partPosition = PartPosition.NorthFace;
 
 			}
 			else if (upFacing)
 			{
 
-				this.position = PartPosition.TopFace;
+				this.partPosition = PartPosition.TopFace;
 
 			}
 			else
 			{
 
-				this.position = PartPosition.BottomFace;
+				this.partPosition = PartPosition.BottomFace;
 			}
 		}
 	}

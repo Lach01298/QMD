@@ -1,9 +1,11 @@
 package lach_01298.qmd.machine.container;
 
 import lach_01298.qmd.container.slot.SlotAmountFuel;
+import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.slot.*;
+import nc.container.slot.SlotFurnace;
+import nc.container.slot.SlotProcessorInput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
@@ -14,7 +16,7 @@ public class ContainerIrradiator extends ContainerItemDamageFuelProcessor
 	{
 		super(player, tileEntity, QMDRecipes.irradiator,QMDRecipes.irradiator_fuel);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 44, 54));
+		addSlotToContainer(new SlotQMDProcessorInput(tileEntity, recipeHandler, 0, 44, 54));
 		addSlotToContainer(new SlotAmountFuel(tileEntity, fuelHandler, 1, 80, 21));
 		
 		addSlotToContainer(new SlotFurnace(player, tileEntity, 2, 116, 54));

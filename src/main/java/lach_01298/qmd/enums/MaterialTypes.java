@@ -29,8 +29,8 @@ public class MaterialTypes
 		SODIUM("sodium",11),
 		POTASSIUM("potassium",12),
 		CALCIUM("calcium",13),
-		STRONTIUM("strontium",14);
-		
+		STRONTIUM("strontium",14),
+		BARIUM("barium",15);
 		
 		
 		
@@ -119,8 +119,8 @@ public class MaterialTypes
 		SODIUM("sodium",11),
 		POTASSIUM("potassium",12),
 		CALCIUM("calcium",13),
-		STRONTIUM("strontium",14);
-		
+		STRONTIUM("strontium",14),
+		BARIUM("barium",15);
 		
 		private String name;
 		private int id;
@@ -281,7 +281,9 @@ public class MaterialTypes
 		WIRE_CHAMBER_CASING("wire_chamber_casing", 7),
 		MAGNET_ND("magnet_nd", 8),
 		ACCELERATING_BARREL("accelerating_barrel", 9),
-		LASER_ASSEMBLY("laser_assembly", 10);
+		LASER_ASSEMBLY("laser_assembly", 10),
+		WIRE_SSFAF("wire_ssfaf", 11),
+		WIRE_YBCO("wire_ybco", 12);
 		private String name;
 		private int id;
 
@@ -357,7 +359,10 @@ public class MaterialTypes
 		COPPER_OXIDE("copper_oxide", 4),
 		HAFNIUM_OXIDE("hafnium_oxide", 5),
 		STRONTIUM_CHLORIDE("strontium_chloride", 6),
-		ZINC_SULFIDE("zinc_sulfide", 7);
+		ZINC_SULFIDE("zinc_sulfide", 7),
+		IRON_FLUORIDE("iron_fluoride",8),
+		SSFAF("ssfaf",9),
+		YBCO("ybco",10);
 		
 		private String name;
 		private int id;

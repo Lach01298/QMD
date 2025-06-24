@@ -2,12 +2,14 @@ package lach_01298.qmd.machine.gui;
 
 import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.machine.tile.TileQMDProcessor;
 import nc.gui.element.GuiItemRenderer;
 import nc.init.NCItems;
 import nc.tile.energy.ITileEnergy;
-import nc.util.*;
+import nc.util.Lang;
+import nc.util.NCMath;
+import nc.util.UnitHelper;
 import nclegacy.gui.NCGuiLegacy;
-import nclegacy.tile.TileItemFluidProcessorLegacy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,11 +23,11 @@ public abstract class GuiItemFluidMachine extends NCGuiLegacy
 {
 
 	protected final EntityPlayer player;
-	protected final TileItemFluidProcessorLegacy tile;
+	protected final TileQMDProcessor tile;
 	protected final ResourceLocation gui_textures;
 	protected GuiItemRenderer speedUpgradeRender = null, energyUpgradeRender = null;
 
-	public GuiItemFluidMachine(String name, EntityPlayer player, TileItemFluidProcessorLegacy tile, Container inventory)
+	public GuiItemFluidMachine(String name, EntityPlayer player, TileQMDProcessor tile, Container inventory)
 	{
 		super(inventory);
 		this.player = player;

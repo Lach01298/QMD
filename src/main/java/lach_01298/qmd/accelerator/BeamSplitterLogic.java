@@ -12,6 +12,7 @@ import lach_01298.qmd.util.Equations;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -155,17 +156,17 @@ public class BeamSplitterLogic extends AcceleratorLogic
 			
 			
 			
-			port.recalculateExternalDirection(acc.getMinimumCoord(), acc.getMaximumCoord());
-			if(port.getExternalFacing() == null)
+			port.recalculateOutwardsDirection(acc.getMinimumCoord(), acc.getMaximumCoord());
+			if(port.getOutwardFacing() == null)
 			{
 				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.something_is_wrong", port.getPos());
 				return false;
 			}
 			
 			
-			if(!(acc.WORLD.getTileEntity(port.getPos().offset(port.getExternalFacing().getOpposite())) instanceof TileAcceleratorBeam))
+			if(!(acc.WORLD.getTileEntity(port.getPos().offset(port.getOutwardFacing().getOpposite())) instanceof TileAcceleratorBeam))
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.beam_port_must_connect", port.getPos().offset(port.getExternalFacing().getOpposite()));
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.beam_port_must_connect", port.getPos().offset(port.getOutwardFacing().getOpposite()));
 				return false;
 			}
 			if(port.getIOType() == IOType.INPUT)
@@ -220,6 +221,34 @@ public class BeamSplitterLogic extends AcceleratorLogic
 			 postions.add(acc.getMiddleCoord().toImmutable());
 			 setBeamlineFunctional(postions);
 			 formComponents();
+
+			 for(TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
+			 {
+				 if(port.getIOType() == IOType.INPUT)
+				 {
+					 port.setIONumber(0);
+				 }
+				 if(port.getIOType() == IOType.OUTPUT)
+				 {
+					 if(getMultiblock().WORLD.getTileEntity(port.getPos().offset(port.getOutwardFacing().getOpposite(),getThickness() - 1)) instanceof TileAcceleratorBeamPort)
+					 {
+						 TileAcceleratorBeamPort oppositePort = (TileAcceleratorBeamPort) getMultiblock().WORLD.getTileEntity(port.getPos().offset(port.getOutwardFacing().getOpposite(), getThickness() - 1));
+						 if(oppositePort.getIOType() == IOType.INPUT)
+						 {
+							 port.setIONumber(2);
+						 }
+						 else
+						 {
+							 port.setIONumber(1);
+						 }
+					 }
+					 else
+					 {
+						 port.setIONumber(1);
+					 }
+				 }
+			 }
+
 		}
 		 
 		 refreshStats();
@@ -267,81 +296,40 @@ public class BeamSplitterLogic extends AcceleratorLogic
 	}
 	
 	// Beam port IO
-	
-	@Override
-	protected void push()
-	{
-		if (getMultiblock().input != null && getMultiblock().input.getExternalFacing() != null)
-		{
-			for (TileAcceleratorBeamPort port :getMultiblock().getPartMap(TileAcceleratorBeamPort.class).values())
-			{
-				if(port.getExternalFacing() != null)
-				{
-					if(port.getIOType() == IOType.OUTPUT)
-					{
-						if(port.getPos().offset(port.getExternalFacing().getOpposite(), getThickness() - 1).equals(getMultiblock().input.getPos()))
-						{
-							TileEntity tile = getMultiblock().WORLD.getTileEntity(port.getPos().offset(port.getExternalFacing()));
-							if (tile != null)
-							{
-								if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getExternalFacing().getOpposite()))
-								{
-									IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getExternalFacing().getOpposite());
-									otherStorage.reciveParticle(port.getExternalFacing().getOpposite(), getMultiblock().beams.get(2).getParticleStack());
-									
-								}
-							}
-						}
-						else
-						{
-							TileEntity tile = getMultiblock().WORLD.getTileEntity(port.getPos().offset(port.getExternalFacing()));
-							if (tile != null)
-							{
-								if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getExternalFacing().getOpposite()))
-								{
-									IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getExternalFacing().getOpposite());
-									otherStorage.reciveParticle(port.getExternalFacing().getOpposite(), getMultiblock().beams.get(1).getParticleStack());
-									
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 
-	}
-	
 	@Override
 	protected void pull()
 	{
-		if (getMultiblock().input != null && getMultiblock().input.getExternalFacing() != null)
+		for(TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
 		{
-
-			TileEntity tile = getMultiblock().WORLD
-					.getTileEntity(getMultiblock().input.getPos().offset(getMultiblock().input.getExternalFacing()));
-			if (tile != null)
+			if(port.getIOType() == IOType.INPUT)
 			{
-
-				if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getMultiblock().input.getExternalFacing().getOpposite()))
+				if (port.getOutwardFacing() != null)
 				{
-					IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,getMultiblock().input.getExternalFacing().getOpposite());
-					ParticleStack stack = otherStorage.extractParticle(getMultiblock().input.getExternalFacing().getOpposite());
-
-					if (stack != null)
+					EnumFacing face = port.getOutwardFacing();
+					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
+					if(tile != null)
 					{
-						getMultiblock().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
-
-						if (!getMultiblock().beams.get(0).reciveParticle(getMultiblock().input.getExternalFacing(),
-								stack))
+						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
-							if (stack.getMeanEnergy() > getMultiblock().beams.get(0).getMaxEnergy())
+							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+							ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
+
+							if (stack != null)
 							{
-								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
-							}
-							else if (stack.getMeanEnergy() < getMultiblock().beams.get(0).getMinEnergy())
-							{
-								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+								getMultiblock().beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
+
+								if (!getMultiblock().beams.get(0).reciveParticle(face, stack))
+								{
+									if (stack.getMeanEnergy() > getMultiblock().beams.get(0).getMaxEnergy())
+									{
+										getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+									}
+									else if (stack.getMeanEnergy() < getMultiblock().beams.get(0).getMinEnergy())
+									{
+										getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+									}
+								}
 							}
 						}
 					}
@@ -349,6 +337,13 @@ public class BeamSplitterLogic extends AcceleratorLogic
 			}
 		}
 	}
+
+	@Override
+	public void switchIO()
+	{
+
+	}
+
 	
 	// Recipe handling
 	

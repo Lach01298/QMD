@@ -1,5 +1,7 @@
 package lach_01298.qmd.machine.container;
 
+import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
+import lach_01298.qmd.machine.tile.TileQMDProcessor;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.slot.*;
 import nclegacy.container.ContainerItemFluidProcessorLegacy;
@@ -7,14 +9,14 @@ import nclegacy.tile.TileItemFluidProcessorLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 
-public class ContainerOreLeacher extends ContainerItemFluidProcessorLegacy
+public class ContainerOreLeacher extends ContainerQMDProcessor
 {
 
-	public ContainerOreLeacher(EntityPlayer player, TileItemFluidProcessorLegacy tileEntity)
+	public ContainerOreLeacher(EntityPlayer player, TileQMDProcessor tileEntity)
 	{
 		super(player, tileEntity, QMDRecipes.ore_leacher);
 		
-		addSlotToContainer(new SlotProcessorInput(tileEntity, recipeHandler, 0, 36, 11));
+		addSlotToContainer(new SlotQMDProcessorInput(tileEntity, recipeHandler, 0, 36, 11));
 		
 		addSlotToContainer(new SlotFurnace(player, tileEntity, 1, 112, 42));
 		addSlotToContainer(new SlotFurnace(player, tileEntity, 2, 132, 42));

@@ -3,11 +3,14 @@ package lach_01298.qmd.accelerator.block;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
 import lach_01298.qmd.enums.BlockTypes.RFCavityType;
 import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;
-import net.minecraft.block.properties.*;
-import net.minecraft.block.state.*;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -42,6 +45,12 @@ public class BlockRFCavity extends BlockMetaQMDPart<RFCavityType>
 			return new TileAcceleratorRFCavity.NiobiumTitanium();
 		case 4:
 			return new TileAcceleratorRFCavity.BSCCO();
+		case 5:
+			return new TileAcceleratorRFCavity.Aluminium();
+		case 6:
+			return new TileAcceleratorRFCavity.SSFAF();
+		case 7:
+			return new TileAcceleratorRFCavity.YBCO();
 		
 		}
 		return new TileAcceleratorRFCavity.Copper();

@@ -9,6 +9,8 @@ import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.network.QMDPackets;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.*;
+import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
+import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.util.Util;
 import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.recipe.*;
@@ -42,7 +44,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	public QMDRecipeInfo<QMDRecipe> rememberedRecipeInfo;
 
-	public RecipeInfo<BasicRecipe> cellRecipeInfo;
+	public QMDRecipeInfo<QMDRecipe> cellRecipeInfo;
 
 	public ExoticContainmentLogic(VacuumChamberLogic oldLogic)
 	{
@@ -599,8 +601,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		particles.add(getMultiblock().beams.get(0).getParticleStack());
 		particles.add(getMultiblock().beams.get(1).getParticleStack());
 
-		recipeInfo = neutral_containment.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(),
-				particles);
+		recipeInfo = neutral_containment.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), new ArrayList<Tank>(), particles);
 
 	}
 
@@ -608,6 +609,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 	{
 		ArrayList<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
 		ArrayList<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
+		ArrayList<IParticleIngredient> particleIngredients = new ArrayList<IParticleIngredient>();
 		TileExoticContainmentController cont = (TileExoticContainmentController) getMultiblock().controller;
 
 		if (cont.getInventoryStacks().get(0).getItem() instanceof IItemParticleAmount)
@@ -627,11 +629,11 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 				fluidIngredients = new ArrayList<IFluidIngredient>();
 				fluidIngredients.add(fluidIngredient);
 
-				BasicRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
+				QMDRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients, particleIngredients);
 				if (recipe != null)
 				{
-					RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
-					cellRecipeInfo = new RecipeInfo(recipe, matchResult);
+					QMDRecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients, particleIngredients);
+					cellRecipeInfo = new QMDRecipeInfo(recipe, matchResult);
 				}
 			}
 			else
@@ -663,11 +665,11 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 					FluidIngredient fluidIngredient = new FluidIngredient(copy);
 					fluidIngredients.add(fluidIngredient);
 
-					BasicRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients);
+					QMDRecipe recipe = cell_filling.getRecipeFromIngredients(itemIngredients, fluidIngredients, particleIngredients);
 					if (recipe != null)
 					{
-						RecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients);
-						cellRecipeInfo = new RecipeInfo(recipe, matchResult);
+						QMDRecipeMatchResult matchResult = recipe.matchIngredients(itemIngredients, fluidIngredients, particleIngredients);
+						cellRecipeInfo = new QMDRecipeInfo(recipe, matchResult);
 					}
 				}
 			}

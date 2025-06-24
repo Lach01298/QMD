@@ -15,12 +15,12 @@ public class QMDRecipe  implements IQMDRecipe
 	protected List<IFluidIngredient> fluidIngredients, fluidProducts;
 	protected List<IParticleIngredient> particleIngredients, particleProducts;
 	
-	protected List extras;
+	protected List<Object> extras;
 	public boolean isShapeless;
 
 
 	public QMDRecipe(List<IItemIngredient> itemIngredientsList, List<IFluidIngredient> fluidIngredientsList,List<IParticleIngredient> particleIngredientsList, List<IItemIngredient> itemProductsList,
-			List<IFluidIngredient> fluidProductsList, List<IParticleIngredient> particleProductsList, List extrasList, boolean shapeless)
+			List<IFluidIngredient> fluidProductsList, List<IParticleIngredient> particleProductsList, List<Object> extrasList, boolean shapeless)
 	{
 		itemIngredients = itemIngredientsList;
 		fluidIngredients = fluidIngredientsList;
@@ -28,7 +28,6 @@ public class QMDRecipe  implements IQMDRecipe
 		itemProducts = itemProductsList;
 		fluidProducts = fluidProductsList;
 		particleProducts = particleProductsList;
-
 		extras = extrasList;
 		isShapeless = shapeless;
 		
@@ -71,7 +70,7 @@ public class QMDRecipe  implements IQMDRecipe
 	}
 
 	@Override
-	public List getExtras()
+	public List<Object> getExtras()
 	{
 		return extras;
 	}
@@ -83,9 +82,8 @@ public class QMDRecipe  implements IQMDRecipe
 	
 
 	@Override
-	public QMDRecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,List<ParticleStack> particleInputs, List extras)
+	public QMDRecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs,List<ParticleStack> particleInputs, List<Object> extras)
 	{
-		
 		return QMDRecipeHelper.matchIngredients(IngredientSorption.INPUT, itemIngredients, fluidIngredients,particleIngredients, itemInputs, fluidInputs, particleInputs, isShapeless, extras);
 	}
 
@@ -107,6 +105,8 @@ public class QMDRecipe  implements IQMDRecipe
 		return QMDRecipeHelper.matchIngredients(IngredientSorption.OUTPUT, this.itemProducts, this.fluidProducts, this.particleProducts, itemProducts, fluidProducts, particleProducts, isShapeless, extras);
 	}
 
+
+
 	/* ================================== Recipe Extras ===================================== */
 	
 	//most recipes
@@ -119,23 +119,48 @@ public class QMDRecipe  implements IQMDRecipe
 	{
 		return (double) extras.get(1);
 	}
-	
-	public long getHeatReleased()
-	{
-		return (long) extras.get(1);
-	}
-	
+
 	public long getEnergyReleased()
 	{
 		return (long) extras.get(2);
 	}
-	
-	
+
+	// nuclearsynthesis chamber
+	public long getHeatReleased()
+	{
+		return (long) extras.get(1);
+	}
+
+	// fluid heating recipes
+	public int getHeatRequired() { return (int) extras.get(0); }
+
+	public int getInputTemperature() { return (int) extras.get(1); }
+
+
+
+	// machine recipes
+	public double getProcessTimeMultiplier()
+	{
+		return (double) extras.get(0);
+	}
+
+	public double getProcessPowerMultiplier()
+	{
+		return (double) extras.get(1);
+	}
+
+	public double getBaseProcessTime(double defaultProcessTime)
+	{
+		return this.getProcessTimeMultiplier() * defaultProcessTime;
+	}
+
+	public double getBaseProcessPower(double defaultProcessPower)
+	{
+		return this.getProcessPowerMultiplier() * defaultProcessPower;
+	}
+
 	public double getBaseProcessRadiation()
 	{
-		return (double) extras.get(3);
+		return (double) extras.get(2);
 	}
-	
-
-	
 }

@@ -7,9 +7,9 @@ import nc.tile.fission.TileFissionShield;
 public class QMDTileFissionShield extends TileFissionShield
 {
 
-	public QMDTileFissionShield(double heatPerFlux, double efficiency)
+	public QMDTileFissionShield(String shieldType, double heatPerFlux, double efficiency)
 	{
-		super(heatPerFlux, efficiency);
+		super(shieldType, heatPerFlux, efficiency);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class QMDTileFissionShield extends TileFissionShield
 
 		public Hafnium()
 		{
-			super(NeutronShieldType.HAFNIUM.getHeatPerFlux(), NeutronShieldType.HAFNIUM.getEfficiency());
+			super(NeutronShieldType.HAFNIUM.getName(), NeutronShieldType.HAFNIUM.getHeatPerFlux(), NeutronShieldType.HAFNIUM.getEfficiency());
 		}
 	}
 }

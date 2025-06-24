@@ -213,9 +213,9 @@ public class TileParticleChamberFluidPort extends TileParticleChamberPart implem
 					}
 					updateBlockState(false);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localize("nc.block.vent_toggle") + " "
-							+ TextFormatting.DARK_AQUA + Lang.localize("nc.block.fission_vent_mode.input") + " "
-							+ TextFormatting.WHITE + Lang.localize("nc.block.vent_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " "
+							+ TextFormatting.DARK_AQUA + Lang.localize("nc.block.port_mode.input") + " "
+							+ TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				else
 				{
@@ -226,9 +226,9 @@ public class TileParticleChamberFluidPort extends TileParticleChamberPart implem
 					}
 					updateBlockState(true);
 					getMultiblock().checkIfMachineIsWhole();
-					player.sendMessage(new TextComponentString(Lang.localize("nc.block.vent_toggle") + " "
-							+ TextFormatting.RED + Lang.localize("nc.block.fission_vent_mode.output") + " "
-							+ TextFormatting.WHITE + Lang.localize("nc.block.vent_toggle.mode")));
+					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " "
+							+ TextFormatting.RED + Lang.localize("nc.block.port_mode.output") + " "
+							+ TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				markDirtyAndNotify();
 				return true;

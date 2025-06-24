@@ -7,6 +7,7 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.IParticleStackHandler;
+import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.multiblock.*;
 import nc.recipe.ingredient.IFluidIngredient;
@@ -337,42 +338,42 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 	}
 	
 	// Recipes
-	
+
 	protected void refreshFluidRecipe()
 	{
-		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(0, 1));
-		if(getMultiblock().coolingRecipeInfo != null)
+		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getMultiblock().tanks.subList(0, 1),new ArrayList<ParticleStack>());
+		if (getMultiblock().coolingRecipeInfo != null)
 		{
-			getMultiblock().maxCoolantIn =(int) (2*getMultiblock().heating/(double)getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*1000);
-			getMultiblock().maxCoolantOut = (int) (getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*2*getMultiblock().heating/(double)(getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0))*1000);
+			getMultiblock().maxCoolantIn =(int) (1000*getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0)*2*getMultiblock().heating/(double)getMultiblock().coolingRecipeInfo.recipe.getHeatRequired());
+			getMultiblock().maxCoolantOut = (int) (1000*getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*2*getMultiblock().heating/(double)getMultiblock().coolingRecipeInfo.recipe.getHeatRequired());
 		}
 	}
-	
+
 	protected boolean canProcessFluidInputs()
 	{
-		
+
 		if(getMultiblock().coolingRecipeInfo == null)
 		{
 			return false;
 		}
-		
+
 		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
 		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = 2*getMultiblock().heating;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
-		
-		if(getMultiblock().getTemperature() <= fluidInput.getStack().getFluid().getTemperature())
+		int recipeHeat = getMultiblock().coolingRecipeInfo.recipe.getHeatRequired();
+
+		if(getMultiblock().getTemperature() <= getMultiblock().coolingRecipeInfo.recipe.getInputTemperature())
 		{
 			return false;
 		}
-		
+
 		if (fluidOutput.getMaxStackSize(0) <= 0 || fluidOutput.getStack() == null)
 			return false;
-		
-		
-		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
-		
+
+
+		double recipesPerTick = maximumHeatChange/(double)(recipeHeat);
+
 		if (!outputTank.isEmpty())
 		{
 			if (!outputTank.getFluid().isFluidEqual(fluidOutput.getStack()))
@@ -384,38 +385,39 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 				return false;
 			}
 		}
-		
-		if (getMultiblock().heatBuffer.getHeatStored() < fluidInput.getMaxStackSize(0)*heatPerMB)
+
+		if (getMultiblock().heatBuffer.getHeatStored() < recipeHeat)
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
-	
-	
+
+
 	private void produceFluidProducts()
 	{
+
 		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
 		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank inputTank = getMultiblock().tanks.get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = 2*getMultiblock().heating;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
-		
-		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
-		
+		int recipeHeat = getMultiblock().coolingRecipeInfo.recipe.getHeatRequired();
+
+		double recipesPerTick = maximumHeatChange/(double)(recipeHeat);
+
 		if(recipesPerTick*fluidInput.getMaxStackSize(0) > inputTank.getFluidAmount())
 		{
 			recipesPerTick = inputTank.getFluidAmount()/(double)fluidInput.getMaxStackSize(0);
 		}
-		
-		if(recipesPerTick * fluidInput.getMaxStackSize(0) * heatPerMB > getMultiblock().heatBuffer.getHeatStored())
+
+		if(recipesPerTick * recipeHeat > getMultiblock().heatBuffer.getHeatStored())
 		{
-			recipesPerTick = getMultiblock().heatBuffer.getHeatStored()/(fluidInput.getMaxStackSize(0) * heatPerMB);
+			recipesPerTick = getMultiblock().heatBuffer.getHeatStored()/(recipeHeat);
 		}
-		
-		
+
+
 		int recipesThisTick = (int) Math.floor(recipesPerTick);
 		excessCoolingRecipes += recipesPerTick - recipesThisTick;
 
@@ -424,11 +426,11 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 			recipesThisTick += (int) Math.floor(excessCoolingRecipes);
 			excessCoolingRecipes -= Math.floor(excessCoolingRecipes);
 		}
-		
-		
+
+
 		inputTank.changeFluidAmount(-recipesThisTick*fluidInput.getMaxStackSize(0));
 		if (inputTank.getFluidAmount() <= 0) inputTank.setFluidStored(null);
-		
+
 		if(outputTank.isEmpty())
 		{
 			outputTank.changeFluidStored(fluidOutput.getNextStack(0).getFluid(),recipesThisTick*fluidOutput.getMaxStackSize(0));
@@ -437,19 +439,20 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 		{
 			outputTank.changeFluidAmount(recipesThisTick*fluidOutput.getMaxStackSize(0));
 		}
-		
-		
-		
-		double heatChange =recipesThisTick*fluidInput.getMaxStackSize(0)* heatPerMB;
-		
+
+
+
+		double heatChange =recipesThisTick* recipeHeat;
+
 		excessHeat += heatChange;
-		
+
 		if(excessHeat > 1)
 		{
 			long thisTickHeatChange = (long) Math.floor(excessHeat);
 			excessHeat -= thisTickHeatChange;
 			getMultiblock().heatBuffer.changeHeatStored(-thisTickHeatChange);
 		}
+
 	}
 	
 	

@@ -3,11 +3,14 @@ package lach_01298.qmd.accelerator.block;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
 import lach_01298.qmd.enums.BlockTypes.MagnetType;
 import lach_01298.qmd.multiblock.block.BlockMetaQMDPart;
-import net.minecraft.block.properties.*;
-import net.minecraft.block.state.*;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -42,6 +45,12 @@ public class BlockAcceleratorMagnet extends BlockMetaQMDPart<MagnetType>
 			return new TileAcceleratorMagnet.NiobiumTitanium();
 		case 4:
 			return new TileAcceleratorMagnet.BSCCO();
+		case 5:
+			return new TileAcceleratorMagnet.Aluminium();
+		case 6:
+			return new TileAcceleratorMagnet.SSFAF();
+		case 7:
+			return new TileAcceleratorMagnet.YBCO();
 
 		}
 		return new TileAcceleratorMagnet.Copper();

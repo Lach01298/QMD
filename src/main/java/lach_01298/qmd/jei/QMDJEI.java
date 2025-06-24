@@ -3,25 +3,29 @@ package lach_01298.qmd.jei;
 import com.google.common.collect.Lists;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.category.*;
-import lach_01298.qmd.jei.ingredient.*;
+import lach_01298.qmd.jei.ingredient.ParticleStackHelper;
+import lach_01298.qmd.jei.ingredient.ParticleStackListFactory;
+import lach_01298.qmd.jei.ingredient.ParticleStackRenderer;
+import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.*;
-import lach_01298.qmd.machine.container.*;
-import lach_01298.qmd.machine.gui.*;
-import lach_01298.qmd.multiblock.container.*;
+import lach_01298.qmd.machine.container.ContainerIrradiator;
+import lach_01298.qmd.machine.container.ContainerOreLeacher;
+import lach_01298.qmd.machine.gui.GuiIrradiator;
+import lach_01298.qmd.machine.gui.GuiOreLeacher;
+import lach_01298.qmd.multiblock.container.ContainerExoticContainmentController;
+import lach_01298.qmd.multiblock.container.ContainerMassSpectrometerController;
+import lach_01298.qmd.multiblock.container.ContainerTargetChamberController;
 import lach_01298.qmd.multiblock.gui.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipes.QMDRecipes;
 import mezz.jei.api.*;
-import mezz.jei.api.ingredients.*;
+import mezz.jei.api.ingredients.IIngredientRegistry;
+import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.transfer.IRecipeTransferRegistry;
-import nc.recipe.BasicRecipeHandler;
-import nc.util.StackHelper;
-import nclegacy.jei.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
-import java.util.*;
+import java.util.List;
 
 @JEIPlugin
 public class QMDJEI implements IModPlugin
@@ -44,31 +48,37 @@ public class QMDJEI implements IModPlugin
 		registry.register(ParticleType.Particle, particleStacks, particleStackHelper, particleStackRenderer);
 	}
 
+	@Override
 	public void registerCategories(IRecipeCategoryRegistration registry)
 	{
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		registry.addRecipeCategories(
 				new AcceleratorSourceCategory(guiHelper),
-				new ParticleInfoCategory(guiHelper),
+				new AcceleratorCoolingCategory(guiHelper),
+				new MassSpectrometerCategory(guiHelper),
+
 				new TargetChamberCategory(guiHelper),
 				new DecayChamberCategory(guiHelper),
-				new CollisionChamberCategory(guiHelper),
-				JEIHandler.ORE_LEACHER.getCategory(guiHelper),
-				JEIHandler.IRRADIATOR.getCategory(guiHelper),
-				JEIHandler.IRRADIATOR_FUEL.getCategory(guiHelper),
-				JEIHandler.ACCELERATOR_COOLING.getCategory(guiHelper),
 				new BeamDumpCategory(guiHelper),
+				new CollisionChamberCategory(guiHelper),
+
+				new OreLeacherCategory(guiHelper),
+				new IrradiatorCategory(guiHelper),
+				new IrradiatorFuelCategory(guiHelper),
+
 				new NeutralContainmentCategory(guiHelper),
-				JEIHandler.CELL_FILLING.getCategory(guiHelper),
-				new AtmosphereCollectorCategory(guiHelper),
+				new CellFillingCategory(guiHelper),
 				new NucleosynthesisChamberCategory(guiHelper),
-				JEIHandler.VACUUM_CHAMBER_HEATING.getCategory(guiHelper),
-				JEIHandler.MASS_SPECTROMETER.getCategory(guiHelper)
+				new VacuumChamberHeatingCategory(guiHelper),
+
+				new AtmosphereCollectorCategory(guiHelper),
+				new ParticleInfoCategory(guiHelper)
 				);
 		
 	}
 
+	@Override
 	public void register(IModRegistry registry)
 	{
 		IIngredientRegistry ingredientRegistry = registry.getIngredientRegistry();
@@ -76,12 +86,23 @@ public class QMDJEI implements IModPlugin
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		IRecipeTransferRegistry recipeTransferRegistry = registry.getRecipeTransferRegistry();
 
-		registry.addRecipes(AcceleratorSourceRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.SOURCE);
-		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.acceleratorSource),QMDRecipeCategoryUid.SOURCE);
-		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.acceleratorLaserIonSource),QMDRecipeCategoryUid.SOURCE);
-	
-		registry.addRecipes(ParticleInfoRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.PARTICLE_INFO);
-	
+		registry.addRecipes(AcceleratorSourceRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ACCELERATOR_SOURCE);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.acceleratorSource),QMDRecipeCategoryUid.ACCELERATOR_SOURCE);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.acceleratorLaserIonSource),QMDRecipeCategoryUid.ACCELERATOR_SOURCE);
+
+		registry.addRecipes(AcceleratorCoolingRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ACCELERATOR_COOLING);
+		List<Block> AcceleratorCoolingCatalysts = Lists.newArrayList(QMDBlocks.linearAcceleratorController, QMDBlocks.ringAcceleratorController, QMDBlocks.beamDiverterController, QMDBlocks.deceleratorController, QMDBlocks.massSpectrometerController, QMDBlocks.exoticContainmentController, QMDBlocks.nucleosynthesisChamberController);
+		for(Block catalyst : AcceleratorCoolingCatalysts)
+		{
+			registry.addRecipeCatalyst(new ItemStack(catalyst),QMDRecipeCategoryUid.ACCELERATOR_COOLING);
+		}
+
+		registry.addRecipes(MassSpectrometerRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.MASS_SPECTROMETER);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.massSpectrometerController),QMDRecipeCategoryUid.MASS_SPECTROMETER);
+		registry.addRecipeClickArea(GuiMassSpectrometerController.class, 52, 51, 201, 55, QMDRecipeCategoryUid.MASS_SPECTROMETER);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerMassSpectrometerController.class, QMDRecipeCategoryUid.MASS_SPECTROMETER, 0, 1, 5, 36);
+
+
 		registry.addRecipes(TargetChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.TARGET_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.targetChamberController),QMDRecipeCategoryUid.TARGET_CHAMBER);
 		registry.addRecipeClickArea(GuiTargetChamberController.class, 71, 48, 20, 16, QMDRecipeCategoryUid.TARGET_CHAMBER);
@@ -89,167 +110,54 @@ public class QMDJEI implements IModPlugin
 		
 		registry.addRecipes(DecayChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.DECAY_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.decayChamberController),QMDRecipeCategoryUid.DECAY_CHAMBER);
-		
-		registry.addRecipes(CollisionChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.COLLISION_CHAMBER);
-		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.collisionChamberController),QMDRecipeCategoryUid.COLLISION_CHAMBER);
-		
-		registry.addRecipes(JEIHandler.ORE_LEACHER.getJEIRecipes(guiHelper), JEIHandler.ORE_LEACHER.getUid());
-		registry.addRecipeCatalyst(JEIHandler.ORE_LEACHER.getCrafters().get(0),JEIHandler.ORE_LEACHER.getUid());
-		registry.addRecipeClickArea(GuiOreLeacher.class, 94, 41, 16, 18, JEIHandler.ORE_LEACHER.getUid());
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerOreLeacher.class, JEIHandler.ORE_LEACHER.getUid(), 0, 1, 4, 36);
-		
-		registry.addRecipes(JEIHandler.IRRADIATOR.getJEIRecipes(guiHelper), JEIHandler.IRRADIATOR.getUid());
-		registry.addRecipeCatalyst(JEIHandler.IRRADIATOR.getCrafters().get(0),JEIHandler.IRRADIATOR.getUid());
-		registry.addRecipeClickArea(GuiIrradiator.class, 62, 57, 52, 10, JEIHandler.IRRADIATOR.getUid());
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerIrradiator.class, JEIHandler.IRRADIATOR.getUid(), 0, 1, 3, 35);
-		
-		registry.addRecipes(JEIHandler.IRRADIATOR_FUEL.getJEIRecipes(guiHelper), JEIHandler.IRRADIATOR_FUEL.getUid());
-		registry.addRecipeCatalyst(JEIHandler.IRRADIATOR_FUEL.getCrafters().get(0),JEIHandler.IRRADIATOR_FUEL.getUid());
-		registry.addRecipeClickArea(GuiIrradiator.class, 68, 38, 40, 19, JEIHandler.IRRADIATOR_FUEL.getUid());
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerIrradiator.class, JEIHandler.IRRADIATOR_FUEL.getUid(), 1, 1, 3, 35);
-		
-		registry.addRecipes(JEIHandler.ACCELERATOR_COOLING.getJEIRecipes(guiHelper), JEIHandler.ACCELERATOR_COOLING.getUid());
-		for (int i = 0; i < JEIHandler.ACCELERATOR_COOLING.getCrafters().size(); i++)
-		{
-			registry.addRecipeCatalyst(JEIHandler.ACCELERATOR_COOLING.getCrafters().get(i),
-					JEIHandler.ACCELERATOR_COOLING.getUid());
-		}
+		registry.addRecipeClickArea(GuiDecayChamberController.class, 85, 13, 15, 64, QMDRecipeCategoryUid.DECAY_CHAMBER);
 
 		registry.addRecipes(BeamDumpRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.BEAM_DUMP);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.beamDumpController),QMDRecipeCategoryUid.BEAM_DUMP);
+		registry.addRecipeClickArea(GuiBeamDumpController.class, 54, 36, 26, 18, QMDRecipeCategoryUid.BEAM_DUMP);
+
+		registry.addRecipes(CollisionChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.COLLISION_CHAMBER);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.collisionChamberController),QMDRecipeCategoryUid.COLLISION_CHAMBER);
+		registry.addRecipeClickArea(GuiCollisionChamberController.class, 66, 31, 44, 44, QMDRecipeCategoryUid.COLLISION_CHAMBER);
+
+		registry.addRecipes(OreLeacherRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ORE_LEACHER);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.oreLeacher),QMDRecipeCategoryUid.ORE_LEACHER);
+		registry.addRecipeClickArea(GuiOreLeacher.class, 94, 41, 16, 18, QMDRecipeCategoryUid.ORE_LEACHER);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerOreLeacher.class, QMDRecipeCategoryUid.ORE_LEACHER, 0, 1, 4, 36);
 		
+		registry.addRecipes(IrradiatorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.IRRADIATOR);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.irradiator),QMDRecipeCategoryUid.IRRADIATOR);
+		registry.addRecipeClickArea(GuiIrradiator.class, 62, 57, 52, 10, QMDRecipeCategoryUid.IRRADIATOR);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerIrradiator.class, QMDRecipeCategoryUid.IRRADIATOR, 0, 1, 3, 35);
+
+		registry.addRecipes(IrradiatorFuelRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.IRRADIATOR_FUEL);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.irradiator),QMDRecipeCategoryUid.IRRADIATOR_FUEL);
+		registry.addRecipeClickArea(GuiIrradiator.class, 68, 38, 40, 19, QMDRecipeCategoryUid.IRRADIATOR_FUEL);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerIrradiator.class, QMDRecipeCategoryUid.IRRADIATOR_FUEL, 1, 1, 3, 35);
+
+
 		registry.addRecipes(NeutralContainmentRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.NEUTRAL_CONTAINMENT);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.exoticContainmentController),QMDRecipeCategoryUid.NEUTRAL_CONTAINMENT);
-		
-		registry.addRecipes(JEIHandler.CELL_FILLING.getJEIRecipes(guiHelper), JEIHandler.CELL_FILLING.getUid());
-		registry.addRecipeCatalyst(JEIHandler.CELL_FILLING.getCrafters().get(0),JEIHandler.CELL_FILLING.getUid());
-		registry.addRecipeClickArea(GuiNeutralContainmentController.class, 77, 60, 22, 16, JEIHandler.CELL_FILLING.getUid());
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerExoticContainmentController.class, JEIHandler.CELL_FILLING.getUid(), 0, 1, 2, 34);
-		
-		registry.addRecipes(AtmosphereCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
-		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.atmosphereCollector),QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
-		
+
+		registry.addRecipes(CellFillingRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.CELL_FILLING);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.exoticContainmentController),QMDRecipeCategoryUid.CELL_FILLING);
+		registry.addRecipeClickArea(GuiNeutralContainmentController.class, 77, 60, 22, 16, QMDRecipeCategoryUid.CELL_FILLING);
+		recipeTransferRegistry.addRecipeTransferHandler(ContainerExoticContainmentController.class, QMDRecipeCategoryUid.CELL_FILLING, 0, 1, 2, 34);
+
 		registry.addRecipes(NucleosynthesisChamberRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.NUCLEOSYNTHESIS_CHAMBER);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.nucleosynthesisChamberController),QMDRecipeCategoryUid.NUCLEOSYNTHESIS_CHAMBER);
-		
-		registry.addRecipes(JEIHandler.VACUUM_CHAMBER_HEATING.getJEIRecipes(guiHelper), JEIHandler.VACUUM_CHAMBER_HEATING.getUid());
-		for (int i = 0; i < JEIHandler.VACUUM_CHAMBER_HEATING.getCrafters().size(); i++)
-		{
-			registry.addRecipeCatalyst(JEIHandler.VACUUM_CHAMBER_HEATING.getCrafters().get(i),
-					JEIHandler.VACUUM_CHAMBER_HEATING.getUid());
-		}
-		
-		registry.addRecipes(JEIHandler.MASS_SPECTROMETER.getJEIRecipes(guiHelper), JEIHandler.MASS_SPECTROMETER.getUid());
-		registry.addRecipeCatalyst(JEIHandler.MASS_SPECTROMETER.getCrafters().get(0),JEIHandler.MASS_SPECTROMETER.getUid());
-		registry.addRecipeClickArea(GuiMassSpectrometerController.class, 52, 51, 201, 55, JEIHandler.MASS_SPECTROMETER.getUid());
-		recipeTransferRegistry.addRecipeTransferHandler(ContainerMassSpectrometerController.class, JEIHandler.MASS_SPECTROMETER.getUid(), 0, 1, 5, 36);
-		
-		
+		registry.addRecipeClickArea(GuiNucleosynthesisChamberController.class, 71, 24, 62, 28, QMDRecipeCategoryUid.NUCLEOSYNTHESIS_CHAMBER);
+
+		registry.addRecipes(VacuumChamberHeatingRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.VACUUM_CHAMBER_HEATING);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.nucleosynthesisChamberController), QMDRecipeCategoryUid.VACUUM_CHAMBER_HEATING);
+
+
+
+
+		registry.addRecipes(AtmosphereCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.atmosphereCollector),QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
+
+
+		registry.addRecipes(ParticleInfoRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.PARTICLE_INFO);
 	}
-
-	
-	public enum JEIHandler implements IJEIHandlerLegacy
-	{
-		ORE_LEACHER(QMDRecipes.ore_leacher, QMDBlocks.oreLeacher, "ore_leacher", QMDRecipeWrapper.OreLeacher.class),
-		IRRADIATOR(QMDRecipes.irradiator, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.Irradiator.class),
-		IRRADIATOR_FUEL(QMDRecipes.irradiator_fuel, QMDBlocks.irradiator, "irradiator", QMDRecipeWrapper.IrradiatorFuel.class),
-		ACCELERATOR_COOLING(QMDRecipes.accelerator_cooling, Lists.newArrayList(QMDBlocks.linearAcceleratorController,QMDBlocks.ringAcceleratorController,QMDBlocks.beamDiverterController,QMDBlocks.deceleratorController,QMDBlocks.massSpectrometerController,QMDBlocks.exoticContainmentController,QMDBlocks.nucleosynthesisChamberController), "jei/accelerator_cooling", QMDRecipeWrapper.AcceleratorCooling.class),
-		CELL_FILLING(QMDRecipes.cell_filling, QMDBlocks.exoticContainmentController, "jei/cell_filling", QMDRecipeWrapper.CellFilling.class),
-		VACUUM_CHAMBER_HEATING(QMDRecipes.vacuum_chamber_heating, Lists.newArrayList(QMDBlocks.nucleosynthesisChamberController), "jei/accelerator_cooling", QMDRecipeWrapper.VacuumChamberHeating.class),
-		MASS_SPECTROMETER(QMDRecipes.mass_spectrometer, QMDBlocks.massSpectrometerController, "mass_spectrometer_controller", QMDRecipeWrapper.MassSpectrometer.class);
-		
-		private BasicRecipeHandler recipeHandler;
-		private Class<? extends JEIBasicRecipeWrapperLegacy> recipeWrapper;
-		private boolean enabled;
-		private List<ItemStack> crafters;
-		private String textureName;
-		
-		JEIHandler(BasicRecipeHandler recipeHandler, Block crafter, String textureName, Class<? extends JEIBasicRecipeWrapperLegacy> recipeWrapper)
-		{
-			this(recipeHandler, Lists.newArrayList(crafter), textureName, recipeWrapper);
-		}
-		
-
-		JEIHandler(BasicRecipeHandler recipeHandler, List<Block> crafters, String textureName, Class<? extends JEIBasicRecipeWrapperLegacy> recipeWrapper)
-		{
-			this.recipeHandler = recipeHandler;
-			this.recipeWrapper = recipeWrapper;
-			this.crafters = new ArrayList<ItemStack>();
-			for (Block crafter : crafters) this.crafters.add(StackHelper.fixItemStack(crafter));
-			this.textureName = textureName;
-		}
-		
-		@Override
-		public JEIBasicCategoryLegacy getCategory(IGuiHelper guiHelper)
-		{
-			switch (this)
-			{
-			case ORE_LEACHER:
-				return new OreLeacherCategory(guiHelper, this);
-			case IRRADIATOR:
-				return new IrradiatorCategory(guiHelper, this);
-			case IRRADIATOR_FUEL:
-				return new IrradiatorFuelCategory(guiHelper, this);
-			case ACCELERATOR_COOLING:
-				return new AcceleratorCoolingCategory(guiHelper, this);
-			case CELL_FILLING:
-				return new CellFillingCategory(guiHelper, this);
-			case VACUUM_CHAMBER_HEATING:
-				return new VacuumChamberHeatingCategory(guiHelper, this);
-			case MASS_SPECTROMETER:
-				return new MassSpectrometerCategory(guiHelper, this);
-			default:
-				return null;
-			}
-		}
-		
-		@Override
-		public BasicRecipeHandler getRecipeHandler()
-		{
-			return recipeHandler;
-		}
-		
-		@Override
-		public Class getRecipeWrapperClass()
-		{
-			return recipeWrapper;
-		}
-		
-		@Override
-		public List<JEIBasicRecipeWrapperLegacy> getJEIRecipes(IGuiHelper guiHelper)
-		{
-			return JEIHelperLegacy.getJEIRecipes(guiHelper, this, getRecipeHandler(), getRecipeWrapperClass());
-		}
-
-		
-		@Override
-		public String getUid()
-		{
-			return getRecipeHandler().getName();
-		}
-		
-		@Override
-		public boolean getEnabled()
-		{
-			return true;
-		}
-		
-		@Override
-		public List<ItemStack> getCrafters()
-		{
-			return crafters;
-		}
-		
-		@Override
-		public String getTextureName()
-		{
-			return textureName;
-		}
-	}
-	
-	
-	
-	
-	
-
 }

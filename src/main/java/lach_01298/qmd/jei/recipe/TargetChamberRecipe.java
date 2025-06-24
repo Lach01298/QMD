@@ -2,6 +2,7 @@ package lach_01298.qmd.jei.recipe;
 
 import lach_01298.qmd.*;
 import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
 import nc.util.Lang;
@@ -17,7 +18,7 @@ public class TargetChamberRecipe extends JEIRecipeWrapper
 	
 	public TargetChamberRecipe(IGuiHelper guiHelper, QMDRecipe recipe)
 	{
-		super(guiHelper, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png"), 0, 0, 182, 0, 21, 12, 61, 36);
+		super(guiHelper, QMDRecipes.target_chamber, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/target_chamber_controller.png"), 0, 0, 182, 0, 21, 12, 61, 36,0);
 	}
 	
 

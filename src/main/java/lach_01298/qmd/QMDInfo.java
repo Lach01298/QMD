@@ -92,7 +92,7 @@ public class QMDInfo
 	
 	private static <T extends Enum<T> & ICoolerEnum> String coolerCoolingRateString(T type)
 	{
-		return Lang.localize("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + type.getHeatRemoved() + " H/t";
+		return Lang.localize("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + UnitHelper.prefix(type.getHeatRemoved(), 3, "H/t");
 	}
 	
 	

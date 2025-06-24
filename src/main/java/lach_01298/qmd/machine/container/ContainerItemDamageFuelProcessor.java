@@ -2,7 +2,7 @@ package lach_01298.qmd.machine.container;
 
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
-import nc.recipe.BasicRecipeHandler;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import nclegacy.container.ContainerTileLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -13,11 +13,11 @@ public abstract class ContainerItemDamageFuelProcessor<PROCESSOR extends TileIte
 {
 
 	protected final TileItemAmountFuelProcessor tile;
-	protected final BasicRecipeHandler recipeHandler;
-	protected final BasicRecipeHandler fuelHandler;
+	protected final QMDRecipeHandler recipeHandler;
+	protected final QMDRecipeHandler fuelHandler;
 
-	public ContainerItemDamageFuelProcessor(EntityPlayer player, PROCESSOR tileEntity, BasicRecipeHandler recipeHandler,
-			BasicRecipeHandler fuelHandler)
+	public ContainerItemDamageFuelProcessor(EntityPlayer player, PROCESSOR tileEntity, QMDRecipeHandler recipeHandler,
+			QMDRecipeHandler fuelHandler)
 	{
 		super(tileEntity);
 		tile = tileEntity;

@@ -4,26 +4,32 @@ import com.google.common.collect.Lists;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.enums.EnumTypes;
 import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.particle.*;
+import lach_01298.qmd.particle.ITileParticleStorage;
+import lach_01298.qmd.particle.ParticleStorage;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.tile.ITileIONumber;
 import lach_01298.qmd.tile.ITileIOType;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.util.Lang;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 import static lach_01298.qmd.block.BlockProperties.IO;
 
-public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITileIOType, ITileParticleStorage, ITickable
+public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITileIOType, ITileIONumber, ITileParticleStorage, ITickable
 {
 	
 	private final @Nonnull List<ParticleStorageAccelerator> backupTanks = Lists.newArrayList(new ParticleStorageAccelerator());
@@ -31,12 +37,14 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 	private EnumTypes.IOType setting;
 	private boolean triggered = false;
 	private boolean powered = false;
-	
+	private int IONumber;
+
 	public TileAcceleratorBeamPort()
 	{
 		super(CuboidalPartPositionType.WALL);
 		this.mode = EnumTypes.IOType.DISABLED;
 		this.setting = EnumTypes.IOType.INPUT;
+		this.IONumber= 0;
 		
 	}
 
@@ -74,7 +82,6 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 
 	public IOType getSetting()
 	{
-		
 		return setting;
 	}
 	
@@ -173,6 +180,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 		nbt.setInteger("mode", mode.getID());
 		nbt.setInteger("setting", setting.getID());
 		nbt.setBoolean("triggered", triggered);
+		nbt.setInteger("IONumber", IONumber);
 		return nbt;
 	}
 	
@@ -182,6 +190,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 		mode =EnumTypes.IOType.getTypeFromID(nbt.getInteger("mode"));
 		setting =EnumTypes.IOType.getTypeFromID(nbt.getInteger("setting"));
 		triggered = nbt.getBoolean("triggered");
+		IONumber = nbt.getInteger("IONumber");
 	}
 
 
@@ -205,11 +214,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 		{
 			if (!getParticleBeams().isEmpty())
 			{
-				if(mode ==EnumTypes.IOType.OUTPUT && getParticleBeams().size() >=2)
-				{
-					return (T) getParticleBeams().get(1);
-				}
-				return (T) getParticleBeams().get(0);
+				return (T) getParticleBeams().get(IONumber);
 			}
 			return null;
 		}
@@ -224,34 +229,46 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 				return backupTanks;
 			return getMultiblock().beams;
 		}
-	
-		
-		public boolean isTriggered()
+
+
+	public void setIONumber(int number)
+	{
+		if(number >= 0)
 		{
-			return triggered;
+			IONumber= number;
 		}
-		public void resetTrigger()
-		{
-			triggered = false;
-		}
-		public void setTrigger()
-		{
-			triggered = true;
-		}
+	}
+
+	public int getIONumber()
+	{
+		return	IONumber;
+	}
+
+	public boolean isTriggered()
+	{
+		return triggered;
+	}
+	public void resetTrigger()
+	{
+		triggered = false;
+	}
+	public void setTrigger()
+	{
+		triggered = true;
+	}
 		
 	
 	@Override
 	public void update()
 	{
-
 		if (!world.isRemote)
 		{
-			if (this.getMultiblock() != null)
+			if (this.getMultiblock() != null && this.getMultiblock().getLogic() != null)
 			{
 				if (getIsRedstonePowered() && !powered)
 				{
 					setTrigger();
-					this.getMultiblock().switchIO();
+					this.getMultiblock().getLogic().switchIO();
 				}
 			}
 			powered = getIsRedstonePowered();

@@ -365,7 +365,7 @@ public class TileAcceleratorCooler extends TileAcceleratorPart implements IAccel
 		}
 		else if (placementRule.requiresRecheck())
 		{
-			isInValidPosition = placementRule.satisfied(this);
+			isInValidPosition = placementRule.satisfied(this,false);
 			if (isInValidPosition)
 			{
 				assumedValidCache.put(pos.toLong(), this);
@@ -376,7 +376,7 @@ public class TileAcceleratorCooler extends TileAcceleratorPart implements IAccel
 		{
 			return true;
 		}
-		return isInValidPosition = placementRule.satisfied(this);
+		return isInValidPosition = placementRule.satisfied(this,false);
 	}
 	
 	public boolean isSearchRoot()

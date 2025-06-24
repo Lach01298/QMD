@@ -2,6 +2,7 @@ package lach_01298.qmd.jei.category;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
+import lach_01298.qmd.jei.QMDJEIHelper;
 import lach_01298.qmd.jei.ingredient.ParticleType;
 import lach_01298.qmd.jei.recipe.DecayChamberRecipe;
 import lach_01298.qmd.particle.ParticleStack;
@@ -9,6 +10,7 @@ import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
+import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,82 +19,29 @@ import java.util.List;
 
 
 
-public class DecayChamberCategory implements IRecipeCategory<DecayChamberRecipe>
+public class DecayChamberCategory extends QMDProcessorCategory<DecayChamberRecipe>
 {
-	private final IDrawable background;
-	protected final ResourceLocation gui_texture;
-	private final IDrawable icon;
-	
 
-	
 	public DecayChamberCategory(IGuiHelper guiHelper)
 	{
-		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/decay_chamber.png");
-		background = guiHelper.createDrawable(gui_texture, 0, 0, 150, 100);
-		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.decayChamberController));
-		
-	}
-	
-	
-	@Override
-	public String getUid()
-	{
-		
-		return QMDRecipeCategoryUid.DECAY_CHAMBER;
-	}
-
-	@Override
-	public String getTitle()
-	{
-		
-		return Lang.localize("qmd.gui.jei.category.decay_chamber");
-	}
-
-	@Override
-	public String getModName()
-	{
-		
-		return QMD.MOD_NAME;
-	}
-
-	@Override
-	public IDrawable getBackground()
-	{
-		return background;
-	}
-
-	@Override
-	public IDrawable getIcon()
-	{
-		return icon;
+		super(guiHelper, "decay_chamber",":textures/gui/jei/decay_chamber.png",new ItemStack(QMDBlocks.decayChamberController), 0, 0, 150, 100);
 	}
 
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, DecayChamberRecipe recipeWrapper, IIngredients ingredients)
 	{
-		
-		IGuiIngredientGroup<ParticleStack> guiParticleStacks = recipeLayout.getIngredientsGroup(ParticleType.Particle);
-		
-		List<List<ParticleStack>> particleInput =ingredients.getInputs(ParticleType.Particle);
-		List<List<ParticleStack>> particleOutputs =ingredients.getOutputs(ParticleType.Particle);
-		
-		
-		guiParticleStacks.init(1, true, 49, 31);
-		
-		
-		guiParticleStacks.init(3, false, 82, 8);
-		guiParticleStacks.init(4, false, 82, 31);
-		guiParticleStacks.init(5, false, 82, 54);
-		
-		
-		guiParticleStacks.set(1,particleInput.get(0));
-		
-		
-	
-		guiParticleStacks.set(3, particleOutputs.get(0));
-		guiParticleStacks.set(4, particleOutputs.get(1));
-		guiParticleStacks.set(5, particleOutputs.get(2));
-		
+		super.setRecipe(recipeLayout, recipeWrapper, ingredients);
+
+		QMDJEIHelper.RecipeParticleMapper particleMapper = new QMDJEIHelper.RecipeParticleMapper();
+
+		particleMapper.put(IngredientSorption.INPUT, 0, 0, 50, 32);
+
+		particleMapper.put(IngredientSorption.OUTPUT, 0, 1, 83, 9);
+		particleMapper.put(IngredientSorption.OUTPUT, 1, 2, 83, 32);
+		particleMapper.put(IngredientSorption.OUTPUT, 2, 3, 83, 55);
+
+		particleMapper.apply(recipeLayout.getIngredientsGroup(ParticleType.Particle), ingredients);
+
 	}
 	
 

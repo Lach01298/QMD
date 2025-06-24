@@ -2,14 +2,15 @@ package lach_01298.qmd.machine.gui;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
-import nc.gui.NCGui;
+import nclegacy.gui.NCGuiLegacy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiItemAmountFuelMachine extends NCGui {
+public abstract class GuiItemAmountFuelMachine extends NCGuiLegacy
+{
 	
 	protected final EntityPlayer player;
 	protected final TileItemAmountFuelProcessor tile;

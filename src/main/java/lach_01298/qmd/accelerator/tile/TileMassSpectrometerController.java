@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -37,7 +38,7 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 
 	
 	
-	public BasicRecipeHandler recipe_handler = QMDRecipes.mass_spectrometer;
+	public QMDRecipeHandler recipe_handler = QMDRecipes.mass_spectrometer;
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
@@ -90,7 +91,7 @@ public class TileMassSpectrometerController extends TileAcceleratorPart implemen
 	}
 
 
-	public BasicRecipeHandler getRecipeHandler() {
+	public QMDRecipeHandler getRecipeHandler() {
 		return recipe_handler;
 	}
 	

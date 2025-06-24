@@ -2,27 +2,35 @@ package lach_01298.qmd.vacuumChamber.tile;
 
 import com.google.common.collect.Lists;
 import lach_01298.qmd.QMD;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import nc.handler.TileInfoHandler;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
 import nc.recipe.BasicRecipeHandler;
 import nc.tile.TileContainerInfo;
-import nc.tile.internal.inventory.*;
+import nc.tile.internal.inventory.InventoryConnection;
+import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
 import nc.tile.inventory.ITileInventory;
-import nc.util.*;
+import nc.util.NBTHelper;
+import nc.util.NCMath;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
-import net.minecraft.util.math.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.*;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-import javax.annotation.*;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
 
@@ -34,7 +42,7 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 	private final @Nonnull NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(2, ItemStack.EMPTY);
 	private @Nonnull InventoryConnection[] inventoryConnections = ITileInventory.inventoryConnectionAll(Lists.newArrayList(ItemSorption.IN, ItemSorption.OUT));
 	
-	public BasicRecipeHandler recipe_handler = QMDRecipes.cell_filling;
+	public QMDRecipeHandler recipe_handler = QMDRecipes.cell_filling;
 	
 	public boolean isRenderer = false;
 	
@@ -86,7 +94,7 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 
 
 
-	public BasicRecipeHandler getRecipeHandler() {
+	public QMDRecipeHandler getRecipeHandler() {
 		return recipe_handler;
 	}
 	

@@ -2,17 +2,18 @@ package lach_01298.qmd.recipes;
 
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
-import nc.recipe.BasicRecipeHandler;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import net.minecraft.item.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class IrradiatorFuel extends BasicRecipeHandler
+public class IrradiatorFuel extends QMDRecipeHandler
 {
 
 	public IrradiatorFuel()
 	{
-		super("irradiator_fuel", 1, 0, 0, 0);
+		super("irradiator_fuel", 1, 0,0,0, 0, 0);
 	}
 
 	@Override

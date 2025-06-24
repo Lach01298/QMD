@@ -1,18 +1,25 @@
 package lach_01298.qmd.accelerator;
 
 import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.longs.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.enums.EnumTypes.IOType;
-import lach_01298.qmd.multiblock.*;
+import lach_01298.qmd.multiblock.CuboidalOrToroidalMultiblock;
+import lach_01298.qmd.multiblock.IMultiBlockTank;
+import lach_01298.qmd.multiblock.IQMDPacketMultiblock;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.Global;
-import nc.multiblock.*;
-import nc.recipe.*;
+import nc.multiblock.ILogicMultiblock;
+import nc.multiblock.Multiblock;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -24,7 +31,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 
 public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcceleratorPart>
@@ -35,7 +44,6 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public static final Object2ObjectMap<String, UnaryOperator<AcceleratorLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 	
 	protected @Nonnull AcceleratorLogic logic = new AcceleratorLogic(this);
-	//protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 
 	protected final PartSuperMap<Accelerator, IAcceleratorPart> partSuperMap = new PartSuperMap<>();
 
@@ -49,14 +57,12 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	
 	public IAcceleratorController controller;
 
-	public TileAcceleratorBeamPort input;
-	public TileAcceleratorBeamPort output;
 	
 	
 	public final HeatBuffer heatBuffer = new HeatBuffer(QMDConfig.accelerator_base_heat_capacity);
 	public final EnergyStorage energyStorage = new EnergyStorage(QMDConfig.accelerator_base_energy_capacity);
 	public List<Tank> tanks = Lists.newArrayList(
-			new Tank(QMDConfig.accelerator_base_input_tank_capacity,QMDRecipes.accelerator_cooling_valid_fluids.get(0)),
+			new Tank(QMDConfig.accelerator_base_input_tank_capacity,QMDRecipes.accelerator_cooling.validFluids.get(0)),
 			new Tank(QMDConfig.accelerator_base_output_tank_capacity, null),
 			new Tank(1, null), new Tank(1, null), new Tank(1, null), new Tank(1, null), new Tank(1, null));
 	public final List<ParticleStorageAccelerator> beams = Lists.newArrayList(new ParticleStorageAccelerator(),new ParticleStorageAccelerator(),new ParticleStorageAccelerator());
@@ -90,7 +96,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public static final int thickness = 5;
 	
 	
-	public RecipeInfo<BasicRecipe> coolingRecipeInfo;
+	public QMDRecipeInfo<QMDRecipe> coolingRecipeInfo;
 	
 	protected final Set<EntityPlayer> updatePacketListeners;
 	
@@ -534,43 +540,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	}
 
 	
-	public void switchIO()
-	{
-		boolean changed = false;
-		for (TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
-		{
-			if (port.isTriggered())
-			{
-				if (port.getSetting() != port.getIOType())
-				{
-					port.switchMode();
-					changed = true;
 
-					if (port.getIOType() == IOType.INPUT)
-					{
-						input = port;
-					}
-					if (port.getIOType() == IOType.OUTPUT)
-					{
-						output = port;
-					}
-				}
-				port.resetTrigger();
-			}
-		}
-
-		if (changed)
-		{
-			for (TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
-			{
-				if (port != input && port != output)
-				{
-					port.setIOType(IOType.DISABLED);
-				}
-			}
-			checkIfMachineIsWhole();
-		}
-	}
 	
 	
 	

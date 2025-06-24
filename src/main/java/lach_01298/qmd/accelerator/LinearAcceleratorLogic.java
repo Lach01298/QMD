@@ -360,12 +360,24 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			}
 
 			getMultiblock().tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-			getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.accelerator_ion_source_valid_fluids.get(0));
+			getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.accelerator_source.validFluids.get(0));
 
 			// source ports
 			for (TileAcceleratorPort port : acc.getPartMap(TileAcceleratorPort.class).values())
 			{
 				port.setSource(this);
+			}
+
+			for(TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
+			{
+				if(port.getIOType() == IOType.INPUT)
+				{
+					port.setIONumber(0);
+				}
+				if(port.getIOType() == IOType.OUTPUT)
+				{
+					port.setIONumber(1);
+				}
 			}
 		}
 

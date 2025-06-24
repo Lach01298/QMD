@@ -127,6 +127,12 @@ public class ParticleArrayIngredient implements IParticleIngredient
 	}
 
 	@Override
+	public boolean isEmpty() {
+
+		return this.ingredientList.stream().allMatch(nc.recipe.ingredient.IIngredient::isEmpty);
+	}
+
+	@Override
 	@Optional.Method(modid = "crafttweaker")
 	public IIngredient ct()
 	{

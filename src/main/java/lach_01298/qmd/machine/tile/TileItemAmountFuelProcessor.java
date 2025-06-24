@@ -2,24 +2,43 @@ package lach_01298.qmd.machine.tile;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.item.IItemParticleAmount;
-import nc.config.NCConfig;
-import nc.network.tile.processor.*;
-import nc.recipe.*;
+import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
+import lach_01298.qmd.recipe.QMDRecipeInfo;
+import nc.network.tile.processor.EnergyProcessorUpdatePacket;
+import nc.recipe.AbstractRecipeHandler;
 import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.internal.fluid.Tank;
-import nc.tile.internal.inventory.*;
-import nc.tile.inventory.*;
-import nclegacy.tile.*;
+import nc.tile.internal.inventory.ItemOutputSetting;
+import nc.tile.internal.inventory.ItemSorption;
+import nc.tile.inventory.ITileInventory;
+import nc.tile.inventory.TileSidedInventory;
+import nc.tile.processor.IProcessor;
+import nclegacy.tile.IItemProcessorLegacy;
+import nclegacy.tile.ITileSideConfigGuiLegacy;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
-public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessorLegacy, ITileSideConfigGuiLegacy<EnergyProcessorUpdatePacket>
+public class TileItemAmountFuelProcessor extends TileSidedInventory implements IItemProcessorLegacy, ITileSideConfigGuiLegacy<EnergyProcessorUpdatePacket>, IAutoPushItemAmountFuelProcessor, IItemAmountFuelProcessor
 {
 
 	public final int defaultProcessTime;
@@ -34,19 +53,22 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 	public final int processorID, sideConfigYOffset;
 	
 	
-	public final BasicRecipeHandler fuelHandler;
-	public final BasicRecipeHandler recipeHandler;
+	public final QMDRecipeHandler fuelHandler;
+	public final QMDRecipeHandler recipeHandler;
 	
-	protected RecipeInfo<BasicRecipe> recipeInfo;
-	protected RecipeInfo<BasicRecipe> fuelInfo;
+	protected QMDRecipeInfo<QMDRecipe> recipeInfo;
+	protected QMDRecipeInfo<QMDRecipe> fuelInfo;
 	
 	
 	protected Set<EntityPlayer> playersToUpdate;
 	
 	public Random rand = new Random();
+
+	protected final IProcessor.HandlerPair[] adjacentHandlers = new IProcessor.HandlerPair[6];
+
 	
 	
-	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time,int fuelUsage, boolean shouldLoseProgress, @Nonnull BasicRecipeHandler recipeHandler,@Nonnull BasicRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
+	public TileItemAmountFuelProcessor(String name,  int itemInSize,int itemFuelSize, int itemOutSize, @Nonnull List<ItemSorption> itemSorptions, int time,int fuelUsage, boolean shouldLoseProgress, @Nonnull QMDRecipeHandler recipeHandler,@Nonnull QMDRecipeHandler fuelHandler, int processorID, int sideConfigYOffset)
 	{
 		super(name, itemInSize + itemFuelSize+ itemOutSize, ITileInventory.inventoryConnectionAll(itemSorptions));
 		itemInputSize = itemInSize;
@@ -62,6 +84,12 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		this.fuelHandler = fuelHandler;
 		playersToUpdate = new ObjectOpenHashSet<EntityPlayer>();
 	}
+
+	public int getItemFuelSize()
+	{
+		return itemFuelSize;
+	}
+
 
 	public static List<ItemSorption> defaultItemSorptions(int inSize, int fuelSize, int outSize)
 	{
@@ -81,6 +109,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		super.onLoad();
 		if (!world.isRemote)
 		{
+			updateAdjacentHandlers();
 			refreshRecipe();
 			refreshFuel();
 			refreshActivity();
@@ -102,7 +131,14 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			{
 				getRadiationSource().setRadiationLevel(0D);
 				if (time > 0 && !isHaltedByRedstone() && (shouldLoseProgress || !canProcessInputs))
+				{
 					loseProgress();
+				}
+
+				if (!wasProcessing)
+				{
+					shouldUpdate |= autoPush();
+				}
 			}
 			if (wasProcessing != isProcessing)
 			{
@@ -113,14 +149,41 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			sendTileUpdatePacketToListeners();
 			if (shouldUpdate)
 				markDirty();
+
+
 		}
 	}
-	
+
+	@Override
+	public @Nullable IProcessor.HandlerPair[] getAdjacentHandlers()
+	{
+		return adjacentHandlers;
+	}
+
+	@Override
+	public void updateAdjacentHandlers()
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			EnumFacing side = EnumFacing.VALUES[i], opposite = side.getOpposite();
+			TileEntity tile = world.getTileEntity(pos.offset(side));
+			IItemHandler itemHandler = getCapabilitySafe(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, tile, opposite);
+			IFluidHandler fluidHandler = getCapabilitySafe(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, tile, opposite);
+			adjacentHandlers[i] = itemHandler == null ? null : new IProcessor.HandlerPair(itemHandler, fluidHandler);
+		}
+	}
+
+	@Override
+	public void onBlockNeighborChanged(IBlockState state, World world, BlockPos pos, BlockPos fromPos)
+	{
+		super.onBlockNeighborChanged(state, world, pos, fromPos);
+		updateAdjacentHandlers();
+	}
 	
 	@Override
 	public void refreshRecipe()
 	{
-		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(), new ArrayList<Tank>());
+		recipeInfo = recipeHandler.getRecipeInfoFromInputs(getItemInputs(), new ArrayList<Tank>(),new ArrayList<ParticleStack>());
 	}
 	
 	public void refreshFuel()
@@ -131,7 +194,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 			stacks.add(IItemParticleAmount.cleanNBT(stack));
 		}
 		
-		fuelInfo = fuelHandler.getRecipeInfoFromInputs(stacks,new ArrayList<Tank>());
+		fuelInfo = fuelHandler.getRecipeInfoFromInputs(stacks,new ArrayList<Tank>(),new ArrayList<ParticleStack>());
 	}
 	
 	
@@ -261,6 +324,7 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		{
 			double oldProcessTime = baseProcessTime;
 			produceProducts();
+			autoPush();
 			refreshRecipe();
 			refreshFuel();
 			if (!setRecipeStats()) time = 0;
@@ -300,7 +364,8 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 				}
 			}
 		}
-		
+
+
 		public void loseProgress()
 		{
 			time = MathHelper.clamp(time - 1.5D*100, 0D, baseProcessTime);
@@ -395,11 +460,11 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 					return false;
 				}
 				
-				return NCConfig.smart_processor_input ? fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack), slot - itemInputSize, getItemFuels(), new ArrayList<>(), recipeInfo) : fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
+				return  fuelHandler.isValidItemInput(IItemParticleAmount.cleanNBT(stack));
 			}
 			else
 			{
-				return NCConfig.smart_processor_input ? recipeHandler.isValidItemInput(stack, slot, getItemInputs(), new ArrayList<>(), recipeInfo) : recipeHandler.isValidItemInput(stack);
+				return  recipeHandler.isValidItemInput(stack);
 			}
 			
 		}
@@ -506,8 +571,17 @@ public class TileItemAmountFuelProcessor extends TileSidedInventory implements I
 		{
 			return itemOutputSize;
 		}
-		
-		
+
+
+
+
+
+
+
+
+
+
+
 
 		
 }

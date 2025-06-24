@@ -3,7 +3,7 @@ package lach_01298.qmd.gui;
 import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
 import lach_01298.qmd.machine.container.*;
 import lach_01298.qmd.machine.gui.*;
-import lach_01298.qmd.machine.tile.TileQMDProcessor.*;
+import lach_01298.qmd.machine.tile.TileQMDProcessors.*;
 import lach_01298.qmd.multiblock.container.ContainerAcceleratorIonSource;
 import lach_01298.qmd.multiblock.gui.GUIAcceleratorIonSource;
 import lach_01298.qmd.tile.TileCreativeParticleSource;

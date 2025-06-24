@@ -1,6 +1,7 @@
 package lach_01298.qmd.recipes;
 
 import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import nc.init.NCBlocks;
 import nc.recipe.BasicRecipeHandler;
 import net.minecraft.init.*;
@@ -8,12 +9,12 @@ import net.minecraft.item.ItemStack;
 
 import java.util.*;
 
-public class IrradiatorRecipes extends BasicRecipeHandler
+public class IrradiatorRecipes extends QMDRecipeHandler
 {
 
 	public IrradiatorRecipes()
 	{
-		super("irradiator", 1, 0, 1 ,0 );
+		super("irradiator", 1, 0, 0, 1 ,0, 0 );
 		
 	}
 

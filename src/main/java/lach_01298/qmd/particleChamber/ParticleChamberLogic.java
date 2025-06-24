@@ -216,8 +216,9 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		
 			if(port.getIOType() == IOType.INPUT)
 			{
-				for(EnumFacing face : EnumFacing.HORIZONTALS)
+				if (port.getOutwardFacing() != null)
 				{
+					EnumFacing face = port.getOutwardFacing();
 					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
 					if(tile != null)
 					{
@@ -240,8 +241,9 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 		
 			if(port.getIOType() == IOType.OUTPUT)
 			{
-				for(EnumFacing face : EnumFacing.HORIZONTALS)
+				if (port.getOutwardFacing() != null)
 				{
+					EnumFacing face = port.getOutwardFacing();
 					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
 					if(tile != null)
 					{

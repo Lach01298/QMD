@@ -1,13 +1,16 @@
 package lach_01298.qmd.multiblock.container;
 
 import lach_01298.qmd.accelerator.Accelerator;
-import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
+import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
 import lach_01298.qmd.container.slot.SlotDisabled;
+import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.container.multiblock.controller.ContainerMultiblockController;
-import nc.container.slot.*;
-import nc.recipe.BasicRecipeHandler;
+import nc.container.slot.SlotFurnace;
+import nc.container.slot.SlotProcessorInput;
 import nc.tile.TileContainerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -15,7 +18,7 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMassSpectrometerController extends ContainerMultiblockController<Accelerator, IAcceleratorPart, AcceleratorUpdatePacket, TileMassSpectrometerController, TileContainerInfo<TileMassSpectrometerController>>
 {
-	protected final BasicRecipeHandler recipeHandler;
+	protected final QMDRecipeHandler recipeHandler;
 	
 	protected int inputSlotsSize;
 	protected int outputSlotsSize;
@@ -33,7 +36,7 @@ public class ContainerMassSpectrometerController extends ContainerMultiblockCont
 		this.otherSlotsSize = 1;
 		
 		
-		addSlotToContainer(new SlotProcessorInput(tile,recipeHandler, 0, 46, 14));
+		addSlotToContainer(new SlotQMDProcessorInput(tile,recipeHandler, 0, 46, 14));
 		addSlotToContainer(new SlotDisabled(tile,1));
 		addSlotToContainer(new SlotFurnace(player, tile, 2, 82, 14));
 		addSlotToContainer(new SlotFurnace(player, tile, 3, 101, 14));

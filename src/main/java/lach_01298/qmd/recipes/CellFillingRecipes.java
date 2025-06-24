@@ -1,18 +1,20 @@
 package lach_01298.qmd.recipes;
 
 import lach_01298.qmd.item.QMDItems;
-import nc.recipe.*;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.IItemIngredient;
 import net.minecraft.item.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CellFillingRecipes extends BasicRecipeHandler
+public class CellFillingRecipes extends QMDRecipeHandler
 {
 
 	public CellFillingRecipes()
 	{
-		super("cell_filling", 1, 1, 1, 1);
+		super("cell_filling", 1, 1, 0, 1, 1, 0);
 	}
 
 	@Override

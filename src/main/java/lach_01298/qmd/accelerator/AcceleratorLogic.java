@@ -1,15 +1,20 @@
 package lach_01298.qmd.accelerator;
 
-import it.unimi.dsi.fastutil.longs.*;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.capabilities.CapabilityParticleStackHandler;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
-import lach_01298.qmd.particle.*;
-import nc.multiblock.*;
+import lach_01298.qmd.particle.IParticleStackHandler;
+import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.particle.ParticleStorageAccelerator;
+import nc.multiblock.IPacketMultiblockLogic;
+import nc.multiblock.MultiblockLogic;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
@@ -17,13 +22,17 @@ import nc.util.MaterialHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
 import static nc.block.property.BlockProperties.ACTIVE;
@@ -371,19 +380,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 
 		}
 
-		// beam ports
-		for (TileAcceleratorBeamPort port : acc.getPartMap(TileAcceleratorBeamPort.class).values())
-		{
-			if (port.getIOType() == IOType.INPUT)
-			{
-				acc.input = port;
-			}
-
-			if (port.getIOType() == IOType.OUTPUT)
-			{
-				acc.output = port;
-			}
-		}
 	}
 	
 	public void refreshStats()
@@ -570,8 +566,10 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			port.setRedstoneLevel(0);
 		}
 
-		acc.input = null;
-		acc.output = null;
+		for (TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
+		{
+			port.setIONumber(0);
+		}
 
 		operational = false;
 		
@@ -700,65 +698,120 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	}
 
 	// Beam port IO
-	
 	protected void push()
 	{
-		if(getMultiblock().output != null && getMultiblock().output.getExternalFacing() != null)
+		for(TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
 		{
-			TileEntity tile = getMultiblock().WORLD.getTileEntity(getMultiblock().output.getPos().offset(getMultiblock().output.getExternalFacing()));
-			if (tile != null)
+			if(port.getIOType() == IOType.OUTPUT)
 			{
-				if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getMultiblock().output.getExternalFacing().getOpposite()))
+				if (port.getOutwardFacing() != null)
 				{
-					IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getMultiblock().output.getExternalFacing().getOpposite());
-					otherStorage.reciveParticle(getMultiblock().output.getExternalFacing().getOpposite(), getMultiblock().beams.get(1).getParticleStack());
+					EnumFacing face = port.getOutwardFacing();
+					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
+					if(tile != null)
+					{
+						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
+						{
+							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+							otherStorage.reciveParticle(face.getOpposite(), getMultiblock().beams.get(port.getIONumber()).getParticleStack());
+						}
+					}
 				}
 			}
 		}
 	}
-	
+
+
+
 	protected void pull()
 	{
-		if (getMultiblock().input != null && getMultiblock().input.getExternalFacing() != null)
+		for(TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
 		{
-			
-				TileEntity tile = getMultiblock().WORLD.getTileEntity(getMultiblock().input.getPos().offset(getMultiblock().input.getExternalFacing()));
-				if (tile != null)
+			if(port.getIOType() == IOType.INPUT)
+			{
+				if (port.getOutwardFacing() != null)
 				{
-
-					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getMultiblock().input.getExternalFacing().getOpposite()))
+					EnumFacing face = port.getOutwardFacing();
+					TileEntity tile = port.getWorld().getTileEntity(port.getPos().offset(face));
+					if(tile != null)
 					{
-						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, getMultiblock().input.getExternalFacing().getOpposite());
-						ParticleStack stack = otherStorage.extractParticle(getMultiblock().input.getExternalFacing().getOpposite());
-						
-						if (!getMultiblock().beams.get(0).reciveParticle(getMultiblock().input.getExternalFacing(), stack))
+						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
-							if (stack.getMeanEnergy() > getMultiblock().beams.get(0).getMaxEnergy())
-							{
-								
-								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
-							}
-							else
-							{
-								getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
+							ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
 
+							if (!getMultiblock().beams.get(port.getIONumber()).reciveParticle(face, stack))
+							{
+								if (stack.getMeanEnergy() > getMultiblock().beams.get(port.getIONumber()).getMaxEnergy())
+								{
+									getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+								}
+								else
+								{
+									getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+								}
 							}
 						}
 					}
 				}
+			}
 		}
 	}
+
+
+
+	public void switchIO()
+	{
+		for (TileAcceleratorBeamPort port : getPartMap(TileAcceleratorBeamPort.class).values())
+		{
+			if (port.isTriggered())
+			{
+				if (port.getSetting() != port.getIOType())
+				{
+					port.switchMode();
+					if (port.getIOType() == IOType.INPUT)
+					{
+						port.setIONumber(0);
+						for (TileAcceleratorBeamPort otherPort : getPartMap(TileAcceleratorBeamPort.class).values())
+						{
+							if (otherPort.getIOType() == IOType.INPUT && otherPort != port)
+							{
+								otherPort.setIOType(IOType.DISABLED);
+								otherPort.setIONumber(0);
+							}
+						}
+					}
+					else if (port.getIOType() == IOType.OUTPUT)
+					{
+						port.setIONumber(1);
+						for (TileAcceleratorBeamPort otherPort : getPartMap(TileAcceleratorBeamPort.class).values())
+						{
+							if (otherPort.getIOType() == IOType.OUTPUT && otherPort != port)
+							{
+								otherPort.setIOType(IOType.DISABLED);
+								otherPort.setIONumber(0);
+							}
+						}
+					}
+					getMultiblock().checkIfMachineIsWhole();
+				}
+				port.resetTrigger();
+			}
+		}
+	}
+
+
 	
 	
 	// Coolant recipe handling
 	
 	protected void refreshFluidRecipe()
 	{
-		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getMultiblock().tanks.subList(0, 1));
+		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getMultiblock().tanks.subList(0, 1),new ArrayList<ParticleStack>());
 		if (getMultiblock().coolingRecipeInfo != null)
 		{
-			getMultiblock().maxCoolantIn =(int) (getMultiblock().cooling/(double)getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*1000);
-			getMultiblock().maxCoolantOut = (int) (getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)(getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0))*1000);
+			getMultiblock().maxCoolantIn =(int) (1000*getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)getMultiblock().coolingRecipeInfo.recipe.getHeatRequired());
+			getMultiblock().maxCoolantOut = (int) (1000*getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)getMultiblock().coolingRecipeInfo.recipe.getHeatRequired());
 		}
 	}
 	
@@ -774,9 +827,9 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = getMultiblock().cooling;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
+		int recipeHeat = getMultiblock().coolingRecipeInfo.recipe.getHeatRequired();
 		
-		if(getMultiblock().getTemperature() <= fluidInput.getStack().getFluid().getTemperature())
+		if(getMultiblock().getTemperature() <= getMultiblock().coolingRecipeInfo.recipe.getInputTemperature())
 		{
 			return false;
 		}
@@ -785,7 +838,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			return false;
 		
 		
-		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
+		double recipesPerTick = maximumHeatChange/(double)(recipeHeat);
 		
 		if (!outputTank.isEmpty())
 		{
@@ -799,11 +852,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			}
 		}
 		
-		if (getMultiblock().heatBuffer.getHeatStored() < fluidInput.getMaxStackSize(0)*heatPerMB)
+		if (getMultiblock().heatBuffer.getHeatStored() < recipeHeat)
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 	
@@ -815,18 +868,18 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		Tank inputTank = getMultiblock().tanks.get(0);
 		Tank outputTank = getMultiblock().tanks.get(1);
 		long maximumHeatChange = getMultiblock().cooling;
-		int heatPerMB = getMultiblock().coolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
+		int recipeHeat = getMultiblock().coolingRecipeInfo.recipe.getHeatRequired();
 		
-		double recipesPerTick = maximumHeatChange/(double)(fluidInput.getMaxStackSize(0)*heatPerMB);
+		double recipesPerTick = maximumHeatChange/(double)(recipeHeat);
 		
 		if(recipesPerTick*fluidInput.getMaxStackSize(0) > inputTank.getFluidAmount())
 		{
 			recipesPerTick = inputTank.getFluidAmount()/(double)fluidInput.getMaxStackSize(0);
 		}
 		
-		if(recipesPerTick * fluidInput.getMaxStackSize(0) * heatPerMB > getMultiblock().heatBuffer.getHeatStored())
+		if(recipesPerTick * recipeHeat > getMultiblock().heatBuffer.getHeatStored())
 		{
-			recipesPerTick = getMultiblock().heatBuffer.getHeatStored()/(fluidInput.getMaxStackSize(0) * heatPerMB);
+			recipesPerTick = getMultiblock().heatBuffer.getHeatStored()/(recipeHeat);
 		}
 		
 		
@@ -854,7 +907,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 		
 		
-		double heatChange =recipesThisTick*fluidInput.getMaxStackSize(0)* heatPerMB;
+		double heatChange =recipesThisTick* recipeHeat;
 		
 		excessHeat += heatChange;
 		

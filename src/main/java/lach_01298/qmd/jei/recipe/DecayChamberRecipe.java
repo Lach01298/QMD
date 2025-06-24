@@ -1,6 +1,7 @@
 package lach_01298.qmd.jei.recipe;
 
 import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
 import nc.util.Lang;
@@ -15,7 +16,7 @@ public class DecayChamberRecipe extends JEIRecipeWrapper
 
 	public DecayChamberRecipe(IGuiHelper guiHelper, QMDRecipe recipe)
 	{
-		super(guiHelper, recipe, null, 0, 0, 0, 0, 0, 0, 0, 0);
+		super(guiHelper, QMDRecipes.decay_chamber , recipe);
 	}
 	
 
@@ -40,13 +41,6 @@ public class DecayChamberRecipe extends JEIRecipeWrapper
 		{
 			fontRenderer.drawString(maxEnergyString, 0, 92, Color.gray.getRGB());
 		}
-	}
-
-
-	@Override
-	protected int getProgressArrowTime()
-	{
-		return 0;
 	}
 
 }

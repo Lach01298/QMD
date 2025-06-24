@@ -15,7 +15,7 @@ public class CTAddParticle implements IAction
 	{
 		this.name = name;
 
-		particle = new Particle(name, new ResourceLocation("contenttweaker","textures/particles/"+textureLocation), mass, charge, spin, weakCharged, coloured);
+		particle = new Particle(name, new ResourceLocation("qmd","textures/particles/"+textureLocation), mass, charge, spin, weakCharged, coloured);
 	}
 
 	@Override

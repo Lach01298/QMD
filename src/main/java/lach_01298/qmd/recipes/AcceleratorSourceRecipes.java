@@ -22,12 +22,12 @@ public class AcceleratorSourceRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		addRecipe(new EmptyItemIngredient(), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.proton,QMDConstants.ionSourceOutput));
-		addRecipe(new EmptyItemIngredient(), fluidStack("deuterium", FluidStackHelper.BUCKET_VOLUME * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.deuteron,QMDConstants.ionSourceOutput));
-		addRecipe(new EmptyItemIngredient(), fluidStack("tritium", FluidStackHelper.BUCKET_VOLUME * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.triton,QMDConstants.ionSourceOutput));
+		addRecipe(new EmptyItemIngredient(), fluidStack("hydrogen", FluidStackHelper.BUCKET_VOLUME/2 * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.proton,QMDConstants.ionSourceOutput));
+		addRecipe(new EmptyItemIngredient(), fluidStack("deuterium", FluidStackHelper.BUCKET_VOLUME /2* QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.deuteron,QMDConstants.ionSourceOutput));
+		addRecipe(new EmptyItemIngredient(), fluidStack("tritium", FluidStackHelper.BUCKET_VOLUME/2 * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.triton,QMDConstants.ionSourceOutput));
 		addRecipe(new EmptyItemIngredient(), fluidStack("helium3", FluidStackHelper.BUCKET_VOLUME * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.helion,QMDConstants.ionSourceOutput));
 		addRecipe(new EmptyItemIngredient(), fluidStack("helium", FluidStackHelper.BUCKET_VOLUME * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.alpha,QMDConstants.ionSourceOutput));
-		addRecipe(new EmptyItemIngredient(), fluidStack("diborane", FluidStackHelper.BUCKET_VOLUME * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.boron_ion,QMDConstants.ionSourceOutput));
+		addRecipe(new EmptyItemIngredient(), fluidStack("diborane", FluidStackHelper.BUCKET_VOLUME/2 * QMDConstants.ionSourceOutput/QMDConstants.moleAmount), new ParticleStack(Particles.boron_ion,QMDConstants.ionSourceOutput));
 		addRecipe(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID()), new EmptyFluidIngredient(), new ParticleStack(Particles.electron,QMDConstants.ionSourceOutput));
 		addRecipe(new ItemStack(QMDItems.source,1,SourceType.SODIUM_22.getID()), new EmptyFluidIngredient(), new ParticleStack(Particles.positron,QMDConstants.ionSourceOutput));
 		addRecipe(new ItemStack(QMDItems.source,1,SourceType.CALCIUM_48.getID()), new EmptyFluidIngredient(), new ParticleStack(Particles.calcium_48_ion,QMDConstants.ionSourceOutput));

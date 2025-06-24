@@ -45,6 +45,21 @@
                 "textures": {
                     "layer0": "qmd:items/materials/dust/chemical/zinc_sulfide"
                 }
+            },
+            "iron_fluoride": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/iron_fluoride"
+                }
+            },
+            "ssfaf": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/ssfaf"
+                }
+            },
+            "ybco": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/ybco"
+                }
             }
             
         }

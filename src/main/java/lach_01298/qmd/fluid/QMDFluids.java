@@ -45,7 +45,7 @@ public class QMDFluids
 			
 			//liquids
 			addFluidPair(FluidType.LIQUID, "mercury", true,0xC6C6C6,13540,300,1000,0);
-			addFluidPair(FluidType.LIQUID, "hot_mercury", true, 0xAAAAAA, 13540, 630,1000,0);
+			addFluidPair(FluidType.LIQUID, "hot_mercury", true, 0xD0D0D0, 13540, 630,1000,0);
 			addFluidPair(FluidType.LIQUID, "iodine",false, 0x7400B3,3960,387,1000,0);
 			
 			//gases
@@ -85,8 +85,13 @@ public class QMDFluids
 			addFluidPair(FluidType.MOLTEN, "polonium", 0x5c7c78);
 			addFluidPair(FluidType.MOLTEN, "radium", 0x6e607b);
 			
-			addFluidPair(FluidType.HOT_GAS, "carbon", 0x343434);
+
 			addFluidPair(FluidType.MOLTEN, "sodium_chloride", 0xd4cccc);
+
+			//hot gases
+			addFluidPair(FluidType.HOT_GAS, "carbon", 0x343434);
+			addFluidPair(FluidType.HOT_GAS, "high_pressure_mercury", 0xAAAAAA);
+			addFluidPair(FluidType.HOT_GAS, "exhaust_mercury", 0x888888);
 
 			//exotic matter
 			addFluidPair(QMDFluidType.EXOTIC,"antihydrogen", 0xB37AC4);

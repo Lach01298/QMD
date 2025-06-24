@@ -61,6 +61,18 @@
                 "textures": {
                     "layer0": "qmd:items/part/laser_assembly"
                 }
+            },
+            "wire_ssfaf": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/wire_ssfaf"
+                }
+            },
+            "wire_ybco": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/wire_ybco"
+                }
             }
         }
     }

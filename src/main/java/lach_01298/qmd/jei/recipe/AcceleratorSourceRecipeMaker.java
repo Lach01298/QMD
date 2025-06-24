@@ -19,15 +19,11 @@ public class AcceleratorSourceRecipeMaker
 	public static List<AcceleratorSourceRecipe> getRecipes(IJeiHelpers helpers)
 	{
 		List<QMDRecipe> recipes = QMDRecipes.accelerator_source.getRecipeList();
-		IStackHelper stackHelper = helpers.getStackHelper();
 		List<AcceleratorSourceRecipe> jeiRecipes = new ArrayList<>();
 
 		for (QMDRecipe recipe : recipes)
 		{
-			List<List<ItemStack>> inputItem = QMDRecipeHelper.getItemInputLists(recipe.getItemIngredients());
-			List<List<FluidStack>> inputFluid = QMDRecipeHelper.getFluidInputLists(recipe.getFluidIngredients());
-			List<List<ParticleStack>> output = QMDRecipeHelper.getParticleOutputLists(recipe.getParticleProducts());
-			AcceleratorSourceRecipe jeiRecipe = new AcceleratorSourceRecipe(inputItem,inputFluid, output);
+			AcceleratorSourceRecipe jeiRecipe = new AcceleratorSourceRecipe(helpers.getGuiHelper(),recipe);
 			jeiRecipes.add(jeiRecipe);
 		}
 

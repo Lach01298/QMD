@@ -416,7 +416,7 @@ public class TileAcceleratorComputerPort extends TileAcceleratorPart implements 
 			if(port.getTilePos().equals(pos))
 			{
 				port.setTrigger();
-				port.getMultiblock().switchIO();
+				port.getMultiblock().getLogic().switchIO();
 				return new Object[] {true};
 			}
 		}

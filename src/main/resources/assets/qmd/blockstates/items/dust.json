@@ -80,7 +80,12 @@
                 "textures": {
                     "layer0": "qmd:items/materials/dust/strontium"
                 }
+            },
+            "barium": {
+            "textures": {
+              "layer0": "qmd:items/materials/dust/barium"
             }
+          }
         }
     }
 }

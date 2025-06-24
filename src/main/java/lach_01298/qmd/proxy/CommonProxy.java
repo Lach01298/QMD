@@ -73,6 +73,8 @@ public class CommonProxy
 		CapabilityParticleStackHandler.register();
 		
 		QMDArmour.addRadResistance();
+		QMDRecipes.postInit();
+
 		CoolerPlacement.postInit();
 		HeaterPlacement.postInit();
 	}

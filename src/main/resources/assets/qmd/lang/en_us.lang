@@ -14,6 +14,7 @@ item.qmd.dust.sodium.name=Sodium Dust
 item.qmd.dust.potassium.name=Potassium Dust
 item.qmd.dust.calcium.name=Calcium Dust
 item.qmd.dust.strontium.name=Strontium Dust
+item.qmd.dust.barium.name=Barium Dust
 item.qmd.dust2.yttrium.name=Yttrium Dust
 item.qmd.dust2.neodymium.name=Neodymium Dust
 item.qmd.dust2.iodine.name=Iodine Dust
@@ -37,6 +38,7 @@ item.qmd.ingot.sodium.name=Sodium Ingot
 item.qmd.ingot.potassium.name=Potassium Ingot
 item.qmd.ingot.calcium.name=Calcium Ingot
 item.qmd.ingot.strontium.name=Strontium Ingot
+item.qmd.ingot.barium.name=Barium Ingot
 item.qmd.ingot2.yttrium.name=Yttrium Ingot
 item.qmd.ingot2.neodymium.name=Neodymium Ingot
 item.qmd.ingot2.mercury.name=Mercury
@@ -108,6 +110,8 @@ item.qmd.part.wire_chamber_casing.name=Empty Wire Chamber
 item.qmd.part.magnet_nd.name=Neodymium Magnet
 item.qmd.part.accelerating_barrel.name=Accelerating Barrel
 item.qmd.part.laser_assembly.name=Laser Assembly
+item.qmd.part.wire_ssfaf.name=SSFAF Wire
+item.qmd.part.wire_ybco.name=YBCO Wire
 
 item.qmd.semiconductor.silicon_p_doped.name=P-Type Doped Silicon
 item.qmd.semiconductor.silicon_n_doped.name=N-Type Doped Silicon
@@ -125,6 +129,9 @@ item.qmd.chemical_dust.copper_oxide.name=Copper Oxide
 item.qmd.chemical_dust.hafnium_oxide.name=Hafnium Oxide
 item.qmd.chemical_dust.strontium_chloride.name=Strontium Chloride
 item.qmd.chemical_dust.zinc_sulfide.name=Zinc Sulfide
+item.qmd.chemical_dust.iron_fluoride.name=Iron Fluoride
+item.qmd.chemical_dust.ssfaf.name=SSFAF Dust
+item.qmd.chemical_dust.ybco.name=YBCO Dust
 
 
 item.qmd.sword_tungsten_carbide.name=Tungsten Carbide Sword
@@ -211,17 +218,26 @@ tile.qmd.accelerator_beam_port.name=Accelerator Beam Port
 tile.qmd.accelerator_synchrotron_port.name=Accelerator Synchrotron Port
 tile.qmd.accelerator_energy_port.name=Accelerator Energy Port
 tile.qmd.accelerator_source.name=Accelerator Ion Source
+
 tile.qmd.accelerator_cavity.copper.name=Copper RF Cavity
 tile.qmd.accelerator_cavity.magnesium_diboride.name=Magnesium Diboride RF Cavity
 tile.qmd.accelerator_cavity.niobium_tin.name=Niobium-Tin RF Cavity
 tile.qmd.accelerator_cavity.niobium_titanium.name=Niobium-Titanium RF Cavity
 tile.qmd.accelerator_cavity.bscco.name=BSCCO RF Cavity
+tile.qmd.accelerator_cavity.aluminium.name=Aluminum RF Cavity
+tile.qmd.accelerator_cavity.ssfaf.name=SSFAF RF Cavity
+tile.qmd.accelerator_cavity.ybco.name=YBCO RF Cavity
+
 tile.qmd.accelerator_magnet.copper.name=Copper Accelerator Electromagnet
 tile.qmd.accelerator_magnet.magnesium_diboride.name=Magnesium Diboride Accelerator Electromagnet
 tile.qmd.accelerator_magnet.niobium_tin.name=Niobium-Tin Accelerator Electromagnet
 tile.qmd.accelerator_magnet.niobium_titanium.name=Niobium-Titanium Accelerator Electromagnet
 tile.qmd.accelerator_magnet.bscco.name=BSCCO Accelerator Electromagnet
+tile.qmd.accelerator_magnet.aluminium.name=Aluminum Accelerator Electromagnet
+tile.qmd.accelerator_magnet.ssfaf.name=SSFAF Accelerator Electromagnet
+tile.qmd.accelerator_magnet.ybco.name=YBCO Accelerator Electromagnet
 tile.qmd.accelerator_magnet.name=Accelerator Electromagnet
+
 tile.qmd.accelerator_yoke.name=Accelerator Electromagnet Yoke
 tile.qmd.accelerator_laser_ion_source.name=Accelerator Laser Ion Source
 tile.qmd.accelerator_ion_collector.name=Accelerator Ion Collector
@@ -475,6 +491,10 @@ fluid.carbon=Sublimated Carbon
 tile.qmd.fluid_carbon.name=Sublimated Carbon
 fluid.sodium_chloride=Molten Sodium Chloride
 tile.qmd.fluid_sodium_chloride.name=Molten Sodium Chloride
+fluid.high_pressure_mercury=High Pressure Mercury
+tile.qmd.fluid_high_pressure_mercury.name=High Pressure Mercury
+fluid.exhaust_mercury=Exhaust Mercury
+tile.qmd.fluid_exhaust_mercury.name=Exhaust Mercury
 
 
 
@@ -869,14 +889,29 @@ gui.qmd.particlestack.empty=No Particles
 
 //jei
 qmd.gui.jei.category.accelerator_source=Ion Source
-qmd.gui.jei.category.particle_info=Particle Information
+qmd.gui.jei.category.accelerator_cooling=Accelerator Cooling
+qmd.gui.jei.category.mass_spectrometer=Mass Spectrometer
+
 qmd.gui.jei.category.target_chamber=Target Chamber
 qmd.gui.jei.category.decay_chamber=Decay Chamber
 qmd.gui.jei.category.beam_dump=Beam Dump
-qmd.gui.jei.category.neutral_containment=Exotic Containment Chamber
 qmd.gui.jei.category.collision_chamber=Collision Chamber
-qmd.gui.jei.category.atmosphere_collector=Atmosphere Collector
+
+qmd.gui.jei.category.ore_leacher=Ore Leacher
+qmd.gui.jei.category.irradiator=Irradiator
+qmd.gui.jei.category.irradiator_fuel=Irradiator Fuel
+
+qmd.gui.jei.category.neutral_containment=Exotic Containment Chamber
+qmd.gui.jei.category.cell_filling=Cell Filling and Emptying
 qmd.gui.jei.category.nucleosynthesis_chamber=Nucleosynthesis Chamber
+qmd.gui.jei.category.vacuum_chamber_heating=Vacuum Chamber Heating
+
+qmd.gui.jei.category.atmosphere_collector=Atmosphere Collector
+qmd.gui.jei.category.particle_info=Particle Information
+
+qmd.gui.jei.accelerator_cooling.heat_required=Heating Required:
+qmd.gui.jei.accelerator_cooling.temperature=Temperature:
+qmd.gui.jei.vacuum_chamber_heating.heat_required=Heating Required:
 
 gui.qmd.jei.dimension=Dimension ID:%s
 
@@ -892,13 +927,6 @@ gui.qmd.jei.reaction.energy_released=Released Energy: %s
 gui.qmd.jei.reaction.cross_section=Cross Section: %s%%
 gui.qmd.jei.reaction.heat_released=Heat Released: %s
 gui.qmd.jei.reaction.max_energy=Maximum Energy: %s
-
-//jei trick
-tile.qmd.irradiator_fuel.name=Irradiator Fuel
-tile.qmd.accelerator_cooling.name=Accelerator Cooling
-tile.qmd.cell_filling.name=Cell Filling and Emptying
-tile.qmd.vacuum_chamber_heating.name=Vacuum Chamber Heating
-tile.qmd.mass_spectrometer.name=Mass Spectrometer
 
 //tabs
 itemGroup.qmd.items=Quantum Minecraft Dynamics Items
@@ -1114,34 +1142,34 @@ gui.qmd.config.accelerator.mass_spectrometer_valid_sources=Valid Mass Spectromet
 gui.qmd.config.accelerator.mass_spectrometer_valid_sources.comment=The list of ion sources that are valid to form a mass spectrometer.
 
 gui.qmd.config.accelerator.RF_cavity_voltage=RF Cavity Voltage
-gui.qmd.config.accelerator.RF_cavity_voltage.comment=The accelerating voltage of each cavity in kV. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=The accelerating voltage of each cavity in kV. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.RF_cavity_efficiency=RF Cavity Power Efficiency
-gui.qmd.config.accelerator.RF_cavity_efficiency.comment=The power Efficiency of each cavity. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=The power Efficiency of each cavity. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.RF_cavity_heat_generated=RF Cavity Heat
-gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=The heat per tick  each cavity generates. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO]. 
+gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=The heat per tick  each cavity generates. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.RF_cavity_base_power=RF Cavity Base Power
-gui.qmd.config.accelerator.RF_cavity_base_power.comment=The base RF/t each cavity uses. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO]. 
+gui.qmd.config.accelerator.RF_cavity_base_power.comment=The base RF/t each cavity uses. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.RF_cavity_max_temp=RF Cavity Max Temperature
-gui.qmd.config.accelerator.RF_cavity_max_temp.comment=The maximum operating temperature for each cavity in K. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.RF_cavity_max_temp.comment=The maximum operating temperature for each cavity in K. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.magnet_strength=Magnet Strength
-gui.qmd.config.accelerator.magnet_strength.comment=The strength of each magnet in Tesla. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.magnet_strength.comment=The strength of each magnet in Tesla. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO], Aluminum, SSFAF, YBCO.
 
 gui.qmd.config.accelerator.magnet_efficiency=Magnet Power Efficiency
-gui.qmd.config.accelerator.magnet_efficiency.comment=The power efficiency of each magnet. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.magnet_efficiency.comment=The power efficiency of each magnet. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.magnet_heat_generated=Magnet Heat
-gui.qmd.config.accelerator.magnet_heat_generated.comment=The heat per tick  each magnet generates. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.magnet_heat_generated.comment=The heat per tick  each magnet generates. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.magnet_base_power=Magnet Base Power
-gui.qmd.config.accelerator.magnet_base_power.comment=The base RF/t each magnet uses. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.magnet_base_power.comment=The base RF/t each magnet uses. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.magnet_max_temp=Magnet Max Temperature
-gui.qmd.config.accelerator.magnet_max_temp.comment=The maximum operating temperature for each magnet in K. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO].
+gui.qmd.config.accelerator.magnet_max_temp.comment=The maximum operating temperature for each magnet in K. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
 
 gui.qmd.config.accelerator.cooler_heat_removed=Cooler Heat
 gui.qmd.config.accelerator.cooler_heat_removed.comment=The amount of heat per tick each cooler cools. Order: water, iron, redstone, quartz, obsidian, nether brick, glowstone, lapis, gold, prismarine, slime, end stone, purpur, diamond, emerald, copper, tin, lead, boron, lithium, magnesium, manganese, aluminum, silver, fluorite, villiaumite, carobbiite, arsenic, liquid nitrogen, liquid helium, enderium, cryotheum.

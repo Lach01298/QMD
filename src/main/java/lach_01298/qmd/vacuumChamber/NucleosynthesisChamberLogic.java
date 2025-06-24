@@ -52,14 +52,14 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	public QMDRecipeInfo<QMDRecipe> rememberedRecipeInfo;
 	
 	public static final int CASING_MAX_TEMP = 2400;
-	public static final  int cooling_efficiency_leniency =20;
+	public static final  int cooling_efficiency_leniency =20000;
 	public double casingHeating = 0L;
 	public long casingCooling = 0L;
 	public int maxCasingCoolantIn = 0, maxCasingCoolantOut = 0; // in mirco buckets/t
 	private double excessCasingCoolingRecipes =0;
 	private double excessCasingHeat =0;
 	
-	public RecipeInfo<BasicRecipe> casingCoolingRecipeInfo;
+	public QMDRecipeInfo<QMDRecipe> casingCoolingRecipeInfo;
 	
 	public final HeatBuffer casingHeatBuffer = new HeatBuffer(QMDConfig.accelerator_base_heat_capacity);
 
@@ -117,17 +117,17 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	public void onVacuumChamberFormed()
 	{
 		getMultiblock().tanks.get(2).setCapacity(QMDConfig.vacuum_chamber_input_tank_capacity * 100);
-		getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.vacuum_chamber_heater_valid_fluids.get(0));
+		getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.vacuum_chamber_heating.validFluids.get(0));
 		getMultiblock().tanks.get(3).setCapacity(QMDConfig.vacuum_chamber_output_tank_capacity * 100);
 
 		getMultiblock().tanks.get(4).setCapacity(QMDConfig.vacuum_chamber_input_tank_capacity * 10);
-		getMultiblock().tanks.get(4).setAllowedFluids(QMDRecipes.nucleosynthesis_valid_fluids.get(0));
+		getMultiblock().tanks.get(4).setAllowedFluids(QMDRecipes.nucleosynthesis_chamber.validFluids.get(0));
 		getMultiblock().tanks.get(5).setCapacity(QMDConfig.vacuum_chamber_input_tank_capacity * 10);
-		getMultiblock().tanks.get(5).setAllowedFluids(QMDRecipes.nucleosynthesis_valid_fluids.get(0));
+		getMultiblock().tanks.get(5).setAllowedFluids(QMDRecipes.nucleosynthesis_chamber.validFluids.get(0));
 		getMultiblock().tanks.get(6).setCapacity(QMDConfig.vacuum_chamber_output_tank_capacity * 10);
 		getMultiblock().tanks.get(7).setCapacity(QMDConfig.vacuum_chamber_output_tank_capacity * 10);
 		
-		casingHeatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
+		casingHeatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier()*1000);
 		
 		if (!getWorld().isRemote)
 		{
@@ -867,7 +867,6 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 							if (rememberedRecipeInfo.recipe != recipeInfo.recipe)
 							{
 								particleWorkDone = 0;
-								// startRecipe(); // to void the in use contents to stop infinite power exploit
 							}
 						}
 						rememberedRecipeInfo = recipeInfo;
@@ -966,35 +965,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	
 	// Recipes
-	
-	/*private void startRecipe()
-	{
-		if(getMultiblock().tanks.get(4).getFluid() != null)
-		{
-			if(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack().getFluid())
-			{
-				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack(), true);
-			}
-			else if(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(4).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack().getFluid())
-			{
-				getMultiblock().tanks.get(4).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack(), true);
-			}
-		}
-		
-		if(getMultiblock().tanks.get(5).getFluid() != null)
-		{
-			if(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack().getFluid())
-			{
-				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(0).getStack(), true);
-			}
-			else if(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack() != null && getMultiblock().tanks.get(5).getFluid().getFluid() == rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack().getFluid())
-			{
-				getMultiblock().tanks.get(5).drain(rememberedRecipeInfo.recipe.getFluidIngredients().get(1).getStack(), true);
-			}
-		}
-	}*/
-	
-	
+
 	private void startRecipe()
 	{
 		loop: if (getMultiblock().tanks.get(4).getFluid() != null)
@@ -1124,11 +1095,11 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	protected void refreshCasingFluidRecipe()
 	{
-		casingCoolingRecipeInfo = vacuum_chamber_heating.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(2, 3));
+		casingCoolingRecipeInfo = vacuum_chamber_heating.getRecipeInfoFromInputs(new ArrayList<ItemStack>(),getMultiblock().tanks.subList(2, 3),new ArrayList<ParticleStack>());
 		if(casingCoolingRecipeInfo != null)
 		{
-			maxCasingCoolantIn =  (int) (casingCooling/(double)casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*1000);
-			maxCasingCoolantOut = (int) (casingCoolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*casingCooling/(double)(casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB()*casingCoolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0))*1000);
+			maxCasingCoolantIn =  (int) (1000*casingCoolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0)*casingCooling/(double)casingCoolingRecipeInfo.recipe.getHeatRequired());
+			maxCasingCoolantOut = (int) (1000*casingCoolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*casingCooling/(double)casingCoolingRecipeInfo.recipe.getHeatRequired());
 		}
 	}
 	
@@ -1145,13 +1116,13 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		Tank outputTank = getMultiblock().tanks.get(3);
 		long maximumHeatChange = casingCooling;
 		double efficiency = getCoolingEfficiency();
-		int heatPerMB = casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
+		int recipeHeat = casingCoolingRecipeInfo.recipe.getHeatRequired();
 
 		if (fluidOutput.getMaxStackSize(0) <= 0 || fluidOutput.getStack() == null)
 			return false;
 		
 		
-		double recipesPerTick = (maximumHeatChange * efficiency)/(fluidInput.getMaxStackSize(0)*heatPerMB );
+		double recipesPerTick = (maximumHeatChange * efficiency)/(double)(recipeHeat);
 		
 		if (!outputTank.isEmpty())
 		{
@@ -1165,7 +1136,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			}
 		}
 		
-		if (casingHeatBuffer.getHeatStored() < fluidInput.getMaxStackSize(0)*heatPerMB)
+		if (casingHeatBuffer.getHeatStored() < recipeHeat)
 		{
 			return false;
 		}
@@ -1180,35 +1151,34 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		Tank inputTank = getMultiblock().tanks.get(2);
 		Tank outputTank = getMultiblock().tanks.get(3);
 		long maximumHeatChange = casingCooling;
+		int recipeHeat = casingCoolingRecipeInfo.recipe.getHeatRequired();
+
 		double efficiency = getCoolingEfficiency();
-		int heatPerMB = casingCoolingRecipeInfo.recipe.getFissionHeatingHeatPerInputMB();
-		
-		
-		long thisTickHeatChange = maximumHeatChange;
-		if(thisTickHeatChange > casingHeatBuffer.getHeatStored())
+
+		double recipesPerTick = maximumHeatChange*efficiency/(double)(recipeHeat);
+
+		if(recipesPerTick*fluidInput.getMaxStackSize(0) > inputTank.getFluidAmount())
 		{
-			thisTickHeatChange = casingHeatBuffer.getHeatStored();
+			recipesPerTick = inputTank.getFluidAmount()/(double)fluidInput.getMaxStackSize(0);
 		}
-		if(thisTickHeatChange > inputTank.getFluidAmount()*heatPerMB)
+
+		if(recipesPerTick * recipeHeat > casingHeatBuffer.getHeatStored())
 		{
-			thisTickHeatChange = inputTank.getFluidAmount()*heatPerMB;
+			recipesPerTick = casingHeatBuffer.getHeatStored()/(recipeHeat);
 		}
-		casingHeatBuffer.changeHeatStored(-thisTickHeatChange);
-		
-		double recipesPerTick = (thisTickHeatChange * efficiency)/(fluidInput.getMaxStackSize(0)*heatPerMB);
-		
+
 		int recipesThisTick = (int) Math.floor(recipesPerTick);
-		
 		excessCasingCoolingRecipes += recipesPerTick - recipesThisTick;
-		
+
 		if(excessCasingCoolingRecipes >= 1)
 		{
 			recipesThisTick += (int) Math.floor(excessCasingCoolingRecipes);
 			excessCasingCoolingRecipes -= Math.floor(excessCasingCoolingRecipes);
 		}
-		
+
 		inputTank.changeFluidAmount(-recipesThisTick*fluidInput.getMaxStackSize(0));
-		
+		if (inputTank.getFluidAmount() <= 0) inputTank.setFluidStored(null);
+
 		if(outputTank.isEmpty())
 		{
 			outputTank.changeFluidStored(fluidOutput.getNextStack(0).getFluid(),recipesThisTick*fluidOutput.getMaxStackSize(0));
@@ -1218,6 +1188,16 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			outputTank.changeFluidAmount(recipesThisTick*fluidOutput.getMaxStackSize(0));
 		}
 
+		double heatChange =recipesThisTick/efficiency * recipeHeat;
+
+		excessCasingHeat += heatChange;
+
+		if(excessCasingHeat > 1)
+		{
+			long thisTickHeatChange = (long) Math.floor(excessCasingHeat);
+			excessCasingHeat -= thisTickHeatChange;
+			casingHeatBuffer.changeHeatStored(-thisTickHeatChange);
+		}
 	}
 	
 
@@ -1230,6 +1210,11 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 	
 	private void containmentFailure()
 	{
+		getMultiblock().tanks.get(4).setFluidAmount(0);
+		getMultiblock().tanks.get(5).setFluidAmount(0);
+
+
+
 		if(QMDConfig.nucleosynthesis_chamber_explosion)
 		{
 			plasmaOn = false;

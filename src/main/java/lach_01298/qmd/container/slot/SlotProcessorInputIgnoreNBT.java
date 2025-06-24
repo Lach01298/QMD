@@ -1,14 +1,14 @@
 package lach_01298.qmd.container.slot;
 
-import nc.container.slot.SlotProcessorInput;
-import nc.recipe.BasicRecipeHandler;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.tile.inventory.ITileInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
-public class SlotProcessorInputIgnoreNBT extends SlotProcessorInput
+public class SlotProcessorInputIgnoreNBT extends SlotQMDProcessorInput
 {
 
-	public SlotProcessorInputIgnoreNBT(IInventory tile, BasicRecipeHandler recipeHandler, int index, int xPosition, int yPosition)
+	public SlotProcessorInputIgnoreNBT(ITileInventory tile, QMDRecipeHandler recipeHandler, int index, int xPosition, int yPosition)
 	{
 		super(tile, recipeHandler, index, xPosition, yPosition);
 	}

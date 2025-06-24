@@ -3,14 +3,19 @@ package lach_01298.qmd.crafttweaker;
 import com.google.common.collect.Lists;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
-import crafttweaker.api.item.*;
+import crafttweaker.api.item.IIngredient;
+import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.integration.crafttweaker.*;
+import nc.integration.crafttweaker.CTAddRecipe;
+import nc.integration.crafttweaker.CTRemoveAllRecipes;
+import nc.integration.crafttweaker.CTRemoveRecipe;
 import nc.recipe.IngredientSorption;
 import net.minecraft.item.ItemStack;
-import stanhebben.zenscript.annotations.*;
+import stanhebben.zenscript.annotations.Optional;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
 public class QMDCraftTweaker
 {
@@ -22,25 +27,25 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient input1,IIngredient input2,IIngredient input3,IIngredient input4, IIngredient output1,IIngredient output2,IIngredient output3, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation)
 		{
-			CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.ore_leacher, Lists.newArrayList(input1, input2, input3, input4, output1, output2, output3, timeMultiplier, powerMultiplier, processRadiation)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.ore_leacher, Lists.newArrayList(input1, input2, input3, input4, output1, output2, output3, timeMultiplier, powerMultiplier, processRadiation)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient input1,IIngredient input2,IIngredient input3,IIngredient input4)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.ore_leacher, IngredientSorption.INPUT, Lists.newArrayList(input1,input2,input3,input4)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.ore_leacher, IngredientSorption.INPUT, Lists.newArrayList(input1,input2,input3,input4)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient output1,IIngredient output2,IIngredient output3)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.ore_leacher, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2, output3)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.ore_leacher, IngredientSorption.OUTPUT, Lists.newArrayList(output1, output2, output3)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new CTRemoveAllRecipes(QMDRecipes.ore_leacher));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.ore_leacher));
 		}
 	}
 	
@@ -52,25 +57,25 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient input, IIngredient output, @Optional(valueDouble = 1D) double timeMultiplier, @Optional(valueDouble = 1D) double powerMultiplier, @Optional double processRadiation)
 		{
-			CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.irradiator, Lists.newArrayList(input, output, timeMultiplier, powerMultiplier, processRadiation)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.irradiator, Lists.newArrayList(input, output, timeMultiplier, powerMultiplier, processRadiation)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient input)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.irradiator, IngredientSorption.INPUT, Lists.newArrayList(input)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.irradiator, IngredientSorption.INPUT, Lists.newArrayList(input)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient output)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.irradiator, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.irradiator, IngredientSorption.OUTPUT, Lists.newArrayList(output)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new CTRemoveAllRecipes(QMDRecipes.irradiator));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.irradiator));
 		}
 	}
 	
@@ -82,19 +87,19 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addFuel(IIngredient input,  double speedMultiplier)
 		{
-			CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.irradiator_fuel, Lists.newArrayList(input,speedMultiplier)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.irradiator_fuel, Lists.newArrayList(input,speedMultiplier)));
 		}
 		
 		@ZenMethod
 		public static void removeFuel(IIngredient input)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.irradiator_fuel, IngredientSorption.INPUT, Lists.newArrayList(input)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.irradiator_fuel, IngredientSorption.INPUT, Lists.newArrayList(input)));
 		}
 		
 		@ZenMethod
 		public static void removeAllFuels()
 		{
-			CraftTweakerAPI.apply(new CTRemoveAllRecipes(QMDRecipes.irradiator_fuel));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.irradiator_fuel));
 		}
 	}
 	
@@ -104,27 +109,27 @@ public class QMDCraftTweaker
 	{
 		
 		@ZenMethod
-		public static void addRecipe(IIngredient fluidInput,IIngredient fluidOutput, int heatRemoved)
+		public static void addRecipe(IIngredient fluidInput,IIngredient fluidOutput, int heatRemoved, int temperature)
 		{
-			CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.accelerator_cooling, Lists.newArrayList(fluidInput, fluidOutput, heatRemoved)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.accelerator_cooling, Lists.newArrayList(fluidInput, fluidOutput, heatRemoved, temperature)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient fluidInput)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.accelerator_cooling, IngredientSorption.INPUT, Lists.newArrayList(fluidInput)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.accelerator_cooling, IngredientSorption.INPUT, Lists.newArrayList(fluidInput)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient fluidOutput)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.accelerator_cooling, IngredientSorption.OUTPUT, Lists.newArrayList(fluidOutput)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.accelerator_cooling, IngredientSorption.OUTPUT, Lists.newArrayList(fluidOutput)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new CTRemoveAllRecipes(QMDRecipes.accelerator_cooling));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.accelerator_cooling));
 		}
 	}
 	
@@ -137,7 +142,7 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputItem, IIngredient inputFluid, IIngredient inputParticle, IIngredient outputItem, IIngredient outputFluid, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased)
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, inputFluid, inputParticle, outputItem, outputFluid, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, inputFluid, inputParticle, outputItem, outputFluid, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		
@@ -145,25 +150,25 @@ public class QMDCraftTweaker
 		public static void addRecipe(IIngredient inputItem, IIngredient inputParticle, IIngredient outputItem, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased)
 		{
 			
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, null, inputParticle, outputItem, null, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.target_chamber, Lists.newArrayList(inputItem, null, inputParticle, outputItem, null, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputItem, IIngredient inputParticle)
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, null, inputParticle)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, null, inputParticle)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputItem, IIngredient inputFluid, IIngredient inputParticle)
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, inputFluid, inputParticle)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.target_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputItem, inputFluid, inputParticle)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.target_chamber));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.target_chamber));
 		}
 	}
 	
@@ -175,19 +180,19 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputParticle, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3 , double crossSection, @Optional(valueLong = 0) long energyReleased, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy)
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.decay_chamber, Lists.newArrayList(inputParticle, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.decay_chamber, Lists.newArrayList(inputParticle, outputParticle1, outputParticle2, outputParticle3, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputParticle)
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.decay_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputParticle)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.decay_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputParticle)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.decay_chamber));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.decay_chamber));
 		}
 	}
 	
@@ -199,19 +204,19 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputParticle1,IIngredient inputParticle2, IIngredient outputParticle1, IIngredient outputParticle2, IIngredient outputParticle3, IIngredient outputParticle4 , long maxEnergy, double crossSection, @Optional(valueLong = 0) long energyReleased)
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.collision_chamber, Lists.newArrayList(inputParticle1, inputParticle2, outputParticle1, outputParticle2, outputParticle3, outputParticle4, maxEnergy, crossSection, energyReleased)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.collision_chamber, Lists.newArrayList(inputParticle1, inputParticle2, outputParticle1, outputParticle2, outputParticle3, outputParticle4, maxEnergy, crossSection, energyReleased)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputParticle1, IIngredient inputParticle2)
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.collision_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputParticle1, inputParticle2)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.collision_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputParticle1, inputParticle2)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.collision_chamber));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.collision_chamber));
 		}
 	}
 	
@@ -223,19 +228,19 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputParticle, IIngredient outputFluid, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy)
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.beam_dump, Lists.newArrayList( inputParticle, outputFluid, maxEnergy)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.beam_dump, Lists.newArrayList( inputParticle, outputFluid, maxEnergy)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputParticle)
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.beam_dump, IngredientSorption.INPUT, Lists.newArrayList(inputParticle)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.beam_dump, IngredientSorption.INPUT, Lists.newArrayList(inputParticle)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.beam_dump));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.beam_dump));
 		}
 	}
 	
@@ -274,19 +279,19 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputFluid1, IIngredient inputFluid2, IIngredient inputParticle, IIngredient outputFluid1, IIngredient outputFluid2, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy, @Optional(valueLong = 0L)long heatRelased)
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.nucleosynthesis_chamber, Lists.newArrayList(inputFluid1, inputFluid2, inputParticle, outputFluid1, outputFluid2, maxEnergy,heatRelased)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.nucleosynthesis_chamber, Lists.newArrayList(inputFluid1, inputFluid2, inputParticle, outputFluid1, outputFluid2, maxEnergy,heatRelased)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputFluid1, IIngredient inputFluid2, IIngredient inputParticle)
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.nucleosynthesis_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputFluid1,inputFluid2,inputParticle)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.nucleosynthesis_chamber, IngredientSorption.INPUT, Lists.newArrayList(inputFluid1,inputFluid2,inputParticle)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.nucleosynthesis_chamber));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.nucleosynthesis_chamber));
 		}
 	}
 	
@@ -298,25 +303,25 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient fluidInput,IIngredient fluidOutput, int heatRemoved)
 		{
-			CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.vacuum_chamber_heating, Lists.newArrayList(fluidInput, fluidOutput, heatRemoved)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.vacuum_chamber_heating, Lists.newArrayList(fluidInput, fluidOutput, heatRemoved)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient fluidInput)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.vacuum_chamber_heating, IngredientSorption.INPUT, Lists.newArrayList(fluidInput)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.vacuum_chamber_heating, IngredientSorption.INPUT, Lists.newArrayList(fluidInput)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient fluidOutput)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.vacuum_chamber_heating, IngredientSorption.OUTPUT, Lists.newArrayList(fluidOutput)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.vacuum_chamber_heating, IngredientSorption.OUTPUT, Lists.newArrayList(fluidOutput)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new CTRemoveAllRecipes(QMDRecipes.vacuum_chamber_heating));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.vacuum_chamber_heating));
 		}
 	}
 	
@@ -348,7 +353,7 @@ public class QMDCraftTweaker
 					
 					if(stack.getItem() instanceof IItemParticleAmount)
 					{
-						CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList(input, null, outputParticle)));
+						CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList(input, null, outputParticle)));
 						
 					}
 					else
@@ -359,7 +364,7 @@ public class QMDCraftTweaker
 			}
 			else if(input instanceof ILiquidStack)
 			{
-				CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList(null, input, outputParticle)));
+				CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.accelerator_source, Lists.newArrayList(null, input, outputParticle)));
 			}
 		}
 		
@@ -368,18 +373,18 @@ public class QMDCraftTweaker
 		{
 			if(input instanceof IItemStack)
 			{
-				CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(input, null)));
+				CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(input, null)));
 			}
 			else if(input instanceof ILiquidStack)
 			{
-				CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(null, input)));
+				CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.accelerator_source, IngredientSorption.INPUT, Lists.newArrayList(null, input)));
 			}
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.accelerator_source));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.accelerator_source));
 		}
 	}
 	
@@ -391,19 +396,19 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputParticle1, IIngredient inputParticle2, IIngredient outputFluid, @Optional(valueLong = Long.MAX_VALUE) long maxEnergy)
 		{
-			CraftTweakerAPI.apply(new AddQMDRecipe(QMDRecipes.neutral_containment, Lists.newArrayList(inputParticle1, inputParticle2, outputFluid, maxEnergy)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.neutral_containment, Lists.newArrayList(inputParticle1, inputParticle2, outputFluid, maxEnergy)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputParticle1, IIngredient inputParticle2)
 		{
-			CraftTweakerAPI.apply(new RemoveQMDRecipe(QMDRecipes.neutral_containment, IngredientSorption.INPUT, Lists.newArrayList(inputParticle1,inputParticle2)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.neutral_containment, IngredientSorption.INPUT, Lists.newArrayList(inputParticle1,inputParticle2)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new RemoveAllQMDRecipes(QMDRecipes.neutral_containment));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.neutral_containment));
 		}
 	}
 	
@@ -428,8 +433,8 @@ public class QMDCraftTweaker
 						{
 
 							IItemStack emptyCell = CraftTweakerAPI.itemUtils.getItem(fullCell.getEmptyItem().getItem().getRegistryName().toString(),fullCell.getEmptyItem().getMetadata());
-							CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.cell_filling, Lists.newArrayList(emptyCell, inputFluid, inputFullCell,null)));
-							CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.cell_filling, Lists.newArrayList(inputFullCell, null,emptyCell, inputFluid)));
+							CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.cell_filling, Lists.newArrayList(emptyCell, inputFluid, inputFullCell,null)));
+							CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.cell_filling, Lists.newArrayList(inputFullCell, null,emptyCell, inputFluid)));
 							
 							
 							
@@ -460,25 +465,25 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(IIngredient inputItem, IIngredient inputFluid, IIngredient outputItem1, IIngredient outputItem2, IIngredient outputItem3, IIngredient outputItem4, IIngredient outputFluid1, IIngredient outputFluid2, IIngredient outputFluid3, IIngredient outputFluid4, @Optional(valueDouble = 1D) double timeMultiplier)
 		{
-			CraftTweakerAPI.apply(new CTAddRecipe(QMDRecipes.mass_spectrometer, Lists.newArrayList(inputItem, inputFluid, outputItem1, outputItem2,outputItem3,outputItem4,outputFluid1,outputFluid2,outputFluid3,outputFluid4,timeMultiplier)));
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.mass_spectrometer, Lists.newArrayList(inputItem, inputFluid, outputItem1, outputItem2,outputItem3,outputItem4,outputFluid1,outputFluid2,outputFluid3,outputFluid4,timeMultiplier)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithInput(IIngredient inputItem, IIngredient inputFluid)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.mass_spectrometer, IngredientSorption.INPUT, Lists.newArrayList(inputItem,inputFluid)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.mass_spectrometer, IngredientSorption.INPUT, Lists.newArrayList(inputItem,inputFluid)));
 		}
 		
 		@ZenMethod
 		public static void removeRecipeWithOutput(IIngredient outputItem1, IIngredient outputItem2, IIngredient outputItem3, IIngredient outputItem4, IIngredient outputFluid1, IIngredient outputFluid2, IIngredient outputFluid3, IIngredient outputFluid4)
 		{
-			CraftTweakerAPI.apply(new CTRemoveRecipe(QMDRecipes.mass_spectrometer, IngredientSorption.OUTPUT, Lists.newArrayList(outputItem1,outputItem2,outputItem3,outputItem4,outputFluid1,outputFluid2,outputFluid3,outputFluid4)));
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.mass_spectrometer, IngredientSorption.OUTPUT, Lists.newArrayList(outputItem1,outputItem2,outputItem3,outputItem4,outputFluid1,outputFluid2,outputFluid3,outputFluid4)));
 		}
 		
 		@ZenMethod
 		public static void removeAllRecipes()
 		{
-			CraftTweakerAPI.apply(new CTRemoveAllRecipes(QMDRecipes.mass_spectrometer));
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.mass_spectrometer));
 		}
 	}
 	

@@ -336,8 +336,19 @@
             "custom": {
                 "fluid": "sodium_chloride"
             }
+        },
+        "fluid_high_pressure_mercury": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "high_pressure_mercury"
+            }
+        },
+        "fluid_exhaust_mercury": {
+            "model": "forge:fluid",
+            "custom": {
+                "fluid": "exhaust_mercury"
+            }
         }
-        
     }
 }
 

@@ -2,6 +2,7 @@ package lach_01298.qmd.jei.recipe;
 
 import lach_01298.qmd.*;
 import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
 import nc.util.Lang;
@@ -16,7 +17,7 @@ public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
 {
 	public NucleosynthesisChamberRecipe(IGuiHelper guiHelper, QMDRecipe recipe)
 	{
-		super(guiHelper, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/nucleosynthesis_chamber_controller.png"), 0, 0, 188, 2, 62, 28, 42, 9);
+		super(guiHelper, QMDRecipes.nucleosynthesis_chamber, recipe, new ResourceLocation(QMD.MOD_ID + ":textures/gui/nucleosynthesis_chamber_controller.png"), 0, 0, 188, 2, 62, 28, 42, 9,0);
 	}
 	
 

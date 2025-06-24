@@ -6,9 +6,9 @@ import nc.tile.rtg.TileRTG;
 public class QMDTileRTG extends TileRTG
 {
 
-	public QMDTileRTG(int power, double radiation)
+	public QMDTileRTG(String rtgType, long power, double radiation)
 	{
-		super(power, radiation);
+		super(rtgType, power, radiation);
 	}
 
 	public static class Strontium extends QMDTileRTG
@@ -16,7 +16,7 @@ public class QMDTileRTG extends TileRTG
 
 		public Strontium()
 		{
-			super(RTGType.STRONTIUM.getPower(), RTGType.STRONTIUM.getRadiation());
+			super(RTGType.STRONTIUM.name(),RTGType.STRONTIUM.getPower(), RTGType.STRONTIUM.getRadiation());
 		}
 	}
 }

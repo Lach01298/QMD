@@ -70,9 +70,9 @@ public interface IQMDRecipe {
 	}
 	
 	@ZenMethod
-	public List getExtras();
+	public List<Object> getExtras();
 
-	public QMDRecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs, List<ParticleStack> particleInputs, List extras);
+	public QMDRecipeMatchResult matchInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs, List<ParticleStack> particleInputs, List<Object> extras);
 	
 	public QMDRecipeMatchResult matchOutputs(List<ItemStack> itemOutputs, List<Tank> fluidOutputs, List<ParticleStack> particleOutputs);
 	

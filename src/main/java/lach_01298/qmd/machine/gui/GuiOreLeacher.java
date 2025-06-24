@@ -1,13 +1,20 @@
 package lach_01298.qmd.machine.gui;
 
 import lach_01298.qmd.machine.container.ContainerOreLeacher;
-import lach_01298.qmd.machine.network.*;
-import nc.gui.element.*;
-import nc.network.gui.*;
-import nc.util.*;
-import nclegacy.container.*;
-import nclegacy.gui.*;
-import nclegacy.tile.TileItemFluidProcessorLegacy;
+import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
+import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
+import lach_01298.qmd.machine.tile.TileQMDProcessor;
+import nc.gui.element.GuiFluidRenderer;
+import nc.gui.element.NCButton;
+import nc.gui.element.NCToggleButton;
+import nc.network.gui.ClearTankPacket;
+import nc.network.gui.ToggleRedstoneControlPacket;
+import nc.util.Lang;
+import nc.util.NCUtil;
+import nclegacy.container.ContainerMachineConfigLegacy;
+import nclegacy.container.ContainerTileLegacy;
+import nclegacy.gui.GuiFluidSorptionsLegacy;
+import nclegacy.gui.GuiItemSorptionsLegacy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
@@ -18,12 +25,12 @@ import java.io.IOException;
 public class GuiOreLeacher  extends GuiItemFluidMachine
 {
 	
-	public GuiOreLeacher(EntityPlayer player, TileItemFluidProcessorLegacy tile)
+	public GuiOreLeacher(EntityPlayer player, TileQMDProcessor tile)
 	{
 		this(player, tile, new ContainerOreLeacher(player, tile));
 	}
 
-	private GuiOreLeacher(EntityPlayer player, TileItemFluidProcessorLegacy tile, ContainerTileLegacy container)
+	private GuiOreLeacher(EntityPlayer player, TileQMDProcessor tile, ContainerTileLegacy container)
 	{
 		super("ore_leacher", player, tile, container);
 		xSize = 176;
@@ -118,7 +125,7 @@ public class GuiOreLeacher  extends GuiItemFluidMachine
 	public static class SideConfig extends GuiOreLeacher
 	{
 
-		public SideConfig(EntityPlayer player, TileItemFluidProcessorLegacy tile)
+		public SideConfig(EntityPlayer player, TileQMDProcessor tile)
 		{
 			super(player, tile, new ContainerMachineConfigLegacy(player, tile));
 		}

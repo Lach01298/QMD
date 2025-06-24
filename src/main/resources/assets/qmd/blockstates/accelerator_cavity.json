@@ -29,7 +29,22 @@
                 "textures": {
                     "all": "qmd:blocks/accelerator/cavity/bscco"
                 }
-            }
+            },
+			"aluminium": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cavity/aluminium"
+				}
+			},
+			"ssfaf": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cavity/ssfaf"
+				}
+			},
+			"ybco": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cavity/ybco"
+				}
+			}
 		}
 	}
 }

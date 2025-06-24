@@ -3,6 +3,7 @@ package lach_01298.qmd.multiblock.container;
 import lach_01298.qmd.container.slot.SlotProcessorInputIgnoreNBT;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.*;
@@ -17,7 +18,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerExoticContainmentController
 		extends ContainerMultiblockController<VacuumChamber, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, TileContainerInfo<TileExoticContainmentController>>
 {
-	protected final BasicRecipeHandler recipeHandler;
+	protected final QMDRecipeHandler recipeHandler;
 
 	protected int inputSlotsSize;
 	protected int outputSlotsSize;

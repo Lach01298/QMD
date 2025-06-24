@@ -31,3 +31,17 @@ nc.sf.aluminum_cooler0=%s valid aluminium cooler
 nc.sf.aluminum_cooler1=%s valid aluminium coolers
 
 item.qmd.lepton_cannon.desc=A powerful beam weapon that can go through blocks and armour.
+
+tile.qmd.accelerator_cavity.aluminium.name=Aluminium RF Cavity
+tile.qmd.accelerator_magnet.aluminium.name=Aluminium Accelerator Electromagnet
+
+gui.qmd.config.accelerator.RF_cavity_voltage.comment=The accelerating voltage of each cavity in kV. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].
+gui.qmd.config.accelerator.RF_cavity_efficiency.comment=The power Efficiency of each cavity. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].
+gui.qmd.config.accelerator.RF_cavity_heat_generated.comment=The heat per tick  each cavity generates. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].
+gui.qmd.config.accelerator.RF_cavity_base_power.comment=The base RF/t each cavity uses. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].
+gui.qmd.config.accelerator.RF_cavity_max_temp.comment=The maximum operating temperature for each cavity in K. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].
+gui.qmd.config.accelerator.magnet_strength.comment=The strength of each magnet in Tesla. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO], Aluminium, SSFAF, YBCO.
+gui.qmd.config.accelerator.magnet_efficiency.comment=The power efficiency of each magnet. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].
+gui.qmd.config.accelerator.magnet_heat_generated.comment=The heat per tick  each magnet generates. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].
+gui.qmd.config.accelerator.magnet_base_power.comment=The base RF/t each magnet uses. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminum, SSFAF, YBCO].
+gui.qmd.config.accelerator.magnet_max_temp.comment=The maximum operating temperature for each magnet in K. Order: [Copper, Magnesium Diboride, Niobium-Tin, Niobium-Titanium, BSCCO, Aluminium, SSFAF, YBCO].

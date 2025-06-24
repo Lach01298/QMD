@@ -75,6 +75,30 @@ public class TileAcceleratorRFCavity extends TileAcceleratorPart implements IAcc
 			super(QMDConfig.RF_cavity_voltage[4], QMDConfig.RF_cavity_efficiency[4], QMDConfig.RF_cavity_heat_generated[4], QMDConfig.RF_cavity_base_power[4], QMDConfig.RF_cavity_max_temp[4], "bscco");
 		}
 	}
+	public static class Aluminium extends TileAcceleratorRFCavity
+	{
+
+		public Aluminium()
+		{
+			super(QMDConfig.RF_cavity_voltage[5], QMDConfig.RF_cavity_efficiency[5], QMDConfig.RF_cavity_heat_generated[5], QMDConfig.RF_cavity_base_power[5], QMDConfig.RF_cavity_max_temp[5], "aluminium");
+		}
+	}
+	public static class SSFAF extends TileAcceleratorRFCavity
+	{
+
+		public SSFAF()
+		{
+			super(QMDConfig.RF_cavity_voltage[6], QMDConfig.RF_cavity_efficiency[6], QMDConfig.RF_cavity_heat_generated[6], QMDConfig.RF_cavity_base_power[6], QMDConfig.RF_cavity_max_temp[6], "ssfaf");
+		}
+	}
+	public static class YBCO extends TileAcceleratorRFCavity
+	{
+
+		public YBCO()
+		{
+			super(QMDConfig.RF_cavity_voltage[7], QMDConfig.RF_cavity_efficiency[7], QMDConfig.RF_cavity_heat_generated[7], QMDConfig.RF_cavity_base_power[7], QMDConfig.RF_cavity_max_temp[7], "ybco");
+		}
+	}
 
 	
 	

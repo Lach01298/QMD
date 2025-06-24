@@ -1,13 +1,16 @@
 package lach_01298.qmd.machine.gui;
 
 import lach_01298.qmd.machine.container.ContainerIrradiator;
-import lach_01298.qmd.machine.network.*;
+import lach_01298.qmd.machine.network.QMDOpenSideConfigGuiPacket;
+import lach_01298.qmd.machine.network.QMDOpenTileGuiPacket;
 import lach_01298.qmd.machine.tile.TileItemAmountFuelProcessor;
-import nc.gui.element.*;
-import nc.gui.processor.GuiItemSorptions;
+import nc.gui.element.NCButton;
+import nc.gui.element.NCToggleButton;
 import nc.network.gui.ToggleRedstoneControlPacket;
 import nc.util.Lang;
-import nclegacy.container.*;
+import nclegacy.container.ContainerMachineConfigLegacy;
+import nclegacy.container.ContainerTileLegacy;
+import nclegacy.gui.GuiItemSorptionsLegacy;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
@@ -140,13 +143,13 @@ public class GuiIrradiator extends GuiItemAmountFuelMachine
 				switch (guiButton.id)
 				{
 				case 0:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input(this, tile, 0));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.Input(this, tile, 0));
 					return;
 				case 1:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Input(this, tile, 1));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.Input(this, tile, 1));
 					return;
 				case 2:
-					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptions.Output(this, tile, 2));
+					FMLCommonHandler.instance().showGuiScreen(new GuiItemSorptionsLegacy.Output(this, tile, 2));
 					return;
 				
 				}

@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import crafttweaker.annotations.ZenRegister;
 import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.longs.*;
+import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.ingredient.*;
-import nc.recipe.IngredientSorption;
+import nc.recipe.*;
 import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import nc.util.*;
@@ -16,6 +18,7 @@ import net.minecraftforge.fluids.*;
 import org.apache.commons.lang3.tuple.Triple;
 import stanhebben.zenscript.annotations.*;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
@@ -26,8 +29,8 @@ import static nc.util.PermutationHelper.permutations;
 public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 {
 	protected List<RECIPE> recipeList = new ArrayList<>();
-	
-	protected Long2ObjectMap<List<RECIPE>> recipeCache = new Long2ObjectOpenHashMap<>();
+
+	protected @Nonnull Long2ObjectMap<ObjectSet<RECIPE>> recipeCache = new Long2ObjectOpenHashMap<>();
 	
 	private static List<Class<?>> validItemInputs = Lists.newArrayList(IItemIngredient.class, ArrayList.class, String.class, Item.class, Block.class, ItemStack.class, ItemStack[].class);
 	private static List<Class<?>> validFluidInputs = Lists.newArrayList(IFluidIngredient.class, ArrayList.class, String.class, Fluid.class, FluidStack.class, FluidStack[].class);
@@ -45,43 +48,33 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	public abstract void addRecipes();
 	
 	@ZenMethod
-	public abstract String getRecipeName();
+	public abstract String getName();
 
-	
 	@ZenMethod
 	public abstract List<RECIPE> getRecipeList();
-	
-	public Long2ObjectMap<List<RECIPE>> getRecipeCache()
-	{
-		return recipeCache;
-	}
 
 	public abstract void addRecipe(Object... objects);
 
-	
-
-	
-	
-	
-	
-	public @Nullable QMDRecipeInfo<RECIPE> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs, List<ParticleStack> particleInputs)
+	@Nullable
+	public QMDRecipeInfo<RECIPE> getRecipeInfoFromInputs(List<ItemStack> itemInputs, List<Tank> fluidInputs, List<ParticleStack> particleInputs)
 	{
-		List<RECIPE> matchingRecipes = recipeCache.get(QMDRecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs,particleInputs));
-		
-		if (matchingRecipes != null)
+		long hash = QMDRecipeHelper.hashMaterialsRaw(itemInputs, fluidInputs, particleInputs);
+		if (recipeCache.containsKey(hash))
 		{
-			
-			for(RECIPE recipe : matchingRecipes)
+			ObjectSet<RECIPE> set = recipeCache.get(hash);
+			for (RECIPE recipe : set)
 			{
-				QMDRecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs,particleInputs,recipe.getExtras());
-				if (matchResult.matches())
+				if (recipe != null)
 				{
-					return new QMDRecipeInfo(recipe, matchResult);
+					QMDRecipeMatchResult matchResult = recipe.matchInputs(itemInputs, fluidInputs, particleInputs, recipe.getExtras());
+					if (matchResult.isMatch)
+					{
+
+						return new QMDRecipeInfo<>(recipe, matchResult);
+					}
 				}
 			}
-	
 		}
-		
 		return null;
 	}
 	
@@ -89,7 +82,7 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	{
 		for (RECIPE recipe : recipeList)
 		{
-			if (recipe.matchIngredients(itemIngredients, fluidIngredients, particleIngredients).matches())
+			if (recipe.matchIngredients(itemIngredients, fluidIngredients, particleIngredients).isMatch)
 				return recipe;
 		}
 		return null;
@@ -99,15 +92,25 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	{
 		for (RECIPE recipe : recipeList)
 		{
-			if (recipe.matchProducts(itemProducts, fluidProducts, particleProducts).matches())
+			if (recipe.matchProducts(itemProducts, fluidProducts, particleProducts).isMatch)
 				return recipe;
 		}
 		return null;
 	}
-	
-	public boolean addRecipe(RECIPE recipe)
+
+	public abstract boolean isValidRecipe(RECIPE recipe);
+
+
+	public @Nullable Boolean addRecipe(RECIPE recipe)
 	{
-		return recipe != null ? recipeList.add(recipe) : false;
+		if (recipe == null || !isValidRecipe(recipe))
+		{
+			return null;
+		}
+		else
+		{
+			return recipeList.add(recipe);
+		}
 	}
 
 	public boolean removeRecipe(RECIPE recipe)
@@ -121,79 +124,161 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 		recipeCache.clear();
 	}
 
+	protected void initRecipeIngredients()
+	{
+		for (RECIPE recipe : recipeList)
+		{
+			recipe.getItemIngredients().forEach(IItemIngredient::init);
+			recipe.getFluidIngredients().forEach(IFluidIngredient::init);
+			recipe.getParticleIngredients().forEach(IParticleIngredient::init);
+			recipe.getItemProducts().forEach(IItemIngredient::init);
+			recipe.getFluidProducts().forEach(IFluidIngredient::init);
+			recipe.getParticleProducts().forEach(IParticleIngredient::init);
+		}
+	}
+
+	public void init() {}
+
+	public void postInit()
+	{
+		initRecipeIngredients();
+	}
+
+	public void preReload() {}
+
+	public void postReload()
+	{
+		postInit();
+		refreshCache();
+	}
+
 	public void refreshCache()
 	{
 		recipeCache.clear();
-
-		recipeLoop: for (RECIPE recipe : recipeList)
-		{
-			List<List<ItemStack>> itemInputLists = new ArrayList<>();
-			List<List<FluidStack>> fluidInputLists = new ArrayList<>();
-			List<List<ParticleStack>> particleInputLists = new ArrayList<>();
-
-			for (IItemIngredient item : recipe.getItemIngredients())
-				itemInputLists.add(item.getInputStackHashingList());
-			for (IFluidIngredient fluid : recipe.getFluidIngredients())
-				fluidInputLists.add(fluid.getInputStackHashingList());
-			for (IParticleIngredient particle : recipe.getParticleIngredients())
-				particleInputLists.add(particle.getInputStackHashingList());
-
-			int arrSize = recipe.getItemIngredients().size() + recipe.getFluidIngredients().size() + recipe.getParticleIngredients().size();
-			int[] inputNumbers = new int[arrSize];
-			Arrays.fill(inputNumbers, 0);
-
-			int[] maxNumbers = new int[arrSize];
-			for (int i = 0; i < itemInputLists.size(); i++)
-			{
-				int maxNumber = itemInputLists.get(i).size() - 1;
-				if (maxNumber < 0)
-					continue recipeLoop;
-				maxNumbers[i] = maxNumber;
-			}
-			for (int i = 0; i < fluidInputLists.size(); i++)
-			{
-				int maxNumber = fluidInputLists.get(i).size() - 1;
-				if (maxNumber < 0)
-					continue recipeLoop;
-				maxNumbers[i + itemInputLists.size()] = maxNumber;
-			}
-			for (int i = 0; i < particleInputLists.size(); i++)
-			{
-				int maxNumber = particleInputLists.get(i).size() - 1;
-				if (maxNumber < 0)
-					continue recipeLoop;
-				maxNumbers[i + itemInputLists.size() + fluidInputLists.size()] = maxNumber;
-			}
-
-			List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>>> materialListTuples = new ArrayList<>();
-
-			QMDRecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers,
-					itemInputLists, fluidInputLists, particleInputLists);
-
-			for (Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>> materials : materialListTuples)
-			{
-				for (List<ItemStack> items : permutations(materials.getLeft()))
-				{
-					for (List<FluidStack> fluids : permutations(materials.getMiddle()))
-					{
-						for (List<ParticleStack> particles : permutations(materials.getRight()))
-						{
-							if(recipeCache.containsKey(QMDRecipeHelper.hashMaterials(items, fluids, particles)))
-							{
-								recipeCache.get(QMDRecipeHelper.hashMaterials(items, fluids, particles)).add(recipe);
-							}
-							else
-							{
-								List<RECIPE> recipes = new ArrayList();
-								recipes.add(recipe);
-								recipeCache.put(QMDRecipeHelper.hashMaterials(items, fluids, particles), recipes);
-							}
-						}
-					}
-				}
-			}
-		}
+		fillHashCache();
 	}
+
+	protected abstract void fillHashCache();
+
+
+	protected boolean prepareMaterialListTuples(RECIPE recipe, List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>>> materialListTuples)
+	{
+		List<List<ItemStack>> itemInputLists = StreamHelper.map(recipe.getItemIngredients(), IItemIngredient::getInputStackHashingList);
+		List<List<FluidStack>> fluidInputLists = StreamHelper.map(recipe.getFluidIngredients(), IFluidIngredient::getInputStackHashingList);
+		List<List<ParticleStack>> particleInputLists = StreamHelper.map(recipe.getParticleIngredients(), IParticleIngredient::getInputStackHashingList);
+
+		int itemInputCount = itemInputLists.size(), fluidInputCount = fluidInputLists.size(), particleInputCount = particleInputLists.size();
+		int totalInputCount = itemInputCount + fluidInputCount + particleInputCount;
+		int[] inputNumbers = new int[totalInputCount];
+		int[] maxNumbers = new int[totalInputCount];
+
+		for (int i = 0; i < itemInputCount; ++i)
+		{
+			int maxNumber = itemInputLists.get(i).size() - 1;
+			if (maxNumber < 0)
+			{
+				return false;
+			}
+			maxNumbers[i] = maxNumber;
+		}
+		for (int i = 0; i < fluidInputCount; ++i)
+		{
+			int maxNumber = fluidInputLists.get(i).size() - 1;
+			if (maxNumber < 0)
+			{
+				return false;
+			}
+			maxNumbers[i + itemInputCount] = maxNumber;
+		}
+
+		for (int i = 0; i < particleInputCount; ++i)
+		{
+			int maxNumber = particleInputLists.get(i).size() - 1;
+			if (maxNumber < 0)
+			{
+				return false;
+			}
+			maxNumbers[i + itemInputCount + fluidInputCount] = maxNumber;
+		}
+
+		QMDRecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers, itemInputLists, fluidInputLists, particleInputLists);
+
+		return true;
+	}
+
+//	public void refreshCache()
+//	{
+//		recipeCache.clear();
+//
+//		recipeLoop: for (RECIPE recipe : recipeList)
+//		{
+//			List<List<ItemStack>> itemInputLists = new ArrayList<>();
+//			List<List<FluidStack>> fluidInputLists = new ArrayList<>();
+//			List<List<ParticleStack>> particleInputLists = new ArrayList<>();
+//
+//			for (IItemIngredient item : recipe.getItemIngredients())
+//				itemInputLists.add(item.getInputStackHashingList());
+//			for (IFluidIngredient fluid : recipe.getFluidIngredients())
+//				fluidInputLists.add(fluid.getInputStackHashingList());
+//			for (IParticleIngredient particle : recipe.getParticleIngredients())
+//				particleInputLists.add(particle.getInputStackHashingList());
+//
+//			int arrSize = recipe.getItemIngredients().size() + recipe.getFluidIngredients().size() + recipe.getParticleIngredients().size();
+//			int[] inputNumbers = new int[arrSize];
+//			Arrays.fill(inputNumbers, 0);
+//
+//			int[] maxNumbers = new int[arrSize];
+//			for (int i = 0; i < itemInputLists.size(); i++)
+//			{
+//				int maxNumber = itemInputLists.get(i).size() - 1;
+//				if (maxNumber < 0)
+//					continue recipeLoop;
+//				maxNumbers[i] = maxNumber;
+//			}
+//			for (int i = 0; i < fluidInputLists.size(); i++)
+//			{
+//				int maxNumber = fluidInputLists.get(i).size() - 1;
+//				if (maxNumber < 0)
+//					continue recipeLoop;
+//				maxNumbers[i + itemInputLists.size()] = maxNumber;
+//			}
+//			for (int i = 0; i < particleInputLists.size(); i++)
+//			{
+//				int maxNumber = particleInputLists.get(i).size() - 1;
+//				if (maxNumber < 0)
+//					continue recipeLoop;
+//				maxNumbers[i + itemInputLists.size() + fluidInputLists.size()] = maxNumber;
+//			}
+//
+//			List<Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>>> materialListTuples = new ArrayList<>();
+//
+//			QMDRecipeTupleGenerator.INSTANCE.generateMaterialListTuples(materialListTuples, maxNumbers, inputNumbers,
+//					itemInputLists, fluidInputLists, particleInputLists);
+//
+//			for (Triple<List<ItemStack>, List<FluidStack>, List<ParticleStack>> materials : materialListTuples)
+//			{
+//				for (List<ItemStack> items : permutations(materials.getLeft()))
+//				{
+//					for (List<FluidStack> fluids : permutations(materials.getMiddle()))
+//					{
+//						for (List<ParticleStack> particles : permutations(materials.getRight()))
+//						{
+//							if(recipeCache.containsKey(QMDRecipeHelper.hashMaterials(items, fluids, particles)))
+//							{
+//								recipeCache.get(QMDRecipeHelper.hashMaterials(items, fluids, particles)).add(recipe);
+//							}
+//							else
+//							{
+//								List<RECIPE> recipes = new ArrayList();
+//								recipes.add(recipe);
+//								recipeCache.put(QMDRecipeHelper.hashMaterials(items, fluids, particles), recipes);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 
 
 
@@ -231,12 +316,15 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	{
 		for (Class<?> itemInputType : validItemInputs)
 		{
-			if (itemInput instanceof ArrayList && itemInputType == ArrayList.class)
+			if (itemInput instanceof ArrayList<?> list && itemInputType == ArrayList.class)
 			{
-				ArrayList list = (ArrayList) itemInput;
 				for (Object obj : list)
+				{
 					if (isValidItemInputType(obj))
+					{
 						return true;
+					}
+				}
 			}
 			else if (itemInputType.isInstance(itemInput))
 			{
@@ -250,12 +338,15 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	{
 		for (Class<?> fluidInputType : validFluidInputs)
 		{
-			if (fluidInput instanceof ArrayList && fluidInputType == ArrayList.class)
+			if (fluidInput instanceof ArrayList<?> list && fluidInputType == ArrayList.class)
 			{
-				ArrayList list = (ArrayList) fluidInput;
 				for (Object obj : list)
+				{
 					if (isValidFluidInputType(obj))
+					{
 						return true;
+					}
+				}
 			}
 			else if (fluidInputType.isInstance(fluidInput))
 			{
@@ -269,12 +360,15 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	{
 		for (Class<?> particleInputType : validParticleInputs)
 		{
-			if (particleInput instanceof ArrayList && particleInputType == ArrayList.class)
+			if (particleInput instanceof ArrayList<?> list && particleInputType == ArrayList.class)
 			{
-				ArrayList list = (ArrayList) particleInput;
 				for (Object obj : list)
+				{
 					if (isValidParticleInputType(obj))
+					{
 						return true;
+					}
+				}
 			}
 			else if (particleInputType.isInstance(particleInput))
 			{
@@ -441,59 +535,59 @@ public abstract class AbstractQMDRecipeHandler<RECIPE extends IQMDRecipe>
 	}
 
 	/** Smart item insertion */
-	public boolean isValidItemInput(ItemStack stack, ItemStack slotStack, List<ItemStack> otherInputs)
-	{
-		if (otherInputs.isEmpty()
-				|| (stack.isItemEqual(slotStack) && StackHelper.areItemStackTagsEqual(stack, slotStack)))
-		{
-			return isValidItemInput(stack);
-		}
-
-		List<ItemStack> otherStacks = new ArrayList<>();
-		for (ItemStack otherInput : otherInputs)
-		{
-			if (!otherInput.isEmpty())
-				otherStacks.add(otherInput);
-		}
-		if (otherStacks.isEmpty())
-			return isValidItemInput(stack);
-
-		List<ItemStack> allStacks = Lists.newArrayList(stack);
-		allStacks.addAll(otherStacks);
-
-		List<RECIPE> recipeList = new ArrayList(this.recipeList);
-		recipeLoop: for (RECIPE recipe : this.recipeList)
-		{
-			objLoop: for (ItemStack obj : allStacks)
-			{
-				for (IItemIngredient input : recipe.getItemIngredients())
-				{
-					if (input.match(obj, IngredientSorption.NEUTRAL).matches())
-						continue objLoop;
-				}
-				recipeList.remove(recipe);
-				continue recipeLoop;
-			}
-		}
-
-		for (RECIPE recipe : recipeList)
-		{
-			for (IItemIngredient input : recipe.getItemIngredients())
-			{
-				if (input.match(stack, IngredientSorption.NEUTRAL).matches())
-				{
-					for (ItemStack other : otherStacks)
-					{
-						if (input.match(other, IngredientSorption.NEUTRAL).matches())
-							return false;
-					}
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
+//	public boolean isValidItemInput(ItemStack stack, ItemStack slotStack, List<ItemStack> otherInputs)
+//	{
+//		if (otherInputs.isEmpty()
+//				|| (stack.isItemEqual(slotStack) && StackHelper.areItemStackTagsEqual(stack, slotStack)))
+//		{
+//			return isValidItemInput(stack);
+//		}
+//
+//		List<ItemStack> otherStacks = new ArrayList<>();
+//		for (ItemStack otherInput : otherInputs)
+//		{
+//			if (!otherInput.isEmpty())
+//				otherStacks.add(otherInput);
+//		}
+//		if (otherStacks.isEmpty())
+//			return isValidItemInput(stack);
+//
+//		List<ItemStack> allStacks = Lists.newArrayList(stack);
+//		allStacks.addAll(otherStacks);
+//
+//		List<RECIPE> recipeList = new ArrayList(this.recipeList);
+//		recipeLoop: for (RECIPE recipe : this.recipeList)
+//		{
+//			objLoop: for (ItemStack obj : allStacks)
+//			{
+//				for (IItemIngredient input : recipe.getItemIngredients())
+//				{
+//					if (input.match(obj, IngredientSorption.NEUTRAL).matches())
+//						continue objLoop;
+//				}
+//				recipeList.remove(recipe);
+//				continue recipeLoop;
+//			}
+//		}
+//
+//		for (RECIPE recipe : recipeList)
+//		{
+//			for (IItemIngredient input : recipe.getItemIngredients())
+//			{
+//				if (input.match(stack, IngredientSorption.NEUTRAL).matches())
+//				{
+//					for (ItemStack other : otherStacks)
+//					{
+//						if (input.match(other, IngredientSorption.NEUTRAL).matches())
+//							return false;
+//					}
+//					return true;
+//				}
+//			}
+//		}
+//
+//		return false;
+//	}
 
 	// Stacks
 

@@ -1,6 +1,8 @@
 package lach_01298.qmd.recipe;
 
 import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.ingredient.*;
@@ -494,56 +496,65 @@ public class QMDRecipeHelper
 	}
 
 	public static QMDRecipeMatchResult matchIngredients(IngredientSorption sorption,List<IItemIngredient> itemIngredients, List<IFluidIngredient> fluidIngredients,
-			List<IParticleIngredient> particleIngredients, List items, List fluids, List particles, boolean shapeless, List extras)
+			List<IParticleIngredient> particleIngredients, List<?> items, List<?> fluids, List<?> particles, boolean shapeless, List extras)
 	{
+		int itemCount = items.size();
+		int fluidCount = fluids.size();
+		int particleCount = particles.size();
 		if (itemIngredients.size() != items.size() || fluidIngredients.size() != fluids.size()|| particleIngredients.size() != particles.size())
 			return QMDRecipeMatchResult.FAIL;
 
-		List<Integer> itemIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(itemIngredients.size(), 0));
-		List<Integer> fluidIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(fluidIngredients.size(), 0));
-		List<Integer> particleIngredientNumbers = new ArrayList<Integer>(Collections.nCopies(particleIngredients.size(), 0));
-		List<Integer> itemInputOrder = CollectionHelper.increasingList(itemIngredients.size());
-		List<Integer> fluidInputOrder = CollectionHelper.increasingList(fluidIngredients.size());
-		List<Integer> particleInputOrder = CollectionHelper.increasingList(particleIngredients.size());
+		IntList itemIngredientNumbers = new IntArrayList(new int[itemCount]);
+		IntList fluidIngredientNumbers = new IntArrayList(new int[fluidCount]);
+		IntList particleIngredientNumbers = new IntArrayList(new int[particleCount]);
+		IntList itemInputOrder = CollectionHelper.increasingList(itemCount);
+		IntList fluidInputOrder = CollectionHelper.increasingList(fluidCount);
+		IntList particleInputOrder = CollectionHelper.increasingList(particleCount);
+
+
 
 		if (!shapeless)
 		{
-			for (int i = 0; i < items.size(); i++)
+			for (int i = 0; i < itemCount; i++)
 			{
 				IngredientMatchResult matchResult = itemIngredients.get(i).match(items.get(i), sorption);
-				if (matchResult.matches())
+				if (!matchResult.matches())
 				{
-					itemIngredientNumbers.set(i, matchResult.getIngredientNumber());
-					continue;
+					return QMDRecipeMatchResult.FAIL;
 				}
-				return QMDRecipeMatchResult.FAIL;
+				itemIngredientNumbers.set(i, matchResult.getIngredientNumber());
 			}
-			
-			for (int i = 0; i < fluids.size(); i++)
+
+			for (int i = 0; i < fluidCount; ++i)
 			{
-				Object fluid = fluids.get(i) instanceof Tank ? ((Tank) fluids.get(i)).getFluid() : fluids.get(i);
-				IngredientMatchResult matchResult = fluidIngredients.get(i).match(fluid, sorption);
-				if (matchResult.matches())
+				Object fluid = fluids.get(i);
+				if (fluid instanceof Tank)
 				{
-					fluidIngredientNumbers.set(i, matchResult.getIngredientNumber());
-					continue;
+					Tank tank = (Tank) fluid;
+					fluid = tank.getFluid();
 				}
-				return QMDRecipeMatchResult.FAIL;
+
+				IngredientMatchResult matchResult = fluidIngredients.get(i).match(fluid, sorption);
+				if (!matchResult.matches())
+				{
+					return QMDRecipeMatchResult.FAIL;
+				}
+				fluidIngredientNumbers.set(i, matchResult.getIngredientNumber());
 			}
-			for (int i = 0; i < particles.size(); i++)
+
+			for (int i = 0; i < particleCount; i++)
 			{
 				IngredientMatchResult matchResult = particleIngredients.get(i).matchWithData(particles.get(i), sorption, extras);
-				if (matchResult.matches())
+				if (!matchResult.matches())
 				{
-					particleIngredientNumbers.set(i, matchResult.getIngredientNumber());
-					continue;
+					return QMDRecipeMatchResult.FAIL;
 				}
-				return QMDRecipeMatchResult.FAIL;
+				particleIngredientNumbers.set(i, matchResult.getIngredientNumber());
 			}
 		}
 		else
 		{
-			List<IItemIngredient> itemIngredientsRemaining = new ArrayList<IItemIngredient>(itemIngredients);
+			List<IItemIngredient> itemIngredientsRemaining = new ArrayList(itemIngredients);
 			itemInputs: for (int i = 0; i < items.size(); i++)
 			{
 				for (int j = 0; j < itemIngredients.size(); j++)
@@ -562,7 +573,7 @@ public class QMDRecipeHelper
 				}
 				return QMDRecipeMatchResult.FAIL;
 			}
-			List<IFluidIngredient> fluidIngredientsRemaining = new ArrayList<IFluidIngredient>(fluidIngredients);
+			List<IFluidIngredient> fluidIngredientsRemaining = new ArrayList(fluidIngredients);
 			fluidInputs: for (int i = 0; i < fluids.size(); i++)
 			{
 				Object fluid = fluids.get(i) instanceof Tank ? ((Tank) fluids.get(i)).getFluid() : fluids.get(i);
@@ -582,8 +593,7 @@ public class QMDRecipeHelper
 				}
 				return QMDRecipeMatchResult.FAIL;
 			}
-			List<IParticleIngredient> particleIngredientsRemaining = new ArrayList<IParticleIngredient>(
-					particleIngredients);
+			List<IParticleIngredient> particleIngredientsRemaining = new ArrayList(particleIngredients);
 			particleInputs: for (int i = 0; i < particles.size(); i++)
 			{
 				for (int j = 0; j < particleIngredients.size(); j++)

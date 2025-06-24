@@ -1,10 +1,11 @@
 package lach_01298.qmd.multiblock.container;
 
-import lach_01298.qmd.accelerator.tile.*;
-import lach_01298.qmd.container.slot.*;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
+import lach_01298.qmd.accelerator.tile.TileMassSpectrometerController;
+import lach_01298.qmd.container.slot.SlotDisabled;
+import lach_01298.qmd.container.slot.SlotQMDProcessorInput;
 import lach_01298.qmd.item.IItemParticleAmount;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.container.slot.SlotProcessorInput;
 import nclegacy.container.ContainerTileLegacy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -33,7 +34,7 @@ public class ContainerAcceleratorIonSource extends ContainerTileLegacy<TileAccel
 		
 		if(source.getMultiblock().controller instanceof TileMassSpectrometerController)
 		{
-			addSlotToContainer(new SlotProcessorInput(source, QMDRecipes.mass_spectrometer, 0, 71, 26));
+			addSlotToContainer(new SlotQMDProcessorInput(source, QMDRecipes.mass_spectrometer, 0, 71, 26));
 			addSlotToContainer(new SlotDisabled(source,1));
 			this.otherSlotsSize = 1;
 			this.inputSlotsSize = 1;

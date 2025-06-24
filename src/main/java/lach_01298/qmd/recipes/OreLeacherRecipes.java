@@ -1,17 +1,18 @@
 package lach_01298.qmd.recipes;
 
-import nc.recipe.BasicRecipeHandler;
+import lach_01298.qmd.recipe.QMDRecipeHandler;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class OreLeacherRecipes extends BasicRecipeHandler
+public class OreLeacherRecipes extends QMDRecipeHandler
 {
 
 	public OreLeacherRecipes()
 	{
-		super("ore_leacher", 1, 3, 3, 0);
+		super("ore_leacher", 1, 3, 0, 3, 0, 0);
 		
 	}
 

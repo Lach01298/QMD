@@ -5,22 +5,29 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.multiblock.InventoryHelper;
-import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
+import lach_01298.qmd.multiblock.network.MassSpectrometerUpdatePacket;
+import lach_01298.qmd.particle.ParticleStack;
+import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.recipe.*;
-import nc.recipe.ingredient.*;
+import nc.recipe.ingredient.IFluidIngredient;
+import nc.recipe.ingredient.IItemIngredient;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.*;
+import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.util.EnumFacing.AxisDirection;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static lach_01298.qmd.recipes.QMDRecipes.mass_spectrometer;
 import static nc.block.property.BlockProperties.FACING_ALL;
@@ -29,7 +36,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 {
 
 	
-	public RecipeInfo<BasicRecipe> recipeInfo;
+	public QMDRecipeInfo<QMDRecipe> recipeInfo;
 	
 	public static final int diameter = 7;
 	
@@ -419,7 +426,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		Accelerator acc = getMultiblock();
 		
 		acc.tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-		acc.tanks.get(2).setAllowedFluids(QMDRecipes.mass_spectrometer_valid_fluids.get(0));
+		acc.tanks.get(2).setAllowedFluids(QMDRecipes.mass_spectrometer.validFluids.get(0));
 		acc.tanks.get(3).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
 		acc.tanks.get(4).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
 		acc.tanks.get(5).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
@@ -673,7 +680,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		ArrayList<Tank> tanks = new ArrayList<Tank>();
 		tanks.add(getMultiblock().tanks.get(2));
 		
-		recipeInfo = mass_spectrometer.getRecipeInfoFromInputs(items, tanks);
+		recipeInfo = mass_spectrometer.getRecipeInfoFromInputs(items, tanks, new ArrayList<ParticleStack>());
 	}
 	
 	// NBT

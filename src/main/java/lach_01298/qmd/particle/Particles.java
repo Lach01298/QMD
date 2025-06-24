@@ -116,7 +116,7 @@ public class Particles
 		}
 		else
 		{
-			Util.getLogger().error("tried registering paticle " + particle.getName() + " but " + particle.getName() + " already exists");
+			Util.getLogger().error("tried registering particle " + particle.getName() + " but " + particle.getName() + " already exists");
 		}
 	}
 	
@@ -435,7 +435,10 @@ public class Particles
 
 	}
 	
-	
+	public static Collection<Particle> getRegisteredParticles()
+	{
+		return list.values();
+	}
 	
 	
 	
