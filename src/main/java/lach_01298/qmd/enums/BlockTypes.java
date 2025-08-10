@@ -938,15 +938,16 @@ public class BlockTypes
 	}
 	
 	
-	public enum SimpleTileType implements IStringSerializable
+	public enum FluidCollectorType implements IStringSerializable
 	{
-		ATMOSPHERE_COLLECTOR("atmosphere_collector", QMDTabs.BLOCKS);
+		ATMOSPHERE_COLLECTOR("atmosphere_collector", QMDTabs.BLOCKS),
+		LIQUID_COLLECTOR("liquid_collector", QMDTabs.BLOCKS);
 		
 		
 		private final String name;
 		private final CreativeTabs tab;
 		
-		private SimpleTileType(String name, CreativeTabs tab)
+		private FluidCollectorType(String name, CreativeTabs tab)
 		{
 			this.name = name;
 			this.tab = tab;
@@ -960,9 +961,12 @@ public class BlockTypes
 		
 		public TileEntity getTile()
 		{
-			switch (this) {
+			switch (this)
+			{
 				case ATMOSPHERE_COLLECTOR:
 					return new TileAtmosphereCollector();
+				case LIQUID_COLLECTOR:
+					return new TileLiquidCollector();
 				default:
 					return null;
 			}
@@ -1104,8 +1108,83 @@ public class BlockTypes
 		
 
 	}
-	
-	
+
+	public enum CompressorType implements IStringSerializable, IBlockMetaEnum
+	{
+		COPPER("copper", 0, QMDConfig.liquefier_compressor_energy_efficiency[0], QMDConfig.liquefier_compressor_heat_efficiency[0]),
+		NEODYMIUM("neodymium", 1, QMDConfig.liquefier_compressor_energy_efficiency[1], QMDConfig.liquefier_compressor_heat_efficiency[1]),
+		SAMARIUM_COBALT("samarium_cobalt", 2, QMDConfig.liquefier_compressor_energy_efficiency[2], QMDConfig.liquefier_compressor_heat_efficiency[2]);
+
+		private String name;
+		private int id;
+		private double energyEfficiency;
+		private double heatEfficiency;
+
+		private CompressorType(String name, int id, double energyEfficiency, double heatEfficiency)
+		{
+			this.name = name;
+			this.id = id;
+			this.energyEfficiency = energyEfficiency;
+			this.heatEfficiency = heatEfficiency;
+		}
+
+		@Override
+		public String getName()
+		{
+			return name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return getName();
+		}
+
+		public int getID()
+		{
+			return id;
+		}
+
+		public double getEnergyEfficiency()
+		{
+			return energyEfficiency;
+		}
+
+		public double getHeatEfficiency()
+		{
+			return heatEfficiency;
+		}
+
+		@Override
+		public int getHarvestLevel()
+		{
+			return 0;
+		}
+
+		@Override
+		public String getHarvestTool()
+		{
+			return "pickaxe";
+		}
+
+		@Override
+		public float getHardness()
+		{
+			return 2;
+		}
+
+		@Override
+		public float getResistance()
+		{
+			return 10;
+		}
+
+		@Override
+		public int getLightValue()
+		{
+			return 0;
+		}
+	}
 	
 	
 

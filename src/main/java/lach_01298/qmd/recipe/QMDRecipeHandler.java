@@ -128,7 +128,7 @@ public abstract class QMDRecipeHandler extends AbstractQMDRecipeHandler<QMDRecip
 	}
 
 
-	public abstract List fixedExtras(List extras);
+	public abstract List<Object> fixedExtras(List<Object> extras);
 
 	public static class ExtrasFixer
 	{

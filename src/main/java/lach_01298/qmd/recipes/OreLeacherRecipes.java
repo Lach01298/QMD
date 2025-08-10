@@ -1,6 +1,7 @@
 package lach_01298.qmd.recipes;
 
 import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
 
@@ -115,11 +116,12 @@ public class OreLeacherRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Double ? (double) extras.get(2) : 0D);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Double.class, 1D); 	// time multiplier
+		fixer.add(Double.class, 1D);		//  power multiplier
+		fixer.add(Double.class, 0D);		// radiation
+
+		return fixer.fixed;
 	}
 
 }

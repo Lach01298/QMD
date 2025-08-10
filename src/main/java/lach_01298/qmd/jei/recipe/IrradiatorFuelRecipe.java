@@ -28,7 +28,7 @@ public class IrradiatorFuelRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return (int) (100/getIrradatorSpeed());
+		return (int) Math.max((100/getIrradatorSpeed()),5);
 	}
 
 	protected double getIrradatorSpeed()

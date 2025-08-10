@@ -73,6 +73,7 @@ public class QMDJEI implements IModPlugin
 				new VacuumChamberHeatingCategory(guiHelper),
 
 				new AtmosphereCollectorCategory(guiHelper),
+				new LiquidCollectorCategory(guiHelper),
 				new ParticleInfoCategory(guiHelper)
 				);
 		
@@ -156,6 +157,9 @@ public class QMDJEI implements IModPlugin
 
 		registry.addRecipes(AtmosphereCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.atmosphereCollector),QMDRecipeCategoryUid.ATMOSPHERE_COLLECTOR);
+
+		registry.addRecipes(LiquidCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.LIQUID_COLLECTOR);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.liquidCollector),QMDRecipeCategoryUid.LIQUID_COLLECTOR);
 
 
 		registry.addRecipes(ParticleInfoRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.PARTICLE_INFO);

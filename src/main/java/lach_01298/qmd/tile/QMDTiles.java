@@ -4,6 +4,7 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.enums.BlockTypes.*;
 import lach_01298.qmd.fission.tile.QMDTileFissionShield;
+import lach_01298.qmd.liquefier.tile.*;
 import lach_01298.qmd.machine.tile.TileQMDProcessors;
 import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.pipe.TileBeamline;
@@ -24,6 +25,7 @@ public class QMDTiles
 	private static ResourceLocation containmentPath = new ResourceLocation(QMD.MOD_ID,"containment_");
 	private static ResourceLocation heaterPath = new ResourceLocation(QMD.MOD_ID,"containment_heater");
 
+	private static ResourceLocation compressorPath = new ResourceLocation(QMD.MOD_ID,"liquefier_compressor");
 	
 	public static void register()
 	{
@@ -32,7 +34,6 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileBeamline.class,new ResourceLocation(QMD.MOD_ID,"beamline"));
 		GameRegistry.registerTileEntity(QMDTileRTG.Strontium.class,new ResourceLocation(QMD.MOD_ID,"rtg_strontium"));
 		GameRegistry.registerTileEntity(QMDTileFissionShield.Hafnium.class,new ResourceLocation(QMD.MOD_ID,"fission_shield_hafnium"));
-		GameRegistry.registerTileEntity(TileAtmosphereCollector.class,new ResourceLocation(QMD.MOD_ID,"atmosphere_collector"));
 		GameRegistry.registerTileEntity(TileCreativeParticleSource.class,new ResourceLocation(QMD.MOD_ID,"creative_particle_source"));
 		GameRegistry.registerTileEntity(QMDTileTurbineBlade.SuperAlloy.class,new ResourceLocation(QMD.MOD_ID,"turbine_blade_super_alloy"));
 		
@@ -149,11 +150,9 @@ public class QMDTiles
 		//machines
 		GameRegistry.registerTileEntity(TileQMDProcessors.TileOreLeacher.class,new ResourceLocation(QMD.MOD_ID,"ore_leacher"));
 		GameRegistry.registerTileEntity(TileQMDProcessors.TileIrradiator.class,new ResourceLocation(QMD.MOD_ID,"irradiator"));
-		
-		
-		
-		
-		
+		GameRegistry.registerTileEntity(TileAtmosphereCollector.class,new ResourceLocation(QMD.MOD_ID,"atmosphere_collector"));
+		GameRegistry.registerTileEntity(TileLiquidCollector.class,new ResourceLocation(QMD.MOD_ID,"liquid_collector"));
+
 		//vacuum chamber parts
 		
 		GameRegistry.registerTileEntity(TileExoticContainmentController.class,Util.appendPath(containmentPath, "neutral_containment_controller"));
@@ -184,6 +183,17 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Lapis.class, Util.appendPath(heaterPath, HeaterType.LAPIS.getName()));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Gold.class,Util.appendPath(heaterPath, HeaterType.GOLD.getName()));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Diamond.class, Util.appendPath(heaterPath, HeaterType.DIAMOND.getName()));
-		
+
+
+		// liquefier parts
+		GameRegistry.registerTileEntity(TileLiquefierController.class,new ResourceLocation(QMD.MOD_ID,"liquefier_controller"));
+		GameRegistry.registerTileEntity(TileLiquefierNozzle.class,new ResourceLocation(QMD.MOD_ID,"liquefier_nozzle"));
+		GameRegistry.registerTileEntity(TileLiquefierFluidPort.class,new ResourceLocation(QMD.MOD_ID,"liquefier_fluid_port"));
+		GameRegistry.registerTileEntity(TileLiquefierEnergyPort.class,new ResourceLocation(QMD.MOD_ID,"liquefier_energy_port"));
+		GameRegistry.registerTileEntity(TileLiquefierCompressor.Copper.class, Util.appendPath(compressorPath, CompressorType.COPPER.getName()));
+		GameRegistry.registerTileEntity(TileLiquefierCompressor.Neodymium.class, Util.appendPath(compressorPath, CompressorType.NEODYMIUM.getName()));
+		GameRegistry.registerTileEntity(TileLiquefierCompressor.SamariumCobalt.class, Util.appendPath(compressorPath, CompressorType.SAMARIUM_COBALT.getName()));
+
+
 	}
 }

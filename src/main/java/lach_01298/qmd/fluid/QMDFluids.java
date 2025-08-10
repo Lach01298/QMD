@@ -35,7 +35,7 @@ public class QMDFluids
 			addFluidPair(FluidType.SALT_SOLUTION, "lead_nitrate_solution", waterBlend(0xd5d5d5));
 			addFluidPair(FluidType.SALT_SOLUTION, "sodium_tungstate_solution", waterBlend(0xfffea3));
 			addFluidPair(FluidType.SALT_SOLUTION, "lead_tungstate_solution", waterBlend(0xd58715));
-			
+			addFluidPair(FluidType.SALT_SOLUTION, "salt_water", waterBlend(0x2974ff));
 			
 			//cryo liquids
 			addFluidPair(FluidType.LIQUID, "liquid_hydrogen",false, 0xB37AC4,71,20,170,0);

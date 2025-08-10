@@ -1,0 +1,31 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "nuclearcraft:wall_part",
+        "textures": {
+            "in": "nuclearcraft:blocks/heat_exchanger/casing/wall",
+            "out": "qmd:blocks/liquefier/fluid_port_in",
+            "side": "nuclearcraft:blocks/heat_exchanger/casing/wall",
+            "top": "nuclearcraft:blocks/heat_exchanger/casing/wall"
+        }
+    },
+    "variants": {
+        "inventory": [{}],
+        "active": {
+            "false": {},
+            "true": {
+                "textures": {
+                    "out": "qmd:blocks/liquefier/fluid_port_out"
+                }
+            }
+        },
+        "facing": {
+            "down": {"x": 90},
+            "up": {"x": 270},
+            "north": {},
+            "east": {"y": 90},
+            "south": {"y": 180},
+            "west": {"y": 270}
+        }
+    }
+}

@@ -28,7 +28,7 @@ public class AcceleratorCoolingRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return getHeatRequired() / 100 > 0 ? getHeatRequired() / 100 : 1;
+		return  Math.max((getHeatRequired() / 100),5);
 	}
 
 	protected int getHeatRequired()

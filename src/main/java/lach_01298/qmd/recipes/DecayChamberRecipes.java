@@ -3,6 +3,7 @@ package lach_01298.qmd.recipes;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipe.ingredient.*;
+import nc.recipe.BasicRecipeHandler;
 
 import java.util.*;
 
@@ -117,12 +118,12 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(4);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Long ? (long) extras.get(0) : Long.MAX_VALUE);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Long ? (long) extras.get(2) : 0l);
-		fixed.add(extras.size() > 3 && extras.get(3) instanceof Double ? (double) extras.get(3) : 0D);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Long.class, Long.MAX_VALUE); 		// max energy
+		fixer.add(Double.class, 1D);		// cross section
+		fixer.add(Long.class, 0l);		// energy released
+
+		return fixer.fixed;
 	}
 	
 	

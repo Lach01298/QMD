@@ -2,6 +2,7 @@ package lach_01298.qmd.recipes;
 
 import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.RecipeHelper;
 import nc.recipe.ingredient.IItemIngredient;
 import net.minecraft.item.ItemStack;
@@ -52,9 +53,8 @@ public class CellFillingRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1000);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		return fixer.fixed;
 	}
 
 }

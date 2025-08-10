@@ -23,6 +23,7 @@ public class QMDRecipeCategoryUid
 	public static final String VACUUM_CHAMBER_HEATING = QMD.MOD_ID+".vacuum_chamber_heating";
 
 	public static final String ATMOSPHERE_COLLECTOR = QMD.MOD_ID+".atmosphere_collector";
+	public static final String LIQUID_COLLECTOR = QMD.MOD_ID+".liquid_collector";
 	public static final String PARTICLE_INFO = QMD.MOD_ID+".particle_info";
 
 

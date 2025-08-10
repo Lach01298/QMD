@@ -47,6 +47,7 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(QMDBlocks.rtgStrontium, new Object[] {"AGA", "GSG", "AGA", 'S', "blockStrontium90",'A', "plateAdvanced", 'G', "ingotGraphite"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(QMDBlocks.atmosphereCollector, new Object[] {"ASA", "BMB", "ASA", 'A', "plateAdvanced",'S', "ingotSteel", 'B', Items.BUCKET, 'M', "motor"});
+		addShapedOreRecipe(QMDBlocks.liquidCollector, new Object[] {"ASA", "BMB", "ASA", 'A', "plateAdvanced",'S', "ingotBronze", 'B', Items.BUCKET, 'M', "motor"});
 		
 		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.dischargeLamp,4,LampType.EMPTY.getID()), new Object[] {"GGG", "GFG", "GRG", 'F', IItemParticleAmount.fullItem(new ItemStack(QMDItems.source,1,SourceType.TUNGSTEN_FILAMENT.getID())),'R', "dustRedstone", 'G', "paneGlass"});

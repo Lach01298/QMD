@@ -76,7 +76,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		
 		
 		
-		BlockPos middle =getMultiblock().getExtremeCoord(false, false, false).add(getMultiblock().getExteriorLengthX()/2,getMultiblock().getExteriorLengthY()/2,getMultiblock().getExteriorLengthZ()/2);
+		BlockPos middle = getMultiblock().getExtremeCoord(false, false, false).add(getMultiblock().getExteriorLengthX()/2,getMultiblock().getExteriorLengthY()/2,getMultiblock().getExteriorLengthZ()/2);
 		
 		//target
 		if (!(getMultiblock().WORLD.getTileEntity(middle) instanceof TileParticleChamber))

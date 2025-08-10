@@ -3,6 +3,7 @@ package lach_01298.qmd.recipes;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 
 import java.util.*;
@@ -101,10 +102,11 @@ public class NucleosynthesisChamberRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(2);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Long ? (long) extras.get(0) : 0L);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Long ? (long) extras.get(1) : Long.MAX_VALUE);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Long.class, 0L); 		// max energy
+		fixer.add(Long.class, Long.MAX_VALUE);		//  heat released
+
+		return fixer.fixed;
 	}
 	
 	

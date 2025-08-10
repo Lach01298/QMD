@@ -5,6 +5,7 @@ import lach_01298.qmd.accelerator.block.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.BlockTypes.*;
 import lach_01298.qmd.fission.block.*;
+import lach_01298.qmd.liquefier.block.*;
 import lach_01298.qmd.machine.block.BlockQMDProcessor;
 import lach_01298.qmd.particleChamber.block.*;
 import lach_01298.qmd.pipe.BlockBeamline;
@@ -73,6 +74,7 @@ public class QMDBlocks
 	public static Block oreLeacher;
 	public static Block irradiator;
 	public static Block atmosphereCollector;
+	public static Block liquidCollector;
 
 	public static Block fissionReflector;
 	public static Block fissionShield;
@@ -98,11 +100,17 @@ public class QMDBlocks
 	public static Block vacuumChamberHeater;
 	public static Block vacuumChamberHeaterVent;
 	public static Block vacuumChamberRedstonePort;
-	
+
+//	public static Block liquefierController;
+//	public static Block liquefierNozzle;
+//	public static Block liquefierCompressor;
+//	public static Block liquefierPort;
+//	public static Block liquefierEnergyPort;
+
 	public static Block creativeParticleSource;
 	
 	public static Block turbineBladeSuperAlloy;
-	
+
 	public static Block strontium90;
 	public static Block greenLuminousPaint;
 	public static Block blueLuminousPaint;
@@ -155,7 +163,8 @@ public class QMDBlocks
 
 		oreLeacher = withName(new BlockQMDProcessor(ProcessorType.ORE_LEACHER));
 		irradiator = withName(new BlockQMDProcessor(ProcessorType.IRRADIATOR));
-		atmosphereCollector = withName(new BlockAtmosphereCollector());
+		atmosphereCollector = withName(new BlockFluidCollector(FluidCollectorType.ATMOSPHERE_COLLECTOR));
+		liquidCollector = withName(new BlockFluidCollector(FluidCollectorType.LIQUID_COLLECTOR));
 		
 		fissionReflector = withName(new BlockFissionReflector(), "fission_reflector");
 		fissionShield = withName(new QMDBlockFissionShield(), "fission_shield");
@@ -182,7 +191,13 @@ public class QMDBlocks
 		vacuumChamberHeater= withName(new BlockVacuumChamberHeater(), "vacuum_chamber_heater");
 		vacuumChamberHeaterVent= withName(new BlockVacuumChamberHeaterVent(), "vacuum_chamber_heater_vent");
 		vacuumChamberRedstonePort= withName(new BlockVacuumChamberRedstonePort(), "vacuum_chamber_redstone_port");
-		
+
+//		liquefierController= withName(new BlockLiquefierController(), "liquefier_controller");
+//		liquefierNozzle= withName(new BlockLiquefierNozzle(), "liquefier_nozzle");
+//		liquefierCompressor= withName(new BlockLiquefierCompressor(), "liquefier_compressor");
+//		liquefierPort= withName(new BlockLiquefierPort(), "liquefier_fluid_port");
+//		liquefierEnergyPort= withName(new BlockLiquefierEnergyPort(), "liquefier_energy_port");
+
 		strontium90 = withName(new BlockQMD(Material.IRON), "strontium_90_block");
 		greenLuminousPaint = withName(new BlockLuminousPaint(), "block_green_luminous_paint");
 		blueLuminousPaint = withName(new BlockLuminousPaint(), "block_blue_luminous_paint");
@@ -191,7 +206,7 @@ public class QMDBlocks
 		creativeParticleSource = withName(new BlockCreativeParticleSource(), "creative_particle_source");
 		
 		turbineBladeSuperAlloy = withName(new QMDBlockTurbineBlade(TurbineBladeType.SUPER_ALLOY), "turbine_blade_super_alloy");
-		
+
 	}
 	
 	public static void register()
@@ -241,7 +256,8 @@ public class QMDBlocks
 		registerBlock(oreLeacher);
 		registerBlock(irradiator);
 		registerBlock(atmosphereCollector, Lang.localize("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.processor_power[1], 5, "RF/t")),TextFormatting.GRAY+Lang.localize(infoLine("atmosphere_collector")));
-		
+		registerBlock(liquidCollector, Lang.localize("info.qmd.item.energy_used",UnitHelper.prefix(QMDConfig.processor_power[2], 5, "RF/t")),TextFormatting.GRAY+Lang.localize(infoLine("liquid_collector")));
+
 		registerBlock(fissionReflector, new ItemBlockMetaLegacy(fissionReflector, NeutronReflectorType.class, TextFormatting.AQUA));
 		registerBlock(fissionShield,new ItemBlockMetaLegacy(fissionShield, NeutronShieldType.class, new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.LIGHT_PURPLE}, QMDInfo.neutronShieldFixedInfo(), TextFormatting.AQUA, QMDInfo.neutronShieldInfo()));
 		
@@ -269,7 +285,13 @@ public class QMDBlocks
 		registerBlock(vacuumChamberHeater, new ItemBlockMetaLegacy(vacuumChamberHeater, HeaterType.class,TextFormatting.BLUE, QMDInfo.heaterFixedInfo(),TextFormatting.AQUA,InfoHelper.NULL_ARRAYS));
 		registerBlock(vacuumChamberHeaterVent);
 		registerBlock(vacuumChamberRedstonePort);
-		
+
+//		registerBlock(liquefierController);
+//		registerBlock(liquefierNozzle);
+//		registerBlock(liquefierCompressor, new ItemBlockMetaLegacy(liquefierCompressor, CompressorType.class,TextFormatting.GREEN, QMDInfo.compressorFixedInfo(),TextFormatting.AQUA,QMDInfo.compressorInfo()));
+//		registerBlock(liquefierPort);
+//		registerBlock(liquefierEnergyPort);
+
 		registerBlock(strontium90);
 		registerBlock(greenLuminousPaint);
 		registerBlock(blueLuminousPaint);
@@ -344,6 +366,7 @@ public class QMDBlocks
 		registerRender(oreLeacher);
 		registerRender(irradiator);
 		registerRender(atmosphereCollector);
+		registerRender(liquidCollector);
 		
 		for (int i = 0; i < NeutronReflectorType.values().length; i++)
 		{
@@ -387,6 +410,15 @@ public class QMDBlocks
 		}
 		registerRender(vacuumChamberHeaterVent);
 		registerRender(vacuumChamberRedstonePort);
+
+//		registerRender(liquefierController);
+//		registerRender(liquefierNozzle);
+//		for (int i=0; i < CompressorType.values().length; i++)
+//		{
+//			registerRender(liquefierCompressor, i, CompressorType.values()[i].getName());
+//		}
+//		registerRender(liquefierPort);
+//		registerRender(liquefierEnergyPort);
 		
 		registerRender(strontium90);
 		registerRender(greenLuminousPaint);
@@ -397,15 +429,6 @@ public class QMDBlocks
 		registerRender(turbineBladeSuperAlloy);
 	}
 
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public static Block withName(Block block, String name) {
 		return block.setTranslationKey(QMD.MOD_ID + "." + name).setRegistryName(new ResourceLocation(QMD.MOD_ID, name));

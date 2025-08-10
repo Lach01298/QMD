@@ -2,11 +2,14 @@ package lach_01298.qmd.multiblock;
 
 import lach_01298.qmd.accelerator.*;
 import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.liquefier.LiquefierLogic;
+import lach_01298.qmd.liquefier.tile.*;
 import lach_01298.qmd.particleChamber.*;
 import lach_01298.qmd.particleChamber.tile.*;
 import lach_01298.qmd.pipe.*;
 import lach_01298.qmd.vacuumChamber.*;
 import lach_01298.qmd.vacuumChamber.tile.*;
+import nc.multiblock.hx.HeatExchanger;
 
 
 public class Multiblocks
@@ -56,6 +59,11 @@ public class Multiblocks
 		VacuumChamber.PART_CLASSES.add(TileVacuumChamberHeaterVent.class);
 		VacuumChamber.PART_CLASSES.add(TileVacuumChamberRedstonePort.class);
 		VacuumChamber.PART_CLASSES.add(IVacuumChamberComponent.class);
+
+		HeatExchanger.PART_CLASSES.add(TileLiquefierCompressor.class);
+		HeatExchanger.PART_CLASSES.add(TileLiquefierNozzle.class);
+		HeatExchanger.PART_CLASSES.add(TileLiquefierFluidPort.class);
+		HeatExchanger.PART_CLASSES.add(TileLiquefierEnergyPort.class);
 		
 		try
 		{
@@ -76,7 +84,9 @@ public class Multiblocks
 			VacuumChamber.LOGIC_MAP.put("", VacuumChamberLogic::new);
 			VacuumChamber.LOGIC_MAP.put("neutral_containment", ExoticContainmentLogic::new);
 			VacuumChamber.LOGIC_MAP.put("nucleosynthesis_chamber", NucleosynthesisChamberLogic::new);
-			
+
+			HeatExchanger.LOGIC_MAP.put("liquefier", LiquefierLogic::new);
+
 			Pipe.LOGIC_MAP.put("", PipeLogic::new);
 			Pipe.LOGIC_MAP.put("beamline", BeamlineLogic::new);
 			

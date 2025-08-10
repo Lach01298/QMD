@@ -1,79 +1,69 @@
 package lach_01298.qmd.recipes;
 
+import lach_01298.qmd.recipe.ingredient.WorldIngredient;
 import lach_01298.qmd.util.Util;
+import nc.recipe.ingredient.FluidIngredient;
 import nc.util.FluidRegHelper;
-import net.minecraftforge.fluids.*;
-import org.apache.commons.lang3.StringUtils;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.*;
 
-import static lach_01298.qmd.config.QMDConfig.atmosphere_collector_recipes;
-
 public class AtmosphereCollectorRecipes
 {
-	public static Map<Integer,FluidStack> recipes = new HashMap<Integer,FluidStack>();
-	
-	
-	
-	public static FluidStack getRecipe(int dimesionId)
+	public static Map<WorldIngredient,FluidStack> recipes = new HashMap<WorldIngredient,FluidStack>();
+
+
+
+	public static FluidStack getRecipe(String biome, int dimesionId)
 	{
-		if(recipes.containsKey(dimesionId))
+		for (WorldIngredient recipeWorldIngredient : recipes.keySet())
 		{
-			return recipes.get(dimesionId);
+			if(recipeWorldIngredient.isSatisfied(Blocks.AIR,biome,dimesionId))
+			{
+				return recipes.get(recipeWorldIngredient);
+			}
 		}
 		return null;
 	}
-	
-	
-	
-	public static void addRecipe(int dimesionId,FluidStack stack)
+
+	public static void addRecipe(List<String> biomes, List<Integer> dimensions, FluidStack stack)
 	{
-		if(recipes.containsKey(dimesionId))
-		{
-			Util.getLogger().error("there is already an atmosphereCollector recipe with  dimesionID " + dimesionId);
-			return;
-		}
 		if(stack == null)
 		{
-			Util.getLogger().error("atmosphereCollector recipe fluidStack can not be null for dimesionID " + dimesionId);
+			Util.getLogger().error("An atmosphere collector recipe with a null fluidStack output tried to register");
 			return;
 		}
-		
-		recipes.put(dimesionId, stack);
-	
+
+		for (String biome : biomes)
+		{
+			for (int dimension : dimensions)
+			{
+				if (getRecipe(biome,dimension) != null)
+				{
+					Util.getLogger().error("There is already a atmosphere Collector recipe in biome: " + biome + " and dimension: " + dimension);
+					return;
+				}
+			}
+		}
+
+		WorldIngredient worldIngredient = new WorldIngredient(new ArrayList<Block>(),biomes,dimensions);
+		recipes.put(worldIngredient, stack);
 	}
 	
 	public static void registerRecipes()
 	{
-		for (String recipe : atmosphere_collector_recipes)
-		{
-			String[] recipeParts = StringUtils.split(recipe, ":");
-			if(recipeParts.length != 3)
-			{
-				Util.getLogger().error("invailid atmosphereCollector recipe: " + recipe);
-			}
-			else
-			{
-				 if(!FluidRegHelper.fluidExists(recipeParts[1]))
-				 {
-					 Util.getLogger().error("invailid atmosphereCollector recipe: " + recipe + ". There is no fluid called: " + recipeParts[1]);
-				 }
-				 else
-				 {
-					 int dimesionId = Integer.parseInt(recipeParts[0]);
-					 Fluid fluid =FluidRegistry.getFluid(recipeParts[1]);
-					 int stackSize = Integer.parseInt(recipeParts[2]);
-					 addRecipe(dimesionId, new FluidStack(fluid,stackSize));
-					 
-				 }
-				 
-			}
-			
-		}
+		addRecipe(new ArrayList<String>(),new ArrayList<Integer>(Arrays.asList(0)), fluidStack("compressed_air",1000).getStack());
 	}
-	
-	
-	
+
+
+	public static FluidIngredient fluidStack(String fluidName, int stackSize)
+	{
+		if (!FluidRegHelper.fluidExists(fluidName))
+			return null;
+		return new FluidIngredient(fluidName, stackSize);
+	}
 	
 	
 }

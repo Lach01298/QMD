@@ -23,6 +23,7 @@ public class QMDConfig {
 	public static final String CATEGORY_ACCELERATOR = "accelerator";
 	public static final String CATEGORY_PARTICLE_CHAMBER = "particle_chamber";
 	public static final String CATEGORY_VACUUM_CHAMBER = "vacuum_chamber";
+	public static final String CATEGORY_HEAT_EXCHANGER = "heat_exchanger";
 	public static final String CATEGORY_FISSION = "fission";
 	public static final String CATEGORY_FUSION = "fusion";
 	public static final String CATEGORY_TOOLS = "tools";
@@ -96,18 +97,22 @@ public class QMDConfig {
 	public static boolean exotic_containment_gamma_flash;
 	public static double exotic_containment_radiation;
 	public static double exotic_containment_explosion_size;
-	
-	
+
 	public static boolean nucleosynthesis_chamber_explosion;
 	
 	public static int[] heater_heat_removed;
 	public static String[]heater_rule;
-	
+
+	public static int liquefier_base_energy_capacity;
+	public static int liquefier_input_tank_capacity;
+	public static int liquefier_output_tank_capacity;
+	public static double[] liquefier_compressor_energy_efficiency;
+	public static double[] liquefier_compressor_heat_efficiency;
+
 	public static int[] processor_power;
 	public static int[] processor_time;
 	public static double irradiator_rad_res;
 	public static int irradiator_fuel_usage;
-	public static String[] atmosphere_collector_recipes;
 	
 	public static boolean[] register_tool;
 	public static int[] tool_mining_level;
@@ -209,7 +214,7 @@ public class QMDConfig {
 	{
 		if (loadFromFile) config.load();
 
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {50,100}, Lang.localize("gui.qmd.config.processors.power.comment"), 0, 32767);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {50,100,50}, Lang.localize("gui.qmd.config.processors.power.comment"), 0, 32767);
 		propertyProcessorPower.setLanguageKey("gui.qmd.config.processors.power");
 		
 		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200,500}, Lang.localize("gui.qmd.config.processors.time.comment"), 0, 32767);
@@ -219,12 +224,6 @@ public class QMDConfig {
 		propertyIrradiatorRadRes.setLanguageKey("gui.qmd.config.processors.irradiator_rad_res");
 		Property propertyIrradiatorFuelUsage = config.get(CATEGORY_PROCESSORS, "irradiator_fuel_usage", 10, Lang.localize("gui.qmd.config.processors.irradiator_fuel_usage.comment"), 0, Integer.MAX_VALUE);
 		propertyIrradiatorFuelUsage.setLanguageKey("gui.qmd.config.processors.irradiator_fuel_usage");
-		
-		Property propertyAtmosphereCollectorRecipes = config.get(CATEGORY_PROCESSORS, "atmosphere_collector_recipes", new String[] {"0:compressed_air:1000","-1:compressed_air:1000","1:compressed_air:1000"}, Lang.localize("gui.qmd.config.processors.atmosphere_collector_recipes.comment"));
-		propertyAtmosphereCollectorRecipes.setLanguageKey("gui.qmd.config.processors.atmosphere_collector_recipes");
-		
-		
-		
 		
 		Property propertyAcceleratorLinearMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_min_size", 6, Lang.localize("gui.qmd.config.accelerator.accelerator_linear_min_size.comment"), 6, 255);
 		propertyAcceleratorLinearMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_linear_min_size");
@@ -359,19 +358,28 @@ public class QMDConfig {
 		propertyExoticContainmentRadiation.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_radiation");
 		Property propertyExoticContainmentExplosionSize = config.get(CATEGORY_VACUUM_CHAMBER, "exotic_containment_explosion_size", 50.0, Lang.localize("gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size.comment"), 0.0, 1000.0);
 		propertyExoticContainmentExplosionSize.setLanguageKey("gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size");
-		
-		
-		
+
 		Property propertyNucleosynthesisChamberExplosion = config.get(CATEGORY_VACUUM_CHAMBER, "nucleosynthesis_chamber_explosion", true, Lang.localize("gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion.comment"));
 		propertyNucleosynthesisChamberExplosion.setLanguageKey("gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion");
-		
-		
+
 		Property propertyHeaterHeatRemoved = config.get(CATEGORY_VACUUM_CHAMBER, "heater_heat_removed", new int[] {5000,10000,20000,40000,80000,160000,320000,640000}, Lang.localize("gui.qmd.config.vacuum_chamber.heater_heat_removed.comment"), 0, Integer.MAX_VALUE);
 		propertyHeaterHeatRemoved.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_heat_removed");
 		Property propertyHeaterRule = config.get(CATEGORY_VACUUM_CHAMBER, "heater_rule", new String[] {"one casing","one beam", "two glass", "exactly one quartz heater && exactly one redstone heater", "two axial obsidian heaters", "exactly one redstone heater && two iron heaters", "one obsidian heater && one quartz heater", "one nozzle"},
 				Lang.localize("gui.qmd.config.vacuum_chamber.heater_rule.comment"));
 		propertyHeaterRule.setLanguageKey("gui.qmd.config.vacuum_chamber.heater_rule");
-		
+
+		Property propertyLiquefierBaseEnergyCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_base_energy_capacity", 1000, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_base_energy_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyLiquefierBaseEnergyCapacity.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_base_energy_capacity");
+		Property propertyLiquefierInputTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_input_tank_capacity", 6400, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_input_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyLiquefierInputTankCapacity.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_input_tank_capacity");
+		Property propertyLiquefierOutputTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_output_tank_capacity", 100, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_output_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		propertyLiquefierOutputTankCapacity.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_output_tank_capacity");
+		Property propertyLiquefierCompressorEnergyEfficiency= config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_energy_efficiency", new double[] {0.9,0.8,0.95}, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_energy_efficiency.comment"), 0.0, Double.MAX_VALUE);
+		propertyLiquefierCompressorEnergyEfficiency.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_energy_efficiency");
+		Property propertyLiquefierCompressorHeatEfficiency= config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_heat_efficiency", new double[] {0.9,0.95,0.8}, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_heat_efficiency.comment"), 0.0, Double.MAX_VALUE);
+		propertyLiquefierCompressorHeatEfficiency.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_heat_efficiency");
+
+
 		Property propertyRegisterTool = config.get(CATEGORY_TOOLS, "register_tool", new boolean[] {true, true}, Lang.localize("gui.qmd.config.tools.register_tool.comment"));
 		propertyRegisterTool.setLanguageKey("gui.qmd.config.tools.register_tool");
 		Property propertyToolMiningLevel = config.get(CATEGORY_TOOLS, "tool_mining_level", new int[] {3, 3, 4}, Lang.localize("gui.qmd.config.tools.tool_mining_level.comment"), 0, 15);
@@ -425,9 +433,6 @@ public class QMDConfig {
 		propertyAntimatterLauncherParticleUsage.setLanguageKey("gui.qmd.config.tools.antimatter_launcher_usage");
 
 
-
-		
-		
 		Property propertyCellLifetime = config.get(CATEGORY_TOOLS, "cell_lifetime", 200, Lang.localize("gui.qmd.config.tools.cell_lifetime.comment"), 0, 6000);
 		propertyCellLifetime.setLanguageKey("gui.qmd.config.tools.cell_lifetime");
 		
@@ -506,7 +511,6 @@ public class QMDConfig {
 		propertyOrderProcessors.add(propertyProcessorTime.getName());
 		propertyOrderProcessors.add(propertyIrradiatorRadRes.getName());
 		propertyOrderProcessors.add(propertyIrradiatorFuelUsage.getName());
-		propertyOrderProcessors.add(propertyAtmosphereCollectorRecipes.getName());
 		
 		
 		config.setCategoryPropertyOrder(CATEGORY_PROCESSORS, propertyOrderProcessors);
@@ -683,8 +687,6 @@ public class QMDConfig {
 			processor_time = readIntegerArrayFromConfig(propertyProcessorTime);
 			irradiator_rad_res = propertyIrradiatorRadRes.getDouble();
 			irradiator_fuel_usage = propertyIrradiatorFuelUsage.getInt();
-			atmosphere_collector_recipes = propertyAtmosphereCollectorRecipes.getStringList();
-			
 			
 			accelerator_linear_min_size = propertyAcceleratorLinearMinSize.getInt();
 			accelerator_linear_max_size = propertyAcceleratorLinearMaxSize.getInt();
@@ -752,10 +754,17 @@ public class QMDConfig {
 			exotic_containment_radiation = propertyExoticContainmentRadiation.getDouble();
 			exotic_containment_explosion_size = propertyExoticContainmentExplosionSize.getDouble();
 			nucleosynthesis_chamber_explosion = propertyNucleosynthesisChamberExplosion.getBoolean();
-			
+
 			heater_heat_removed = readIntegerArrayFromConfig(propertyHeaterHeatRemoved);
 			heater_rule = propertyHeaterRule.getStringList();
-			
+
+			liquefier_base_energy_capacity = propertyLiquefierBaseEnergyCapacity.getInt();
+			liquefier_input_tank_capacity = propertyLiquefierInputTankCapacity.getInt();
+			liquefier_output_tank_capacity = propertyLiquefierOutputTankCapacity.getInt();
+			liquefier_compressor_energy_efficiency = readDoubleArrayFromConfig(propertyLiquefierCompressorEnergyEfficiency);
+			liquefier_compressor_heat_efficiency = readDoubleArrayFromConfig(propertyLiquefierCompressorHeatEfficiency);
+
+
 			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
 			
 			tool_mining_level = readIntegerArrayFromConfig(propertyToolMiningLevel);
@@ -826,7 +835,6 @@ public class QMDConfig {
 		propertyProcessorTime.set(processor_time);
 		propertyIrradiatorRadRes.set(irradiator_rad_res);
 		propertyIrradiatorFuelUsage.set(irradiator_fuel_usage);
-		propertyAtmosphereCollectorRecipes.set(atmosphere_collector_recipes);
 		
 		
 		propertyAcceleratorLinearMinSize.set(accelerator_linear_min_size);
@@ -885,7 +893,13 @@ public class QMDConfig {
 		
 		propertyHeaterHeatRemoved.set(heater_heat_removed);
 		propertyHeaterRule.set(heater_rule);
-		
+
+		propertyLiquefierBaseEnergyCapacity.set(liquefier_base_energy_capacity);
+		propertyLiquefierInputTankCapacity.set(liquefier_input_tank_capacity);
+		propertyLiquefierOutputTankCapacity.set(liquefier_output_tank_capacity);
+		propertyLiquefierCompressorEnergyEfficiency.set(liquefier_compressor_energy_efficiency);
+		propertyLiquefierCompressorHeatEfficiency.set(liquefier_compressor_heat_efficiency);
+
 		propertyRegisterTool.set(register_tool);
 		propertyToolMiningLevel.set(tool_mining_level);
 		propertyToolDurability.set(tool_durability);

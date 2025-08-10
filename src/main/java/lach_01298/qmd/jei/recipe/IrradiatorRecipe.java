@@ -30,7 +30,7 @@ public class IrradiatorRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return (int)(this.getBaseProcessTime() / 4.0);
+		return (int) Math.max((getBaseProcessTime()/4d),5);
 	}
 
 	protected double getBaseProcessTime()

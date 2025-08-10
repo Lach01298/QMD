@@ -1,0 +1,32 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "nuclearcraft:machine",
+		"textures": {
+			"top": "qmd:blocks/liquefier/controller_top",
+			"bottom": "qmd:blocks/liquefier/controller_bottom",
+			"front": "qmd:blocks/liquefier/controller_front_off",
+			"side": "qmd:blocks/liquefier/controller_side",
+			"back": "qmd:blocks/liquefier/controller_back"
+		}
+	},
+	"variants": {
+		"inventory": [{}],
+		"active": {
+			"false": {},
+			"true": {
+				"textures": {
+					"front": "qmd:blocks/liquefier/controller_front_on"
+				}
+			}
+		},
+		"facing": {
+			"down": {"x": 90},
+			"up": {"x": 270},
+			"north": {},
+			"east": {"y": 90},
+			"south": {"y": 180},
+			"west": {"y": 270}
+		}
+	}
+}

@@ -15,31 +15,30 @@ public class QMDInfo
 	{
 		RFCavityType[] values = RFCavityType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = new String[]{
 					Lang.localize("info." + QMD.MOD_ID + ".rf_cavity.voltage", values[i].getVoltage()),
-					Lang.localize("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
+					Lang.localize("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D * values[i].getEfficiency()) + "%"),
 					Lang.localize("info." + QMD.MOD_ID + ".item.heat", values[i].getHeatGenerated()),
 					Lang.localize("info." + QMD.MOD_ID + ".item.power", values[i].getBasePower()),
 					Lang.localize("info." + QMD.MOD_ID + ".item.max_temp", values[i].getMaxOperatingTemp())
-					};
+			};
 		}
 		return info;
 	}
-	
-	
-	
+
+
 	public static String[][] RFCavityInfo()
 	{
 		RFCavityType[] values = RFCavityType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
+		{
 			info[i] = InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".rf_cavity.desc"));
 		}
 		return info;
 	}
-
-
 
 
 	// Magnet info
@@ -47,14 +46,15 @@ public class QMDInfo
 	{
 		MagnetType[] values = MagnetType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = new String[]{
 					Lang.localize("info." + QMD.MOD_ID + ".accelerator_magnet.strength", values[i].getStrength()),
-					Lang.localize("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D*values[i].getEfficiency()) + "%"),
+					Lang.localize("info." + QMD.MOD_ID + ".item.efficiency", Math.round(100D * values[i].getEfficiency()) + "%"),
 					Lang.localize("info." + QMD.MOD_ID + ".item.heat", values[i].getHeatGenerated()),
 					Lang.localize("info." + QMD.MOD_ID + ".item.power", values[i].getBasePower()),
 					Lang.localize("info." + QMD.MOD_ID + ".item.max_temp", values[i].getMaxOperatingTemp())
-					};
+			};
 		}
 		return info;
 	}
@@ -63,13 +63,14 @@ public class QMDInfo
 	{
 		MagnetType[] values = MagnetType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
+		{
 			info[i] = InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".accelerator_magnet.desc"));
 		}
 		return info;
 	}
-	
-	
+
+
 	// Cooler info
 	public static String[][] cooler1FixedInfo()
 	{
@@ -81,50 +82,54 @@ public class QMDInfo
 		return coolerFixedInfo(CoolerType2.values());
 	}
 
-	private static <T extends Enum<T> & IStringSerializable & ICoolerEnum> String[][] coolerFixedInfo(T[] values) {
+	private static <T extends Enum<T> & IStringSerializable & ICoolerEnum> String[][] coolerFixedInfo(T[] values)
+	{
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {coolerCoolingRateString(values[i])};
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = new String[]{coolerCoolingRateString(values[i])};
 		}
 		return info;
 	}
 
-	
+
 	private static <T extends Enum<T> & ICoolerEnum> String coolerCoolingRateString(T type)
 	{
 		return Lang.localize("tile." + QMD.MOD_ID + ".accelerator.cooler.cooling_rate") + " " + UnitHelper.prefix(type.getHeatRemoved(), 3, "H/t");
 	}
-	
-	
 
-	public static String[][] cooler1Info() {
+
+	public static String[][] cooler1Info()
+	{
 		CoolerType1[] values = CoolerType1.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
+		{
 			info[i] = InfoHelper.formattedInfo(cooler1InfoString(values[i]));
 		}
 		return info;
 	}
-	
+
 	private static String cooler1InfoString(CoolerType1 type)
 	{
 		return Lang.localize("tile." + QMD.MOD_ID + ".accelerator.cooler." + type.getName() + ".desc");
 	}
-	
-	public static String[][] cooler2Info() {
+
+	public static String[][] cooler2Info()
+	{
 		CoolerType2[] values = CoolerType2.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
+		{
 			info[i] = InfoHelper.formattedInfo(cooler2InfoString(values[i]));
 		}
 		return info;
 	}
-	
+
 	private static String cooler2InfoString(CoolerType2 type)
 	{
 		return Lang.localize("tile." + QMD.MOD_ID + ".accelerator.cooler." + type.getName() + ".desc");
 	}
-
 
 
 	// Detector info
@@ -132,11 +137,12 @@ public class QMDInfo
 	{
 		DetectorType[] values = DetectorType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {
-					Lang.localize("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(1000D*values[i].getEfficiency())/10d + "%"),
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = new String[]{
+					Lang.localize("info." + QMD.MOD_ID + ".particle_chamber.detector.efficiency", Math.round(1000D * values[i].getEfficiency()) / 10d + "%"),
 					Lang.localize("info." + QMD.MOD_ID + ".particle_chamber.detector.power", values[i].getBasePower())
-					};
+			};
 		}
 		return info;
 	}
@@ -146,7 +152,8 @@ public class QMDInfo
 	{
 		DetectorType[] values = DetectorType.values();
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
+		{
 			info[i] = InfoHelper.formattedInfo(detectorInfoString(values[i]));
 		}
 		return info;
@@ -155,10 +162,10 @@ public class QMDInfo
 
 	public static String[] ionSourceFixedInfo(int id)
 	{
-		String[] info = new String[] {
+		String[] info = new String[]{
 				Lang.localize("info." + QMD.MOD_ID + ".item.power", QMDConfig.ion_source_power[id]),
-				Lang.localize("info." + QMD.MOD_ID + ".ion_source.output_multiplier",QMDConfig.ion_source_output_multiplier[id]),
-				Lang.localize("info." + QMD.MOD_ID + ".ion_source.focus",QMDConfig.ion_source_focus[id])
+				Lang.localize("info." + QMD.MOD_ID + ".ion_source.output_multiplier", QMDConfig.ion_source_output_multiplier[id]),
+				Lang.localize("info." + QMD.MOD_ID + ".ion_source.focus", QMDConfig.ion_source_focus[id])
 		};
 		return info;
 	}
@@ -178,9 +185,10 @@ public class QMDInfo
 	{
 		return Lang.localize("tile." + QMD.MOD_ID + ".beamline.desc");
 	}
+
 	public static String beamlineFixedlineInfo()
 	{
-		return Lang.localize("info." + QMD.MOD_ID + ".beamline.attenuation",QMDConfig.beamAttenuationRate);
+		return Lang.localize("info." + QMD.MOD_ID + ".beamline.attenuation", QMDConfig.beamAttenuationRate);
 	}
 
 	// Fission Neutron Shields
@@ -191,11 +199,11 @@ public class QMDInfo
 		String[][] info = new String[values.length][];
 		for (int i = 0; i < values.length; i++)
 		{
-			info[i] = new String[] {
+			info[i] = new String[]{
 					Lang.localize("info." + Global.MOD_ID + ".fission_shield.heat_per_flux.fixd",
 							UnitHelper.prefix(values[i].getHeatPerFlux(), 5, "H/t/N")),
 					Lang.localize("info." + Global.MOD_ID + ".fission_shield.efficiency.fixd",
-							Math.round(100D * values[i].getEfficiency()) + "%"), };
+							Math.round(100D * values[i].getEfficiency()) + "%"),};
 		}
 		return info;
 	}
@@ -210,30 +218,56 @@ public class QMDInfo
 		}
 		return info;
 	}
-	
-	
-	
+
+
 	// Heater info
 	public static String[][] heaterFixedInfo()
 	{
 		return heaterFixedInfo(HeaterType.values());
 	}
-	
-	private static <T extends Enum<T> & IStringSerializable & ICoolerEnum> String[][] heaterFixedInfo(T[] values) {
+
+	private static <T extends Enum<T> & IStringSerializable & ICoolerEnum> String[][] heaterFixedInfo(T[] values)
+	{
 		String[][] info = new String[values.length][];
-		for (int i = 0; i < values.length; i++) {
-			info[i] = new String[] {coolerCoolingRateString(values[i])};
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = new String[]{coolerCoolingRateString(values[i])};
 		}
 		return info;
 	}
-	
-	
+
+
 	public static String drillInfo(int id)
 	{
-		int size = 2*QMDConfig.drill_radius[id]+1;
-		return Lang.localize("info."+QMD.MOD_ID+".item.drill.desc",size,size);
+		int size = 2 * QMDConfig.drill_radius[id] + 1;
+		return Lang.localize("info." + QMD.MOD_ID + ".item.drill.desc", size, size);
 	}
-	
-	
-	
+
+	// Compressor info
+	public static String[][] compressorFixedInfo()
+	{
+		CompressorType[] values = CompressorType.values();
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = new String[]{
+					Lang.localize("info." + QMD.MOD_ID + ".liquefier.compressor.energy_efficiency", Math.round(1000D * values[i].getEnergyEfficiency()) / 10d + "%"),
+					Lang.localize("info." + QMD.MOD_ID + ".liquefier.compressor.heat_efficiency", Math.round(1000D * values[i].getHeatEfficiency()) / 10d + "%")
+			};
+		}
+		return info;
+	}
+
+
+	public static String[][] compressorInfo()
+	{
+		CompressorType[] values = CompressorType.values();
+		String[][] info = new String[values.length][];
+		for (int i = 0; i < values.length; i++)
+		{
+			info[i] = InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".liquefier_compressor.desc"));
+		}
+		return info;
+	}
+
 }

@@ -7,15 +7,20 @@ import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import lach_01298.qmd.item.IItemParticleAmount;
+import lach_01298.qmd.recipes.AtmosphereCollectorRecipes;
+import lach_01298.qmd.recipes.LiquidCollectorRecipes;
 import lach_01298.qmd.recipes.QMDRecipes;
-import nc.integration.crafttweaker.CTAddRecipe;
-import nc.integration.crafttweaker.CTRemoveAllRecipes;
-import nc.integration.crafttweaker.CTRemoveRecipe;
 import nc.recipe.IngredientSorption;
+import nc.recipe.ingredient.FluidIngredient;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QMDCraftTweaker
 {
@@ -486,5 +491,138 @@ public class QMDCraftTweaker
 			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.mass_spectrometer));
 		}
 	}
+
+	@ZenClass("mods.qmd.atmosphere_collector")
+	@ZenRegister
+	public static class AtmosphereCollectorHandler
+	{
+		@ZenMethod
+		public static void addRecipe(String biomesString, String dimesionIdsString, IIngredient fluidOutput)
+		{
+			List<String> biomes = new ArrayList<String>();
+			if (!biomesString.equals(""))
+			{
+				String[] biomeNames = biomesString.split(",");
+				for (String biomeName : biomeNames)
+				{
+					biomes.add(biomeName);
+				}
+			}
+
+			List<Integer> dimensions = new ArrayList<Integer>();
+			if (!dimesionIdsString.equals(""))
+			{
+				String[] dimensionIDs = dimesionIdsString.split(",");
+				for (String id : dimensionIDs)
+				{
+					try
+					{
+						dimensions.add(Integer.parseInt(id));
+					}
+					catch(Exception e)
+					{
+						CraftTweakerAPI.logError(id + " is not a integer for a dimension id. Can not add atmosphere collector recipe.");
+						return;
+					}
+				}
+			}
+
+			if(fluidOutput instanceof ILiquidStack)
+			{
+				ILiquidStack liquidStack = (ILiquidStack) fluidOutput;
+				if(liquidStack.getInternal() instanceof FluidStack)
+				{
+					FluidStack fluidstack = (FluidStack) liquidStack.getInternal();
+					AtmosphereCollectorRecipes.addRecipe(biomes,dimensions,fluidstack);
+					return;
+				}
+
+			}
+			CraftTweakerAPI.logError(fluidOutput + " is not a valid fluidStack. Can not add atmosphere collector recipe.");
+		}
+
+		@ZenMethod
+		public static void removeAllRecipes()
+		{
+			AtmosphereCollectorRecipes.recipes.clear();
+		}
+	}
+
+	@ZenClass("mods.qmd.liquid_collector")
+	@ZenRegister
+	public static class LiquidCollectorHandler
+	{
+		@ZenMethod
+		public static void addRecipe(String blocksString, String biomesString, String dimesionIdsString, IIngredient fluidOutput)
+		{
+			List<Block> blocks = new ArrayList<Block>();
+			if (!blocksString.equals(""))
+			{
+				String[] blockNames = blocksString.split(",");
+
+				for (String blockName : blockNames)
+				{
+					Block block = Block.getBlockFromName(blockName);
+					if (block == null)
+					{
+						CraftTweakerAPI.logError(blockName + " is not a valid block. Can not add liquid collector recipe.");
+						return;
+					}
+					blocks.add(block);
+
+				}
+			}
+
+			List<String> biomes = new ArrayList<String>();
+			if (!biomesString.equals(""))
+			{
+				String[] biomeNames = biomesString.split(",");
+				for (String biomeName : biomeNames)
+				{
+					biomes.add(biomeName);
+				}
+			}
+
+			List<Integer> dimensions = new ArrayList<Integer>();
+			if (!dimesionIdsString.equals(""))
+			{
+				String[] dimensionIDs = dimesionIdsString.split(",");
+				for (String id : dimensionIDs)
+				{
+					try
+					{
+						dimensions.add(Integer.parseInt(id));
+					}
+					catch(Exception e)
+					{
+						CraftTweakerAPI.logError(id + " is not a integer for a dimension id. Can not add liquid collector recipe.");
+						return;
+					}
+				}
+			}
+
+			if(fluidOutput instanceof ILiquidStack)
+			{
+				ILiquidStack liquidStack = (ILiquidStack) fluidOutput;
+				if(liquidStack.getInternal() instanceof FluidStack)
+				{
+					FluidStack fluidstack = (FluidStack) liquidStack.getInternal();
+					LiquidCollectorRecipes.addRecipe(blocks,biomes,dimensions,fluidstack);
+					return;
+				}
+
+			}
+			CraftTweakerAPI.logError(fluidOutput + " is not a valid fluidStack. Can not add liquid collector recipe.");
+		}
+
+		@ZenMethod
+		public static void removeAllRecipes()
+		{
+			LiquidCollectorRecipes.recipes.clear();
+		}
+	}
+
+
+
 	
 }

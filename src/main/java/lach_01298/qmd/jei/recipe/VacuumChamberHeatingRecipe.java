@@ -28,7 +28,7 @@ public class VacuumChamberHeatingRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return getHeatRequired()> 0 ? getHeatRequired()*10 : 1;
+		return getHeatRequired()> 0 ? getHeatRequired() : 1;
 	}
 
 	protected int getHeatRequired()

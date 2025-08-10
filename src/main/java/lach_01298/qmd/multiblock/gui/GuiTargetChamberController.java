@@ -125,7 +125,7 @@ public class GuiTargetChamberController
 	public void renderTooltips(int mouseX, int mouseY)
 	{
 		if (NCUtil.isModifierKeyDown())
-			drawTooltip(clearAllInfo(), mouseX, mouseY, 153, 81, 18, 18);
+			drawTooltip(clearAllInfo(), mouseX, mouseY, 128, 70, 18, 18);
 
 		drawFluidTooltip(multiblock.tanks.get(0), mouseX, mouseY, 53, 55, 16, 16);
 		drawFluidTooltip(multiblock.tanks.get(1), mouseX, mouseY, 94, 55, 16, 16);

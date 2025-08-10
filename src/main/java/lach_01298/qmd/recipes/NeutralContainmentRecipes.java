@@ -4,6 +4,7 @@ import lach_01298.qmd.QMDConstants;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipe.ingredient.EmptyParticleIngredient;
+import nc.recipe.BasicRecipeHandler;
 
 import java.util.*;
 
@@ -36,9 +37,11 @@ public class NeutralContainmentRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Long ? (long) extras.get(0) : Long.MAX_VALUE);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Long.class, Long.MAX_VALUE); 		// max energy
+
+		return fixer.fixed;
+
 	}
 	
 	

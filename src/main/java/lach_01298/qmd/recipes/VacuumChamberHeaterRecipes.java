@@ -1,6 +1,7 @@
 package lach_01298.qmd.recipes;
 
 import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,9 @@ public class VacuumChamberHeaterRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? (int) extras.get(0) : 1000);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Integer.class, 1000); 		// heat required
+		return fixer.fixed;
 	}
 
 }

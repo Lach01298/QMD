@@ -4,15 +4,15 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.jei.recipe.AtmosphereCollectorRecipe;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.*;
-import mezz.jei.api.ingredients.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
+import nc.integration.jei.JEIHelper;
+import nc.recipe.IngredientSorption;
 import nc.util.Lang;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.List;
 
 
 
@@ -26,8 +26,8 @@ public class AtmosphereCollectorCategory implements IRecipeCategory<AtmosphereCo
 	
 	public AtmosphereCollectorCategory(IGuiHelper guiHelper)
 	{
-		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/generic.png");
-		background = guiHelper.createDrawable(gui_texture, 26, 0, 90, 31);
+		gui_texture = new ResourceLocation(QMD.MOD_ID + ":textures/gui/jei/atmosphere_collector.png");
+		background = guiHelper.createDrawable(gui_texture, 0, 0, 100, 40);
 		icon = guiHelper.createDrawableIngredient(new ItemStack(QMDBlocks.atmosphereCollector));
 		
 	}
@@ -69,10 +69,9 @@ public class AtmosphereCollectorCategory implements IRecipeCategory<AtmosphereCo
 	@Override
 	public void setRecipe(IRecipeLayout recipeLayout, AtmosphereCollectorRecipe recipeWrapper, IIngredients ingredients)
 	{
-		IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
-		List<List<FluidStack>> fluidOutputs =ingredients.getOutputs(VanillaTypes.FLUID);
-		guiFluidStacks.init(1, false, 35, 9, 16, 16, fluidOutputs.get(0)== null ? 1000 : Math.max(1, fluidOutputs.get(0).size()), false, null);
-		guiFluidStacks.set(1, fluidOutputs.get(0));
+		JEIHelper.RecipeFluidMapper fluidMapper = new JEIHelper.RecipeFluidMapper();
+		fluidMapper.put(IngredientSorption.OUTPUT, 0, 0, 74, 8, 16, 16);
+		fluidMapper.apply(recipeLayout.getFluidStacks(), ingredients);
 	}
 	
 

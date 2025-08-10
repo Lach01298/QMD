@@ -2,6 +2,7 @@ package lach_01298.qmd.recipes;
 
 import com.google.common.collect.Lists;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.EmptyFluidIngredient;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
@@ -537,9 +538,10 @@ public class MassSpectrometerRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Double.class, 1D);		// time multiplier
+
+		return fixer.fixed;
 	}
 
 }

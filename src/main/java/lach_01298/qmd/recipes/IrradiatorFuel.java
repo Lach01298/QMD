@@ -3,6 +3,7 @@ package lach_01298.qmd.recipes;
 import lach_01298.qmd.enums.MaterialTypes.SourceType;
 import lach_01298.qmd.item.QMDItems;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
+import nc.recipe.BasicRecipeHandler;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -27,9 +28,10 @@ public class IrradiatorFuel extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(1);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Double.class, 1D);		// speed multiplier
+
+		return fixer.fixed;
 	}
 
 	

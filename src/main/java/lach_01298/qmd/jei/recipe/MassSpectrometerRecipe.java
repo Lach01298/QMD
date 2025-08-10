@@ -30,7 +30,7 @@ public class MassSpectrometerRecipe extends JEIRecipeWrapper
 	@Override
 	protected int getProgressArrowTime()
 	{
-		return (int) (getBaseProcessTime()/4d);
+		return (int) Math.max((getBaseProcessTime()/4d),5);
 	}
 
 

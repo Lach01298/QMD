@@ -33,11 +33,12 @@ public class IrradiatorRecipes extends QMDRecipeHandler
 	@Override
 	public List fixedExtras(List extras)
 	{
-		List fixed = new ArrayList(3);
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Double ? (double) extras.get(0) : 1D);
-		fixed.add(0D);
-		fixed.add(0D);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Double.class, 1D); 	// time multiplier
+		fixer.add(Double.class, 0D);		//  power multiplier
+		fixer.add(Double.class, 0D);		// radiation
+
+		return fixer.fixed;
 	}
 
 }

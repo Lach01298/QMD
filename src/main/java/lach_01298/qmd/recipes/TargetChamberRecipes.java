@@ -5,6 +5,7 @@ import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
+import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.*;
 import nc.util.FluidStackHelper;
 
@@ -67,11 +68,11 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		
 		//addRecipe(itemInput, fluidInput, particleInput [particle, amount, minEnergy, minFocus], itemOutput, fluidOutput
-		//particleOutput+ [particle, amount], particleOutput0 [particle, amount], particleOutput- [particle, amount], maxEnergy, crossSection, energyRelased, radiation)
+		//particleOutput+ [particle, amount], particleOutput0 [particle, amount], particleOutput- [particle, amount], maxEnergy, crossSection, energyRelased)
 		
 		// old recipe
 		//addRecipe(itemInput, particleInput [particle, amount, minEnergy, minFocus], item output,
-		//particleOutput+ [particle, amount], particleOutput0 [particle, amount], particleOutput- [particle, amount], maxEnergy, crossSection, energyRelased, radiation)
+		//particleOutput+ [particle, amount], particleOutput0 [particle, amount], particleOutput- [particle, amount], maxEnergy, crossSection, energyRelased)
 		
 		
 		
@@ -192,7 +193,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addQMDBalancedRecipe("ingotCopper", new ParticleStack(Particles.proton, 1, 45000), "ingotNickel",
 				new ParticleStack(Particles.alpha), null, null, 56000, 0.625, 4270);
-		
+
+		addQMDBalancedRecipe("ingotCalcium",null,  new ParticleStack(Particles.proton, 1, 51000), null, fluidStack("chlorine", FluidStackHelper.BUCKET_VOLUME/2),
+				new ParticleStack(Particles.helion), new ParticleStack(Particles.electron_neutrino), new ParticleStack(Particles.proton), 67000, 0.16, -17000);
+
 		addQMDBalancedRecipe("dustGraphite", new ParticleStack(Particles.proton, 1, 60000), "ingotBoron11",
 				new ParticleStack(Particles.proton), null, new ParticleStack(Particles.deuteron), 85000, 0.08, -25000);
 		
@@ -336,7 +340,13 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addQMDBalancedRecipe("ingotLithium6", new ParticleStack(Particles.neutron, 1, 3000), null,
 				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), new ParticleStack(Particles.deuteron), 21000, 0.2, 60);
-		
+
+		addQMDBalancedRecipe(null, fluidStack("chlorine",FluidStackHelper.BUCKET_VOLUME/2), new ParticleStack(Particles.neutron, 1, 3000), "dustSulfur", null,
+				new ParticleStack(Particles.alpha), new ParticleStack(Particles.electron_antineutrino), new ParticleStack(Particles.electron), 13500, 0.2, 3160);
+
+		addQMDBalancedRecipe("ingotCalcium", null, new ParticleStack(Particles.neutron, 1, 3000), null, fluidStack("chlorine",FluidStackHelper.BUCKET_VOLUME/2),
+				new ParticleStack(Particles.alpha), new ParticleStack(Particles.electron_neutrino), null, 15500, 0.1, 3580);
+
 		addQMDBalancedRecipe("ingotBeryllium", new ParticleStack(Particles.neutron, 1, 4000), null,
 				new ParticleStack(Particles.alpha,2), new ParticleStack(Particles.neutron,2), null, 14000, 0.5, -1570);
 		
@@ -414,7 +424,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addQMDBalancedRecipe("itemSilicon", new ParticleStack(Particles.neutron, 1, 18000), "ingotAluminum",
 				new ParticleStack(Particles.proton), new ParticleStack(Particles.neutron), null, 27000, 0.8, -11100);
-		
+
+		addQMDBalancedRecipe("ingotBarium", new ParticleStack(Particles.neutron, 1, 18200), "dustCaesium137",
+				new ParticleStack(Particles.proton), null, null, 34000, 0.016, 118);
+
 		addQMDBalancedRecipe("ingotNickel", new ParticleStack(Particles.neutron, 1, 19000), "ingotIron",
 				new ParticleStack(Particles.alpha), new ParticleStack(Particles.neutron), null, 30000, 0.8, -5380);
 		
@@ -653,7 +666,7 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addQMDBalancedRecipe("ingotAmericium243", new ParticleStack(Particles.deuteron,1,12000), "ingotCurium243",
 				null, new ParticleStack(Particles.neutron, 2), null, 15000,  0.2, -3520);
-		
+
 		addQMDBalancedRecipe("ingotGold", null, new ParticleStack(Particles.deuteron,1,18000), null, fluidStack("mercury", FluidStackHelper.INGOT_VOLUME),
 				null, new ParticleStack(Particles.neutron, 3), null, 24000,  0.5, -10900);
 		
@@ -746,7 +759,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 				new ParticleStack(Particles.proton), null, null, 6000, 0.16, 1310);
 		
 		addQMDBalancedRecipe(null, fluidStack("fluorine",FluidStackHelper.BUCKET_VOLUME/2), new ParticleStack(Particles.alpha, 1, 6000), "ingotSodium22", null,
-				null, new ParticleStack(Particles.neutron), null, 15000, 0.25, -2970);
+				null, new ParticleStack(Particles.neutron), null, 11000, 0.25, -2970);
+
+		addQMDBalancedRecipe(null, fluidStack("fluorine",FluidStackHelper.BUCKET_VOLUME/2), new ParticleStack(Particles.alpha, 1, 11000), null, fluidStack("neon",FluidStackHelper.BUCKET_VOLUME),
+				new ParticleStack(Particles.proton), null, null, 17500, 0.16, 1160);
 		
 		addQMDBalancedRecipe("ingotLithium7", new ParticleStack(Particles.alpha, 1, 6500), "ingotBoron10",
 				null, new ParticleStack(Particles.neutron), null, 7600, 0.5, -3810);
@@ -759,7 +775,10 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 		
 		addQMDBalancedRecipe("ingotCopper", new ParticleStack(Particles.alpha, 1, 16000), "ingotZinc",
 				new ParticleStack(Particles.proton), null, null, 20000, 0.16, -2060);
-		
+
+		addQMDBalancedRecipe(null, fluidStack("oxygen",FluidStackHelper.BUCKET_VOLUME/2), new ParticleStack(Particles.alpha, 1, 18000), null, fluidStack("fluorine",FluidStackHelper.BUCKET_VOLUME/2),
+				new ParticleStack(Particles.positron), new ParticleStack(Particles.neutron), new ParticleStack(Particles.electron_neutrino), 25000, 0.032, -10400);
+
 		addQMDBalancedRecipe("ingotOsmium", new ParticleStack(Particles.alpha, 1, 19000), "ingotPlatinum",
 				null, new ParticleStack(Particles.neutron), null, 27500, 0.025, -9750);
 		
@@ -1003,15 +1022,14 @@ public class TargetChamberRecipes extends QMDRecipeHandler
 	
 
 	@Override
-	public List fixedExtras(List extras)
+	public List<Object> fixedExtras(List<Object> extras)
 	{
-		List fixed = new ArrayList(4);
-		
-		fixed.add(extras.size() > 0 && extras.get(0) instanceof Integer ? ((Number) (extras.get(0))).longValue() : 0l);
-		fixed.add(extras.size() > 1 && extras.get(1) instanceof Double ? (double) extras.get(1) : 1D);
-		fixed.add(extras.size() > 2 && extras.get(2) instanceof Integer ? ((Number) (extras.get(2))).longValue() : 0l);
-		fixed.add(extras.size() > 3 && extras.get(3) instanceof Double ? (double) extras.get(3) : 0D);
-		return fixed;
+		BasicRecipeHandler.ExtrasFixer fixer = new BasicRecipeHandler.ExtrasFixer(extras);
+		fixer.add(Long.class, 0l); 		// max energy
+		fixer.add(Double.class, 1D);		// cross section
+		fixer.add(Long.class, 0l);		// energy released
+
+		return fixer.fixed;
 	}
 	
 

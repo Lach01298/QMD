@@ -32,6 +32,9 @@ nc.sf.aluminum_cooler1=%s valid aluminium coolers
 
 item.qmd.lepton_cannon.desc=A powerful beam weapon that can go through blocks and armour.
 
+tile.qmd.atmosphere_collector.desc=Collects gas from the atmosphere. Checks a 5x5x5 Cube where it is the bottom of the centre face for clear space.
+tile.qmd.liquid_collector.desc=Collects liquids from large bodies of liquid such as oceans and rivers. Checks a 5x5x5 Cube where it is the top of the centre face for blocks.
+
 tile.qmd.accelerator_cavity.aluminium.name=Aluminium RF Cavity
 tile.qmd.accelerator_magnet.aluminium.name=Aluminium Accelerator Electromagnet
 
