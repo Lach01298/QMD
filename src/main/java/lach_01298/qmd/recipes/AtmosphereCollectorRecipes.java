@@ -5,6 +5,7 @@ import lach_01298.qmd.util.Util;
 import nc.recipe.ingredient.FluidIngredient;
 import nc.util.FluidRegHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -20,7 +21,7 @@ public class AtmosphereCollectorRecipes
 	{
 		for (WorldIngredient recipeWorldIngredient : recipes.keySet())
 		{
-			if(recipeWorldIngredient.isSatisfied(Blocks.AIR,biome,dimesionId))
+			if(recipeWorldIngredient.isSatisfied(Blocks.AIR.getDefaultState(),biome,dimesionId))
 			{
 				return recipes.get(recipeWorldIngredient);
 			}
@@ -48,7 +49,7 @@ public class AtmosphereCollectorRecipes
 			}
 		}
 
-		WorldIngredient worldIngredient = new WorldIngredient(new ArrayList<Block>(),biomes,dimensions);
+		WorldIngredient worldIngredient = new WorldIngredient(new ArrayList<IBlockState>(),biomes,dimensions);
 		recipes.put(worldIngredient, stack);
 	}
 	

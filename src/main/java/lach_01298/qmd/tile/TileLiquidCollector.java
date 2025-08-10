@@ -3,6 +3,7 @@ package lach_01298.qmd.tile;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.recipes.LiquidCollectorRecipes;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraftforge.fluids.FluidStack;
@@ -61,11 +62,11 @@ public class TileLiquidCollector extends TileFluidCollector
 	@Override
 	public void checkInputs()
 	{
-		Block block = world.getBlockState(this.pos.down()).getBlock();
+		IBlockState blockState = world.getBlockState(this.pos.down());
 		String biome = world.getBiome(this.pos).getRegistryName().toString();
 		int dimensionId = world.provider.getDimension();
 
-		outputFluid = LiquidCollectorRecipes.getRecipe(block,biome,dimensionId);
+		outputFluid = LiquidCollectorRecipes.getRecipe(blockState,biome,dimensionId);
 	}
 
 

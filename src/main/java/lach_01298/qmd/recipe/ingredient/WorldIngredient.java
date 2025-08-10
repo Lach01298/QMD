@@ -1,19 +1,20 @@
 package lach_01298.qmd.recipe.ingredient;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 
 import java.util.List;
 
 public class WorldIngredient
 {
-	public List<Block> blocks;
+	public List<IBlockState> blockStates;
 	public List<String> biomes;
 	public List<Integer> dimensions;
 
 
-	public WorldIngredient(List<Block> blocks, List<String> biomes, List<Integer> dimensions)
+	public WorldIngredient(List<IBlockState> blockStates, List<String> biomes, List<Integer> dimensions)
 	{
-		this.blocks = blocks;
+		this.blockStates = blockStates;
 		this.biomes = biomes;
 		this.dimensions = dimensions;
 	}
@@ -21,7 +22,7 @@ public class WorldIngredient
 
 	public boolean hasBlockRequirement()
 	{
-		return !this.blocks.isEmpty();
+		return !this.blockStates.isEmpty();
 	}
 
 	public boolean hasBiomeRequirement()
@@ -34,7 +35,7 @@ public class WorldIngredient
 		return !this.dimensions.isEmpty();
 	}
 
-	public boolean isSatisfied(Block block, String biome, int dimension)
+	public boolean isSatisfied(IBlockState blockState, String biome, int dimension)
 	{
 		boolean blockSatisfied = false;
 		boolean biomeSatisfied = false;
@@ -43,7 +44,7 @@ public class WorldIngredient
 
 		if(hasBlockRequirement())
 		{
-			blockSatisfied = this.blocks.contains(block);
+			blockSatisfied = this.blockStates.contains(blockState);
 		}
 		else
 		{

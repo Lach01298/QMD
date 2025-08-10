@@ -6,6 +6,10 @@ import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import nc.util.Lang;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.DimensionManager;
@@ -45,12 +49,23 @@ public class LiquidCollectorRecipe implements IRecipeWrapper
 		if (mouseX >= blocksAreaX && mouseX <= blocksAreaX + blocksAreaWidth && mouseY >= blocksAreaY && mouseY <= blocksAreaY + blocksAreaHeight)
 		{
 			String blockNames = Lang.localize("gui.qmd.jei.collector.any");
-			if (!worldIngredient.blocks.isEmpty())
+			if (!worldIngredient.blockStates.isEmpty())
 			{
 				List<String> blocks = new ArrayList<>();
-				for(Block block :worldIngredient.blocks)
+				for(IBlockState blockState :worldIngredient.blockStates)
 				{
-					blocks.add(block.getLocalizedName());
+					Block block = blockState.getBlock();
+					int meta = block.getMetaFromState(blockState);
+
+					if(!Item.getItemFromBlock(block).equals(Items.AIR))
+					{
+						ItemStack stack = new ItemStack(Item.getItemFromBlock(block), 1, meta);
+						blocks.add(stack.getDisplayName());
+					}
+					else
+					{
+						blocks.add(blockState.getBlock().getLocalizedName());
+					}
 				}
 				blockNames = String.join(", ", blocks);
 			}

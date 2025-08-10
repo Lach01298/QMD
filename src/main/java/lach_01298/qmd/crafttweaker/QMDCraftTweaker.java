@@ -13,6 +13,7 @@ import lach_01298.qmd.recipes.QMDRecipes;
 import nc.recipe.IngredientSorption;
 import nc.recipe.ingredient.FluidIngredient;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.Optional;
@@ -555,20 +556,37 @@ public class QMDCraftTweaker
 		@ZenMethod
 		public static void addRecipe(String blocksString, String biomesString, String dimesionIdsString, IIngredient fluidOutput)
 		{
-			List<Block> blocks = new ArrayList<Block>();
+			List<IBlockState> blockStates = new ArrayList<IBlockState>();
 			if (!blocksString.equals(""))
 			{
 				String[] blockNames = blocksString.split(",");
 
 				for (String blockName : blockNames)
 				{
+					String[] blockNameParts = blockName.split(":");
+					int metaId = 0;
+					if (blockNameParts.length > 2)
+					{
+						try
+						{
+							metaId = Integer.parseInt(blockNameParts[2]);
+						}
+						catch(Exception e)
+						{
+							CraftTweakerAPI.logError(blockName + " has incorrect metadata Id syntax. Can not add liquid collector recipe");
+							return;
+						}
+					}
+					blockName = blockNameParts[0] + ":" + blockNameParts[1];
 					Block block = Block.getBlockFromName(blockName);
 					if (block == null)
 					{
 						CraftTweakerAPI.logError(blockName + " is not a valid block. Can not add liquid collector recipe.");
 						return;
 					}
-					blocks.add(block);
+					IBlockState state = block.getStateFromMeta(metaId);
+
+					blockStates.add(state);
 
 				}
 			}
@@ -607,7 +625,7 @@ public class QMDCraftTweaker
 				if(liquidStack.getInternal() instanceof FluidStack)
 				{
 					FluidStack fluidstack = (FluidStack) liquidStack.getInternal();
-					LiquidCollectorRecipes.addRecipe(blocks,biomes,dimensions,fluidstack);
+					LiquidCollectorRecipes.addRecipe(blockStates,biomes,dimensions,fluidstack);
 					return;
 				}
 
