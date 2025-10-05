@@ -1,6 +1,7 @@
 package lach_01298.qmd.liquefier.block;
 
 import lach_01298.qmd.liquefier.tile.TileLiquefierController;
+import lach_01298.qmd.tab.QMDTabs;
 import nc.block.hx.BlockHeatExchangerPart;
 import nc.block.tile.IActivatable;
 import nc.util.BlockHelper;
@@ -26,6 +27,7 @@ public class BlockLiquefierController extends BlockHeatExchangerPart implements 
 	public BlockLiquefierController()
 	{
 		super();
+		setCreativeTab( QMDTabs.MULTIBLOCKS);
 		setDefaultState(blockState.getBaseState().withProperty(FACING_ALL, EnumFacing.NORTH).withProperty(ACTIVE, Boolean.FALSE));
 	}
 

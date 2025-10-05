@@ -3,6 +3,7 @@ package lach_01298.qmd.recipes;
 import lach_01298.qmd.particle.*;
 import lach_01298.qmd.recipe.QMDRecipeHandler;
 import lach_01298.qmd.recipe.ingredient.*;
+import lach_01298.qmd.util.Util;
 import nc.recipe.BasicRecipeHandler;
 
 import java.util.*;
@@ -68,8 +69,8 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		addDecayRecipe(new ParticleStack(Particles.delta_minus),  new ParticleStack(Particles.neutron), null,  new ParticleStack(Particles.pion_minus), 1.0);
 		addDecayRecipe(new ParticleStack(Particles.antidelta_minus),  new ParticleStack(Particles.antineutron), null,  new ParticleStack(Particles.pion_plus), 1.0);
 		
-		addRecipe(new ParticleStack(Particles.photon,1,1124),  new ParticleStack(Particles.electron), new EmptyParticleIngredient(),  new ParticleStack(Particles.positron), 230000L,1.0, -1022L);
-		addRecipe(new ParticleStack(Particles.photon,1,233200),  new ParticleStack(Particles.muon), new EmptyParticleIngredient(),  new ParticleStack(Particles.antimuon), Long.MAX_VALUE,0.5, -212000L);
+		addRecipe(new ParticleStack(Particles.photon,1,1120),  new ParticleStack(Particles.electron), new EmptyParticleIngredient(),  new ParticleStack(Particles.positron), 230000L,1.0, -1020L);
+		addRecipe(new ParticleStack(Particles.photon,1,233000),  new ParticleStack(Particles.muon), new EmptyParticleIngredient(),  new ParticleStack(Particles.antimuon), Long.MAX_VALUE,0.5, -211000L);
 	}
 	
 	
@@ -111,7 +112,7 @@ public class DecayChamberRecipes extends QMDRecipeHandler
 		}
 		
 		
-		long energyReleased = (long)((particleIn.getParticle().getMass() * particleIn.getAmount() - outputMass) * 1000);
+		long energyReleased = (long)(Util.roundToSigFigs((particleIn.getParticle().getMass() * particleIn.getAmount() - outputMass) * 1000,3));
 		addRecipe(particleIn, p1, p2, p3, Long.MAX_VALUE, crossSection, energyReleased);
 	}
 

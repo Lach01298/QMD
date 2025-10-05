@@ -64,11 +64,11 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		//on the rare occasion of changing the multiblock to a different type with the tank full
 		if(!(oldLogic instanceof MassSpectrometerLogic || oldLogic.getID().equals("")))
 		{
-			getMultiblock().tanks.get(2).setFluidStored(null);
-			getMultiblock().tanks.get(3).setFluidStored(null);
-			getMultiblock().tanks.get(4).setFluidStored(null);
-			getMultiblock().tanks.get(5).setFluidStored(null);
-			getMultiblock().tanks.get(6).setFluidStored(null);
+			multiblock.tanks.get(2).setFluidStored(null);
+			multiblock.tanks.get(3).setFluidStored(null);
+			multiblock.tanks.get(4).setFluidStored(null);
+			multiblock.tanks.get(5).setFluidStored(null);
+			multiblock.tanks.get(6).setFluidStored(null);
 			
 		}
 	}
@@ -100,7 +100,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	public boolean isMachineWhole()
 	{
 		Axis axis;
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		
 		// check size
 		if (acc.getExteriorLengthY() != diameter)
@@ -373,7 +373,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	
 	public EnumFacing getWallNormal(BlockPos pos)
 	{
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		if(pos.getY() == acc.getMaxY())
 		{
 			return EnumFacing.UP;
@@ -423,7 +423,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	@Override
 	public void onAcceleratorFormed()
 	{
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		
 		acc.tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
 		acc.tanks.get(2).setAllowedFluids(QMDRecipes.mass_spectrometer.validFluids.get(0));
@@ -462,16 +462,16 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	
 	public void refreshStats()
 	{
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		
 		int energy = 0;
 		long heat = 0;
-		for (TileAcceleratorMagnet magnet : getMultiblock().getPartMap(TileAcceleratorMagnet.class).values())
+		for (TileAcceleratorMagnet magnet : multiblock.getPartMap(TileAcceleratorMagnet.class).values())
 		{
 			energy += magnet.basePower/16;
 			heat += magnet.heat/16;
 		}
-		for (TileAcceleratorIonSource source : getMultiblock().getPartMap(TileAcceleratorIonSource.class).values())
+		for (TileAcceleratorIonSource source : multiblock.getPartMap(TileAcceleratorIonSource.class).values())
 		{
 			energy += source.basePower;
 		}
@@ -508,7 +508,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	public boolean onUpdateServer()
 	{
 		super.onUpdateServer();
-		if (getMultiblock().isControllorOn)
+		if (multiblock.isControllorOn)
 		{
 			refreshRecipe();
 	
@@ -518,12 +518,12 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				if (canProduceProduct())
 				{
 					
-					if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,
-							true) == getMultiblock().requiredEnergy)
+					if (multiblock.energyStorage.extractEnergy(multiblock.requiredEnergy,
+							true) == multiblock.requiredEnergy)
 					{
 						internalHeating();
 	
-						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
+						multiblock.energyStorage.changeEnergyStored(-multiblock.requiredEnergy);
 						workDone += speed;
 						produceProduct();
 					}
@@ -539,15 +539,15 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		{
 			workDone = 0;
 		}
-		getMultiblock().sendMultiblockUpdatePacketToListeners();
+		multiblock.sendMultiblockUpdatePacketToListeners();
 		return true;
 	}
 	
 	protected void operate()
 	{
-		if ((isRedstonePowered() && !getMultiblock().computerControlled) || (getMultiblock().computerControlled && getMultiblock().energyPercentage > 0))
+		if ((isRedstonePowered() && !multiblock.computerControlled) || (multiblock.computerControlled && multiblock.energyPercentage > 0))
 		{
-			if (getMultiblock().getTemperature() <= getMultiblock().maxOperatingTemp)
+			if (multiblock.getTemperature() <= multiblock.maxOperatingTemp)
 			{
 				operational = true;
 				return;
@@ -559,7 +559,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 					quenchMagnets();
 				}
 				operational = false;
-				getMultiblock().errorCode = Accelerator.errorCode_ToHot;
+				multiblock.errorCode = Accelerator.errorCode_ToHot;
 				return;
 			}
 		}
@@ -575,7 +575,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	
 	private boolean canProduceProduct()
 	{
-		TileMassSpectrometerController inv = (TileMassSpectrometerController) getMultiblock().controller;
+		TileMassSpectrometerController inv = (TileMassSpectrometerController) multiblock.controller;
 		List<IItemIngredient> productItems = recipeInfo.recipe.getItemProducts();
 		List<IFluidIngredient> productFluids = recipeInfo.recipe.getFluidProducts();
 
@@ -609,7 +609,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			FluidStack stack = productFluids.get(i).getStack();
 			if(stack != null)
 			{
-				if(getMultiblock().tanks.get(i+3).fill(stack, false) != stack.amount)
+				if(multiblock.tanks.get(i+3).fill(stack, false) != stack.amount)
 				{
 					return false;
 				}
@@ -626,7 +626,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		while(workDone >= recipeWork && canProduceProduct())
 		{
 			
-			TileMassSpectrometerController inv = (TileMassSpectrometerController) getMultiblock().controller;
+			TileMassSpectrometerController inv = (TileMassSpectrometerController) multiblock.controller;
 
 			List<IItemIngredient> productItems = recipeInfo.recipe.getItemProducts();
 			for (int i = 0; i < productItems.size(); i++)
@@ -656,7 +656,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 				if (productFluid != null)
 				{
 					productFluid.amount = productFluids.get(i).getNextStackSize(0);
-					getMultiblock().tanks.get(i+3).fill(productFluid, true);
+					multiblock.tanks.get(i+3).fill(productFluid, true);
 				}
 
 			}
@@ -664,7 +664,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			FluidStack ingredientFluid = recipeInfo.recipe.getFluidIngredients().get(0).getStack();
 			if (ingredientFluid != null)
 			{
-				getMultiblock().tanks.get(2).drain(ingredientFluid, true);
+				multiblock.tanks.get(2).drain(ingredientFluid, true);
 			}
 
 			workDone = Math.max(0, workDone - recipeWork);
@@ -673,12 +673,12 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 
 	protected void refreshRecipe()
 	{
-		TileMassSpectrometerController cont = (TileMassSpectrometerController) getMultiblock().controller;
+		TileMassSpectrometerController cont = (TileMassSpectrometerController) multiblock.controller;
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 		ItemStack item = cont.getInventoryStacks().get(0).copy();
 		items.add(item);
 		ArrayList<Tank> tanks = new ArrayList<Tank>();
-		tanks.add(getMultiblock().tanks.get(2));
+		tanks.add(multiblock.tanks.get(2));
 		
 		recipeInfo = mass_spectrometer.getRecipeInfoFromInputs(items, tanks, new ArrayList<ParticleStack>());
 	}
@@ -710,11 +710,11 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	public AcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 
-		return new MassSpectrometerUpdatePacket(getMultiblock().controller.getTilePos(),
-				getMultiblock().isControllorOn, getMultiblock().cooling, getMultiblock().rawHeating,getMultiblock().currentHeating,getMultiblock().maxCoolantIn,getMultiblock().maxCoolantOut,getMultiblock().maxOperatingTemp,
-				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().acceleratingVoltage,
-				getMultiblock().RFCavityNumber, getMultiblock().quadrupoleNumber, getMultiblock().quadrupoleStrength, getMultiblock().dipoleNumber, getMultiblock().dipoleStrength, getMultiblock().errorCode,
-				getMultiblock().heatBuffer, getMultiblock().energyStorage, getMultiblock().tanks, getMultiblock().beams,workDone,recipeWork, speed);
+		return new MassSpectrometerUpdatePacket(multiblock.controller.getTilePos(),
+				multiblock.isControllorOn, multiblock.cooling, multiblock.rawHeating,multiblock.currentHeating,multiblock.maxCoolantIn,multiblock.maxCoolantOut,multiblock.maxOperatingTemp,
+				multiblock.requiredEnergy, multiblock.efficiency, multiblock.acceleratingVoltage,
+				multiblock.RFCavityNumber, multiblock.quadrupoleNumber, multiblock.quadrupoleStrength, multiblock.dipoleNumber, multiblock.dipoleStrength, multiblock.errorCode,
+				multiblock.heatBuffer, multiblock.energyStorage, multiblock.tanks, multiblock.beams,workDone,recipeWork, speed);
 	}
 	
 	@Override

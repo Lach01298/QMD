@@ -51,7 +51,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	@Override
 	public int getBeamLength()
 	{
-		return getMultiblock().getExteriorLengthX();
+		return multiblock.getExteriorLengthX();
 	}
 	
 	@Override
@@ -62,16 +62,16 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	
 	public long getEnergyLoss()
 	{
-		return Equations.cornerEnergyLoss(getMultiblock().beams.get(0).getParticleStack(),getBeamRadius());
+		return Equations.cornerEnergyLoss(multiblock.beams.get(0).getParticleStack(),getBeamRadius());
 	}
 	
 	public long getMaxEnergy()
 	{
-		if(this.getMultiblock().beams.get(0).getParticleStack() != null)
+		if(this.multiblock.beams.get(0).getParticleStack() != null)
 		{
-			Particle particle = this.getMultiblock().beams.get(0).getParticleStack().getParticle();
+			Particle particle = this.multiblock.beams.get(0).getParticleStack().getParticle();
 
-			return Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());
+			return Equations.ringEnergyMaxEnergyFromDipole(multiblock.dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());
 		}
 		
 		return 0;
@@ -83,7 +83,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		if(particle != null)
 		{
 			
-			return Equations.ringEnergyMaxEnergyFromDipole(getMultiblock().dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());
+			return Equations.ringEnergyMaxEnergyFromDipole(multiblock.dipoleStrength,getBeamRadius(),particle.getCharge(),particle.getMass());
 		}
 		
 		return 0;
@@ -94,7 +94,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	@Override
 	public boolean isMachineWhole()
 	{
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		
 		if (acc.getExteriorLengthX() != getThickness() || acc.getExteriorLengthY() != getThickness() || acc.getExteriorLengthZ() != getThickness())
 		{
@@ -222,7 +222,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	@Override
 	public void onAcceleratorFormed()
 	{
-		 Accelerator acc = getMultiblock();
+		 Accelerator acc = multiblock;
 
 		 if (!getWorld().isRemote)
 		 {
@@ -241,9 +241,9 @@ public class BeamDiverterLogic extends AcceleratorLogic
 				 }
 				 if(port.getIOType() == IOType.OUTPUT)
 				 {
-					 if(getMultiblock().WORLD.getTileEntity(port.getPos().offset(port.getOutwardFacing().getOpposite(),getThickness() - 1)) instanceof TileAcceleratorBeamPort)
+					 if(multiblock.WORLD.getTileEntity(port.getPos().offset(port.getOutwardFacing().getOpposite(),getThickness() - 1)) instanceof TileAcceleratorBeamPort)
 					 {
-						 TileAcceleratorBeamPort oppositePort = (TileAcceleratorBeamPort) getMultiblock().WORLD.getTileEntity(port.getPos().offset(port.getOutwardFacing().getOpposite(), getThickness() - 1));
+						 TileAcceleratorBeamPort oppositePort = (TileAcceleratorBeamPort) multiblock.WORLD.getTileEntity(port.getPos().offset(port.getOutwardFacing().getOpposite(), getThickness() - 1));
 						 if(oppositePort.getIOType() == IOType.INPUT)
 						 {
 							 port.setIONumber(2);
@@ -273,7 +273,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	{
 		super.onUpdateServer();
 		
-		if (getMultiblock().isControllorOn)
+		if (multiblock.isControllorOn)
 		{
 			produceBeam();
 		}
@@ -283,21 +283,21 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		}
 		
 		push();
-		getMultiblock().sendMultiblockUpdatePacketToListeners();
+		multiblock.sendMultiblockUpdatePacketToListeners();
 		return true;
 	}
 	
 	@Override
 	protected void refreshBeams()
 	{
-		getMultiblock().beams.get(0).setParticleStack(null);
+		multiblock.beams.get(0).setParticleStack(null);
 		pull();
 	}
 	
 	@Override
 	protected boolean shouldUseEnergy()
 	{
-		if (getMultiblock().beams.get(0).getParticleStack() != null)
+		if (multiblock.beams.get(0).getParticleStack() != null)
 		{
 			return true;
 		}
@@ -327,28 +327,28 @@ public class BeamDiverterLogic extends AcceleratorLogic
 
 							if (stack != null)
 							{
-								if(getMultiblock().WORLD.getTileEntity(port.getPos().offset(face.getOpposite(),getThickness() - 1)) instanceof TileAcceleratorBeamPort)
+								if(multiblock.WORLD.getTileEntity(port.getPos().offset(face.getOpposite(),getThickness() - 1)) instanceof TileAcceleratorBeamPort)
 								{
-									TileAcceleratorBeamPort oppositePort = (TileAcceleratorBeamPort) getMultiblock().WORLD.getTileEntity(port.getPos().offset(face.getOpposite(), getThickness() - 1));
+									TileAcceleratorBeamPort oppositePort = (TileAcceleratorBeamPort) multiblock.WORLD.getTileEntity(port.getPos().offset(face.getOpposite(), getThickness() - 1));
 									if(oppositePort.getIOType() == IOType.OUTPUT)
 									{
-										getMultiblock().beams.get(port.getIONumber()).setMaxEnergy(Long.MAX_VALUE);  // for neutral beam pass through
+										multiblock.beams.get(port.getIONumber()).setMaxEnergy(Long.MAX_VALUE);  // for neutral beam pass through
 									}
 								}
 								else
 								{
-									getMultiblock().beams.get(port.getIONumber()).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
+									multiblock.beams.get(port.getIONumber()).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
 								}
 
-								if (!getMultiblock().beams.get(port.getIONumber()).reciveParticle(face, stack))
+								if (!multiblock.beams.get(port.getIONumber()).reciveParticle(face, stack))
 								{
-									if (stack.getMeanEnergy() > getMultiblock().beams.get(port.getIONumber()).getMaxEnergy())
+									if (stack.getMeanEnergy() > multiblock.beams.get(port.getIONumber()).getMaxEnergy())
 									{
-										getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+										multiblock.errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
 									}
-									else if (stack.getMeanEnergy() < getMultiblock().beams.get(port.getIONumber()).getMinEnergy())
+									else if (stack.getMeanEnergy() < multiblock.beams.get(port.getIONumber()).getMinEnergy())
 									{
-										getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+										multiblock.errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
 									}
 								}
 							}
@@ -363,23 +363,23 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	
 	private void resetOutputBeam()
 	{
-		getMultiblock().beams.get(1).setParticleStack(null);
-		getMultiblock().beams.get(2).setParticleStack(null);
+		multiblock.beams.get(1).setParticleStack(null);
+		multiblock.beams.get(2).setParticleStack(null);
 	}
 
 	private void produceBeam()
 	{
 		
-		if(this.getMultiblock().beams.get(0).getParticleStack() != null)
+		if(this.multiblock.beams.get(0).getParticleStack() != null)
 		{
-			ParticleStack stackIn = getMultiblock().beams.get(0).getParticleStack();
-			getMultiblock().beams.get(1).setParticleStack(stackIn.copy());
-			getMultiblock().beams.get(2).setParticleStack(stackIn.copy());
+			ParticleStack stackIn = multiblock.beams.get(0).getParticleStack();
+			multiblock.beams.get(1).setParticleStack(stackIn.copy());
+			multiblock.beams.get(2).setParticleStack(stackIn.copy());
 			
 			if(stackIn.getMeanEnergy() <= getMaxEnergy())
 			{
-				ParticleStack particleOut = getMultiblock().beams.get(1).getParticleStack();
-				ParticleStack particleStraightOut = getMultiblock().beams.get(2).getParticleStack();
+				ParticleStack particleOut = multiblock.beams.get(1).getParticleStack();
+				ParticleStack particleStraightOut = multiblock.beams.get(2).getParticleStack();
 				
 				particleOut.addMeanEnergy(-Equations.cornerEnergyLoss(stackIn,getBeamRadius()));
 				double focusLoss = -Equations.focusLoss(getBeamLength(), stackIn);
@@ -391,7 +391,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 				{
 					particleOut = null;
 					particleStraightOut = null;
-					getMultiblock().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+					multiblock.errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 				}
 			}
 		}
@@ -420,11 +420,11 @@ public class BeamDiverterLogic extends AcceleratorLogic
 	@Override
 	public BeamDiverterUpdatePacket getMultiblockUpdatePacket()
 	{
-		return new BeamDiverterUpdatePacket(getMultiblock().controller.getTilePos(),
-				getMultiblock().isControllorOn, getMultiblock().cooling, getMultiblock().rawHeating,getMultiblock().currentHeating,getMultiblock().maxCoolantIn,getMultiblock().maxCoolantOut,getMultiblock().maxOperatingTemp,
-				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().acceleratingVoltage,
-				getMultiblock().RFCavityNumber, getMultiblock().quadrupoleNumber, getMultiblock().quadrupoleStrength, getMultiblock().dipoleNumber, getMultiblock().dipoleStrength, getMultiblock().errorCode,
-				getMultiblock().heatBuffer, getMultiblock().energyStorage, getMultiblock().tanks, getMultiblock().beams);
+		return new BeamDiverterUpdatePacket(multiblock.controller.getTilePos(),
+				multiblock.isControllorOn, multiblock.cooling, multiblock.rawHeating,multiblock.currentHeating,multiblock.maxCoolantIn,multiblock.maxCoolantOut,multiblock.maxOperatingTemp,
+				multiblock.requiredEnergy, multiblock.efficiency, multiblock.acceleratingVoltage,
+				multiblock.RFCavityNumber, multiblock.quadrupoleNumber, multiblock.quadrupoleStrength, multiblock.dipoleNumber, multiblock.dipoleStrength, multiblock.errorCode,
+				multiblock.heatBuffer, multiblock.energyStorage, multiblock.tanks, multiblock.beams);
 	}
 	
 	@Override

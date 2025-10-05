@@ -31,8 +31,7 @@ public class TileAcceleratorVent extends TileAcceleratorPart implements ITileFlu
 	private final @Nonnull List<Tank> backupTanks = Lists.newArrayList(new Tank(1, new HashSet<>()),
 			new Tank(1, new HashSet<>()));
 
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid
-			.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.NON));
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.NON));
 
 	private @Nonnull FluidTileWrapper[] fluidSides;
 

@@ -73,11 +73,6 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	// Multiblock methods
 	
-	public Accelerator getMultiblock()
-	{
-		return multiblock;
-	}
-	
 	@Override
 	public void onMachineAssembled()
 	{
@@ -104,10 +99,10 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	public void onAssimilate(Accelerator assimilated)
 	{
 
-		getMultiblock().heatBuffer.mergeHeatBuffers(assimilated.heatBuffer);
-		getMultiblock().energyStorage.mergeEnergyStorage(assimilated.energyStorage);
+		multiblock.heatBuffer.mergeHeatBuffers(assimilated.heatBuffer);
+		multiblock.energyStorage.mergeEnergyStorage(assimilated.energyStorage);
 
-		if (getMultiblock().isAssembled())
+		if (multiblock.isAssembled())
 		{
 
 			onAcceleratorFormed();
@@ -137,12 +132,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 
 	public int getCapacityMultiplier()
 	{
-		return getMultiblock().getInteriorVolume();
+		return multiblock.getInteriorVolume();
 	}
 
 	public @Nonnull List<Tank> getTanks(List<Tank> backupTanks)
 	{
-		return getMultiblock().isAssembled() ? getMultiblock().tanks : backupTanks;
+		return multiblock.isAssembled() ? multiblock.tanks : backupTanks;
 	}
 	
 	// Multiblock validation
@@ -214,7 +209,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		
 		if (MaterialHelper.isReplaceable(world.getBlockState(pos).getMaterial()) || world.getTileEntity(pos) instanceof TileAcceleratorPart) return true;
-		else return getMultiblock().standardLastError(pos);
+		else return multiblock.standardLastError(pos);
 	}
 	
 	
@@ -222,7 +217,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public void onAcceleratorFormed()
 	{
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		for (IAcceleratorController contr : getPartMap(IAcceleratorController.class).values())
 		{
 			acc.controller = contr;
@@ -231,7 +226,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		acc.energyStorage.setStorageCapacity(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
 		acc.energyStorage.setMaxTransfer(QMDConfig.accelerator_base_energy_capacity * getCapacityMultiplier());
 		acc.heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
-		acc.ambientTemp = 273 + (int) (getWorld().getBiome(acc.getMiddleCoord()).getTemperature(acc.getMiddleCoord()) * 20F);
+		acc.ambientTemp = 293;
 		acc.tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
 		acc.tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
 
@@ -290,7 +285,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	{
 		for (BlockPos pos : beamline)
 		{
-			if (getMultiblock().WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam)
+			if (multiblock.WORLD.getTileEntity(pos) instanceof TileAcceleratorBeam)
 			{
 
 				TileAcceleratorBeam beam = (TileAcceleratorBeam) getWorld().getTileEntity(pos);
@@ -301,7 +296,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public void resetBeams()
 	{
-		for(ParticleStorageAccelerator beam : getMultiblock().beams)
+		for(ParticleStorageAccelerator beam : multiblock.beams)
 		{
 			beam.setMinEnergy(0);
 			beam.setMaxEnergy(Long.MAX_VALUE);
@@ -310,7 +305,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public void formComponents()
 	{
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		// beam
 		for (TileAcceleratorBeam beam : acc.getPartMap(TileAcceleratorBeam.class).values())
 		{
@@ -392,7 +387,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		double dipoleStrength = 0;
 		int voltage = 0;
 
-		for (DipoleMagnet dipole : getMultiblock().dipoleMap.values())
+		for (DipoleMagnet dipole : multiblock.dipoleMap.values())
 		{
 			for (IAcceleratorComponent componet : dipole.getComponents().values())
 			{
@@ -409,7 +404,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			}
 		}
 
-		for (QuadrupoleMagnet quad : getMultiblock().getQuadrupoleMap().values())
+		for (QuadrupoleMagnet quad : multiblock.getQuadrupoleMap().values())
 		{
 			for (IAcceleratorComponent componet : quad.getComponents().values())
 			{
@@ -426,7 +421,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			}
 		}
 
-		for (RFCavity cavity : getMultiblock().getRFCavityMap().values())
+		for (RFCavity cavity : multiblock.getRFCavityMap().values())
 		{
 			for (IAcceleratorComponent componet : cavity.getComponents().values())
 			{
@@ -443,18 +438,18 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			}
 		}
 
-		for (TileAcceleratorIonSource source : getMultiblock().getPartMap(TileAcceleratorIonSource.class).values())
+		for (TileAcceleratorIonSource source : multiblock.getPartMap(TileAcceleratorIonSource.class).values())
 		{
 			energy += source.basePower;
 		}
 
 		efficiency /= parts;
-		getMultiblock().requiredEnergy = (int) (energy / efficiency);
-		getMultiblock().rawHeating = heat;
-		getMultiblock().dipoleStrength = dipoleStrength;
-		getMultiblock().quadrupoleStrength = quadStrength;
-		getMultiblock().acceleratingVoltage = voltage;
-		getMultiblock().efficiency = efficiency;
+		multiblock.requiredEnergy = (int) (energy / efficiency);
+		multiblock.rawHeating = heat;
+		multiblock.dipoleStrength = dipoleStrength;
+		multiblock.quadrupoleStrength = quadStrength;
+		multiblock.acceleratingVoltage = voltage;
+		multiblock.efficiency = efficiency;
 
 	}
 	
@@ -518,7 +513,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 
 	public void onAcceleratorBroken()
 	{
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 
 		for (RFCavity cavity : acc.getRFCavityMap().values())
 		{
@@ -583,9 +578,9 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 
 	public boolean onUpdateServer()
 	{
-		getMultiblock().errorCode = Accelerator.errorCode_Nothing;
+		multiblock.errorCode = Accelerator.errorCode_Nothing;
 		
-		getMultiblock().currentHeating = 0;
+		multiblock.currentHeating = 0;
 		operate();
 		
 		externalHeating();
@@ -596,7 +591,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			produceFluidProducts();
 		}
 		updateRedstone();
-		getMultiblock().updateActivity();
+		multiblock.updateActivity();
 		
 		return true;
 	}
@@ -608,25 +603,25 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	protected void operate()
 	{
-		if ((isRedstonePowered() && !getMultiblock().computerControlled) || (getMultiblock().computerControlled && getMultiblock().energyPercentage > 0))
+		if ((isRedstonePowered() && !multiblock.computerControlled) || (multiblock.computerControlled && multiblock.energyPercentage > 0))
 		{
 			refreshBeams();
 			if (shouldUseEnergy())
 			{
-				if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,
-						true) == getMultiblock().requiredEnergy )
+				if (multiblock.energyStorage.extractEnergy(multiblock.requiredEnergy,
+						true) == multiblock.requiredEnergy )
 				{
-					getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
+					multiblock.energyStorage.changeEnergyStored(-multiblock.requiredEnergy);
 					internalHeating();
 				}
 				else
 				{
 					operational = false;
-					getMultiblock().errorCode = Accelerator.errorCode_OutOfPower;
+					multiblock.errorCode = Accelerator.errorCode_OutOfPower;
 					return;
 				}
 			}
-			if (getMultiblock().getTemperature() <= getMultiblock().maxOperatingTemp)
+			if (multiblock.getTemperature() <= multiblock.maxOperatingTemp)
 			{
 				operational = true;
 				return;
@@ -638,7 +633,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 					quenchMagnets();
 				}
 				operational = false;
-				getMultiblock().errorCode = Accelerator.errorCode_ToHot;
+				multiblock.errorCode = Accelerator.errorCode_ToHot;
 				return;
 				
 			}
@@ -713,7 +708,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							otherStorage.reciveParticle(face.getOpposite(), getMultiblock().beams.get(port.getIONumber()).getParticleStack());
+							otherStorage.reciveParticle(face.getOpposite(), multiblock.beams.get(port.getIONumber()).getParticleStack());
 						}
 					}
 				}
@@ -740,15 +735,15 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
 							ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
 
-							if (!getMultiblock().beams.get(port.getIONumber()).reciveParticle(face, stack))
+							if (!multiblock.beams.get(port.getIONumber()).reciveParticle(face, stack))
 							{
-								if (stack.getMeanEnergy() > getMultiblock().beams.get(port.getIONumber()).getMaxEnergy())
+								if (stack.getMeanEnergy() > multiblock.beams.get(port.getIONumber()).getMaxEnergy())
 								{
-									getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
+									multiblock.errorCode = Accelerator.errorCode_InputParticleEnergyToHigh;
 								}
 								else
 								{
-									getMultiblock().errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
+									multiblock.errorCode = Accelerator.errorCode_InputParticleEnergyToLow;
 								}
 							}
 						}
@@ -793,7 +788,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 							}
 						}
 					}
-					getMultiblock().checkIfMachineIsWhole();
+					multiblock.checkIfMachineIsWhole();
 				}
 				port.resetTrigger();
 			}
@@ -807,29 +802,29 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	protected void refreshFluidRecipe()
 	{
-		getMultiblock().coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), getMultiblock().tanks.subList(0, 1),new ArrayList<ParticleStack>());
-		if (getMultiblock().coolingRecipeInfo != null)
+		multiblock.coolingRecipeInfo = accelerator_cooling.getRecipeInfoFromInputs(new ArrayList<ItemStack>(), multiblock.tanks.subList(0, 1),new ArrayList<ParticleStack>());
+		if (multiblock.coolingRecipeInfo != null)
 		{
-			getMultiblock().maxCoolantIn =(int) (1000*getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)getMultiblock().coolingRecipeInfo.recipe.getHeatRequired());
-			getMultiblock().maxCoolantOut = (int) (1000*getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*getMultiblock().cooling/(double)getMultiblock().coolingRecipeInfo.recipe.getHeatRequired());
+			multiblock.maxCoolantIn =(int) (1000*multiblock.coolingRecipeInfo.recipe.getFluidIngredients().get(0).getMaxStackSize(0)*multiblock.cooling/(double)multiblock.coolingRecipeInfo.recipe.getHeatRequired());
+			multiblock.maxCoolantOut = (int) (1000*multiblock.coolingRecipeInfo.recipe.getFluidProducts().get(0).getMaxStackSize(0)*multiblock.cooling/(double)multiblock.coolingRecipeInfo.recipe.getHeatRequired());
 		}
 	}
 	
 	protected boolean canProcessFluidInputs()
 	{
 		
-		if(getMultiblock().coolingRecipeInfo == null)
+		if(multiblock.coolingRecipeInfo == null)
 		{
 			return false;
 		}
 		
-		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
-		Tank outputTank = getMultiblock().tanks.get(1);
-		long maximumHeatChange = getMultiblock().cooling;
-		int recipeHeat = getMultiblock().coolingRecipeInfo.recipe.getHeatRequired();
+		IFluidIngredient fluidInput = multiblock.coolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = multiblock.coolingRecipeInfo.recipe.getFluidProducts().get(0);
+		Tank outputTank = multiblock.tanks.get(1);
+		long maximumHeatChange = multiblock.cooling;
+		int recipeHeat = multiblock.coolingRecipeInfo.recipe.getHeatRequired();
 		
-		if(getMultiblock().getTemperature() <= getMultiblock().coolingRecipeInfo.recipe.getInputTemperature())
+		if(multiblock.getTemperature() <= multiblock.coolingRecipeInfo.recipe.getInputTemperature())
 		{
 			return false;
 		}
@@ -852,7 +847,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			}
 		}
 		
-		if (getMultiblock().heatBuffer.getHeatStored() < recipeHeat)
+		if (multiblock.heatBuffer.getHeatStored() < recipeHeat)
 		{
 			return false;
 		}
@@ -863,12 +858,12 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	private void produceFluidProducts()
 	{
 		
-		IFluidIngredient fluidInput = getMultiblock().coolingRecipeInfo.recipe.getFluidIngredients().get(0);
-		IFluidIngredient fluidOutput = getMultiblock().coolingRecipeInfo.recipe.getFluidProducts().get(0);
-		Tank inputTank = getMultiblock().tanks.get(0);
-		Tank outputTank = getMultiblock().tanks.get(1);
-		long maximumHeatChange = getMultiblock().cooling;
-		int recipeHeat = getMultiblock().coolingRecipeInfo.recipe.getHeatRequired();
+		IFluidIngredient fluidInput = multiblock.coolingRecipeInfo.recipe.getFluidIngredients().get(0);
+		IFluidIngredient fluidOutput = multiblock.coolingRecipeInfo.recipe.getFluidProducts().get(0);
+		Tank inputTank = multiblock.tanks.get(0);
+		Tank outputTank = multiblock.tanks.get(1);
+		long maximumHeatChange = multiblock.cooling;
+		int recipeHeat = multiblock.coolingRecipeInfo.recipe.getHeatRequired();
 		
 		double recipesPerTick = maximumHeatChange/(double)(recipeHeat);
 		
@@ -877,9 +872,9 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 			recipesPerTick = inputTank.getFluidAmount()/(double)fluidInput.getMaxStackSize(0);
 		}
 		
-		if(recipesPerTick * recipeHeat > getMultiblock().heatBuffer.getHeatStored())
+		if(recipesPerTick * recipeHeat > multiblock.heatBuffer.getHeatStored())
 		{
-			recipesPerTick = getMultiblock().heatBuffer.getHeatStored()/(recipeHeat);
+			recipesPerTick = multiblock.heatBuffer.getHeatStored()/(recipeHeat);
 		}
 		
 		
@@ -915,7 +910,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		{
 			long thisTickHeatChange = (long) Math.floor(excessHeat);
 			excessHeat -= thisTickHeatChange;
-			getMultiblock().heatBuffer.changeHeatStored(-thisTickHeatChange);
+			multiblock.heatBuffer.changeHeatStored(-thisTickHeatChange);
 		}
 		
 	}
@@ -924,14 +919,14 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	protected void externalHeating()
 	{
-		getMultiblock().heatBuffer.addHeat(getMultiblock().getExternalHeating(),false);
-		getMultiblock().currentHeating +=getMultiblock().getExternalHeating();
+		multiblock.heatBuffer.addHeat(multiblock.getExternalHeating(),false);
+		multiblock.currentHeating +=multiblock.getExternalHeating();
 	}
 
 	protected void internalHeating()
 	{
-		getMultiblock().heatBuffer.addHeat(getMultiblock().rawHeating,false);
-		getMultiblock().currentHeating +=getMultiblock().rawHeating;
+		multiblock.heatBuffer.addHeat(multiblock.rawHeating,false);
+		multiblock.currentHeating +=multiblock.rawHeating;
 	}
 	
 	// Redstone
@@ -950,13 +945,13 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		}
 		
 		
-		if (getMultiblock().controller != null && getMultiblock().controller.checkIsRedstonePowered(getWorld(), getMultiblock().controller.getTilePos())) return true;
+		if (multiblock.controller != null && multiblock.controller.checkIsRedstonePowered(getWorld(), multiblock.controller.getTilePos())) return true;
 		return false;
 	}
 	
 	protected int getRedstoneLevel()
 	{
-		int level = getWorld().getRedstonePowerFromNeighbors(getMultiblock().controller.getTilePos());
+		int level = getWorld().getRedstonePowerFromNeighbors(multiblock.controller.getTilePos());
 		
 		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
 		{
@@ -976,9 +971,9 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		
 		for (TileAcceleratorRedstonePort port : getPartMap(TileAcceleratorRedstonePort.class).values())
 		{
-			if(getMultiblock().WORLD.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
+			if(multiblock.WORLD.getBlockState(port.getPos()).getValue(ACTIVE).booleanValue())
 			{
-				port.setRedstoneLevel((int) (15 *(getMultiblock().getTemperature()/(double)getMultiblock().maxOperatingTemp)));
+				port.setRedstoneLevel((int) (15 *(multiblock.getTemperature()/(double)multiblock.maxOperatingTemp)));
 			}
 		}
 	}
@@ -1023,7 +1018,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 	
 	public void clearAllMaterial()
 	{
-		for (Tank tank : getMultiblock().tanks)
+		for (Tank tank : multiblock.tanks)
 		{
 			tank.setFluidStored(null);
 		}

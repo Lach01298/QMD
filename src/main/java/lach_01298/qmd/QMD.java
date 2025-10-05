@@ -16,7 +16,7 @@ public class QMD
 {
 	public static final String MOD_NAME = "Quantum Minecraft Dynamics";
 	public static final String MOD_ID = "qmd";
-	public static final String VERSION = "1.4";
+	public static final String VERSION = "1.5 beta 3";
 	public static final String MCVERSION = "1.12.2";
 
 	

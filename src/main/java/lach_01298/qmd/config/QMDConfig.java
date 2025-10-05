@@ -108,6 +108,8 @@ public class QMDConfig {
 	public static int liquefier_output_tank_capacity;
 	public static double[] liquefier_compressor_energy_efficiency;
 	public static double[] liquefier_compressor_heat_efficiency;
+	public static double liquefier_nozzle_speed;
+
 
 	public static int[] processor_power;
 	public static int[] processor_time;
@@ -370,15 +372,16 @@ public class QMDConfig {
 
 		Property propertyLiquefierBaseEnergyCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_base_energy_capacity", 1000, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_base_energy_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyLiquefierBaseEnergyCapacity.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_base_energy_capacity");
-		Property propertyLiquefierInputTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_input_tank_capacity", 6400, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_input_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		Property propertyLiquefierInputTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_input_tank_capacity", 640, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_input_tank_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyLiquefierInputTankCapacity.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_input_tank_capacity");
-		Property propertyLiquefierOutputTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_output_tank_capacity", 100, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_output_tank_capacity.comment"), 1, Integer.MAX_VALUE);
+		Property propertyLiquefierOutputTankCapacity = config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_output_tank_capacity", 10, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_output_tank_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyLiquefierOutputTankCapacity.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_output_tank_capacity");
-		Property propertyLiquefierCompressorEnergyEfficiency= config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_energy_efficiency", new double[] {0.9,0.8,0.95}, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_energy_efficiency.comment"), 0.0, Double.MAX_VALUE);
+		Property propertyLiquefierCompressorEnergyEfficiency= config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_energy_efficiency", new double[] {0.9,0.95,0.85}, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_energy_efficiency.comment"), 0.0, Double.MAX_VALUE);
 		propertyLiquefierCompressorEnergyEfficiency.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_energy_efficiency");
-		Property propertyLiquefierCompressorHeatEfficiency= config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_heat_efficiency", new double[] {0.9,0.95,0.8}, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_heat_efficiency.comment"), 0.0, Double.MAX_VALUE);
+		Property propertyLiquefierCompressorHeatEfficiency= config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_heat_efficiency", new double[] {0.9,0.85,0.95}, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_heat_efficiency.comment"), 0.0, Double.MAX_VALUE);
 		propertyLiquefierCompressorHeatEfficiency.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_heat_efficiency");
-
+		Property propertyLiquefierNozzleSpeed= config.get(CATEGORY_HEAT_EXCHANGER, "liquefier_nozzle_speed", 0.4D, Lang.localize("gui.qmd.config.heat_exchanger.liquefier_nozzle_speed.comment"), 0.0, Double.MAX_VALUE);
+		propertyLiquefierNozzleSpeed.setLanguageKey("gui.qmd.config.heat_exchanger.liquefier_nozzle_speed");
 
 		Property propertyRegisterTool = config.get(CATEGORY_TOOLS, "register_tool", new boolean[] {true, true}, Lang.localize("gui.qmd.config.tools.register_tool.comment"));
 		propertyRegisterTool.setLanguageKey("gui.qmd.config.tools.register_tool");
@@ -633,11 +636,22 @@ public class QMDConfig {
 		propertyOrderTools.add(propertyHEVPower.getName());
 		
 		propertyOrderTools.add(propertyKITime.getName());
-		
-		
+
 		config.setCategoryPropertyOrder(CATEGORY_TOOLS, propertyOrderTools);
-		
-		
+
+
+		List<String> propertyOrderHeatExchanger = new ArrayList<String>();
+		propertyOrderHeatExchanger.add(propertyLiquefierBaseEnergyCapacity.getName());
+		propertyOrderHeatExchanger.add(propertyLiquefierInputTankCapacity.getName());
+		propertyOrderHeatExchanger.add(propertyLiquefierOutputTankCapacity.getName());
+		propertyOrderHeatExchanger.add(propertyLiquefierCompressorEnergyEfficiency.getName());
+		propertyOrderHeatExchanger.add(propertyLiquefierCompressorHeatEfficiency.getName());
+		propertyOrderHeatExchanger.add(propertyLiquefierNozzleSpeed.getName());
+
+		config.setCategoryPropertyOrder(CATEGORY_HEAT_EXCHANGER, propertyOrderHeatExchanger);
+
+
+
 		List<String> propertyOrderFission = new ArrayList<String>();
 		propertyOrderFission.add(propertyFissionReflectorEfficiency.getName());
 		propertyOrderFission.add(propertyFissionReflectorReflectivity.getName());
@@ -656,12 +670,10 @@ public class QMDConfig {
 		
 		
 		List<String> propertyOrderFusion = new ArrayList<String>();
-		
 		config.setCategoryPropertyOrder(CATEGORY_FUSION, propertyOrderFusion);
-		
-		
+
+
 		List<String> propertyOrderRecipes = new ArrayList<String>();
-		
 		propertyOrderRecipes.add(propertyOverrideNCRecipes.getName());
 		propertyOrderRecipes.add(propertyRSFTargetChamber.getName());
 		propertyOrderRecipes.add(propertyRSFNucleosynthesis.getName());
@@ -763,6 +775,7 @@ public class QMDConfig {
 			liquefier_output_tank_capacity = propertyLiquefierOutputTankCapacity.getInt();
 			liquefier_compressor_energy_efficiency = readDoubleArrayFromConfig(propertyLiquefierCompressorEnergyEfficiency);
 			liquefier_compressor_heat_efficiency = readDoubleArrayFromConfig(propertyLiquefierCompressorHeatEfficiency);
+			liquefier_nozzle_speed = propertyLiquefierNozzleSpeed.getDouble();
 
 
 			register_tool = readBooleanArrayFromConfig(propertyRegisterTool);
@@ -899,6 +912,8 @@ public class QMDConfig {
 		propertyLiquefierOutputTankCapacity.set(liquefier_output_tank_capacity);
 		propertyLiquefierCompressorEnergyEfficiency.set(liquefier_compressor_energy_efficiency);
 		propertyLiquefierCompressorHeatEfficiency.set(liquefier_compressor_heat_efficiency);
+		propertyLiquefierNozzleSpeed.set(liquefier_nozzle_speed);
+
 
 		propertyRegisterTool.set(register_tool);
 		propertyToolMiningLevel.set(tool_mining_level);

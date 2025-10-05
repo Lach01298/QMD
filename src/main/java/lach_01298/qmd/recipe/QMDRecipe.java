@@ -136,6 +136,7 @@ public class QMDRecipe  implements IQMDRecipe
 
 	public int getInputTemperature() { return (int) extras.get(1); }
 
+	public int getOutputTemperature() { return (int) extras.get(2); }
 
 
 	// machine recipes

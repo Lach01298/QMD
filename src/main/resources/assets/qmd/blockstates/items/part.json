@@ -73,6 +73,12 @@
                 "textures": {
                     "layer0": "qmd:items/part/wire_ybco"
                 }
+            },
+            "magnet_smc": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/magnet_smc"
+                }
             }
         }
     }

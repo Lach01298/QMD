@@ -1,5 +1,7 @@
 package lach_01298.qmd.liquefier.tile;
 
+import com.google.common.collect.Lists;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorVent;
 import lach_01298.qmd.liquefier.LiquefierLogic;
 import nc.ModCheck;
 import nc.multiblock.cuboidal.CuboidalPartPositionType;
@@ -26,6 +28,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static nc.block.property.BlockProperties.FACING_ALL;
@@ -33,9 +36,10 @@ import static nc.config.NCConfig.enable_mek_gas;
 
 public class TileLiquefierFluidPort extends TileHeatExchangerPart implements ITickable, ITileFluid
 {
-	private final @Nonnull List<Tank> backupTanks = Collections.emptyList();
+	private final @Nonnull List<Tank> backupTanks =  Lists.newArrayList(new Tank(1, new HashSet<>()),
+			new Tank(1, new HashSet<>()));
 
-	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(TankSorption.IN);
+	private @Nonnull FluidConnection[] fluidConnections = ITileFluid.fluidConnectionAll(Lists.newArrayList(TankSorption.IN, TankSorption.NON));
 
 	private final @Nonnull FluidTileWrapper[] fluidSides;
 	private final @Nonnull GasTileWrapper gasWrapper;
@@ -64,20 +68,15 @@ public class TileLiquefierFluidPort extends TileHeatExchangerPart implements ITi
 		}
 	}
 
+
+
 	@Override
 	public void update()
 	{
-		if (!world.isRemote)
+		EnumFacing facing = getPartPosition().getFacing();
+		if (!world.isRemote && !getTanks().get(1).isEmpty() && facing != null && getTankSorption(facing, 1).canDrain())
 		{
-			List<Tank> tanks = getTanks();
-			if (!tanks.isEmpty() && !tanks.get(0).isEmpty())
-			{
-				EnumFacing facing = getPartPosition().getFacing();
-				if (facing != null && getTankSorption(facing, 0).canDrain())
-				{
-					pushFluidToSide(facing);
-				}
-			}
+			pushFluidToSide(facing);
 		}
 	}
 
@@ -124,27 +123,25 @@ public class TileLiquefierFluidPort extends TileHeatExchangerPart implements ITi
 	public void pushFluidToSide(@Nonnull EnumFacing side)
 	{
 		TileEntity tile = getTileWorld().getTileEntity(getTilePos().offset(side));
-		if (tile == null)
-		{
+		if (tile == null || tile instanceof TileAcceleratorVent)
 			return;
-		}
 
-		if (tile instanceof ITilePassive tilePassive && !tilePassive.canPushFluidsTo())
-		{
-			return;
-		}
+		if (tile instanceof ITilePassive)
+			if (!((ITilePassive) tile).canPushFluidsTo())
+				return;
 
-		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+		IFluidHandler adjStorage = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY,
+				side.getOpposite());
 		if (adjStorage == null)
-		{
 			return;
-		}
 
-		List<Tank> tanks = getTanks();
-		if (!tanks.isEmpty())
+		for (int i = 0; i < getTanks().size(); i++)
 		{
-			Tank tank = tanks.get(0);
-			onWrapperDrain(tank.drain(adjStorage.fill(tank.drain(tank.getCapacity(), false), true), true), true);
+			if (getTanks().get(i).getFluid() == null || !getTankSorption(side, i).canDrain())
+				continue;
+
+			getTanks().get(i).drain(
+					adjStorage.fill(getTanks().get(i).drain(getTanks().get(i).getCapacity(), false), true), true);
 		}
 	}
 
@@ -205,17 +202,21 @@ public class TileLiquefierFluidPort extends TileHeatExchangerPart implements ITi
 					for (EnumFacing side : EnumFacing.VALUES)
 					{
 						setTankSorption(side, 0, TankSorption.IN);
+						setTankSorption(side, 1, TankSorption.NON);
 					}
 					setActivity(false);
+					getMultiblock().checkIfMachineIsWhole();
 					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " " + TextFormatting.DARK_AQUA + Lang.localize("nc.block.port_mode.input") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				else
 				{
 					for (EnumFacing side : EnumFacing.VALUES)
 					{
-						setTankSorption(side, 0, TankSorption.OUT);
+						setTankSorption(side, 0, TankSorption.NON);
+						setTankSorption(side, 1, TankSorption.OUT);
 					}
 					setActivity(true);
+					getMultiblock().checkIfMachineIsWhole();
 					player.sendMessage(new TextComponentString(Lang.localize("nc.block.port_toggle") + " " + TextFormatting.RED + Lang.localize("nc.block.port_mode.output") + " " + TextFormatting.WHITE + Lang.localize("nc.block.port_toggle.mode")));
 				}
 				markDirtyAndNotify(true);

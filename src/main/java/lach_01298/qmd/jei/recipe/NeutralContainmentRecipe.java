@@ -1,11 +1,14 @@
 package lach_01298.qmd.jei.recipe;
 
-import lach_01298.qmd.*;
+import lach_01298.qmd.QMD;
+import lach_01298.qmd.QMDConstants;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.IGuiHelper;
-import mezz.jei.api.gui.*;
+import mezz.jei.api.gui.IDrawable;
+import mezz.jei.api.gui.IDrawableAnimated;
+import mezz.jei.api.gui.IDrawableStatic;
 import nc.util.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

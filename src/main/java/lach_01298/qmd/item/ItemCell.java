@@ -2,15 +2,19 @@ package lach_01298.qmd.item;
 
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.MaterialTypes.CellType;
-import lach_01298.qmd.util.*;
+import lach_01298.qmd.util.Units;
+import lach_01298.qmd.util.Util;
 import nc.item.NCItem;
-import nc.util.*;
+import nc.util.InfoHelper;
+import nc.util.Lang;
+import nc.util.StackHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 

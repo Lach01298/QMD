@@ -2,6 +2,7 @@ package lach_01298.qmd.tile;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.liquefier.tile.TileLiquefierController;
 import lach_01298.qmd.multiblock.container.*;
 import lach_01298.qmd.multiblock.gui.*;
 import lach_01298.qmd.particleChamber.tile.*;
@@ -32,6 +33,8 @@ public class QMDTileInfoHandler {
 		registerContainerInfo(new TileContainerInfo<>(QMD.MOD_ID, "nucleosynthesis_chamber_controller", TileNucleosynthesisChamberController.class, ContainerNucleosynthesisChamberController::new, clientGetGuiInfoTileFunction(() -> GuiNucleosynthesisChamberController::new)));
 		
 		registerContainerInfo(new TileContainerInfo<>(QMD.MOD_ID, "beamline", TileBeamline.class, null, (GuiFunction<TileBeamline>) null));
+
+		registerContainerInfo(new TileContainerInfo<>(QMD.MOD_ID, "liquefier_controller", TileLiquefierController.class, ContainerLiquefierController::new, clientGetGuiInfoTileFunction(() -> GUILiquefierController::new)));
 	}
 	
 	public static void init() {

@@ -24,6 +24,9 @@ public class QMDRecipeCategoryUid
 
 	public static final String ATMOSPHERE_COLLECTOR = QMD.MOD_ID+".atmosphere_collector";
 	public static final String LIQUID_COLLECTOR = QMD.MOD_ID+".liquid_collector";
+	public static final String LIQUEFIER = QMD.MOD_ID+".liquefier";
+	public static final String LIQUEFIER_COOLANT = QMD.MOD_ID+".liquefier_coolant";
+
 	public static final String PARTICLE_INFO = QMD.MOD_ID+".particle_info";
 
 

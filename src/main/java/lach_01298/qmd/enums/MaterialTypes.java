@@ -283,7 +283,8 @@ public class MaterialTypes
 		ACCELERATING_BARREL("accelerating_barrel", 9),
 		LASER_ASSEMBLY("laser_assembly", 10),
 		WIRE_SSFAF("wire_ssfaf", 11),
-		WIRE_YBCO("wire_ybco", 12);
+		WIRE_YBCO("wire_ybco", 12),
+		MAGNET_SMC("magnet_smc", 13);
 		private String name;
 		private int id;
 

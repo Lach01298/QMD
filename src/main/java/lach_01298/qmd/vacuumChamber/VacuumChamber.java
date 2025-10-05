@@ -44,15 +44,10 @@ public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumCham
 	public static final Object2ObjectMap<String, UnaryOperator<VacuumChamberLogic>> LOGIC_MAP = new Object2ObjectOpenHashMap<>();
 
 	protected @Nonnull VacuumChamberLogic logic = new VacuumChamberLogic(this);
-	protected @Nonnull NBTTagCompound cachedData = new NBTTagCompound();
 
 	protected final PartSuperMap<VacuumChamber, IVacuumChamberPart> partSuperMap = new PartSuperMap<>();
 
-	public float materialXOffset = 0F, materialYOffset = 0F, materialZOffset = 0F;
-	public float materialAngle = 0F;
-	public long prevRenderTime = 0L;
-
-	public boolean refreshFlag = true, isChamberOn = false, cold = false;
+	public boolean isChamberOn = false, cold = false;
 
 	public static final int MAX_TEMP = 400;
 	public int ambientTemp = 290, maxOperatingTemp = 0;
@@ -375,7 +370,7 @@ public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumCham
 		logic.onRenderPacket(message);
 	}
 
-	public void sendIndividualRender(EntityPlayer player)
+	public void sendRenderPacketToPlayer(EntityPlayer player)
 	{
 		if (WORLD.isRemote)
 		{
@@ -386,10 +381,10 @@ public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumCham
 		{
 			return;
 		}
-		QMDPackets.wrapper.sendTo(packet, (EntityPlayerMP) player);
+		packet.sendTo(player);
 	}
 
-	public void sendRenderToAllPlayers()
+	public void sendRenderPacketToAll()
 	{
 		if (WORLD.isRemote)
 		{
@@ -400,7 +395,7 @@ public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumCham
 		{
 			return;
 		}
-		QMDPackets.wrapper.sendToAll(packet);
+		packet.sendToAll();
 
 	}
 

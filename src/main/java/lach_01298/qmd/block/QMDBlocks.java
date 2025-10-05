@@ -101,11 +101,11 @@ public class QMDBlocks
 	public static Block vacuumChamberHeaterVent;
 	public static Block vacuumChamberRedstonePort;
 
-//	public static Block liquefierController;
-//	public static Block liquefierNozzle;
-//	public static Block liquefierCompressor;
-//	public static Block liquefierPort;
-//	public static Block liquefierEnergyPort;
+	public static Block liquefierController;
+	public static Block liquefierNozzle;
+	public static Block liquefierCompressor;
+	public static Block liquefierPort;
+	public static Block liquefierEnergyPort;
 
 	public static Block creativeParticleSource;
 	
@@ -192,11 +192,11 @@ public class QMDBlocks
 		vacuumChamberHeaterVent= withName(new BlockVacuumChamberHeaterVent(), "vacuum_chamber_heater_vent");
 		vacuumChamberRedstonePort= withName(new BlockVacuumChamberRedstonePort(), "vacuum_chamber_redstone_port");
 
-//		liquefierController= withName(new BlockLiquefierController(), "liquefier_controller");
-//		liquefierNozzle= withName(new BlockLiquefierNozzle(), "liquefier_nozzle");
-//		liquefierCompressor= withName(new BlockLiquefierCompressor(), "liquefier_compressor");
-//		liquefierPort= withName(new BlockLiquefierPort(), "liquefier_fluid_port");
-//		liquefierEnergyPort= withName(new BlockLiquefierEnergyPort(), "liquefier_energy_port");
+		liquefierController= withName(new BlockLiquefierController(), "liquefier_controller");
+		liquefierNozzle= withName(new BlockLiquefierNozzle(), "liquefier_nozzle");
+		liquefierCompressor= withName(new BlockLiquefierCompressor(), "liquefier_compressor");
+		liquefierPort= withName(new BlockLiquefierPort(), "liquefier_fluid_port");
+		liquefierEnergyPort= withName(new BlockLiquefierEnergyPort(), "liquefier_energy_port");
 
 		strontium90 = withName(new BlockQMD(Material.IRON), "strontium_90_block");
 		greenLuminousPaint = withName(new BlockLuminousPaint(), "block_green_luminous_paint");
@@ -286,11 +286,11 @@ public class QMDBlocks
 		registerBlock(vacuumChamberHeaterVent);
 		registerBlock(vacuumChamberRedstonePort);
 
-//		registerBlock(liquefierController);
-//		registerBlock(liquefierNozzle);
-//		registerBlock(liquefierCompressor, new ItemBlockMetaLegacy(liquefierCompressor, CompressorType.class,TextFormatting.GREEN, QMDInfo.compressorFixedInfo(),TextFormatting.AQUA,QMDInfo.compressorInfo()));
-//		registerBlock(liquefierPort);
-//		registerBlock(liquefierEnergyPort);
+		registerBlock(liquefierController);
+		registerBlock(liquefierNozzle, TextFormatting.GREEN + QMDInfo.liquefierNozzleFixedInfo());
+		registerBlock(liquefierCompressor, new ItemBlockMetaLegacy(liquefierCompressor, CompressorType.class,TextFormatting.GREEN, QMDInfo.compressorFixedInfo(),TextFormatting.AQUA,QMDInfo.compressorInfo()));
+		registerBlock(liquefierPort);
+		registerBlock(liquefierEnergyPort);
 
 		registerBlock(strontium90);
 		registerBlock(greenLuminousPaint);
@@ -411,14 +411,14 @@ public class QMDBlocks
 		registerRender(vacuumChamberHeaterVent);
 		registerRender(vacuumChamberRedstonePort);
 
-//		registerRender(liquefierController);
-//		registerRender(liquefierNozzle);
-//		for (int i=0; i < CompressorType.values().length; i++)
-//		{
-//			registerRender(liquefierCompressor, i, CompressorType.values()[i].getName());
-//		}
-//		registerRender(liquefierPort);
-//		registerRender(liquefierEnergyPort);
+		registerRender(liquefierController);
+		registerRender(liquefierNozzle);
+		for (int i=0; i < CompressorType.values().length; i++)
+		{
+			registerRender(liquefierCompressor, i, CompressorType.values()[i].getName());
+		}
+		registerRender(liquefierPort);
+		registerRender(liquefierEnergyPort);
 		
 		registerRender(strontium90);
 		registerRender(greenLuminousPaint);

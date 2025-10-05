@@ -1,8 +1,11 @@
 package lach_01298.qmd.multiblock.gui;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.*;
-import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.accelerator.AcceleratorLogic;
+import lach_01298.qmd.accelerator.LinearAcceleratorLogic;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
+import lach_01298.qmd.accelerator.tile.TileLinearAcceleratorController;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.util.Units;
@@ -10,7 +13,8 @@ import nc.gui.element.MultiblockButton;
 import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
 import nc.tile.TileContainerInfo;
-import nc.util.*;
+import nc.util.Lang;
+import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +22,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiLinearAcceleratorController
 		extends GuiLogicMultiblockController<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileLinearAcceleratorController, TileContainerInfo<TileLinearAcceleratorController>, LinearAcceleratorLogic>
@@ -63,7 +68,7 @@ public class GuiLinearAcceleratorController
 		String length = Lang.localize("gui.qmd.container.accelerator.length", logic.getBeamLength());
 		fontRenderer.drawString(length, offset + 25, 25, fontColor);
 
-		String cavitys = Lang.localize("gui.qmd.container.accelerator.cavitys", multiblock.RFCavityNumber,
+		String cavitys = Lang.localize("gui.qmd.container.accelerator.cavities", multiblock.RFCavityNumber,
 				Units.getSIFormat(multiblock.acceleratingVoltage, 3, "V"));
 		fontRenderer.drawString(cavitys, offset, 50, fontColor);
 

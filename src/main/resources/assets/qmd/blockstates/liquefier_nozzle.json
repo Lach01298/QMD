@@ -4,8 +4,8 @@
 		"model":"cube_bottom_top",
 		"textures": {
 			"top": "qmd:blocks/liquefier/nozzle",
-			"bottom": "nuclearcraft:blocks/heat_exchanger/baffle",
-			"side": "qmd:blocks/liquefier/nozzle"
+			"bottom": "qmd:blocks/liquefier/nozzle",
+			"side": "nuclearcraft:blocks/heat_exchanger/baffle"
 		}
 	},
 	"variants": {

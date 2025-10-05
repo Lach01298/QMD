@@ -2,15 +2,22 @@ package lach_01298.qmd.multiblock.gui;
 
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.gui.GuiParticle;
-import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.multiblock.network.QMDClearTankPacket;
+import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
 import lach_01298.qmd.util.Units;
-import lach_01298.qmd.vacuumChamber.*;
-import lach_01298.qmd.vacuumChamber.tile.*;
-import nc.gui.element.*;
+import lach_01298.qmd.vacuumChamber.ExoticContainmentLogic;
+import lach_01298.qmd.vacuumChamber.VacuumChamber;
+import lach_01298.qmd.vacuumChamber.VacuumChamberLogic;
+import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
+import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
+import nc.gui.element.GuiFluidRenderer;
+import nc.gui.element.MultiblockButton;
+import nc.gui.element.NCButton;
 import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
 import nc.tile.TileContainerInfo;
-import nc.util.*;
+import nc.util.Lang;
+import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,7 +26,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiNeutralContainmentController
 		extends GuiLogicMultiblockController<VacuumChamber, VacuumChamberLogic, IVacuumChamberPart, VacuumChamberUpdatePacket, TileExoticContainmentController, TileContainerInfo<TileExoticContainmentController>, ExoticContainmentLogic>

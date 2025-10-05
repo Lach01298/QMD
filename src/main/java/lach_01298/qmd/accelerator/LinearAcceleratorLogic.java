@@ -6,9 +6,11 @@ import lach_01298.qmd.accelerator.tile.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
+import lach_01298.qmd.multiblock.network.LinearAcceleratorUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.*;
+import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Equations;
@@ -22,7 +24,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static lach_01298.qmd.recipes.QMDRecipes.accelerator_source;
 import static nc.block.property.BlockProperties.FACING_ALL;
@@ -52,7 +57,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		//on the rare occasion of changing the multiblock to a different type with the tank full
 		if(!(oldLogic instanceof LinearAcceleratorLogic || oldLogic.getID().equals("")))
 		{
-			getMultiblock().tanks.get(2).setFluidStored(null);
+			multiblock.tanks.get(2).setFluidStored(null);
 		}
 	}
 
@@ -67,7 +72,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	@Override
 	public int getBeamLength()
 	{
-		return getMultiblock().getExteriorLengthX() > getMultiblock().getExteriorLengthZ() ?getMultiblock().getExteriorLengthX() : getMultiblock().getExteriorLengthZ();
+		return multiblock.getExteriorLengthX() > multiblock.getExteriorLengthZ() ?multiblock.getExteriorLengthX() : multiblock.getExteriorLengthZ();
 	}
 	
 	public TileAcceleratorIonSource getSource()
@@ -81,7 +86,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	public boolean isMachineWhole()
 	{
 		Axis axis;
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 
 		if (acc.getExteriorLengthY() != getThickness())
 		{
@@ -283,7 +288,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	public Set<BlockPos> getinteriorAxisPositions(EnumFacing.Axis axis)
 	{
 		Set<BlockPos> postions = new HashSet<BlockPos>();
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 		
 		if (axis == Axis.X)
 		{
@@ -326,7 +331,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	public void onAcceleratorFormed()
 	{
 
-		Accelerator acc = getMultiblock();
+		Accelerator acc = multiblock;
 
 		if (!getWorld().isRemote)
 		{
@@ -359,8 +364,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				source.setIONumber(2);
 			}
 
-			getMultiblock().tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
-			getMultiblock().tanks.get(2).setAllowedFluids(QMDRecipes.accelerator_source.validFluids.get(0));
+			multiblock.tanks.get(2).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * 1000);
+			multiblock.tanks.get(2).setAllowedFluids(QMDRecipes.accelerator_source.validFluids.get(0));
 
 			// source ports
 			for (TileAcceleratorPort port : acc.getPartMap(TileAcceleratorPort.class).values())
@@ -405,7 +410,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		super.onUpdateServer();
 		
 		
-		if (getMultiblock().isControllorOn)
+		if (multiblock.isControllorOn)
 		{
 			if(source != null)
 			{
@@ -432,7 +437,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 		push();
 		
-		getMultiblock().sendMultiblockUpdatePacketToListeners();
+		multiblock.sendMultiblockUpdatePacketToListeners();
 		
 		return true;
 	}
@@ -440,8 +445,8 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	@Override
 	protected void refreshBeams()
 	{
-		getMultiblock().beams.get(0).setParticleStack(null);
-		getMultiblock().beams.get(1).setParticleStack(null);
+		multiblock.beams.get(0).setParticleStack(null);
+		multiblock.beams.get(1).setParticleStack(null);
 		pull();
 	}
 	
@@ -456,7 +461,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				return true;
 			}
 		}
-		else if(getMultiblock().beams.get(0).getParticleStack() != null)
+		else if(multiblock.beams.get(0).getParticleStack() != null)
 		{
 			return true;
 		}
@@ -469,7 +474,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	
 	private void resetOutputBeam()
 	{
-		getMultiblock().beams.get(1).setParticleStack(null);
+		multiblock.beams.get(1).setParticleStack(null);
 	}
 
 	private void produceSourceBeam()
@@ -515,48 +520,48 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			}
 			
 			// energy setting
-			if (getMultiblock().computerControlled)
+			if (multiblock.computerControlled)
 			{
-				outputStack.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage, outputStack) * (getMultiblock().energyPercentage / 100d)));
+				outputStack.addMeanEnergy((long) (Equations.linacEnergyGain(multiblock.acceleratingVoltage, outputStack) * (multiblock.energyPercentage / 100d)));
 			}
 			else
 			{
-				outputStack.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage, outputStack) * getRedstoneLevel() / 15d));
+				outputStack.addMeanEnergy((long) (Equations.linacEnergyGain(multiblock.acceleratingVoltage, outputStack) * getRedstoneLevel() / 15d));
 			}
 			outputStack.setAmount(outputAmount);
 			
 			// focus setting
 			outputStack.addFocus(source.outputFocus);
-			outputStack.addFocus(Equations.focusGain(getMultiblock().quadrupoleStrength, outputStack) - Equations.focusLoss(getBeamLength(), outputStack));
+			outputStack.addFocus(Equations.focusGain(multiblock.quadrupoleStrength, outputStack) - Equations.focusLoss(getBeamLength(), outputStack));
 			if (outputStack.getFocus() <= 0)
 			{
-				getMultiblock().errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
+				multiblock.errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
 				
-			getMultiblock().beams.get(1).setParticleStack(outputStack);
+			multiblock.beams.get(1).setParticleStack(outputStack);
 		}
 		
 	}
 
 	private void produceBeam()
 	{
-		ParticleStack inputBeam = getMultiblock().beams.get(0).getParticleStack();
+		ParticleStack inputBeam = multiblock.beams.get(0).getParticleStack();
 		
 		if(inputBeam != null)
 		{
-			getMultiblock().beams.get(1).setParticleStack(inputBeam.copy());
-			ParticleStack outputBeam = getMultiblock().beams.get(1).getParticleStack();
+			multiblock.beams.get(1).setParticleStack(inputBeam.copy());
+			ParticleStack outputBeam = multiblock.beams.get(1).getParticleStack();
 			if(outputBeam != null)
 			{
-				outputBeam.addFocus(Equations.focusGain(getMultiblock().quadrupoleStrength, outputBeam) - Equations.focusLoss( getBeamLength(), outputBeam));
+				outputBeam.addFocus(Equations.focusGain(multiblock.quadrupoleStrength, outputBeam) - Equations.focusLoss( getBeamLength(), outputBeam));
 				
-				if(getMultiblock().computerControlled)
+				if(multiblock.computerControlled)
 				{
-					outputBeam.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage,outputBeam) * (getMultiblock().energyPercentage/100d)));
+					outputBeam.addMeanEnergy((long) (Equations.linacEnergyGain(multiblock.acceleratingVoltage,outputBeam) * (multiblock.energyPercentage/100d)));
 				}
 				else
 				{
-					outputBeam.addMeanEnergy((long) (Equations.linacEnergyGain(getMultiblock().acceleratingVoltage,outputBeam)*getRedstoneLevel()/15d));
+					outputBeam.addMeanEnergy((long) (Equations.linacEnergyGain(multiblock.acceleratingVoltage,outputBeam)*getRedstoneLevel()/15d));
 				}
 				
 				
@@ -564,7 +569,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				if(outputBeam.getFocus() <= 0)
 				{
 					outputBeam = null;
-					getMultiblock().errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
+					multiblock.errorCode=Accelerator.errorCode_NotEnoughQuadrupoles;
 				}
 			}
 		}
@@ -609,11 +614,11 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	public AcceleratorUpdatePacket getMultiblockUpdatePacket()
 	{
 
-		return new LinearAcceleratorUpdatePacket(getMultiblock().controller.getTilePos(),
-				getMultiblock().isControllorOn, getMultiblock().cooling, getMultiblock().rawHeating,getMultiblock().currentHeating,getMultiblock().maxCoolantIn,getMultiblock().maxCoolantOut,getMultiblock().maxOperatingTemp,
-				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().acceleratingVoltage,
-				getMultiblock().RFCavityNumber, getMultiblock().quadrupoleNumber, getMultiblock().quadrupoleStrength, getMultiblock().dipoleNumber, getMultiblock().dipoleStrength, getMultiblock().errorCode,
-				getMultiblock().heatBuffer, getMultiblock().energyStorage, getMultiblock().tanks, getMultiblock().beams);
+		return new LinearAcceleratorUpdatePacket(multiblock.controller.getTilePos(),
+				multiblock.isControllorOn, multiblock.cooling, multiblock.rawHeating,multiblock.currentHeating,multiblock.maxCoolantIn,multiblock.maxCoolantOut,multiblock.maxOperatingTemp,
+				multiblock.requiredEnergy, multiblock.efficiency, multiblock.acceleratingVoltage,
+				multiblock.RFCavityNumber, multiblock.quadrupoleNumber, multiblock.quadrupoleStrength, multiblock.dipoleNumber, multiblock.dipoleStrength, multiblock.errorCode,
+				multiblock.heatBuffer, multiblock.energyStorage, multiblock.tanks, multiblock.beams);
 	}
 	
 	@Override

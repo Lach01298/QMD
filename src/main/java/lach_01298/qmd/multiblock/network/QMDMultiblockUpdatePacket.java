@@ -11,10 +11,6 @@ public abstract class QMDMultiblockUpdatePacket extends MultiblockUpdatePacket {
 		super();
 	}
 	
-	public QMDMultiblockUpdatePacket(BlockPos pos) {
-		this.pos = pos;
-	}
-	
 	public SimpleNetworkWrapper getWrapper() {
 		return QMDPackets.wrapper;
 	}

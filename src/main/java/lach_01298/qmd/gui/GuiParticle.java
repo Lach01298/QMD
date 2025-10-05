@@ -8,7 +8,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.TextFormatting;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiParticle
 {

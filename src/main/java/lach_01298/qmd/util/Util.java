@@ -21,6 +21,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import org.apache.logging.log4j.*;
+import java.math.*;
 
 import java.util.*;
 
@@ -234,6 +235,16 @@ public class Util
 		}
     
     }
-	
-	
+
+	public static double roundToSigFigs(double number, int sigFigs)
+	{
+		BigDecimal bd = new BigDecimal(number);
+		bd = bd.round(new MathContext(sigFigs));
+		return bd.doubleValue();
+	}
+
+
+
+
+
 }

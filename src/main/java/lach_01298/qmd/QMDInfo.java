@@ -270,4 +270,9 @@ public class QMDInfo
 		return info;
 	}
 
+	public static String liquefierNozzleFixedInfo()
+	{
+		return Lang.localize("info." + QMD.MOD_ID + ".liquefier_nozzle.speed", QMDConfig.liquefier_nozzle_speed);
+	}
+
 }

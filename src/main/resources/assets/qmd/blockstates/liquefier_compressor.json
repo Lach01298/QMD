@@ -8,22 +8,22 @@
 			"copper": {
 				"textures": {
 					"top": "qmd:blocks/liquefier/compressor_copper",
-					"bottom": "nuclearcraft:blocks/heat_exchanger/baffle",
-					"side": "qmd:blocks/liquefier/compressor_bottom"
+					"bottom": "qmd:blocks/liquefier/compressor_bottom",
+					"side": "nuclearcraft:blocks/heat_exchanger/vent_side"
 				}
 			},
 			"neodymium": {
 				"textures": {
 					"top": "qmd:blocks/liquefier/compressor_neodymium",
-					"bottom": "nuclearcraft:blocks/heat_exchanger/baffle",
-					"side": "qmd:blocks/liquefier/compressor_bottom"
+					"bottom": "qmd:blocks/liquefier/compressor_bottom",
+					"side": "nuclearcraft:blocks/heat_exchanger/vent_side"
 				}
 			},
 			"samarium_cobalt": {
 				"textures": {
 					"top": "qmd:blocks/liquefier/compressor_samarium_cobalt",
-					"bottom": "nuclearcraft:blocks/heat_exchanger/baffle",
-					"side": "qmd:blocks/liquefier/compressor_bottom"
+					"bottom": "qmd:blocks/liquefier/compressor_bottom",
+					"side": "nuclearcraft:blocks/heat_exchanger/vent_side"
 				}
 			}
 		}

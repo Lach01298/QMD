@@ -132,7 +132,6 @@ public class QMDRecipes
 					"mass_spectrometer",
 
 					"liquefier",
-					"liquefier_coolant",
 
 					"target_chamber",
 					"decay_chamber",
@@ -151,7 +150,6 @@ public class QMDRecipes
 
 	public static final String[] BASIC_RECIPE_HANDLER_NAME_ARRAY = new String[]
 			{
-					"liquefier",
 					"liquefier_coolant"
 			};
 
@@ -165,7 +163,7 @@ public class QMDRecipes
 		putHandler(new AcceleratorCoolingRecipes());
 		putHandler(new MassSpectrometerRecipes());
 
-		putBasicHandler(new LiquefierRecipes());
+		putHandler(new LiquefierRecipes());
 		putBasicHandler(new LiquefierCoolantRecipes());
 
 		putHandler(new TargetChamberRecipes());
@@ -194,7 +192,7 @@ public class QMDRecipes
 		accelerator_cooling = (AcceleratorCoolingRecipes) getHandler("accelerator_cooling");
 		mass_spectrometer = (MassSpectrometerRecipes) getHandler("mass_spectrometer");
 
-		liquefier = (LiquefierRecipes) getBasicHandler("liquefier");
+		liquefier = (LiquefierRecipes) getHandler("liquefier");
 		liquefier_coolant = (LiquefierCoolantRecipes) getBasicHandler("liquefier_coolant");
 
 		target_chamber = (TargetChamberRecipes) getHandler("target_chamber");
@@ -325,7 +323,6 @@ public class QMDRecipes
 		NCRecipes.separator.addRecipe(oreStackList(Lists.newArrayList("ingotCalcium", "dustCalcium"), 8), oreStack("ingotCalcium48", 1), new EmptyItemIngredient(), 6D, 1D);
 
 		// Centrifuge
-		NCRecipes.centrifuge.addRecipe(fluidStack("compressed_air", BUCKET_VOLUME * 10), fluidStack("nitrogen", BUCKET_VOLUME * 7), fluidStack("oxygen", BUCKET_VOLUME * 2), fluidStack("argon", 750), fluidStack("neon", 200), fluidStack("helium", 50), new EmptyFluidIngredient(), 0.1D, 1D);
 		NCRecipes.centrifuge.addRecipe(fluidStack("redstone", REDSTONE_DUST_VOLUME), fluidStack("mercury", INGOT_VOLUME), fluidStack("sulfur", GEM_VOLUME), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), 1D, 1D);
 		NCRecipes.centrifuge.addRecipe(fluidStack("coal", COAL_DUST_VOLUME), fluidStack("carbon", COAL_DUST_VOLUME), fluidStack("sulfur", GEM_VOLUME / 6), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), new EmptyFluidIngredient(), 1D, 1D);
 
@@ -453,13 +450,14 @@ public class QMDRecipes
 			NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, helium));
 			NCRecipes.supercooler.removeRecipe(NCRecipes.supercooler.getRecipeFromIngredients(emptyitems, nitrogen));
 
-			NCRecipes.supercooler.addRecipe(fluidStack("helium", 64), fluidStack("liquid_helium", 1), 1D / 150D, 5D);
-			NCRecipes.supercooler.addRecipe(fluidStack("nitrogen", 64), fluidStack("liquid_nitrogen", 1), 1D / 150D, 2.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("helium", 64), fluidStack("liquid_helium", 1), 2D / 150D, 5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("nitrogen", 64), fluidStack("liquid_nitrogen", 1), 2D / 150D, 2.5D);
 
-			NCRecipes.supercooler.addRecipe(fluidStack("hydrogen", 64), fluidStack("liquid_hydrogen", 1), 1D / 150D, 3.75D);
-			NCRecipes.supercooler.addRecipe(fluidStack("neon", 64), fluidStack("liquid_neon", 1), 1D / 150D, 3.75D);
-			NCRecipes.supercooler.addRecipe(fluidStack("argon", 64), fluidStack("liquid_argon", 1), 1D / 150D, 2.5D);
-			NCRecipes.supercooler.addRecipe(fluidStack("oxygen", 64), fluidStack("liquid_oxygen", 1), 1D / 150D, 2.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("hydrogen", 64), fluidStack("liquid_hydrogen", 1), 2D / 150D, 3.75D);
+			NCRecipes.supercooler.addRecipe(fluidStack("neon", 64), fluidStack("liquid_neon", 1), 2D / 150D, 3.75D);
+			NCRecipes.supercooler.addRecipe(fluidStack("argon", 64), fluidStack("liquid_argon", 1), 2D / 150D, 2.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("oxygen", 64), fluidStack("liquid_oxygen", 1), 2D / 150D, 2.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("compressed_air", 64), fluidStack("liquid_air", 1), 2D / 150D, 2D);
 
 		}
 		else
@@ -468,6 +466,7 @@ public class QMDRecipes
 			NCRecipes.supercooler.addRecipe(fluidStack("neon", BUCKET_VOLUME * 8), fluidStack("liquid_neon", 25), 1D, 1D);
 			NCRecipes.supercooler.addRecipe(fluidStack("argon", BUCKET_VOLUME * 8), fluidStack("liquid_argon", 25), 0.5D, 0.5D);
 			NCRecipes.supercooler.addRecipe(fluidStack("oxygen", BUCKET_VOLUME * 8), fluidStack("liquid_oxygen", 25), 0.5D, 0.5D);
+			NCRecipes.supercooler.addRecipe(fluidStack("compressed_air", BUCKET_VOLUME * 8), fluidStack("liquid_air", 25), 0.5D , 0.5D);
 		}
 
 
@@ -507,6 +506,7 @@ public class QMDRecipes
 		NCRecipes.assembler.addRecipe(oreStack("ingotTungsten", 2), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), IItemParticleAmount.fullItem(new ItemStack(QMDItems.source, 1, SourceType.TUNGSTEN_FILAMENT.getID())), 1D, 1D);
 		NCRecipes.assembler.addRecipe(oreStack("ingotFerroboron", 2), "ingotNeodymium", new EmptyItemIngredient(), new EmptyItemIngredient(), "magnetNeodymium", 1D, 1D);
 		NCRecipes.assembler.addRecipe("dustPotassium", "dustIodine", new ItemStack(Items.SUGAR, 4), "bioplastic", new ItemStack(QMDItems.potassiumIodineTablet, 4), 1D, 1D);
+		NCRecipes.assembler.addRecipe(oreStack("ingotCobalt", 2), "dustSamarium", new EmptyItemIngredient(), new EmptyItemIngredient(), "magnetSamariumCobalt", 1D, 1D);
 
 		//Fission Irradiator
 		NCRecipes.fission_irradiator.addRecipe("waferSilicon", "siliconNDoped", 120000, 0d, 0);
@@ -575,7 +575,7 @@ public class QMDRecipes
 
 		// distiller
 		NCRecipes.multiblock_distiller.addRecipe(fluidStack("salt_water", 10*BUCKET_VOLUME),new EmptyFluidIngredient(),fluidStack("sodium_chloride_solution", GEM_VOLUME), fluidStack("water", BUCKET_VOLUME*9),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),1D,1D);
-
+		NCRecipes.multiblock_distiller.addRecipe(fluidStack("liquid_air", 1000),new EmptyFluidIngredient(),fluidStack("nitrogen", 44800), fluidStack("oxygen", 12800), fluidStack("argon", 4800),fluidStack("neon", 1280),fluidStack("helium", 320),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),1D,1D);
 
 		// Crafting
 		QMDCraftingRecipeHandler.registerCraftingRecipes();

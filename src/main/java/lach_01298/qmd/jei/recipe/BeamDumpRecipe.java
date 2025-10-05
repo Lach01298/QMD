@@ -1,6 +1,7 @@
 package lach_01298.qmd.jei.recipe;
 
-import lach_01298.qmd.*;
+import lach_01298.qmd.QMD;
+import lach_01298.qmd.QMDConstants;
 import lach_01298.qmd.recipe.QMDRecipe;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.util.Units;

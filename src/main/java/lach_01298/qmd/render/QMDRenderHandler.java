@@ -3,6 +3,7 @@ package lach_01298.qmd.render;
 import lach_01298.qmd.block.QMDBlocks;
 import lach_01298.qmd.entity.*;
 import lach_01298.qmd.item.*;
+import lach_01298.qmd.liquefier.tile.TileLiquefierController;
 import lach_01298.qmd.render.entity.*;
 import lach_01298.qmd.render.tile.*;
 import lach_01298.qmd.vacuumChamber.tile.*;
@@ -21,7 +22,7 @@ public class QMDRenderHandler
 		
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileExoticContainmentController.class, new RenderContainmentMaterial());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileVacuumChamberLaser.class, new RenderVacuumChamberLaser());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileLiquefierController.class, new RenderLiquefier());
 		
 		registerEntityRender(EntityGammaFlash.class, RenderGammaFlash.class);
 		registerEntityRender(EntityLeptonBeam.class, RenderLeptonBeam.class);

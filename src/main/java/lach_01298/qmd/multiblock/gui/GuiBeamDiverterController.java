@@ -1,8 +1,11 @@
 package lach_01298.qmd.multiblock.gui;
 
 import lach_01298.qmd.QMD;
-import lach_01298.qmd.accelerator.*;
-import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.accelerator.Accelerator;
+import lach_01298.qmd.accelerator.AcceleratorLogic;
+import lach_01298.qmd.accelerator.BeamDiverterLogic;
+import lach_01298.qmd.accelerator.tile.IAcceleratorPart;
+import lach_01298.qmd.accelerator.tile.TileBeamDiverterController;
 import lach_01298.qmd.gui.GuiParticle;
 import lach_01298.qmd.multiblock.network.AcceleratorUpdatePacket;
 import lach_01298.qmd.util.Units;
@@ -10,7 +13,8 @@ import nc.gui.element.MultiblockButton;
 import nc.gui.multiblock.controller.GuiLogicMultiblockController;
 import nc.network.multiblock.ClearAllMaterialPacket;
 import nc.tile.TileContainerInfo;
-import nc.util.*;
+import nc.util.Lang;
+import nc.util.NCUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +22,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuiBeamDiverterController
 		extends GuiLogicMultiblockController<Accelerator, AcceleratorLogic, IAcceleratorPart, AcceleratorUpdatePacket, TileBeamDiverterController, TileContainerInfo<TileBeamDiverterController>, BeamDiverterLogic>
@@ -67,10 +72,10 @@ public class GuiBeamDiverterController
 				Units.getSIFormat(multiblock.dipoleStrength, "T"));
 		fontRenderer.drawString(dipoles, offset, 40, fontColor);
 
-		String energyLoss = Lang.localize("gui.qmd.container.beam_dirverter.energy_loss",
+		String energyLoss = Lang.localize("gui.qmd.container.beam_diverter.energy_loss",
 				Units.getParticleEnergy(getLogic().getEnergyLoss()));
 		fontRenderer.drawString(energyLoss, offset, 50, fontColor);
-		String maxEnergy = Lang.localize("gui.qmd.container.beam_dirverter.max_energy",
+		String maxEnergy = Lang.localize("gui.qmd.container.beam_diverter.max_energy",
 				Units.getParticleEnergy(getLogic().getMaxEnergy()));
 		fontRenderer.drawString(maxEnergy, offset, 60, fontColor);
 

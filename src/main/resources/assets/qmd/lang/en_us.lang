@@ -112,6 +112,7 @@ item.qmd.part.accelerating_barrel.name=Accelerating Barrel
 item.qmd.part.laser_assembly.name=Laser Assembly
 item.qmd.part.wire_ssfaf.name=SSFAF Wire
 item.qmd.part.wire_ybco.name=YBCO Wire
+item.qmd.part.magnet_smc.name=Samarium Cobalt Magnet
 
 item.qmd.semiconductor.silicon_p_doped.name=P-Type Doped Silicon
 item.qmd.semiconductor.silicon_n_doped.name=N-Type Doped Silicon
@@ -502,6 +503,8 @@ fluid.high_pressure_mercury=High Pressure Mercury
 tile.qmd.fluid_high_pressure_mercury.name=High Pressure Mercury
 fluid.exhaust_mercury=Exhaust Mercury
 tile.qmd.fluid_exhaust_mercury.name=Exhaust Mercury
+fluid.liquid_air=Liquid Air
+tile.qmd.fluid_liquid_air.name=Liquid Air
 
 
 
@@ -546,12 +549,12 @@ info.qmd.ion_source.focus=Output Focus: %s
 info.qmd.particle_chamber.detector.efficiency=Particle Efficiency: %s
 info.qmd.particle_chamber.detector.power=Base Power: %s RF/t
 
-info.qmd.particle_chamber.liquefier.compressor.energy_efficiency=Energy Efficiency: %s
-info.qmd.particle_chamber.liquefier.compressor.heat_efficiency=Heat Efficiency: %s
+info.qmd.liquefier.compressor.energy_efficiency=Energy Efficiency: %s
+info.qmd.liquefier.compressor.heat_efficiency=Heat Efficiency: %s
 
 info.qmd.beamline.attenuation=Attenuation Rate: %s
 info.qmd.item.drill.desc=Mines a %s x %s area.
-
+info.qmd.liquefier_nozzle.speed=Max Recipe Rate: %s recipes/t/bar
 
 
 //player messages
@@ -684,11 +687,13 @@ qmd.multiblock_validation.nucleosynthesis_chamber.wrong_amount_of_beam_ports=The
 qmd.multiblock_validation.liquefier.invalid_nozzle_network=Each Liquefier Expansion Nozzle must be connected to a compressor by heat exchanger tubes.
 qmd.multiblock_validation.liquefier.must_be_baffle_or_nozzle=The layer above the bottom interior layer must be made of Heat Exchanger Baffles or Liquefier Expansion Nozzles.
 qmd.multiblock_validation.liquefier.must_be_empty_layer=The bottom interior layer must be empty.
-qmd.multiblock_validation.liquefier.compressor_must_be_in_roof=Compressors must be located on the top face of the muliblock.
+qmd.multiblock_validation.liquefier.compressor_must_be_in_roof=Compressors must be located on the top face of the multiblock.
 qmd.multiblock_validation.liquefier.invalid_compressor_amount=There must be at least the same amount of Liquefier Compressors as Liquefier Nozzles.
 qmd.multiblock_validation.liquefier.must_have_fluid_input=There must be at least one INPUT Liquefier Port.
 qmd.multiblock_validation.liquefier.must_have_fluid_output=There must be at least one OUTPUT Liquefier Port.
 qmd.multiblock_validation.liquefier.must_have_energy_port=There must be at least one Liquefier Energy Port.
+qmd.multiblock_validation.liquefier.inlet_outlet_must_be_in_top_section=Heat Exchanger Inlets and Heat Exchanger Outlets must be above the two bottom interior layers.
+
 
 //gui container
 gui.qmd.container.required_energy=Required Energy: %s
@@ -718,7 +723,7 @@ gui.qmd.container.beam_diverter_controller.name=Beam Diverter
 gui.qmd.container.beam_splitter_controller.name=Beam Splitter
 gui.qmd.container.decelerator_controller.name=Decelerator
 gui.qmd.container.mass_spectrometer_controller.name=Mass Spectrometer
-gui.qmd.container.accelerator.cavitys=RF Cavities: %s at %s 
+gui.qmd.container.accelerator.cavities=RF Cavities: %s at %s
 gui.qmd.container.accelerator.quadrupoles=Quadrupoles: %s at %s
 gui.qmd.container.accelerator.dipoles=Dipoles: %s at %s 
 gui.qmd.container.accelerator.radius=Radius: %s
@@ -729,8 +734,8 @@ gui.qmd.container.accelerator.error.2=Does not have enough power
 gui.qmd.container.accelerator.error.3=Focus to low
 gui.qmd.container.accelerator.error.4=Particle energy to low
 gui.qmd.container.accelerator.error.5=Particle energy to high
-gui.qmd.container.beam_dirverter.max_energy=Maximum Energy: %s
-gui.qmd.container.beam_dirverter.energy_loss=Energy Loss: %s
+gui.qmd.container.beam_diverter.max_energy=Maximum Energy: %s
+gui.qmd.container.beam_diverter.energy_loss=Energy Loss: %s
 gui.qmd.container.accelerator_source=Accelerator Ion Source
 
 gui.qmd.container.target_chamber_controller.name=Target Chamber 
@@ -751,6 +756,22 @@ gui.qmd.container.collison_chamber.energy=Collision Energy: %s
 gui.qmd.container.collision_chamber_controller.name=Collision Chamber 
 
 gui.qmd.container.nucleosynthesis_chamber.efficiency=Output Efficiency: %s%%
+
+gui.qmd.container.liquefier_controller.name=Liquefier
+gui.qmd.container.liquefier.compressor_nozzle_amount= Compressors/Nozzles: %s/%s
+gui.qmd.container.liquefier.liquid_out=Liquid Out: %s
+gui.qmd.container.liquefier.coolant_in=Coolant In: %s
+gui.qmd.container.liquefier.power=Power: %s
+gui.qmd.container.liquefier.heat_transfer=Heat Transfer: %s
+gui.qmd.container.liquefier.efficiency= (%s%%)
+gui.qmd.container.liquefier.pressure= Pressure: %s
+gui.qmd.container.liquefier.gas_in=Gas In: %s
+gui.qmd.container.liquefier.coolant_out= Hot Coolant Out: %s
+gui.qmd.container.liquefier.compressor_energy_efficiency=Mean Energy Efficiency: %s%%
+gui.qmd.container.liquefier.compressor_heat_efficiency=Mean Heat Efficiency: %s%%
+gui.qmd.container.liquefier.pressure_efficiency=Pressure Efficiency: %s%%
+gui.qmd.container.liquefier.temperature_difference=Temperature Differance: %s
+
 
 //particles
 qmd.particle.none.name=None
@@ -923,6 +944,9 @@ qmd.gui.jei.category.cell_filling=Cell Filling and Emptying
 qmd.gui.jei.category.nucleosynthesis_chamber=Nucleosynthesis Chamber
 qmd.gui.jei.category.vacuum_chamber_heating=Vacuum Chamber Heating
 
+qmd.gui.jei.category.liquefier=Liquefier Liquefaction
+qmd.gui.jei.category.liquefier_coolant=Liquefier Coolant
+
 qmd.gui.jei.category.atmosphere_collector=Atmosphere Collector
 qmd.gui.jei.category.liquid_collector=Liquid Collector
 qmd.gui.jei.category.particle_info=Particle Information
@@ -930,6 +954,16 @@ qmd.gui.jei.category.particle_info=Particle Information
 qmd.gui.jei.accelerator_cooling.heat_required=Heating Required:
 qmd.gui.jei.accelerator_cooling.temperature=Temperature:
 qmd.gui.jei.vacuum_chamber_heating.heat_required=Heating Required:
+
+qmd.gui.jei.liquefier.base_energy=Base Energy:
+qmd.gui.jei.liquefier.base_heat=Base Heat:
+qmd.gui.jei.liquefier.inversion_temp=Inversion Temperature:
+qmd.gui.jei.liquefier.compressed_gas_temp=Hot Gas Temperature:
+qmd.gui.jei.liquefier.pressure_coefficient=Pressure Coefficient:
+
+qmd.gui.jei.liquefier_coolant.heat_required=Heating Required:
+qmd.gui.jei.liquefier_coolant.input_temp=Input Temperature:
+qmd.gui.jei.liquefier_coolant.output_temp=Output Temperature:
 
 gui.qmd.jei.collector.blocks=Valid Blocks: %s
 gui.qmd.jei.collector.biomes=Valid Biomes: %s
@@ -948,6 +982,9 @@ gui.qmd.jei.reaction.energy_released=Released Energy: %s
 gui.qmd.jei.reaction.cross_section=Cross Section: %s%%
 gui.qmd.jei.reaction.heat_released=Heat Released: %s
 gui.qmd.jei.reaction.max_energy=Maximum Energy: %s
+
+
+
 
 //tabs
 itemGroup.qmd.items=Quantum Minecraft Dynamics Items
@@ -1077,6 +1114,9 @@ gui.qmd.config.category.particle_chamber.tooltip=Particle chamber and particle c
 
 gui.qmd.config.category.vacuum_chamber=Vacuum Chambers
 gui.qmd.config.category.vacuum_chamber.tooltip=Vacuum chamber and Vacuum chamber parts configs
+
+gui.qmd.config.category.heat_exchanger=Heat Exchangers and Liquefiers
+gui.qmd.config.category.heat_exchanger.tooltip=Heat Exchanger and Liquefier part configs
 
 gui.qmd.config.category.fission=Fission
 gui.qmd.config.category.fission.tooltip=Fission parts and fuels configs
@@ -1214,13 +1254,13 @@ gui.qmd.config.particle_chamber.collision_chamber_power=Collision Chamber Power
 gui.qmd.config.particle_chamber.collision_chamber_power.comment=The Base RF/t the Collision Chamber uses.
 
 gui.qmd.config.particle_chamber.particle_chamber_base_energy_capacity=Particle Chamber Base Energy Capacity
-gui.qmd.config.particle_chamber.particle_chamber_base_energy_capacity.comment=The base Energy (RF) capacity of an particle chamber. This is per block volume.
+gui.qmd.config.particle_chamber.particle_chamber_base_energy_capacity.comment=The base Energy (RF) capacity of a particle chamber. This is per block volume.
 
 gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity=Particle Chamber Input Tank Capacity
-gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity.comment=The base capacity (mB) of the input tank of an particle chamber. This is per block volume.
+gui.qmd.config.particle_chamber.particle_chamber_base_input_tank_capacity.comment=The base capacity (mB) of the input tank of a particle chamber. This is per block volume.
 
 gui.qmd.config.particle_chamber.particle_chamber_base_output_tank_capacity=Particle Chamber Output Tank Capacity
-gui.qmd.config.particle_chamber.particle_chamber_base_output_tank_capacity.comment=The base capacity (mB) of the output tank of an particle chamber. This is per block volume.
+gui.qmd.config.particle_chamber.particle_chamber_base_output_tank_capacity.comment=The base capacity (mB) of the output tank of a particle chamber. This is per block volume.
 
 gui.qmd.config.particle_chamber.detector_efficiency=Detector Efficiency
 gui.qmd.config.particle_chamber.detector_efficiency.comment=The efficiency of each type of Detector. Order:[Bubble Chamber, Silicon Tracker, Multi-wire Chamber, Electromagnetic Calorimeter, Hadron Calorimeter].
@@ -1238,13 +1278,13 @@ gui.qmd.config.vacuum_chamber.part_max_temp=Vacuum Chamber Part Max Temp
 gui.qmd.config.vacuum_chamber.part_max_temp.comment=The maximum operating temperature of each type of part in a Vacuum Chamber. Order:[coil, Laser, Beam, Plasma Glass, Plasma Nozzle]. 
 
 gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity=Vacuum Chamber Base Energy Capacity
-gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity.comment=The base Energy (RF) capacity of an vacuum chamber. This is per block volume.
+gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity.comment=The base Energy (RF) capacity of a vacuum chamber. This is per block volume.
 
 gui.qmd.config.vacuum_chamber.vacuum_chamber_base_input_tank_capacity=Vacuum Chamber Input Tank Capacity
-gui.qmd.config.vacuum_chamber.vacuum_chamber_base_input_tank_capacity.comment=The base capacity (mB) of the input tank of an vacuum chamber. This is not the cryogenic cooling tanks, that is bound to the accelerator base input tank capacity.
+gui.qmd.config.vacuum_chamber.vacuum_chamber_base_input_tank_capacity.comment=The base capacity (mB) of the input tank of a vacuum chamber. This is not the cryogenic cooling tanks, that is bound to the accelerator base input tank capacity.
 
 gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity=Vacuum Chamber Output Tank Capacity
-gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity.comment=The base capacity (mB) of the output tank of an vacuum chamber. This is not the cryogenic cooling tanks, that is bound to the accelerator base output tank capacity.
+gui.qmd.config.vacuum_chamber.vacuum_chamber_base_output_tank_capacity.comment=The base capacity (mB) of the output tank of a vacuum chamber. This is not the cryogenic cooling tanks, that is bound to the accelerator base output tank capacity.
 
 gui.qmd.config.vacuum_chamber.exotic_containment_explosion=Exotic Containment Chamber Explosions
 gui.qmd.config.vacuum_chamber.exotic_containment_explosion.comment=Whether exotic containment chambers explode if they overheat, lose power or are broken with exotic materials inside.
@@ -1266,6 +1306,25 @@ gui.qmd.config.vacuum_chamber.heater_heat_removed.comment=The amount of H/t each
 
 gui.qmd.config.vacuum_chamber.heater_rule=Vacuum Chamber Heater Rules
 gui.qmd.config.vacuum_chamber.heater_rule.comment=The placement rules of each Vacuum Chamber Heater. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond]. 
+
+
+gui.qmd.config.heat_exchanger.liquefier_base_energy_capacity=Liquefier Base Energy Capacity
+gui.qmd.config.heat_exchanger.liquefier_base_energy_capacity.comment=The Base Energy (RF) Capacity of a Liquefier. This is per block volume.
+
+gui.qmd.config.heat_exchanger.liquefier_input_tank_capacity=Liquefier Base Input Tank Capacity
+gui.qmd.config.heat_exchanger.liquefier_input_tank_capacity.comment=The base capacity (mB) of the input tank of a Liquefier. This is per block volume. This is for the gas input tank not the coolant input tank which size is based on the Heat Exchanger tank size.
+
+gui.qmd.config.heat_exchanger.liquefier_output_tank_capacity=Liquefier Base Output Tank Capacity
+gui.qmd.config.heat_exchanger.liquefier_output_tank_capacity.comment=The base capacity (mB) of the output tank of a Liquefier. This is per block volume. This is for the liquid output tank not the coolant output tank which size is based on the Heat Exchanger tank size.
+
+gui.qmd.config.heat_exchanger.liquefier_energy_efficiency=Liquefier Compressor Energy Efficiency
+gui.qmd.config.heat_exchanger.liquefier_energy_efficiency.comment=The energy efficiency of each Liquefier Compressor. Order:[Copper, Neodymium, Samarium Cobalt].
+
+gui.qmd.config.heat_exchanger.liquefier_heat_efficiency=Liquefier Compressor Heat Efficiency
+gui.qmd.config.heat_exchanger.liquefier_heat_efficiency.comment=The heat efficiency of each Liquefier Compressor. Order:[Copper, Neodymium, Samarium Cobalt].
+
+gui.qmd.config.heat_exchanger.liquefier_nozzle_speed=Liquefier Nozzle Speed
+gui.qmd.config.heat_exchanger.liquefier_nozzle_speed.comment=The speed a Liquefier Nozzle performs recipes in recipes per tick per bar.
 
 gui.qmd.config.tools.register_tool=Register Tools 
 gui.qmd.config.tools.register_tool.comment=Whether the tool set is added. Order:[Tungsten Carbide, Electric Drills].

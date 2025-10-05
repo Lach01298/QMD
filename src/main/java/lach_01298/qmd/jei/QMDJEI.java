@@ -74,6 +74,10 @@ public class QMDJEI implements IModPlugin
 
 				new AtmosphereCollectorCategory(guiHelper),
 				new LiquidCollectorCategory(guiHelper),
+
+				new LiquefierCategory(guiHelper),
+				new LiquefierCoolantCategory(guiHelper),
+
 				new ParticleInfoCategory(guiHelper)
 				);
 		
@@ -160,6 +164,12 @@ public class QMDJEI implements IModPlugin
 
 		registry.addRecipes(LiquidCollectorRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.LIQUID_COLLECTOR);
 		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.liquidCollector),QMDRecipeCategoryUid.LIQUID_COLLECTOR);
+
+		registry.addRecipes(LiquefierRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.LIQUEFIER);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.liquefierNozzle),QMDRecipeCategoryUid.LIQUEFIER);
+
+		registry.addRecipes(LiquefierCoolantRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.LIQUEFIER_COOLANT);
+		registry.addRecipeCatalyst(new ItemStack(QMDBlocks.liquefierController),QMDRecipeCategoryUid.LIQUEFIER_COOLANT);
 
 
 		registry.addRecipes(ParticleInfoRecipeMaker.getRecipes(jeiHelpers), QMDRecipeCategoryUid.PARTICLE_INFO);

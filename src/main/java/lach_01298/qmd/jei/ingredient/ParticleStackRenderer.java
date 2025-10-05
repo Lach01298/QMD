@@ -1,18 +1,23 @@
 package lach_01298.qmd.jei.ingredient;
 
-import lach_01298.qmd.particle.*;
+import lach_01298.qmd.particle.Particle;
+import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.util.Units;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import nc.util.Lang;
+import nc.util.UnitHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack>
 {
@@ -74,9 +79,9 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	{
 		List<String> list = new ArrayList<>();
 		list.add(Lang.localize(ingredient.getParticle().getUnlocalizedName()));
-		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount",Units.getSIFormat(ingredient.getAmount(),"pu")));
+		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount", UnitHelper.prefix(ingredient.getAmount(), 5,"pu")));
 		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(ingredient.getMeanEnergy())));
-		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",Units.getSIFormat(ingredient.getFocus(),"")));
+		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",UnitHelper.prefix(ingredient.getFocus(),5,"")));
 		
 		
 		return list;

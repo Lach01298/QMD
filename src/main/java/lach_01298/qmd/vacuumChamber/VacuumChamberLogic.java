@@ -100,7 +100,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 		getMultiblock().energyStorage.setStorageCapacity(QMDConfig.vacuum_chamber_base_energy_capacity * getCapacityMultiplier());
 		getMultiblock().energyStorage.setMaxTransfer(QMDConfig.vacuum_chamber_base_energy_capacity * getCapacityMultiplier());
 		getMultiblock().heatBuffer.setHeatCapacity(QMDConfig.accelerator_base_heat_capacity * getCapacityMultiplier());
-		getMultiblock().ambientTemp = 273 + (int) (getWorld().getBiome(getMultiblock().getMiddleCoord()).getTemperature(getMultiblock().getMiddleCoord())*20F);
+		getMultiblock().ambientTemp = 293;
 		getMultiblock().tanks.get(0).setCapacity(QMDConfig.accelerator_base_input_tank_capacity * getCapacityMultiplier());
 		getMultiblock().tanks.get(1).setCapacity(QMDConfig.accelerator_base_output_tank_capacity * getCapacityMultiplier());
 		

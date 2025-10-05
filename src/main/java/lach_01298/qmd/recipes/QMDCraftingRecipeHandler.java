@@ -246,8 +246,15 @@ public class QMDCraftingRecipeHandler
 		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.GOLD.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "ingotGold", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
 		addShapedOreRecipe(new ItemStack(QMDBlocks.vacuumChamberHeater,1,HeaterType.DIAMOND.getID()), new Object[] {"IOI", "OCO", "IOI", 'I', "gemDiamond", 'C',new ItemStack(QMDItems.part,1,PartType.EMPTY_COOLER.getID()), 'O', "ingotOsmiridium"});
 
-		
-		
+		//liquefier parts
+		addShapedOreRecipe(new ItemStack(QMDBlocks.liquefierController), new Object[] {"ITI", "TCT", "ITI", 'I', "ingotSteel", 'C',new ItemStack(NCBlocks.supercooler), 'T', "ingotThermoconducting"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.liquefierNozzle,4), new Object[] {"I I", "SCS", "I I", 'I', "ingotSteel", 'C',"steelFrame", 'S', "ingotStainlessSteel"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.liquefierEnergyPort,4), new Object[] {"ISI", "SCS", "ISI", 'I', "ingotSteel", 'C',"steelFrame", 'S', "ingotCopper"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.liquefierPort,4), new Object[] {"ISI", "MCM", "ISI", 'I', "ingotSteel", 'C',"steelFrame", 'S', "ingotStainlessSteel", 'M', "servo"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.liquefierCompressor,4, CompressorType.COPPER.getID()), new Object[] {"ISI", "MCM", "ISI", 'I', "ingotSteel", 'C',"steelFrame", 'S', "ingotCopper", 'M', "motor"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.liquefierCompressor,4, CompressorType.NEODYMIUM.getID()), new Object[] {"ISI", "MCM", "ISI", 'I', "ingotSteel", 'C',"steelFrame", 'S', "magnetNeodymium", 'M', "motor"});
+		addShapedOreRecipe(new ItemStack(QMDBlocks.liquefierCompressor,4, CompressorType.SAMARIUM_COBALT.getID()), new Object[] {"ISI", "MCM", "ISI", 'I', "ingotSteel", 'C',"steelFrame", 'S', "magnetSamariumCobalt", 'M', "motor"});
+
 		IRecipe recipe = new RecipesArmourDyes();
 		recipe.setRegistryName(new ResourceLocation(QMD.MOD_ID, "armour_dye"));
 		ForgeRegistries.RECIPES.register(recipe);

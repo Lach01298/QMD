@@ -42,6 +42,7 @@ public class QMDFluids
 			addFluidPair(FluidType.LIQUID, "liquid_argon",false, 0xff75dd,1395,87,170,0);
 			addFluidPair(FluidType.LIQUID, "liquid_neon",false, 0xff9f7a,1207,27,170,0);
 			addFluidPair(FluidType.LIQUID, "liquid_oxygen",false, 0x7E8CC8,1141,90,170,0);
+			addFluidPair(FluidType.LIQUID, "liquid_air",false, 0x6CDEFF,870,79,170,0);
 			
 			//liquids
 			addFluidPair(FluidType.LIQUID, "mercury", true,0xC6C6C6,13540,300,1000,0);
@@ -54,7 +55,7 @@ public class QMDFluids
 			addFluidPair(FluidType.GAS, "chlorine", 0xffff8f);
 			addFluidPair(FluidType.GAS, "nitric_oxide", 0xc9eeff);
 			addFluidPair(FluidType.GAS, "nitrogen_dioxide", 0x782a10);
-			addFluidPair(FluidType.GAS, "compressed_air", 0xD4D4D4);
+			addFluidPair(FluidType.GAS, "compressed_air", 0xBDF0FF);
 			
 			//molten
 			addFluidPair(FluidType.MOLTEN, "silicon", 0x676767);

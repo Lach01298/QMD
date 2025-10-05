@@ -127,6 +127,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("magnetNeodymium",new ItemStack(QMDItems.part, 1, PartType.MAGNET_ND.getID()));
 		OreDictionary.registerOre("wireSSFAF",new ItemStack(QMDItems.part, 1, PartType.WIRE_SSFAF.getID()));
 		OreDictionary.registerOre("wireYBCO",new ItemStack(QMDItems.part, 1, PartType.WIRE_YBCO.getID()));
+		OreDictionary.registerOre("magnetSamariumCobalt",new ItemStack(QMDItems.part, 1, PartType.MAGNET_SMC.getID()));
 		
 		OreDictionary.registerOre("dustTungstenOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.TUNGSTEN_OXIDE.getID()));
 		OreDictionary.registerOre("dustBSCCO",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.BSCCO.getID()));

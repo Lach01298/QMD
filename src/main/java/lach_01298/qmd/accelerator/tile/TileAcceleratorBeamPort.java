@@ -214,7 +214,10 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 		{
 			if (!getParticleBeams().isEmpty())
 			{
-				return (T) getParticleBeams().get(IONumber);
+				if(getParticleBeams().size()>IONumber)
+				{
+					return (T) getParticleBeams().get(IONumber);
+				}
 			}
 			return null;
 		}

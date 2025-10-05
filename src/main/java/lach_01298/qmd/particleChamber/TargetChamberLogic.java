@@ -5,10 +5,12 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.multiblock.InventoryHelper;
-import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.multiblock.network.ParticleChamberUpdatePacket;
+import lach_01298.qmd.multiblock.network.TargetChamberUpdatePacket;
 import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.particleChamber.tile.*;
-import lach_01298.qmd.recipe.*;
+import lach_01298.qmd.recipe.QMDRecipe;
+import lach_01298.qmd.recipe.QMDRecipeInfo;
 import lach_01298.qmd.util.Equations;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
@@ -19,7 +21,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static lach_01298.qmd.recipes.QMDRecipes.target_chamber;
 
@@ -63,12 +66,12 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	{
 		
 		//sizing
-		if (getMultiblock().getExteriorLengthX() != getMultiblock().getExteriorLengthZ())
+		if (multiblock.getExteriorLengthX() != multiblock.getExteriorLengthZ())
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_square", null);
 			return false;
 		}
-		if (getMultiblock().getExteriorLengthX() % 2 != 1)
+		if (multiblock.getExteriorLengthX() % 2 != 1)
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_odd", null);
 			return false;
@@ -76,27 +79,27 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		
 		
 		
-		BlockPos middle =getMultiblock().getExtremeCoord(false, false, false).add(getMultiblock().getExteriorLengthX()/2,getMultiblock().getExteriorLengthY()/2,getMultiblock().getExteriorLengthZ()/2);
+		BlockPos middle =multiblock.getExtremeCoord(false, false, false).add(multiblock.getExteriorLengthX()/2,multiblock.getExteriorLengthY()/2,multiblock.getExteriorLengthZ()/2);
 		
 		//target
-		if (!(getMultiblock().WORLD.getTileEntity(middle) instanceof TileParticleChamber))
+		if (!(multiblock.WORLD.getTileEntity(middle) instanceof TileParticleChamber))
 		{
 			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_have_target", middle);
 			return false;
 		}
 		
-		TileParticleChamber target = (TileParticleChamber) getMultiblock().WORLD.getTileEntity(middle);
+		TileParticleChamber target = (TileParticleChamber) multiblock.WORLD.getTileEntity(middle);
 		
 		// target beams
 		int ports = 0;
 		for (EnumFacing face : EnumFacing.HORIZONTALS)
 		{
-			if (getMultiblock().WORLD.getTileEntity(middle.offset(face, getMultiblock().getExteriorLengthX() / 2)) instanceof TileParticleChamberBeamPort)
+			if (multiblock.WORLD.getTileEntity(middle.offset(face, multiblock.getExteriorLengthX() / 2)) instanceof TileParticleChamberBeamPort)
 			{
 				ports++;
-				for (int i = 1; i <= getMultiblock().getExteriorLengthX() / 2 - 1; i++)
+				for (int i = 1; i <= multiblock.getExteriorLengthX() / 2 - 1; i++)
 				{
-					if (!(getMultiblock().WORLD.getTileEntity(middle.offset(face, i)) instanceof TileParticleChamberBeam))
+					if (!(multiblock.WORLD.getTileEntity(middle.offset(face, i)) instanceof TileParticleChamberBeam))
 					{
 						multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_beam", middle.offset(face, i));
 						return false;
@@ -161,8 +164,8 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	{
 		onResetStats();
 		
-		getMultiblock().tanks.get(0).setCapacity(QMDConfig.particle_chamber_input_tank_capacity);
-		getMultiblock().tanks.get(1).setCapacity(QMDConfig.particle_chamber_output_tank_capacity * getCapacityMultiplier());
+		multiblock.tanks.get(0).setCapacity(QMDConfig.particle_chamber_input_tank_capacity);
+		multiblock.tanks.get(1).setCapacity(QMDConfig.particle_chamber_output_tank_capacity * getCapacityMultiplier());
 		
 		if (!getWorld().isRemote)
 		{
@@ -173,10 +176,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 			for (TileParticleChamberDetector detector : getPartMap(TileParticleChamberDetector.class).values())
 			{
-				getMultiblock().requiredEnergy += detector.basePower;
+				multiblock.requiredEnergy += detector.basePower;
 				if (detector.isValidPostion(mainChamber.getPos()))
 				{
-					getMultiblock().efficiency += detector.efficiency;
+					multiblock.efficiency += detector.efficiency;
 				}
 			}
 
@@ -192,7 +195,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 				}
 			}
 
-			int distance = getMultiblock().getExteriorLengthX() / 2;
+			int distance = multiblock.getExteriorLengthX() / 2;
 			EnumFacing facing = null;
 			if (mainChamber.getPos().getX() == input.getX())
 			{
@@ -280,13 +283,13 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	public boolean onUpdateServer()
 	{
 		
-		getMultiblock().beams.get(0).setParticleStack(null);
+		multiblock.beams.get(0).setParticleStack(null);
 		pull();
 		
 		if (isChamberOn())
 		{
 
-			if (getMultiblock().energyStorage.extractEnergy(getMultiblock().requiredEnergy,true) == getMultiblock().requiredEnergy)
+			if (multiblock.energyStorage.extractEnergy(multiblock.requiredEnergy,true) == multiblock.requiredEnergy)
 			{
 				
 				
@@ -305,8 +308,8 @@ public class TargetChamberLogic extends ParticleChamberLogic
 					
 					if(canProduceProduct())
 					{
-						getMultiblock().energyStorage.changeEnergyStored(-getMultiblock().requiredEnergy);
-						particleWorkDone += getMultiblock().beams.get(0).getParticleStack().getAmount();
+						multiblock.energyStorage.changeEnergyStored(-multiblock.requiredEnergy);
+						particleWorkDone += multiblock.beams.get(0).getParticleStack().getAmount();
 						
 						produceProduct();
 						produceBeams();
@@ -393,10 +396,10 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			}
 			
 		
-			if (getWorld().getTileEntity(port.getPos().offset(facing, getMultiblock().getExteriorLengthX()-1)) instanceof TileParticleChamberBeamPort)
+			if (getWorld().getTileEntity(port.getPos().offset(facing, multiblock.getExteriorLengthX()-1)) instanceof TileParticleChamberBeamPort)
 			{
 				
-				TileParticleChamberBeamPort port2 = (TileParticleChamberBeamPort) getWorld().getTileEntity(port.getPos().offset(facing, getMultiblock().getExteriorLengthX()-1));
+				TileParticleChamberBeamPort port2 = (TileParticleChamberBeamPort) getWorld().getTileEntity(port.getPos().offset(facing, multiblock.getExteriorLengthX()-1));
 				if(port2.getIONumber() ==1)
 				{
 					port2.setIONumber(3);
@@ -414,7 +417,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private boolean canProduceProduct()
 	{
-		TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
+		TileTargetChamberController inv = (TileTargetChamberController) multiblock.controller;
 		ItemStack productItem = recipeInfo.recipe.getItemProducts().get(0).getStack();
 		FluidStack productFluid = recipeInfo.recipe.getFluidProducts().get(0).getStack();
 		
@@ -441,7 +444,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		
 		if(productFluid != null)
 		{
-			if(getMultiblock().tanks.get(1).fill(productFluid, false) != productFluid.amount)
+			if(multiblock.tanks.get(1).fill(productFluid, false) != productFluid.amount)
 			{
 				return false;
 			}
@@ -452,13 +455,13 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	private void produceProduct()
 	{
-		recipeParticleWork = (long) Math.max(recipeInfo.recipe.getCrossSection()*recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount(),recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount()/getMultiblock().efficiency);
+		recipeParticleWork = (long) Math.max(recipeInfo.recipe.getCrossSection()*recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount(),recipeInfo.recipe.getParticleIngredients().get(0).getStack().getAmount()/multiblock.efficiency);
 		particleWorkDone=Math.min(particleWorkDone, recipeParticleWork*64);
 		
 		while(particleWorkDone >= recipeParticleWork && canProduceProduct())
 		{
 			
-			TileTargetChamberController inv = (TileTargetChamberController) getMultiblock().controller;
+			TileTargetChamberController inv = (TileTargetChamberController) multiblock.controller;
 			ItemStack productItem = recipeInfo.recipe.getItemProducts().get(0).getStack();
 			if(productItem == null)
 			{
@@ -479,12 +482,12 @@ public class TargetChamberLogic extends ParticleChamberLogic
 			if(productFluid != null)
 			{
 				productFluid.amount = recipeInfo.recipe.getFluidProducts().get(0).getNextStackSize(0);
-				getMultiblock().tanks.get(1).fill(productFluid, true);
+				multiblock.tanks.get(1).fill(productFluid, true);
 			}
 			
 			if(ingredientFluid != null)
 			{
-				getMultiblock().tanks.get(0).drain(ingredientFluid, true);
+				multiblock.tanks.get(0).drain(ingredientFluid, true);
 			}
 			
 		
@@ -499,8 +502,8 @@ public class TargetChamberLogic extends ParticleChamberLogic
 
 	public void onResetStats()
 	{
-		getMultiblock().efficiency =1;
-		getMultiblock().requiredEnergy =QMDConfig.target_chamber_power;
+		multiblock.efficiency =1;
+		multiblock.requiredEnergy =QMDConfig.target_chamber_power;
 		
 	}
 	
@@ -509,14 +512,14 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	private void produceBeams()
 	{
 		
-		ParticleStack input = getMultiblock().beams.get(0).getParticleStack();
+		ParticleStack input = multiblock.beams.get(0).getParticleStack();
 		ParticleStack outputPlus = recipeInfo.recipe.getParticleProducts().get(0).getStack();
 		ParticleStack outputNeutral = recipeInfo.recipe.getParticleProducts().get(1).getStack();
 		ParticleStack outputMinus = recipeInfo.recipe.getParticleProducts().get(2).getStack();
 		
 		long energyReleased = recipeInfo.recipe.getEnergyReleased();
 		double crossSection = recipeInfo.recipe.getCrossSection();
-		double outputFactor = crossSection * getMultiblock().efficiency;
+		double outputFactor = crossSection * multiblock.efficiency;
 		if(outputFactor >= 1)
 		{
 			outputFactor = 1;
@@ -538,31 +541,31 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		}
 		
 		
-		getMultiblock().beams.get(1).setParticleStack(outputPlus);
+		multiblock.beams.get(1).setParticleStack(outputPlus);
 		if(outputPlus != null)
 		{
-			getMultiblock().beams.get(1).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
-			getMultiblock().beams.get(1).getParticleStack().setAmount((int) Math.round(outputPlus.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(1).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(1).getParticleStack()));
+			multiblock.beams.get(1).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
+			multiblock.beams.get(1).getParticleStack().setAmount((int) Math.round(outputPlus.getAmount() * outputFactor * input.getAmount()));
+			multiblock.beams.get(1).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, multiblock.beams.get(1).getParticleStack()));
 		}
 		
 		
-		getMultiblock().beams.get(2).setParticleStack(outputNeutral);
+		multiblock.beams.get(2).setParticleStack(outputNeutral);
 		if(outputNeutral != null)
 		{
 			
 			
-			getMultiblock().beams.get(2).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
-			getMultiblock().beams.get(2).getParticleStack().setAmount((int) Math.round(outputNeutral.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(2).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(2).getParticleStack()));
+			multiblock.beams.get(2).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
+			multiblock.beams.get(2).getParticleStack().setAmount((int) Math.round(outputNeutral.getAmount() * outputFactor * input.getAmount()));
+			multiblock.beams.get(2).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, multiblock.beams.get(2).getParticleStack()));
 		}
 		
-		getMultiblock().beams.get(3).setParticleStack(outputMinus);
+		multiblock.beams.get(3).setParticleStack(outputMinus);
 		if(outputMinus != null)
 		{
-			getMultiblock().beams.get(3).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
-			getMultiblock().beams.get(3).getParticleStack().setAmount((int) Math.round(outputMinus.getAmount() * outputFactor * input.getAmount()));
-			getMultiblock().beams.get(3).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, getMultiblock().beams.get(3).getParticleStack()));
+			multiblock.beams.get(3).getParticleStack().setMeanEnergy(Math.round((input.getMeanEnergy() + energyReleased) / (double) particlesOut));
+			multiblock.beams.get(3).getParticleStack().setAmount((int) Math.round(outputMinus.getAmount() * outputFactor * input.getAmount()));
+			multiblock.beams.get(3).getParticleStack().setFocus(input.getFocus()-Equations.focusLoss(getBeamLength()/2d, input)-Equations.focusLoss(getBeamLength()/2d, multiblock.beams.get(3).getParticleStack()));
 		}
 	}
 
@@ -570,21 +573,21 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	
 	private void resetBeams()
 	{
-		getMultiblock().beams.get(1).setParticleStack(null);
-		getMultiblock().beams.get(2).setParticleStack(null);
-		getMultiblock().beams.get(3).setParticleStack(null);
+		multiblock.beams.get(1).setParticleStack(null);
+		multiblock.beams.get(2).setParticleStack(null);
+		multiblock.beams.get(3).setParticleStack(null);
 	}
 	
 	protected void refreshRecipe()
 	{
-		TileTargetChamberController cont = (TileTargetChamberController) getMultiblock().controller;
+		TileTargetChamberController cont = (TileTargetChamberController) multiblock.controller;
 		ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 		ItemStack item = cont.getInventoryStacks().get(0).copy();
 		items.add(item);
 		ArrayList<Tank> tanks = new ArrayList<Tank>();
-		tanks.add(getMultiblock().tanks.get(0));
+		tanks.add(multiblock.tanks.get(0));
 		ArrayList<ParticleStack> particles = new ArrayList<ParticleStack>();
-		particles.add(getMultiblock().beams.get(0).getParticleStack());
+		particles.add(multiblock.beams.get(0).getParticleStack());
 		
 		recipeInfo = target_chamber.getRecipeInfoFromInputs(items, tanks, particles);
 		
@@ -593,9 +596,9 @@ public class TargetChamberLogic extends ParticleChamberLogic
 	@Override
 	public ParticleChamberUpdatePacket getMultiblockUpdatePacket()
 	{
-		return new TargetChamberUpdatePacket(getMultiblock().controller.getTilePos(), getMultiblock().isChamberOn,
-				getMultiblock().requiredEnergy, getMultiblock().efficiency, getMultiblock().energyStorage,
-				particleWorkDone,recipeParticleWork, getMultiblock().tanks, getMultiblock().beams);
+		return new TargetChamberUpdatePacket(multiblock.controller.getTilePos(), multiblock.isChamberOn,
+				multiblock.requiredEnergy, multiblock.efficiency, multiblock.energyStorage,
+				particleWorkDone,recipeParticleWork, multiblock.tanks, multiblock.beams);
 	}
 	
 	@Override
@@ -605,8 +608,8 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		if (message instanceof TargetChamberUpdatePacket)
 		{
 			TargetChamberUpdatePacket packet = (TargetChamberUpdatePacket) message;
-			getMultiblock().beams = packet.beams;
-			for (int i = 0; i < getMultiblock().tanks.size(); i++) getMultiblock().tanks.get(i).readInfo(message.tanksInfo.get(i));
+			multiblock.beams = packet.beams;
+			for (int i = 0; i < multiblock.tanks.size(); i++) multiblock.tanks.get(i).readInfo(message.tanksInfo.get(i));
 			this.particleWorkDone = packet.particleCount;
 			this.recipeParticleWork = packet.recipeParticleCount;
 		}

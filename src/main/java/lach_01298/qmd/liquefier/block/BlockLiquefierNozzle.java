@@ -1,6 +1,7 @@
 package lach_01298.qmd.liquefier.block;
 
 import lach_01298.qmd.liquefier.tile.TileLiquefierNozzle;
+import lach_01298.qmd.tab.QMDTabs;
 import nc.block.hx.BlockHeatExchangerPart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +17,7 @@ public class BlockLiquefierNozzle extends BlockHeatExchangerPart
 	public BlockLiquefierNozzle()
 	{
 		super();
+		setCreativeTab(QMDTabs.MULTIBLOCKS);
 	}
 
 	@Override

@@ -7,9 +7,7 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import nc.integration.jei.JEIHelper.RecipeFluidMapper;
 import nc.recipe.IngredientSorption;
-import nc.util.Lang;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 
 public class AcceleratorCoolingCategory extends QMDProcessorCategory<AcceleratorCoolingRecipe>
 {

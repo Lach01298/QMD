@@ -46,6 +46,7 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 			list.add(categoryElement(QMDConfig.CATEGORY_ACCELERATOR, CategoryEntryAccelerator.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_PARTICLE_CHAMBER, CategoryEntryParticleChamber.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_VACUUM_CHAMBER, CategoryEntryContainment.class));
+			list.add(categoryElement(QMDConfig.CATEGORY_HEAT_EXCHANGER, CategoryEntryHeatExchanger.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_FISSION, CategoryEntryFission.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_FUSION, CategoryEntryFusion.class));
 			list.add(categoryElement(QMDConfig.CATEGORY_TOOLS, CategoryEntryTools.class));
@@ -123,6 +124,22 @@ public class QMDConfigGUIFactory implements IModGuiFactory
 			protected GuiScreen buildChildScreen()
 			{
 				return buildChildScreen(QMDConfig.CATEGORY_VACUUM_CHAMBER, owningScreen, configElement);
+			}
+		}
+
+		public static class CategoryEntryHeatExchanger extends CategoryEntry implements IQMDConfigCategory
+		{
+
+			public CategoryEntryHeatExchanger(GuiConfig owningScreen, GuiConfigEntries owningEntryList,
+										IConfigElement configElement)
+			{
+				super(owningScreen, owningEntryList, configElement);
+			}
+
+			@Override
+			protected GuiScreen buildChildScreen()
+			{
+				return buildChildScreen(QMDConfig.CATEGORY_HEAT_EXCHANGER, owningScreen, configElement);
 			}
 		}
 

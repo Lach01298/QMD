@@ -29,7 +29,6 @@ public class QMDTiles
 	
 	public static void register()
 	{
-		
 		//other
 		GameRegistry.registerTileEntity(TileBeamline.class,new ResourceLocation(QMD.MOD_ID,"beamline"));
 		GameRegistry.registerTileEntity(QMDTileRTG.Strontium.class,new ResourceLocation(QMD.MOD_ID,"rtg_strontium"));
@@ -83,8 +82,6 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.SSFAF.class, Util.appendPath(cavityPath, RFCavityType.SSFAF.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.YBCO.class, Util.appendPath(cavityPath, RFCavityType.YBCO.getName()));
 
-	
-		
 		//coolers
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.class, Util.appendPath(coolerPath, "cooler"));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Water.class, Util.appendPath(coolerPath, CoolerType1.WATER.getName()));
@@ -119,11 +116,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.LiquidHelium.class, Util.appendPath(coolerPath, CoolerType2.LIQUID_HELIUM.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Enderium.class, Util.appendPath(coolerPath, CoolerType2.ENDERIUM.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.Cryotheum.class, Util.appendPath(coolerPath, CoolerType2.CRYOTHEUM.getName()));
-		
-		
-		
-		
-		
+
 		//Particle Chamber Parts
 		GameRegistry.registerTileEntity(TileTargetChamberController.class,Util.appendPath(chamberPath, "target_chamber_controller"));
 		GameRegistry.registerTileEntity(TileDecayChamberController.class,Util.appendPath(chamberPath, "decay_chamber_controller"));
@@ -145,8 +138,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.WireChamber.class, Util.appendPath(detectorPath, DetectorType.WIRE_CHAMBER.getName()));
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.EMCalorimeter.class, Util.appendPath(detectorPath, DetectorType.EM_CALORIMETER.getName()));
 		GameRegistry.registerTileEntity(TileParticleChamberDetector.HadronCalorimeter.class, Util.appendPath(detectorPath, DetectorType.HADRON_CALORIMETER.getName()));
-	
-	
+
 		//machines
 		GameRegistry.registerTileEntity(TileQMDProcessors.TileOreLeacher.class,new ResourceLocation(QMD.MOD_ID,"ore_leacher"));
 		GameRegistry.registerTileEntity(TileQMDProcessors.TileIrradiator.class,new ResourceLocation(QMD.MOD_ID,"irradiator"));
@@ -154,7 +146,6 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileLiquidCollector.class,new ResourceLocation(QMD.MOD_ID,"liquid_collector"));
 
 		//vacuum chamber parts
-		
 		GameRegistry.registerTileEntity(TileExoticContainmentController.class,Util.appendPath(containmentPath, "neutral_containment_controller"));
 		GameRegistry.registerTileEntity(TileNucleosynthesisChamberController.class,Util.appendPath(containmentPath, "neucleosynthesis_chamber_controller"));
 		GameRegistry.registerTileEntity(TileVacuumChamberCasing.class,Util.appendPath(containmentPath, "casing"));
@@ -173,7 +164,6 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileVacuumChamberRedstonePort.class,Util.appendPath(containmentPath, "redstone_port"));
 
 		//heaters
-		
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.class, Util.appendPath(heaterPath, "heater"));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Iron.class, Util.appendPath(heaterPath, HeaterType.IRON.getName()));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Redstone.class, Util.appendPath(heaterPath, HeaterType.REDSTONE.getName()));
@@ -183,7 +173,6 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Lapis.class, Util.appendPath(heaterPath, HeaterType.LAPIS.getName()));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Gold.class,Util.appendPath(heaterPath, HeaterType.GOLD.getName()));
 		GameRegistry.registerTileEntity(TileVacuumChamberHeater.Diamond.class, Util.appendPath(heaterPath, HeaterType.DIAMOND.getName()));
-
 
 		// liquefier parts
 		GameRegistry.registerTileEntity(TileLiquefierController.class,new ResourceLocation(QMD.MOD_ID,"liquefier_controller"));

@@ -20,6 +20,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -45,7 +46,8 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 	public QMDRecipeHandler recipe_handler = QMDRecipes.cell_filling;
 	
 	public boolean isRenderer = false;
-	
+	public Axis laserAxis = Axis.X;
+
 	public TileExoticContainmentController()
 	{
 		super(CuboidalPartPositionType.WALL);
@@ -269,5 +271,16 @@ public class TileExoticContainmentController extends TileVacuumChamberPart imple
 	public void setIsRenderer(boolean isRenderer)
 	{
 		this.isRenderer = isRenderer;
+	}
+
+	public void setLaserAxis(Axis newAxis)
+	{
+		if(newAxis != laserAxis)
+		{
+			if(newAxis == Axis.X || newAxis == Axis.Z)
+			{
+				laserAxis = newAxis;
+			}
+		}
 	}
 }

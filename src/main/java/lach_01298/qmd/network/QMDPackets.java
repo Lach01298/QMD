@@ -50,6 +50,9 @@ public class QMDPackets {
 		wrapper.registerMessage(AntimatterProjectileUpdatePacket.Handler.class, AntimatterProjectileUpdatePacket.class, nextID(), Side.CLIENT);
 		wrapper.registerMessage(NucleosynthesisChamberUpdatePacket.Handler.class, NucleosynthesisChamberUpdatePacket.class, nextID(), Side.CLIENT);
 		wrapper.registerMessage(AcceleratorSourceUpdatePacket.Handler.class, AcceleratorSourceUpdatePacket.class, nextID(), Side.CLIENT);
+		wrapper.registerMessage(LiquefierUpdatePacket.Handler.class, LiquefierUpdatePacket.class, nextID(), Side.CLIENT);
+		wrapper.registerMessage(LiquefierRenderPacket.Handler.class, LiquefierRenderPacket.class, nextID(), Side.CLIENT);
+
 	}
 
 

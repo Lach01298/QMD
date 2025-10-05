@@ -6,19 +6,25 @@ import lach_01298.qmd.util.Units;
 import nc.capability.radiation.entity.IEntityRads;
 import nc.item.NCItem;
 import nc.radiation.RadiationHelper;
-import nc.util.*;
+import nc.util.DamageSources;
+import nc.util.InfoHelper;
+import nc.util.Lang;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ItemCustomParticleSource extends NCItem implements IItemParticleAmount
 {
