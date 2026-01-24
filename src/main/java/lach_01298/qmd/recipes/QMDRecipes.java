@@ -457,7 +457,7 @@ public class QMDRecipes
 			NCRecipes.supercooler.addRecipe(fluidStack("neon", 64), fluidStack("liquid_neon", 1), 2D / 150D, 3.75D);
 			NCRecipes.supercooler.addRecipe(fluidStack("argon", 64), fluidStack("liquid_argon", 1), 2D / 150D, 2.5D);
 			NCRecipes.supercooler.addRecipe(fluidStack("oxygen", 64), fluidStack("liquid_oxygen", 1), 2D / 150D, 2.5D);
-			NCRecipes.supercooler.addRecipe(fluidStack("compressed_air", 64), fluidStack("liquid_air", 1), 2D / 150D, 2D);
+			NCRecipes.supercooler.addRecipe(fluidStack("compressed_air", 64), fluidStack("liquid_air", 1), 2D / 150D, 1D);
 
 		}
 		else
@@ -575,7 +575,7 @@ public class QMDRecipes
 
 		// distiller
 		NCRecipes.multiblock_distiller.addRecipe(fluidStack("salt_water", 10*BUCKET_VOLUME),new EmptyFluidIngredient(),fluidStack("sodium_chloride_solution", GEM_VOLUME), fluidStack("water", BUCKET_VOLUME*9),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),1D,1D);
-		NCRecipes.multiblock_distiller.addRecipe(fluidStack("liquid_air", 1000),new EmptyFluidIngredient(),fluidStack("nitrogen", 44800), fluidStack("oxygen", 12800), fluidStack("argon", 4800),fluidStack("neon", 1280),fluidStack("helium", 320),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),1D,1D);
+		NCRecipes.multiblock_distiller.addRecipe(fluidStack("liquid_air", 1000),new EmptyFluidIngredient(),fluidStack("nitrogen", 38400), fluidStack("oxygen", 12800), fluidStack("argon", 6400),fluidStack("neon", 5120),fluidStack("helium", 1280),new EmptyFluidIngredient(),new EmptyFluidIngredient(),new EmptyFluidIngredient(),1D,1D);
 
 		// Crafting
 		QMDCraftingRecipeHandler.registerCraftingRecipes();

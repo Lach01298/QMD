@@ -7,7 +7,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.TextFormatting;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +32,7 @@ public class GuiParticle
 		{
 			return;
 		}
-		
-		
+
 		GlStateManager.disableLighting();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		screen.mc.getTextureManager().bindTexture(particleStack.getParticle().getTexture());
@@ -50,15 +48,12 @@ public class GuiParticle
 		text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(stack.getMeanEnergy())));
 		if(showFocus)
 		{
-			DecimalFormat df = new DecimalFormat("#.####");
-			text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",df.format(stack.getFocus())));
+			text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",Units.formatFocus(stack.getFocus())));
 		}
 		screen.drawHoveringText(text, mouseX, mouseY);
 		
 	}
-	
-	
-	
+
 	public void drawToolTipBox(ParticleStack particleStack, int x, int y,int mouseX, int mouseY)
 	{
 		if (mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height)
@@ -83,12 +78,5 @@ public class GuiParticle
 		}
 		
 	}
-	
 
-	
-	
-	
-	
-	
-	
 }

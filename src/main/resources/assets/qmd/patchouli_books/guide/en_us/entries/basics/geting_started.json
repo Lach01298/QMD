@@ -10,7 +10,7 @@
 		},
 		{
 			"type": "text",
-			"text": "A good place to start is $(l:particles/introduction)General information on particles$(/l) since they are the main feature of this mod about particle accelerators.$(br2)If you are unfamiliar with units and specifically SI prefixes like the 'k' in kRF or the 'm' in mB then $(l:basics/units)Units$(/l) is a good place to look.$(br2)If you want to know more about the default survival progression look at the general progression guide section in Introduction to QMD."
+			"text": "A good place to start is $(l:particles/introduction)General information on particles$(/l) since they are the main feature of this mod about particle accelerators.$(br2)If you are unfamiliar with units and specifically SI prefixes like the 'k' in kRF or the 'm' in mB then $(l:basics/units)Units$(/l) is a good place to look.$(br2)If you want to know more about the default survival progression, look at the general progression guide section in Introduction to QMD."
 		},
 		{
 			"type": "text",
@@ -29,7 +29,7 @@
 		{
 			"type": "text",
 			"title": "Particle Chambers",
-			"text": "The most common $(l:multiblocks/particle_chambers/general)particle chamber$(/l) is the $(l:multiblocks/particle_chambers/target_chamber)Target Chamber$(/l) which can transmute or irradiate items with particles. There is also $(l:multiblocks/particle_chambers/decay_chamber)Decay Chambers$(/l) and $(l:multiblocks/particle_chambers/collision_chamber)Collision Chambers$(/l) that change particles into other types of particles. Finally there are $(l:multiblocks/particle_chambers/beam_dump)Beam Dumps$(/l) where particles are collected into fluids."
+			"text": "The most common $(l:multiblocks/particle_chambers/general)particle chamber$(/l) is the $(l:multiblocks/particle_chambers/target_chamber)Target Chamber$(/l) which can transmute or irradiate items or fluids with particles. There are also $(l:multiblocks/particle_chambers/decay_chamber)Decay Chambers$(/l) and $(l:multiblocks/particle_chambers/collision_chamber)Collision Chambers$(/l) that change particles into other types of particles. Finally there are $(l:multiblocks/particle_chambers/beam_dump)Beam Dumps$(/l) where particles are collected into fluids."
 		},
 		{
 			"type": "text",

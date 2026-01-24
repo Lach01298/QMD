@@ -26,7 +26,7 @@
 		},
 		{
 			"type": "text",
-			"text": "There are few units introduced into QMD you may not know: $(li)pu: particle units. This is an amount of particles. Each 'mole' of an item or bucket of fluid is 1 Mpu = 1000000 pu$(br)This unit was made up for QMD, it is $(l)not a real unit$()$(li)eV: electron volt. This is the amount of energy a individual particle has. Since particles are very small this is a very small amount of energy (1.602x10^-19 joules if your wondering). "
+			"text": "There are a few units introduced into QMD you may not know: $(li)pu: particle units. This is an amount of particles. Each 'mole' of an item or bucket of fluid is 1 Mpu = 1000000 pu$(br)This unit was made up for QMD, it is $(l)not a real unit$()$(li)eV: electron volt. This is the amount of energy a individual particle has. Since particles are very small this is a very small amount of energy (1.602x10^-19 joules if your wondering). "
 		},
 		{
 			"type": "text",

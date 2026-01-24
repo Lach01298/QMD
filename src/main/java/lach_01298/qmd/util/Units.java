@@ -215,7 +215,13 @@ public class Units
 		}
 		return getSIFormat(number, 3, "eV");
 	}
-	
+
+	public static String formatFocus(double number)
+	{
+		DecimalFormat df = new DecimalFormat("#.####");
+		return df.format(number);
+	}
+
 	public static String getSIPrefix(double number,int power)
 	{
 		int index =(int) Math.log10(Math.abs(number)) + power;

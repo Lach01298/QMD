@@ -6,26 +6,38 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "In this stage, you are building up the infrastructure to support accelerator resource costs, and running costs."
+			"text": "In this stage, you are building up the infrastructure to support accelerator resource costs and running costs."
 		},
 		{
 			"type": "text",
-			"text": "In this stage you will need 3 main things: an Atmosphere Collector setup, a Ore Leacher setup and a Neutron Irradiator setup. These things will require you to be well into the progression of Nuclearcraft already having a fission reactor and most of the machines."
+			"text": "In this stage you will need 4 main things: an air distillation setup, a cryogenic coolant setup, an ore leacher processing setup, and a neutron irradiator setup. These things will require you to be well into the progression of Nuclearcraft already having a fission reactor and most of the machines."
 		},
 		{
 			"type": "text",
-			"title": "Atmosphere Collector",
-			"text": "The $(l:blocks_and_machines/atmosphere_collector)atmosphere collector$(/l) is a machine that collects the atmosphere around it. You will need this to collect compressed air which you can then centrifuge into its component gases. The important gases you will need for accelerators are neon and helium. Both can be made into liquid in the supercooler. Liquid Neon and Helium are used for cooling accelerators."
+			"title": "Air Distillation",
+			"text": "The atmosphere collector is a machine that collects the atmosphere around it. You will need this to collect compressed air which you can then liquefy in a supercooler (which is slow and energy intensive) or in a liquefier multiblock (which is faster and more energy efficient). This liquid air can then be separated into its component gases with a distiller multiblock."
 		},
 		{
 			"type": "text",
-			
-			"text": "Neon is easier to get but has a higher temperature and thus only copper and magnesium diboride components can be used in accelerators cooled with it."
+			"text": ""
+		},
+		{
+			"type": "text",
+			"title": "Cryogenic Coolant",
+			"text": "The gases nitrogen, argon, neon and helium obtained from air distillation are important to cool accelerators. To use these to cool accelerators they must be first liquefied. This can be done in one of two ways. First with a super cooler, the gas can be directly cooled into liquid, but this is slow and energy intensive and typically not appropriate for large setups."
+		},
+		{
+			"type": "text",
+			"text": "The Second is using liquefier multiblocks. These are much faster, use less energy, but are more complicated to setup. It is important to make closed cryogenic cycles for accelerators as the coolants are typically slow to get and thus it is much easier to recycle the hot coolant output than to make new coolant from scratch."
 		},
 		{
 			"type": "text",
 			"title": "Ore Leacher",
-			"text": "The $(l:blocks_and_machines/ore_leacher)ore leacher$(/l) enables you to process ores more efficiently, at the cost of some energy, and sulfuric, hydrochloric and nitric acid (16 mb of each). Each process produces 3 ore dusts and a few byproducts, many of which are essential for creating things in QMD."
+			"text": "The ore leacher enables you to process ores more efficiently, at the cost of some energy, sulfuric, hydrochloric and nitric acid. Each process produces 3 ore dusts and a few byproducts, many of which are essential for creating things in QMD. $(br2)Sulfuric acid is easily created with water and sulfur which can be obtained from either granite, coal, redstone or some other mod's way of obtaining it."
+		},
+		{
+			"type": "text",
+			"text": "Hydrochloric acid requires chlorine which in QMD is obtained from salt water which is collected by a liquid collector in an ocean or beach type biome. It can also be obtained from other mods that have their own chlorine or salt such as mekanism. $(br2)Nitric acid requires nitrogen which can be obtained with a nitrogen collector but can also be obtained as an abundant product of air distillation."
 		},
 		{
 			"type": "text",

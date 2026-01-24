@@ -79,9 +79,9 @@ public class ParticleStackRenderer  implements IIngredientRenderer<ParticleStack
 	{
 		List<String> list = new ArrayList<>();
 		list.add(Lang.localize(ingredient.getParticle().getUnlocalizedName()));
-		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount", UnitHelper.prefix(ingredient.getAmount(), 5,"pu")));
+		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount", Units.getSIFormat(ingredient.getAmount(),"pu")));
 		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(ingredient.getMeanEnergy())));
-		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",UnitHelper.prefix(ingredient.getFocus(),5,"")));
+		list.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.focus",Units.formatFocus(ingredient.getFocus())));
 		
 		
 		return list;
