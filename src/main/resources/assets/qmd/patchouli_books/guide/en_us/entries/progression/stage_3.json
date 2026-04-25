@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "In this stage, you gain access to $(l:multiblocks/vacuum_chambers/general)vacuum chambers$(/l), tools, weapons and even create large amounts of power with QMD. The 2 multiblocks of this stage are the $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) and the $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chambers$(/l)."
+			"text": "In this stage, you gain access to $(l:multiblocks/vacuum_chambers/general)vacuum chambers$(/l), tools, weapons and even create large amounts of power with QMD. The two multiblocks of this stage are the $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) and the $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)Nucleosynthesis Chambers$(/l)."
 		},
 		{
 			"type": "text",

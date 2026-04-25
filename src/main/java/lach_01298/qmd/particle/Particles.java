@@ -140,10 +140,10 @@ public class Particles
 	{
 		
 		//quarks
-		up = new Particle("up_quark",Util.appendPath(particlePath, "up_quark.png"),2.16,2d/3d,1d/2d,true,true);
-		down = new Particle("down_quark",Util.appendPath(particlePath, "down_quark.png"),4.7,-1d/3d,1d/2d,true,true);
-		charm = new Particle("charm_quark",Util.appendPath(particlePath, "charm_quark.png"),1270d,2d/3d,1d/2d,true,true);
-		strange = new Particle("strange_quark",Util.appendPath(particlePath, "strange_quark.png"),93.5d,-1d/3d,1d/2d,true,true);
+		up = new Particle("up_quark",Util.appendPath(particlePath, "up_quark.png"),2.3,2d/3d,1d/2d,true,true);
+		down = new Particle("down_quark",Util.appendPath(particlePath, "down_quark.png"),4.8,-1d/3d,1d/2d,true,true);
+		charm = new Particle("charm_quark",Util.appendPath(particlePath, "charm_quark.png"),1280d,2d/3d,1d/2d,true,true);
+		strange = new Particle("strange_quark",Util.appendPath(particlePath, "strange_quark.png"),95d,-1d/3d,1d/2d,true,true);
 		top = new Particle("top_quark",Util.appendPath(particlePath, "top_quark.png"),173000d,2d/3d,1d/2d,true,true);
 		bottom = new Particle("bottom_quark",Util.appendPath(particlePath, "bottom_quark.png"),4180d,-1d/3d,1d/2d,true,true);
 		

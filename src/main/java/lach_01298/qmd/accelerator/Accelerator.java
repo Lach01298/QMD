@@ -72,7 +72,7 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	
 	public static final int MAX_TEMP = 400;
 	
-	public int ambientTemp = 290, maxOperatingTemp = 0;
+	public int ambientTemp = 293, maxOperatingTemp = 0;
 
 	public long cooling = 0L, rawHeating = 0L, currentHeating=0L;
 	public int maxCoolantIn =0, maxCoolantOut=0; // micro buckets per tick

@@ -2,11 +2,12 @@
 	"name": "Beamline Pipes",
 	"icon": "qmd:beamline",
 	"category": "qmd:blocks_and_machines",
-	"sortnum": 1,
+	"sortnum": 3,
 	"pages": [
 		{
-			"type": "text",
-			"text": "Beamline Pipes are use to transport particles between machines. The can only go in straight lines and have attenuation loss so particles that go through them lose focus every block traveled. You can see information about a particle beam like the the focus loss by right clicking on a beamline with the $(l:items_and_devices/beam_meter)beam meter$(/l)."
+			"type": "spotlight",
+            "item": "qmd:beamline",
+			"text": "Beamline Pipes are used to transport particles between machines. They can only go in straight lines and have attenuation loss so particles that go through them lose focus every block traveled. You can see information about a particle beam like the focus loss by right clicking on a beamline with the $(l:items_and_devices/beam_meter)beam meter$(/l)."
 		},
 		{
 			"type": "text",

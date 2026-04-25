@@ -1,0 +1,23 @@
+{
+	"name": "Liquid Collector",
+	"icon": "qmd:liquid_collector",
+	"category": "qmd:blocks_and_machines",
+	"sortnum": 2,
+	"pages": [
+		{
+			
+			"type": "spotlight",
+            "item": "qmd:liquid_collector",
+			"text": "Liquid Collectors are used to collect liquid from the surrounding blocks, such as a large body of liquid like an ocean. They do not actually remove blocks and what they do produce is restricted by defined recipes which can be seen in JEI. The block directly underneath the liquid collector determines the recipe the block will attempt. "
+		},
+		{
+			"type": "text",
+            "text": "It will only be able to collect if it is in the right biome and dimension said in the recipe. Right clicking on the block will tell you the current liquid and rate it is being collecting at."
+        },
+		{
+			"type": "diagram_low",
+			"image":"qmd:textures/gui/book_images/liquid_collector_range.png",
+            "text": "The rate is determined by how many blocks in a 5x5x5 region below it (shown below) are of the type said in the recipe. By default, salt water can be collected from water blocks in an ocean biome in the overworld."
+        }
+	]
+}

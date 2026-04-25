@@ -6,47 +6,77 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "In this stage, you are building up the infrastructure to support accelerator resource costs and running costs."
+			"text": "In this stage, you are building up the infrastructure to support accelerator resource and running costs."
 		},
 		{
 			"type": "text",
 			"text": "In this stage you will need 4 main things: an air distillation setup, a cryogenic coolant setup, an ore leacher processing setup, and a neutron irradiator setup. These things will require you to be well into the progression of Nuclearcraft already having a fission reactor and most of the machines."
 		},
 		{
+			"anchor": "air_distillation",
 			"type": "text",
 			"title": "Air Distillation",
-			"text": "The atmosphere collector is a machine that collects the atmosphere around it. You will need this to collect compressed air which you can then liquefy in a supercooler (which is slow and energy intensive) or in a liquefier multiblock (which is faster and more energy efficient). This liquid air can then be separated into its component gases with a distiller multiblock."
+			"text": "The $(l:blocks_and_machines/atmosphere_collector)atmosphere collector$(/l) is a machine that collects the atmosphere around it. You will need this to collect compressed air which you can then liquefy in a supercooler (which is slow and energy intensive) or in a $(l:multiblocks/other_multiblocks/liquefier)liquefier$(/l) multiblock (which is faster and more energy efficient). This liquid air can then be separated into its component gases with a distiller multiblock."
 		},
 		{
-			"type": "text",
-			"text": ""
+			"type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/air_distillation.png",
+			"text": "The distiller multiblock won't be explained as that is part of default Nuclearcraft.$(br2)Below an air distillation setup using a Liquefier. This makes 64 mb/t of liquid air and distills that into nitrogen, oxygen, argon, neon and helium."
 		},
 		{
+			"anchor": "accelerator_coolant",
 			"type": "text",
 			"title": "Cryogenic Coolant",
 			"text": "The gases nitrogen, argon, neon and helium obtained from air distillation are important to cool accelerators. To use these to cool accelerators they must be first liquefied. This can be done in one of two ways. First with a super cooler, the gas can be directly cooled into liquid, but this is slow and energy intensive and typically not appropriate for large setups."
 		},
 		{
 			"type": "text",
-			"text": "The Second is using liquefier multiblocks. These are much faster, use less energy, but are more complicated to setup. It is important to make closed cryogenic cycles for accelerators as the coolants are typically slow to get and thus it is much easier to recycle the hot coolant output than to make new coolant from scratch."
+			"text": "The second is using $(l:multiblocks/other_multiblocks/liquefier)liquefier$(/l) multiblocks. These are much faster, use less energy, but are more complicated to setup. $(br2)It is important to make closed cryogenic cycles for accelerators as the coolants are typically slow to get and thus it is much easier to recycle the hot coolant output than to make new coolant from scratch."
+		},
+		{
+			"type": "text",
+			"text": "For liquefiers, because the inversion temperature of neon and helium are colder than the temperature of water, both gases require a colder coolant to run their liquefiers. In this case you will need to chain liquefiers together to create the coldest coolants for your accelerators. This is shown on the right. From left to right, first there is a condenser which recycles the hot condensate water from the first liquefier into water. Strictly this condenser is not necessary if you can supply"
+		},
+		{
+			"type": "diagram_high",
+			"image": "qmd:textures/gui/book_images/liquefier_loop.png",
+			"text": "enough water without recycling. Next is a liquefier that cools nitrogen into liquid nitrogen, this cools the next liquefier that makes liquid neon which subsequently cools the next which finally makes liquid helium. This liquid helium can then be used to cool accelerators to the coldest"
+		},
+		{
+			"type": "text",
+			"text": "temperatures. This particular setup makes 50 mb/t of liquid helium using approximately 16.1 kRF/t, though it is possible to make more efficient setups. The equivalent with supercoolers would use just over six fully upgraded super coolers using 40 kRF/t, it would also make more lag.$(br)Depending on the max operating temperature of the accelerator liquid helium might not be need and warmer coolants such as liquid neon, liquid nitrogen or even water might be sufficient, thus requiring less liquefiers."
 		},
 		{
 			"type": "text",
 			"title": "Ore Leacher",
-			"text": "The ore leacher enables you to process ores more efficiently, at the cost of some energy, sulfuric, hydrochloric and nitric acid. Each process produces 3 ore dusts and a few byproducts, many of which are essential for creating things in QMD. $(br2)Sulfuric acid is easily created with water and sulfur which can be obtained from either granite, coal, redstone or some other mod's way of obtaining it."
+			"text": "The $(l:blocks_and_machines/ore_leacher)ore leacher$(/l) enables you to process ores more efficiently, at the cost of some energy, sulfuric, hydrochloric and nitric acid. Each process produces 3 ore dusts and a few byproducts, many of which are essential for creating things in QMD. $(br2)Sulfuric acid is easily created with water and sulfur which can be obtained from either granite, coal, redstone or some other mod's way of obtaining it."
 		},
 		{
 			"type": "text",
-			"text": "Hydrochloric acid requires chlorine which in QMD is obtained from salt water which is collected by a liquid collector in an ocean or beach type biome. It can also be obtained from other mods that have their own chlorine or salt such as mekanism. $(br2)Nitric acid requires nitrogen which can be obtained with a nitrogen collector but can also be obtained as an abundant product of air distillation."
+			"text": "Hydrochloric acid requires chlorine which in QMD is obtained from salt water which is collected by a $(l:blocks_and_machines/liquid_collector)liquid collector$(/l) in an ocean or beach type biome. It can also be obtained from other mods that have their own chlorine or salt such as mekanism. $(br2)Nitric acid requires nitrogen which can be obtained with a nitrogen collector but can also be obtained as an abundant product of air distillation."
 		},
 		{
 			"type": "text",
 			"text": "The main byproducts needed are:$(li)Chromium for stainless steel which is used heavily for $(l:multiblocks/accelerators/general)accelerators$(/l) $(li)Tungsten used heavily in $(l:multiblocks/particle_chambers/general)particle chambers$(/l) $(li)Niobium for advanced accelerator components and super alloy $(li)Titanium also used in advanced accelerator components and super alloy"
 		},
 		{
+			"type": "diagram_high",
+			"image": "qmd:textures/gui/book_images/ore_leacher_setup.png",
+			"text": "An example ore leacher setup that can run a single ore leacher at 62x speed. On the left salt water from an ocean is collected, distilled and electrolyzed to make hydrogen and chlorine for hydrochloric acid. On the right air is collected, liquefied and distilled to create nitrogen "
+		},
+		{
+			"type": "text",
+			"text": "and oxygen for nitric acid. and in the center back granite is inputted where it is crushed for sulfur to create sulfuric acid. These are then all feed into the ore leacher at the front center."
+		},
+		{
 			"type": "text",
 			"title": "Neutron Irradiator",
-			"text": "You will also need a fission reactor with a fission neutron irradiator setup. (This is default Nuclearcaft stuff so won't be explained). With this neutron irradiator you will make N-type doped silicon which is an essential crafting component in QMD and is required to make accelerator controller's."
+			"text": "You will also need a fission reactor with a fission neutron irradiator setup. This is default Nuclearcaft stuff so won't be explained. With this neutron irradiator you will make N-type doped silicon which is an essential crafting component in QMD and is required to make accelerator controllers."
+		},
+		{
+			"type": "diagram_high",
+			"image": "qmd:textures/gui/book_images/fission_irradiator.png",
+			"text": "An example fission reactor with neutron irradiator and turbine. This runs on LEU-235 zirconium alloy and produces N-type doped silicon and 2460 RF/t."
 		}
 	]
 }

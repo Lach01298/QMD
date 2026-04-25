@@ -2,12 +2,13 @@
 	"name": "Ore Leacher",
 	"icon": "qmd:ore_leacher",
 	"category": "qmd:blocks_and_machines",
-	"sortnum": 3,
+	"sortnum": 0,
 	"pages": [
 		{
 			
-			"type": "text",
-			"text": "The ore leacher is an advanced ore processor where you put various ores in with some fluids and you get multiple items out."
+			"type": "spotlight",
+            "item": "qmd:ore_leacher",
+			"text": "The ore leacher is an advanced ore processor where you put various ores in with some fluids and you get multiple items out. In default QMD it gives 3x ore output with some useful byproducts."
 		}
 	]
 }

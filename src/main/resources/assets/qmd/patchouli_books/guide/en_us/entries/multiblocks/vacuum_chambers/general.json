@@ -33,13 +33,13 @@
         },
         {
 			"type": "text",
-            "text": "If coolant is not properly supplied and extracted the temperature of the chamber will rise and eventually go above the operating temperature. If this happens while operating like when holding antimatter or plasma, then the chamber will $(l)$(c)catastrophically fail$().$(br2)Vacuum chambers also need a constant supply of power while operating or they will also $(l)$(c)catastrophically fail$(). So make sure to have a stable power supply." 
+            "text": "If coolant is not properly supplied and extracted the temperature of the chamber's magnets will rise and eventually go above the operating temperature. If this happens while operating, such as when holding antimatter or plasma, then the chamber will $(l)$(c)catastrophically fail$().$(br2)Vacuum chambers also need a constant supply of power while operating or they will also $(l)$(c)catastrophically fail$(). So make sure to have a stable power supply." 
         },
         {
 			"anchor": "redstone",
 			"type": "text",
 			"title": "Redstone",
-            "text": "Vacuum chambers can't be controlled with redstone but information about them can be read through Vacuum Chamber Redstone Ports. Each redstone port can be switched between 2 modes. The $(l)$(1)first$() blue mode and the $(l)$(2)second$() green mode. What each of the modes reads depending on the type of vacuum chamber. Generally the $(l)$(1)first$() mode is the vacuum chambers magnets temperature." 
+            "text": "Vacuum chambers can't be controlled with redstone but information about them can be read through Vacuum Chamber Redstone Ports. Each redstone port can be switched between two modes. The $(l)$(1)first$() blue mode and the $(l)$(2)second$() green mode. What each of the modes reads depends on the type of vacuum chamber. Generally the $(l)$(1)first$() mode is the vacuum chamber's magnets temperature." 
         }
 	]
 }

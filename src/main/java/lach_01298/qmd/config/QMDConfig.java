@@ -219,7 +219,7 @@ public class QMDConfig {
 		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {50,100,50}, Lang.localize("gui.qmd.config.processors.power.comment"), 0, 32767);
 		propertyProcessorPower.setLanguageKey("gui.qmd.config.processors.power");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200,500}, Lang.localize("gui.qmd.config.processors.time.comment"), 0, 32767);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200,1000}, Lang.localize("gui.qmd.config.processors.time.comment"), 0, 32767);
 		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
 		
 		Property propertyIrradiatorRadRes = config.get(CATEGORY_PROCESSORS, "irradiator_rad_res", 10000.0D, Lang.localize("gui.qmd.config.processors.irradiator_rad_res.comment"), 0.0D, Double.MAX_VALUE);
@@ -267,10 +267,10 @@ public class QMDConfig {
 		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 160, Lang.localize("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
 		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
 		
-		Property propertyMassSpectrometerValidMagnets = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_magnets", new String[] {"bscco"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets.comment"));
+		Property propertyMassSpectrometerValidMagnets = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_magnets", new String[] {"bscco","ybco"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets.comment"));
 		propertyMassSpectrometerValidMagnets.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets");
 		
-		Property propertyMassSpectrometerValidSources = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_sources", new String[] {"laser"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_sources.comment"));
+		Property propertyMassSpectrometerValidSources = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_sources", new String[] {"basic","laser"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_sources.comment"));
 		propertyMassSpectrometerValidSources.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_valid_sources");
 		
 		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000,100,1500,3000}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);

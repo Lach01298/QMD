@@ -194,10 +194,13 @@ public class TileVacuumChamberHeater extends TileVacuumChamberPart implements IV
 	
 	public boolean isSearchRoot()
 	{
-		for (String dep : placementRule.getDependencies())
+		if(placementRule != null)
 		{
-			if (dep.equals("beam")||dep.equals("vacuum_chamber_casing")||dep.equals("plasma_glass")||dep.equals("nozzle"))
-				return true;
+			for (String dep : placementRule.getDependencies())
+			{
+				if (dep.equals("beam") || dep.equals("vacuum_chamber_casing") || dep.equals("plasma_glass") || dep.equals("nozzle"))
+					return true;
+			}
 		}
 		return false;
 	}

@@ -441,7 +441,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 			{
 				BlockPos sourcePos = source.getPos();
 				source.setIONumber(2);
-				speed += source.outputParticleMultiplier/2d;
+				speed += source.outputParticleMultiplier;
 				
 				for (int i = 1; i <= 4; i++)
 				{

@@ -13,6 +13,7 @@
 			"text": ""
 		},
 		{
+			"anchor": "accelerator_control",
 			"title": "Accelerator Control",
 			"type": "text",
 			"text": "The most important commands for controlling any accelerator are:$(br)$(l:multiblocks/open_computers/oc_commands#set_computer_controlled)$(l)setComputerControlled(boolean computerControlled)$()$(/l)$(br2)$(l:multiblocks/open_computers/oc_commands#set_energy_percentage)$(l)setEnergyPercentage(int energyPercentage)$()$(/l)$(br2)$(l:multiblocks/open_computers/oc_commands#switch_beam_port)$(l)switchBeamPort(int x, int y, int z)$(/l)"

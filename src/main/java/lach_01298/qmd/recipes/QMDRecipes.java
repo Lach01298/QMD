@@ -570,7 +570,7 @@ public class QMDRecipes
 		// Condenser
 		NCRecipes.condenser.addRecipe(fluidStack("exhaust_mercury", 6),fluidStack("hot_mercury", 1), 128D,700,700);
 		NCRecipes.condenser.addRecipe(fluidStack("hot_mercury", 1),fluidStack("mercury", 1), 256D,700,300);
-		NCRecipes.condenser.addRecipe(fluidStack("condensate_water", 1),fluidStack("water", 1), 64D,350,300);
+		NCRecipes.condenser.addRecipe(fluidStack("condensate_water", 1),fluidStack("water", 1), 32D,350,300);
 
 
 		// distiller

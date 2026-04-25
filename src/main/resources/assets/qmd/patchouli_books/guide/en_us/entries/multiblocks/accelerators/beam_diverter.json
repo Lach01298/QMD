@@ -33,13 +33,13 @@
 		{     
 			"type": "text",
 			
-			"text": "Beam port switching can be done on Beam diverters, $(l:multiblocks/accelerators/ring_accelerator)synchrotrons$(/l), and $(l:multiblocks/accelerators/decelerator)decelerators$(/l). $(br2)Go to Open Computers section to find out about how it can do beam port switching."
+			"text": "Beam port switching can be done on Beam diverters, $(l:multiblocks/accelerators/ring_accelerator)synchrotrons$(/l), and $(l:multiblocks/accelerators/decelerator)decelerators$(/l). $(br2)See the $(l:multiblocks/open_computers/introduction#accelerator_control)Open Computers section$() to find out about how computers can also do beam port switching."
         },
 		{
             "anchor": "energy",
 			"title": "Particle Energy",
 			"type": "text",
-            "text": "The maximum particle energy (in GeV) the Beam Diverter can bend is  $(l)Eᵩ=(qB₂R)²/(2m)$() same as $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) from max dipole strength except in this case $(l)R$() is the beam diverters effective radius (this by default is 160 but can be set in the configs).$(br2)Note: neutral particle beams can't be bent in a beam diverter but can pass straight through them."
+            "text": "The maximum particle energy (in GeV) the Beam Diverter can bend is  $(l)Eᵩ=(qB₂R)²/(2m)$() same as $(l:multiblocks/accelerators/ring_accelerator#max_dipole)synchrotrons$(/l) from max dipole strength, except in this case $(l)R$() is the beam diverters effective radius (this by default is 160 but can be set in the configs).$(br2)Note: neutral particle beams can't be bent in a beam diverter but can pass straight through them."
         },
 		{
 			"type": "text",

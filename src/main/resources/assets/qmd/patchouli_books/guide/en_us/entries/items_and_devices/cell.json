@@ -2,7 +2,7 @@
 	"name": "Cells",
 	"icon": "qmd:cell",
 	"category": "qmd:items_and_devices",
-	"sortnum": 3,
+	"sortnum": 2,
 	"pages": [
 		{
 			"type": "text",

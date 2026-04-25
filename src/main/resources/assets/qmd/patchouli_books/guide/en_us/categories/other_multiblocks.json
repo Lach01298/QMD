@@ -1,0 +1,7 @@
+{
+	"name": "Other Multiblocks and Info",
+	"description": "Other types of multiblocks and information on multiblocks.",
+	"icon": "qmd:liquefier_controller",
+	"parent": "qmd:multiblocks",
+	"sortnum": 3
+}

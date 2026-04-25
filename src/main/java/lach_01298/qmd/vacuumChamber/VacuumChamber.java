@@ -50,7 +50,7 @@ public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumCham
 	public boolean isChamberOn = false, cold = false;
 
 	public static final int MAX_TEMP = 400;
-	public int ambientTemp = 290, maxOperatingTemp = 0;
+	public int ambientTemp = 293, maxOperatingTemp = 0;
 	public long heating = 0L, currentHeating = 0L;
 	public int maxCoolantIn = 0, maxCoolantOut = 0; // micro buckets per tick
 	public QMDRecipeInfo<QMDRecipe> coolingRecipeInfo;

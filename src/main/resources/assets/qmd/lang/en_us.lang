@@ -353,7 +353,7 @@ tile.qmd.creative_particle_source.name=Creative Particle Source
 
 //guide book
 qmd.guide_book.name=QMD Guide
-qmd.guide_book.edition=Version 1.4
+qmd.guide_book.edition=Version 1.5
 qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics.
 
 
@@ -389,8 +389,8 @@ tile.qmd.liquefier_compressor.desc= Compresses gas to be then expanded and coole
 
 //item descriptions
 item.qmd.lepton_cannon.desc=A powerful beam weapon that can go through blocks and armor.
-item.qmd.gluon_gun.desc=A powerful beam weapon that instantly mines through any blocks.
-item.qmd.antimatter_lancher.desc=A powerful projectile weapon that shoots antimatter that explodes on contact with anything.
+item.qmd.gluon_gun.desc=A powerful beam weapon that instantly mines through any blocks. Shift right click to switch between breaking and silk touch modes.
+item.qmd.antimatter_launcher.desc=A powerful projectile weapon that shoots antimatter that explodes on contact with anything.
 
 item.qmd.helm_hev.desc=Negates poison and reduces wither to 4 seconds.
 item.qmd.chest_hev.desc=Allows the wearer to long jump (jump while sprinting).

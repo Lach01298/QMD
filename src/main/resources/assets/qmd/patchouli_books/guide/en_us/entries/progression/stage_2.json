@@ -11,11 +11,15 @@
 		{
 			"type": "text",
 			"title": "Synchrotron",
-			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate particles in a ring, to high energies that $(l:multiblocks/accelerators/linear_accelerator)linear accelerators$(/l) can't easily  achieve. Synchrotrons will be able to accelerate particles to very high energies required for several recipes that either aid progression, or are required to progress to the next stage."
+			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate particles in a ring, to high energies that $(l:multiblocks/accelerators/linear_accelerator)linear accelerators$(/l) can't easily achieve. Synchrotrons will be able to accelerate particles to very high energies required for several recipes that either aid progression or are required to progress to the next stage."
 		},
 		{
 			"type": "text",
-			"text": "Synchrotrons are needed to produce materials such as:$(li)Strontium need to make BSCCO superconductor for advanced components and recipes $(li)Yttrium for YAG used in lasers$(br2)They also provide an alternative way to make many elements such as Titanium, Neodymium, Hafnium, Tungsten, Osmium, Iridium, Platinum, Mercury, Bismuth and Polonium."
+			"text": "Synchrotrons are needed to produce materials such as:$(li)Strontium need to make SSFAF and BSCCO superconductors for advanced multiblock components and recipes $(li)Yttrium for YBCO Superconductor and YAG used in lasers$(li)Samarium used in both Samarium Cobalt magnets and SSFAF Superconductor for advance multiblock components"
+		},
+		{
+			"type": "text",
+			"text": "Synchrotrons also provide an alternative way to make many elements such as Titanium, Neodymium, Hafnium, Tungsten, Osmium, Iridium, Platinum, Mercury, Bismuth and Polonium."
 		},
 		{
 			"type": "text",

@@ -7,7 +7,7 @@
 		{
 			
 			"type": "text",
-			"text": "Synchrotron Accelerators accelerate particles put into them to much higher energies than $(l:multiblocks/accelerators/linear_accelerator)Linear Accelerators$(/l), but can not be the start of an accelerator system. This must be a linear accelerator with a $(l:multiblocks/accelerators/linear_accelerator#ion_source)ion source$(/l). $(bold)Synchrotrons have a minimum input particle energy$() this is usually 5 MeV but can be changed in the configs."
+			"text": "Synchrotron Accelerators accelerate particles put into them to much higher energies than $(l:multiblocks/accelerators/linear_accelerator)Linear Accelerators$(/l), but cannot be the start of an accelerator system. This must be a linear accelerator with a $(l:multiblocks/accelerators/linear_accelerator#ion_source)ion source$(/l). $(bold)Synchrotrons have a minimum input particle energy$() this is usually 5 MeV but can be changed in the configs."
 		},
 		{
 			"type": "diagram_high",
@@ -23,7 +23,7 @@
 		{
 			"type": "diagram_high",
 			"image":"qmd:textures/gui/book_images/ring_beam.png",
-			"text": "At each corner and beam port intersection there must be a $(l:multiblocks/accelerators/general#dipole)dipole magnet$(/l). So an synchrotron has a minimum of 4 dipoles. The example above will require at least 5 dipoles." 
+			"text": "At each corner and beam port intersection there must be a $(l:multiblocks/accelerators/general#dipole)dipole magnet$(/l). So a synchrotron has a minimum of 4 dipoles. The example above will require at least 5 dipoles." 
 		},
 		{
 			"type": "diagram_low",
@@ -34,27 +34,27 @@
             "anchor": "operation",
 			"title": "Operation",
 			"type": "text",
-			"text": "A Synchrotron Accelerator functions the same as any other $(l:multiblocks/accelerators/general#operation)accelerator$(/l) requiring power and coolant. It requires an existing particle beam to be pipe in at a minimum energy of 5 MeV (by default). Synchrotrons can have multiple beam ports but only one can be an input and output at any given time. $(l:multiblocks/accelerators/beam_diverter#switching)Switching beam ports$(/l) can be down automatically with redstone or open computers."
+			"text": "A Synchrotron Accelerator functions the same as any other $(l:multiblocks/accelerators/general#operation)accelerator$(/l) requiring power and coolant. It requires an existing particle beam to be pipe in at a minimum energy of 5 MeV (by default). Synchrotrons can have multiple beam ports but only one can be an input and output at any given time. $(l:multiblocks/accelerators/beam_diverter#switching)Switching beam ports$(/l) can be done automatically with redstone or open computers."
         },
 		{     
 			"type": "text",
 			"title": "Redstone Control",
-			"text": "Just like the $(l:multiblocks/accelerators/linear_accelerator#redstone)Linear Accelerator$(/l) a redstone signal applied to the controller (or input $(l:multiblocks/accelerators/general#redstone)redstone port$(/l)) will turn it on and the output particle energy will $(l)E=EₓSᵣ/15$().$(br2)Also like linear accelerators the output particle energy can be controlled with Open Computers see the Open Computers Section for more information."
+			"text": "Just like the $(l:multiblocks/accelerators/linear_accelerator#redstone)Linear Accelerator$(/l) a redstone signal applied to the controller (or input $(l:multiblocks/accelerators/general#redstone)redstone port$(/l)) will turn it on and the output particle energy will be $(l)E=EₓSᵣ/15$().$(br2)Also like linear accelerators the output particle energy can be controlled with Open Computers see the $(l:multiblocks/open_computers/introduction#accelerator_control)Open Computers Section$() for more information."
         },		
 		{
            "title": "Particle Energy",
 			"type": "text",
-			"text": "The resulting particle energy is more complicated to figure out than in a linear accelerator. The energy is limited by 2 factors, whichever factor is smaller will be the maximum particle output energy $(l)Eₓ=$(o)min$()$(l)(Eᵩ,Eᵣ)$(). These factors are from the dipole field strength and the synchrotron radiation losses."
+			"text": "The resulting particle energy is more complicated to figure out than in a linear accelerator. The energy is limited by two factors, whichever factor is smaller will be the maximum particle output energy $(l)Eₓ=$(o)min$()$(l)(Eᵩ,Eᵣ)$(). These factors are from the dipole field strength and the synchrotron radiation losses."
         },
 		{
 			"anchor": "max_dipole",
-			"title": "Max From Dipole Strength",
+			"title": "Max from Dipole Strength",
 			"type": "text",
 			"text": "The maximum energy (in GeV) from the dipole strength is $(l)Eᵩ=(qB₂R)²/(2m)$() where $(l)q$() is the particles charge, $(l)B₂$() is the dipole strength which is the sum of the strengths of the dipoles, $(l)R$() is the radius of the synchrotron and $(l)m$() is the mass of the particle in MeV/c^2. For heavy particles like the proton this is the major concern."
         },
 		{
 			"anchor": "max_radiation",
-			"title": "Max From Radiation",
+			"title": "Max from Radiation",
 			"type": "text",
 			"text": "The maximum energy (in GeV) from the Radiation losses $(l)Eᵣ=m(3VR/|q|)⁰˙²⁵$() where $(l)V$() is the accelerator's voltage (in kV). For light particles like the electron this is the major concern."
         },
@@ -63,7 +63,7 @@
 		    "header": "Synchrotron Ports",
 			"type": "diagram",
 			"image":"qmd:textures/gui/book_images/synch_port.png",
-			"text": "Synchrotron accelerators can have a special port installed an Accelerator Synchrotron Port. This port lets out synchrotron radiation (High energy photons). The same position rules as beam ports apply to Synchrotron ports. Only one can be installed."
+			"text": "Synchrotron accelerators can have a special port installed, an Accelerator Synchrotron Port. This port lets out synchrotron radiation (High energy photons). The same position rules as beam ports apply to Synchrotron ports. Only one can be installed."
         },
 		{
 			"type": "text",

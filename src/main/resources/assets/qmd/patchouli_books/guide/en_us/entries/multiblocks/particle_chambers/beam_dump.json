@@ -11,12 +11,12 @@
 		{
 			"title": "Construction",
 			"type": "text",
-			"text": "Beam Dumps are constructed similar to $(l:multiblocks/particle_chambers/target_chamber#construction)target chambers$(/l) except they must be a 3x3x3 cube. They require one beam port in input mode and at least one fluid port in output mode."
+			"text": "Beam Dumps are constructed like all $(l:multiblocks/particle_chambers/general#construction)particle chambers$(/l) out of particle chamber casing or glass, must have at least one energy port and its controller. They must be a 3x3x3 cube with the center being a Particle Chamber block. They require one beam port in input mode and at least one fluid port in output mode."
 		},
 		{
 			"title": "Operation",
 			"type": "text",
-			"text": "Beam dumps simply work by piping in particles and supplying power. The recipes can be seen in JEI. Where the amount is the is the total pu supplied to finish the recipe i.e at 10 kpu/t a 1 kpu recipe will take 0.1 ticks to complete (so 10 recipes are completed a tick). The energy and focus in the recipe are both the minimum required. Normally for recipes this is 0 for both. If there is a maximum energy the recipe will say."
+			"text": "Beam dumps simply work by piping in particles and supplying power. The recipes can be seen in JEI. Where the amount is the total pu supplied to finish the recipe i.e at 10 kpu/t a 1 kpu recipe will take 0.1 ticks to complete (so 10 recipes are completed a tick). The energy and focus in the recipe are both the minimum required. Normally for recipes this is 0 for both. If there is a maximum energy the recipe will say."
 		},
 		{
 			"type": "text",

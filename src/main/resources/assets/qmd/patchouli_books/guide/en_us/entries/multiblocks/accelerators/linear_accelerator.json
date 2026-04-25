@@ -19,12 +19,12 @@
 			
 			"title": "Construction",
 			"type": "text",
-			"text": "Linear accelerators like all $(l:multiblocks/accelerators/general#construction)Accelerators$(/l) are constructed out of casing or glass and require a Coolant Vent in input and output modes and an Energy Port. They are 5 blocks wide and tall by at least 6 blocks long. They must have a continuous line of Accelerator Beams blocks down the center." 
+			"text": "Linear accelerators like all $(l:multiblocks/accelerators/general#construction)Accelerators$(/l) are constructed out of casing or glass and require a Coolant Vent in input and output modes and an Energy Port. They are 5 blocks wide and tall, by at least 6 blocks long. They must have a continuous line of Accelerator Beams blocks down the center." 
 		},
 		{
 			"type": "diagram_low",
 			"image":"qmd:textures/gui/book_images/linac_empty.png",
-			"text": "Where the beam blocks meet the casing there must be an Accelerator Ion source at one end and an Accelerator Beam Port in output mode at the other. Example of a empty linear accelerator below."
+			"text": "Where the beam blocks meet the casing there must be an Accelerator Ion source at one end and an Accelerator Beam Port in output mode at the other. Example of an empty linear accelerator below."
 		},
 		{
 			
@@ -48,7 +48,7 @@
 		},
 		{
 			"type": "text",
-			"text": "By default there are 2 types of ion sources: the normal Accelerator Ion Source and the Accelerator Laser Ion Source. Each ion source has different stats which can be viewed on their block's tool tips. There is Base Power which is how much power the source adds to the $(l:multiblocks/accelerators/general#power)component power$(/l) of the accelerator, Particle Output Multiplier which multiplies the amount of particles outputted by an ion source recipe and there is Output Focus which is the $(l:multiblocks/accelerators/general#focus)focus particles start with$(/l)."
+			"text": "By default there are two types of ion sources: the normal Accelerator Ion Source and the Accelerator Laser Ion Source. Each ion source has different stats which can be viewed on their block's tool tips. There is Base Power which is how much power the source adds to the $(l:multiblocks/accelerators/general#power)component power$(/l) of the accelerator, Particle Output Multiplier which multiplies the amount of particles outputted by an ion source recipe and there is Output Focus which is the $(l:multiblocks/accelerators/general#focus)focus particles start with$(/l)."
 		},
         {
             "title": "Operation",
@@ -64,12 +64,12 @@
             "anchor": "redstone",
 			"title": "Redstone Control",
             "type": "text",
-            "text": "The output particle energy can be controlled with the strength of the redstone signal according to $(l)E=EₓSᵣ/15$() where $(l)Sᵣ$() is the redstone strength. If a redstone strength of 15 (max) is applied to the controller (or input $(l:multiblocks/accelerators/general#redstone)redstone port$(/l)) it will output the maximum energy anything less than 15 it will output the corresponding fraction of the maximum energy for example a redstone strength of 2 is 2/15= 13.3% of the max energy."
+            "text": "The output particle energy can be controlled with the strength of a redstone signal according to $(l)E=EₓSᵣ/15$() where $(l)Sᵣ$() is the redstone strength. If a redstone strength of 15 (max) is applied to the controller (or input $(l:multiblocks/accelerators/general#redstone)redstone port$(/l)) it will output the maximum energy anything less than 15 it will output the corresponding fraction of the maximum energy for example a redstone strength of 2 is 2/15= 13.3% of the max energy."
         },
         {
 			"title": "Computer Control",
             "type": "text",
-            "text": "The output particle energy can also be controlled with Open Computers see the Open Computers Section for more information."
+            "text": "The output particle energy can also be controlled with Open Computers see the $(l:multiblocks/open_computers/introduction#accelerator_control)Open Computers Section$() for more information."
         }
 	]
 }

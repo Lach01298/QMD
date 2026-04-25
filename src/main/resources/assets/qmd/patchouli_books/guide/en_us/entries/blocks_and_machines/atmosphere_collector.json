@@ -2,13 +2,18 @@
 	"name": "Atmosphere Collector",
 	"icon": "qmd:atmosphere_collector",
 	"category": "qmd:blocks_and_machines",
-	"sortnum": 0,
+	"sortnum": 1,
 	"pages": [
 		{
 			
-			"type": "text",
-			"text": "Atmosphere Collectors are used to collect the surrounding atmosphere. They require RF and work better in open spaces. Right clicking on the block will tell you the gas and rate it is collecting at. You can also look at the uses for the atmosphere collector in jei to tell which gas is collected in a dimension."
-		}
-
+			"type": "spotlight",
+            "item": "qmd:atmosphere_collector",
+			"text": "Atmosphere Collectors are used to collect the surrounding atmosphere. They require RF and work better in open spaces. The gas it collects is determined by the dimension and biome the block is placed in. Looking at the atmosphere collector’s uses in jei will tell you this information."
+		},
+		{
+			"type": "diagram_low",
+			"image":"qmd:textures/gui/book_images/atmosphere_collector_range.png",
+            "text": "Right clicking on the block will tell you the current gas and rate it is collecting at. The rate is determined by how many blocks in a 5x5x5 region above it (shown below) are air."
+        }
 	]
 }

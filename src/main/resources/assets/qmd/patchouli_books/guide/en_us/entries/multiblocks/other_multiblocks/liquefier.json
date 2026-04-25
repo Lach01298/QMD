@@ -1,0 +1,209 @@
+{
+	"name": "Liquefier",
+	"icon": "qmd:liquefier_controller",
+	"category": "qmd:other_multiblocks",
+	"sortnum": 0,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Liquefiers are used to create large amounts of cryogenic fluids used to cool accelerators. They are much faster and more efficient than their smaller counterpart, the supercooler, though they are much larger and more complex. This chapter goes over how liquefiers are built and work. For info on systems that use them like $(l:progression/stage_0#air_distillation)cryogenic air distillation$() or $(l:progression/stage_0#accelerator_coolant)accelerator cooling loops$() see the links."
+		},
+		{
+            "type": "diagram_high",
+            "image": "qmd:textures/gui/book_images/liquefiers.png",
+            "text": "A set of three liquefiers (and a condenser) used to create liquid helium for accelerators in a closed cycle."
+        },
+        {
+			"anchor": "construction",
+            "type": "text",
+            "title": "Construction",
+            "text": "Liquefiers are a type of heat exchanger and thus are made of a cuboid frame of Heat Exchanger Casing. The faces (not occupied by other blocks) are either Heat Exchanger Casing or Heat Exchanger Glass. The inside layer one block above the bottom must be made of either Heat Exchanger Shell Baffles or Liquefier Expansion Nozzles. The top section above the layer of shell baffles and expansion nozzles forms the heat exchanger section of the "
+        },
+		{
+            "type": "diagram_low",
+            "image": "qmd:textures/gui/book_images/liquefier_empty.png",
+            "text": "multiblock and thus must have a Heat Exchanger Fluid Inlet and Outlet. There must also be at least one Liquefier Energy Port, Liquefier Fluid Port in input and output mode, and of course the Liquefier Controller.$(br)Empty example Below."
+        },
+		{
+            "type": "text",
+            "text": "On the top face there must be at least the same if not more Liquefier Compressors than Liquefier Expansion Nozzles that were used in the shell baffle and expansion nozzle layer. The compressors can be any combination of the various types. The types affect the power and coolant usage of the liquefier.$(br)The heat exchanger section is where Heat Exchanger Tubes are placed to connect each expansion nozzle to a compressor. The type of tube used affects the heat"
+        },
+		{
+            "type": "diagram_low",
+            "image": "qmd:textures/gui/book_images/liquefier_full.png",
+            "text": "conductivity and thus tubes with a lower heat transfer coefficient will require more blocks to transfer the same amount of heat.$(br)Below a complete liquefier with the expansion nozzle connected to a compressor via heat exchanger tubes."
+        },
+		{
+            "type": "diagram_low",
+            "image": "qmd:textures/gui/book_images/liquefier_hx_1.png",
+            "text": "The path the heat exchanger tubes make from a compressor to a nozzle matters. Ideally the path should be as long as possible to allow the most heat transfer. The shell flow i.e. from the heat exchanger inlet to the outlet also matters and should ideally intersect all "
+        },
+		{
+            "type": "diagram_low",
+            "image": "qmd:textures/gui/book_images/liquefier_hx_2.png",
+            "text": "tube blocks otherwise those tube blocks don't transfer heat.$(br2)Left a liquefier with 1 nozzle and 2 compressors, tube flow in red, shell flow in blue. Below a liquefier with 2 nozzles and 2 compressors."
+        },
+        {
+			"type": "text",
+            "text": "The shell flow is controlled just like a regular heat exchanger with either baffle blocks or as shown in the previous images with tubes set to have baffles on particular faces with a multitool. $(l)The direction of the shell flow relative to tube flow$() (e.g. coflow or contraflow) $(l)does not matter$()." 
+        },
+        {
+			"type": "text",
+            "text": "" 
+        },
+        {
+            "anchor": "operation",
+			"type": "text",
+			"title": "Operation",
+            "text": "Before you build a liquefier you should understand how it operates because this can inform you how big you should build it for your needs.$(br)Liquefiers compress gas feed into the Liquefier Fluid Port in input mode to a pressure in bar of $(l)P=10(C/N)^2$(). Where $(l)C$() is the number of compressors and $(l)N$() is the number of nozzles. This compression generates heat and must be removed from the gas via the heat exchanging section using" 
+        },
+        {
+			"type": "text",
+            "text": "a coolant feed into the Heat Exchanger Inlet. The input temperature of the coolant is important; $(l)it must be below the inversion temperature$() of the gas for the liquefier to work. The inversion temperature and other important recipe information for the gas can be seen in the JEI liquefier liquefaction category, and the temperature of the coolant can be seen in JEI liquefier coolant category." 
+        },
+        {
+			"type": "text",
+            "text": "The maximum amount of liquefaction recipes performed by an $(l)individual$() expansion nozzle per tick is $(l)r=βP$(). Where $(l)β$() is the recipe rate of an expansion nozzle shown on its tooltip (by default 0.4 recipes/t/bar) and $(l)P$() is the pressure in bar. Subsequently the input gas rate and output liquid rate are $(l)gᵢ=aᵢr$() and $(l)gₒ=aₒr$() respectively. Where $(l)aᵢ$() is the input amount and $(l)aₒ$() is the output amount shown in the liquefaction recipe in JEI. Note this is the $(l)maximum$() amount assuming all the heat " 
+        },
+        {
+			"type": "text",
+            "text": "from compression is transferred to the coolant. The amount of H/t generated by the compression for each nozzle is $(l)q=rqₒ/(ηθ)$(). Where $(l)qₒ$() is the base liquefaction recipe heat, $(l)θ$() is the mean heat efficiency of the compressors and $(l)η$() is the pressure efficiency. The pressure efficiency depends on the gas being liquefied and is $(l)η=1-1/(µP+1)$(), where $(l)µ$() is the pressure coefficient in the liquefaction recipe." 
+        },
+        {
+			"type": "text",
+            "text": "The mean heat efficiency is the individual heat efficiency $(l)θⱼ$() of each compressor $(l)j$(), multiplied and raised to the power of $(l)1/N$() that is $(br)$(l)θ=θ₁^(1/N)*θ₂^(1/N)*...$()$(br)If all the compressors are identical this simplifies to $(l)θ=θ₁^(C/N)$()$(br2)Similarly to the H/t generated the amount of RF/t used by a nozzle is $(br)$(l)w=rwₒ/(ηε)$(). Where $(l)wₒ$() is the base recipe energy and $(l)ε$() is the mean energy efficiency" 
+        },
+        {
+			"type": "text",
+            "text": "of the compressors, which is defined similarly to the mean heat efficiency as $(br)$(l)ε=ε₁^(1/N)*ε^(1/N)*...$()$(br)where $(l)εⱼ$() is the energy efficiency of the $(l)j$()-th compressor.$(br2)The maximum amount of heat per tick transferred  by an $(l)individual$() heat exchanger tube block is similar as in a heat exchanger $(l)hⱼ=κⱼΔT$(), where $(l)κⱼ$() is the heat transfer coefficient of the tube block and $(l)ΔT$() is the mean temperature difference." 
+        },
+        {
+			"type": "text",
+            "text": "The H/t that the whole length of tube connected to the nozzle can transfer is the sum of the individual tube blocks $(l)h=h₁+h₂+...$()$(br2)The mean temperature difference is $(l)ΔT=(Tᵧ-Tₒ)/2$(), where $(l)Tᵧ$() is the hot gas temperature (seen in the JEI liquefaction recipe) and $(l)Tₒ$() is the coolant output temperature (seen in the JEI coolant recipe).$(br2)The amount of coolant used per tick per nozzle is $(l)mᵢ=bᵢhₓ/C$()" 
+        },
+        {
+			"type": "text",
+            "text": "where $(l)bᵢ$() is the input recipe amount seen in the JEI coolant recipe, $(l)C$() is the coolant heating required (also seen on the coolant recipe) and $(l)hₓ$() is the amount of heat transferred per tick. Similarly the mb/t of hot coolant outputted is $(l)mₒ=bₒC/hₓ$(), where $(l)bₒ$() is the output recipe amount.$(br2)The H/t transferred $(l)hₓ$() is the smaller of the maximum H/t the tube can transfer $(l)h$() and the H/t the compression generates q." 
+        },
+        {
+			"type": "text",
+            "text": "For example, let's say we have two nozzles, one connected to the compressor by 10 copper tubes and the other by 5 copper tubes. We will also say we the amount of heat generated per nozzle is $(l)q$()=6400 H/t and the mean temperature difference is $(l)ΔT$()=50 K. The heat conductivity for copper tubes is $(l)κⱼ$()=16H/t/K so the long tube can transfer a maximum of $(l)h=κ₁ΔT+κ₂ΔT+...=κΔT*L$()$(br)=16 H/t/K * 50K * 10=8000 H/t. Where $(l)L$() is the length of the tube and $(l)κ=κ₁=κ₂=..." 
+        },
+        {
+			"type": "text",
+            "text": "This is more than the heat from compression for the nozzle $(l)q$() so the long tube will only transfer 6400 H/t. For the short tube: $(br)5 * 16 H/t/K * 50 K=4000 H/t, this less than $(l)q$() so it will transfer only the 4000H/t. So the total heat transferred to the coolant by this design is the sum of the heat transferred by each tube is then$(br)$(l)Hₓ$()= 6400 + 4000= 10400 H/t." 
+        },
+        {
+			"type": "text",
+            "text": "Since the short tube could not transfer all the heat from the nozzle this nozzle will not run at full speed, reducing the liquid output. Rearranging $(l)q=rqₒ/(θη)$() for $(l)r$() and using the heat that could be transferred by the tube $(l)hₓ$() for $(l)q$() gives us the rate this nozzle will run at $(l)r=hₓθη/qₒ$().$(br)Let’s say for this example $(l)qₒ$()=1000H, $(l)θ$()=75% and $(l)η$()=50%. So, 4000 H/t*0.75*0.5/1000H = 1.5 recipes/t. But the long tube that could transfer the full amount of heat is producing at a" 
+        },
+        {
+			"type": "text",
+            "text": "a rate of 6400 H/t * 0.75     * 0.5/1000H = 2.4 recipes/t.$(br2)As shown in the previous example, having a tube that is too short limits output, but having one too long takes more space and resources in terms of the number of tubes. Ideally you want each tube connected to every nozzle to be just long enough and since each nozzle produces the same amount of heat this results in all the tubes being the same length." 
+        },
+        {
+			"type": "text",
+            "text": "To calculate the minimum number of tubes needed to be connected to each nozzle we can combine the previous formulas (assuming all the tube blocks in the tube are the same type) to give$(br)$(l)L=2q/(κ(Tᵧ-Tₒ))$().$(br2)All the values $(l)r,gₒ,gᵢ,q,w,mᵢ,mₒ,hₓ$() are for each individual nozzle and its connected tube. Of course, multiple nozzles can be in a liquefier and the corresponding total values $(l)R,Gₒ,Gᵢ,Q,W,Mᵢ,Mₒ,Hₓ$() are just the sum of the" 
+        },
+		{
+			"type": "text",
+            "text": "individual nozzle values. e.g $(l)W=w₁+w₂+...$() and if all the values are the same between each nozzle then it is just multiplied by the number of nozzles e.g. $(l)W=Nw$() $(br2)The final thing for operation you should know is that like all heat exchanger multiblock types the liquefier requires a redstone signal to the controller to turn on.$(br)The next section goes over a worked example." 
+        },
+        {
+			"title": "Worked Example",
+			"type": "text",
+            "text": "You might be thinking the last section was very complicated (and it was to give all the details), but how do I $(l)actually$() design a liquefier? Well, here is a worked example to help you out.$(br2)First, we must decide what our desired output is. Let's say we want to make 64 mB/t of Liquid Air because we will certainly need it for our cryogenic distillation setups." 
+        },
+        {
+			"type": "text",
+            "text": "Looking at the recipe for Liquid Air we see it has an inversion temperate of 600 K. This means we can cool the liquefier with any liquefier coolant colder than 600 K. We will choose water because it is very easy to get and has an input temperature of 300K.$(br2)Next we figure out how many compressors per nozzle $(l)C/N$() we will need. Each nozzle produces 0.4 recipes/t/bar and the liquid air recipe produces 1 mB, so we need to do 64 recipes/t to get 64 mB/t." 
+        },
+        {
+			"type": "text",
+            "text": "If we use 1 compressor per nozzle, we get a pressure of $(l)P=10(C/N)^2$()=10*(1/1)^2=10 bar and at 0.4 recipes/t/bar each nozzle produces 4 recipes/t so we will need 64/4= 8 nozzles and 8 compressors. Since the recipe pressure coefficient is 0.25, the pressure efficiency is then $(l)η=1-1/(µP+1)$()=1-1/(0.25*10+1)=71.43%. For simplicity if we choose to use just the copper compressors which have both an energy and heat efficiency of 90% then our total energy (or heat) efficiency, which is" 
+        },
+        {
+			"type": "text",
+            "text": "the ratio of the recipe base energy $(l)wₒ$() (or heat $(l)qₒ$()) to the amount of energy $(l)w$() (or heat $(l)q$()) each nozzle will use (or make) per recipe, then it is just $(br)$(l)ηε=ηε₁^(C/N)$()=0.9^(1/1)*71.43%=64.29%. So our liquefier will use $(l)1/ηε$()=1/0.6426=1.555 times more energy per recipe than the base energy and will produce $(l)1/ηθ$()=1/0.6426=1.555 times more heat per recipe than the base heat.$(br)So (25 RF * 1.555) = 38.88 RF and (1000 RF * 1.555) = 1555 H." 
+        },
+        {
+			"type": "text",
+            "text": "But we can do better than this. We can increase efficiency either by increasing the pressure efficiency or by increasing the individual compressor efficiencies. For example, we could change the copper compressors to neodymium compressors which have a higher energy efficiency, so we use less power, but lower heat efficiency, so we make more heat and thus need more coolant per tick." 
+        },
+        {
+			"type": "text",
+            "text": "We can also increase the pressure efficiency by adding more compressors than nozzles. This increases the pressure and thus we need less nozzles to get our 64 recipes/t. Though there is a balancing act if we add to many compressors the total efficiency will go down because the increase in pressure efficiency $(l)η$() will be counteracted by the decrease in mean energy $(l)ε$() or heat efficiency $(l)θ$()." 
+        },
+        {
+			"type": "text",
+            "text": "There are a couple of ways to find what the optimal compressor to nozzle ratio is. First, we can do the calculation for a couple of different values for $(l)C/N$(). So, let’s try $(l)C/N$()=2 and 3 with copper compressors. This gives pressures of 40 and 90 bar respectively and a total energy efficiency of$(br)$(l)ηε=(1-1/(0.25*40 bar+1))*0.9^(2)$()=73.64% and 69.80% respectively. So, we can see the most efficient ratio is probably close to 2." 
+        },
+        {
+			
+            "type": "diagram_low",
+            "image": "qmd:textures/gui/book_images/liquefier_graph.png",
+            "text": "We could be fancy and graph the results with a graphing program like Excel or Desmos and get the graph below, which does confirm the peak is at a compressor to nozzle ratio of about 2."
+        },
+        {
+			"type": "text",
+            "text": "The third option is if you are up for a challenge is to find where the derivative of the curve equals 0, good luck with that!$(br)We will choose a compressor to nozzle ratio of 2 for the highest efficiency. So, our pressure is 40 bar so each nozzle does 0.4 recipes/t/bar * 40 bar = 16 recipes/t. To get the desired 64 recipes/t we need 4 nozzles and thus 8 compressors. The amount of heat produced per nozzle is $(l)q=rqₒ/(θη)$() = 16 recipes/t* 1000H / 73.64% = 21727 H/t." 
+        },
+		{
+			"type": "text",
+            "text": "In order to transfer this much heat to the coolant the required length of tube if we use hard carbon tubes which have a conductivity of 24H/t/K is $(l)L=2q/(κ(Tᵧ-Tₒ))$()=2*21727/(24(450 K-350 K)) = 18.1 tubes. The 450 K is from the hot gas temperature in the recipe, and the 350 K is from the output coolant temperature of water. We'll round 18.1 up to 20 tubes because that is a nice number that can fit into a space of 5x4." 
+		},
+		{
+			"type": "text",
+            "text": "The final thing to calculate before we build is how much power and coolant will this use. The power is just going to be $(l)W=Nrwₒ/(ηε)$() = $(br)4*16 Recipes/t*25 RF*/73.64%= 2172 RF/t and the amount of water used will be $(l)Mᵢ=Nbᵢhₓ/C$()=4*1mb*21727 H/t /32 H = 2716 mb/t.$(br2)Ok now let's build the liquefier! There are many ways to arrange the components, but a nice simple way is to build each nozzle and its tubes in a single slice." 
+		},
+        {
+			
+            "type": "diagram_high",
+            "image": "qmd:textures/gui/book_images/liquefier_example_layer.png",
+            "text": "Above is the first slice with the nozzle on the bottom left connected to a compressor on the top right. The baffles are arranged so that the shell flow follows the same path as the tubes and is also isolated from the next slice which will be behind. In the top right corner, there is a hole in the"
+        },
+		{
+			"type": "text",
+            "text": "'wall' of baffles to let the shell flow into the next slice. The next slice is identical to the first except there is no heat exchanger inlet and now the shell flow goes in the opposite direction relative to the tube flow in the previous slice, starting at the hole at the top right from the previous slice down to a hole at the bottom left in the baffle wall that separates it from the third layer. This alternating shell flow pattern repeats for the third and fourth slices until at the end of the path" 
+		},
+        {
+			
+            "type": "diagram_low",
+            "image": "qmd:textures/gui/book_images/liquefier_example_complete.png",
+            "text": "the shell flow goes into a heat exchanger outlet in the same position as the inlet on the first slice. Finally the energy, fluid ports and controller are added wherever. Below is the complete liquefier being supplied with water from infinite water sources and "
+        },
+		{
+			
+            "type": "diagram_low",
+            "image": "qmd:textures/gui/book_images/liquefier_gui_1.png",
+            "text": "compressed air from atmosphere collectors. You can see the liquid air being produced and collecting in the tank.$(br)Opening the GUI of the controller we can see that we are indeed producing 64m/t of liquid air. The power and"
+        },
+		{
+			
+            "type": "text",
+            "text": "coolant usage are the expected values of 2173 RF/t and 2716 mb/t. We can also see other information like the total heat transfer (which is close to the expected 4 * 21727 H/t = 86908 H/t, difference is from rounding errors in our calculations), the number of compressors and nozzles, and the pressure. The percentages are the heat and energy inefficiencies that is $(l)1/θη$() $(l)1/ηε$() respectively. For ours the calculated energy and heat efficiencies was 73.64% so the inefficiencies are"
+        },
+		{
+			
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/liquefier_gui_2.png",
+            "text": "1/73.64%=135.80% which is what is shown.$(br)If we hold shift, we can see more information such as the amount of compressed air we are using, the amount of condensate water being produced, the mean temperature difference,"
+        },
+		{
+			
+            "type": "text",
+            "text": "the mean energy $(l)ε$() and heat $(l)θ$() efficiencies, and the pressure efficiency $(l)η$().$(br)Also in the GUI a button in the top right has appeared. Pressing this will $(l)void all$() the fluids currently in the liquefier.$(br)Lastly some notes and tips. First, we could have made the liquefier with a separate heat exchanger inlet and outlet for each slice if we removed the hole in each baffle wall. It is up to you if you want one or multiple sets of inlets and outlets on a liquefier."
+        },
+		{
+			
+            "type": "text",
+            "text": "Secondly, the compressors not connected to a tube can be placed anywhere on the top. They don't have to be touching other compressors or be in the same slice, all that matters is the number of them. Finally, a helpful tip constructing the heat exchanging tubes. Shift placing a tube onto another tube will copy its configuration to the tube placed. That is all its connections and baffle sides."
+        },
+		{
+			
+            "type": "text",
+            "text": "This is extremely useful if you construct the liquefier in slices as you can make one slice and then copy it to the next by just shift placing onto the previous slice."
+        }
+		
+	]
+}

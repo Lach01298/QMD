@@ -72,10 +72,10 @@ public class GuiBeamSplitterController
 				Units.getSIFormat(multiblock.dipoleStrength, "T"));
 		fontRenderer.drawString(dipoles, offset, 40, fontColor);
 
-		String energyLoss = Lang.localize("gui.qmd.container.beam_dirverter.energy_loss",
+		String energyLoss = Lang.localize("gui.qmd.container.beam_diverter.energy_loss",
 				Units.getParticleEnergy(getLogic().getEnergyLoss()));
 		fontRenderer.drawString(energyLoss, offset, 50, fontColor);
-		String maxEnergy = Lang.localize("gui.qmd.container.beam_dirverter.max_energy",
+		String maxEnergy = Lang.localize("gui.qmd.container.beam_diverter.max_energy",
 				Units.getParticleEnergy(getLogic().getMaxEnergy()));
 		fontRenderer.drawString(maxEnergy, offset, 60, fontColor);
 

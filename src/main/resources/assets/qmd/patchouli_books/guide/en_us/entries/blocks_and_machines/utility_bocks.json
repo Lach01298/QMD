@@ -2,7 +2,7 @@
     "name": "Utility Blocks",
     "icon": "qmd:creative_particle_source",
     "category": "qmd:blocks_and_machines",
-    "sortnum": 4,
+    "sortnum": 5,
     "pages": [
         {
             "type": "text",
@@ -11,7 +11,7 @@
         {
             "type": "spotlight",
             "item": "qmd:rtg_strontium",
-            "text": "An radioisotope thermoelectric generator that uses Strontium 90 a common nuclear waste."
+            "text": "A radioisotope thermoelectric generator that uses Strontium 90 a common nuclear waste."
         },
         {
             "type": "spotlight",
@@ -35,7 +35,7 @@
             "type": "spotlight",
             "item": "qmd:luminous_paint",
             "title": "Radioluminescent Paint",
-            "text": "A decorative light layer that comes in 3 different colors! It can be placed on any side of a block. It also has the benefit that it is radioactive."
+            "text": "A decorative light layer that comes in three different colors! It can be placed on any side of a block. It also has the benefit that it is radioactive."
         },
         {
             "type": "spotlight",

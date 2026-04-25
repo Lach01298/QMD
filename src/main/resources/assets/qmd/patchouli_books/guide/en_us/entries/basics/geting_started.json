@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "The is a lot of chapters in this guide some are more important than others and should probably be read first. This chapter tells you what those important sections are."
+			"text": "There are a lot of chapters in this guide, some are more important than others and should probably be read first. This chapter tells you what those important sections are."
 		},
 		{
 			"type": "text",
@@ -15,16 +15,16 @@
 		{
 			"type": "text",
 			"title": "Accelerators",
-			"text": "After learning about particles you may wonder how do we make, manipulate and move them? This is where $(l:multiblocks/accelerators/general)accelerators$(/l) come in. Each type of accelerator does different things to particles. $(l:multiblocks/accelerators/linear_accelerator)Linear Accelerators$(/l) are the start of any accelerator system, they are used to create particle beams and accelerate them to a relatively low energy."
+			"text": "After learning about particles you may wonder how do we make, manipulate and move them? This is where $(l:multiblocks/accelerators/general)accelerators$(/l) come in. Each type of accelerator does different things to particles. $(l:multiblocks/accelerators/linear_accelerator)Linear Accelerators$(/l) are the start of any accelerator system, they are used to create particle beams and accelerate them to relatively low energy."
 		},
 		{
 			"type": "text",
-			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate existing particle beams to much higher energies and $(l:multiblocks/accelerators/decelerator)Decelerators$(/l) decelerate particles to lower energies.$(l:multiblocks/accelerators/beam_diverter)Beam diverters$(/l) turn particle beams and $(l:multiblocks/accelerators/beam_splitter)Beam Splitters$(/l) split them into two.$(br2)$(l:blocks_and_machines/beamlines)Beamline Pipes$(/l) are used to transport particle beams between machines and accelerators."
+			"text": "$(l:multiblocks/accelerators/ring_accelerator)Synchrotron Accelerators$(/l) accelerate existing particle beams to much higher energies and $(l:multiblocks/accelerators/decelerator)Decelerators$(/l) decelerate particles to lower energies.$(l:multiblocks/accelerators/beam_diverter)Beam diverters$(/l) turn particle beams and $(l:multiblocks/accelerators/beam_splitter)Beam Splitters$(/l) split them into two.$(br2)$(l:blocks_and_machines/beamlines)Beamline Pipes$(/l) are used to transport particle beams between machines and accelerators.$(br)Accelerators also need to be cooled by cryogenic fluids. The $(l:multiblocks/other_multiblocks/liquefier)Liquefier$(/l) multiblock can help a lot with that."
 		},
 		{
 			"type": "text",
 			"title": "Using Particles",
-			"text": "So why are we even manipulating particles? Well they can be used to make things like transmute elements, create new elements and create exotic forms of matter. This is where Particle Chambers and Vacuum Chambers come in."
+			"text": "So why are we even manipulating particles? Well, they can be used to make things like transmute elements, create new elements and create exotic forms of matter. This is where Particle Chambers and Vacuum Chambers come in."
 		},
 		{
 			"type": "text",

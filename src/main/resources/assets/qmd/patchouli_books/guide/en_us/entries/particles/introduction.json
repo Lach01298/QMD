@@ -16,7 +16,7 @@
         {
             "type": "text",
             "title": "Type",
-            "text": "Particles come in many different types. Some examples are protons, neutrons and electrons which make up all the atoms around you. Each of them have different properties like mass, charge and spin and they can be used for different things. Their properties can be seen on JEI particle information tab by looking up their recipes in JEI."
+            "text": "Particles come in many different types. Some examples are protons, neutrons and electrons which make up all the atoms around you. Each of them has different properties like mass, charge and spin and they can be used for different things. Their properties can be seen on the JEI particle information tab by looking up their recipes in JEI."
         },
         {
             "anchor": "energy",
@@ -32,23 +32,23 @@
             "anchor": "focus",
 			"type": "text",
             "title": "Focus",
-            "text": "Focus is how confined a beam of particles is (it can be thought of a measure of the inverse area of the beam). Focus's main purpose is to tell you how far the beam of particles can travel. If a particle stack's focus is less than or equal to zero then it can't propagate. Each block particles travel they lose focus. Focus also has use in some recipes."
+            "text": "Focus is how confined a beam of particles is (it can be thought of a measure of the inverse area of the beam). Focus's main purpose is to tell you how far the beam of particles can travel. If a particle stack's focus is less than or equal to zero, then it can't propagate. Each block that particles travel they lose focus. Focus also has use in some recipes."
         },
         {
             "type": "text",
-            "text": "Some recipes have a minimum focus they required to work these are stated on the recipes (specifically if you hover over the input particle to a recipe in JEI it focus will be the minimum required). "
+            "text": "Some recipes have a minimum focus required to work these are stated on the recipes (specifically if you hover over the input particle to a recipe in JEI its focus will be the minimum required). "
         },
 		{
 			"anchor": "focus_loss",
 			"title": "Focus Loss",
             "type": "text",
-            "text": "The amount of focus lost per block can be calculated as $(br)$(l)f = α(1+|q|$(o)sqrt$()$(l)(I/Iᵢ))$() where $(l)α$() is the beam attenuation rate (this can be seen on Beamline's tool tip, by default 0.02), $(l)q$() is the particles charge, $(l)I$() is the pu/t of the beam and $(l)Iᵢ$() is the beam scaling factor (10000 with default configs). $(br2)You could also use the $(l:items_and_devices/beam_meter)beam meter$(/l) on an existing beam to calculate this for you."
+            "text": "The amount of focus lost per block can be calculated as $(br)$(l)fₓ = α(1+|q|$(o)sqrt$()$(l)(I/Iᵢ))$() where $(l)α$() is the beam attenuation rate (this can be seen on Beamline's tool tip, by default 0.02), $(l)q$() is the particles charge, $(l)I$() is the pu/t of the beam and $(l)Iᵢ$() is the beam scaling factor (10000 with default configs). $(br2)You can also use the $(l:items_and_devices/beam_meter)beam meter$(/l) on an existing beam to calculate this for you."
         },
         {
             "anchor": "amount",
 			"type": "text",
             "title": "Amount",
-            "text": "Is the amount of particles measured in particle units (pu). Generally it represents the particle units per tick for example a tungsten filament gives off 10 kpu of electrons in an Ion Source this means it gives 10000 pu/t. But in recipes like the $(l:multiblocks/particle_chambers/target_chamber)Target Chamber$(/l), and $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) it is the cumulative amount needed to complete the recipe."
+            "text": "Is the amount of particles measured in particle units (pu). Generally, it represents the particle units per tick, for example a tungsten filament gives off 10 kpu of electrons in an Ion Source (with output multiplier x1), this means it gives 10000 pu/t. But in recipes like the $(l:multiblocks/particle_chambers/target_chamber)Target Chamber$(/l), and $(l:multiblocks/vacuum_chambers/exotic_containment_chamber)Exotic Containment Chamber$(/l) it is the cumulative amount needed to complete the recipe."
         },
 		{
             "type": "text",

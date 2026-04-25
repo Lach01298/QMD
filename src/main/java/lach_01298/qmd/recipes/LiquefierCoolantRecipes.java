@@ -20,7 +20,7 @@ public class LiquefierCoolantRecipes extends BasicRecipeHandler
 		addRecipe(fluidStack("liquid_nitrogen", 1), fluidStack("nitrogen", 64), 1000, 77, 300);
 		addRecipe(fluidStack("liquid_neon", 1), fluidStack("neon", 64), 1000, 27, 300);
 		addRecipe(fluidStack("liquid_argon", 1), fluidStack("argon", 64), 1000, 87, 300);
-		addRecipe(fluidStack("water", 1), fluidStack("condensate_water", 1), 64, 300, 350);
+		addRecipe(fluidStack("water", 1), fluidStack("condensate_water", 1), 32, 300, 350);
 
 
 	}

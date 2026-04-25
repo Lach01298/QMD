@@ -1,0 +1,133 @@
+{
+	"name": "Turbine Cycles",
+	"icon": "nuclearcraft:turbine_controller",
+	"category": "qmd:other_multiblocks",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "This chapter goes over some possible turbine cycles for creating power in both default Nuclearcraft and QMD. It will not give details on how to construct turbines, heat exchangers or condensers which are the multiblocks used in these cycles."
+		},
+		{
+			"title": "What is a Turbine Cycle?",
+			"type": "text",
+			"text": "A turbine cycle is a process that converts heat from a heat source such as a solid fuel reactor (SFR), $(l:multiblocks/other_multiblocks/turbine_cycles#msr)molten salt reactor (MSR)$(/l) or $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)nucleosynthesis chamber (NSC)$(/l) into RF power using multiblock turbines. To do this the heat source heats a working fluid such as water or mercury into a hot working fluid and then this is passed through a system of turbines and possibly heat exchangers and condensers."
+		},
+		{
+			"type": "text",
+			"text": "At the end of the process you are left with a cold working fluid which can either be dumped or reused to go through the cycle again.$(br2)If the cold working fluid is dumped then the cycle is called an open cycle. If the cold working fluid is reused the cycle is called a closed cycle. Each type has pros and cons."
+		},
+		{
+			"type": "text",
+			"text": "Open cycles are usually easier to construct, requiring less multiblocks but generally have a lower efficiency and require a constant input of new working fluid such as water from an infinite water source.$(br2)Closed cycles are generally more efficient and once filled with a working fluid never need to be refilled again, though they are more complicated to construct and require more multiblocks."
+		},
+		{
+			"title": "Cycle Efficiency",
+			"type": "text",
+			"text": "Cycle efficiency is a measure of how much RF is produced by the turbines in the cycle for each heat unit (H) put into the cycle by heat sources. For example, an efficiency 1.5 RF/H means that for each heat unit put in 1.5 RF is produced. The cycle efficiency stated in the following sections is the $(l)base efficiency$() of the cycle. That is the efficiency assuming each multiblock has an efficiency of 100%."
+		},
+		{
+			"type": "text",
+			"text": "The real efficiency of any system depends on the specifics of each multiblock. For example, turbines can have an efficiency more or less than 100% depending on how they are constructed and the flow rate through them. So the whole system may output more or less RF/H than the base efficiency. The same applies for fission reactors and NSCs meaning they may produce more or less hot working fluid for a given amount of input heat."
+		},
+		{
+			"title": "Cycle Flow Charts",
+			"type": "text",
+			"text": "The next sections contain flow charts of possible turbine cycles. Each rectangle (either square or rounded) is a multiblock and each circle is an input or output for a working fluid. The rectangles and circles are connected together with arrows (which in game are pipes) that show the fluid type, the amount and its temperature in kelvin. The amounts are ratios and scale by how much heat you input. "
+		},
+		{
+			"type": "text",
+			"text": "For example, if the heat source says 64 H and your system inputs 100 H/t then you scale the numbers by 100/64 = 1.56 to get the rates per tick. $(br)The fluid aberrations are the following:$(br)W:Water, HPS:High pressure Steam, ES:Exhaust Steam, LPS: Low Pressure Steam, LQS:Low Quality Steam, CW:Condensate Water, PW:Preheated Water, HM: Hot Mercury, HPM: High Presure Mercury, EM: Exhaust Mercury."
+		},
+		{
+			"title": "Open Cycles",
+			"type": "text",
+			"text": "Here is a list of possible open turbine cycles in order of efficiency. Note these are for default nuclearcraft and QMD recipes. This is certainly not a complete list as this doesn't include any that voids valuable mercury, it is also possible to make ones with multiple heat sources and possibly others I haven't thought of."
+		},
+		{
+			"type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/open_cycle_1.png",
+            "text": "$(l)Simple Open Cycle$()$(br)Efficiency:$(br)64 RF/64 H = 1 RF/H$(br2)This is the simplest possible cycle."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/open_cycle_2.png",
+            "text": "$(l)Reheat Open Cycle$()$(br)Efficiency:$(br)(32 + 64) RF/64 H = 1.5 RF/H$(br2)This uses some of the SFR's output to reheat the exhaust steam."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/open_cycle_3.png",
+            "text": "$(l)Simple Open Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512 + 128) RF/256 H = 2.5 RF/H$(br2)This is the same as the simple open cycle but with a mercury topping cycle."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/open_cycle_4.png",
+            "text": "$(l)Reheat Open Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+64+128) RF/256 H=2.75 RF/H$(br2)This is the same as the reheat open cycle but with a mercury topping cycle."
+        },
+		{
+			"title": "Closed Cycles",
+			"type": "text",
+			"text": "Here is a list of possible closed turbine cycles in order of efficiency. Note these are for default nuclearcraft and QMD recipes. This is certainly not a complete list as it is also possible to make ones with multiple heat sources and possibly others I haven't thought of."
+		},
+		{
+			"type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_1.png",
+            "text": "$(l)Simple Closed Cycle$()$(br)Efficiency:$(br)64 RF/64 H = 1 RF/H$(br2)This is the closed equivalent of the simple open cycle. This is only possible with QMD because in NC there is no way to convert CW back int W."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_2.png",
+            "text": "$(l)Reheat Closed Cycle$()$(br)Efficiency:$(br)(32 + 64) RF/64 H = 1.5 RF/H$(br2)This is the closed equivalent of the reheat open cycle."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_3.png",
+            "text": "$(l)Preheat Closed Cycle$()$(br)Efficiency:$(br)(32 + 32) RF/32 H = 2 RF/H$(br2)This uses some of the SFR's output to preheat the water. This is the simplest closed cycle with just NC (no QMD)."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_5.png",
+            "text": "$(l)Mercury Closed Cycle$()$(br)Efficiency:$(br)512 RF/256 H = 2 RF/H$(br2)This is the equivalent of the simple closed cycle but uses mercury instead of water. This can be done by either a SFR or NSC."
+        },
+		{
+			"anchor": "preheat_reheat",
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_4.png",
+            "text": "$(l)Preheat and Reheat Closed Cycle$()$(br)Efficiency:$(br)(16+64) RF/32 H = 2.5 RF/H$(br2)This splits the SFR's output to preheat water and reheat exhaust steam."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_6.png",
+            "text": "$(l)Simple Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+128) RF/256 H = 2.5 RF/H$(br2)This is the same as the simple closed cycle but with a mercury topping cycle."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_7.png",
+            "text": "$(l)Reheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+64+128) RF/256 H=2.75 RF/H$(br2)This is the same as the reheat closed cycle but with a mercury topping cycle."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_8.png",
+            "text": "$(l)Preheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+128+128) RF/256 H=3 RF/H$(br2)This is the same as the preheat closed cycle but with a mercury topping cycle."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_9.png",
+            "text": "$(l)Preheat and Reheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+64+256)RF/256 H=3.25 RF/H$(br)This is the same as the preheat and reheat closed cycle but with a mercury topping cycle."
+        },
+		{
+            "type": "text",
+			"image": ""
+        },
+		{
+			"anchor": "msr",
+			"title": "Molten Salt Reactors",
+			"type": "text",
+			"text": "Cycles with MSRs are a little bit different than SFRs or NSCs. MSRs heat various types of NaKs directly. These Naks then must be heat exchanged with another working fluid that can go into a turbine to make power. This heat exchanger replaces the SFR in the cycles shown. By default, Naks in a heat exchanger have a 200% efficiency so any cycle you choose gets an automatic 2x efficiency for its base. "
+		},
+		{
+			"type": "text",
+			"text": "Hot Nak is too cold to heat Mercury so MSRs $(l)cannot$() use any of the mercury cycles. So, the most efficient cycle for a MSR is the $(l:multiblocks/other_multiblocks/turbine_cycles#preheat_reheat)preheat and reheat closed cycle$(/l) and with the Naks 200% efficiency boost gives a total base efficiency of$(br)5 RF/H."
+		}
+	]
+}
