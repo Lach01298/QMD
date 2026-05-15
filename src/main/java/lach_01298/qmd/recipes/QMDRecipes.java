@@ -617,8 +617,8 @@ public class QMDRecipes
 
 	private static void addFissionFuelRecipes()
 	{
-		NCRecipes.solid_fission.addFuelDepleteRecipes(copernicium_fuel_time, copernicium_heat_generation, copernicium_efficiency, copernicium_criticality, copernicium_decay_factor, copernicium_self_priming, copernicium_radiation, "MIX291");
-		NCRecipes.pebble_fission.addFuelDepleteRecipes(copernicium_fuel_time, copernicium_heat_generation, copernicium_efficiency, copernicium_criticality, copernicium_decay_factor, copernicium_self_priming, copernicium_radiation, "MIX291");
+		NCRecipes.solid_fission.addFuelDepleteRecipes(copernicium_fuel_time, copernicium_heat_generation, copernicium_efficiency, copernicium_criticality, copernicium_intrinsic_flux, copernicium_decay_factor, copernicium_self_priming, copernicium_radiation, "MIX291");
+		NCRecipes.pebble_fission.addFuelDepleteRecipes(copernicium_fuel_time, copernicium_heat_generation, copernicium_efficiency, copernicium_criticality, copernicium_intrinsic_flux, copernicium_decay_factor, copernicium_self_priming, copernicium_radiation, "MIX291");
 
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Copernicium291", 1, "Zirconium", 1, "Copernicium291ZA", 1, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Copernicium291", 1, "Graphite", 1, "Copernicium291Carbide", 1, 1D, 1D);

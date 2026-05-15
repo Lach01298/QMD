@@ -538,8 +538,8 @@ info.qmd.item.max_temp=Maximum Operating Temperature: %s K
 info.qmd.item.energy_used=Energy Used: %s
 info.qmd.item.amount=Amount: %s / %s
 
-info.qmd.item.mode.switch=Switched Mode to: 
-info.qmd.item.mode=Mode: %s 
+info.qmd.item.mode.switch=Switched Mode to:
+info.qmd.item.mode=Mode: %s
 info.qmd.item.mode.silk_touch=Silk Touch
 info.qmd.item.mode.breaking=Breaking
 
@@ -646,7 +646,7 @@ qmd.multiblock_validation.chamber.beam_dump.only_input_beam=There can only be 1 
 qmd.multiblock_validation.chamber.beam_dump.must_have_fluid_output=There must be an OUTPUT Fluid Port on a Beam Dump.
 qmd.multiblock_validation.chamber.invalid_detectors=There is %s invalid detectors.
 
-qmd.multiblock_validation.collision_chamber.wrong_length=Collision Chamber must be 17 Blocks. long 
+qmd.multiblock_validation.collision_chamber.wrong_length=Collision Chamber must be 17 Blocks. long
 qmd.multiblock_validation.collision_chamber.must_be_odd_square=The end faces must be squares of odd side length.
 qmd.multiblock_validation.collision_chamber.must_be_target=There must be a straight line of Particle Chamber blocks down the middle of the Collision chamber.
 qmd.multiblock_validation.collision_chamber.must_be_beam=This must be a Particle Chamber Beam Block.
@@ -668,7 +668,7 @@ qmd.multiblock_validation.exotic_containment.must_be_laser=There must be a Laser
 qmd.multiblock_validation.exotic_containment.must_be_input_beam=There must be a INPUT Beam Port at the center of the face.
 qmd.multiblock_validation.exotic_containment.must_be_empty=This block must be an empty space.
 qmd.multiblock_validation.exotic_containment.must_have_2_lasers=There can only be 2 Vacuum Chamber Lasers.
-qmd.multiblock_validation.exotic_containment.must_have_2_beam_ports=There can only be 2 INPUT Beam Ports.  
+qmd.multiblock_validation.exotic_containment.must_have_2_beam_ports=There can only be 2 INPUT Beam Ports.
 
 qmd.multiblock_validation.nucleosynthesis_chamber.size=Nucleosynthesis Chamber must be size 11x5 with height of 7.
 qmd.multiblock_validation.nucleosynthesis_chamber.must_be_beam=This must be a Vacuum Chamber Beam Block.
@@ -697,7 +697,7 @@ qmd.multiblock_validation.liquefier.inlet_outlet_must_be_in_top_section=Heat Exc
 
 //gui container
 gui.qmd.container.required_energy=Required Energy: %s
-gui.qmd.container.speed=Speed Multiplier: x%s 
+gui.qmd.container.speed=Speed Multiplier: x%s
 
 gui.qmd.container.heat_stored=Heat Stored: %s/%s
 gui.qmd.container.energy_stored=Energy Stored: %s/%s
@@ -717,7 +717,7 @@ gui.qmd.container.coolant_stored=Coolant: %s/%s
 gui.qmd.container.max_coolant_in=Maximum Coolant Usage: %s
 gui.qmd.container.max_coolant_out=Maximum Hot Coolant Out: %s
 
-gui.qmd.container.linear_accelerator_controller.name=Linear Accelerator 
+gui.qmd.container.linear_accelerator_controller.name=Linear Accelerator
 gui.qmd.container.ring_accelerator_controller.name=Synchrotron Accelerator
 gui.qmd.container.beam_diverter_controller.name=Beam Diverter
 gui.qmd.container.beam_splitter_controller.name=Beam Splitter
@@ -725,9 +725,9 @@ gui.qmd.container.decelerator_controller.name=Decelerator
 gui.qmd.container.mass_spectrometer_controller.name=Mass Spectrometer
 gui.qmd.container.accelerator.cavities=RF Cavities: %s at %s
 gui.qmd.container.accelerator.quadrupoles=Quadrupoles: %s at %s
-gui.qmd.container.accelerator.dipoles=Dipoles: %s at %s 
+gui.qmd.container.accelerator.dipoles=Dipoles: %s at %s
 gui.qmd.container.accelerator.radius=Radius: %s
-gui.qmd.container.accelerator.length=Length: %s 
+gui.qmd.container.accelerator.length=Length: %s
 gui.qmd.container.accelerator.efficiency= (%s%%)
 gui.qmd.container.accelerator.error.1=Too hot
 gui.qmd.container.accelerator.error.2=Does not have enough power
@@ -738,7 +738,7 @@ gui.qmd.container.beam_diverter.max_energy=Maximum Energy: %s
 gui.qmd.container.beam_diverter.energy_loss=Energy Loss: %s
 gui.qmd.container.accelerator_source=Accelerator Ion Source
 
-gui.qmd.container.target_chamber_controller.name=Target Chamber 
+gui.qmd.container.target_chamber_controller.name=Target Chamber
 gui.qmd.container.decay_chamber_controller.name=Decay Chamber
 gui.qmd.container.beam_dump_controller.name=Beam Dump
 gui.qmd.container.particle_chamber.efficiency=Efficiency: %s%%
@@ -750,10 +750,10 @@ gui.qmd.container.nucleosynthesis_chamber_controller.name=Nucleosynthesis Chambe
 gui.qmd.container.creative_particle_source.set=Set
 gui.qmd.container.creative_particle_source.particle_name=Particle Name
 gui.qmd.container.creative_particle_source.particle_amount=Amount (pu/t)
-gui.qmd.container.creative_particle_source.particle_energy=Energy (keV) 
-gui.qmd.container.creative_particle_source.particle_focus=Focus 
+gui.qmd.container.creative_particle_source.particle_energy=Energy (keV)
+gui.qmd.container.creative_particle_source.particle_focus=Focus
 gui.qmd.container.collison_chamber.energy=Collision Energy: %s
-gui.qmd.container.collision_chamber_controller.name=Collision Chamber 
+gui.qmd.container.collision_chamber_controller.name=Collision Chamber
 
 gui.qmd.container.nucleosynthesis_chamber.efficiency=Output Efficiency: %s%%
 
@@ -787,7 +787,7 @@ qmd.particle.top_quark.name=Top Quark
 qmd.particle.antitop_quark.name=Anti-Top Quark
 qmd.particle.bottom_quark.name=Bottom Quark
 qmd.particle.antibottom_quark.name=Anti-Bottom Quark
-qmd.particle.electron.name=Electron 
+qmd.particle.electron.name=Electron
 qmd.particle.positron.name=Positron
 qmd.particle.electron_neutrino.name=Electron Neutrino
 qmd.particle.electron_antineutrino.name=Electron Antineutrino
@@ -1187,7 +1187,7 @@ gui.qmd.config.accelerator.ion_source_power.comment=The amount of RF/t each ion 
 gui.qmd.config.accelerator.ion_source_output_multiplier=Ion source Output Multiplier
 gui.qmd.config.accelerator.ion_source_output_multiplier.comment=The value the base ion source output is multiplied by for each ion source type. Order: [Basic, Laser].
 
-gui.qmd.config.accelerator.ion_source_focus=Ion source Output Focus 
+gui.qmd.config.accelerator.ion_source_focus=Ion source Output Focus
 gui.qmd.config.accelerator.ion_source_focus.comment=The output focus of particles for each ion source type. Order: [Basic, Laser].
 
 gui.qmd.config.accelerator.beam_attenuation_rate=Beam Attenuation Rate
@@ -1266,16 +1266,16 @@ gui.qmd.config.particle_chamber.detector_efficiency=Detector Efficiency
 gui.qmd.config.particle_chamber.detector_efficiency.comment=The efficiency of each type of Detector. Order:[Bubble Chamber, Silicon Tracker, Multi-wire Chamber, Electromagnetic Calorimeter, Hadron Calorimeter].
 
 gui.qmd.config.particle_chamber.detector_base_power=Detector Power Usage
-gui.qmd.config.particle_chamber.detector_base_power.comment=The amount of RF/t each detector uses. Order:[Bubble Chamber, Silicon Tracker, Multi-wire Chamber, Electromagnetic Calorimeter, Hadron Calorimeter]. 
+gui.qmd.config.particle_chamber.detector_base_power.comment=The amount of RF/t each detector uses. Order:[Bubble Chamber, Silicon Tracker, Multi-wire Chamber, Electromagnetic Calorimeter, Hadron Calorimeter].
 
 gui.qmd.config.vacuum_chamber.part_power=Vacuum Chamber Part Power
-gui.qmd.config.vacuum_chamber.part_power.comment=The amount of RF/t each type of Vacuum Chamber part uses. Order:[coil, Laser, Beam, Plasma Glass, Plasma Nozzle]. 
+gui.qmd.config.vacuum_chamber.part_power.comment=The amount of RF/t each type of Vacuum Chamber part uses. Order:[coil, Laser, Beam, Plasma Glass, Plasma Nozzle].
 
 gui.qmd.config.vacuum_chamber.part_heat=Vacuum Chamber Part Heat
-gui.qmd.config.vacuum_chamber.part_heat.comment=The amount of heat per tick each type of Vacuum Chamber part makes. Order:[coil, Laser, Beam, Plasma Glass, Plasma Nozzle]. 
+gui.qmd.config.vacuum_chamber.part_heat.comment=The amount of heat per tick each type of Vacuum Chamber part makes. Order:[coil, Laser, Beam, Plasma Glass, Plasma Nozzle].
 
 gui.qmd.config.vacuum_chamber.part_max_temp=Vacuum Chamber Part Max Temp
-gui.qmd.config.vacuum_chamber.part_max_temp.comment=The maximum operating temperature of each type of part in a Vacuum Chamber. Order:[coil, Laser, Beam, Plasma Glass, Plasma Nozzle]. 
+gui.qmd.config.vacuum_chamber.part_max_temp.comment=The maximum operating temperature of each type of part in a Vacuum Chamber. Order:[coil, Laser, Beam, Plasma Glass, Plasma Nozzle].
 
 gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity=Vacuum Chamber Base Energy Capacity
 gui.qmd.config.vacuum_chamber.vacuum_chamber_base_energy_capacity.comment=The base Energy (RF) capacity of a vacuum chamber. This is per block volume.
@@ -1292,20 +1292,20 @@ gui.qmd.config.vacuum_chamber.exotic_containment_explosion.comment=Whether exoti
 gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash=Exotic Containment Chamber Radiation Flash
 gui.qmd.config.vacuum_chamber.exotic_containment_gamma_flash.comment=Whether exotic containment chambers emit a deadly radiation flash if they overheat, lose power or are broken with exotic materials inside.
 
-gui.qmd.config.vacuum_chamber.exotic_containment_radiation=Exotic Containment Chamber Radiation 
+gui.qmd.config.vacuum_chamber.exotic_containment_radiation=Exotic Containment Chamber Radiation
 gui.qmd.config.vacuum_chamber.exotic_containment_radiation.comment=The maximum base amount of rads exotic containment chamber emits when they explode. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2 and is multiplied by the amount of buckets of material is in the chamber.
 
-gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size=Exotic Containment Chamber Explosion Size 
+gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size=Exotic Containment Chamber Explosion Size
 gui.qmd.config.vacuum_chamber.exotic_containment_explosion_size.comment=The base size of the explosion created by exotic containment chamber. This value is multiplied by the ammo type mass in amu e.g. antihydrogen is 1, antideuterium is 2 and is multiplied by the amount of buckets of material is in the chamber. TNT is an explosion size of 4.
 
 gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion=Nucleosynthesis Chamber Explosions
 gui.qmd.config.vacuum_chamber.nucleosynthesis_chamber_explosion.comment=Whether nucleosynthesis chambers explode if they overheat, lose power or are broken with plasma inside.
 
 gui.qmd.config.vacuum_chamber.heater_heat_removed=Vacuum Chamber Heater Heat Removed
-gui.qmd.config.vacuum_chamber.heater_heat_removed.comment=The amount of H/t each Vacuum Chamber Heater removes. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond]. 
+gui.qmd.config.vacuum_chamber.heater_heat_removed.comment=The amount of H/t each Vacuum Chamber Heater removes. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond].
 
 gui.qmd.config.vacuum_chamber.heater_rule=Vacuum Chamber Heater Rules
-gui.qmd.config.vacuum_chamber.heater_rule.comment=The placement rules of each Vacuum Chamber Heater. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond]. 
+gui.qmd.config.vacuum_chamber.heater_rule.comment=The placement rules of each Vacuum Chamber Heater. Order:[Iron, Redstone, Quartz, Obsidian, Glowstone, Lapis, Gold, Diamond].
 
 
 gui.qmd.config.heat_exchanger.liquefier_base_energy_capacity=Liquefier Base Energy Capacity
@@ -1326,7 +1326,7 @@ gui.qmd.config.heat_exchanger.liquefier_heat_efficiency.comment=The heat efficie
 gui.qmd.config.heat_exchanger.liquefier_nozzle_speed=Liquefier Nozzle Speed
 gui.qmd.config.heat_exchanger.liquefier_nozzle_speed.comment=The speed a Liquefier Nozzle performs recipes in recipes per tick per bar.
 
-gui.qmd.config.tools.register_tool=Register Tools 
+gui.qmd.config.tools.register_tool=Register Tools
 gui.qmd.config.tools.register_tool.comment=Whether the tool set is added. Order:[Tungsten Carbide, Electric Drills].
 
 gui.qmd.config.tools.tool_mining_level=Tool Mining Level
@@ -1446,6 +1446,9 @@ gui.qmd.config.copernicium_efficiency.comment=Base efficiencies of the fuels. Or
 gui.qmd.config.copernicium_criticality=Copernicium Fuel Criticality Factors
 gui.qmd.config.copernicium_criticality.comment=Criticality factors of the fuels. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291].
 
+gui.qmd.config.copernicium_intrinsic_flux=Copernicium Fuel Intrinsic Fluxes
+gui.qmd.config.copernicium_intrinsic_flux.comment=Intrinsic fluxes of the fuels. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291].
+
 gui.qmd.config.copernicium_decay_factor=Copernicium Fuel Decay Factors
 gui.qmd.config.copernicium_decay_factor.comment=Decay factors of the fuels. Order:[ MTRISO-291, MOX-291, MNI-291, MZA-291].
 
@@ -1475,4 +1478,3 @@ gui.qmd.config.other.turbine_blade_efficiency.comment=The efficiency of each Tur
 
 gui.qmd.config.other.turbine_blade_expansion=Turbine Blade Expansions
 gui.qmd.config.other.turbine_blade_expansion.comment=The expansion of each Turbine Blade. Order:[Super Alloy].
-
