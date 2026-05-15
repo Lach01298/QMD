@@ -19,9 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DeceleratorLogic extends AcceleratorLogic
 {
@@ -79,7 +77,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 		
 		if (acc.getExteriorLengthY() != getThickness())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height", Collections.emptyList());
 			return false;
 		}
 
@@ -87,19 +85,19 @@ public class DeceleratorLogic extends AcceleratorLogic
 		if (acc.getExteriorLengthX() != acc.getExteriorLengthZ())
 		{
 			
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_square", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_be_square", Collections.emptyList());
 				return false;
 		}
 		
 		if(acc.getExteriorLengthX() < QMDConfig.accelerator_ring_min_size)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_short", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_short", Collections.emptyList());
 			return false;
 		}
 		
 		if(acc.getExteriorLengthX() > QMDConfig.accelerator_ring_max_size)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_long", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.to_long", Collections.emptyList());
 			return false;
 		}
 		
@@ -175,7 +173,7 @@ public class DeceleratorLogic extends AcceleratorLogic
 		}
 		if(inputs != 1 || outputs != 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", Collections.emptyList());
 			return false;
 		}
 		if(containsBlacklistedPart())

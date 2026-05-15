@@ -10,6 +10,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 
+import java.util.Collections;
+
 public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOrToroidalMultiblock<MULTIBLOCK, T>, T extends ITileMultiblockPart<MULTIBLOCK, T>>
 		extends Multiblock<MULTIBLOCK, T>
 {
@@ -62,32 +64,32 @@ public abstract class CuboidalOrToroidalMultiblock<MULTIBLOCK extends CuboidalOr
 
 		if (maxXSize > 0 && deltaX > maxXSize)
 		{
-			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxXSize, "X");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", Collections.emptyList(), maxXSize, "X");
 			return false;
 		}
 		if (maxYSize > 0 && deltaY > maxYSize)
 		{
-			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxYSize, "Y");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", Collections.emptyList(), maxYSize, "Y");
 			return false;
 		}
 		if (maxZSize > 0 && deltaZ > maxZSize)
 		{
-			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", null, maxZSize, "Z");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_large", Collections.emptyList(), maxZSize, "Z");
 			return false;
 		}
 		if (deltaX < minXSize)
 		{
-			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minXSize, "X");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", Collections.emptyList(), minXSize, "X");
 			return false;
 		}
 		if (deltaY < minYSize)
 		{
-			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minYSize, "Y");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", Collections.emptyList(), minYSize, "Y");
 			return false;
 		}
 		if (deltaZ < minZSize)
 		{
-			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", null, minZSize, "Z");
+			setLastError("zerocore.api.nc.multiblock.validation.machine_too_small", Collections.emptyList(), minZSize, "Z");
 			return false;
 		}
 

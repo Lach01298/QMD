@@ -5,21 +5,13 @@ import it.unimi.dsi.fastutil.longs.*;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.liquefier.tile.TileLiquefierCompressor;
-import lach_01298.qmd.liquefier.tile.TileLiquefierEnergyPort;
-import lach_01298.qmd.liquefier.tile.TileLiquefierNozzle;
-import lach_01298.qmd.liquefier.tile.TileLiquefierFluidPort;
-import lach_01298.qmd.multiblock.network.LiquefierRenderPacket;
-import lach_01298.qmd.multiblock.network.LiquefierUpdatePacket;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.liquefier.tile.*;
+import lach_01298.qmd.multiblock.network.*;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.recipes.QMDRecipes;
 import nc.Global;
 import nc.multiblock.hx.*;
-import nc.network.multiblock.HeatExchangerRenderPacket;
-import nc.network.multiblock.HeatExchangerUpdatePacket;
-import nc.recipe.BasicRecipe;
-import nc.recipe.RecipeInfo;
+import nc.network.multiblock.*;
 import nc.recipe.ingredient.IFluidIngredient;
 import nc.tile.hx.*;
 import nc.tile.internal.energy.EnergyStorage;
@@ -37,7 +29,6 @@ import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.LongSupplier;
-import java.util.stream.Stream;
 
 import static nc.block.property.BlockProperties.ACTIVE;
 
@@ -254,7 +245,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 		if(compressorMap.size()< nozzleMap.size())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.invalid_compressor_amount", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.invalid_compressor_amount", Collections.emptyList());
 			return false;
 		}
 
@@ -274,18 +265,18 @@ public class LiquefierLogic extends HeatExchangerLogic
 		}
 		if (!inlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.must_have_fluid_input", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.must_have_fluid_input", Collections.emptyList());
 			return false;
 		}
 		if (!outlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.must_have_fluid_output", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.must_have_fluid_output", Collections.emptyList());
 			return false;
 		}
 
 		if(getPartMap(TileLiquefierEnergyPort.class).size() < 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.must_have_energy_port", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.must_have_energy_port", Collections.emptyList());
 			return false;
 		}
 
@@ -376,7 +367,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 		if (multiblock.networks.size() != nozzleMap.size())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.invalid_nozzle_network", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.liquefier.invalid_nozzle_network", Collections.emptyList());
 			return false;
 		}
 
@@ -417,7 +408,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 		if (shellInletPosLongSet.isEmpty() || shellOutletPosLongSet.isEmpty())
 		{
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.heat_exchanger.invalid_shell", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.heat_exchanger.invalid_shell", Collections.emptyList());
 			return false;
 		}
 
@@ -487,7 +478,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 		if (shellPosLongSet.size() + baffleMap.size() + nozzleMap.size() != multiblock.getInteriorLengthX()*(multiblock.getInteriorLengthY()-1)*multiblock.getInteriorLengthZ())
 		{
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.heat_exchanger.blocked_shell", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.heat_exchanger.blocked_shell", Collections.emptyList());
 			return false;
 		}
 

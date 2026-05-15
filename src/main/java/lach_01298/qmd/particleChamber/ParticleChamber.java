@@ -162,11 +162,11 @@ public class ParticleChamber extends CuboidalMultiblock<ParticleChamber, IPartic
 	public boolean setLogic(Multiblock multiblock)
 	{
 		if (getPartMap(IParticleChamberController.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
 		if (getPartMap(IParticleChamberController.class).size() > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", Collections.emptyList());
 			return false;
 		}
 		

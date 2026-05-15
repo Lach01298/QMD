@@ -19,9 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BeamDiverterLogic extends AcceleratorLogic
 {
@@ -98,7 +96,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		
 		if (acc.getExteriorLengthX() != getThickness() || acc.getExteriorLengthY() != getThickness() || acc.getExteriorLengthZ() != getThickness())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.beam_director.must_be_cube", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.beam_director.must_be_cube", Collections.emptyList());
 			return false;
 		}
 		
@@ -193,7 +191,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 		
 		if(inputs != 1 || outputs != 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.ring.must_have_io", Collections.emptyList());
 			return false;
 		}
 		if(containsBlacklistedPart())

@@ -19,8 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart>
 		implements IPacketMultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket>
@@ -125,7 +124,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	@Override
 	public boolean isMachineWhole()
 	{
-		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", null);
+		multiblock.setLastError("zerocore.api.nc.multiblock.validation.invalid_logic", Collections.emptyList());
 		return false;
 	}
 

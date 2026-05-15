@@ -191,20 +191,20 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 
 		if (!inlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_inlet", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_inlet", Collections.emptyList());
 			return false;
 		}
 
 		if (!outlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_outlet", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_outlet", Collections.emptyList());
 			return false;
 		}
 
 		// Energy Ports
 		if (getPartMap(TileVacuumChamberEnergyPort.class).size() < 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", Collections.emptyList());
 			return false;
 		}
 		
