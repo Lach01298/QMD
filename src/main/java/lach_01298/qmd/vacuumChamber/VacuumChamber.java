@@ -1,39 +1,28 @@
 package lach_01298.qmd.vacuumChamber;
 
 import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.objects.*;
 import lach_01298.qmd.config.QMDConfig;
-import lach_01298.qmd.multiblock.IMultiBlockTank;
-import lach_01298.qmd.multiblock.IQMDPacketMultiblock;
-import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
-import lach_01298.qmd.network.QMDPackets;
+import lach_01298.qmd.multiblock.*;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStorageAccelerator;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.recipes.QMDRecipes;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberController;
-import lach_01298.qmd.vacuumChamber.tile.IVacuumChamberPart;
+import lach_01298.qmd.vacuumChamber.tile.*;
 import nc.Global;
-import nc.multiblock.ILogicMultiblock;
-import nc.multiblock.Multiblock;
+import nc.multiblock.*;
 import nc.multiblock.cuboidal.CuboidalMultiblock;
 import nc.tile.internal.energy.EnergyStorage;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
 import nc.tile.multiblock.TilePartAbstract.SyncReason;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.UnaryOperator;
 
 public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumChamberPart>
@@ -178,12 +167,12 @@ public class VacuumChamber extends CuboidalMultiblock<VacuumChamber, IVacuumCham
 	{
 		if (getPartMap(IVacuumChamberController.class).isEmpty())
 		{
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
 		if (getPartMap(IVacuumChamberController.class).size() > 1)
 		{
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", Collections.emptyList());
 			return false;
 		}
 

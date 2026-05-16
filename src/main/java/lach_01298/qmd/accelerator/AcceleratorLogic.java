@@ -29,10 +29,7 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static lach_01298.qmd.recipes.QMDRecipes.accelerator_cooling;
 import static nc.block.property.BlockProperties.ACTIVE;
@@ -161,20 +158,20 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 
 		if (!inlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_inlet", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_inlet", Collections.emptyList());
 			return false;
 		}
 
 		if (!outlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_outlet", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.no_outlet", Collections.emptyList());
 			return false;
 		}
 
 		// Energy Ports
 		if (getPartMap(TileAcceleratorEnergyPort.class).size() < 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", Collections.emptyList());
 			return false;
 		}
 
@@ -310,7 +307,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 		for (TileAcceleratorBeam beam : acc.getPartMap(TileAcceleratorBeam.class).values())
 		{
 			if (beam.isFunctional())
-			{	
+			{
 				if (acc.isValidRFCavity(beam.getPos(), Axis.X))
 				{
 					acc.getRFCavityMap().put(beam.getPos().toLong(), new RFCavity(acc, beam.getPos(), Axis.X));
@@ -330,11 +327,11 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 							new QuadrupoleMagnet(acc, beam.getPos(), Axis.Z));
 				}
 				else if (acc.isValidDipole(beam.getPos(), false))
-				{	
+				{
 					acc.getDipoleMap().put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
 				}
 				else if (acc.isValidDipole(beam.getPos(), true))
-				{	
+				{
 					acc.getDipoleMap().put(beam.getPos().toLong(), new DipoleMagnet(acc, beam.getPos()));
 				}
 				else if (acc.isValidDipole(beam.getPos(), true))

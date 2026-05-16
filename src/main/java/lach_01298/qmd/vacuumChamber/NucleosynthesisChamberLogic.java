@@ -11,7 +11,6 @@ import lach_01298.qmd.particle.ParticleStack;
 import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.vacuumChamber.tile.*;
-import nc.recipe.*;
 import nc.recipe.ingredient.*;
 import nc.tile.internal.fluid.Tank;
 import nc.tile.internal.heat.HeatBuffer;
@@ -362,12 +361,12 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			axis = Axis.X;
 			if (chamber.getExteriorLengthX() != chamberLength)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size",null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size", Collections.emptyList());
 				return false;
 			}
 			if (chamber.getExteriorLengthZ() != chamberWidth)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size",null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size", Collections.emptyList());
 				return false;
 			}
 		}
@@ -376,12 +375,12 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			axis = Axis.Z;
 			if (chamber.getExteriorLengthZ() != chamberLength)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size",null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size", Collections.emptyList());
 				return false;
 			}
 			if (chamber.getExteriorLengthX() != chamberWidth)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size",null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size", Collections.emptyList());
 				return false;
 			}
 
@@ -389,7 +388,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		
 		if (chamber.getExteriorLengthY() != chamberHeight)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size",null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.size", Collections.emptyList());
 			return false;
 		}
 		
@@ -537,7 +536,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 		
 			if(getPartMap(TileVacuumChamberBeamPort.class).size() != 1)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.wrong_amount_of_beam_ports",null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.wrong_amount_of_beam_ports", Collections.emptyList());
 				return false;
 			}
 			
@@ -646,7 +645,7 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 			}
 			if(fluidPorts != 4)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.must_have_4_fluid_ports",null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.must_have_4_fluid_ports", Collections.emptyList());
 				return false;
 			}
 			
@@ -669,13 +668,13 @@ public class NucleosynthesisChamberLogic extends VacuumChamberLogic
 
 			if (!inlet)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.no_heater_inlet", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.no_heater_inlet", Collections.emptyList());
 				return false;
 			}
 
 			if (!outlet)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.no_heater_outlet", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.nucleosynthesis_chamber.no_heater_outlet", Collections.emptyList());
 				return false;
 			}
 			

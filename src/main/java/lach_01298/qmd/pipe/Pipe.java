@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.Set;
+import java.util.*;
 import java.util.function.UnaryOperator;
 
 public class Pipe extends PipeMultiblock<Pipe, IPipePart>
@@ -190,7 +190,7 @@ public class Pipe extends PipeMultiblock<Pipe, IPipePart>
 	{
 		if (getPartMap(IPipeController.class).isEmpty())
 		{
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
 

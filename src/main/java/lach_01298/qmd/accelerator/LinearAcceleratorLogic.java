@@ -24,10 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static lach_01298.qmd.recipes.QMDRecipes.accelerator_source;
 import static nc.block.property.BlockProperties.FACING_ALL;
@@ -90,7 +87,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 
 		if (acc.getExteriorLengthY() != getThickness())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.wrong_height", Collections.emptyList());
 			return false;
 		}
 		
@@ -100,12 +97,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			axis = Axis.X;
 			if(acc.getExteriorLengthX() < QMDConfig.accelerator_linear_min_size)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short", Collections.emptyList());
 				return false;
 			}
 			if(acc.getExteriorLengthZ() != getThickness())
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_5_wide", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_5_wide", Collections.emptyList());
 				return false;
 			}
 			
@@ -115,12 +112,12 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			axis = Axis.Z;
 			if(acc.getExteriorLengthZ() < QMDConfig.accelerator_linear_min_size)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_short", Collections.emptyList());
 				return false;
 			}
 			if(acc.getExteriorLengthX() != getThickness())
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_5_wide", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_be_5_wide", Collections.emptyList());
 				return false;
 			}
 		}
@@ -163,7 +160,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				}
 				if(inputs != 1 || outputs != 1)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_have_io", null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_have_io", Collections.emptyList());
 					return false;
 				}
 			}
@@ -172,7 +169,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) &&
 						!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorIonSource))
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port", null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port", Collections.emptyList());
 					return false;
 				}
 				if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource)
@@ -221,7 +218,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				}
 				if(inputs != 1 || outputs != 1)
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_have_io", null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.must_have_io", Collections.emptyList());
 					return false;
 				}
 			}
@@ -230,7 +227,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 				if (!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorBeamPort) &&
 						!(acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorBeamPort && acc.WORLD.getTileEntity(end2) instanceof TileAcceleratorIonSource))
 				{
-					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port",  null);
+					multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.have_source_and_beam_port",  Collections.emptyList());
 					return false;
 				}
 				if (acc.WORLD.getTileEntity(end1) instanceof TileAcceleratorIonSource)
@@ -263,7 +260,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 		if (sources > 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.only_one_source", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.only_one_source", Collections.emptyList());
 			return false;
 		}
 		int ports = 0;
@@ -273,7 +270,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 		}
 		if (ports > 2 - sources)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_many_beam_ports", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.linear.to_many_beam_ports", Collections.emptyList());
 			return false;
 		}
 		
@@ -480,7 +477,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 	private void produceSourceBeam()
 	{
 		IParticleIngredient particleProduct = recipeInfo.recipe.getParticleProducts().get(0);
-			
+		
 		if (particleProduct.getStack() != null)
 		{
 			ParticleStack outputStack = particleProduct.getStack();
@@ -537,7 +534,7 @@ public class LinearAcceleratorLogic extends AcceleratorLogic
 			{
 				multiblock.errorCode = Accelerator.errorCode_NotEnoughQuadrupoles;
 			}
-				
+			
 			multiblock.beams.get(1).setParticleStack(outputStack);
 		}
 		

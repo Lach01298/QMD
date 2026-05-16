@@ -68,12 +68,12 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			axis = Axis.X;
 			if(multiblock.getExteriorLengthX() != chamberLength)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.wrong_length", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.wrong_length", Collections.emptyList());
 				return false;
 			}
 			if (multiblock.getExteriorLengthZ() % 2 != 1 || multiblock.getExteriorLengthZ() !=multiblock.getExteriorLengthY())
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.must_be_odd_square", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.must_be_odd_square", Collections.emptyList());
 				return false;
 			}
 
@@ -84,12 +84,12 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			axis = Axis.Z;
 			if(multiblock.getExteriorLengthZ() != chamberLength)
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.wrong_length", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.wrong_length", Collections.emptyList());
 				return false;
 			}
 			if (multiblock.getExteriorLengthX() % 2 != 1 || multiblock.getExteriorLengthX() !=multiblock.getExteriorLengthY())
 			{
-				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.must_be_odd_square", null);
+				multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.must_be_odd_square", Collections.emptyList());
 				return false;
 			}
 		}
@@ -317,14 +317,14 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		
 		if(getPartMap(TileParticleChamberBeamPort.class).size() != 6)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.beam_port_wrong_spot", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.collision_chamber.beam_port_wrong_spot", Collections.emptyList());
 			return false;
 		}
 		
 		// Energy Ports
 		if (getPartMap(TileParticleChamberEnergyPort.class).size() < 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", Collections.emptyList());
 			return false;
 		}
 		

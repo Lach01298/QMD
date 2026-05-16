@@ -25,9 +25,7 @@ import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static lach_01298.qmd.recipes.QMDRecipes.mass_spectrometer;
 import static nc.block.property.BlockProperties.FACING_ALL;
@@ -105,14 +103,14 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		// check size
 		if (acc.getExteriorLengthY() != diameter)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.wrong_height", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.wrong_height", Collections.emptyList());
 			return false;
 		}
 		
 		
 		if (acc.getExteriorLengthX() != diameter && acc.getExteriorLengthZ() != diameter)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.wrong_width", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.wrong_width", Collections.emptyList());
 			return false;
 		}
 		
@@ -135,7 +133,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		
 		if(length % 2 == 0)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_odd_length", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_odd_length", Collections.emptyList());
 			return false;
 		}
 		
@@ -146,7 +144,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		
 		if (getPartMap(TileAcceleratorIonSource.class).size() != sourceAmount)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.need_ion_source_amount",null ,sourceAmount);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.need_ion_source_amount", Collections.emptyList(), sourceAmount);
 			return false;
 		}
 		
@@ -241,7 +239,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 	
 		if (getPartMap(TileAcceleratorIonCollector.class).size() != sourceAmount*4)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.need_ion_collector_amount", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.need_ion_collector_amount", Collections.emptyList());
 			return false;
 		}
 		

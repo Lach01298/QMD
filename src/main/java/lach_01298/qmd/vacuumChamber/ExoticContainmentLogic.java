@@ -5,14 +5,9 @@ import lach_01298.qmd.QMD;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.enums.EnumTypes.IOType;
 import lach_01298.qmd.item.IItemParticleAmount;
-import lach_01298.qmd.multiblock.network.ContainmentRenderPacket;
-import lach_01298.qmd.multiblock.network.NeutralContainmentUpdatePacket;
-import lach_01298.qmd.multiblock.network.VacuumChamberUpdatePacket;
-import lach_01298.qmd.network.QMDPackets;
+import lach_01298.qmd.multiblock.network.*;
 import lach_01298.qmd.particle.ParticleStack;
-import lach_01298.qmd.recipe.QMDRecipe;
-import lach_01298.qmd.recipe.QMDRecipeInfo;
-import lach_01298.qmd.recipe.QMDRecipeMatchResult;
+import lach_01298.qmd.recipe.*;
 import lach_01298.qmd.recipe.ingredient.IParticleIngredient;
 import lach_01298.qmd.util.Util;
 import lach_01298.qmd.vacuumChamber.tile.*;
@@ -24,19 +19,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing.Axis;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import static lach_01298.qmd.recipes.QMDRecipes.cell_filling;
-import static lach_01298.qmd.recipes.QMDRecipes.neutral_containment;
+import static lach_01298.qmd.recipes.QMDRecipes.*;
 import static nc.block.property.BlockProperties.ACTIVE;
 
 public class ExoticContainmentLogic extends VacuumChamberLogic
@@ -185,13 +175,13 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 
 		if (con.getExteriorLengthX() != multiblock.getExteriorLengthZ())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_be_square", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_be_square", Collections.emptyList());
 			return false;
 		}
 
 		if (con.getExteriorLengthX() % 2 != 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_be_odd", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_be_odd", Collections.emptyList());
 			return false;
 		}
 
@@ -356,7 +346,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		}
 		if(lasers != 2)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_have_2_lasers",null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_have_2_lasers", Collections.emptyList());
 			return false;
 		}
 		
@@ -367,7 +357,7 @@ public class ExoticContainmentLogic extends VacuumChamberLogic
 		}
 		if(beamPorts != 2)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_have_2_beam_ports",null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.exotic_containment.must_have_2_beam_ports", Collections.emptyList());
 			return false;
 		}
 		

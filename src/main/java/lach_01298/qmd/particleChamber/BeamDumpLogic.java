@@ -65,12 +65,12 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		//sizing
 		if (multiblock.getExteriorLengthX() != multiblock.getExteriorLengthZ())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_square", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_square", Collections.emptyList());
 			return false;
 		}
 		if (multiblock.getExteriorLengthX() % 2 != 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_odd", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_odd", Collections.emptyList());
 			return false;
 		}
 		
@@ -107,7 +107,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		
 		if(ports != getPartMap(TileParticleChamberBeamPort.class).size())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_port_wrong_spot", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_port_wrong_spot", Collections.emptyList());
 			return false;
 		}
 		
@@ -122,13 +122,13 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		}
 		if(inputs != 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_have_input_beam",null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_have_input_beam", Collections.emptyList());
 			return false;
 		}
 	
 		if(inputs != ports)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_dump.only_input_beam",null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_dump.only_input_beam", Collections.emptyList());
 			return false;
 		}
 		
@@ -147,7 +147,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 
 		if (!outlet)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_dump.must_have_fluid_output", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_dump.must_have_fluid_output", Collections.emptyList());
 			return false;
 		}
 		
@@ -155,7 +155,7 @@ public class BeamDumpLogic extends ParticleChamberLogic
 		// Energy Ports
 		if (getPartMap(TileParticleChamberEnergyPort.class).size() < 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", Collections.emptyList());
 			return false;
 		}
 		

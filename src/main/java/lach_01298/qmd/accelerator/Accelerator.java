@@ -31,9 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.UnaryOperator;
 
 public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcceleratorPart>
@@ -462,11 +460,11 @@ public class Accelerator extends CuboidalOrToroidalMultiblock<Accelerator, IAcce
 	public boolean setLogic(Multiblock multiblock)
 	{
 		if (getPartMap(IAcceleratorController.class).isEmpty()) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.no_controller", Collections.emptyList());
 			return false;
 		}
 		if (getPartMap(IAcceleratorController.class).size() > 1) {
-			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", null);
+			multiblock.setLastError(Global.MOD_ID + ".multiblock_validation.too_many_controllers", Collections.emptyList());
 			return false;
 		}
 		

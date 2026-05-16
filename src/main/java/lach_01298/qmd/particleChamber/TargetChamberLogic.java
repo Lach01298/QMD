@@ -21,8 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static lach_01298.qmd.recipes.QMDRecipes.target_chamber;
 
@@ -68,12 +67,12 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		//sizing
 		if (multiblock.getExteriorLengthX() != multiblock.getExteriorLengthZ())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_square", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_square", Collections.emptyList());
 			return false;
 		}
 		if (multiblock.getExteriorLengthX() % 2 != 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_odd", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_be_odd", Collections.emptyList());
 			return false;
 		}
 		
@@ -110,7 +109,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		
 		if(ports != getPartMap(TileParticleChamberBeamPort.class).size())
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_port_wrong_spot", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.beam_port_wrong_spot", Collections.emptyList());
 			return false;
 		}
 		
@@ -125,7 +124,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		}
 		if(inputs != 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_have_input_beam",null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.chamber.must_have_input_beam", Collections.emptyList());
 			return false;
 		}
 	
@@ -133,7 +132,7 @@ public class TargetChamberLogic extends ParticleChamberLogic
 		// Energy Ports
 		if (getPartMap(TileParticleChamberEnergyPort.class).size() < 1)
 		{
-			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", null);
+			multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.need_energy_ports", Collections.emptyList());
 			return false;
 		}
 		
