@@ -353,7 +353,7 @@ tile.qmd.creative_particle_source.name=Creative Particle Source
 
 //guide book
 qmd.guide_book.name=QMD Guide
-qmd.guide_book.edition=Version 1.5
+qmd.guide_book.edition=Version 1.5.1
 qmd.guide_book.desc=This is a Guide to Quantum Minecraft Dynamics.
 
 
@@ -646,7 +646,7 @@ qmd.multiblock_validation.chamber.beam_dump.only_input_beam=There can only be 1 
 qmd.multiblock_validation.chamber.beam_dump.must_have_fluid_output=There must be an OUTPUT Fluid Port on a Beam Dump.
 qmd.multiblock_validation.chamber.invalid_detectors=There is %s invalid detectors.
 
-qmd.multiblock_validation.collision_chamber.wrong_length=Collision Chamber must be 17 Blocks. long
+qmd.multiblock_validation.collision_chamber.wrong_length=Collision Chamber must be 17 blocks long.
 qmd.multiblock_validation.collision_chamber.must_be_odd_square=The end faces must be squares of odd side length.
 qmd.multiblock_validation.collision_chamber.must_be_target=There must be a straight line of Particle Chamber blocks down the middle of the Collision chamber.
 qmd.multiblock_validation.collision_chamber.must_be_beam=This must be a Particle Chamber Beam Block.

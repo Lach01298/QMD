@@ -123,11 +123,11 @@
 			"anchor": "msr",
 			"title": "Molten Salt Reactors",
 			"type": "text",
-			"text": "Cycles with MSRs are a little bit different than SFRs or NSCs. MSRs heat various types of NaKs directly. These Naks then must be heat exchanged with another working fluid that can go into a turbine to make power. This heat exchanger replaces the SFR in the cycles shown. By default, Naks in a heat exchanger have a 200% efficiency so any cycle you choose gets an automatic 2x efficiency for its base. "
+			"text": "Cycles with MSRs are a little bit different than SFRs or NSCs. MSRs heat various types of NaKs directly. These Naks then must be heat exchanged with another working fluid that can go into a turbine to make power. This heat exchanger replaces the SFR in the cycles shown. By default, Naks in a heat exchanger have a 400% efficiency so any cycle you choose gets an automatic 4x efficiency for its base. "
 		},
 		{
 			"type": "text",
-			"text": "Hot Nak is too cold to heat Mercury so MSRs $(l)cannot$() use any of the mercury cycles. So, the most efficient cycle for a MSR is the $(l:multiblocks/other_multiblocks/turbine_cycles#preheat_reheat)preheat and reheat closed cycle$(/l) and with the Naks 200% efficiency boost gives a total base efficiency of$(br)5 RF/H."
+			"text": "Hot Nak is too cold to heat Mercury so MSRs $(l)cannot$() use any of the mercury cycles. So, the most efficient cycle for a MSR is the $(l:multiblocks/other_multiblocks/turbine_cycles#preheat_reheat)preheat and reheat closed cycle$(/l) and with the Naks 400% efficiency boost gives a total base efficiency of$(br)10 RF/H."
 		}
 	]
 }

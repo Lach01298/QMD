@@ -44,9 +44,15 @@ public class LiquefierLogic extends HeatExchangerLogic
 	private double heatEfficiency = 0;
 	private double pressure = 0;
 	private int powerUse = 0;
+	private double powerUseFP = 0;
 	private double liquidOut = 0;
+	private double liquidOutFP = 0;
 	private double coolantOut = 0;
+	private double coolantOutFP = 0;
 
+	public final ValueTracker powerUseRateTracker;
+	public final ValueTracker liquidOutRateTracker;
+	public final ValueTracker coolantOutRateTracker;
 
 	private double excessFluidRecipes =0;
 	private double excessShellRecipes =0;
@@ -57,11 +63,17 @@ public class LiquefierLogic extends HeatExchangerLogic
 	public LiquefierLogic(HeatExchanger exchanger)
 	{
 		super(exchanger);
+		this.powerUseRateTracker = new ValueTracker();
+		this.liquidOutRateTracker = new ValueTracker();
+		this.coolantOutRateTracker = new ValueTracker();
 	}
 
 	public LiquefierLogic(HeatExchangerLogic oldLogic)
 	{
 		super(oldLogic);
+		this.powerUseRateTracker = new ValueTracker();
+		this.liquidOutRateTracker = new ValueTracker();
+		this.coolantOutRateTracker = new ValueTracker();
 	}
 
 	@Override
@@ -558,7 +570,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 	public double getPowerUsage()
 	{
-		return powerUse;
+		return powerUseFP;
 	}
 
 	public double getGasInputRate()
@@ -568,7 +580,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 	public double getLiquidOutputRate()
 	{
-		return liquidOut;
+		return liquidOutFP;
 	}
 
 	public double getCoolantInputRate()
@@ -578,7 +590,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 	public double getCoolantOutputRate()
 	{
-		return coolantOut;
+		return coolantOutFP;
 	}
 
 	public double getHeatTransferRate()
@@ -630,6 +642,12 @@ public class LiquefierLogic extends HeatExchangerLogic
 			{
 				process();
 			}
+			this.multiblock.tubeInputRateFP = this.multiblock.tubeInputRateTracker.update(this.multiblock.tubeInputRate);
+			this.multiblock.shellInputRateFP = this.multiblock.shellInputRateTracker.update(this.multiblock.shellInputRate);
+			this.multiblock.heatTransferRateFP = this.multiblock.heatTransferRateTracker.update(this.multiblock.heatTransferRate);
+			powerUseFP = powerUseRateTracker.update(powerUse);
+			liquidOutFP = liquidOutRateTracker.update(liquidOut);
+			coolantOutFP = coolantOutRateTracker.update(coolantOut);
 			multiblock.sendMultiblockUpdatePacketToListeners();
 
 		}
@@ -645,7 +663,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 	{
 		multiblock.tubeInputRate = 0D; // gas input
 		multiblock.shellInputRate = 0D; // coolant input
-		multiblock.heatTransferRateFP = 0D;
+		multiblock.heatTransferRate = 0D;
 		multiblock.totalTempDiff = 0D;
 		powerUse = 0;
 		liquidOut = 0D;
@@ -728,11 +746,11 @@ public class LiquefierLogic extends HeatExchangerLogic
 		{
 			if(nozzle.network != null)
 			{
-				multiblock.heatTransferRateFP += Math.min(heatPerFluidRecipe*maxRecipesPerNozzle,multiblock.totalTempDiff*nozzle.network.baseCoolingMultiplier);
+				multiblock.heatTransferRate += Math.min(heatPerFluidRecipe*maxRecipesPerNozzle,multiblock.totalTempDiff*nozzle.network.baseCoolingMultiplier);
 			}
 		}
 
-		if(multiblock.heatTransferRateFP == 0)
+		if(multiblock.heatTransferRate == 0)
 		{
 			return;
 		}
@@ -757,12 +775,12 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 		maxFluidHeat = Math.min(maxFluidHeat,heatPerFluidRecipe*energyStorage.getEnergyStored()/energyPerFluidRecipe);
 
-		multiblock.heatTransferRateFP = Math.min(multiblock.heatTransferRateFP,maxCoolantHeat);
-		multiblock.heatTransferRateFP = Math.min(multiblock.heatTransferRateFP,maxFluidHeat);
+		multiblock.heatTransferRate = Math.min(multiblock.heatTransferRate,maxCoolantHeat);
+		multiblock.heatTransferRate = Math.min(multiblock.heatTransferRate,maxFluidHeat);
 
 		// fluid recipe
-		double fluidRecipesPerTick = multiblock.heatTransferRateFP/heatPerFluidRecipe;
-		multiblock.tubeInputRateFP = fluidRecipesPerTick*fluidInput.getStack().amount;
+		double fluidRecipesPerTick = multiblock.heatTransferRate/heatPerFluidRecipe;
+		multiblock.tubeInputRate = fluidRecipesPerTick*fluidInput.getStack().amount;
 		liquidOut = fluidRecipesPerTick*fluidOutput.getStack().amount;
 		powerUse = (int) Math.floor(Math.max(fluidRecipesPerTick*energyPerFluidRecipe,1));
 
@@ -789,8 +807,8 @@ public class LiquefierLogic extends HeatExchangerLogic
 		energyStorage.changeEnergyStored(-powerUse);
 
 		// coolant recipe
-		double coolantRecipesPerTick = multiblock.heatTransferRateFP/heatPerShellRecipe;
-		multiblock.shellInputRateFP = coolantRecipesPerTick*coolantInput.getStack().amount;
+		double coolantRecipesPerTick = multiblock.heatTransferRate/heatPerShellRecipe;
+		multiblock.shellInputRate = coolantRecipesPerTick*coolantInput.getStack().amount;
 		coolantOut = coolantRecipesPerTick*coolantOutput.getStack().amount;
 
 		int coolantRecipesThisTick = (int) Math.floor(coolantRecipesPerTick);
@@ -896,7 +914,7 @@ public class LiquefierLogic extends HeatExchangerLogic
 			return new LiquefierUpdatePacket(controller.getTilePos(), multiblock.isExchangerOn, multiblock.totalNetworkCount,
 					multiblock.activeNetworkCount, multiblock.activeTubeCount, multiblock.activeContactCount, multiblock.tubeInputRateFP,
 					multiblock.shellInputRateFP, multiblock.heatTransferRateFP, multiblock.totalTempDiff, energyStorage, tanks,
-					pressureEfficiency, energyEfficiency, heatEfficiency, pressure, powerUse, liquidOut, coolantOut);
+					pressureEfficiency, energyEfficiency, heatEfficiency, pressure, powerUseFP, liquidOutFP, coolantOutFP);
 		}
 		return null;
 	}
@@ -916,9 +934,9 @@ public class LiquefierLogic extends HeatExchangerLogic
 			this.energyEfficiency = packet.energyEfficiency;
 			this.heatEfficiency = packet.heatEfficiency;
 			this.pressure = packet.pressure;
-			this.powerUse = packet.powerUse;
-			this.liquidOut = packet.liquidOut;
-			this.coolantOut = packet.coolantOut;
+			this.powerUseFP = packet.powerUseFP;
+			this.liquidOutFP = packet.liquidOutFP;
+			this.coolantOutFP = packet.coolantOutFP;
 		}
 	}
 

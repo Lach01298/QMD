@@ -21,15 +21,14 @@ public class LiquefierUpdatePacket extends HeatExchangerUpdatePacket
 {
 	public EnergyStorage energyStorage;
 	public List<TankInfo> tanksInfo;
-	public double pressureEfficiency,energyEfficiency, heatEfficiency, pressure, liquidOut, coolantOut;
-	public int powerUse;
+	public double pressureEfficiency,energyEfficiency, heatEfficiency, pressure, liquidOutFP, coolantOutFP, powerUseFP;
 
 	public LiquefierUpdatePacket()
 	{
 		super();
 	}
 
-	public LiquefierUpdatePacket(BlockPos pos, boolean isExchangerOn, int totalNetworkCount, int activeNetworkCount, int activeTubeCount, int activeContactCount, double tubeInputRateFP, double shellInputRateFP, double heatTransferRateFP, double totalTempDiff, EnergyStorage energyStorage, List<Tank> tanks, double pressureEfficiency,double energyEfficiency, double heatEfficiency, double pressure, int powerUse, double liquidOut, double coolantOut)
+	public LiquefierUpdatePacket(BlockPos pos, boolean isExchangerOn, int totalNetworkCount, int activeNetworkCount, int activeTubeCount, int activeContactCount, double tubeInputRateFP, double shellInputRateFP, double heatTransferRateFP, double totalTempDiff, EnergyStorage energyStorage, List<Tank> tanks, double pressureEfficiency,double energyEfficiency, double heatEfficiency, double pressure, double powerUseFP, double liquidOutFP, double coolantOutFP)
 	{
 		super(pos, isExchangerOn, totalNetworkCount, activeNetworkCount, activeTubeCount, activeContactCount, tubeInputRateFP, shellInputRateFP, heatTransferRateFP, totalTempDiff);
 		this.energyStorage = energyStorage;
@@ -38,9 +37,9 @@ public class LiquefierUpdatePacket extends HeatExchangerUpdatePacket
 		this.energyEfficiency = energyEfficiency;
 		this.heatEfficiency = heatEfficiency;
 		this.pressure = pressure;
-		this.powerUse = powerUse;
-		this.liquidOut = liquidOut;
-		this.coolantOut = coolantOut;
+		this.powerUseFP = powerUseFP;
+		this.liquidOutFP = liquidOutFP;
+		this.coolantOutFP = coolantOutFP;
 	}
 
 	@Override
@@ -53,9 +52,9 @@ public class LiquefierUpdatePacket extends HeatExchangerUpdatePacket
 		energyEfficiency = buf.readDouble();
 		heatEfficiency = buf.readDouble();
 		pressure = buf.readDouble();
-		powerUse = buf.readInt();
-		liquidOut = buf.readDouble();
-		coolantOut = buf.readDouble();
+		powerUseFP = buf.readDouble();
+		liquidOutFP = buf.readDouble();
+		coolantOutFP = buf.readDouble();
 	}
 
 	@Override
@@ -68,9 +67,9 @@ public class LiquefierUpdatePacket extends HeatExchangerUpdatePacket
 		buf.writeDouble(energyEfficiency);
 		buf.writeDouble(heatEfficiency);
 		buf.writeDouble(pressure);
-		buf.writeInt(powerUse);
-		buf.writeDouble(liquidOut);
-		buf.writeDouble(coolantOut);
+		buf.writeDouble(powerUseFP);
+		buf.writeDouble(liquidOutFP);
+		buf.writeDouble(coolantOutFP);
 	}
 
 	public static class Handler extends MultiblockUpdatePacket.Handler<HeatExchanger, IHeatExchangerPart, HeatExchangerUpdatePacket, TileLiquefierController, TileContainerInfo<TileLiquefierController>, LiquefierUpdatePacket>
