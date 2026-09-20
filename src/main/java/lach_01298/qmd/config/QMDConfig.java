@@ -70,6 +70,9 @@ public class QMDConfig {
 
 	public static String[] mass_spectrometer_valid_magnets;
 	public static String[] mass_spectrometer_valid_sources;
+	public static int mass_spectrometer_process_time;
+	public static int mass_spectrometer_power_usage;
+	public static int mass_spectrometer_heat;
 
 	public static boolean accelerator_explosion;
 	
@@ -217,10 +220,10 @@ public class QMDConfig {
 	{
 		if (loadFromFile) config.load();
 
-		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {50,100,50}, Lang.localize("gui.qmd.config.processors.power.comment"), 0, 32767);
+		Property propertyProcessorPower = config.get(CATEGORY_PROCESSORS, "power", new int[] {50,100,50}, Lang.localize("gui.qmd.config.processors.power.comment"), 0, Integer.MAX_VALUE);
 		propertyProcessorPower.setLanguageKey("gui.qmd.config.processors.power");
 		
-		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200,1000}, Lang.localize("gui.qmd.config.processors.time.comment"), 0, 32767);
+		Property propertyProcessorTime = config.get(CATEGORY_PROCESSORS, "time", new int[] {400,200}, Lang.localize("gui.qmd.config.processors.time.comment"), 0, Integer.MAX_VALUE);
 		propertyProcessorTime.setLanguageKey("gui.qmd.config.processors.time");
 		
 		Property propertyIrradiatorRadRes = config.get(CATEGORY_PROCESSORS, "irradiator_rad_res", 10000.0D, Lang.localize("gui.qmd.config.processors.irradiator_rad_res.comment"), 0.0D, Double.MAX_VALUE);
@@ -228,6 +231,7 @@ public class QMDConfig {
 		Property propertyIrradiatorFuelUsage = config.get(CATEGORY_PROCESSORS, "irradiator_fuel_usage", 10, Lang.localize("gui.qmd.config.processors.irradiator_fuel_usage.comment"), 0, Integer.MAX_VALUE);
 		propertyIrradiatorFuelUsage.setLanguageKey("gui.qmd.config.processors.irradiator_fuel_usage");
 		
+
 		Property propertyAcceleratorLinearMinSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_min_size", 6, Lang.localize("gui.qmd.config.accelerator.accelerator_linear_min_size.comment"), 6, 255);
 		propertyAcceleratorLinearMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_linear_min_size");
 		Property propertyAcceleratorLinearMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_linear_max_size", 100, Lang.localize("gui.qmd.config.accelerator.accelerator_linear_max_size.comment"), 6, 255);
@@ -237,9 +241,7 @@ public class QMDConfig {
 		propertyAcceleratorRingMinSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_min_size");
 		Property propertyAcceleratorRingMaxSize = config.get(CATEGORY_ACCELERATOR, "accelerator_ring_max_size", 100, Lang.localize("gui.qmd.config.accelerator.accelerator_ring_max_size.comment"), 11, 255);
 		propertyAcceleratorRingMaxSize.setLanguageKey("gui.qmd.config.accelerator.accelerator_ring_max_size");
-		
-		
-		
+
 		Property propertyAcceleratorBaseHeatCapacity = config.get(CATEGORY_ACCELERATOR, "accelerator_base_heat_capacity", 25000, Lang.localize("gui.qmd.config.accelerator.accelerator_base_heat_capacity.comment"), 1, Integer.MAX_VALUE);
 		propertyAcceleratorBaseHeatCapacity.setLanguageKey("gui.qmd.config.accelerator.accelerator_base_heat_capacity");
 		Property propertyAcceleratorBaseEnergyCapacity = config.get(CATEGORY_ACCELERATOR, "accelerator_base_energy_capacity", 40000, Lang.localize("gui.qmd.config.accelerator.accelerator_base_energy_capacity.comment"), 1, Integer.MAX_VALUE);
@@ -260,40 +262,45 @@ public class QMDConfig {
 		propertyIonSourceOutputMultiplier.setLanguageKey("gui.qmd.config.accelerator.ion_source_output_multiplier");
 		Property propertyIonSourceFocus = config.get(CATEGORY_ACCELERATOR, "ion_source_focus", new double[] {0.4, 0.2d}, Lang.localize("gui.qmd.config.accelerator.ion_source_focus.comment"), 0d, Double.MAX_VALUE);
 		propertyIonSourceFocus.setLanguageKey("gui.qmd.config.accelerator.ion_source_focus");
-		
-		
-		
+
 		Property propertyBeamAttenuationRate = config.get(CATEGORY_ACCELERATOR, "beam_attenuation_rate", 0.02D, Lang.localize("gui.qmd.config.accelerator.beam_attenuation_rate.comment"), 0.0D, 1000D);
 		propertyBeamAttenuationRate.setLanguageKey("gui.qmd.config.accelerator.beam_attenuation_rate");
 		Property propertyBeamDiverterRadius = config.get(CATEGORY_ACCELERATOR, "beam_diverter_radius", 160, Lang.localize("gui.qmd.config.accelerator.beam_diverter_radius.comment"), 0, 1000);
 		propertyBeamDiverterRadius.setLanguageKey("gui.qmd.config.accelerator.beam_diverter_radius");
 		
-		Property propertyMassSpectrometerValidMagnets = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_magnets", new String[] {"bscco","ybco"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets.comment"));
+		Property propertyMassSpectrometerValidMagnets = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_magnets", new String[] {"bscco","ybco","hbcco"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets.comment"));
 		propertyMassSpectrometerValidMagnets.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_valid_magnets");
-		
 		Property propertyMassSpectrometerValidSources = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_valid_sources", new String[] {"basic","laser"}, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_valid_sources.comment"));
 		propertyMassSpectrometerValidSources.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_valid_sources");
-		
-		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000,100,1500,3000}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
+		Property propertyMassSpectrometerProcessTime = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_process_time", 1000, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_process_time.comment"),0,Integer.MAX_VALUE);
+		propertyMassSpectrometerProcessTime.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_process_time");
+		Property propertyMassSpectrometerPowerUsage = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_power_usage", 12000, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_power_usage.comment"),0,Integer.MAX_VALUE);
+		propertyMassSpectrometerPowerUsage.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_power_usage");
+		Property propertyMassSpectrometerHeat = config.get(CATEGORY_ACCELERATOR, "mass_spectrometer_heat", 3000, Lang.localize("gui.qmd.config.accelerator.mass_spectrometer_heat.comment"),0,Integer.MAX_VALUE);
+		propertyMassSpectrometerHeat.setLanguageKey("gui.qmd.config.accelerator.mass_spectrometer_heat");
+
+
+
+		Property propertyRFCavityVoltage = config.get(CATEGORY_ACCELERATOR, "RF_cavity_voltage", new int[] {200, 500, 1000, 2000, 4000,100,1500,3000,750}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_voltage.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityVoltage.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_voltage");
-		Property propertyRFCavityEfficiency = config.get(CATEGORY_ACCELERATOR, "RF_cavity_efficiency", new double[] {0.75D, 0.8D, 0.90D, 0.95D, 0.99D,0.5D,0.95D,0.99D}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_efficiency.comment"), 0D, 1D);
+		Property propertyRFCavityEfficiency = config.get(CATEGORY_ACCELERATOR, "RF_cavity_efficiency", new double[] {0.7D, 0.9D, 1.1D, 1.3D, 1.5D,0.5D,1.2D,1.4D,1.0D}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_efficiency.comment"), 0.01D, 100D);
 		propertyRFCavityEfficiency.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_efficiency");
-		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {300, 540, 1020, 1980, 3900,180,1500,2940}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityHeatGenerated = config.get(CATEGORY_ACCELERATOR, "RF_cavity_heat_generated", new int[] {300, 540, 1020, 1980, 3900,180,1500,2940,780}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_heat_generated.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_heat_generated");
-		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {500, 1000, 2000, 4000, 8000,250,3000,6000}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyRFCavityBasePower = config.get(CATEGORY_ACCELERATOR, "RF_cavity_base_power", new int[] {500, 1000, 2000, 4000, 8000,250,3000,6000,1500}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyRFCavityBasePower.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_base_power");
-		Property propertyRFCavityMaxTemp = config.get(CATEGORY_ACCELERATOR, "RF_cavity_max_temp", new int[] {350, 39, 18, 10, 110,350,56,95}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_max_temp.comment"), 0, 400);
+		Property propertyRFCavityMaxTemp = config.get(CATEGORY_ACCELERATOR, "RF_cavity_max_temp", new int[] {350, 39, 18, 10, 110,350,56,95,133}, Lang.localize("gui.qmd.config.accelerator.RF_cavity_max_temp.comment"), 0, 400);
 		propertyRFCavityMaxTemp.setLanguageKey("gui.qmd.config.accelerator.RF_cavity_max_temp");
 		
-		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 2D, 4D, 0.1D, 1.5D,3D}, Lang.localize("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
+		Property propertyMagnetStrength = config.get(CATEGORY_ACCELERATOR, "magnet_strength", new double[] {0.2D, 0.5D, 1D, 2D, 4D, 0.1D, 1.5D,3D,0.75D}, Lang.localize("gui.qmd.config.accelerator.magnet_strength.comment"), 0D, 100D);
 		propertyMagnetStrength.setLanguageKey("gui.qmd.config.accelerator.magnet_strength");
-		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.75D, 0.8D, 0.90D, 0.95D, 0.99D,0.5D,0.95D,0.99D}, Lang.localize("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0D, 1D);
+		Property propertyMagnetEfficiency = config.get(CATEGORY_ACCELERATOR, "magnet_efficiency", new double[] {0.7D, 0.9D, 1.1D, 1.3D, 1.5D,0.5D,1.2D,1.4D,1.0D}, Lang.localize("gui.qmd.config.accelerator.magnet_efficiency.comment"), 0.01D, 100D);
 		propertyMagnetEfficiency.setLanguageKey("gui.qmd.config.accelerator.magnet_efficiency");
-		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {300, 540, 1020, 1980, 3900,180,1500,2940}, Lang.localize("gui.qmd.config.accelerator.magnet_heat_generated.comment"),0, Integer.MAX_VALUE);
+		Property propertyMagnetHeatGenerated = config.get(CATEGORY_ACCELERATOR, "magnet_heat_generated", new int[] {300, 540, 1020, 1980, 3900,180,1500,2940,780}, Lang.localize("gui.qmd.config.accelerator.magnet_heat_generated.comment"),0, Integer.MAX_VALUE);
 		propertyMagnetHeatGenerated.setLanguageKey("gui.qmd.config.accelerator.magnet_heat_generated");
-		Property propertyMagnetBasePower = config.get(CATEGORY_ACCELERATOR, "magnet_base_power", new int[] {1000, 2000, 4000, 8000, 16000,500,6000,12000}, Lang.localize("gui.qmd.config.accelerator.magnet_base_power.comment"), 0, Integer.MAX_VALUE);
+		Property propertyMagnetBasePower = config.get(CATEGORY_ACCELERATOR, "magnet_base_power", new int[] {1000, 2000, 4000, 8000, 16000,500,6000,12000,3000}, Lang.localize("gui.qmd.config.accelerator.magnet_base_power.comment"), 0, Integer.MAX_VALUE);
 		propertyMagnetBasePower.setLanguageKey("gui.qmd.config.accelerator.magnet_base_power");
-		Property propertyMagnetMaxTemp = config.get(CATEGORY_ACCELERATOR, "magnet_max_temp", new int[] {350, 39, 18, 10, 110,350,56,95}, Lang.localize("gui.qmd.config.accelerator.magnet_max_temp.comment"), 0, Integer.MAX_VALUE);
+		Property propertyMagnetMaxTemp = config.get(CATEGORY_ACCELERATOR, "magnet_max_temp", new int[] {350, 39, 18, 10, 110,350,56,95,133}, Lang.localize("gui.qmd.config.accelerator.magnet_max_temp.comment"), 0, Integer.MAX_VALUE);
 		propertyMagnetMaxTemp.setLanguageKey("gui.qmd.config.accelerator.magnet_max_temp");
 		
 		Property propertyCoolerHeatRemoved = config.get(CATEGORY_ACCELERATOR, "cooler_heat_removed", new int[] {60, 55, 115, 75, 70, 90, 110, 130, 95, 85, 165, 50, 100, 185, 135, 80, 120, 65, 105, 125, 150, 180, 175, 160, 155, 170, 140, 145, 195, 200, 190, 205}, Lang.localize("gui.qmd.config.accelerator.cooler_heat_removed.comment"), 0, Integer.MAX_VALUE);
@@ -545,6 +552,9 @@ public class QMDConfig {
 		
 		propertyOrderAccelerator.add(propertyMassSpectrometerValidMagnets.getName());
 		propertyOrderAccelerator.add(propertyMassSpectrometerValidSources.getName());
+		propertyOrderAccelerator.add(propertyMassSpectrometerProcessTime.getName());
+		propertyOrderAccelerator.add(propertyMassSpectrometerPowerUsage.getName());
+		propertyOrderAccelerator.add(propertyMassSpectrometerHeat.getName());
 		
 		propertyOrderAccelerator.add(propertyRFCavityVoltage.getName());
 		propertyOrderAccelerator.add(propertyRFCavityEfficiency.getName());
@@ -726,6 +736,9 @@ public class QMDConfig {
 			
 			mass_spectrometer_valid_magnets = propertyMassSpectrometerValidMagnets.getStringList();
 			mass_spectrometer_valid_sources = propertyMassSpectrometerValidSources.getStringList();
+			mass_spectrometer_process_time = propertyMassSpectrometerProcessTime.getInt();
+			mass_spectrometer_power_usage = propertyMassSpectrometerPowerUsage.getInt();
+			mass_spectrometer_heat = propertyMassSpectrometerHeat.getInt();
 			
 			RF_cavity_voltage = readIntegerArrayFromConfig(propertyRFCavityVoltage);
 			RF_cavity_efficiency = readDoubleArrayFromConfig(propertyRFCavityEfficiency);

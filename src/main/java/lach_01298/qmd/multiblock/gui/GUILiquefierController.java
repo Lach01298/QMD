@@ -14,7 +14,6 @@ import nc.tile.hx.IHeatExchangerPart;
 import nc.util.Lang;
 import nc.util.NCUtil;
 import nc.util.StringHelper;
-import nc.util.UnitHelper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -65,18 +64,16 @@ public class GUILiquefierController extends GuiMultiblockController<HeatExchange
 
 			if (NCUtil.isModifierKeyDown())
 			{
-
-
-				String gasIn = Lang.localize("gui.qmd.container.liquefier.gas_in", UnitHelper.prefix(logic.getGasInputRate(),5,"B/t",-1));
+				String gasIn = Lang.localize("gui.qmd.container.liquefier.gas_in", Units.getSIFormat(logic.getGasInputRate(),"B/t", -3,4,true));
 				fontRenderer.drawString(gasIn, xSize / 2 - fontRenderer.getStringWidth(gasIn) / 2, yOffset, fontColor);
 
-				String coolantOut = Lang.localize("gui.qmd.container.liquefier.coolant_out",UnitHelper.prefix(logic.getCoolantOutputRate(),5,"B/t",-1));
+				String coolantOut = Lang.localize("gui.qmd.container.liquefier.coolant_out", Units.getSIFormat(logic.getCoolantOutputRate(),"B/t",-3, 4,true));
 				fontRenderer.drawString(coolantOut, xSize / 2 - fontRenderer.getStringWidth(coolantOut) / 2, yOffset+lineSpacing*1, fontColor);
 
 				String compressorEnergyEfficiency = Lang.localize("gui.qmd.container.liquefier.compressor_energy_efficiency", String.format("%.2f", logic.getEnergyEfficiency()*100));
 				fontRenderer.drawString(compressorEnergyEfficiency, xSize / 2 - fontRenderer.getStringWidth(compressorEnergyEfficiency) / 2, yOffset+lineSpacing*2, fontColor);
 
-				String tempDiff = Lang.localize("gui.qmd.container.liquefier.temperature_difference", UnitHelper.prefix(multiblock.totalTempDiff,5,"K"));
+				String tempDiff = Lang.localize("gui.qmd.container.liquefier.temperature_difference", Units.getSIFormat(multiblock.totalTempDiff,"K"));
 				fontRenderer.drawString(tempDiff, xSize / 2 - fontRenderer.getStringWidth(tempDiff) / 2, yOffset+lineSpacing*3, fontColor);
 
 				String compressorHeatEfficiency = Lang.localize("gui.qmd.container.liquefier.compressor_heat_efficiency", String.format("%.2f", logic.getHeatEfficiency()*100));
@@ -87,22 +84,22 @@ public class GUILiquefierController extends GuiMultiblockController<HeatExchange
 			}
 			else
 			{
-				String liquidOut = Lang.localize("gui.qmd.container.liquefier.liquid_out", UnitHelper.prefix(logic.getLiquidOutputRate(),5,"B/t",-1));
+				String liquidOut = Lang.localize("gui.qmd.container.liquefier.liquid_out", Units.getSIFormat(logic.getLiquidOutputRate(),"B/t",-3, 4,true));
 				fontRenderer.drawString(liquidOut, xSize / 2 - fontRenderer.getStringWidth(liquidOut) / 2, yOffset, fontColor);
 
-				String coolantIn = Lang.localize("gui.qmd.container.liquefier.coolant_in", UnitHelper.prefix(logic.getCoolantInputRate(),5,"B/t",-1)) + Lang.localize("gui.qmd.container.liquefier.efficiency", String.format("%.2f", 100*logic.getHeatInefficiency()));
+				String coolantIn = Lang.localize("gui.qmd.container.liquefier.coolant_in", Units.getSIFormat(logic.getCoolantInputRate(),"B/t",-3,4,true)) + Lang.localize("gui.qmd.container.liquefier.efficiency", String.format("%.2f", 100*logic.getHeatInefficiency()));
 				fontRenderer.drawString(coolantIn, xSize / 2 - fontRenderer.getStringWidth(coolantIn) / 2, yOffset+lineSpacing, fontColor);
 
-				String power = Lang.localize("gui.qmd.container.liquefier.power", UnitHelper.prefix(logic.getPowerUsage(),5,"RF/t")) + Lang.localize("gui.qmd.container.liquefier.efficiency", String.format("%.2f", 100*logic.getEnergyInefficiency()));
+				String power = Lang.localize("gui.qmd.container.liquefier.power", Units.getSIFormat(logic.getPowerUsage(), "RF/t",0,4,true)) + Lang.localize("gui.qmd.container.liquefier.efficiency", String.format("%.2f", 100*logic.getEnergyInefficiency()));
 				fontRenderer.drawString(power, xSize / 2 - fontRenderer.getStringWidth(power) / 2, yOffset+lineSpacing*2, fontColor);
 
-				String heatTransfer = Lang.localize("gui.qmd.container.liquefier.heat_transfer", UnitHelper.prefix(logic.getHeatTransferRate(),5,"H/t"));
+				String heatTransfer = Lang.localize("gui.qmd.container.liquefier.heat_transfer", Units.getSIFormat(logic.getHeatTransferRate(), "H/t",0,4,true));
 				fontRenderer.drawString(heatTransfer, xSize / 2 - fontRenderer.getStringWidth(heatTransfer) / 2, yOffset+lineSpacing*3, fontColor);
 
 				String compressorNozzleAmount = Lang.localize("gui.qmd.container.liquefier.compressor_nozzle_amount", logic.getCompressorAmount(), logic.getNozzlesAmount());
 				fontRenderer.drawString(compressorNozzleAmount, xSize / 2 - fontRenderer.getStringWidth(compressorNozzleAmount) / 2, yOffset+lineSpacing*4, fontColor);
 
-				String pressure = Lang.localize("gui.qmd.container.liquefier.pressure", UnitHelper.prefix(logic.getPressure(),5,"bar"));
+				String pressure = Lang.localize("gui.qmd.container.liquefier.pressure", Units.getSIFormat(logic.getPressure(),"bar"));
 				fontRenderer.drawString(pressure, xSize / 2 - fontRenderer.getStringWidth(pressure) / 2, yOffset+lineSpacing*5, fontColor);
 
 			}
@@ -127,7 +124,6 @@ public class GUILiquefierController extends GuiMultiblockController<HeatExchange
 			}
 		}
 	}
-
 
 }
 

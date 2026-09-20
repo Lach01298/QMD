@@ -45,7 +45,7 @@ public class ParticleInfoRecipe implements IRecipeWrapper
 		}
 		
 		
-		String massString = Lang.localize("gui.qmd.jei.particle.mass", Units.getSIFormat(particle.getParticle().getMass(),6,"eV/c^2"));
+		String massString = Lang.localize("gui.qmd.jei.particle.mass", Units.getSIFormat(particle.getParticle().getMass(),"eV/c^2", 6));
 		
 		DecimalFormat df = new DecimalFormat("#.##");
 		String chargeString = Lang.localize("gui.qmd.jei.particle.charge", df.format(particle.getParticle().getCharge()));

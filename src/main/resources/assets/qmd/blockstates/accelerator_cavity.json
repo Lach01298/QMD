@@ -44,6 +44,11 @@
 				"textures": {
 					"all": "qmd:blocks/accelerator/cavity/ybco"
 				}
+			},
+			"hbcco": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/cavity/hbcco"
+				}
 			}
 		}
 	}

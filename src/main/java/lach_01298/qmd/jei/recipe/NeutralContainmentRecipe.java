@@ -50,7 +50,7 @@ public class NeutralContainmentRecipe extends JEIRecipeWrapper
 		if(recipe.getMaxEnergy() != Long.MAX_VALUE)
 		{
 			
-			String rangeString = Lang.localize("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getSIFormat(recipe.getMaxEnergy(),3,"eV"));
+			String rangeString = Lang.localize("gui.qmd.jei.reaction.range",  Units.getParticleEnergy(inputParticles.get(0).get(0).getMeanEnergy()) + "-" + Units.getSIFormat(recipe.getMaxEnergy(),"eV",3));
 			fontRenderer.drawString(rangeString, 0, 1, Color.gray.getRGB());
 		}
 		

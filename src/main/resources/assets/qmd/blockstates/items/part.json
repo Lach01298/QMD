@@ -79,6 +79,12 @@
                 "textures": {
                     "layer0": "qmd:items/part/magnet_smc"
                 }
+            },
+            "wire_hbcco": {
+                "transform": "forge:default-item",
+                "textures": {
+                    "layer0": "qmd:items/part/wire_hbcco"
+                }
             }
         }
     }

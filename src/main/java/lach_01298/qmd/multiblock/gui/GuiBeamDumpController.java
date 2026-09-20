@@ -60,12 +60,6 @@ public class GuiBeamDumpController
 		String title = Lang.localize("gui.qmd.container.beam_dump_controller.name");
 		fontRenderer.drawString(title, offset, 5, fontColor);
 
-		// String efficiency =
-		// Lang.localize("gui.qmd.container.target_chamber.efficiency",String.format("%.2f",
-		// multiblock.efficiency*100));
-		// fontRenderer.drawString(efficiency,offset, 60, fontColor);
-
-	
 	}
 
 	@Override
@@ -113,7 +107,7 @@ public class GuiBeamDumpController
 	{
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.energy_stored",
-				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
+				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF", 0, 4, true),
 				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.required_energy",
 				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));

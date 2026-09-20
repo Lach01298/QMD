@@ -268,7 +268,7 @@ public class QMDRecipes
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Uranium238", 9, "Uranium235", 1, "Uranium", 10, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Boron11", 9, "Boron10", 3, "Boron", 12, 1D, 1D);
 		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Lithium7", 9, "Lithium6", 1, "Lithium", 10, 1D, 1D);
-		NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Magnesium24", 8, "Magnesium26", 1, "Magnesium", 9, 1D, 1D);
+		//NCRecipes.alloy_furnace.addAlloyIngotIngotRecipes("Magnesium24", 8, "Magnesium26", 1, "Magnesium", 9, 1D, 1D);
 
 		// Fluid Infuser
 		NCRecipes.infuser.addRecipe(new ItemStack(QMDItems.part, 1, PartType.DETECTOR_CASING.getID()), fluidStack("liquid_hydrogen", BUCKET_VOLUME), new ItemStack(QMDBlocks.particleChamberDetector, 1, DetectorType.BUBBLE_CHAMBER.getID()), 1D, 1D);
@@ -319,7 +319,7 @@ public class QMDRecipes
 		NCRecipes.chemical_reactor.addRecipe(fluidStack("sodium_hydroxide_solution", GEM_VOLUME), fluidStack("nitric_acid", BUCKET_VOLUME), fluidStack("sodium_nitrate_solution", GEM_VOLUME), new EmptyFluidIngredient(), 1D, 1D);
 
 		// Separator
-		NCRecipes.separator.addRecipe(oreStackList(Lists.newArrayList("ingotMagnesium", "dustMagnesium"), 9), oreStack("ingotMagnesium24", 8), oreStack("ingotMagnesium26", 1), 6D, 1D);
+		//NCRecipes.separator.addRecipe(oreStackList(Lists.newArrayList("ingotMagnesium", "dustMagnesium"), 9), oreStack("ingotMagnesium24", 8), oreStack("ingotMagnesium26", 1), 6D, 1D);
 		NCRecipes.separator.addRecipe(oreStackList(Lists.newArrayList("ingotCalcium", "dustCalcium"), 8), oreStack("ingotCalcium48", 1), new EmptyItemIngredient(), 6D, 1D);
 
 		// Centrifuge
@@ -411,7 +411,7 @@ public class QMDRecipes
 
 		// Crystallizer
 		NCRecipes.crystallizer.addRecipe(fluidStack("silicon", INGOT_BLOCK_VOLUME), "bouleSilicon", 2D, 2D);
-		NCRecipes.crystallizer.addRecipe(fluidStack("lead_tungstate_solution", GEM_VOLUME), new ItemStack(QMDItems.part, 1, PartType.SCINTILLATOR_PWO.getID()), 1D, 1D);
+		NCRecipes.crystallizer.addRecipe(fluidStack("lead_tungstate_solution", GEM_VOLUME), new ItemStack(QMDItems.part, 8, PartType.SCINTILLATOR_PWO.getID()), 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_nitrate_solution", GEM_VOLUME), "dustSodiumNitrate", 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("sodium_chloride_solution", GEM_VOLUME), "dustSalt", 1D, 1D);
 		NCRecipes.crystallizer.addRecipe(fluidStack("nd_yag", INGOT_VOLUME * 3), "rodNdYAG", 2D, 2D);
@@ -471,33 +471,30 @@ public class QMDRecipes
 
 
 		// Decay Hastener
-		if (QMDConfig.override_nc_recipes)
-		{
-			List<IItemIngredient> itemIngredients = new ArrayList<IItemIngredient>();
-			itemIngredients.add(new ItemIngredient(new ItemStack(NCItems.plutonium, 1, MetaEnums.PlutoniumType._238.getID())));
-			List<IFluidIngredient> fluidIngredients = new ArrayList<IFluidIngredient>();
-			NCRecipes.decay_hastener.removeRecipe(NCRecipes.decay_hastener.getRecipeFromIngredients(itemIngredients, fluidIngredients));
-
-			NCRecipes.decay_hastener.addDecayRecipes("Plutonium238", "Uranium234", RadSources.PLUTONIUM_238);
-		}
-
-
 		NCRecipes.decay_hastener.addDecayRecipes("Beryllium7", "Lithium7", QMDRadSources.BERYLLIUM_7);
-		NCRecipes.decay_hastener.addDecayRecipes("Protactinium231", "Lead", QMDRadSources.PROTACTINIUM_231);
-
-		NCRecipes.decay_hastener.addDecayRecipes("Uranium234", "Radium", QMDRadSources.URANIUM_234);
 		NCRecipes.decay_hastener.addRecipe("ingotCobalt60", "dustNickel", getDecayHastenerTimeMultipler(QMDRadSources.COBALT_60), 1d, QMDRadSources.COBALT_60);
 		NCRecipes.decay_hastener.addRecipe("ingotIridium192", "dustPlatinum", getDecayHastenerTimeMultipler(QMDRadSources.IRIDIUM_192), 1d, QMDRadSources.IRIDIUM_192);
+
+		// Decay Pool
+		NCRecipes.decay_pool_heat_source.addItemDecayRecipe("ingotBeryllium7", "ingotLithium7", QMDRadSources.BERYLLIUM_7);
+		NCRecipes.decay_pool_heat_source.addDecayRecipe("ingotSodium22", emptyFluidStack(), emptyItemStack(),fluidStack("neon", 1000), QMDRadSources.SODIUM_22);
+		NCRecipes.decay_pool_heat_source.addItemDecayRecipe("ingotCobalt60", "ingotNickel", QMDRadSources.COBALT_60);
+		NCRecipes.decay_pool_heat_source.addItemDecayRecipe("ingotIridium192", "ingotPlatinum", QMDRadSources.IRIDIUM_192);
+
+
 
 
 		// Assembler
 		NCRecipes.assembler.addRecipe(oreStack("dustBSCCO", 3), oreStack("ingotSilver", 6), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("wireBSCCO", 6), 1D, 1D);
 		NCRecipes.assembler.addRecipe(oreStack("dustSSFAF", 3), oreStack("ingotSilver", 6), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("wireSSFAF", 6), 1D, 1D);
 		NCRecipes.assembler.addRecipe(oreStack("dustYBCO", 3), oreStack("ingotSilver", 6), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("wireYBCO", 6), 1D, 1D);
+		NCRecipes.assembler.addRecipe(oreStack("dustHBCCO", 3), oreStack("ingotSilver", 6), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("wireHBCCO", 6), 1D, 1D);
 		NCRecipes.assembler.addRecipe(oreStack("ingotTungsten", 4),oreStack("ingotGold", 2), new EmptyItemIngredient(), new EmptyItemIngredient(), oreStack("wireGoldTungsten", 6), 1D, 1D);
 		NCRecipes.assembler.addRecipe(oreStack("dustBismuth", 2), oreStack("dustStrontium", 2), oreStack("dustCalcium", 2), oreStack("dustCopperOxide", 3), oreStack("dustBSCCO", 3), 1D, 1D);
-		NCRecipes.assembler.addRecipe(oreStack("dustSamarium", 1), oreStack("dustStrontium", 1), oreStack("dustIronFluoride", 2), oreStack("dustArsenic", 2), oreStack("dustSSFAF", 6), 1D, 1D);
+		NCRecipes.assembler.addRecipe(oreStack("dustSamarium", 1), oreStack("dustStrontium", 1), oreStack("dustIronFluoride", 2), oreStack("dustArsenic", 2), oreStack("dustSSFAF", 3), 1D, 1D);
 		NCRecipes.assembler.addRecipe(oreStack("dustYttrium", 1), oreStack("dustBarium", 2), oreStack("dustCopperOxide", 3), new EmptyItemIngredient(), oreStack("dustYBCO", 3), 1D, 1D);
+		NCRecipes.assembler.addRecipe(oreStack("ingotMercury", 1), oreStack("dustBarium", 2), oreStack("dustCalcium", 2) , oreStack("dustCopperOxide", 3), oreStack("dustHBCCO", 3), 1D, 1D);
+
 
 		NCRecipes.assembler.addRecipe(oreStackList(PLASTIC_TYPES, 2), oreStack("dyeBlue", 1), new EmptyItemIngredient(), new EmptyItemIngredient(), new ItemStack(QMDItems.part, 1, PartType.SCINTILLATOR_PLASTIC.getID()), 1D, 1D);
 		NCRecipes.assembler.addRecipe("siliconNDoped", oreStack("dustRedstone", 4), "ingotGold", "ingotSilver", "processorBasic", 1D, 1D);
@@ -510,35 +507,35 @@ public class QMDRecipes
 
 		//Fission Irradiator
 		NCRecipes.fission_irradiator.addRecipe("waferSilicon", "siliconNDoped", 120000, 0d, 0);
-		NCRecipes.fission_irradiator.addRecipe("ingotUranium234", "ingotUranium235", 1920000, 0d, QMDRadSources.URANIUM_234);
-		NCRecipes.fission_irradiator.addRecipe("dustProtactinium231", "dustProtactinium233", 3840000, 0d, QMDRadSources.PROTACTINIUM_231);
 		NCRecipes.fission_irradiator.addRecipe("ingotCobalt", "ingotCobalt60", 1920000, 0d, 0);
+		NCRecipes.fission_irradiator.addRecipe("ingotIridium192", "ingotIridium", 1920000, 0d, 0);
 		//NCRecipes.fission_irradiator.addRecipe(FluidUtil.getFilledBucket(fluidStack("deuterium", 1000).getStack()), FluidUtil.getFilledBucket(fluidStack("tritium", 1000).getStack()),60000,0d,0); //1920000
 
 
 		//fuel reprocessor
-		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionLight", chanceOreStack("dustStrontium", 1, 20), chanceOreStack("dustStrontium90", 1, 5), chanceOreStack("dustYttrium", 1, 5), chanceOreStack("dustZirconium", 1, 20), chanceOreStack("dustNiobium", 1, 5), chanceOreStack("dustMolybdenum", 1, 30), chanceOreStack("dustRuthenium106", 1, 5), chanceOreStack("dustSilver", 1, 10));
-		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionHeavy", chanceOreStack("dustNiobium", 1, 4), chanceOreStack("dustMolybdenum", 1, 21), chanceOreStack("dustRuthenium106", 1, 4), chanceOreStack("dustSilver", 1, 7), chanceOreStack("dustTin", 1, 35), chanceOreStack("dustIodine", 1, 7), chanceOreStack("dustCaesium137", 1, 4), chanceOreStack("dustNeodymium", 1, 18));
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationCalifornium", chanceOreStack("dustThorium", 1, 26), chanceOreStack("dustProtactinium231", 1, 13), chanceOreStack("dustRadium", 1, 12), chanceOreStack("dustPolonium", 1, 9), chanceOreStack("dustBismuth", 1, 20), chanceOreStack("dustLead", 1, 20), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationBerkelium", chanceOreStack("dustRadium", 1, 9), chanceOreStack("dustPolonium", 1, 15), chanceOreStack("dustBismuth", 1, 40), chanceOreStack("dustLead", 1, 35), chanceOreStack("ingotMercury", 1, 1), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationCurium", chanceOreStack("dustRadium", 1, 13), chanceOreStack("dustPolonium", 1, 17), chanceOreStack("dustBismuth", 1, 16), chanceOreStack("dustLead", 1, 50), chanceOreStack("ingotMercury", 1, 4), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationAmericium", chanceOreStack("dustPolonium", 1, 22), chanceOreStack("dustBismuth", 1, 15), chanceOreStack("dustLead", 1, 55), chanceOreStack("ingotMercury", 1, 5), chanceOreStack("dustGold", 1, 1), chanceOreStack("dustPlatinum", 1, 2), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationPlutonium", chanceOreStack("dustPolonium", 1, 22), chanceOreStack("dustBismuth", 1, 14), chanceOreStack("dustLead", 1, 55), chanceOreStack("ingotMercury", 1, 5), chanceOreStack("dustGold", 1, 1), chanceOreStack("dustPlatinum", 1, 3), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationNeptunium", chanceOreStack("dustPolonium", 1, 36), chanceOreStack("dustBismuth", 1, 17), chanceOreStack("dustLead", 1, 34), chanceOreStack("ingotMercury", 1, 7), chanceOreStack("dustGold", 1, 2), chanceOreStack("dustPlatinum", 1, 4), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationUranium", chanceOreStack("dustPolonium", 1, 21), chanceOreStack("dustBismuth", 1, 12), chanceOreStack("dustLead", 1, 55), chanceOreStack("ingotMercury", 1, 7), chanceOreStack("dustGold", 1, 1), chanceOreStack("dustPlatinum", 1, 4), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationThorium", chanceOreStack("dustPolonium", 1, 10), chanceOreStack("dustBismuth", 1, 7), chanceOreStack("dustLead", 1, 62), chanceOreStack("ingotMercury", 1, 11), chanceOreStack("dustGold", 1, 2), chanceOreStack("dustPlatinum", 1, 8), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationProtactinium", chanceOreStack("dustPolonium", 1, 36), chanceOreStack("dustBismuth", 1, 6), chanceOreStack("dustLead", 1, 39), chanceOreStack("ingotMercury", 1, 10), chanceOreStack("dustGold", 1, 2), chanceOreStack("dustPlatinum", 1, 7), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationRadium", chanceOreStack("dustLead", 1, 58), chanceOreStack("ingotMercury", 1, 18), chanceOreStack("dustGold", 1, 3), chanceOreStack("dustPlatinum", 1, 10), chanceOreStack("dustIridium", 1, 6), chanceOreStack("dustOsmium", 1, 5), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationPolonium", chanceOreStack("dustIridium", 1, 52), chanceOreStack("dustOsmium", 1, 21), chanceOreStack("dustTungsten", 1, 12), chanceOreStack("dustHafnium", 1, 10), chanceOreStack("dustYtterbium", 1, 5), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationBismuth", chanceOreStack("dustIridium", 1, 42), chanceOreStack("dustOsmium", 1, 27), chanceOreStack("dustTungsten", 1, 14), chanceOreStack("dustHafnium", 1, 11), chanceOreStack("dustYtterbium", 1, 6), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationLead", chanceOreStack("dustIridium", 1, 27), chanceOreStack("dustOsmium", 1, 35), chanceOreStack("dustTungsten", 1, 15), chanceOreStack("dustHafnium", 1, 12), chanceOreStack("dustYtterbium", 1, 8), chanceOreStack("dustErbium", 1, 3), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationMercury", chanceOreStack("dustOsmium", 1, 42), chanceOreStack("dustTungsten", 1, 27), chanceOreStack("dustHafnium", 1, 16), chanceOreStack("dustYtterbium", 1, 10), chanceOreStack("dustErbium", 1, 3), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationGold", chanceOreStack("dustHafnium", 1, 72), chanceOreStack("dustYtterbium", 1, 20), chanceOreStack("dustErbium", 1, 8), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationPlatinum", chanceOreStack("dustTungsten", 1, 30), chanceOreStack("dustHafnium", 1, 44), chanceOreStack("dustYtterbium", 1, 17), chanceOreStack("dustErbium", 1, 7), chanceOreStack("dustTerbium", 1, 2), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationIridium", chanceOreStack("dustHafnium", 1, 59), chanceOreStack("dustYtterbium", 1, 29), chanceOreStack("dustErbium", 1, 10), chanceOreStack("dustTerbium", 1, 2), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationOsmium", chanceOreStack("dustHafnium", 1, 48), chanceOreStack("dustYtterbium", 1, 35), chanceOreStack("dustErbium", 1, 11), chanceOreStack("dustTerbium", 1, 3), chanceOreStack("dustEuropium155", 1, 3), new EmptyItemIngredient(), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationTungsten", chanceOreStack("dustYtterbium", 1, 50), chanceOreStack("dustErbium", 1, 26), chanceOreStack("dustTerbium", 1, 6), chanceOreStack("dustEuropium155", 1, 5), chanceOreStack("dustSamarium", 1, 7), chanceOreStack("dustNeodymium", 1, 6), new EmptyItemIngredient(), new EmptyItemIngredient());
-		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationHafnium", chanceOreStack("dustErbium", 1, 32), chanceOreStack("dustTerbium", 1, 16), chanceOreStack("dustEuropium155", 1, 11), chanceOreStack("dustSamarium", 1, 13), chanceOreStack("dustNeodymium", 1, 23), chanceOreStack("dustPromethium147", 1, 5), new EmptyItemIngredient(), new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionLight", chanceOreStack("dustTin", 1, 19), chanceOreStack("dustSilver", 1, 10), chanceOreStack("dustPalladium", 1, 32), chanceOreStack("dustMolybdenum", 1, 56), chanceOreStack("dustZirconium", 1, 48), chanceOreStack("dustYttrium", 1, 11), chanceOreStack("dustStrontium90", 1, 10), chanceOreStack("dustStrontium", 1, 14));
+		NCRecipes.fuel_reprocessor.addRecipe("wasteFissionHeavy", chanceOreStack("dustNeodymium", 1, 17), chanceOreStack("dustBarium", 1, 11), chanceOreStack("dustTin", 1, 59), chanceOreStack("dustSilver", 1, 9), chanceOreStack("dustPalladium", 1, 29), chanceOreStack("dustRuthenium106", 1, 9), chanceOreStack("dustMolybdenum", 1, 37), chanceOreStack("dustZirconium", 1, 29));
+
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationCalifornium", chanceOreStack("dustPolonium", 1, 10), chanceOreStack("dustBismuth", 1, 15), chanceOreStack("dustLead", 1, 41), chanceOreStack("ingotMercury", 1, 15), chanceOreStack("dustPlatinum", 1, 10), chanceOreStack("dustOsmium", 1, 9),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationBerkelium", chanceOreStack("dustRadium", 1, 15), chanceOreStack("dustPolonium", 1, 18), chanceOreStack("dustBismuth", 1, 12), chanceOreStack("dustLead", 1, 31), chanceOreStack("ingotMercury", 1, 11),chanceOreStack("dustPlatinum", 1, 13),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationCurium", chanceOreStack("dustPolonium", 1, 10), chanceOreStack("dustBismuth", 1, 16), chanceOreStack("dustLead", 1, 37), chanceOreStack("ingotMercury", 1, 15), chanceOreStack("dustPlatinum", 1, 11), chanceOreStack("dustOsmium", 1, 11),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationAmericium", chanceOreStack("dustPolonium", 1, 9), chanceOreStack("dustBismuth", 1, 15), chanceOreStack("dustLead", 1, 38), chanceOreStack("ingotMercury", 1, 15), chanceOreStack("dustPlatinum", 1, 11), chanceOreStack("dustOsmium", 1, 12),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationPlutonium", chanceOreStack("dustPolonium", 1, 9),chanceOreStack("dustBismuth", 1, 15), chanceOreStack("dustLead", 1, 36), chanceOreStack("ingotMercury", 1, 15), chanceOreStack("dustPlatinum", 1, 12), chanceOreStack("dustOsmium", 1, 13), new EmptyItemIngredient(), new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationNeptunium", chanceOreStack("dustBismuth", 1, 15), chanceOreStack("dustLead", 1, 35), chanceOreStack("ingotMercury", 1, 15), chanceOreStack("dustPlatinum", 1, 12), chanceOreStack("dustOsmium", 1, 14),chanceOreStack("dustTungsten", 1, 9), new EmptyItemIngredient(), new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationUranium", chanceOreStack("dustBismuth", 1, 15), chanceOreStack("dustLead", 1, 35), chanceOreStack("ingotMercury", 1, 15), chanceOreStack("dustPlatinum", 1, 12), chanceOreStack("dustOsmium", 1, 14), chanceOreStack("dustTungsten", 1, 9), new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationProtactinium", chanceOreStack("dustBismuth", 1, 13), chanceOreStack("dustLead", 1, 32), chanceOreStack("ingotMercury", 1, 16), chanceOreStack("dustPlatinum", 1, 12), chanceOreStack("dustOsmium", 1, 15), chanceOreStack("dustHafnium", 1, 12), new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationThorium", chanceOreStack("dustBismuth", 1, 13), chanceOreStack("dustLead", 1, 33), chanceOreStack("ingotMercury", 1, 15), chanceOreStack("dustPlatinum", 1, 12), chanceOreStack("dustOsmium", 1, 15), chanceOreStack("dustHafnium", 1, 12), new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationRadium", chanceOreStack("dustBismuth", 1, 16), chanceOreStack("dustLead", 1, 32), chanceOreStack("ingotMercury", 1, 14), chanceOreStack("dustPlatinum", 1, 11), chanceOreStack("dustOsmium", 1, 14), chanceOreStack("dustHafnium", 1, 13), new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationPolonium", chanceOreStack("dustBismuth", 1, 16), chanceOreStack("dustLead", 1, 17), chanceOreStack("ingotMercury", 1, 16), chanceOreStack("dustOsmium", 1, 18), chanceOreStack("dustTungsten", 1, 15), chanceOreStack("dustHafnium", 1, 18), new EmptyItemIngredient(), new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationBismuth", chanceOreStack("dustLead", 1, 21), chanceOreStack("ingotMercury", 1, 16), chanceOreStack("dustOsmium", 1, 17), chanceOreStack("dustTungsten", 1, 14), chanceOreStack("dustHafnium", 1, 18), chanceOreStack("dustYtterbium", 1, 14), new EmptyItemIngredient(), new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationLead", chanceOreStack("ingotMercury", 1, 18), chanceOreStack("dustOsmium", 1, 18), chanceOreStack("dustTungsten", 1, 15), chanceOreStack("dustHafnium", 1, 19), chanceOreStack("dustYtterbium", 1, 15), chanceOreStack("dustGadolinium", 1, 15),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationMercury", chanceOreStack("dustOsmium", 1, 17), chanceOreStack("dustHafnium", 1, 19), chanceOreStack("dustYtterbium", 1, 15), chanceOreStack("dustErbium", 1, 15), chanceOreStack("dustGadolinium", 1, 17), chanceOreStack("dustSamarium", 1, 17),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationGold", chanceOreStack("dustPlatinum", 1, 19), chanceOreStack("dustOsmium", 1, 15), chanceOreStack("dustHafnium", 1, 17), chanceOreStack("dustErbium", 1, 14), chanceOreStack("dustGadolinium", 1, 17), chanceOreStack("dustSamarium", 1, 18),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationPlatinum", chanceOreStack("dustOsmium", 1, 16), chanceOreStack("dustHafnium", 1, 17), chanceOreStack("dustErbium", 1, 15), chanceOreStack("dustDysprosium", 1, 15), chanceOreStack("dustGadolinium", 1, 18), chanceOreStack("dustSamarium", 1, 19), new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationIridium", chanceOreStack("dustOsmium", 1, 22), chanceOreStack("dustHafnium", 1, 15), chanceOreStack("dustErbium", 1, 13), chanceOreStack("dustDysprosium", 1, 14), chanceOreStack("dustGadolinium", 1, 17), chanceOreStack("dustSamarium", 1, 19), new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationOsmium", chanceOreStack("dustHafnium", 1, 17), chanceOreStack("dustErbium", 1, 15), chanceOreStack("dustDysprosium", 1, 15), chanceOreStack("dustGadolinium", 1, 18), chanceOreStack("dustSamarium", 1, 20), chanceOreStack("dustNeodymium", 1, 15), new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationTungsten", chanceOreStack("dustHafnium", 1, 15), chanceOreStack("dustDysprosium", 1, 14), chanceOreStack("dustGadolinium", 1, 17), chanceOreStack("dustSamarium", 1, 20), chanceOreStack("dustNeodymium", 1, 16), chanceOreStack("dustBarium", 1, 18),new EmptyItemIngredient(),new EmptyItemIngredient());
+		NCRecipes.fuel_reprocessor.addRecipe("wasteSpallationHafnium", chanceOreStack("dustErbium", 1, 12), chanceOreStack("dustDysprosium", 1, 13), chanceOreStack("dustGadolinium", 1, 17), chanceOreStack("dustSamarium", 1, 21), chanceOreStack("dustNeodymium", 1, 17), chanceOreStack("dustBarium", 1, 20),new EmptyItemIngredient(),new EmptyItemIngredient());
 
 
 		//Collectors
@@ -562,7 +559,7 @@ public class QMDRecipes
 		NCRecipes.fission_heating.addRecipe(fluidStack("hot_mercury", 1),fluidStack("high_pressure_mercury", 2),256);
 
 		// Turbine
-		NCRecipes.turbine.addRecipe(fluidStack("high_pressure_mercury", 1),fluidStack("exhaust_mercury", 3),256D,3.0);
+		NCRecipes.turbine.addRecipe(fluidStack("high_pressure_mercury", 1),fluidStack("exhaust_mercury", 3),192D,3.0);
 
 		//Heat Exchanger
 		NCRecipes.heat_exchanger.addRecipe(fluidStack("exhaust_mercury", 6),fluidStack("hot_mercury", 1), 128D,700,700);

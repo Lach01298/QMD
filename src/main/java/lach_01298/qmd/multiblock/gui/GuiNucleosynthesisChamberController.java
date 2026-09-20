@@ -153,17 +153,17 @@ public class GuiNucleosynthesisChamberController
 
 	public List<String> heatInfo()
 	{
-	
+
 		List<String> info = new ArrayList<String>();
 
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.cryo.heat_stored",
-				Units.getSIFormat(multiblock.heatBuffer.getHeatStored(), "H"),
+				Units.getSIFormat(multiblock.heatBuffer.getHeatStored(), "H", 0, 4, true),
 				Units.getSIFormat(multiblock.heatBuffer.getHeatCapacity(), "H")));
 		info.add(Lang.localize("gui.qmd.container.temperature", Units.getSIFormat(multiblock.getTemperature(), "K")));
 		info.add(Lang.localize("gui.qmd.container.max_temperature",
 				Units.getSIFormat(multiblock.maxOperatingTemp, "K")));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.heating",
-				Units.getSIFormat(multiblock.currentHeating, "H/t")));
+				Units.getSIFormat(multiblock.currentHeating, "H/t", 0, 4, true)));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.max_heating",
 				Units.getSIFormat(multiblock.heating + multiblock.getMaxExternalHeating(), "H/t")));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.external_heating",
@@ -171,19 +171,19 @@ public class GuiNucleosynthesisChamberController
 
 		return info;
 	}
-	
+
 	public List<String> casingHeatInfo()
 	{
 		List<String> info = new ArrayList<String>();
-		
+
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.heat_stored",
-				Units.getSIFormat(getLogic().casingHeatBuffer.getHeatStored(), "H"),
+				Units.getSIFormat(getLogic().casingHeatBuffer.getHeatStored(), "H", 0, 4, true),
 				Units.getSIFormat(getLogic().casingHeatBuffer.getHeatCapacity(), "H")));
 		info.add(Lang.localize("gui.qmd.container.temperature", Units.getSIFormat(getLogic().getCasingTemperature(), "K")));
 		info.add(TextFormatting.BLUE + Lang.localize("gui.qmd.container.cooling",
-				Units.getSIFormat(-getLogic().casingCooling, "H/t")));
+				Units.getSIFormat(-getLogic().casingCooling, "H/t", 0, 5)));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.heating",
-				Units.getSIFormat(getLogic().casingHeating, "H/t")));
+				Units.getSIFormat(getLogic().casingHeating, "H/t", 0, 5, true)));
 
 		return info;
 	}
@@ -192,7 +192,7 @@ public class GuiNucleosynthesisChamberController
 	{
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.energy_stored",
-				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
+				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF", 0, 4, true),
 				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.required_energy",
 				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));
@@ -203,25 +203,25 @@ public class GuiNucleosynthesisChamberController
 	{
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.cryo.coolant_stored",
-				Units.getSIFormat(multiblock.tanks.get(0).getFluidAmount(), -3, "B"),
-				Units.getSIFormat(multiblock.tanks.get(0).getCapacity(), -3, "B")));
+				Units.getSIFormat(multiblock.tanks.get(0).getFluidAmount(), "B", -3, 4, true),
+				Units.getSIFormat(multiblock.tanks.get(0).getCapacity(), "B", -3)));
 		info.add(TextFormatting.BLUE + Lang.localize("gui.qmd.container.max_coolant_in",
-				Units.getSIFormat(multiblock.maxCoolantIn, -6, "B/t")));
+				Units.getSIFormat(multiblock.maxCoolantIn, "B/t", -6)));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.max_coolant_out",
-				Units.getSIFormat(multiblock.maxCoolantOut, -6, "B/t")));
+				Units.getSIFormat(multiblock.maxCoolantOut, "B/t", -6)));
 		return info;
 	}
-	
+
 	public List<String> casingCoolantInfo()
 	{
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.coolant_stored",
-				Units.getSIFormat(multiblock.tanks.get(2).getFluidAmount(), -3, "B"),
-				Units.getSIFormat(multiblock.tanks.get(2).getCapacity(), -3, "B")));
+				Units.getSIFormat(multiblock.tanks.get(2).getFluidAmount(), "B", -3, 4, true),
+				Units.getSIFormat(multiblock.tanks.get(2).getCapacity(), "B", -3)));
 		info.add(TextFormatting.BLUE + Lang.localize("gui.qmd.container.max_coolant_in",
-				Units.getSIFormat(getLogic().maxCasingCoolantIn, -6, "B/t")));
+				Units.getSIFormat(getLogic().maxCasingCoolantIn, "B/t", -6)));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.max_coolant_out",
-				Units.getSIFormat(getLogic().maxCasingCoolantOut, -6, "B/t")));
+				Units.getSIFormat(getLogic().maxCasingCoolantOut, "B/t", -6)));
 
 		return info;
 	}

@@ -246,7 +246,6 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 
 		
 		// check interior
-		Class magnetType = null;
 		
 		for(int layerNumber = 0; layerNumber < length; layerNumber++)
 		{
@@ -254,6 +253,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		
 			if(layerNumber % 2 == 0)
 			{
+				Class magnetType = null;
 				for(BlockPos pos : layer)
 				{
 					if(axis == Axis.X)
@@ -296,7 +296,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 								}
 								else if (!magnetType.isInstance(acc.WORLD.getTileEntity(pos)))
 								{
-									multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_one_magnet_type", pos);
+									multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_same_magnet_type", pos);
 									return false;
 								}
 							}
@@ -343,7 +343,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 								}
 								else if (!magnetType.isInstance(acc.WORLD.getTileEntity(pos)))
 								{
-									multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_one_magnet_type", pos);
+									multiblock.setLastError(QMD.MOD_ID + ".multiblock_validation.accelerator.mass_spectrometer.must_be_same_magnet_type", pos);
 									return false;
 								}
 							}
@@ -464,21 +464,26 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 		
 		int energy = 0;
 		long heat = 0;
+		double efficiency = 0;
+		int parts = 0;
 		for (TileAcceleratorMagnet magnet : multiblock.getPartMap(TileAcceleratorMagnet.class).values())
 		{
-			energy += magnet.basePower/16;
-			heat += magnet.heat/16;
+			energy += QMDConfig.mass_spectrometer_power_usage/16;
+			heat += QMDConfig.mass_spectrometer_heat/16;
+			efficiency += magnet.efficiency;
+			parts++;
 		}
 		for (TileAcceleratorIonSource source : multiblock.getPartMap(TileAcceleratorIonSource.class).values())
 		{
 			energy += source.basePower;
 		}
-		
-		acc.requiredEnergy = energy;
+		efficiency /= parts;
+
+		acc.requiredEnergy = (int) (energy / efficiency);
 		acc.rawHeating = heat;
 		acc.dipoleStrength = 0;
 		acc.quadrupoleStrength = 0;
-		acc.efficiency = 1;
+		acc.efficiency = efficiency;
 		acc.acceleratingVoltage = 0;
 	}
 	
@@ -619,7 +624,7 @@ public class MassSpectrometerLogic extends AcceleratorLogic
 
 	private void produceProduct()
 	{
-		recipeWork =  recipeInfo.recipe.getBaseProcessTime(QMDConfig.processor_time[2]);
+		recipeWork =  recipeInfo.recipe.getBaseProcessTime(QMDConfig.mass_spectrometer_process_time);
 		
 		while(workDone >= recipeWork && canProduceProduct())
 		{

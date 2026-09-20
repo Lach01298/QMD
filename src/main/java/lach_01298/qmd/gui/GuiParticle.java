@@ -44,7 +44,7 @@ public class GuiParticle
 	{
 		List<String> text = new ArrayList<String>();
 		text.add(TextFormatting.WHITE + Lang.localize(stack.getParticle().getUnlocalizedName()));
-		text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu")));
+		text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.amount",Units.getSIFormat(stack.getAmount(),"pu",0,5)));
 		text.add(TextFormatting.GRAY + Lang.localize("gui.qmd.particlestack.mean_energy",Units.getParticleEnergy(stack.getMeanEnergy())));
 		if(showFocus)
 		{

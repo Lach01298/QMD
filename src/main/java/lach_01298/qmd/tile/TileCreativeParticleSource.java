@@ -90,7 +90,7 @@ public class TileCreativeParticleSource extends NCTile implements ITileParticleS
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite());
-							otherStorage.reciveParticle(face.getOpposite(), this.particleBeams.get(0).getParticleStack());
+							otherStorage.receiveParticle(face.getOpposite(), this.particleBeams.get(0).getParticleStack());
 						}
 					}
 

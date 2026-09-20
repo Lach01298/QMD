@@ -123,7 +123,7 @@ public class ItemBeamMeter extends NCItem
 												+ " " + TextFormatting.GREEN
 												+ (Lang.localize("gui.qmd.particlestack.mean_energy",
 														TextFormatting.WHITE
-																+ Units.getSIFormat(particle.getMeanEnergy(), 3, "eV")))
+																+ Units.getSIFormat(particle.getMeanEnergy(), "eV",3)))
 												+ " " + TextFormatting.DARK_AQUA
 												+ Lang.localize("gui.qmd.particlestack.focus",
 														TextFormatting.WHITE + df.format(particle.getFocus())));

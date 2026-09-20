@@ -705,7 +705,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							otherStorage.reciveParticle(face.getOpposite(), multiblock.beams.get(port.getIONumber()).getParticleStack());
+							otherStorage.receiveParticle(face.getOpposite(), multiblock.beams.get(port.getIONumber()).getParticleStack());
 						}
 					}
 				}
@@ -732,7 +732,7 @@ public class AcceleratorLogic extends MultiblockLogic<Accelerator, AcceleratorLo
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
 							ParticleStack stack = otherStorage.extractParticle(face.getOpposite());
 
-							if (!multiblock.beams.get(port.getIONumber()).reciveParticle(face, stack))
+							if (!multiblock.beams.get(port.getIONumber()).receiveParticle(face, stack))
 							{
 								if (stack.getMeanEnergy() > multiblock.beams.get(port.getIONumber()).getMaxEnergy())
 								{

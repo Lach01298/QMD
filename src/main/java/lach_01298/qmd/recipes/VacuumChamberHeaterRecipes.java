@@ -17,8 +17,8 @@ public class VacuumChamberHeaterRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		addRecipe(fluidStack("mercury", 1), fluidStack("high_pressure_mercury", 2), 512);
-		addRecipe(fluidStack("hot_mercury", 1), fluidStack("high_pressure_mercury", 2), 256);
+		addRecipe(fluidStack("mercury", 1), fluidStack("high_pressure_mercury", 2), 256);
+		addRecipe(fluidStack("hot_mercury", 1), fluidStack("high_pressure_mercury", 2), 128);
 	}
 
 	@Override

@@ -51,6 +51,8 @@ public class BlockAcceleratorMagnet extends BlockMetaQMDPart<MagnetType>
 			return new TileAcceleratorMagnet.SSFAF();
 		case 7:
 			return new TileAcceleratorMagnet.YBCO();
+		case 8:
+			return new TileAcceleratorMagnet.HBCCO();
 
 		}
 		return new TileAcceleratorMagnet.Copper();

@@ -7,7 +7,7 @@
 		{
 			
 			"type": "text",
-			"text": "The Nucleosynthesis Chamber is where you create heavier elements from lighter elements. This is generally done via either muon catalyzed fusion or the r-process with neutrons. For some recipes and setups this can be power positive and in fact can rival large nuclear reactors."
+			"text": "The Nucleosynthesis Chamber is where you create heavier elements from lighter elements. This is generally done using muon catalyzed fusion, the r-process with neutrons or the p-process with protons. For some recipes and setups this can be power positive and in fact can rival large nuclear reactors."
 		},
 		{
             "type": "diagram_high",

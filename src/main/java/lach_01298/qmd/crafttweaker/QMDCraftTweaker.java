@@ -640,7 +640,66 @@ public class QMDCraftTweaker
 		}
 	}
 
+	@ZenClass("mods.qmd.liquefier_coolant")
+	@ZenRegister
+	public static class LiquefierCoolantHandler
+	{
 
+		@ZenMethod
+		public static void addRecipe(IIngredient fluidInput,IIngredient fluidOutput, int heatRemoved, int temperatureIn, int temperatureOut)
+		{
+			QMDRecipes.liquefier_coolant.ctAddRecipe(new Object[]{fluidInput,fluidOutput,heatRemoved,temperatureIn,temperatureOut});
+
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient fluidInput)
+		{
+			QMDRecipes.liquefier_coolant.ctRemoveRecipeWithInput(new IIngredient[]{fluidInput});
+
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient fluidOutput)
+		{
+			QMDRecipes.liquefier_coolant.ctRemoveRecipeWithOutput(new IIngredient[]{fluidOutput});
+		}
+
+		@ZenMethod
+		public static void removeAllRecipes()
+		{
+			QMDRecipes.liquefier_coolant.ctRemoveAllRecipes();
+		}
+	}
+
+	@ZenClass("mods.qmd.liquefier")
+	@ZenRegister
+	public static class LiquefierHandler
+	{
+		@ZenMethod
+		public static void addRecipe(IIngredient fluidInput,IIngredient fluidOutput, double baseRF, int baseHeat, int inversionTemperature, int hotGasTemperature, double pressureCoefficient)
+		{
+			CraftTweakerAPI.apply(new CTAddQMDRecipe(QMDRecipes.liquefier, Lists.newArrayList(fluidInput,fluidOutput,baseRF,baseHeat,inversionTemperature,hotGasTemperature,pressureCoefficient)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithInput(IIngredient fluidInput)
+		{
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.liquefier, IngredientSorption.INPUT, Lists.newArrayList(fluidInput)));
+		}
+
+		@ZenMethod
+		public static void removeRecipeWithOutput(IIngredient fluidOutput)
+		{
+			CraftTweakerAPI.apply(new CTRemoveQMDRecipe(QMDRecipes.liquefier, IngredientSorption.OUTPUT, Lists.newArrayList(fluidOutput)));
+		}
+
+		@ZenMethod
+		public static void removeAllRecipes()
+		{
+			CraftTweakerAPI.apply(new CTRemoveAllQMDRecipes(QMDRecipes.liquefier));
+		}
+	}
 
 	
 }

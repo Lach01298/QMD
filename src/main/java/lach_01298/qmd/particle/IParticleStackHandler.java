@@ -8,10 +8,10 @@ public interface IParticleStackHandler
 	/**
 	 *
 	 * @param side
-	 * @param stack - the ParticleStack to be inputed
-	 * @return if the stack could be inputed
+	 * @param stack - the ParticleStack to be inputted
+	 * @return if the stack could be inputted
 	 */
-	boolean reciveParticle(EnumFacing side, ParticleStack stack);
+	boolean receiveParticle(EnumFacing side, ParticleStack stack);
 	
 	
 	/**
@@ -58,15 +58,15 @@ public interface IParticleStackHandler
 	/**
 	 *
 	 * @param side
-	 * @param stack - the ParticleStack to be inputed
-	 * @return if the stack could be inputed
+	 * @param stack - the ParticleStack to be inputted
+	 * @return if the stack could be inputted
 	 */
-	boolean canReciveParticle(EnumFacing side, ParticleStack stack);
+	boolean canReceiveParticle(EnumFacing side, ParticleStack stack);
 	
 	/**
 	 *
 	 * @param side
-	 * @return if the a ParticleStack could be extracted
+	 * @return if the ParticleStack could be extracted
 	 */
 	boolean canExtractParticle(EnumFacing side);
 	

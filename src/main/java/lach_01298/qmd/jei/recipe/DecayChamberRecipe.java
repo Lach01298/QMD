@@ -29,7 +29,7 @@ public class DecayChamberRecipe extends JEIRecipeWrapper
 
 		
 		DecimalFormat df = new DecimalFormat("#.##");
-		String maxEnergyString = Lang.localize("gui.qmd.jei.reaction.max_energy", Units.getSIFormat(recipe.getMaxEnergy(),3,"eV"));
+		String maxEnergyString = Lang.localize("gui.qmd.jei.reaction.max_energy", Units.getSIFormat(recipe.getMaxEnergy(),"eV",3));
 		String crossSectionString = Lang.localize("gui.qmd.jei.reaction.cross_section", df.format(recipe.getCrossSection()*100));
 		String energyReleasedString = Lang.localize("gui.qmd.jei.reaction.energy_released", Units.getParticleEnergy(recipe.getEnergyReleased()));
 		

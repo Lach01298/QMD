@@ -22,7 +22,7 @@ public class ParticleStorageAccelerator extends ParticleStorage
 	
 	
 	@Override
-	public boolean reciveParticle(EnumFacing side, ParticleStack stack)
+	public boolean receiveParticle(EnumFacing side, ParticleStack stack)
 	{
 		if(stack != null)
 		{

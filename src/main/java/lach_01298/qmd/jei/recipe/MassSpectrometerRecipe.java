@@ -37,8 +37,8 @@ public class MassSpectrometerRecipe extends JEIRecipeWrapper
 	protected double getBaseProcessTime()
 	{
 		if (recipe == null)
-			return QMDConfig.processor_time[2];
-		return  recipe.getBaseProcessTime(QMDConfig.processor_time[2]);
+			return QMDConfig.mass_spectrometer_process_time;
+		return  recipe.getBaseProcessTime(QMDConfig.mass_spectrometer_process_time);
 	}
 
 

@@ -202,7 +202,7 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 	{
 		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			return mode != EnumTypes.IOType.DISABLED;
+			return (mode != EnumTypes.IOType.DISABLED) && (getParticleBeams().size()>IONumber);
 		}
 		return super.hasCapability(capability, side);
 	}
@@ -212,16 +212,12 @@ public class TileAcceleratorBeamPort extends TileAcceleratorPart implements ITil
 	{
 		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			if (!getParticleBeams().isEmpty())
+			if(getParticleBeams().size()>IONumber)
 			{
-				if(getParticleBeams().size()>IONumber)
-				{
-					return (T) getParticleBeams().get(IONumber);
-				}
+				return (T) getParticleBeams().get(IONumber);
 			}
 			return null;
 		}
-
 		return super.getCapability(capability, side);
 	}
 

@@ -19,7 +19,9 @@ import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart>
 		implements IPacketMultiblockLogic<ParticleChamber, ParticleChamberLogic, IParticleChamberPart, ParticleChamberUpdatePacket>
@@ -211,7 +213,6 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 	{
 		for(TileParticleChamberBeamPort port : getPartMap(TileParticleChamberBeamPort.class).values())
 		{
-		
 			if(port.getIOType() == IOType.INPUT)
 			{
 				if (port.getOutwardFacing() != null)
@@ -248,7 +249,7 @@ public class ParticleChamberLogic extends MultiblockLogic<ParticleChamber, Parti
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							otherStorage.reciveParticle(face.getOpposite(), multiblock.beams.get(port.getIONumber()).getParticleStack());
+							otherStorage.receiveParticle(face.getOpposite(), multiblock.beams.get(port.getIONumber()).getParticleStack());
 						}
 					}
 				}

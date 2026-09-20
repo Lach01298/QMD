@@ -29,7 +29,7 @@ public class NucleosynthesisChamberRecipe extends JEIRecipeWrapper
 	{
 		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 		FontRenderer fontRenderer = minecraft.fontRenderer;
-		String heatString = Lang.localize("gui.qmd.jei.reaction.heat_released",  Units.getSIFormat(recipe.getHeatReleased(),0,"H"));
+		String heatString = Lang.localize("gui.qmd.jei.reaction.heat_released",  Units.getSIFormat(recipe.getHeatReleased(),"H"));
 		fontRenderer.drawString(heatString, 0, 47, Color.gray.getRGB());
 		
 		if(recipe.getMaxEnergy() != Long.MAX_VALUE)

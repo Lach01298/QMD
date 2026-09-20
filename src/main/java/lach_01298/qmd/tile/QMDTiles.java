@@ -16,16 +16,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class QMDTiles
 {
 	private static ResourceLocation acceleratorPath = new ResourceLocation(QMD.MOD_ID,"accelerator_");
-	private static ResourceLocation magnetPath = new ResourceLocation(QMD.MOD_ID,"accelerator_magnet");
-	private static ResourceLocation cavityPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cavity");
-	private static ResourceLocation coolerPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cooler");
+	private static ResourceLocation magnetPath = new ResourceLocation(QMD.MOD_ID,"accelerator_magnet_");
+	private static ResourceLocation cavityPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cavity_");
+	private static ResourceLocation coolerPath = new ResourceLocation(QMD.MOD_ID,"accelerator_cooler_");
 	
 	private static ResourceLocation chamberPath = new ResourceLocation(QMD.MOD_ID,"particle_chamber_");
 	private static ResourceLocation detectorPath = new ResourceLocation(QMD.MOD_ID,"particle_chamber_detector_");
 	private static ResourceLocation containmentPath = new ResourceLocation(QMD.MOD_ID,"containment_");
-	private static ResourceLocation heaterPath = new ResourceLocation(QMD.MOD_ID,"containment_heater");
+	private static ResourceLocation heaterPath = new ResourceLocation(QMD.MOD_ID,"containment_heater_");
 
-	private static ResourceLocation compressorPath = new ResourceLocation(QMD.MOD_ID,"liquefier_compressor");
+	private static ResourceLocation compressorPath = new ResourceLocation(QMD.MOD_ID,"liquefier_compressor_");
 	
 	public static void register()
 	{
@@ -70,6 +70,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.Aluminium.class, Util.appendPath(magnetPath, MagnetType.Aluminium.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.SSFAF.class, Util.appendPath(magnetPath, MagnetType.SSFAF.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorMagnet.YBCO.class, Util.appendPath(magnetPath, MagnetType.YBCO.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorMagnet.HBCCO.class, Util.appendPath(magnetPath, MagnetType.HBCCO.getName()));
 		
 		//RF Cavities
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.class, Util.appendPath(cavityPath, "rf_cavity"));
@@ -81,6 +82,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.Aluminium.class, Util.appendPath(cavityPath, RFCavityType.Aluminium.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.SSFAF.class, Util.appendPath(cavityPath, RFCavityType.SSFAF.getName()));
 		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.YBCO.class, Util.appendPath(cavityPath, RFCavityType.YBCO.getName()));
+		GameRegistry.registerTileEntity(TileAcceleratorRFCavity.HBCCO.class, Util.appendPath(cavityPath, RFCavityType.HBCCO.getName()));
 
 		//coolers
 		GameRegistry.registerTileEntity(TileAcceleratorCooler.class, Util.appendPath(coolerPath, "cooler"));
@@ -179,6 +181,7 @@ public class QMDTiles
 		GameRegistry.registerTileEntity(TileLiquefierNozzle.class,new ResourceLocation(QMD.MOD_ID,"liquefier_nozzle"));
 		GameRegistry.registerTileEntity(TileLiquefierFluidPort.class,new ResourceLocation(QMD.MOD_ID,"liquefier_fluid_port"));
 		GameRegistry.registerTileEntity(TileLiquefierEnergyPort.class,new ResourceLocation(QMD.MOD_ID,"liquefier_energy_port"));
+		GameRegistry.registerTileEntity(TileLiquefierCompressor.class, Util.appendPath(compressorPath, "compressor"));
 		GameRegistry.registerTileEntity(TileLiquefierCompressor.Copper.class, Util.appendPath(compressorPath, CompressorType.COPPER.getName()));
 		GameRegistry.registerTileEntity(TileLiquefierCompressor.Neodymium.class, Util.appendPath(compressorPath, CompressorType.NEODYMIUM.getName()));
 		GameRegistry.registerTileEntity(TileLiquefierCompressor.SamariumCobalt.class, Util.appendPath(compressorPath, CompressorType.SAMARIUM_COBALT.getName()));

@@ -5,19 +5,30 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.mc1120.util.CraftTweakerPlatformUtils;
 import lach_01298.qmd.QMD;
 import lach_01298.qmd.accelerator.CoolerPlacement;
-import lach_01298.qmd.accelerator.block.*;
-import lach_01298.qmd.accelerator.tile.*;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorPart;
+import lach_01298.qmd.accelerator.block.BlockAcceleratorSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorCooler;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorIonSource;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorMagnet;
+import lach_01298.qmd.accelerator.tile.TileAcceleratorRFCavity;
+import lach_01298.qmd.block.BlockCustomMultiblockPart;
 import lach_01298.qmd.block.QMDBlocks;
-import lach_01298.qmd.item.*;
+import lach_01298.qmd.item.ItemCustomParticleSource;
+import lach_01298.qmd.item.QMDItems;
+import lach_01298.qmd.liquefier.tile.TileLiquefierCompressor;
+import lach_01298.qmd.particleChamber.block.BlockParticleChamberPart;
 import lach_01298.qmd.particleChamber.tile.TileParticleChamberDetector;
 import lach_01298.qmd.tab.QMDTabs;
 import lach_01298.qmd.util.Util;
 import lach_01298.qmd.vacuumChamber.HeaterPlacement;
+import lach_01298.qmd.vacuumChamber.block.BlockVacuumChamberPart;
 import lach_01298.qmd.vacuumChamber.tile.TileVacuumChamberHeater;
 import nc.integration.crafttweaker.CTRegistration;
 import nc.integration.crafttweaker.CTRegistration.RegistrationInfo;
 import nc.item.NCItemMetaArray;
-import nc.util.*;
+import nc.util.IOHelper;
+import nc.util.InfoHelper;
+import nc.util.Lang;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -25,10 +36,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.apache.commons.io.FileUtils;
-import stanhebben.zenscript.annotations.*;
+import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @ZenClass("mods.qmd.Registration")
 @ZenRegister
@@ -95,7 +109,7 @@ public class QMDCTRegistration
 	public static void registerParticleChamberDetector(String name, double efficiency, int basePower, int distance, boolean within)
 	{
 
-		Block detector = QMDBlocks.withName(new BlockAcceleratorPart()
+		Block detector = QMDBlocks.withName(new BlockParticleChamberPart()
 		{
 
 			@Override
@@ -110,10 +124,10 @@ public class QMDCTRegistration
 	}
 	
 	@ZenMethod
-	public static void registerVaccuumChamberHeater(String coolerID, int cooling, String rule)
+	public static void registerVacuumChamberHeater(String coolerID, int cooling, String rule)
 	{
 
-		Block cooler = QMDBlocks.withName(new BlockAcceleratorPart()
+		Block cooler = QMDBlocks.withName(new BlockVacuumChamberPart()
 		{
 
 			@Override
@@ -146,8 +160,22 @@ public class QMDCTRegistration
 		CTRegistration.INFO_LIST.add(new AcceleratorIonSourceRegistrationInfo(ionSource, name, particleOutputMultiplier, outputFocus, basePower));
 		CraftTweakerAPI.logInfo("Registered accelerator ion source with name \"" + name);
 	}
-	
-	
+
+	@ZenMethod
+	public static void registerLiquefierCompressor(String name, double energyEfficiency, double heatEfficiency)
+	{
+		Block compressor = QMDBlocks.withName(new BlockCustomMultiblockPart()
+		{
+			@Override
+			public TileEntity createNewTileEntity(World world, int metadata)
+			{
+				return new TileLiquefierCompressor(energyEfficiency, heatEfficiency, name);
+			}
+		}, "liquefier_compressor_" + name);
+
+		CTRegistration.INFO_LIST.add(new LiquefierCompressorRegistrationInfo(compressor, name, energyEfficiency, heatEfficiency));
+		CraftTweakerAPI.logInfo("Registered liquefier compressor with name \"" + name);
+	}
 	
 	@ZenMethod
 	public static void registerItemSource(String name, int capacity, int stackSize)
@@ -402,14 +430,14 @@ public class QMDCTRegistration
 	{
 
 		protected final String name;
-		protected final int basePower;
-		protected final double  outputMultipler,outputFocus;
+		protected final int basePower,outputMultiplier;
+		protected final double outputFocus;
 
-		AcceleratorIonSourceRegistrationInfo(Block block, String name, double outputMultipler, double outputFocus, int basePower)
+		AcceleratorIonSourceRegistrationInfo(Block block, String name, int outputMultiplier, double outputFocus, int basePower)
 		{
 			super(block);
 			this.name = name;
-			this.outputMultipler = outputMultipler;
+			this.outputMultiplier = outputMultiplier;
 			this.outputFocus = outputFocus;
 			this.basePower = basePower;
 		}
@@ -419,11 +447,37 @@ public class QMDCTRegistration
 		{
 			String[] info = new String[] {
 					Lang.localize("info." + QMD.MOD_ID + ".item.power", basePower),
-					Lang.localize("info." + QMD.MOD_ID + ".ion_source.output_multiplier", outputMultipler),
+					Lang.localize("info." + QMD.MOD_ID + ".ion_source.output_multiplier", outputMultiplier),
 					Lang.localize("info." + QMD.MOD_ID + ".ion_source.focus", outputFocus)
 					};
 			
 			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".ion_source.desc")));
+		}
+	}
+
+	public static class LiquefierCompressorRegistrationInfo extends QMDTileBlockRegistrationInfo
+	{
+
+		protected final String name;
+		protected final double  energyEfficiency,heatEfficiency;
+
+		LiquefierCompressorRegistrationInfo(Block block, String name, double energyEfficiency, double heatEfficiency)
+		{
+			super(block);
+			this.name = name;
+			this.energyEfficiency = energyEfficiency;
+			this.heatEfficiency = heatEfficiency;
+		}
+
+		@Override
+		public void registerBlock()
+		{
+			String[] info = new String[] {
+					Lang.localize("info." + QMD.MOD_ID + ".liquefier.compressor.energy_efficiency", Math.round(1000D * energyEfficiency) / 10d + "%"),
+					Lang.localize("info." + QMD.MOD_ID + ".liquefier.compressor.heat_efficiency", Math.round(1000D * heatEfficiency) / 10d + "%")
+			};
+
+			QMDBlocks.registerBlock(block,TextFormatting.GREEN ,info,TextFormatting.AQUA,InfoHelper.formattedInfo(Lang.localize("tile." + QMD.MOD_ID + ".liquefier_compressor.desc")));
 		}
 	}
 	

@@ -60,7 +60,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("dustNeodymium",new ItemStack(QMDItems.dust2, 1, DustType2.NEODYMIUM.getID()));
 		OreDictionary.registerOre("dustIodine",new ItemStack(QMDItems.dust2, 1, DustType2.IODINE.getID()));
 		OreDictionary.registerOre("dustSamarium",new ItemStack(QMDItems.dust2, 1, DustType2.SAMARIUM.getID()));
-		OreDictionary.registerOre("dustTerbium",new ItemStack(QMDItems.dust2, 1, DustType2.TERBIUM.getID()));
+		//OreDictionary.registerOre("dustTerbium",new ItemStack(QMDItems.dust2, 1, DustType2.TERBIUM.getID()));
 		OreDictionary.registerOre("dustErbium",new ItemStack(QMDItems.dust2, 1, DustType2.ERBIUM.getID()));
 		OreDictionary.registerOre("dustYtterbium",new ItemStack(QMDItems.dust2, 1, DustType2.YTTERBIUM.getID()));
 
@@ -90,9 +90,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("wasteSpallationHafnium",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.HAFNIUM.getID()));
 		OreDictionary.registerOre("wasteSpallationMercury",new ItemStack(QMDItems.spallationWaste2, 1, SpallationWasteType2.MERCURY.getID()));
 	
-		
-		
-		
+
 		OreDictionary.registerOre("ingotTungstenCarbide",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.TUNGSTEN_CARBIDE.getID()));
 		OreDictionary.registerOre("ingotNiobiumTin",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.NIOBIUM_TIN.getID()));
 		OreDictionary.registerOre("ingotStainlessSteel",new ItemStack(QMDItems.ingotAlloy, 1, IngotAlloyType.STAINLESS_STEEL.getID()));
@@ -103,10 +101,10 @@ public class QMDOreDictionary
 		
 		OreDictionary.registerOre("ingotSodium22",new ItemStack(QMDItems.isotope, 1, IsotopeType.SODIUM_22.getID()));
 		OreDictionary.registerOre("ingotBeryllium7",new ItemStack(QMDItems.isotope, 1, IsotopeType.BERYLLIUM_7.getID()));
-		OreDictionary.registerOre("ingotMagnesium24",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_24.getID()));
-		OreDictionary.registerOre("ingotMagnesium26",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_26.getID()));
-		OreDictionary.registerOre("ingotUranium234",new ItemStack(QMDItems.isotope, 1, IsotopeType.Uranium_234.getID()));
-		OreDictionary.registerOre("dustProtactinium231",new ItemStack(QMDItems.isotope, 1, IsotopeType.PROTACTINIUM_231.getID()));
+//		OreDictionary.registerOre("ingotMagnesium24",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_24.getID()));
+//		OreDictionary.registerOre("ingotMagnesium26",new ItemStack(QMDItems.isotope, 1, IsotopeType.MAGNESIUM_26.getID()));
+//		OreDictionary.registerOre("ingotUranium234",new ItemStack(QMDItems.isotope, 1, IsotopeType.Uranium_234.getID()));
+//		OreDictionary.registerOre("dustProtactinium231",new ItemStack(QMDItems.isotope, 1, IsotopeType.PROTACTINIUM_231.getID()));
 		OreDictionary.registerOre("ingotCobalt60",new ItemStack(QMDItems.isotope, 1, IsotopeType.COBALT_60.getID()));
 		OreDictionary.registerOre("ingotIridium192",new ItemStack(QMDItems.isotope, 1, IsotopeType.IRIDIUM_192.getID()));
 		OreDictionary.registerOre("ingotCalcium48",new ItemStack(QMDItems.isotope, 1, IsotopeType.CALCIUM_48.getID()));
@@ -128,6 +126,7 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("wireSSFAF",new ItemStack(QMDItems.part, 1, PartType.WIRE_SSFAF.getID()));
 		OreDictionary.registerOre("wireYBCO",new ItemStack(QMDItems.part, 1, PartType.WIRE_YBCO.getID()));
 		OreDictionary.registerOre("magnetSamariumCobalt",new ItemStack(QMDItems.part, 1, PartType.MAGNET_SMC.getID()));
+		OreDictionary.registerOre("wireHBCCO",new ItemStack(QMDItems.part, 1, PartType.WIRE_HBCCO.getID()));
 		
 		OreDictionary.registerOre("dustTungstenOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.TUNGSTEN_OXIDE.getID()));
 		OreDictionary.registerOre("dustBSCCO",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.BSCCO.getID()));
@@ -138,11 +137,12 @@ public class QMDOreDictionary
 		OreDictionary.registerOre("dustSalt",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.SODIUM_CHLORIDE.getID()));
 		OreDictionary.registerOre("dustCopperOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.COPPER_OXIDE.getID()));
 		OreDictionary.registerOre("dustHafniumOxide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.HAFNIUM_OXIDE.getID()));
-		OreDictionary.registerOre("dustStrontiumChloride",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.STRONTIUM_CHLORIDE.getID()));
+		//OreDictionary.registerOre("dustStrontiumChloride",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.STRONTIUM_CHLORIDE.getID()));
 		OreDictionary.registerOre("dustZincSulfide",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.ZINC_SULFIDE.getID()));
 		OreDictionary.registerOre("dustIronFluoride",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.IRON_FLUORIDE.getID()));
 		OreDictionary.registerOre("dustSSFAF",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.SSFAF.getID()));
 		OreDictionary.registerOre("dustYBCO",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.YBCO.getID()));
+		OreDictionary.registerOre("dustHBCCO",new ItemStack(QMDItems.chemicalDust, 1, ChemicalDustType.HBCCO.getID()));
 		
 		OreDictionary.registerOre("cellAntimatter",IItemParticleAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIHYDROGEN.getID())));
 		OreDictionary.registerOre("cellAntimatter",IItemParticleAmount.fullItem(new ItemStack(QMDItems.cell, 1, CellType.ANTIDEUTERIUM.getID())));

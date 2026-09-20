@@ -368,7 +368,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 					if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getOutwardFacing().getOpposite()))
 					{
 						IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, port.getOutwardFacing().getOpposite());
-						otherStorage.reciveParticle(port.getOutwardFacing().getOpposite(), multiblock.beams.get(2).getParticleStack());
+						otherStorage.receiveParticle(port.getOutwardFacing().getOpposite(), multiblock.beams.get(2).getParticleStack());
 					}
 				}
 			}
@@ -398,7 +398,7 @@ public class RingAcceleratorLogic extends AcceleratorLogic
 							{
 								multiblock.beams.get(0).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
 
-								if (!multiblock.beams.get(0).reciveParticle(face, stack))
+								if (!multiblock.beams.get(0).receiveParticle(face, stack))
 								{
 									if (stack.getMeanEnergy() > multiblock.beams.get(0).getMaxEnergy())
 									{

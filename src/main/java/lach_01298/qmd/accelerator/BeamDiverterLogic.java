@@ -338,7 +338,7 @@ public class BeamDiverterLogic extends AcceleratorLogic
 									multiblock.beams.get(port.getIONumber()).setMaxEnergy(getAcceleratorMaxEnergy(stack.getParticle()));
 								}
 
-								if (!multiblock.beams.get(port.getIONumber()).reciveParticle(face, stack))
+								if (!multiblock.beams.get(port.getIONumber()).receiveParticle(face, stack))
 								{
 									if (stack.getMeanEnergy() > multiblock.beams.get(port.getIONumber()).getMaxEnergy())
 									{

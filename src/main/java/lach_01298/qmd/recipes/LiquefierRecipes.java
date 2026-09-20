@@ -16,7 +16,7 @@ public class LiquefierRecipes extends QMDRecipeHandler
 	@Override
 	public void addRecipes()
 	{
-		//addRecipe(fluidInput, fluidOutput, int base RF, int base heat, int inversion temperature,int compressed gas temperature, double pressure coefficient)
+		//addRecipe(fluidInput, fluidOutput, double base RF, int base heat, int inversion temperature,int compressed gas temperature, double pressure coefficient)
 		addRecipe(fluidStack("helium", 64),fluidStack("liquid_helium", 1), 50D, 1000, 40, 400, 0.1);
 		addRecipe(fluidStack("nitrogen", 64),fluidStack("liquid_nitrogen", 1), 50D, 1000, 600, 450, 0.25);
 		addRecipe(fluidStack("hydrogen", 64),fluidStack("liquid_hydrogen", 1), 50D, 1000, 200, 400, 0.1);

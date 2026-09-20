@@ -44,6 +44,11 @@
 				"textures": {
 					"all": "qmd:blocks/accelerator/magnet/ybco"
 				}
+			},
+			"hbcco": {
+				"textures": {
+					"all": "qmd:blocks/accelerator/magnet/hbcco"
+				}
 			}
 		}
 	}

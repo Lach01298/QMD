@@ -295,12 +295,6 @@
                 "fluid": "samarium"
             }
         },
-        "fluid_terbium": {
-            "model": "forge:fluid",
-            "custom": {
-                "fluid": "terbium"
-            }
-        },
         "fluid_erbium": {
             "model": "forge:fluid",
             "custom": {

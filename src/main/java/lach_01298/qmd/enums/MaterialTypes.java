@@ -284,7 +284,8 @@ public class MaterialTypes
 		LASER_ASSEMBLY("laser_assembly", 10),
 		WIRE_SSFAF("wire_ssfaf", 11),
 		WIRE_YBCO("wire_ybco", 12),
-		MAGNET_SMC("magnet_smc", 13);
+		MAGNET_SMC("magnet_smc", 13),
+		WIRE_HBCCO("wire_hbcco", 14);
 		private String name;
 		private int id;
 
@@ -363,7 +364,8 @@ public class MaterialTypes
 		ZINC_SULFIDE("zinc_sulfide", 7),
 		IRON_FLUORIDE("iron_fluoride",8),
 		SSFAF("ssfaf",9),
-		YBCO("ybco",10);
+		YBCO("ybco",10),
+		HBCCO("hbcco",11);
 		
 		private String name;
 		private int id;

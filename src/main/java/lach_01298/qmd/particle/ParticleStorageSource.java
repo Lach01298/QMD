@@ -11,13 +11,13 @@ public class ParticleStorageSource extends ParticleStorage
 	}
 
 	@Override
-	public boolean reciveParticle(EnumFacing side, ParticleStack stack)
+	public boolean receiveParticle(EnumFacing side, ParticleStack stack)
 	{	
 		return false;
 	}
 	
 	@Override
-	public boolean canReciveParticle(EnumFacing side, ParticleStack stack)
+	public boolean canReceiveParticle(EnumFacing side, ParticleStack stack)
 	{
 		return false;
 	}

@@ -51,7 +51,8 @@ public class BlockRFCavity extends BlockMetaQMDPart<RFCavityType>
 			return new TileAcceleratorRFCavity.SSFAF();
 		case 7:
 			return new TileAcceleratorRFCavity.YBCO();
-		
+		case 8:
+			return new TileAcceleratorRFCavity.HBCCO();
 		}
 		return new TileAcceleratorRFCavity.Copper();
 	}

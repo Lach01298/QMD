@@ -60,6 +60,11 @@
                 "textures": {
                     "layer0": "qmd:items/materials/dust/chemical/ybco"
                 }
+            },
+            "hbcco": {
+                "textures": {
+                    "layer0": "qmd:items/materials/dust/chemical/hbcco"
+                }
             }
             
         }

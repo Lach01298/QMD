@@ -5,206 +5,114 @@ import java.text.DecimalFormat;
 public class Units
 {
 
-	
-	
-	
-	public static String getSIFormat(double number,String unit)
+	public static String getSIFormat(double number, String unit)
 	{
-		 return getSIFormat(number,0,unit);
+		return getSIFormat(number,unit,0, 4, false);
 	}
-	
-	public static String scaleToSI(double number,int power)
+	public static String getSIFormat(double number, String unit, int power)
 	{
-	
-		String prefix = getSIPrefix(number,power);
-		
-		if(prefix.equals("q"))
-		{
-			number *= Math.pow(10, 30+power);
-		}
-		if(prefix.equals("r"))
-		{
-			number *= Math.pow(10, 27+power);
-		}
-		if(prefix.equals("y"))
-		{
-			number *= Math.pow(10, 24+power);
-		}
-		if(prefix.equals("z"))
-		{
-			number *= Math.pow(10, 21+power);
-		}
-		if(prefix.equals("a"))
-		{
-			number *= Math.pow(10, 18+power);
-		}
-		if(prefix.equals("f"))
-		{
-			number *= Math.pow(10, 15+power);
-		}
-		if(prefix.equals("p"))
-		{
-			number *= Math.pow(10, 12+power);
-		}
-		if(prefix.equals("n"))
-		{
-			number *= Math.pow(10, 9+power);
-		}
-		if(prefix.equals("u"))
-		{
-			number *= Math.pow(10, 6+power);
-		}
-		if(prefix.equals("m"))
-		{
-			number *= Math.pow(10, 3+power);
-		}
-		if(prefix.equals(""))
-		{
-			number *= Math.pow(10, 0+power);
-		}
-		if(prefix.equals("k"))
-		{
-			number *= Math.pow(10, -3+power);
-		}
-		if(prefix.equals("M"))
-		{
-			number *= Math.pow(10, -6+power);
-		}
-		if(prefix.equals("G"))
-		{
-			number *= Math.pow(10, -9+power);
-		}
-		if(prefix.equals("T"))
-		{
-			number *= Math.pow(10, -12+power);
-		}
-		
-		if(prefix.equals("P"))
-		{
-			number *= Math.pow(10, -15+power);
-		}
-		if(prefix.equals("E"))
-		{
-			number *= Math.pow(10, -18+power);
-		}
-		if(prefix.equals("Z"))
-		{
-			number *= Math.pow(10, -21+power);
-		}
-		if(prefix.equals("Y"))
-		{
-			number *= Math.pow(10, -24+power);
-		}
-		if(prefix.equals("R"))
-		{
-			number *= Math.pow(10, -27+power);
-		}
-		if(prefix.equals("Q"))
-		{
-			number *= Math.pow(10, -30+power);
-		}
-		
-		DecimalFormat df = new DecimalFormat("#.###");
-		
-		return df.format(number);
+		return getSIFormat(number,unit,power, 4, false);
 	}
-	
-	public static String getSIFormat(double number,int power,String unit)
+	public static String getSIFormat(double number, String unit, int power, int sigFigs)
 	{
-		
-		
-		String prefix = getSIPrefix(number,power);
-		
-		
-		if(prefix.equals("q"))
+		return getSIFormat(number,unit,power, sigFigs, false);
+	}
+	public static String getSIFormat(double number, String unit, int power, int sigFigs, boolean trailingZeros)
+	{
+
+
+		String prefix = getSIPrefix(number, power);
+
+
+		if (prefix.equals("q"))
 		{
-			number *= Math.pow(10, 30+power);
+			number *= Math.pow(10, 30 + power);
 		}
-		if(prefix.equals("r"))
+		if (prefix.equals("r"))
 		{
-			number *= Math.pow(10, 27+power);
+			number *= Math.pow(10, 27 + power);
 		}
-		if(prefix.equals("y"))
+		if (prefix.equals("y"))
 		{
-			number *= Math.pow(10, 24+power);
+			number *= Math.pow(10, 24 + power);
 		}
-		if(prefix.equals("z"))
+		if (prefix.equals("z"))
 		{
-			number *= Math.pow(10, 21+power);
+			number *= Math.pow(10, 21 + power);
 		}
-		if(prefix.equals("a"))
+		if (prefix.equals("a"))
 		{
-			number *= Math.pow(10, 18+power);
+			number *= Math.pow(10, 18 + power);
 		}
-		if(prefix.equals("f"))
+		if (prefix.equals("f"))
 		{
-			number *= Math.pow(10, 15+power);
+			number *= Math.pow(10, 15 + power);
 		}
-		if(prefix.equals("p"))
+		if (prefix.equals("p"))
 		{
-			number *= Math.pow(10, 12+power);
+			number *= Math.pow(10, 12 + power);
 		}
-		if(prefix.equals("n"))
+		if (prefix.equals("n"))
 		{
-			number *= Math.pow(10, 9+power);
+			number *= Math.pow(10, 9 + power);
 		}
-		if(prefix.equals("u"))
+		if (prefix.equals("u"))
 		{
-			number *= Math.pow(10, 6+power);
+			number *= Math.pow(10, 6 + power);
 		}
-		if(prefix.equals("m"))
+		if (prefix.equals("m"))
 		{
-			number *= Math.pow(10, 3+power);
+			number *= Math.pow(10, 3 + power);
 		}
-		if(prefix.equals(""))
+		if (prefix.equals(""))
 		{
-			number *= Math.pow(10, 0+power);
+			number *= Math.pow(10, 0 + power);
 		}
-		if(prefix.equals("k"))
+		if (prefix.equals("k"))
 		{
-			number *= Math.pow(10, -3+power);
+			number *= Math.pow(10, -3 + power);
 		}
-		if(prefix.equals("M"))
+		if (prefix.equals("M"))
 		{
-			number *= Math.pow(10, -6+power);
+			number *= Math.pow(10, -6 + power);
 		}
-		if(prefix.equals("G"))
+		if (prefix.equals("G"))
 		{
-			number *= Math.pow(10, -9+power);
+			number *= Math.pow(10, -9 + power);
 		}
-		if(prefix.equals("T"))
+		if (prefix.equals("T"))
 		{
-			number *= Math.pow(10, -12+power);
+			number *= Math.pow(10, -12 + power);
 		}
-		
-		if(prefix.equals("P"))
+
+		if (prefix.equals("P"))
 		{
-			number *= Math.pow(10, -15+power);
+			number *= Math.pow(10, -15 + power);
 		}
-		if(prefix.equals("E"))
+		if (prefix.equals("E"))
 		{
-			number *= Math.pow(10, -18+power);
+			number *= Math.pow(10, -18 + power);
 		}
-		if(prefix.equals("Z"))
+		if (prefix.equals("Z"))
 		{
-			number *= Math.pow(10, -21+power);
+			number *= Math.pow(10, -21 + power);
 		}
-		if(prefix.equals("Y"))
+		if (prefix.equals("Y"))
 		{
-			number *= Math.pow(10, -24+power);
+			number *= Math.pow(10, -24 + power);
 		}
-		if(prefix.equals("R"))
+		if (prefix.equals("R"))
 		{
-			number *= Math.pow(10, -27+power);
+			number *= Math.pow(10, -27 + power);
 		}
-		if(prefix.equals("Q"))
+		if (prefix.equals("Q"))
 		{
-			number *= Math.pow(10, -30+power);
+			number *= Math.pow(10, -30 + power);
 		}
-		
-		DecimalFormat df = new DecimalFormat("#.###");
-		
-		return df.format(number)+ " "+ prefix+unit;
+
+
+		return Util.getNumberStringWithSigFigs(number,sigFigs,trailingZeros) + " " + prefix + unit;
+
 	}
 	
 	public static String getParticleEnergy(long number)
@@ -213,7 +121,7 @@ public class Units
 		{
 			return "< 1"+ " "+"keV";
 		}
-		return getSIFormat(number, 3, "eV");
+		return getSIFormat(number, "eV",3,5);
 	}
 
 	public static String formatFocus(double number)
@@ -316,8 +224,4 @@ public class Units
 	
 		return "";
 	}
-	
-	
-	
-	
 }

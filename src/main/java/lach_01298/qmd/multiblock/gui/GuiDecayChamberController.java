@@ -135,7 +135,7 @@ public class GuiDecayChamberController
 	{
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.energy_stored",
-				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
+				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF", 0, 4, true),
 				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.required_energy",
 				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));

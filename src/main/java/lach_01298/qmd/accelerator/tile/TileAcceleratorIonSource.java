@@ -52,10 +52,10 @@ public class TileAcceleratorIonSource extends TileAcceleratorPart implements ITi
 	
 	private int IONumber;
 	
-	public TileAcceleratorIonSource(int outputParticleMultipler,double outputFocus,int basePower, String name)
+	public TileAcceleratorIonSource(int outputParticleMultiplier,double outputFocus,int basePower, String name)
 	{
 		super(CuboidalPartPositionType.WALL);
-		this.outputParticleMultiplier = outputParticleMultipler < 1 ? 1 :outputParticleMultipler;
+		this.outputParticleMultiplier = outputParticleMultiplier < 1 ? 1 :outputParticleMultiplier;
 		this.outputFocus = outputFocus;
 		this.basePower = basePower;
 		this.name = name;

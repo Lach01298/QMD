@@ -10,20 +10,28 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Enchantments;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.network.play.server.SPacketBlockChange;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.*;
-import net.minecraft.util.math.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import org.apache.logging.log4j.*;
-import java.math.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Util
 {
@@ -241,6 +249,21 @@ public class Util
 		BigDecimal bd = new BigDecimal(number);
 		bd = bd.round(new MathContext(sigFigs));
 		return bd.doubleValue();
+	}
+
+	public static String getNumberStringWithSigFigs(double number, int sigFigs, boolean trailingZeros)
+	{
+		BigDecimal bd = new BigDecimal(number);
+		bd = bd.round(new MathContext(sigFigs));
+		if(trailingZeros)
+		{
+			bd = bd.setScale(sigFigs- bd.precision() + bd.scale());
+		}
+		else
+		{
+			bd = bd.stripTrailingZeros();
+		}
+		return bd.toPlainString();
 	}
 
 

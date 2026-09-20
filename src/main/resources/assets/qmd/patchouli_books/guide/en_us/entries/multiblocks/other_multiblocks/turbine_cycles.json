@@ -11,7 +11,7 @@
 		{
 			"title": "What is a Turbine Cycle?",
 			"type": "text",
-			"text": "A turbine cycle is a process that converts heat from a heat source such as a solid fuel reactor (SFR), $(l:multiblocks/other_multiblocks/turbine_cycles#msr)molten salt reactor (MSR)$(/l) or $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)nucleosynthesis chamber (NSC)$(/l) into RF power using multiblock turbines. To do this the heat source heats a working fluid such as water or mercury into a hot working fluid and then this is passed through a system of turbines and possibly heat exchangers and condensers."
+			"text": "A turbine cycle is a process that converts heat from a heat source such as a Solid Fuel Reactor (SFR), $(l:multiblocks/other_multiblocks/turbine_cycles#msr)Molten Salt Reactor (MSR)$(/l), $(l:multiblocks/other_multiblocks/turbine_cycles#pbr)Pebble Bed Reactor (PBR)$(/l) or $(l:multiblocks/other_multiblocks/turbine_cycles#nsc)Nucleosynthesis Chamber (NSC)$(/l) into RF power using multiblock turbines. To do this the heat source heats a working fluid such as water or mercury into a hot working fluid and then this is passed through a system of turbines and possibly heat exchangers and condensers."
 		},
 		{
 			"type": "text",
@@ -33,7 +33,7 @@
 		{
 			"title": "Cycle Flow Charts",
 			"type": "text",
-			"text": "The next sections contain flow charts of possible turbine cycles. Each rectangle (either square or rounded) is a multiblock and each circle is an input or output for a working fluid. The rectangles and circles are connected together with arrows (which in game are pipes) that show the fluid type, the amount and its temperature in kelvin. The amounts are ratios and scale by how much heat you input. "
+			"text": "The next section contain flow charts of possible turbine cycles only for SFRs. Each rectangle (either square or rounded) is a multiblock and each circle is an input or output for a working fluid. The rectangles and circles are connected together with arrows (which in game are pipes) that show the fluid type, the amount and its temperature in kelvin. The amounts are ratios and scale by how much heat you input. "
 		},
 		{
 			"type": "text",
@@ -57,12 +57,12 @@
 		{
             "type": "diagram_low",
 			"image": "qmd:textures/gui/book_images/open_cycle_3.png",
-            "text": "$(l)Simple Open Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512 + 128) RF/256 H = 2.5 RF/H$(br2)This is the same as the simple open cycle but with a mercury topping cycle."
+            "text": "$(l)Simple Open Cycle with Mercury Topping$()$(br)Efficiency:$(br)(384 + 128) RF/256 H = 2 RF/H$(br2)This is the same as the simple open cycle but with a mercury topping cycle."
         },
 		{
             "type": "diagram_low",
 			"image": "qmd:textures/gui/book_images/open_cycle_4.png",
-            "text": "$(l)Reheat Open Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+64+128) RF/256 H=2.75 RF/H$(br2)This is the same as the reheat open cycle but with a mercury topping cycle."
+            "text": "$(l)Reheat Open Cycle with Mercury Topping$()$(br)Efficiency:$(br)(384+64+128) RF/256 H=2.25 RF/H$(br2)This is the same as the reheat open cycle but with a mercury topping cycle."
         },
 		{
 			"title": "Closed Cycles",
@@ -81,13 +81,23 @@
         },
 		{
             "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_5.png",
+            "text": "$(l)Mercury Closed Cycle$()$(br)Efficiency:$(br)384 RF/256 H = 1.75 RF/H$(br2)This is the equivalent of the simple closed cycle but uses mercury instead of water."
+        },
+		{
+            "type": "diagram_low",
 			"image": "qmd:textures/gui/book_images/closed_cycle_3.png",
             "text": "$(l)Preheat Closed Cycle$()$(br)Efficiency:$(br)(32 + 32) RF/32 H = 2 RF/H$(br2)This uses some of the SFR's output to preheat the water. This is the simplest closed cycle with just NC (no QMD)."
         },
 		{
             "type": "diagram_low",
-			"image": "qmd:textures/gui/book_images/closed_cycle_5.png",
-            "text": "$(l)Mercury Closed Cycle$()$(br)Efficiency:$(br)512 RF/256 H = 2 RF/H$(br2)This is the equivalent of the simple closed cycle but uses mercury instead of water. This can be done by either a SFR or NSC."
+			"image": "qmd:textures/gui/book_images/closed_cycle_6.png",
+            "text": "$(l)Simple Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(384+128) RF/256 H = 2 RF/H$(br2)This is the same as the simple closed cycle but with a mercury topping cycle."
+        },
+		{
+            "type": "diagram_low",
+			"image": "qmd:textures/gui/book_images/closed_cycle_7.png",
+            "text": "$(l)Reheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(384+64+128) RF/256 H=2.25 RF/H$(br2)This is the same as the reheat closed cycle but with a mercury topping cycle."
         },
 		{
 			"anchor": "preheat_reheat",
@@ -97,37 +107,45 @@
         },
 		{
             "type": "diagram_low",
-			"image": "qmd:textures/gui/book_images/closed_cycle_6.png",
-            "text": "$(l)Simple Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+128) RF/256 H = 2.5 RF/H$(br2)This is the same as the simple closed cycle but with a mercury topping cycle."
-        },
-		{
-            "type": "diagram_low",
-			"image": "qmd:textures/gui/book_images/closed_cycle_7.png",
-            "text": "$(l)Reheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+64+128) RF/256 H=2.75 RF/H$(br2)This is the same as the reheat closed cycle but with a mercury topping cycle."
-        },
-		{
-            "type": "diagram_low",
 			"image": "qmd:textures/gui/book_images/closed_cycle_8.png",
-            "text": "$(l)Preheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+128+128) RF/256 H=3 RF/H$(br2)This is the same as the preheat closed cycle but with a mercury topping cycle."
+            "text": "$(l)Preheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(384+128+128) RF/256 H=2.5 RF/H$(br2)This is the same as the preheat closed cycle but with a mercury topping cycle."
         },
 		{
-            "type": "diagram_low",
+            "anchor": "preheat_reheat_mercury",
+			"type": "diagram_low",
 			"image": "qmd:textures/gui/book_images/closed_cycle_9.png",
-            "text": "$(l)Preheat and Reheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(512+64+256)RF/256 H=3.25 RF/H$(br)This is the same as the preheat and reheat closed cycle but with a mercury topping cycle."
+            "text": "$(l)Preheat and Reheat Closed Cycle with Mercury Topping$()$(br)Efficiency:$(br)(384+64+256)RF/256 H=2.75 RF/H$(br)This is the same as the preheat and reheat closed cycle but with a mercury topping cycle."
         },
 		{
             "type": "text",
 			"image": ""
         },
 		{
-			"anchor": "msr",
-			"title": "Molten Salt Reactors",
+			"anchor": "nsc",
+			"title": "Nucleosynthesis Chambers",
 			"type": "text",
-			"text": "Cycles with MSRs are a little bit different than SFRs or NSCs. MSRs heat various types of NaKs directly. These Naks then must be heat exchanged with another working fluid that can go into a turbine to make power. This heat exchanger replaces the SFR in the cycles shown. By default, Naks in a heat exchanger have a 400% efficiency so any cycle you choose gets an automatic 4x efficiency for its base. "
+			"text": "The cycles a $(l:multiblocks/vacuum_chambers/nucleosynthesis_chamber)NCS$(/l) can use are simply any of the previous SFR cycles in the last section that use mercury. The difference though is NSCs are twice as efficient at heating mercury as SFRs so instead of an input heat of 256 H it is 128 H. This means to get the efficiency of the cycle for an NSC just multiply the equivalent SFR cycle efficiency by two."
 		},
 		{
 			"type": "text",
-			"text": "Hot Nak is too cold to heat Mercury so MSRs $(l)cannot$() use any of the mercury cycles. So, the most efficient cycle for a MSR is the $(l:multiblocks/other_multiblocks/turbine_cycles#preheat_reheat)preheat and reheat closed cycle$(/l) and with the Naks 400% efficiency boost gives a total base efficiency of$(br)10 RF/H."
+			"text": "For example the most efficient SFR cycle is the $(l:multiblocks/other_multiblocks/turbine_cycles#preheat_reheat_mercury)preheat and reheat closed cycle with mercury toping$(/l) and has a efficiency of 2.75 H/t using the same cycle but replacing the SFR with a NSC gives an efficiency of 5.5 H/t."
+		},
+		{
+			"anchor": "pbr",
+			"title": "Pebble Bed Reactors",
+			"type": "text",
+			"text": "PBRs heat various types of gases which then can be put through a turbine for power. The exhaust gas then can be heat exchanged to heat water. Most of their cycles are identical in structure to the mercury topping cycles for SFRs or NSCs but with different numbers that won't be shown in this guide. They are normally 0.5 RF/H more efficient than the equivalent SFR cycle."
+		},
+		{
+			"anchor": "msr",
+			"title": "Molten Salt Reactors",
+			"type": "text",
+			"text": "Cycles for MSRs are a little bit different than ones for SFRs or NSCs. MSRs heat various types of NaKs directly. These Naks then must be heat exchanged with another working fluid that can go into a turbine to make power. This heat exchanger replaces the SFR in the cycles shown previously. By default, Naks in a heat exchanger have a 200% efficiency so any cycle you choose gets an automatic 2x efficiency for its base."
+		},
+		{
+			"type": "text",
+			"text": "Hot Nak cannot be used heat Mercury so MSRs $(l)cannot$() use any of the mercury cycles. So, the most efficient cycle for a MSR is the $(l:multiblocks/other_multiblocks/turbine_cycles#preheat_reheat)preheat and reheat closed cycle$(/l) and with the Naks 200% efficiency boost gives a total base efficiency of$(br)5 RF/H."
 		}
+		
 	]
 }

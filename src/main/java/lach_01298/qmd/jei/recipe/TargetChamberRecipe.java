@@ -29,7 +29,7 @@ public class TargetChamberRecipe extends JEIRecipeWrapper
 	{
 		super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 		FontRenderer fontRenderer = minecraft.fontRenderer;
-		String rangeString = Lang.localize("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticles.get(0).get(0).getMeanEnergy(),3,"eV") + "-" + Units.getSIFormat(recipe.getMaxEnergy(),3,"eV"));
+		String rangeString = Lang.localize("gui.qmd.jei.reaction.range",  Units.getSIFormat(inputParticles.get(0).get(0).getMeanEnergy(),"eV",3) + "-" + Units.getSIFormat(recipe.getMaxEnergy(),"eV", 3));
 		
 		DecimalFormat df = new DecimalFormat("#.##");
 		String crossSectionString = Lang.localize("gui.qmd.jei.reaction.cross_section", df.format(recipe.getCrossSection()*100));

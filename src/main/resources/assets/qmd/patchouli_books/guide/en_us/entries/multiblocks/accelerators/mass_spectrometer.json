@@ -26,7 +26,11 @@
 		},
 		{
 			"type": "text",
-			"text": "By default the only types of electromagnets that can be used are BSCCO and YBCO. Each electromagnet layer acts as single $(l:multiblocks/accelerators/general#structure)component structure$() contributing the power, power efficency, and heat stats listed on the electromagnets tool tip. $(br2)Each beam block layer requires an ion source (either basic or laser) on one horizontal side at the bottom in the casing. Above the ion source there must be 4 Accelerator Ion Collectors. " 
+			"text": "By default the only types of electromagnets that can be used are BSCCO, YBCO and HBCCO. Each electromagnet layer has to be made of the same type of electromagnet but the layers can be of different types from each other. Every electromagnet layer adds a set amount of heat and base power usage (default configs are 3 kH/t and 12 kRF/t). The actual power usage is then the base power divided by the weighted average power efficiency of the magnet types used."
+		},
+		{
+			"type": "text",
+			"text": "Each beam block layer requires an ion source (either basic or laser) on one horizontal side at the bottom in the casing. Above the ion source there must be 4 Accelerator Ion Collectors."
 		},
 		{
 			"type": "diagram_low",
@@ -48,7 +52,7 @@
         },
 		{
 			"type": "text",
-			"text": "In the gui the Speed Multiplier of the mass spectrometer can be seen. This determines how fast each recipe takes. The mass spectrometer's speed multiplier is the sum of all the ion source's output particle multipliers. This means that longer mass spectrometers, i.e. ones with more ionsources,s are faster than shorter ones."
+			"text": "In the gui the Speed Multiplier of the mass spectrometer can be seen. This determines how fast each recipe takes. The mass spectrometer's speed multiplier is the sum of all the ion source's output particle multipliers. This means that longer mass spectrometers, i.e. ones with more ion sources are faster than shorter ones."
 		},
         {
 			"title": "Computer Control",

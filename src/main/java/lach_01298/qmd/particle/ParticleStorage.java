@@ -122,7 +122,7 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 	}
 
 	@Override
-	public boolean reciveParticle(EnumFacing side, ParticleStack stack)
+	public boolean receiveParticle(EnumFacing side, ParticleStack stack)
 	{
 		if(stack != null)
 		{
@@ -151,7 +151,7 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 
 
 	@Override
-	public boolean canReciveParticle(EnumFacing side, ParticleStack stack)
+	public boolean canReceiveParticle(EnumFacing side, ParticleStack stack)
 	{
 		if(stack != null)
 		{
@@ -287,12 +287,4 @@ public class ParticleStorage implements IParticleStorage, IParticleStackHandler
 		return null;	
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 }

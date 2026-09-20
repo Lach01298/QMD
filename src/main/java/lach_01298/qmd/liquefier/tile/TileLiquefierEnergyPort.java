@@ -65,9 +65,8 @@ public class TileLiquefierEnergyPort extends TileHeatExchangerPart implements IT
 	@Override
 	public EnergyStorage getEnergyStorage()
 	{
-		if(getLogic() instanceof LiquefierLogic && isMultiblockAssembled())
+		if(getLogic() instanceof LiquefierLogic liquefier && isMultiblockAssembled())
 		{
-			LiquefierLogic liquefier = (LiquefierLogic) getLogic();
 			return liquefier.energyStorage;
 		}
 		return backupStorage;

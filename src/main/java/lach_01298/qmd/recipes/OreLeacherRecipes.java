@@ -4,6 +4,7 @@ import lach_01298.qmd.recipe.QMDRecipeHandler;
 import nc.recipe.BasicRecipeHandler;
 import nc.recipe.ingredient.EmptyItemIngredient;
 import nc.util.FluidStackHelper;
+import nc.util.OreDictHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,12 @@ public class OreLeacherRecipes extends QMDRecipeHandler
 		addRecipe("oreIron",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustIron", 3),chanceOreStack("dustChromium", 1, 60),chanceOreStack("dustManganese", 1, 5)
+				OreDictHelper.oreExists("dustIron") ? oreStack("dustIron", 3) : oreStack("ingotIron", 3),chanceOreStack("dustChromium", 1, 60),chanceOreStack("dustManganese", 1, 5)
 				);
 		addRecipe("oreGold",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustGold", 3),chanceOreStack("dustSilver", 1, 10),new EmptyItemIngredient()
+				OreDictHelper.oreExists("dustGold") ? oreStack("dustGold", 3) : oreStack("ingotGold", 3),chanceOreStack("dustSilver", 1, 10),new EmptyItemIngredient()
 				);
 		addRecipe("oreCopper",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
@@ -40,7 +41,7 @@ public class OreLeacherRecipes extends QMDRecipeHandler
 		addRecipe("oreTin",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustTin", 3),chanceOreStack("dustZirconium", 1, 25),chanceOreStack("dustTungsten", 1, 10)
+				oreStack("dustTin", 3),chanceOreStack("dustZirconium", 1, 25),chanceOreStack("dustTungsten", 1, 25)
 				);
 		addRecipe("oreLead",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
@@ -70,7 +71,7 @@ public class OreLeacherRecipes extends QMDRecipeHandler
 		addRecipe("oreBoron",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustBoron", 3),chanceOreStack("dustSalt", 2,50,1),new EmptyItemIngredient()
+				oreStack("dustBoron", 3),chanceOreStack("dustSalt", 2,50,1), chanceOreStack("dustIodine", 1, 25)
 				);
 
 		//other mod ores
@@ -93,12 +94,12 @@ public class OreLeacherRecipes extends QMDRecipeHandler
 		addRecipe("oreNickel",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustNickel", 3),chanceOreStack("dustIron", 1,25),chanceOreStack("dustAluminum", 1,10)
+				oreStack("dustNickel", 3),OreDictHelper.oreExists("dustIron") ? chanceOreStack("dustIron", 1,25) : chanceOreStack("ingotIron", 1,25),chanceOreStack("dustAluminum", 1,10)
 				);
 		addRecipe("oreTitanium",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustTitanium", 3),chanceOreStack("dustIron", 1,25),chanceOreStack("dustManganese", 1,10)
+				oreStack("dustTitanium", 3),OreDictHelper.oreExists("dustIron") ? chanceOreStack("dustIron", 1,25) : chanceOreStack("ingotIron", 1,25),chanceOreStack("dustManganese", 1,10)
 				);
 		addRecipe("oreSilver",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
@@ -108,7 +109,7 @@ public class OreLeacherRecipes extends QMDRecipeHandler
 		addRecipe("oreAluminum",fluidStack("nitric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("hydrochloric_acid", FluidStackHelper.NUGGET_VOLUME),
 				fluidStack("sulfuric_acid", FluidStackHelper.NUGGET_VOLUME),
-				oreStack("dustAluminum", 3),chanceOreStack("dustIron", 1,25),new EmptyItemIngredient()
+				oreStack("dustAluminum", 3),OreDictHelper.oreExists("dustIron") ? chanceOreStack("dustIron", 1,25) : chanceOreStack("ingotIron", 1,25),new EmptyItemIngredient()
 				);
 		
 	}

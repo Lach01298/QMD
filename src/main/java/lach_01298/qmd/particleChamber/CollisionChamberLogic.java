@@ -96,7 +96,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 
 		// particle chambers
 
-		for (BlockPos pos : getinteriorAxisPositions(axis))
+		for (BlockPos pos : getInteriorAxisPositions(axis))
 		{
 			if (!(multiblock.WORLD.getTileEntity(pos) instanceof TileParticleChamber))
 			{
@@ -336,9 +336,9 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 		return true;
 	}
 	
-	public Set<BlockPos> getinteriorAxisPositions(Axis axis)
+	public Set<BlockPos> getInteriorAxisPositions(Axis axis)
 	{
-		Set<BlockPos> postions = new HashSet<BlockPos>();
+		Set<BlockPos> positions = new HashSet<BlockPos>();
 		
 		
 		if (axis == Axis.X)
@@ -347,7 +347,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 					multiblock.getExtremeInteriorCoord(false, false, false).add(0, multiblock.getInteriorLengthY() / 2, multiblock.getInteriorLengthZ() / 2),
 					multiblock.getExtremeInteriorCoord(true, false, false).add(0, multiblock.getInteriorLengthY() / 2, multiblock.getInteriorLengthZ() / 2)))
 			{
-				postions.add(pos.toImmutable());
+				positions.add(pos.toImmutable());
 			}
 		}
 
@@ -357,11 +357,11 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 					multiblock.getExtremeInteriorCoord(false, false, false).add(multiblock.getInteriorLengthX() / 2, multiblock.getInteriorLengthY() / 2, 0),
 					multiblock.getExtremeInteriorCoord(false, false, true).add(multiblock.getInteriorLengthX() / 2, multiblock.getInteriorLengthY() / 2, 0)))
 			{
-				postions.add(pos.toImmutable());
+				positions.add(pos.toImmutable());
 			}
 		}
 
-		return postions;
+		return positions;
 	}
 
 
@@ -392,21 +392,16 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			if (multiblock.getExteriorLengthX() > multiblock.getExteriorLengthZ())
 			{
 				//axis = Axis.X;
-				
-				
-				
-				
+
 				BlockPos end1 = multiblock.getExtremeInteriorCoord(false, false, false).add(-1, multiblock.getInteriorLengthY() /2,multiblock.getInteriorLengthZ() / 2);
 				BlockPos end2 =	multiblock.getExtremeInteriorCoord(true, false, false).add(1, multiblock.getInteriorLengthY() / 2, multiblock.getInteriorLengthZ() / 2);
-				
-				
+
 				TileParticleChamberBeamPort port0 = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(end1);
 				port0.setIONumber(0);
 				
 				TileParticleChamberBeamPort port1 = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(end2);
 				port1.setIONumber(1);
-				
-				
+
 				TileParticleChamberBeamPort portA = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(multiblock.getExtremeCoord(false, false, false).add(2, multiblock.getInteriorLengthY() / 2+1,0));
 				TileParticleChamberBeamPort portB = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(multiblock.getExtremeCoord(true, false, false).add(-2, multiblock.getInteriorLengthY() / 2+1,0));
 				TileParticleChamberBeamPort portC = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(multiblock.getExtremeCoord(true, false, true).add(-2, multiblock.getInteriorLengthY() / 2+1,0));
@@ -416,8 +411,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 				portB.setIONumber(portBSetting);
 				portC.setIONumber(portCSetting);
 				portD.setIONumber(portDSetting);
-				
-				
+
 				for (TileParticleChamberDetector detector : getPartMap(TileParticleChamberDetector.class).values())
 				{
 					TileEntity chamber = multiblock.WORLD.getTileEntity(new BlockPos(detector.getPos().getX(),multiblock.getMiddleY(),multiblock.getMiddleZ()));
@@ -429,19 +423,13 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 					}
 
 				}
-				
-				
-				
 			}
 			else
 			{
 				//axis = Axis.Z;
-				
-				
 				BlockPos end1 = multiblock.getExtremeInteriorCoord(false, false, false).add(multiblock.getInteriorLengthX() / 2, multiblock.getInteriorLengthY() / 2, -1);
 				BlockPos end2 =	multiblock.getExtremeInteriorCoord(false, false, true).add(multiblock.getInteriorLengthX() / 2, multiblock.getInteriorLengthY() / 2, 1);
-				
-				
+
 				TileParticleChamberBeamPort port0 = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(end1);
 				port0.setIONumber(0);
 				
@@ -470,12 +458,7 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 
 				}
 			}
-
-			
-			
-			
 		}
-
 		super.onChamberFormed();
 	}
 	
@@ -560,7 +543,6 @@ public class CollisionChamberLogic extends ParticleChamberLogic
 			portB = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(multiblock.getExtremeCoord(true, false, false).add(-2, multiblock.getInteriorLengthY() / 2+1,0));
 			portC = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(multiblock.getExtremeCoord(true, false, true).add(-2, multiblock.getInteriorLengthY() / 2+1,0));
 			portD = (TileParticleChamberBeamPort) multiblock.WORLD.getTileEntity(multiblock.getExtremeCoord(false, false, true).add(2, multiblock.getInteriorLengthY() / 2+1,0));
-			
 		}
 		else
 		{

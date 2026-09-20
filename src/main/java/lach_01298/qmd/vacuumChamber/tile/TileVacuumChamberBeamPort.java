@@ -79,7 +79,6 @@ public class TileVacuumChamberBeamPort extends TileVacuumChamberPart implements 
 	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing,
 	                              float hitX, float hitY, float hitZ)
 	{
-		
 		if (player.isSneaking())
 		{
 			if(toggleSetting())
@@ -145,7 +144,7 @@ public class TileVacuumChamberBeamPort extends TileVacuumChamberPart implements 
 		{
 			if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 			{
-				return mode != EnumTypes.IOType.DISABLED;
+				return (mode != EnumTypes.IOType.DISABLED) && (getParticleBeams().size()>IONumber);
 			}
 			return super.hasCapability(capability, side);
 		}
@@ -155,12 +154,9 @@ public class TileVacuumChamberBeamPort extends TileVacuumChamberPart implements 
 		{
 			if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 			{
-				if (!getParticleBeams().isEmpty())
+				if(getParticleBeams().size()>IONumber)
 				{
-					if(getParticleBeams().size()>IONumber)
-					{
-						return (T) getParticleBeams().get(IONumber);
-					}
+					return (T) getParticleBeams().get(IONumber);
 				}
 				return null;
 			}

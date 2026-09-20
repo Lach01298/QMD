@@ -45,9 +45,9 @@ public class LiquefierLogic extends HeatExchangerLogic
 	private double pressure = 0;
 	private int powerUse = 0;
 	private double powerUseFP = 0;
-	private double liquidOut = 0;
+	private int liquidOut = 0;
 	private double liquidOutFP = 0;
-	private double coolantOut = 0;
+	private int coolantOut = 0;
 	private double coolantOutFP = 0;
 
 	public final ValueTracker powerUseRateTracker;
@@ -666,8 +666,8 @@ public class LiquefierLogic extends HeatExchangerLogic
 		multiblock.heatTransferRate = 0D;
 		multiblock.totalTempDiff = 0D;
 		powerUse = 0;
-		liquidOut = 0D;
-		coolantOut = 0D;
+		liquidOut = 0;
+		coolantOut = 0;
 	}
 
 
@@ -780,8 +780,8 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 		// fluid recipe
 		double fluidRecipesPerTick = multiblock.heatTransferRate/heatPerFluidRecipe;
-		multiblock.tubeInputRate = fluidRecipesPerTick*fluidInput.getStack().amount;
-		liquidOut = fluidRecipesPerTick*fluidOutput.getStack().amount;
+
+
 		powerUse = (int) Math.floor(Math.max(fluidRecipesPerTick*energyPerFluidRecipe,1));
 
 
@@ -793,14 +793,16 @@ public class LiquefierLogic extends HeatExchangerLogic
 			excessFluidRecipes -= Math.floor(excessFluidRecipes);
 		}
 
-		fluidInputTank.changeFluidAmount(-fluidRecipesThisTick*fluidInput.getStack().amount);
+		multiblock.tubeInputRate = fluidRecipesThisTick*fluidInput.getStack().amount;
+		liquidOut = fluidRecipesThisTick*fluidOutput.getStack().amount;
+		fluidInputTank.changeFluidAmount((int) -multiblock.tubeInputRate);
 		if (fluidOutputTank.isEmpty())
 		{
-			fluidOutputTank.changeFluidStored(fluidOutput.getStack().getFluid(), fluidRecipesThisTick*fluidOutput.getStack().amount);
+			fluidOutputTank.changeFluidStored(fluidOutput.getStack().getFluid(), liquidOut);
 		}
 		else
 		{
-			fluidOutputTank.changeFluidAmount(fluidRecipesThisTick*fluidOutput.getStack().amount);
+			fluidOutputTank.changeFluidAmount(liquidOut);
 		}
 
 
@@ -808,8 +810,6 @@ public class LiquefierLogic extends HeatExchangerLogic
 
 		// coolant recipe
 		double coolantRecipesPerTick = multiblock.heatTransferRate/heatPerShellRecipe;
-		multiblock.shellInputRate = coolantRecipesPerTick*coolantInput.getStack().amount;
-		coolantOut = coolantRecipesPerTick*coolantOutput.getStack().amount;
 
 		int coolantRecipesThisTick = (int) Math.floor(coolantRecipesPerTick);
 		excessShellRecipes += coolantRecipesPerTick - coolantRecipesThisTick;
@@ -818,15 +818,17 @@ public class LiquefierLogic extends HeatExchangerLogic
 			coolantRecipesThisTick += (int) Math.floor(excessShellRecipes);
 			excessShellRecipes -= Math.floor(excessShellRecipes);
 		}
+		multiblock.shellInputRate = coolantRecipesThisTick*coolantInput.getStack().amount;
+		coolantInputTank.changeFluidAmount((int) -multiblock.shellInputRate);
 
-		coolantInputTank.changeFluidAmount(-coolantRecipesThisTick *coolantInput.getStack().amount);
+		coolantOut = coolantRecipesThisTick*coolantOutput.getStack().amount;
 		if (coolantOutputTank.isEmpty())
 		{
-			coolantOutputTank.changeFluidStored(coolantOutput.getStack().getFluid(), coolantRecipesThisTick *coolantOutput.getStack().amount);
+			coolantOutputTank.changeFluidStored(coolantOutput.getStack().getFluid(), coolantOut);
 		}
 		else
 		{
-			coolantOutputTank.changeFluidAmount(coolantRecipesThisTick *coolantOutput.getStack().amount);
+			coolantOutputTank.changeFluidAmount(coolantOut);
 		}
 	}
 
@@ -841,9 +843,9 @@ public class LiquefierLogic extends HeatExchangerLogic
 		logicTag.setDouble("energyEfficiency", energyEfficiency);
 		logicTag.setDouble("heatEfficiency", heatEfficiency);
 		logicTag.setDouble("pressure", pressure);
-		logicTag.setDouble("powerUse", powerUse);
-		logicTag.setDouble("liquidOut", liquidOut);
-		logicTag.setDouble("coolantOut", coolantOut);
+		logicTag.setInteger("powerUse", powerUse);
+		logicTag.setInteger("liquidOut", liquidOut);
+		logicTag.setInteger("coolantOut", coolantOut);
 		logicTag.setDouble("excessFluidRecipes", excessFluidRecipes);
 		logicTag.setDouble("excessShellRecipes", excessShellRecipes);
 
@@ -860,8 +862,8 @@ public class LiquefierLogic extends HeatExchangerLogic
 		heatEfficiency=logicTag.getDouble("heatEfficiency");
 		pressure=logicTag.getDouble("pressure");
 		powerUse=logicTag.getInteger("powerUse");
-		liquidOut=logicTag.getDouble("liquidOut");
-		coolantOut=logicTag.getDouble("coolantOut");
+		liquidOut=logicTag.getInteger("liquidOut");
+		coolantOut=logicTag.getInteger("coolantOut");
 		excessFluidRecipes = logicTag.getDouble("excessFluidRecipes");
 		excessShellRecipes = logicTag.getDouble("excessShellRecipes");
 

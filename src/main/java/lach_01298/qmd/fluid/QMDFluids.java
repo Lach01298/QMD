@@ -79,7 +79,7 @@ public class QMDFluids
 			
 			
 			addFluidPair(FluidType.MOLTEN, "samarium", 0xa4d95f);
-			addFluidPair(FluidType.MOLTEN, "terbium", 0x5ba694);
+			//addFluidPair(FluidType.MOLTEN, "terbium", 0x5ba694);
 			addFluidPair(FluidType.MOLTEN, "erbium", 0x5a7a45);
 			addFluidPair(FluidType.MOLTEN, "ytterbium", 0x7a4552);
 			addFluidPair(FluidType.MOLTEN, "bismuth", 0x827e73);

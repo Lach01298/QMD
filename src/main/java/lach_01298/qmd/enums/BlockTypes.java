@@ -209,7 +209,8 @@ public class BlockTypes
 		BSCCO("bscco", 4, QMDConfig.RF_cavity_voltage[4],  QMDConfig.RF_cavity_efficiency[4],QMDConfig.RF_cavity_heat_generated[4],QMDConfig.RF_cavity_base_power[4],QMDConfig.RF_cavity_max_temp[4]),
 		Aluminium("aluminium", 5, QMDConfig.RF_cavity_voltage[5],  QMDConfig.RF_cavity_efficiency[5],QMDConfig.RF_cavity_heat_generated[5],QMDConfig.RF_cavity_base_power[5],QMDConfig.RF_cavity_max_temp[5]),
 		SSFAF("ssfaf", 6, QMDConfig.RF_cavity_voltage[6],  QMDConfig.RF_cavity_efficiency[6],QMDConfig.RF_cavity_heat_generated[6],QMDConfig.RF_cavity_base_power[6],QMDConfig.RF_cavity_max_temp[6]),
-		YBCO("ybco", 7, QMDConfig.RF_cavity_voltage[7],  QMDConfig.RF_cavity_efficiency[7],QMDConfig.RF_cavity_heat_generated[7],QMDConfig.RF_cavity_base_power[7],QMDConfig.RF_cavity_max_temp[7]);
+		YBCO("ybco", 7, QMDConfig.RF_cavity_voltage[7],  QMDConfig.RF_cavity_efficiency[7],QMDConfig.RF_cavity_heat_generated[7],QMDConfig.RF_cavity_base_power[7],QMDConfig.RF_cavity_max_temp[7]),
+		HBCCO("hbcco", 8, QMDConfig.RF_cavity_voltage[8],  QMDConfig.RF_cavity_efficiency[8],QMDConfig.RF_cavity_heat_generated[8],QMDConfig.RF_cavity_base_power[8],QMDConfig.RF_cavity_max_temp[8]);
 
 		private String name;
 		private int id;
@@ -313,7 +314,8 @@ public class BlockTypes
 		BSCCO("bscco", 4, QMDConfig.magnet_strength[4],  QMDConfig.magnet_efficiency[4],QMDConfig.magnet_heat_generated[4],QMDConfig.magnet_base_power[4],QMDConfig.magnet_max_temp[4]),
 		Aluminium("aluminium", 5, QMDConfig.magnet_strength[5],  QMDConfig.magnet_efficiency[5],QMDConfig.magnet_heat_generated[5],QMDConfig.magnet_base_power[5],QMDConfig.magnet_max_temp[5]),
 		SSFAF("ssfaf", 6, QMDConfig.magnet_strength[6],  QMDConfig.magnet_efficiency[6],QMDConfig.magnet_heat_generated[6],QMDConfig.magnet_base_power[6],QMDConfig.magnet_max_temp[6]),
-		YBCO("ybco", 7, QMDConfig.magnet_strength[7],  QMDConfig.magnet_efficiency[7],QMDConfig.magnet_heat_generated[7],QMDConfig.magnet_base_power[7],QMDConfig.magnet_max_temp[7]);
+		YBCO("ybco", 7, QMDConfig.magnet_strength[7],  QMDConfig.magnet_efficiency[7],QMDConfig.magnet_heat_generated[7],QMDConfig.magnet_base_power[7],QMDConfig.magnet_max_temp[7]),
+		HBCCO("hbcco", 8, QMDConfig.magnet_strength[8],  QMDConfig.magnet_efficiency[8],QMDConfig.magnet_heat_generated[8],QMDConfig.magnet_base_power[8],QMDConfig.magnet_max_temp[8]);
 
 		private String name;
 		private int id;
@@ -693,7 +695,7 @@ public class BlockTypes
 	
 	public static enum NeutronShieldType implements IStringSerializable, IBlockMetaEnum
 	{
-		HAFNIUM("hafnium", 0, QMDConfig.fission_shield_heat_per_flux[0], QMDConfig.fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
+		HAFNIUM_ERBIUM("hafnium", 0, QMDConfig.fission_shield_heat_per_flux[0], QMDConfig.fission_shield_efficiency[0], 0, "pickaxe", 2, 15, 0);
 		
 		private final String name;
 		private final int id;

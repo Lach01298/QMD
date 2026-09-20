@@ -305,7 +305,7 @@ public class VacuumChamberLogic extends MultiblockLogic<VacuumChamber, VacuumCha
 						if (tile.hasCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY, face.getOpposite()))
 						{
 							IParticleStackHandler otherStorage = tile.getCapability(CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY,face.getOpposite());
-							otherStorage.reciveParticle(face.getOpposite(), getMultiblock().beams.get(port.getIONumber()).getParticleStack());
+							otherStorage.receiveParticle(face.getOpposite(), getMultiblock().beams.get(port.getIONumber()).getParticleStack());
 						}
 					}
 				}

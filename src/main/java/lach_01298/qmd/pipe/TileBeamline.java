@@ -45,32 +45,6 @@ public class TileBeamline extends TilePipePart implements IPipeController<TileBe
 	{
 		return info;
 	}
- 
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
-	{
-		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
-		{
-			BeamlineLogic logic = null;
-			if (this.getMultiblock() != null)
-			{
-
-				if (this.getMultiblock().getLogic() instanceof BeamlineLogic)
-				{
-					logic = (BeamlineLogic) this.getMultiblock().getLogic();
-				}
-			}
-			if (logic != null)
-			{
-				if (side.getAxis() == logic.getAxis())
-				{
-					return true;
-				}
-			}
-
-		}
-		return super.hasCapability(capability, side);
-	}
 
 	@Override
 	public boolean onUseMultitool(ItemStack multitoolStack, EntityPlayerMP player, World world, EnumFacing facing, float hitX, float hitY, float hitZ)
@@ -101,16 +75,36 @@ public class TileBeamline extends TilePipePart implements IPipeController<TileBe
 		
 		return false;
 	}
-	
-	
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing side)
+	{
+		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
+		{
+			BeamlineLogic logic = null;
+			if (this.getMultiblock() != null)
+			{
+				if (this.getMultiblock().getLogic() instanceof BeamlineLogic)
+				{
+					logic = (BeamlineLogic) this.getMultiblock().getLogic();
+				}
+			}
+			if (logic != null)
+			{
+				if (side.getAxis() == logic.getAxis())
+				{
+					return true;
+				}
+			}
+		}
+		return super.hasCapability(capability, side);
+	}
 	
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing side)
 	{
-
 		if (capability == CapabilityParticleStackHandler.PARTICLE_HANDLER_CAPABILITY)
 		{
-			
 			BeamlineLogic logic = null;
 			if (this.getMultiblock() != null)
 			{
@@ -122,17 +116,14 @@ public class TileBeamline extends TilePipePart implements IPipeController<TileBe
 
 			if (logic != null)
 			{
-				
 				if (side.getAxis() == logic.getAxis())
 				{
-					
 					if (!getParticleBeams().isEmpty())
 					{
 						return (T) getParticleBeams().get(0);
 					}
 					return null;
 				}
-				
 			}
 		}
 

@@ -38,7 +38,7 @@
  * For more details, see https://docs.gradle.org/8.4/userguide/java_library_plugin.html#sec:java_library_configurations_graph
  */
 dependencies {
-	api("zone.rong:mixinbooter:10.7")
+	api("zone.rong:mixinbooter:11.17")
 	api("com.cleanroommc:groovyscript:1.4.3") { transitive = false }
 
 	implementation("cofh:CoFHCore:1.12.2-4.6.3.27:universal") { transitive = false }
@@ -58,7 +58,7 @@ dependencies {
 	implementation rfg.deobf("curse.maven:gregtech-ce-unofficial-557242:5519022")
 	implementation rfg.deobf("curse.maven:mekanism-268560:2835175")
 	implementation rfg.deobf("curse.maven:hwyla-253449:2568751")
-	implementation rfg.deobf("curse.maven:nuclearcraft-overhauled-336895:8088520")
+	implementation rfg.deobf("curse.maven:nuclearcraft-overhauled-336895:8197222")
 	implementation rfg.deobf("curse.maven:nco-java-legacy-lib-1032769:5414463")
 }
 

@@ -98,6 +98,14 @@ public class TileAcceleratorMagnet extends TileAcceleratorPart implements IAccel
 			super(QMDConfig.magnet_strength[7], QMDConfig.magnet_efficiency[7], QMDConfig.magnet_heat_generated[7], QMDConfig.magnet_base_power[7], QMDConfig.magnet_max_temp[7], "ybco");
 		}
 	}
+	public static class HBCCO extends TileAcceleratorMagnet
+	{
+
+		public HBCCO()
+		{
+			super(QMDConfig.magnet_strength[8], QMDConfig.magnet_efficiency[8], QMDConfig.magnet_heat_generated[8], QMDConfig.magnet_base_power[8], QMDConfig.magnet_max_temp[8], "hbcco");
+		}
+	}
 
 	
 	

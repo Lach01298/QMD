@@ -99,6 +99,14 @@ public class TileAcceleratorRFCavity extends TileAcceleratorPart implements IAcc
 			super(QMDConfig.RF_cavity_voltage[7], QMDConfig.RF_cavity_efficiency[7], QMDConfig.RF_cavity_heat_generated[7], QMDConfig.RF_cavity_base_power[7], QMDConfig.RF_cavity_max_temp[7], "ybco");
 		}
 	}
+	public static class HBCCO extends TileAcceleratorRFCavity
+	{
+
+		public HBCCO()
+		{
+			super(QMDConfig.RF_cavity_voltage[8], QMDConfig.RF_cavity_efficiency[8], QMDConfig.RF_cavity_heat_generated[8], QMDConfig.RF_cavity_base_power[8], QMDConfig.RF_cavity_max_temp[8], "hbcco");
+		}
+	}
 
 	
 	

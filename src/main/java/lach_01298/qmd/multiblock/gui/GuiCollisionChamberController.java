@@ -64,8 +64,8 @@ public class GuiCollisionChamberController
 
 		if (multiblock.beams.get(0).getParticleStack() != null && multiblock.beams.get(1).getParticleStack() != null)
 		{
-			String collsionEnergy = Lang.localize("gui.qmd.container.collison_chamber.energy", Units.getSIFormat(2 * Math.sqrt(multiblock.beams.get(0).getParticleStack().getMeanEnergy()* multiblock.beams.get(1).getParticleStack().getMeanEnergy()),3, "eV"));
-			fontRenderer.drawString(collsionEnergy, offset, 105, fontColor);
+			String collisionEnergy = Lang.localize("gui.qmd.container.collision_chamber.energy", Units.getParticleEnergy((long) (2 * Math.sqrt(multiblock.beams.get(0).getParticleStack().getMeanEnergy()* multiblock.beams.get(1).getParticleStack().getMeanEnergy()))));
+			fontRenderer.drawString(collisionEnergy, offset, 105, fontColor);
 		}
 
 		if (!NCUtil.isModifierKeyDown())
@@ -169,7 +169,7 @@ public class GuiCollisionChamberController
 	{
 		List<String> info = new ArrayList<String>();
 		info.add(TextFormatting.YELLOW + Lang.localize("gui.qmd.container.energy_stored",
-				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF"),
+				Units.getSIFormat(multiblock.energyStorage.getEnergyStored(), "RF", 0, 4, true),
 				Units.getSIFormat(multiblock.energyStorage.getMaxEnergyStored(), "RF")));
 		info.add(TextFormatting.RED + Lang.localize("gui.qmd.container.required_energy",
 				Units.getSIFormat(multiblock.requiredEnergy, "RF/t")));

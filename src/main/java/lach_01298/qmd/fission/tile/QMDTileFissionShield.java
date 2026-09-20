@@ -27,7 +27,7 @@ public class QMDTileFissionShield extends TileFissionShield
 
 		public Hafnium()
 		{
-			super(NeutronShieldType.HAFNIUM.getName(), NeutronShieldType.HAFNIUM.getHeatPerFlux(), NeutronShieldType.HAFNIUM.getEfficiency());
+			super(NeutronShieldType.HAFNIUM_ERBIUM.getName(), NeutronShieldType.HAFNIUM_ERBIUM.getHeatPerFlux(), NeutronShieldType.HAFNIUM_ERBIUM.getEfficiency());
 		}
 	}
 }
