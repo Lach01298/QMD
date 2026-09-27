@@ -4,6 +4,7 @@ import lach_01298.qmd.vacuumChamber.ExoticContainmentLogic;
 import lach_01298.qmd.vacuumChamber.VacuumChamber;
 import lach_01298.qmd.vacuumChamber.tile.TileExoticContainmentController;
 import nc.render.IWorldRender;
+import nc.util.ColorHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -63,6 +64,8 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 					GlStateManager.rotate(logic.materialAngle, 0F, 0F, 1F);
 
 					GlStateManager.pushMatrix();
+						int color = fluidStack.getFluid().getColor();
+						GlStateManager.color((float) ColorHelper.getRed(color) / 255.0F, (float)ColorHelper.getGreen(color) / 255.0F, (float)ColorHelper.getBlue(color) / 255.0F, (float)ColorHelper.getAlpha(color) / 255.0F);
 						double scale = (Math.cbrt(chamber.tanks.get(2).getFluidAmount() / 16000d));
 						GlStateManager.translate(-0.5f*scale, -0.5f*scale, -0.5f*scale);
 
@@ -70,7 +73,7 @@ private static final Minecraft MC = Minecraft.getMinecraft();
 						model.setTexture(IWorldRender.getStillTexture(fluidStack.getFluid()));
 						model.setSize(scale,scale,scale);
 						IWorldRender.RenderModelCuboid.render(model);
-
+						GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 					GlStateManager.popMatrix();
 
 				GlStateManager.popMatrix();

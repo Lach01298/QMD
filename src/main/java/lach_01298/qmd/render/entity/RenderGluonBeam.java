@@ -46,11 +46,9 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 		{
 			return;
 		}
-		
 
-		
 		float width = 0.15F;
-		float brightness = 1.0F;
+		float alpha = 1.0F;
 		
 		this.bindEntityTexture(entity);
 		float timeFactor = ((float) entity.ticksExisted + partialTicks) / 0.05F;
@@ -77,44 +75,33 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
 	    
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		
-		
+
 		float lastBrightnessX = OpenGlHelper.lastBrightnessX;
 		float lastBrightnessY = OpenGlHelper.lastBrightnessY;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0f, 240.0f);
 		GlStateManager.disableLighting();
-		
-		
-		int lastBlendFuncSrc = GlStateManager.glGetInteger(GL11.GL_BLEND_SRC);
-		int lastBlendFuncDest = GlStateManager.glGetInteger(GL11.GL_BLEND_DST);
+
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 		GlStateManager.disableCull();
 		GlStateManager.enableRescaleNormal();
-		
-		
-		
+
 		for (int i = 0; i < 2; ++i)
 		{
 			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 			GlStateManager.glNormal3f(0.0F, 0.0F, 0.0125F);
 
 			bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-			bufferbuilder.pos(entity.getLength(), -width, 0.0D).tex(0, entity.getLength() - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
-			bufferbuilder.pos(0d, -width, 0.0D).tex(0, 0 - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
-			bufferbuilder.pos(0d, width, 0.0D).tex(1, 0 - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
-			bufferbuilder.pos(entity.getLength(), width, 0.0D).tex(1, entity.getLength() - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, brightness).endVertex();
+			bufferbuilder.pos(entity.getLength(), -width, 0.0D).tex(0, entity.getLength() - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, alpha).endVertex();
+			bufferbuilder.pos(0d, -width, 0.0D).tex(0, 0 - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, alpha).endVertex();
+			bufferbuilder.pos(0d, width, 0.0D).tex(1, 0 - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, alpha).endVertex();
+			bufferbuilder.pos(entity.getLength(), width, 0.0D).tex(1, entity.getLength() - timeFactor / 200d).color(1.0f, 1.0f, 1.0f, alpha).endVertex();
 			tessellator.draw();
 		}
-		
-		
-		
-  
+
 		GlStateManager.disableRescaleNormal();
         GlStateManager.enableCull();
-       
         GlStateManager.disableBlend();
-        
         GlStateManager.enableLighting();
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
         
@@ -122,7 +109,6 @@ public class RenderGluonBeam  extends Render<EntityGluonBeam>
         GlStateManager.popMatrix();
 		GlStateManager.popMatrix();
 
-		
 	}
 	
 	

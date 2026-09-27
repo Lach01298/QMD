@@ -21,9 +21,9 @@
         },
         {
             "type": "spotlight",
-			"title": "Hafnium Neutron Shield",
+			"title": "Hf-Er Neutron Shield",
             "item": "qmd:fission_shield",
-            "text": "A fission shield for reactors made of hafnium for higher efficiencies."
+            "text": "A fission shield for reactors made of hafnium and erbium for higher efficiencies."
         },
         {
             "type": "spotlight",

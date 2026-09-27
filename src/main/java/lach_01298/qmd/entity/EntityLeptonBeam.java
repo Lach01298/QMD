@@ -1,6 +1,7 @@
 package lach_01298.qmd.entity;
 
-import lach_01298.qmd.network.*;
+import lach_01298.qmd.network.LeptonBeamUpdatePacket;
+import lach_01298.qmd.network.QMDPackets;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
