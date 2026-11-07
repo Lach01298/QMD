@@ -10,6 +10,7 @@ import lach_01298.qmd.item.*;
 import lach_01298.qmd.multiblock.Multiblocks;
 import lach_01298.qmd.network.QMDPackets;
 import lach_01298.qmd.particle.Particles;
+import lach_01298.qmd.pipe.BeamlineFlowHandler;
 import lach_01298.qmd.recipes.QMDRecipes;
 import lach_01298.qmd.sound.QMDSounds;
 import lach_01298.qmd.tile.*;
@@ -65,6 +66,7 @@ public class CommonProxy
 		HeaterPlacement.init();
 		QMDArmour.blacklistShielding();
 		MinecraftForge.EVENT_BUS.register(new ArmourBonusHandler());
+		MinecraftForge.EVENT_BUS.register(new BeamlineFlowHandler());
 		QMDTileInfoHandler.init();
 	}
 	

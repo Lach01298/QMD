@@ -11,7 +11,7 @@
 		},
 		{
 			"type": "text",
-			"text": "$(l)Note$(): the values shown when clicking on a beamline block are at the $(l)end$() of the beamline not the block you click on.$(br2)The beam meter can also read an Accelerator Beam Port's redstone setting and a Particle Chamber Beam Port's output setting with a shift click."
+			"text": "$(l)Note$(): the values shown when clicking on a beamline block are at the $(l)end$() of the beamline not the block you click on.$(br2)The meter also shows the previous completed tick's arrivals before attenuation and transmissions after attenuation.$(br2)The meter can also read an Accelerator Beam Port's redstone setting and a Particle Chamber Beam Port's output setting with a shift click."
 		}
 
 	]

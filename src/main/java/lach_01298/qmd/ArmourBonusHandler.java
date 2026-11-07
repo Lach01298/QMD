@@ -1,11 +1,13 @@
 package lach_01298.qmd;
 
-import com.google.common.collect.*;
 import lach_01298.qmd.config.QMDConfig;
 import lach_01298.qmd.item.QMDArmour;
+import nc.util.Lazy;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.*;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.energy.*;
@@ -15,10 +17,10 @@ import net.minecraftforge.event.entity.living.PotionEvent.PotionApplicableEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
-import java.util.UUID;
-
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = QMD.MOD_ID)
 public class ArmourBonusHandler
@@ -26,6 +28,8 @@ public class ArmourBonusHandler
 	private static final UUID HEV_SPEED_BOOST = UUID.fromString("662A5B8D-DE3E-4C1C-8103-96EA50972780"); //some random hex numbers
 	private static final UUID[] ARMOR_MODIFIERS = new UUID[] {UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 	
+	private final Map<EntityPlayer, Float> previousStepHeights = Collections.synchronizedMap(new WeakHashMap<>());
+	private static final Lazy<AttributeModifier> HEV_SPEED_MODIFIER = new Lazy<>(() -> new AttributeModifier(ARMOR_MODIFIERS[1], "Movement speed", 0.25D, 1));
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=false)
 	public static void onLivingJumpEvent(LivingJumpEvent event)
@@ -164,22 +168,33 @@ public class ArmourBonusHandler
 	@SubscribeEvent
 	public void onTick(PlayerTickEvent event)
 	{
-		
 		// step assist
-		if (event.player.stepHeight != 1.002F && event.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == QMDArmour.boots_hev)
+		boolean stepAssist = false;
+		
+		if (event.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == QMDArmour.boots_hev)
 		{
 			if (event.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).hasCapability(CapabilityEnergy.ENERGY, null))
 			{
 				IEnergyStorage energy = event.player.getItemStackFromSlot(EntityEquipmentSlot.FEET).getCapability(CapabilityEnergy.ENERGY, null);
-				if(energy.getEnergyStored() > 0)
-				{
-					event.player.stepHeight = 1.002F;
-				}
+				stepAssist = energy != null && energy.getEnergyStored() > 0;
 			}
 		}
-		else if (event.player.stepHeight == 1.002F)
+		
+		if (stepAssist)
 		{
-			event.player.stepHeight = 0.6F;
+			if (event.player.stepHeight < 1.002F)
+			{
+				previousStepHeights.putIfAbsent(event.player, event.player.stepHeight);
+				event.player.stepHeight = 1.002F;
+			}
+		}
+		else
+		{
+			Float previousStepHeight = previousStepHeights.remove(event.player);
+			if (previousStepHeight != null && event.player.stepHeight == 1.002F)
+			{
+				event.player.stepHeight = previousStepHeight;
+			}
 		}
 		
 		// wither reduction
@@ -206,30 +221,28 @@ public class ArmourBonusHandler
 		}
 		
 		//speed boost
-		Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();
-		multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(ARMOR_MODIFIERS[1], "Movement speed", 0.25D, 1));
-		
-		if (event.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() == QMDArmour.legs_hev)
+		if (!event.player.world.isRemote && event.phase == TickEvent.Phase.END)
 		{
-			if (event.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).hasCapability(CapabilityEnergy.ENERGY,null))
+			ItemStack leggings = event.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS);
+			boolean speedBoost = false;
+			
+			if (leggings.getItem() == QMDArmour.legs_hev && leggings.hasCapability(CapabilityEnergy.ENERGY, null))
 			{
-				IEnergyStorage energy = event.player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getCapability(CapabilityEnergy.ENERGY, null);
-				if (energy.getEnergyStored()>0)
-				{
-
-					
-					
-					event.player.getAttributeMap().applyAttributeModifiers(multimap);
-				}
-				else if(event.player.getAttributeMap().getAttributeInstanceByName("Movement speed") != null)
-				{
-					event.player.getAttributeMap().removeAttributeModifiers(multimap);
-				}
+				IEnergyStorage energy = leggings.getCapability(CapabilityEnergy.ENERGY, null);
+				speedBoost = energy != null && energy.getEnergyStored() > 0;
 			}
-		}
-		else if(event.player.getAttributeMap().getAttributeInstanceByName("Movement speed") != null)
-		{
-			event.player.getAttributeMap().removeAttributeModifiers(multimap);
+			
+			IAttributeInstance movementSpeed = event.player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+			boolean hasModifier = movementSpeed.getModifier(HEV_SPEED_MODIFIER.get().getID()) != null;
+			
+			if (speedBoost && !hasModifier)
+			{
+				movementSpeed.applyModifier(HEV_SPEED_MODIFIER.get());
+			}
+			else if (!speedBoost && hasModifier)
+			{
+				movementSpeed.removeModifier(HEV_SPEED_MODIFIER.get().getID());
+			}
 		}
 		
 	}

@@ -42,6 +42,21 @@ public class BeamlineLogic extends PipeLogic
 	public void onPipeFormed()
 	{
 		storage.setLength(getPipe().length());
+		BeamlineFlowHandler.register(getWorld(), storage);
+	}
+
+	@Override
+	public void onMachinePaused()
+	{
+		BeamlineFlowHandler.unregister(getWorld(), storage);
+		super.onMachinePaused();
+	}
+
+	@Override
+	public void onMachineDisassembled()
+	{
+		BeamlineFlowHandler.unregister(getWorld(), storage);
+		super.onMachineDisassembled();
 	}
 	
 	
