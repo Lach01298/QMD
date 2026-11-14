@@ -54,6 +54,7 @@ public class ClientProxy extends CommonProxy
 	{
 		super.postInit(postEvent);
 		MinecraftForge.EVENT_BUS.register(new QMDTooltipHandler());
+		MinecraftForge.EVENT_BUS.register(new DrillHighlightHandler());
 		MinecraftForge.EVENT_BUS.register(new ArmPositionHandler());
 		MinecraftForge.EVENT_BUS.register(new BeamRenderer());
 		((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(DrillBlockRenderHandler.INSTANCE);
